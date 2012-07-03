@@ -1,0 +1,227 @@
+/*
+ *  DivaLongNote.cpp
+ *
+ *  Created by Hyf042 on 1/28/12.
+ *  Copyright 2012 Hyf042. All rights reserved.
+ *
+ */
+
+#include "DivaContiNote.h"
+#include "DivaCore.h"
+#include "Utility/DivaPath.h"
+
+namespace divacore
+{
+	bool ContiNote::checkInfo() 
+	{
+		if(noteInfo.noteType!="conti"||noteInfo.notePoint.size()<=1)
+			return false;
+
+		totalKey = noteInfo.notePoint.size();
+
+		twoType[0] = noteInfo.notePoint[0].type%8;
+		twoType[1] = noteInfo.notePoint[1].type%8;
+		for(int i = 0; i < totalKey; i++)
+			if(noteInfo.notePoint[i].type!=twoType[i%2])
+				return false;
+		return true;
+	}
+
+	void ContiNote::onInitiate(Config &config) 
+	{
+		this->config = &config;
+
+		rhythmSprite = sora::SoraCore::Ptr->createSprite(config.getAsString("conti_rhythm_tex"));
+		arrowSprite = sora::SoraCore::Ptr->createSprite(config.getAsString("conti_note_tex"));
+		barMetaSprite = sora::SoraCore::Ptr->createSprite(config.getAsString("conti_bar_tex"));
+
+		notePosition = Point(noteInfo.notePoint[0].x*config.getAsInt("grid_width")+config.getAsInt("deltaX"),noteInfo.notePoint[0].y*config.getAsInt("grid_height")+config.getAsInt("deltaY"));
+
+		Rect texRect;
+		Point centerPoint;
+
+		for(int i = 0; i < noteInfo.notePoint.size(); i++)
+		{
+			sora::SoraSprite *noteSprite = sora::SoraCore::Ptr->createSprite(config.getAsString("conti_note_tex"));
+			
+			texRect = config.getAsRect("conti_note_"+NOTE_MAP[noteInfo.notePoint[i].type%8]);
+			centerPoint = config.getAsPoint("conti_note_noteCenter");
+			noteSprite->setTextureRect(texRect.x,texRect.y,texRect.w,texRect.h);
+			noteSprite->setCenter(centerPoint.x,centerPoint.y);
+
+			noteSprite->setPosition(noteInfo.notePoint[i].x*config.getAsInt("grid_width")+config.getAsInt("deltaX"),noteInfo.notePoint[i].y*config.getAsInt("grid_height")+config.getAsInt("deltaY"));
+			noteSprite->addEffect(sora::CreateEffectScale(config.getAsDouble("conti_note_blowup"),1.0,(noteInfo.notePoint[0].time-noteInfo.aheadTime)*config.getAsDouble("conti_note_blowTimeRate")));
+			
+			noteSprites.push_back(noteSprite);
+		}
+
+		tailPosition = notePosition+Point(Argument::asFloat("tailx",noteInfo.arg),Argument::asFloat("taily",noteInfo.arg)).unit()*config.getAsDouble("conti_rhythm_distance");
+		
+		texRect = config.getAsRect("conti_rhythm_"+NOTE_MAP[noteInfo.notePoint[0].type%8]);
+		centerPoint = config.getAsPoint("conti_rhythm_center");
+		rhythmSprite->setTextureRect(texRect.x,texRect.y,texRect.w,texRect.h);
+		rhythmSprite->setCenter(centerPoint.x,centerPoint.y);
+		rhythmSprite->setPosition(tailPosition.x,tailPosition.y);
+
+		texRect = config.getAsRect("conti_note_arrow");
+		centerPoint = config.getAsPoint("conti_note_arrowCenter");
+		arrowSprite->setTextureRect(texRect.x,texRect.y,texRect.w,texRect.h);
+		arrowSprite->setCenter(centerPoint.x,centerPoint.y);
+		arrowSprite->setPosition(notePosition.x,notePosition.y);
+		arrowSprite->addEffect(sora::CreateEffectScale(config.getAsDouble("conti_note_blowup"),1.0,(noteInfo.notePoint[0].time-noteInfo.aheadTime)*config.getAsDouble("conti_note_blowTimeRate")));
+
+		texRect = config.getAsRect("conti_bar_"+iToS(noteInfo.notePoint[0].type%4));
+		centerPoint = config.getAsPoint("conti_bar_center");
+		Point size = config.getAsPoint("conti_bar_size");
+		barMetaSprite->setScale(size.x/texRect.w,size.y/texRect.h);
+		barMetaSprite->setTextureRect(texRect.x,texRect.y,texRect.w,texRect.h);
+		barMetaSprite->setCenter(centerPoint.x,centerPoint.y);
+
+		waitingPoint = 0;
+		
+		periodGrid = noteInfo.aheadBar*GRID_PER_BAR;
+		int tmp = periodGrid;
+		noteGrid.push_back(tmp);
+		for(int i = 1; i < noteInfo.notePoint.size(); i++)
+		{
+			tmp += noteInfo.notePoint[i].position-noteInfo.notePoint[i-1].position;
+			noteGrid.push_back(tmp);
+		}
+
+		setState(0);
+	}
+	void ContiNote::onEnter() {}
+	void ContiNote::onLeave() 
+	{
+		for(SPRITE_LIST::iterator ptr = noteSprites.begin(); ptr != noteSprites.end(); ptr++)
+			SAFE_DELETE(*ptr);
+		noteSprites.clear();
+		SAFE_DELETE(barMetaSprite);
+		SAFE_DELETE(rhythmSprite);
+		SAFE_DELETE(arrowSprite);
+	}
+	void ContiNote::onPoint(uint32 cnt, NotePoint point) 
+	{
+		noteSprites[waitingPoint]->addEffect(sora::CreateEffectFade(1.0,0,config->getAsDouble("conti_note_fadeout")));
+		waitingPoint++;
+
+		if(waitingPoint==noteInfo.notePoint.size())
+			waitingPoint = -1;
+		else
+		{
+			periodGrid = noteInfo.notePoint[waitingPoint].position-noteInfo.notePoint[waitingPoint-1].position;
+			Rect texRect = config->getAsRect("conti_rhythm_"+NOTE_MAP[noteInfo.notePoint[waitingPoint].type%8]);
+			rhythmSprite->setTextureRect(texRect.x,texRect.y,texRect.w,texRect.h);
+			rhythmSprite->setPosition(noteSprites[waitingPoint]->getPositionX(),noteSprites[waitingPoint]->getPositionY());
+		}
+
+		if(getState()==cnt)
+		{
+			StateEvent event(this,0);
+			event.key = twoType[getState()%2];
+			if(STATE_MANAGER_PTR->checkPoint(event))
+				onPressed(event);
+		}
+	}
+	void ContiNote::onRender()
+	{
+		if(waitingPoint>=0)
+		{
+			Core::Ptr->render(rhythmSprite,"note_rhythm");
+			for(int i = max(waitingPoint,getState()); i+1 < noteSprites.size(); i++)
+			{
+				path::Bezier::renderBezier(Point(noteSprites[i]->getPositionX(),noteSprites[i]->getPositionY()),
+					Point(noteSprites[i+1]->getPositionX(),noteSprites[i+1]->getPositionY()),
+					0,1,barMetaSprite);
+			}
+		}
+		for(int i = getState(); i < noteSprites.size(); i++)
+		{
+			sora::SoraSprite *noteSprite = noteSprites[i];
+			Core::Ptr->render(noteSprite,"note");
+			arrowSprite->setPosition(noteSprite->getPositionX(),noteSprite->getPositionY());
+			arrowSprite->setScale(noteSprite->getHScale(),noteSprite->getVScale());
+			arrowSprite->setColor(noteSprite->getColor());
+			if(waitingPoint>=0&&i>=waitingPoint)
+				arrowSprite->setRotation(PI*2*passGrid/noteGrid[i]);
+			else
+				arrowSprite->setRotation(0);
+			Core::Ptr->render(arrowSprite,"note_arrow");
+		}
+	}
+	void ContiNote::onUpdate(double dt, double position) 
+	{
+		if(waitingPoint>=0)
+		{
+			passGrid = getKeyPosition()-noteInfo.notePoint[0].position+noteGrid[0]+position;
+
+			Point p1, p2 = Point(noteSprites[waitingPoint]->getPositionX(),noteSprites[waitingPoint]->getPositionY());;
+			if(waitingPoint==0)
+				p1 = tailPosition;
+			else
+				p1 = Point(noteSprites[waitingPoint-1]->getPositionX(),noteSprites[waitingPoint-1]->getPositionY());
+			Point rhyP = path::Bezier::getBezierPoint(p1,p2,position/periodGrid);
+			rhythmSprite->setPosition(rhyP.x,rhyP.y);
+		}
+		if(getState()==END&&!(*noteSprites.rbegin())->hasEffect())
+			bOver = true;
+
+		if(getState()>=0&&getState()<totalKey&&CORE_PTR->getRunTime()>noteInfo.notePoint[getState()].time+STATE_MANAGER_PTR->getProtectedTime())
+		{
+			StateEvent event(this,0);
+			if(STATE_MANAGER_PTR->checkFailure(event))
+			{
+				STATE_MANAGER_PTR->inform(event);
+				setState(END);
+			}
+			else if(getState()+1<noteInfo.notePoint.size())
+				setState(getState()+1);
+		}
+
+		for(int i = 0; i < noteSprites.size(); i++)
+			noteSprites[i]->update(dt);
+		rhythmSprite->update(dt);
+		arrowSprite->update(dt);
+	}
+	void ContiNote::onPressed(StateEvent& event) 
+	{
+		if(event.key!=twoType[getState()%2])
+		{
+			if(STATE_MANAGER_PTR->checkFailure(event))
+			{
+				STATE_MANAGER_PTR->inform(event);
+				setState(END);
+			}
+		}
+		else
+		{
+			if(getState()>=totalKey)
+			{
+				Core::Ptr->getMusicManager()->playDirect("hit");
+				return;
+			}
+			if(getState()>0)
+				event.dtTime = 0;
+			if(STATE_MANAGER_PTR->checkPress(event))
+			{
+				Core::Ptr->getMusicManager()->playDirect("hit");
+				STATE_MANAGER_PTR->inform(event);
+				setState(getState()+1);
+			}
+		}
+	}
+	bool ContiNote::isReceive(KeyEvent& event, float time)
+	{
+		if(bOver)
+			return false;
+
+		if(getState()<totalKey)
+			setReceiveNote(getState());
+		else
+			setReceiveNote(totalKey-1);
+
+		if(event.key==twoType[0]||event.key==twoType[1])
+			return true;
+		return false;
+	}
+}

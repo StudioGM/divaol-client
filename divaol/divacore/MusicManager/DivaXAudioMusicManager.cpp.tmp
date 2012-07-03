@@ -1,0 +1,148 @@
+/*
+ *  DivaXAudioMusicManager.cpp
+ *
+ *  Created by Hyf042 on 1/20/12.
+ *  Copyright 2012 Hyf042. All rights reserved.
+ *
+ */
+#define _WIN32_DCOM
+#define _CRT_SECURE_NO_DEPRECATE
+
+#include "DivaXAudioMusicManager.h"
+#include <windows.h>
+#include <xaudio2.h>
+#include <strsafe.h>
+#include <shellapi.h>
+#include <mmsystem.h>
+#include <conio.h>
+#include "SDKwavefile.h"
+#include <vorbis/codec.h>
+#include <vorbis/vorbisfile.h>
+
+namespace divacore
+{
+//--------------------------------------------------------------------------------------
+// Helper macros
+//--------------------------------------------------------------------------------------
+#ifndef SAFE_DELETE_ARRAY
+#define SAFE_DELETE_ARRAY(p) { if(p) { delete[] (p);   (p)=NULL; } }
+#endif
+#ifndef SAFE_RELEASE
+#define SAFE_RELEASE(p)      { if(p) { (p)->Release(); (p)=NULL; } }
+#endif
+	/*
+	XAudioMusicManager
+	*/
+
+	void XAudioMusicManager::init()
+	{
+		HRESULT hr;
+
+		//
+		// Initialize XAudio2
+		//
+		CoInitializeEx( NULL, COINIT_MULTITHREADED );
+
+		pXAudio2 = NULL;
+
+		UINT32 flags = 0;
+#ifdef _DEBUG
+		flags |= XAUDIO2_DEBUG_ENGINE;
+#endif
+
+		if( FAILED( hr = XAudio2Create( &pXAudio2, flags ) ) )
+		{
+			CoUninitialize();
+			return;
+		}
+
+		//
+		// Create a mastering voice
+		//
+		pMasteringVoice = NULL;
+
+		if( FAILED( hr = pXAudio2->CreateMasteringVoice( &pMasteringVoice ) ) )
+		{
+			wprintf( L"Failed creating mastering voice: %#X\n", hr );
+			SAFE_RELEASE( pXAudio2 );
+			CoUninitialize();
+			return;
+		}
+	}
+
+	void XAudioMusicManager::destroy()
+	{
+		//
+		// Cleanup XAudio2
+		//
+		wprintf( L"\nFinished playing\n" );
+
+		// All XAudio2 interfaces are released when the engine is destroyed, but being tidy
+		pMasteringVoice->DestroyVoice();
+
+		SAFE_RELEASE( pXAudio2 );
+		CoUninitialize();
+	}
+
+	void XAudioMusicManager::load(const std::string &file, const std::string &ID, bool stream)
+	{
+		HRESULT hr = S_OK;
+
+		//
+		// Read in the wave file
+		//
+		CWaveFile wav;
+
+		WCHAR szFilename[256];
+		
+		wcscpy(szFilename,sora::s2ws(file).c_str());
+
+		if( FAILED( hr = wav.Open( szFilename, NULL, WAVEFILE_READ ) ) )
+		{
+			wprintf( L"Failed reading WAV file: %#X (%s)\n", hr, sora::s2ws(file).c_str() );
+			return;
+		}
+
+		// Get format of wave file
+		WAVEFORMATEX* pwfx = wav.GetFormat();
+
+		// Calculate how many bytes and samples are in the wave
+		DWORD cbWaveSize = wav.GetSize();
+
+		// Read the sample data into memory
+		BYTE* pbWaveData = new BYTE[ cbWaveSize ];
+
+		if( FAILED( hr = wav.Read( pbWaveData, cbWaveSize, &cbWaveSize ) ) )
+		{
+			wprintf( L"Failed to read WAV data: %#X\n", hr );
+			SAFE_DELETE_ARRAY( pbWaveData );
+			return;
+		}
+
+		//
+		// Play the wave using a XAudio2SourceVoice
+		//
+
+		// Submit the wave sample data using an XAUDIO2_BUFFER structure
+		XAUDIO2_BUFFER buffer = {0};
+		buffer.pAudioData = pbWaveData;
+		buffer.Flags = XAUDIO2_END_OF_STREAM;  // tell the source voice not to expect any data after this buffer
+		buffer.AudioBytes = cbWaveSize;
+
+		bufferPool[ID] = std::make_pair<WAVEFORMATEX,XAUDIO2_BUFFER>(*pwfx,buffer);
+	}
+
+	void XAudioMusicManager::playDirect(const std::string &ID, const std::string &tag)
+	{
+		HRESULT hr = S_OK;
+		
+		IXAudio2SourceVoice* pSourceVoice;
+		if( !FAILED( hr = pXAudio2->CreateSourceVoice( &pSourceVoice, &bufferPool[ID].first ) ))
+		{
+			if( !FAILED( hr = pSourceVoice->SubmitSourceBuffer( &bufferPool[ID].second ) ) )
+			{
+				pSourceVoice->Start( 0 );
+			}
+		}
+	}
+}

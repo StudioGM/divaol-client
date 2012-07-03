@@ -1,0 +1,51 @@
+/*
+ *  DivaXAudioMusicManager.h
+ *
+ *  Created by Hyf042 on 1/20/12.
+ *  Copyright 2012 Hyf042. All rights reserved.
+ *
+ */
+
+#ifndef DIVA_XAUDIO_MUSIC_MANAGER
+#define DIVA_XAUDIO_MUSIC_MANAGER
+
+#include <xaudio2.h>
+#include "DivaMusicManager.h"
+
+namespace divacore
+{
+	/*
+	XAudioMusicManager
+	*/
+	class XAudioMusicManager : public MusicManager
+	{
+		 IXAudio2* pXAudio2;
+		 XAUDIO2_BUFFER buffer;
+		 IXAudio2MasteringVoice* pMasteringVoice;
+		 std::map<std::string,std::pair<WAVEFORMATEX,XAUDIO2_BUFFER>> bufferPool;
+	public:
+		virtual void init();
+		virtual void update(){};
+		virtual void clear(){};
+		virtual void destroy();
+		virtual void load(const std::string &file, const std::string &ID, bool stream);
+		virtual void play(const std::string &ID, const std::string &channel, const std::string &tag="") {}
+		virtual void playDirect(const std::string &ID, const std::string &tag="");
+		virtual void playDirectWithFile(const std::string &file, bool stream, const std::string &tag="") {}
+		virtual void setVolume(const std::string &channel, float volume) {}
+		virtual void setTagVolume(const std::string &tag, float volume) {}
+		virtual float getVolume(const std::string &channel) {return 0;}
+		virtual float getTagVolume(const std::string &tag) {return 0;}
+		virtual void setLoop(const std::string &channel, bool flag) {}
+		virtual bool isLoop(const std::string &channel) {return false;}
+		virtual void stop(const std::string &channel)  {}
+		virtual void pause(const std::string &channel) {}
+		virtual void resume(const std::string &channel) {}
+		virtual void pause() {}
+		virtual void resume() {}
+	};
+
+	typedef MusicManager* MusicManagerPtr;
+}
+
+#endif

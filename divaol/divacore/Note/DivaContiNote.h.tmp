@@ -1,0 +1,56 @@
+/*
+ *  DivaContiNote.h
+ *
+ *  Created by Hyf042 on 1/28/12.
+ *  Copyright 2012 Hyf042. All rights reserved.
+ *
+ */
+
+#ifndef DIVA_CONTI_NOTE
+#define DIVA_CONTI_NOTE
+
+#include "DivaNote.h"
+#include "SoraCore.h"
+#include "SoraSprite.h"
+#include "SoraImageEffect.h"
+#include "Component/DivaStandardFactory.h"
+
+namespace divacore
+{
+	/*
+	ContiNote
+	*/
+	class ContiNote : public Note
+	{
+		typedef std::vector<sora::SoraSprite*> SPRITE_LIST;
+
+		ConfigPtr config;
+		bool bOver;
+		SPRITE_LIST noteSprites;
+		SoraSprite *rhythmSprite;
+		SoraSprite *arrowSprite;
+		SoraSprite *barMetaSprite;
+		std::vector<int> noteGrid;
+		Point tailPosition,notePosition;
+		int waitingPoint, periodGrid;
+		float passGrid;
+
+		int totalKey;
+		int twoType[2];
+	public:
+		ContiNote(MapNote& noteInfo):Note(noteInfo),bOver(false) {}
+
+		bool checkInfo();
+		void onInitiate(Config &config) ;
+		void onEnter();
+		void onLeave() ;
+		void onPoint(uint32 cnt, NotePoint point);
+		void onRender();
+		void onUpdate(double dt, double position);
+		void onPressed(StateEvent& event);
+		bool isOver() {return bOver;}
+		bool isReceive(KeyEvent& event, float time);
+	};
+}
+
+#endif

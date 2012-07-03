@@ -1,0 +1,2081 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Plugins">
+      <UniqueIdentifier>{b346c15c-9ddb-4163-a967-561b3c48e6fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\zlib">
+      <UniqueIdentifier>{2d456fcb-de45-45d0-b289-03240ed0976e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\debug">
+      <UniqueIdentifier>{a0075821-69fc-43b2-b904-e4dcbb8923bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\random">
+      <UniqueIdentifier>{78cbc1ea-1726-478d-a6ef-4464315d1ed0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\json">
+      <UniqueIdentifier>{fae32abf-f0da-4349-8837-db96947a14c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件\helpers">
+      <UniqueIdentifier>{04ae89db-4d64-4de8-8bc9-a4269634d541}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\modifiers">
+      <UniqueIdentifier>{1d530af8-9ec9-4571-af23-50be0b9fa5b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\entity">
+      <UniqueIdentifier>{177e75ff-9516-4d9f-95d7-a7141947bb57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\event">
+      <UniqueIdentifier>{ba49b8bc-1e95-4967-8be9-1306f29a934e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\factory">
+      <UniqueIdentifier>{48aae0bd-6d8a-4d66-bcd0-26cf7d37f554}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\ini">
+      <UniqueIdentifier>{36c19f47-d4b3-41e4-a192-c0ef3cdfe938}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\message">
+      <UniqueIdentifier>{070be098-bcc6-4437-b041-7fdf9abca32a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\signal">
+      <UniqueIdentifier>{ff3bba3d-9ff7-4bc7-87e0-80d739f48b1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\thread">
+      <UniqueIdentifier>{6a5ee93e-1065-449d-ae92-704129f7810e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\cmd">
+      <UniqueIdentifier>{26ff19b6-eb2d-4a49-ba27-affcdd117330}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\support">
+      <UniqueIdentifier>{0bd70cb9-400f-46d7-8fad-b78157d0cdad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\timer">
+      <UniqueIdentifier>{e2a7ca53-2751-4f43-b441-b3db5487d534}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\notification">
+      <UniqueIdentifier>{b613aea4-73e5-49ee-b017-29c1ce7ee4e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\scripting">
+      <UniqueIdentifier>{4040ac5c-0691-4b19-b849-489f92f11385}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\properties">
+      <UniqueIdentifier>{c147dcf9-f023-4f23-a8c4-fbf16f5df11f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\math">
+      <UniqueIdentifier>{aa305dc6-ccfc-4694-9040-990f78e63571}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\util">
+      <UniqueIdentifier>{6dfff374-a2b6-4625-afa1-894f708ae6f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\io">
+      <UniqueIdentifier>{396909e7-dd10-4c1e-b5fd-0573de3e7100}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\io\zip">
+      <UniqueIdentifier>{8572ede7-99ac-442c-be1a-2ceed87be620}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\app">
+      <UniqueIdentifier>{307f72bb-3110-4baa-8fa7-d71a99287799}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\xml">
+      <UniqueIdentifier>{0425680b-3779-45f9-8a9a-82e29877682f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\config">
+      <UniqueIdentifier>{1058bf33-749d-484d-b939-3d20f6fa266d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins\hge">
+      <UniqueIdentifier>{89510b77-a729-4bda-8546-615f99351a6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\defaults">
+      <UniqueIdentifier>{2cef4640-6e28-4ab5-a729-25f85e45fde2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins\FreetypeFont">
+      <UniqueIdentifier>{087ef6e9-6fb0-46b6-9e4e-ae951e9c5ee7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins\vlcmovieplayer">
+      <UniqueIdentifier>{3f998c5c-8573-48af-917f-2abe5225199f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\divacore">
+      <UniqueIdentifier>{eb84dcad-ca3c-419d-aa4d-24be3e09fd2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\divacore\component">
+      <UniqueIdentifier>{c30f96d3-847a-47b8-929f-fa6c9d7b9210}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\divacore\core">
+      <UniqueIdentifier>{69a4ff9a-53c5-4ece-b018-cc11742b6b9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\divacore\hook">
+      <UniqueIdentifier>{cdeea9dd-cfbe-47ad-abcc-98d43853a5d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\divacore\mode">
+      <UniqueIdentifier>{e6a2b21b-8e15-4f3a-9c2f-3478c2b832cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\divacore\music">
+      <UniqueIdentifier>{038ca617-2977-43ce-8ce3-6e8075dec142}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\divacore\network">
+      <UniqueIdentifier>{15043eb1-9433-4f50-b659-b8cca2b7ad66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\divacore\note">
+      <UniqueIdentifier>{98b727db-1a96-4a06-b083-56499833f1f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\divacore\state">
+      <UniqueIdentifier>{f569c76c-ba31-445b-8b44-50772f5dc90f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\divacore\timer">
+      <UniqueIdentifier>{8bfc03af-d3dc-4930-8a61-35383ddb0f43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\divacore\utility">
+      <UniqueIdentifier>{791bddf3-4a76-4f9c-ab14-ab2ba16e8905}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Hoshizor\Sora\Hoshizora.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraAny.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraAutoPtr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraAutoUpdate.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraCamera.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraCanvas.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraColor.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraCommon.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraConfig.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraConfigUtil.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraConstantStrings.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraCore.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraCpuInfo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraDelegate.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraDelegateConvert.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraDeltaWatch.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraDirectoryIterator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraDirectoryIteratorImplUnix.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraDirectoryIteratorImplWindows.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraEnvValues.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraEvent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraEventManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraException.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraExternalRenderObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraFactory.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraFileChangeEvent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraFileSystem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraFileUtility.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraFont.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraFontManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraFrameBuffer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraFrameListener.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraFSM.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraFullscreenBufferHandler.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraFunction.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraGlobalMessageRouter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraGraphicAlgorithm.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraGraphicDeviceCaps.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraHandleManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraHotkey.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraImageEffect.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraInfiniteRendererCallback.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraInput.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraInputListeners.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraInputQueue.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraIO.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraiOSDeviceHelper.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\soraiOSFileUtility.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraiOSStringConv.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraIteratorHelper.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraKeyInfo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraLayer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraListenerManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraLocalizer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraLogger.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraMath.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraMemory.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraMemoryBuffer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraMemoryUsage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraMiscTool.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraModifier.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraModifierAdapter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraMovable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraMoviePlayer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraMoviePlayerNull.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraNamedObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraObjectHandle.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraOSXFileUtility.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraPath.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraPathImpliOS.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraPathImplOSX.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraPathImplUnix.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraPathImplWindows.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraPhysics.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraPlatform.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraPlaybackEvent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraPlugin.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraPluginManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraPreDeclare.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraPreprocessor.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraProperty.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraRefCounted.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraRenderBuffer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraRenderParameters.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraRenderSystem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraResource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraResourceFile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraResourceManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraScene.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraScopedPtr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraShader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraShaderable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraShaderParamObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraShape.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraSignal.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraSimpleFSM.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraSingleton.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraSingletonHolder.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraSoundFile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraSoundSystem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraSoundSystemThread.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraSprite.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraSpriteManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraSpriteSheet.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraString.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraStringConv.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraStringId.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraStringTokenlizer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraSystemEvents.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraTask.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraText.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraTexture.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraTextureMap.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraTimer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraTimerEvent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraTimestamp.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraTrigger.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraTypeInfo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraUncopyable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraVertex.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraVertexList.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\SoraWindowInfo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\app\SoraGameApp.h">
+      <Filter>头文件\app</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\app\SoraGameAppDef.h">
+      <Filter>头文件\app</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\app\SoraGameState.h">
+      <Filter>头文件\app</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\cmd\CoreCmds.h">
+      <Filter>头文件\cmd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\cmd\SoraConsole.h">
+      <Filter>头文件\cmd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\config\prerequisites.h">
+      <Filter>头文件\config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\config\SoraConfigParser.h">
+      <Filter>头文件\config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\config\SoraConfigParserImpl.h">
+      <Filter>头文件\config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\config\SoraConfigParserImpl_Json.h">
+      <Filter>头文件\config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\config\SoraConfigParserImpl_Xml.h">
+      <Filter>头文件\config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\Debug\SoraAutoProfile.h">
+      <Filter>头文件\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\Debug\SoraGlobalProfiler.h">
+      <Filter>头文件\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\Debug\SoraInternalLogger.h">
+      <Filter>头文件\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\Defaults\orz.h">
+      <Filter>头文件\defaults</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\Defaults\SoraDefaultLogger.h">
+      <Filter>头文件\defaults</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\Defaults\SoraDefaultMiscTool.h">
+      <Filter>头文件\defaults</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\Defaults\SoraDefaultTimer.h">
+      <Filter>头文件\defaults</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\Defaults\SoraMiscTool_iOS.h">
+      <Filter>头文件\defaults</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\Defaults\SoraMiscTool_OSX.h">
+      <Filter>头文件\defaults</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\Defaults\SoraMiscTool_Win32.h">
+      <Filter>头文件\defaults</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\Defaults\SoraTimer_OSX.h">
+      <Filter>头文件\defaults</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\Defaults\SoraTimer_PSP.h">
+      <Filter>头文件\defaults</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\Defaults\SoraTimer_Win32.h">
+      <Filter>头文件\defaults</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\entity\prerequisites.h">
+      <Filter>头文件\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\entity\SoraComponent.h">
+      <Filter>头文件\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\entity\SoraComponentHolder.h">
+      <Filter>头文件\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\entity\SoraEntity.h">
+      <Filter>头文件\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\entity\SoraEntityListener.h">
+      <Filter>头文件\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\event\SoraEventFactory.h">
+      <Filter>头文件\event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\event\SoraEventRouter.h">
+      <Filter>头文件\event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\event\SoraEventWorld.h">
+      <Filter>头文件\event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\event\SoraEventWorldHolder.h">
+      <Filter>头文件\event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\event\SoraEventWorldImpl.h">
+      <Filter>头文件\event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\factory\SoraDynamicFactory.h">
+      <Filter>头文件\factory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\factory\SoraFactory.h">
+      <Filter>头文件\factory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\factory\SoraGlobalFactory.h">
+      <Filter>头文件\factory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\factory\SoraSpriteFactory.h">
+      <Filter>头文件\factory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\helpers\SoraBooter.h">
+      <Filter>头文件\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\helpers\SoraDynLibrary.h">
+      <Filter>头文件\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\helpers\SoraInputSimulator.h">
+      <Filter>头文件\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\helpers\SoraMenuBar.h">
+      <Filter>头文件\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\helpers\SoraMutableSprite.h">
+      <Filter>头文件\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\helpers\SoraPostEffect.h">
+      <Filter>头文件\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\helpers\SoraSpriteFont.h">
+      <Filter>头文件\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\helpers\SoraZSorter.h">
+      <Filter>头文件\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\ini\SoraINIFile.h">
+      <Filter>头文件\ini</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\io\SoraFileBase.h">
+      <Filter>头文件\io</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\io\SoraFolderResourceManager.h">
+      <Filter>头文件\io</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\io\SoraStream.h">
+      <Filter>头文件\io</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\io\zip\SoraZipFile.h">
+      <Filter>头文件\io\zip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\io\zip\SoraZipResourceManager.h">
+      <Filter>头文件\io\zip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\json\autolink.h">
+      <Filter>头文件\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\json\config.h">
+      <Filter>头文件\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\json\features.h">
+      <Filter>头文件\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\json\forwards.h">
+      <Filter>头文件\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\json\json.h">
+      <Filter>头文件\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\json\json_batchallocator.h">
+      <Filter>头文件\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\json\reader.h">
+      <Filter>头文件\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\json\value.h">
+      <Filter>头文件\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\json\writer.h">
+      <Filter>头文件\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\math\SoraCoreTransform.h">
+      <Filter>头文件\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\math\SoraCoreTransformer.h">
+      <Filter>头文件\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\math\SoraKeyFrame.h">
+      <Filter>头文件\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\math\SoraMathCommon.h">
+      <Filter>头文件\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\math\SoraMatrix3.h">
+      <Filter>头文件\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\math\SoraMatrix4.h">
+      <Filter>头文件\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\math\SoraPerlinNoise.h">
+      <Filter>头文件\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\math\SoraPFeedbackLoop.h">
+      <Filter>头文件\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\math\SoraPIDFeedbackLoop.h">
+      <Filter>头文件\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\math\SoraQuaternion.h">
+      <Filter>头文件\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\math\SoraRect.h">
+      <Filter>头文件\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\math\SoraTransform.h">
+      <Filter>头文件\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\math\SoraVector.h">
+      <Filter>头文件\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\math\SoraVector3.h">
+      <Filter>头文件\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\math\SoraVector4.h">
+      <Filter>头文件\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\message\SoraListener.h">
+      <Filter>头文件\message</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\message\SoraMessage.h">
+      <Filter>头文件\message</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\message\SoraMessageEvent.h">
+      <Filter>头文件\message</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\message\SoraMessageRouter.h">
+      <Filter>头文件\message</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\modifiers\SoraCameraModifiers.h">
+      <Filter>头文件\modifiers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\modifiers\SoraFontModifiers.h">
+      <Filter>头文件\modifiers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\modifiers\SoraObjectModifiers.h">
+      <Filter>头文件\modifiers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\modifiers\SoraShaderParamModifier.h">
+      <Filter>头文件\modifiers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\modifiers\SoraTransformModifiers.h">
+      <Filter>头文件\modifiers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\notification\SoraNotification.h">
+      <Filter>头文件\notification</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\notification\SoraNotificationCenter.h">
+      <Filter>头文件\notification</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\notification\SoraObserver.h">
+      <Filter>头文件\notification</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\property\SoraDynRTTIClass.h">
+      <Filter>头文件\properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\property\SoraProperty.h">
+      <Filter>头文件\properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\property\SoraPropertyHolder.h">
+      <Filter>头文件\properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\property\SoraTypeSerializer.h">
+      <Filter>头文件\properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\Random\hgeRandom.h">
+      <Filter>头文件\random</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\Random\SFMT.h">
+      <Filter>头文件\random</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\Random\SFMT-params.h">
+      <Filter>头文件\random</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\Random\SFMT-params19937.h">
+      <Filter>头文件\random</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\scripting\SoraScriptVM.h">
+      <Filter>头文件\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\scripting\SoraScriptVMHolder.h">
+      <Filter>头文件\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\signal\SoraSignal.h">
+      <Filter>头文件\signal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\support\kalloc.h">
+      <Filter>头文件\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\support\md5lib.h">
+      <Filter>头文件\support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\thread\pthread.h">
+      <Filter>头文件\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\thread\sched.h">
+      <Filter>头文件\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\thread\semaphore.h">
+      <Filter>头文件\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\thread\SoraAtomicCounter.h">
+      <Filter>头文件\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\thread\SoraBlockingQueue.h">
+      <Filter>头文件\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\thread\SoraCondition.h">
+      <Filter>头文件\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\thread\SoraConditionImplWin32.h">
+      <Filter>头文件\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\thread\SoraCountDownLatch.h">
+      <Filter>头文件\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\thread\SoraMutex.h">
+      <Filter>头文件\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\thread\SoraMutexImplPosix.h">
+      <Filter>头文件\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\thread\SoraMutexImplWin32.h">
+      <Filter>头文件\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\thread\SoraRWLock.h">
+      <Filter>头文件\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\thread\SoraRWLockImplPosix.h">
+      <Filter>头文件\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\thread\SoraRWLockImplWin32.h">
+      <Filter>头文件\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\thread\SoraSemaphore.h">
+      <Filter>头文件\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\thread\SoraSemaphoreImplPosix.h">
+      <Filter>头文件\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\thread\SoraSemaphoreImplWin32.h">
+      <Filter>头文件\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\thread\SoraThread.h">
+      <Filter>头文件\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\thread\SoraThreadImplPosix.h">
+      <Filter>头文件\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\thread\SoraThreadImplWin32.h">
+      <Filter>头文件\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\thread\SoraThreadLocal.h">
+      <Filter>头文件\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\thread\SoraThreadPool.h">
+      <Filter>头文件\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\thread\SoraThreadTask.h">
+      <Filter>头文件\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\timer\ITimerManager.h">
+      <Filter>头文件\timer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\timer\SoraFixedStepUpdater.h">
+      <Filter>头文件\timer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\timer\SoraSimpleTimer.h">
+      <Filter>头文件\timer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\timer\SoraSimpleTimerManager.h">
+      <Filter>头文件\timer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\util\SoraArray.h">
+      <Filter>头文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\util\SoraAutoContainer.h">
+      <Filter>头文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\util\SoraDictionary.h">
+      <Filter>头文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\util\SoraFourCC.h">
+      <Filter>头文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\util\SoraHash.h">
+      <Filter>头文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\util\SoraPointTemplate.h">
+      <Filter>头文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\util\SoraTuple.h">
+      <Filter>头文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\xml\pugiconfig.hpp">
+      <Filter>头文件\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\xml\pugixml.hpp">
+      <Filter>头文件\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\ZLIB\crc32.h">
+      <Filter>头文件\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\ZLIB\crypt.h">
+      <Filter>头文件\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\ZLIB\deflate.h">
+      <Filter>头文件\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\ZLIB\inffast.h">
+      <Filter>头文件\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\ZLIB\inffixed.h">
+      <Filter>头文件\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\ZLIB\inflate.h">
+      <Filter>头文件\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\ZLIB\inftrees.h">
+      <Filter>头文件\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\ZLIB\ioapi.h">
+      <Filter>头文件\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\ZLIB\mztools.h">
+      <Filter>头文件\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\ZLIB\trees.h">
+      <Filter>头文件\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\ZLIB\unzip.h">
+      <Filter>头文件\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\ZLIB\zconf.h">
+      <Filter>头文件\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\ZLIB\zconf.in.h">
+      <Filter>头文件\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\ZLIB\zip.h">
+      <Filter>头文件\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\ZLIB\zlib.h">
+      <Filter>头文件\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\ZLIB\zutil.h">
+      <Filter>头文件\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\ft2build.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\SoraFreetypeFont.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\SoraFTFontManager.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\freetype.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftadvanc.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftbbox.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftbdf.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftbitmap.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftcache.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftchapters.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftcid.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\fterrdef.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\fterrors.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftgasp.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftglyph.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftgxval.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftgzip.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftimage.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftincrem.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftlcdfil.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftlist.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftlzw.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftmac.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftmm.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftmodapi.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftmoderr.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftotval.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftoutln.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftpfr.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftrender.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftsizes.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftsnames.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftstroke.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftsynth.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftsystem.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\fttrigon.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\fttypes.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftwinfnt.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ftxf86.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\t1tables.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ttnameid.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\tttables.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\tttags.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\ttunpat.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\config\ftconfig.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\config\ftheader.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\config\ftmodule.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\config\ftoption.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\config\ftstdlib.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\autohint.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\ftcalc.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\ftdebug.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\ftdriver.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\ftgloadr.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\ftmemory.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\ftobjs.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\ftpic.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\ftrfork.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\ftserv.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\ftstream.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\fttrace.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\ftvalid.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\internal.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\pcftypes.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\psaux.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\pshints.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\sfnt.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\t1types.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\tttypes.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\services\svbdf.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\services\svcid.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\services\svgldict.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\services\svgxval.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\services\svkern.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\services\svmm.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\services\svotval.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\services\svpfr.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\services\svpostnm.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\services\svpscmap.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\services\svpsinfo.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\services\svsfnt.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\services\svttcmap.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\services\svtteng.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\services\svttglyf.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\services\svwinfnt.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\freetype\internal\services\svxf86nm.h">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraHGERenderer\SoraDXRenderBuffer.h">
+      <Filter>Plugins\hge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraHGERenderer\SoraHGEInput.h">
+      <Filter>Plugins\hge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraHGERenderer\SoraHGERenderer.h">
+      <Filter>Plugins\hge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraHGERenderer\hge\hge.h">
+      <Filter>Plugins\hge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraHGERenderer\hge\hge_impl.h">
+      <Filter>Plugins\hge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraHGERenderer\hge\hgecolor.h">
+      <Filter>Plugins\hge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraVlcMoviePlayer\SoraVlcMoviePlayer.h">
+      <Filter>Plugins\vlcmovieplayer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\lexer\SoraLexer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\io\SoraFileStream.h">
+      <Filter>头文件\io</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\physics\SoraPhysicBody.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\physics\SoraPhysicDef.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\physics\SoraPhysicJoint.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\physics\SoraPhysicListener.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\physics\SoraPhysicShape.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Sora\physics\SoraPhysicWorld.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraShader\SoraCGD3D9Shader.h">
+      <Filter>Plugins\hge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraShader\SoraCGGLShader.h">
+      <Filter>Plugins\hge</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Component\DivaCommonEvaluateStrategy.h">
+      <Filter>源文件\divacore\component</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Component\DivaHDEffectSystem.h">
+      <Filter>源文件\divacore\component</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Component\DivaJsonGameModule.h">
+      <Filter>源文件\divacore\component</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Component\DivaMapJsonLoader.h">
+      <Filter>源文件\divacore\component</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Component\DivaMapStandardParser.h">
+      <Filter>源文件\divacore\component</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Component\DivaSimpleHookManager.h">
+      <Filter>源文件\divacore\component</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Component\DivaSimpleUIPainter.h">
+      <Filter>源文件\divacore\component</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Component\DivaSocketNetworkSystem.h">
+      <Filter>源文件\divacore\component</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Component\DivaStandardCoreFlow.h">
+      <Filter>源文件\divacore\component</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Component\DivaStandardDisplay.h">
+      <Filter>源文件\divacore\component</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Component\DivaStandardFactory.h">
+      <Filter>源文件\divacore\component</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Component\DivaStandardInputManager.h">
+      <Filter>源文件\divacore\component</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Component\DivaStandardRenderSystem.h">
+      <Filter>源文件\divacore\component</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaArgument.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaCommon.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaConfig.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaConstant.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaCore.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaCoreFlow.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaCoreState.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaDefault.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaDisplay.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaEffectSystem.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaEvaluateStrategy.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaEventManager.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaException.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaFactory.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaGameMode.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaGameModule.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaHook.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaHookManager.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaInputManager.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaKey.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaLogger.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaMapInfo.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaMapLoader.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaMapParser.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaMusicManager.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaNote.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaParticleSystem.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaRenderSystem.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaStringUtil.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaTask.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaTimeCounter.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Core\DivaUIPainter.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Hook\DivaAutoplay.h">
+      <Filter>源文件\divacore\hook</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Hook\DivaCTMode.h">
+      <Filter>源文件\divacore\hook</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Hook\DivaPVMode.h">
+      <Filter>源文件\divacore\hook</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Mode\DivaEditMode.h">
+      <Filter>源文件\divacore\mode</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Mode\DivaMultiplay Test.h">
+      <Filter>源文件\divacore\mode</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Mode\DivaMultiplay.h">
+      <Filter>源文件\divacore\mode</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Mode\DivaRelayPlay Ver2.h">
+      <Filter>源文件\divacore\mode</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Mode\DivaRelayPlay.h">
+      <Filter>源文件\divacore\mode</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Mode\DivaRelayUI.h">
+      <Filter>源文件\divacore\mode</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Mode\DivaSinglePlay.h">
+      <Filter>源文件\divacore\mode</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Mode\DivaTeamPlay.h">
+      <Filter>源文件\divacore\mode</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\MusicManager\DivaBassMusicManager.h">
+      <Filter>源文件\divacore\music</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\MusicManager\DivaFmodMusicManager.h">
+      <Filter>源文件\divacore\music</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Network\DivaEnetSystem.h">
+      <Filter>源文件\divacore\network</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Network\DivaNetEventHandler.h">
+      <Filter>源文件\divacore\network</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Network\DivaNetLoader.h">
+      <Filter>源文件\divacore\network</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Network\DivaNetPacket.h">
+      <Filter>源文件\divacore\network</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Network\DivaNetPacketID.h">
+      <Filter>源文件\divacore\network</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Network\DivaNetUnsync.h">
+      <Filter>源文件\divacore\network</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Network\DivaNetworkSystem.h">
+      <Filter>源文件\divacore\network</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Network\sockSystem.h">
+      <Filter>源文件\divacore\network</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Utility\DivaConfigLoader.h">
+      <Filter>源文件\divacore\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Utility\DivaHDPSystem.h">
+      <Filter>源文件\divacore\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Utility\DivaInitialize.h">
+      <Filter>源文件\divacore\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Utility\DivaJsonHelper.h">
+      <Filter>源文件\divacore\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Utility\DivaPath.h">
+      <Filter>源文件\divacore\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Utility\DivaSimpleUI.h">
+      <Filter>源文件\divacore\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Timer\DivaTimeCounterImplSora.h">
+      <Filter>源文件\divacore\timer</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Timer\DivaTimeCounterImplWin32.h">
+      <Filter>源文件\divacore\timer</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\State\DivaCoreLoadState.h">
+      <Filter>源文件\divacore\state</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\State\DivaCorePauseState.h">
+      <Filter>源文件\divacore\state</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\State\DivaCorePlayState.h">
+      <Filter>源文件\divacore\state</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\State\DivaCoreResultState.h">
+      <Filter>源文件\divacore\state</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\State\DivaUnsyncLoad.h">
+      <Filter>源文件\divacore\state</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Note\DivaLongNote.h">
+      <Filter>源文件\divacore\note</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Note\DivaNormalNote.h">
+      <Filter>源文件\divacore\note</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Note\DivaPingpongNote.h">
+      <Filter>源文件\divacore\note</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraAny.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraAutoUpdate.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraCamera.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraCanvas.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraCore.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraCpuInfo.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraDelegate.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraDirectoryIterator.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraEnvValues.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraEvent.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraEventManager.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraException.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraFileChangeEvent.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraFileSystem.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraFileUtility.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraFont.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraFSM.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraFullscreenBufferHandler.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraGlobalMessageRouter.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraGraphicAlgorithm.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraHandleManager.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraHotKey.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraImageEffect.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraInputQueue.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraKeyInfo.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraLayer.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraLocalizer.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraMemoryBuffer.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraModifierAdapter.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraObject.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraObjectHandle.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraPath.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraPluginManager.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraRenderBuffer.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraResource.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraResourceFile.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraResourceManager.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraScene.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraShader.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraShaderable.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraShape.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraSimpleFSM.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraSoundSystem.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraSoundSystemThread.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraSprite.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraSpriteManager.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraSpriteSheet.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraString.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraStringConv.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraStringTokenlizer.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraText.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraTexture.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraTextureMap.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraTimer.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraTimestamp.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\SoraVertexList.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\app\SoraGameApp.cpp">
+      <Filter>头文件\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\app\SoraGameAppDef.cpp">
+      <Filter>头文件\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\cmd\CoreCmds.cpp">
+      <Filter>头文件\cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\cmd\SoraConsole.cpp">
+      <Filter>头文件\cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\config\SoraConfigParser.cpp">
+      <Filter>头文件\config</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\config\SoraConfigParserImpl_Json.cpp">
+      <Filter>头文件\config</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\config\SoraConfigParserImpl_Xml.cpp">
+      <Filter>头文件\config</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\Debug\SoraInternalLogger.cpp">
+      <Filter>头文件\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\Defaults\orz.c">
+      <Filter>头文件\defaults</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\Defaults\SoraMiscTool_Win32.cpp">
+      <Filter>头文件\defaults</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\entity\SoraComponentHolder.cpp">
+      <Filter>头文件\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\entity\SoraEntity.cpp">
+      <Filter>头文件\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\event\SoraEventFactory.cpp">
+      <Filter>头文件\event</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\event\SoraEventRouter.cpp">
+      <Filter>头文件\event</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\event\SoraEventWorld.cpp">
+      <Filter>头文件\event</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\event\SoraEventWorldHolder.cpp">
+      <Filter>头文件\event</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\event\SoraEventWorldImpl.cpp">
+      <Filter>头文件\event</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\factory\SoraSpriteFactory.cpp">
+      <Filter>头文件\factory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\helpers\SoraBooter.cpp">
+      <Filter>头文件\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\helpers\SoraDynLibrary.cpp">
+      <Filter>头文件\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\helpers\SoraInputSimulator.cpp">
+      <Filter>头文件\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\helpers\SoraMenuBar.cpp">
+      <Filter>头文件\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\helpers\SoraMutableSprite.cpp">
+      <Filter>头文件\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\helpers\SoraPostEffect.cpp">
+      <Filter>头文件\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\helpers\SoraSpriteFont.cpp">
+      <Filter>头文件\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\helpers\SoraZSorter.cpp">
+      <Filter>头文件\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\ini\SoraINIFile.cpp">
+      <Filter>头文件\ini</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\io\SoraFolderResourceManager.cpp">
+      <Filter>头文件\io</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\io\zip\SoraZipFile.cpp">
+      <Filter>头文件\io\zip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\io\zip\SoraZipResourceManager.cpp">
+      <Filter>头文件\io\zip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\json\json_reader.cpp">
+      <Filter>头文件\json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\json\json_value.cpp">
+      <Filter>头文件\json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\json\json_writer.cpp">
+      <Filter>头文件\json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\math\SoraCoreTransform.cpp">
+      <Filter>头文件\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\message\SoraListener.cpp">
+      <Filter>头文件\message</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\message\SoraMessage.cpp">
+      <Filter>头文件\message</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\modifiers\SoraCameraModifiers.cpp">
+      <Filter>头文件\modifiers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\modifiers\SoraFontModifiers.cpp">
+      <Filter>头文件\modifiers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\modifiers\SoraObjectModifiers.cpp">
+      <Filter>头文件\modifiers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\modifiers\SoraShaderParamModifier.cpp">
+      <Filter>头文件\modifiers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\modifiers\SoraTransformModifiers.cpp">
+      <Filter>头文件\modifiers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\notification\SoraNotification.cpp">
+      <Filter>头文件\notification</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\notification\SoraNotificationCenter.cpp">
+      <Filter>头文件\notification</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\notification\SoraObserver.cpp">
+      <Filter>头文件\notification</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\property\SoraDynRTTIClass.cpp">
+      <Filter>头文件\properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\property\SoraTypeSerializer.cpp">
+      <Filter>头文件\properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\Random\SFMT.c">
+      <Filter>头文件\random</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\scripting\SoraScriptVMHolder.cpp">
+      <Filter>头文件\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\signal\SoraSignal.cpp">
+      <Filter>头文件\signal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\support\kalloc.c">
+      <Filter>头文件\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\support\md5lib.cpp">
+      <Filter>头文件\support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\thread\SoraAtomicCounter.cpp">
+      <Filter>头文件\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\thread\SoraCondition.cpp">
+      <Filter>头文件\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\thread\SoraCountDownLatch.cpp">
+      <Filter>头文件\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\thread\SoraThread.cpp">
+      <Filter>头文件\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\thread\SoraThreadImplPosix.cpp">
+      <Filter>头文件\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\thread\SoraThreadImplWin32.cpp">
+      <Filter>头文件\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\thread\SoraThreadPool.cpp">
+      <Filter>头文件\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\thread\SoraThreadTask.cpp">
+      <Filter>头文件\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\timer\ITimerManager.cpp">
+      <Filter>头文件\timer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\timer\SoraSimpleTimer.cpp">
+      <Filter>头文件\timer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\timer\SoraSimpleTimerManager.cpp">
+      <Filter>头文件\timer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\xml\pugixml.cpp">
+      <Filter>头文件\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\ZLIB\adler32.c">
+      <Filter>头文件\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\ZLIB\compress.c">
+      <Filter>头文件\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\ZLIB\crc32.c">
+      <Filter>头文件\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\ZLIB\deflate.c">
+      <Filter>头文件\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\ZLIB\gzio.c">
+      <Filter>头文件\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\ZLIB\infback.c">
+      <Filter>头文件\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\ZLIB\inffast.c">
+      <Filter>头文件\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\ZLIB\inflate.c">
+      <Filter>头文件\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\ZLIB\inftrees.c">
+      <Filter>头文件\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\ZLIB\ioapi.c">
+      <Filter>头文件\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\ZLIB\mztools.c">
+      <Filter>头文件\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\ZLIB\trees.c">
+      <Filter>头文件\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\ZLIB\uncompr.c">
+      <Filter>头文件\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\ZLIB\unzip.c">
+      <Filter>头文件\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\ZLIB\zip.c">
+      <Filter>头文件\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\ZLIB\zutil.c">
+      <Filter>头文件\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraFreetypeFont\SoraFreetypeFont.cpp">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraFreetypeFont\SoraFTFontManager.cpp">
+      <Filter>Plugins\FreetypeFont</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraHGERenderer\SoraDXRenderBuffer.cpp">
+      <Filter>Plugins\hge</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraHGERenderer\SoraHGEInput.cpp">
+      <Filter>Plugins\hge</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraHGERenderer\SoraHGERenderer.cpp">
+      <Filter>Plugins\hge</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraHGERenderer\hge\hgegraphics.cpp">
+      <Filter>Plugins\hge</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraHGERenderer\hge\hgeinput.cpp">
+      <Filter>Plugins\hge</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraHGERenderer\hge\hgeresource.cpp">
+      <Filter>Plugins\hge</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraHGERenderer\hge\hgesystem.cpp">
+      <Filter>Plugins\hge</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraVlcMoviePlayer\SoraVlcMoviePlayer.cpp">
+      <Filter>Plugins\vlcmovieplayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\lexer\SoraLexer.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\io\SoraFileStream.cpp">
+      <Filter>头文件\io</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\physics\SoraPhysicBody.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\physics\SoraPhysicJoint.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\physics\SoraPhysicShape.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Sora\physics\SoraPhysicWorld.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraShader\SoraCGD3D9Shader.cpp">
+      <Filter>Plugins\hge</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraShader\SoraCGGLShader.cpp">
+      <Filter>Plugins\hge</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Component\DivaJsonGameModule.cpp">
+      <Filter>源文件\divacore\component</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Component\DivaMapJsonLoader.cpp">
+      <Filter>源文件\divacore\component</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Component\DivaMapStandardParser.cpp">
+      <Filter>源文件\divacore\component</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Component\DivaSimpleUIPainter.cpp">
+      <Filter>源文件\divacore\component</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Component\DivaSocketNetworkSystem.cpp">
+      <Filter>源文件\divacore\component</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Component\DivaStandardCoreFlow.cpp">
+      <Filter>源文件\divacore\component</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Component\DivaStandardDisplay.cpp">
+      <Filter>源文件\divacore\component</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Component\DivaStandardFactory.cpp">
+      <Filter>源文件\divacore\component</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Component\DivaStandardInputManager.cpp">
+      <Filter>源文件\divacore\component</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Core\DivaConfig.cpp">
+      <Filter>源文件\divacore\core</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Core\DivaCore.cpp">
+      <Filter>源文件\divacore\core</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Core\DivaCoreState.cpp">
+      <Filter>源文件\divacore\core</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Core\DivaDefault.cpp">
+      <Filter>源文件\divacore\core</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Core\DivaGameMode.cpp">
+      <Filter>源文件\divacore\core</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Core\DivaMapLoader.cpp">
+      <Filter>源文件\divacore\core</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Core\DivaStringUtil.cpp">
+      <Filter>源文件\divacore\core</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Mode\DivaMultiPlay.cpp">
+      <Filter>源文件\divacore\mode</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Mode\DivaSinglePlay.cpp">
+      <Filter>源文件\divacore\mode</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\MusicManager\DivaBassMusicManager.cpp">
+      <Filter>源文件\divacore\music</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\MusicManager\DivaFmodMusicManager.cpp">
+      <Filter>源文件\divacore\music</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Utility\DivaConfigLoader.cpp">
+      <Filter>源文件\divacore\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Utility\DivaSimpleUI.cpp">
+      <Filter>源文件\divacore\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Timer\DivaTimeCounterImplWin32.cpp">
+      <Filter>源文件\divacore\timer</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\State\DivaCorePlayState.cpp">
+      <Filter>源文件\divacore\state</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Note\DivaLongNote.cpp">
+      <Filter>源文件\divacore\note</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Note\DivaNormalNote.cpp">
+      <Filter>源文件\divacore\note</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Note\DivaPingpongNote.cpp">
+      <Filter>源文件\divacore\note</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Hoshizor\Sora\json\json_internalarray.inl">
+      <Filter>头文件\json</Filter>
+    </None>
+    <None Include="..\Hoshizor\Sora\json\json_internalmap.inl">
+      <Filter>头文件\json</Filter>
+    </None>
+    <None Include="..\Hoshizor\Sora\json\json_valueiterator.inl">
+      <Filter>头文件\json</Filter>
+    </None>
+  </ItemGroup>
+</Project>

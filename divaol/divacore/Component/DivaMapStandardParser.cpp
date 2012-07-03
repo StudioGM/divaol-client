@@ -1,0 +1,142 @@
+/*
+ *  DivaMapStandardParser.cpp
+ *
+ *  Created by Hyf042 on 1/13/12.
+ *  Copyright 2012 Hyf042. All rights reserved.
+ *
+ */
+
+#include <algorithm>
+#include "DivaMapStandardParser.h"
+#include "SoraFileUtility.h"
+#include "SoraCore.h"
+
+namespace divacore
+{
+	std::string MapStandardParser::getFullPath(const std::string fileName)
+	{
+		if(SoraFileUtility::FileExists(MAP_LOADER_PTR->getSongPath()+"/"+fileName))
+			return MAP_LOADER_PTR->getSongPath()+"/"+fileName;
+		else
+			return fileName;
+	}
+
+	void MapStandardParser::gameReset()
+	{
+		LOGGER->msg("Set","MapStandardParser");
+		clear();
+	}
+	void MapStandardParser::gameStop()
+	{
+	}
+
+	void MapStandardParser::clear()
+	{
+		mapInfo = NULL;
+		noteTime.clear();
+		eventTime.clear();
+	}
+
+	void MapStandardParser::_parseResource()
+	{
+		for(MapInfo::RESOURCES::iterator ptr = mapInfo->resources.begin(); ptr != mapInfo->resources.end(); ptr++)
+		{
+			std::string filePath = getFullPath(ptr->second.filePath);
+			if(ptr->second.type==MapResourceInfo::AUDIO)
+			{
+				core->getMusicManager()->load(filePath,ptr->second.ID,ptr->second.flag);
+			}
+			else if(ptr->second.type==MapResourceInfo::VIDEO)
+			{
+				core->getDisplay()->loadVideo(filePath,ptr->second.ID);
+			}
+			else if(ptr->second.type==MapResourceInfo::IMAGE)
+			{
+				core->getDisplay()->loadImage(filePath,ptr->second.ID);
+			}
+			/*else*/
+		}
+		if(mapInfo->resources.find("hit")==mapInfo->resources.end())
+			core->getMusicManager()->load("Data/hit.wav","hit",false);
+		if(mapInfo->resources.find("miss")==mapInfo->resources.end())
+			core->getMusicManager()->load("Data/miss.mp3","miss",false);
+	}
+	void MapStandardParser::_parseEvents()
+	{
+	}
+	void MapStandardParser::_parseNotes()
+	{
+	}
+	void MapStandardParser::_parseTime() 
+	{
+		std::vector<ParserNode> nodes;
+		for(int i = 0; i < mapInfo->events.size(); i++)
+		{
+			MapEvent &event = mapInfo->events[i];
+			if(event.eventType=="bpm")
+				nodes.push_back(ParserNode(ParserNode::BPM,event.position,NULL,sora::AnyCast<double>(event.arg["value"])));
+			else if(event.eventType=="bar")
+				nodes.push_back(ParserNode(ParserNode::BAR,event.position,NULL,sora::AnyCast<double>(event.arg["value"])));
+			nodes.push_back(ParserNode(ParserNode::EVENT,event.position,&event.time));
+		}
+		for(int i = 0; i < mapInfo->notes.size(); i++)
+		{
+			MapNote &noteInfo = mapInfo->notes[i];
+			uint32 tPos = 0;
+			if(noteInfo.notePoint[0].position>=noteInfo.aheadBar*GRID_PER_BAR)
+				tPos = noteInfo.notePoint[0].position-noteInfo.aheadBar*GRID_PER_BAR;
+			nodes.push_back(ParserNode(ParserNode::NOTEPOINT,tPos,&noteInfo.aheadTime));
+			for(int j = 0; j < mapInfo->notes[i].notePoint.size(); j++)
+			{
+				NotePoint &notePoint =noteInfo.notePoint[j];
+				nodes.push_back(ParserNode(ParserNode::NOTEPOINT,notePoint.position,&notePoint.time));
+			}
+		}
+
+		std::sort(nodes.begin(),nodes.end());
+
+		//time calculate
+		double nowBar = 4;
+		double nowBPM = mapInfo->header.BPM;
+		int nowPosition = 0;
+		double nowTime = 0, newTime;
+
+		for(std::vector<ParserNode>::iterator ptr = nodes.begin(); ptr != nodes.end(); ptr++)
+		{
+			newTime = nowTime + (ptr->position-nowPosition)*SECOND_PER_MINUTE/(nowBPM*GRID_PER_BAR/nowBar);
+
+			if(ptr->type==ParserNode::BPM)
+			{
+				nowBPM = ptr->tValue;
+				nowPosition = ptr->position;
+				nowTime = newTime;
+			}
+			else if(ptr->type==ParserNode::BAR)
+			{
+				nowBar = ptr->tValue;
+				nowPosition = ptr->position;
+				nowTime = newTime;
+			}
+			else
+				(*ptr->pRetTime) = newTime;
+		}
+
+		mapInfo->totalTime = nowTime + (mapInfo->header.barNum*GRID_PER_BAR-nowPosition)*SECOND_PER_MINUTE/(nowBPM*GRID_PER_BAR/nowBar);
+	}
+	void MapStandardParser::_parseModule()
+	{
+		GAME_MODULE_PTR->load(mapInfo->module);
+		GAME_MODULE_PTR->distribute();
+	}
+	void MapStandardParser::parser(MapInfoPtr mapInfo)
+	{
+		clear();
+
+		this->mapInfo = mapInfo;
+		_parseResource();
+		_parseModule();
+		_parseTime();
+		_parseEvents();
+		_parseNotes();
+	}
+}
