@@ -30,6 +30,7 @@ namespace divacore
 		SPRITEPOOL spritePool;
 		SPRITELIST spriteList;
 		VIDEOPLAYING videoPlaying;
+
 	private:
 		void playVideo(ARGUMENTS &arg);
 		void displayImage(ARGUMENTS &arg);
@@ -49,6 +50,8 @@ namespace divacore
 		void destory() {clear();}
 		void loadImage(const std::string &file, const std::string &ID);
 		void loadVideo(const std::string &file, const std::string &ID);
+		void unloadImage(const std::string &ID);
+		void unloadVideo(const std::string &ID);
 		void displayImage(const std::string &ID, float x = 0, float y = 0, float width = 0, float height = 0, const std::string &label="");
 		void setTextureRect(const std::string &label, float x, float y, float w, float h);
 		void clearImage(const std::string &label);

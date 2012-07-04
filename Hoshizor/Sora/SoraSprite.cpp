@@ -94,6 +94,8 @@ namespace sora {
 		SoraTexture* ptex = (SoraTexture*)tex;
 		if(ptex)
 			_init(ptex, 0.f, 0.f, (float)ptex->mTextureWidth, (float)ptex->mTextureHeight);
+		else
+			_init(NULL, 0.f, 0.f, 1.f, 1.f);
 	}
 
 	void SoraSprite::_initDefaults() {

@@ -113,6 +113,18 @@ namespace divacore
 
 		soundPool[ID] = std::make_pair<bool,HSTREAM>(stream,loadSound(file,stream));
 	}
+	void BassMusicManager::unload(const std::string &ID) 
+	{
+		SOUNDPOOL::iterator soundPtr = soundPool.find(ID);
+		if(soundPtr==soundPool.end())
+			return;
+
+		if(soundPtr->second.first)
+			::BASS_StreamFree(soundPtr->second.second);
+		else
+			::BASS_SampleFree(soundPtr->second.second);
+		soundPool.erase(soundPtr);
+	}
 	void BassMusicManager::play(const std::string &ID, const std::string &channel, const std::string &tag)
 	{
 		if(HOOK_MANAGER_PTR->hook(ID,channel,tag)&&HOOK_MANAGER_PTR->hookInfo())

@@ -148,8 +148,6 @@ namespace divacore
 					sprintf(msg,"note_point time:%0.6lf uid1:%d uid2:%d",nowTime,t.uid,t.uid2);
 					sora::log_mssg(msg);
 
-					LOGGER->log("point %d %d %0.3lf %0.3lf",t.uid,t.position,nowPosition,CORE_PTR->getRealTime());
-
 					//inform note
 					MapNote &noteInfo = (*notesPtr)[t.uid];
 					NotePtr note = NotePtr(noteInfo.pointer);
@@ -164,6 +162,8 @@ namespace divacore
 				{
 					//这里把时钟暂停以降低延迟，也就是忽略事件的耗时，原因是播放bgm一类的事件需要花不少时间
 					timeCounter.pause();
+					if(t.uid==3)
+						t.uid = 3;
 					call((*eventsPtr)[t.uid]);
 					timeCounter.resume();
 				}
@@ -308,14 +308,26 @@ namespace divacore
 		if(CORE_PTR->getMode()!="editMode")
 			return;
 
+		timeQueue = TIME_QUEUE();
+
 		nowPosition = position;
 		timeCounter.reset();
 		timeCounter.set(time);
 		nowTime = time;
 
+		_reloadNotes();
+		_reloadEvents();
+
+		timeCounter.resume();
+	}
+
+	void StandardCoreFlow::_reloadNotes()
+	{
+		float time = nowTime;
+
 		EFFECT_SYSTEM_PTR->clear();
 		noteList.clear();
-		timeQueue = TIME_QUEUE();
+
 		for(int i = 0; i < notesPtr->size(); i++)
 		{
 			MapNote &note = (*notesPtr)[i];
@@ -335,7 +347,7 @@ namespace divacore
 							_note->setKeyPosition(note.notePoint[index-1].position);
 						_note->setID(i);
 						_note->setNextPoint(index);
-						_note->recover(index,position,time);
+						_note->recover(index,nowPosition,time);
 						_note->onEnter();
 
 						note.pointer = (void*)_note;
@@ -350,6 +362,11 @@ namespace divacore
 				timeQueue.push(SCF_TimeStamp(note.aheadTime,note.notePoint[0].position-note.aheadBar*GRID_PER_BAR,SCF_TimeStamp::NOTE_START,i));
 		}
 		timeQueue.push(SCF_TimeStamp(totalTime,totalGrid,SCF_TimeStamp::EVENT,0));
+	}
+	
+	void StandardCoreFlow::_reloadEvents()
+	{
+		float time = nowTime;
 
 		DISPLAY_PTR->clearImage();
 		//DISPLAY_PTR->clearVideo();
@@ -364,17 +381,13 @@ namespace divacore
 			{
 				event.arg["__location__"] = time-event.time;
 				call(event);
-		
+
 				if(event.time>lastStamp.time)
 					lastStamp = SCF_TimeStamp(event.time,event.position,SCF_TimeStamp::EVENT,i);
 			}
 			else
 				timeQueue.push(SCF_TimeStamp(event.time,event.position,SCF_TimeStamp::EVENT,i));
 		}
-
-		timeCounter.resume();
-
-		LOGGER->log("%0.3lf %0.3lf",time,_timeToPos(3.340));
 	}
 
     float StandardCoreFlow::_posToTime(double position)
@@ -445,5 +458,47 @@ namespace divacore
 			return;
 
 		coreFlow->_locate(time,coreFlow->_timeToPos(time));
+	}
+
+	void StandardEditUtility::loadResource(MapResourceInfo info)
+	{
+		MAP_PARSER_PTR->loadResource(info);
+	}
+
+	void StandardEditUtility::unloadResource(MapResourceInfo info)
+	{
+		MAP_PARSER_PTR->unloadResource(info);
+	}
+
+	void StandardEditUtility::addEvent(MapEvent event)
+	{
+		MAP_INFO->events.push_back(event);
+		refreshAll();
+	}
+	void StandardEditUtility::delEvent(int index)
+	{
+		if(index<0||index>=MAP_INFO->events.size())
+			DIVA_EXCEPTION_MESSAGE("index out of range!");
+
+		MAP_INFO->events.erase(MAP_INFO->events.begin()+index);
+		refreshAll();
+	}
+	void StandardEditUtility::addNote(MapNote note)
+	{
+		MAP_INFO->notes.push_back(note);
+		refreshAll();
+	}
+	void StandardEditUtility::delNote(int index)
+	{
+		if(index<0||index>=MAP_INFO->notes.size())
+			DIVA_EXCEPTION_MESSAGE("index out of range!");
+
+		MAP_INFO->notes.erase(MAP_INFO->notes.begin()+index);
+		refreshAll();
+	}
+	void StandardEditUtility::reCaltTime()
+	{
+		MAP_PARSER_PTR->reParser(MapParser::PARSE_TIME);
+		refreshAll();
 	}
 }

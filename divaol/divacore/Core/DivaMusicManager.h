@@ -26,6 +26,7 @@ namespace divacore
 		virtual void clear(){}
 		virtual void destroy(){}
 		virtual void load(const std::string &file, const std::string &ID, bool stream) = 0;
+		virtual void unload(const std::string &ID) {}
 		virtual void play(const std::string &ID, const std::string &channel, const std::string &tag="") = 0;
 		virtual void playDirect(const std::string &ID, const std::string &tag="") = 0;
 		virtual void playDirectWithFile(const std::string &file, bool stream, const std::string &tag="") = 0;

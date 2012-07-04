@@ -139,4 +139,41 @@ namespace divacore
 		_parseEvents();
 		_parseNotes();
 	}
+	void MapStandardParser::reParser(uint32 parserFlag)
+	{
+		if(parserFlag&PARSE_RESOURCES)
+			_parseResource();
+		if(parserFlag&PARSE_MODULE)
+			_parseModule();
+		if(parserFlag&PARSE_TIME)
+			_parseTime();
+	}
+	void MapStandardParser::loadResource(MapResourceInfo info)
+	{
+		if(mapInfo->resources.find(info.ID)!=mapInfo->resources.end())
+			DIVA_EXCEPTION_MODULE("RESOURCE "+info.ID+" already exists","StandardParser");
+
+		mapInfo->resources[info.ID] = info;
+
+		std::string filePath = getFullPath(info.filePath);
+		if(info.type==MapResourceInfo::AUDIO)
+			core->getMusicManager()->load(filePath,info.ID,info.flag);
+		else if(info.type==MapResourceInfo::VIDEO)
+			core->getDisplay()->loadVideo(filePath,info.ID);
+		else if(info.type==MapResourceInfo::IMAGE)
+			core->getDisplay()->loadImage(filePath,info.ID);
+	}
+
+	void MapStandardParser::unloadResource(MapResourceInfo info)
+	{
+		if(mapInfo->resources.find(info.ID)==mapInfo->resources.end())
+			return;
+
+		if(info.type==MapResourceInfo::AUDIO)
+			core->getMusicManager()->unload(info.ID);
+		else if(info.type==MapResourceInfo::VIDEO)
+			core->getDisplay()->unloadVideo(info.ID);
+		else if(info.type==MapResourceInfo::IMAGE)
+			core->getDisplay()->unloadImage(info.ID);
+	}
 }

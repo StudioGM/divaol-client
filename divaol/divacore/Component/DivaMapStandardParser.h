@@ -52,8 +52,11 @@ namespace divacore
 	public:
 		MapStandardParser():mapInfo(NULL) {}
 		virtual void parser(MapInfoPtr mapInfo);
+		virtual void reParser(uint32 parserFlag);
 		virtual void gameReset();
 		virtual void gameStop();
+		virtual void loadResource(MapResourceInfo info);
+		virtual void unloadResource(MapResourceInfo info);
 	};
 }
 

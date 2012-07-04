@@ -57,9 +57,9 @@ namespace divacore
 			makeSure(name,arg);
 			SoraAny &any = arg[name];
 			if(IsAnyDouble(any))
-				return AnyCast<double>(any);
+				return (float)AnyCast<double>(any);
 			if(IsAnyInt(any))
-				return AnyCast<int>(any);
+				return (float)AnyCast<int>(any);
 			return AnyCast<float>(any);
 		}
 		static inline std::string asString(const std::string &name, ARGUMENTS &arg)

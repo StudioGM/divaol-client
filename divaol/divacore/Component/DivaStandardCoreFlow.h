@@ -93,6 +93,8 @@ namespace divacore
 		float _posToTime(double position);
 		double _timeToPos(float time);
 		void _locate(double position, float time);
+		void _reloadNotes();
+		void _reloadEvents();
 	public:
 
 		virtual double getRunTime();
@@ -111,21 +113,22 @@ namespace divacore
 	class StandardEditUtility
 	{
 		StandardCoreFlow *coreFlow;
-	public:
-		void init();
 
+		StandardEditUtility() {coreFlow = NULL;}
+	public:
+		static StandardEditUtility& instance() {static StandardEditUtility instance; return instance;}
+		void init();
 		void setTime(float time);
 		void setPosition(double position);
+		void sync() {refreshAll();}
 		void refreshAll();
-		//void reCaltTime();
-		//void reloadEvents();
-		//void reloadNotes();
-		//void addResource();
-		//void delResource();
-		//void addEvent();
-		//void delEvent();
-		//void addNote();
-		//void delNote();
+		void reCaltTime();
+		void loadResource(MapResourceInfo info);
+		void unloadResource(MapResourceInfo info);
+		void addEvent(MapEvent event);
+		void delEvent(int index);
+		void addNote(MapNote note);
+		void delNote(int index);
 	};
 
 	typedef CoreFlow* CoreFlowPtr;

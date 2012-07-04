@@ -93,11 +93,6 @@ namespace divacore
 		Core::Ptr->render(coverSprite,"note_cover"+getTailTag());
 		Core::Ptr->render(rhythmSprite,"note_rhythm"+getTailTag());
 
-		if(getID()==0)
-		{
-			LOGGER->log("position: %0.3f %0.3f",rhythmSprite->getPositionX(),rhythmSprite->getPositionY());
-		}
-
 		path::Line::renderCometLine(lastTailPosition,nowTailPosition,this);
 		lastTailPosition = nowTailPosition;
 	}

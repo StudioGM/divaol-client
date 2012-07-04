@@ -140,9 +140,30 @@ namespace divacore
 #endif
 		if(event.getKey()==SORA_KEY_J)
 		{
-			StandardEditUtility edit;
-			edit.init();
-			edit.setPosition(400);
+			StandardEditUtility::instance().init();
+			StandardEditUtility::instance().setPosition(400);
+		}
+		else if(event.getKey()==SORA_KEY_D)
+		{
+			StandardEditUtility::instance().init();
+			MapEvent event;
+			event.position = 1;
+			event.eventType = "bpm";
+			event.arg["value"] = 100.0;
+
+			StandardEditUtility::instance().addEvent(event);
+			StandardEditUtility::instance().reCaltTime();
+		}
+		else if(event.getKey()==SORA_KEY_R)
+		{
+			StandardEditUtility::instance().init();
+			MapEvent event;
+			event.position = 2;
+			event.eventType = "bpm";
+			event.arg["value"] = 175.0;
+
+			StandardEditUtility::instance().addEvent(event);
+			StandardEditUtility::instance().reCaltTime();
 		}
 		/*else if(event.getKey()==SORA_KEY_C)
 		{

@@ -29,7 +29,9 @@ namespace divacore
 		virtual void clearImage() {}
 		virtual void clearVideo() {}
 		virtual void loadImage(const std::string &file, const std::string &ID) = 0;
+		virtual void unloadImage(const std::string &ID) = 0;
 		virtual void loadVideo(const std::string &file, const std::string &ID) = 0;
+		virtual void unloadVideo(const std::string &ID) = 0;
 		virtual void displayImage(const std::string &ID, float x = 0, float y = 0, float width = 0, float height = 0, const std::string &label="") = 0;
 		virtual void clearImage(const std::string &label) = 0;
 		virtual void playVideo(const std::string &ID, float x = 0, float y = 0, float width = 0, float height = 0) = 0;

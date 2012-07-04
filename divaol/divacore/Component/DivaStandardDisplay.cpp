@@ -111,6 +111,23 @@ namespace divacore
 			DIVA_EXCEPTION_MODULE("Image "+ID+" alrealdy exists","DivaDisplay");
 		imagePool[ID] = sora::SoraCore::Ptr->createTexture(file);
 	}
+	void StandardDisplay::unloadImage(const std::string &ID)
+	{
+		if(!isExistImage(ID))
+			DIVA_EXCEPTION_MODULE("Image "+ID+" doesn't exist","DivaDisplay");
+
+		sora::SoraTextureHandle texture = imagePool[ID];
+		for(SPRITELIST::iterator ptr = spriteList.begin(); ptr != spriteList.end(); ptr++)
+			if((*ptr)->getTexture()==texture)
+				(*ptr)->setTexture(NULL);
+		for(SPRITEPOOL::iterator ptr = spritePool.begin(); ptr != spritePool.end(); ptr++)
+			if(ptr->second->getTexture()==texture)
+				ptr->second->setTexture(NULL);
+
+		sora::SoraCore::Instance()->releaseTexture(texture);
+
+		imagePool.erase(imagePool.find(ID));
+	}
 	void StandardDisplay::loadVideo(const std::string &file, const std::string &ID)
 	{
 		if(isExistVideo(ID))
@@ -128,10 +145,28 @@ namespace divacore
 		
 		videoPool[ID] = std::make_pair<sora::SoraVlcMoviePlayer*,sora::SoraSprite*>(moviePlayer,sprite);
 	}
+	void StandardDisplay::unloadVideo(const std::string &ID)
+	{
+		if(!isExistVideo(ID))
+			DIVA_EXCEPTION_MODULE("Video "+ID+" doesn't exists","DivaDisplay");
+
+		VIDEOPOOL::iterator ptr = videoPool.find(ID);
+		ptr->second.first->stop();
+		SAFE_DELETE(ptr->second.first);
+		SAFE_DELETE_SPRITE_TEXTURE(ptr->second.second);
+		videoPool.erase(ptr);
+
+		if(videoPlaying.find(ID)!=videoPlaying.end())
+			videoPlaying.erase(videoPlaying.find(ID));
+	}
 	void StandardDisplay::displayImage(const std::string &ID, float x, float y, float width, float height, const std::string &label)
 	{
 		if(!isExistImage(ID))
-			DIVA_EXCEPTION_MODULE("Image "+ID+" does not exists","DivaDisplay");
+		{
+			LOGGER->notice("Image "+ID+" does not exists");
+			return;
+			//DIVA_EXCEPTION_MODULE("Image "+ID+" does not exists","DivaDisplay");
+		}
 		SoraSprite *sprite;
 		if(label==""||spritePool.find(label)==spritePool.end())
 			sprite = new sora::SoraSprite();
@@ -165,7 +200,11 @@ namespace divacore
 	{
 		//return;
 		if(!isExistVideo(ID))
-			DIVA_EXCEPTION_MODULE("Video "+ID+" does not exists","DivaDisplay");
+		{
+			LOGGER->notice("Video "+ID+" does not exists");
+			return;
+			//DIVA_EXCEPTION_MODULE("Video "+ID+" does not exists","DivaDisplay");
+		}
 		VIDEOPAIR pair = videoPool[ID];
 		pair.first->resume();
 		pair.second->setPosition(x,y);

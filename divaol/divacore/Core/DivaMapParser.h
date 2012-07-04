@@ -27,8 +27,12 @@ namespace divacore
 	protected:
 		CorePtr core;
 	public:
+		enum{PARSE_RESOURCES,PARSE_MODULE,PARSE_TIME};
 		void setCore(CorePtr core) {this->core = core;}
 		virtual void parser(MapInfoPtr mapInfo) = 0;
+		virtual void reParser(uint32 parserFlag) = 0;
+		virtual void loadResource(MapResourceInfo info) {}
+		virtual void unloadResource(MapResourceInfo info) {}
 	};
 
 	typedef MapParser* MapParserPtr;
