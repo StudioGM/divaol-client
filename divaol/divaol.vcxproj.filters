@@ -139,6 +139,9 @@
     <Filter Include="源文件\divacore\utility">
       <UniqueIdentifier>{791bddf3-4a76-4f9c-ab14-ab2ba16e8905}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\divaeditor">
+      <UniqueIdentifier>{573765ea-72d7-42f4-9b2f-dfd69aad241b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Hoshizor\Sora\Hoshizora.h">
@@ -1521,6 +1524,15 @@
     <ClInclude Include="divacore\Note\DivaPingpongNote.h">
       <Filter>源文件\divacore\note</Filter>
     </ClInclude>
+    <ClInclude Include="divaeditor\DivaEditor.h">
+      <Filter>源文件\divaeditor</Filter>
+    </ClInclude>
+    <ClInclude Include="divaeditor\DivaEditorState.h">
+      <Filter>源文件\divaeditor</Filter>
+    </ClInclude>
+    <ClInclude Include="divaeditor\EditorInitialize.h">
+      <Filter>源文件\divaeditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -2065,6 +2077,12 @@
     </ClCompile>
     <ClCompile Include="divacore\Note\DivaPingpongNote.cpp">
       <Filter>源文件\divacore\note</Filter>
+    </ClCompile>
+    <ClCompile Include="divaeditor\DivaEditorState.cpp">
+      <Filter>源文件\divaeditor</Filter>
+    </ClCompile>
+    <ClCompile Include="divaeditor\DivaEditor.cpp">
+      <Filter>源文件\divaeditor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

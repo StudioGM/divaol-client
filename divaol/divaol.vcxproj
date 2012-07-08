@@ -541,6 +541,9 @@
     <ClInclude Include="divacore\Utility\DivaJsonHelper.h" />
     <ClInclude Include="divacore\Utility\DivaPath.h" />
     <ClInclude Include="divacore\Utility\DivaSimpleUI.h" />
+    <ClInclude Include="divaeditor\DivaEditor.h" />
+    <ClInclude Include="divaeditor\DivaEditorState.h" />
+    <ClInclude Include="divaeditor\EditorInitialize.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Hoshizor\Plugins\SoraFreetypeFont\SoraFreetypeFont.cpp" />
@@ -723,6 +726,8 @@
     <ClCompile Include="divacore\Timer\DivaTimeCounterImplWin32.cpp" />
     <ClCompile Include="divacore\Utility\DivaConfigLoader.cpp" />
     <ClCompile Include="divacore\Utility\DivaSimpleUI.cpp" />
+    <ClCompile Include="divaeditor\DivaEditor.cpp" />
+    <ClCompile Include="divaeditor\DivaEditorState.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

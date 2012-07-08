@@ -5,6 +5,7 @@
 
 #include "app/SoraGameApp.h"
 #include "Utility/DivaInitialize.h"
+#include "divaeditor/EditorInitialize.h"
 
 #pragma comment(linker, "/NODEFAULTLIB:libcmt.lib")
 #pragma comment(linker, "/NODEFAULTLIB:libcmtd.lib")
@@ -29,12 +30,16 @@ int CALLBACK WinMain(
 
 		sora::SoraGameAppDef def;
 		sora::SoraGameApp app(def);
+
+		divaeditor::EditorPtr editor = divaeditor::standard::initialize(core);
+
 		app.addState(core, "core");
+		app.addState(editor, "editor");
 
 		def.width(config.getAsInt("windowWidth"));
 		def.height(config.getAsInt("windowHeight"));
 
-		app.run("core");
+		app.run("editor");
 
 		//sora::SoraTaskManager::defaultManager(true).joinAll();
 	}
