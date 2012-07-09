@@ -1521,6 +1521,9 @@
     <ClInclude Include="divacore\Note\DivaPingpongNote.h">
       <Filter>源文件\divacore\note</Filter>
     </ClInclude>
+    <ClInclude Include="divacore\State\DivaEditLoad.h">
+      <Filter>源文件\divacore\state</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

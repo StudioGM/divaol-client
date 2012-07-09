@@ -532,6 +532,7 @@
     <ClInclude Include="divacore\State\DivaCorePauseState.h" />
     <ClInclude Include="divacore\State\DivaCorePlayState.h" />
     <ClInclude Include="divacore\State\DivaCoreResultState.h" />
+    <ClInclude Include="divacore\State\DivaEditLoad.h" />
     <ClInclude Include="divacore\State\DivaUnsyncLoad.h" />
     <ClInclude Include="divacore\Timer\DivaTimeCounterImplSora.h" />
     <ClInclude Include="divacore\Timer\DivaTimeCounterImplWin32.h" />
