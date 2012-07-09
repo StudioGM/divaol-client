@@ -98,6 +98,8 @@ namespace divacore
 	{
 		if(state==RUN)
 		{
+			nowTime = timeCounter.getTime();
+
 			if(nowTime>=totalTime)
 			{
 				core->getMusicManager()->destroy();
@@ -105,7 +107,6 @@ namespace divacore
 				return;
 			}
 
-			nowTime = timeCounter.getTime();
 			while(!timeQueue.empty()&&nowTime>=timeQueue.top().time)
 			{
 				lastStamp = timeQueue.top();
@@ -162,8 +163,6 @@ namespace divacore
 				{
 					//这里把时钟暂停以降低延迟，也就是忽略事件的耗时，原因是播放bgm一类的事件需要花不少时间
 					timeCounter.pause();
-					if(t.uid==3)
-						t.uid = 3;
 					call((*eventsPtr)[t.uid]);
 					timeCounter.resume();
 				}

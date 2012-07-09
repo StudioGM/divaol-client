@@ -7,6 +7,7 @@
 #include "State/DivaCorePauseState.h"
 #include "State/DivaCoreResultState.h"
 #include "State/DivaUnsyncLoad.h"
+#include "State/DivaEditLoad.h"
 #include "Component/DivaMapJsonLoader.h"
 #include "Component/DivaMapStandardParser.h"
 #include "Component/DivaStandardCoreFlow.h"
@@ -27,7 +28,7 @@
 #include "Mode/DivaMultiplay.h"
 #include "Mode/DivaTeamPlay.h"
 #include "Mode/DivaRelayPlay.h"
-#include "MOde/DivaEditMode.h"
+#include "Mode/DivaEditMode.h"
 #include "MusicManager/DivaFmodMusicManager.h"
 //#include "MusicManager/DivaXAudioMusicManager.h"
 #include "MusicManager/DivaBassMusicManager.h"
@@ -40,7 +41,6 @@ namespace divacore
 {
 	namespace standard
 	{
-
 		CorePtr initialize(std::string configFolder)
 		{
 			divacore::CorePtr core = INITIALIZE_DIVA_CORE;
@@ -83,8 +83,17 @@ namespace divacore
 
 #ifdef NET
 			core->setInitState("net_load");
-#else 
+#else
+
+#ifndef EDIT
 			core->setInitState("load");
+#else
+			divacore::EditLoadState *load = new divacore::EditLoadState;
+			core->addState(load, "edit_load");
+			core->setInitState("edit_load");
+			load->makeEmptySong(1,175);
+#endif
+
 #endif
 			
 			//load config
