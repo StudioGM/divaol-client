@@ -22,18 +22,15 @@ int CALLBACK WinMain(
 	try
 	{
 
-		divacore::CorePtr core = divacore::standard::initialize("system");
-
 		divacore::Config config;
 		divacore::configloader::loadWithJson(config,"system/common.json");
-		core->setSong(config.getAsString("song"),config.getAsString("map"));
+		//core->setSong(config.getAsString("song"),config.getAsString("map"));
 
 		sora::SoraGameAppDef def;
 		sora::SoraGameApp app(def);
 
-		divaeditor::EditorPtr editor = divaeditor::standard::initialize(core);
+		divaeditor::EditorPtr editor = divaeditor::standard::initialize();
 
-		app.addState(core, "core");
 		app.addState(editor, "editor");
 
 		def.width(config.getAsInt("windowWidth"));

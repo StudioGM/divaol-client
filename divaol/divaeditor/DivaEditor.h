@@ -66,7 +66,7 @@ namespace divaeditor
 	    /*
 		 * singleton
 		 */
-		enum State{PREPARE,MAPINFO,TIMELINE,NOTEPLACEMENT,RESOURCEPLACEMENT};
+		enum State{SELECTFILE,MAPINFO,TIMELINE,NOTEPLACEMENT,RESOURCEPLACEMENT};
 
 
 		static EditorPtr Ptr;

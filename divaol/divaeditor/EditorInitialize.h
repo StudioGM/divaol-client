@@ -10,10 +10,12 @@ namespace divaeditor
 {
 	namespace standard
 	{
-		EditorPtr initialize(CorePtr divaCore)
+		EditorPtr initialize()
 		{
+			divacore::CorePtr core = divacore::standard::initialize("system");
+
 			EditorPtr editor = INITIALIZE_EDITOR;
-			editor->registerDivaCore(divaCore);
+			editor->registerDivaCore(core);
 
 			return editor;
 		}
