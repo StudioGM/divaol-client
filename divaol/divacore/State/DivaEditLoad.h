@@ -25,6 +25,8 @@ namespace divacore
 	*/
 	class EditLoadState : public CoreState
 	{
+		Task readyTask;
+
 	public:
 		MapInfoPtr makeEmptySong(int barNum, double BPM)
 		{
@@ -64,8 +66,11 @@ namespace divacore
 
 			core->ready();
 
-			core->setState("play");
+			//readyTask
+			readyTask.start();
 		}
+
+		void registerReayCallback(Task &task) {readyTask = task;}
 	};
 }
 

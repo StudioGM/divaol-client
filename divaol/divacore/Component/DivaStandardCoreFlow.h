@@ -67,6 +67,9 @@ namespace divacore
 		double nowPosition;
 
 		TimeCounter timeCounter;	
+
+		Task beginTask;
+		Task endTask;
 	
 	private:
 		void changeBPM(ARGUMENTS &arg);
@@ -107,6 +110,9 @@ namespace divacore
 
 		virtual void onKeyPressed(KeyEvent& event);
 		virtual void onKeyReleased(KeyEvent& event);
+
+		void registerBeginCallback(Task &task) {beginTask = task;}
+		void registerEndCallback(Task &task) {endTask = task;}
 
 	};
 

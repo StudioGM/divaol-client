@@ -85,7 +85,7 @@ namespace divacore
 		{
 			static int count = 0;
 			count = (count+1)%40;
-			SoraWString text = L"|#FF0000|Playing";
+			SoraWString text = CORE_FLOW_PTR->getState()==CoreFlow::RUN?L"|#FF0000|Playing":L"|#FF0000|Pause";
 			for(int i = 0; i < count/10; i++)
 				text += L".";
 			mText.setText(text);
