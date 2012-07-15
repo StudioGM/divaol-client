@@ -14,6 +14,7 @@
 #include "DivaCore.h"
 #include "DivaNote.h"
 #include "DivaEventManager.h"
+#include "DivaTask.h"
 
 namespace divacore
 {
@@ -54,6 +55,9 @@ namespace divacore
 		virtual double getBPM() {return 0;}
 		virtual void onKeyPressed(KeyEvent& event) {}
 		virtual void onKeyReleased(KeyEvent& event) {}
+		//registerEvent
+		virtual void registerBeginCallback(Task &task) {}
+		virtual void registerEndCallback(Task &task) {}
 	};
 
 	typedef CoreFlow* CoreFlowPtr;

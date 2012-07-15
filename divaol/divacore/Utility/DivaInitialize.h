@@ -41,6 +41,16 @@ namespace divacore
 {
 	namespace standard
 	{
+		void pauseTheGame(void* args)
+		{
+			CORE_PTR->pause();
+		}
+
+		void readyEvent(void *args)
+		{
+			CORE_PTR->setState("play");
+		}
+
 		CorePtr initialize(std::string configFolder)
 		{
 			divacore::CorePtr core = INITIALIZE_DIVA_CORE;
@@ -91,7 +101,10 @@ namespace divacore
 			divacore::EditLoadState *load = new divacore::EditLoadState;
 			core->addState(load, "edit_load");
 			core->setInitState("edit_load");
+			load->registerReayCallback(Task(&readyEvent));
 			load->makeEmptySong(1,175);
+			//core->setInitState("load");
+			CORE_FLOW_PTR->registerBeginCallback(Task(&pauseTheGame));
 #endif
 
 #endif

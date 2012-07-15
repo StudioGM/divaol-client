@@ -28,6 +28,19 @@ namespace divacore
 	public:
 		Task(bool bMultiThread = false):bMultiThread(bMultiThread),running(false) {}
 		Task(void (*ThreadFunc)(void* arg),bool bMultiThread = false):bMultiThread(bMultiThread),running(false) {setAsCFunc(ThreadFunc);}
+		Task(const Task &task)
+		{
+			running = task.running;
+			bMultiThread = task.bMultiThread;
+			this->task = task.task;
+		}
+		Task& operator=(const Task &task)
+		{
+			running = task.running;
+			bMultiThread = task.bMultiThread;
+			this->task = task.task;
+			return *this;
+		}
 		template<typename T>
 		Task(void (T::*ThreadFunc)(void* args), T* obj,bool bMultiThread = false):bMultiThread(bMultiThread),running(false) {
 			setAsMemberFunc(ThreadFunc, obj);

@@ -93,6 +93,9 @@ namespace divacore
 		CORE_PTR->onStart();
 
 		timeCounter.start();
+
+		//beginTask
+		beginTask.start();
 	}
 	void StandardCoreFlow::update(float dt)
 	{
@@ -104,6 +107,10 @@ namespace divacore
 			{
 				core->getMusicManager()->destroy();
 				state = END;
+
+				//endTask
+				endTask.start();
+				
 				return;
 			}
 
