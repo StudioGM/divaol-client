@@ -132,6 +132,7 @@ namespace divacore
 		{
 			UI_PAINTER_PTR->display();
 		}*/
+		/*
 #ifdef _DEBUG
 		if(event.getKey()==SORA_KEY_TAB)
 		{

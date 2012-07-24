@@ -4,6 +4,8 @@
 #include "app/SoraGameApp.h"
 
 #include "DivaEditorScene/DivaEditorScene.h"
+#include "DivaEditorDisplay.h "
+#include "divacore/state/DivaEditLoad.h"
 
 namespace divaeditor
 {
@@ -16,18 +18,32 @@ namespace divaeditor
 
 	//Register Functions
 
+	void Editor::coreDidLoad(void* arg)
+	{
+		core->setState("play");
+	}
+
 	void Editor::registerDivaCore(CorePtr _core)
 	{
 		core = _core;
+		Task task;
+		task.setAsMemberFunc(&Editor::coreDidLoad, this);
+		
+		((divacore::EditLoadState*)((*core->getManager())["edit_load"]))->registerReayCallback(task);
+
+		core->registerDisplay(new DivaEditorDisplay());
 	}
 
 
 
+	
 
 	//Editor public GameState Functions
 	void Editor::onStart()
 	{
 		core->onStart();
+		//core->pause();
+		
 	}
 
 	void Editor::onDestroy()
@@ -40,8 +56,6 @@ namespace divaeditor
 		core->onEnter();
 
 		SoraCore::Instance()->showMouse(true);
-
-
 
 		GCN_GLOBAL->initGUIChan(L"arial.ttf",14);
 
@@ -71,14 +85,17 @@ namespace divaeditor
 
 	void Editor::onRender()
 	{
+		SoraSprite* coreDrawSprite = core->renderToCanvas(SoraCore::Instance()->getScreenWidth(),
+			SoraCore::Instance()->getScreenHeight());
+
 		sora::SoraGameApp::BeginScene();
+
+		coreDrawSprite->setPosition(0,0);
+		coreDrawSprite->render();
 
 		if(mState==State::NOTE||mState==State::RESOURCE)
 		{
-			SoraSprite* coreDrawSprite = core->renderToCanvas(SoraCore::Instance()->getScreenWidth(),
-				SoraCore::Instance()->getScreenHeight());
-			coreDrawSprite->setPosition(0,0);
-			coreDrawSprite->render();
+			
 		}
 		else
 		{
@@ -92,9 +109,11 @@ namespace divaeditor
 
 	void Editor::onUpdate(float dt)
 	{
+		core->onUpdate(dt);
+		SoraCore::Instance()->showMouse(true);
 		if(mState==State::NOTE||mState==State::RESOURCE)
 		{
-			core->onUpdate(dt);
+			
 		}
 		else
 		{

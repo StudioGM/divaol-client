@@ -54,6 +54,9 @@ namespace divaeditor
 	{
 	private:
 		gcn::Button *btn_newFile, *btn_openFile;
+
+		gcn::Button *btn_play, *btn_pause, *btn_stop;
+
 		gcn::Button *btn_gotoTimeLine, *btn_gotoNote, *btn_gotoResource, *btn_Release;
 
 	public:

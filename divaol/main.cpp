@@ -24,7 +24,6 @@ int CALLBACK WinMain(
 
 		divacore::Config config;
 		divacore::configloader::loadWithJson(config,"system/common.json");
-		//core->setSong(config.getAsString("song"),config.getAsString("map"));
 
 		sora::SoraGameAppDef def;
 		sora::SoraGameApp app(def);

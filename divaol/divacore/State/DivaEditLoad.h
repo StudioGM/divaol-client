@@ -58,7 +58,12 @@ namespace divacore
 		void run()
 		{
 			if(!MAP_INFO)
-				DIVA_EXCEPTION_MESSAGE("no mapInfo");
+			{
+				MapInfoPtr mapInfo = core->getMapLoader()->load();
+				setMapInfo(mapInfo);
+
+				LOGGER->msg("load from file");
+			}
 
 			core->getMapParser()->parser(MAP_INFO);
 

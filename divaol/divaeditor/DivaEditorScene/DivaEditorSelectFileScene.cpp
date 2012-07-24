@@ -19,6 +19,9 @@ namespace divaeditor
 	{
 		sceneIndex = Editor::State::CATEGORY;
 
+		gcn::Panel *panel = new gcn::Panel();
+		
+
 		//Init Scene
 		top = new Container();
 		top->setBaseColor(gcn::Color(0,0,0,0));
@@ -137,11 +140,11 @@ namespace divaeditor
 	{
 		if(getID() == "btn_CSScene_newFile") 
 		{
-			
+			EDITOR_PTR->core->resume();
 		}
 		else if(getID() == "btn_CSScene_openFile")
 		{
-			
+			EDITOR_PTR->core->pause();
 		}
 		else if(getID() == "btn_CSSCene_gotoTimeLine")
 		{

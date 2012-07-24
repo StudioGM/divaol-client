@@ -64,11 +64,13 @@ namespace divaeditor
 		//state manager
 		SoraFSMManager mFSMManager;
 
-		CorePtr core;
+		
 
 
 	private:
 		Editor():core(NULL),mapInfo(NULL),nowScene(NULL) {};
+
+		void coreDidLoad(void* arg);
 
 		void registerEvent(){};
 		void setState(int state) {mState=state;}
@@ -92,6 +94,7 @@ namespace divaeditor
 		 */
 		static EditorPtr Ptr;
 		static EditorPtr instance() {static Editor instance; return (Ptr=&instance);}
+		CorePtr core;
 
 		/*
 		register and get

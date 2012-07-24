@@ -101,10 +101,10 @@ namespace divacore
 			divacore::EditLoadState *load = new divacore::EditLoadState;
 			core->addState(load, "edit_load");
 			core->setInitState("edit_load");
-			load->registerReayCallback(Task(&readyEvent));
-			load->makeEmptySong(1,175);
+			//load->registerReayCallback(Task(&readyEvent));
+			//load->makeEmptySong(1,175);
 			//core->setInitState("load");
-			CORE_FLOW_PTR->registerBeginCallback(Task(&pauseTheGame));
+			//CORE_FLOW_PTR->registerBeginCallback(Task(&pauseTheGame));
 #endif
 
 #endif
