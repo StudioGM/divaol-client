@@ -17,10 +17,7 @@ namespace divaeditor
 	//////////////////////////////////////////////////////////////////////////
 	DivaEditorCategorySelectScene::DivaEditorCategorySelectScene()
 	{
-		sceneIndex = Editor::State::CATEGORY;
-
-		gcn::Panel *panel = new gcn::Panel();
-		
+		sceneIndex = Editor::State::MAIN;
 
 		//Init Scene
 		top = new Container();
@@ -34,6 +31,9 @@ namespace divaeditor
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_newFile, this, "btn_CSScene_newFile", sora::RESPONSEACTION);
 		top->add(btn_newFile);
 
+
+		
+
 		//Open Map File Button
 		btn_openFile = new Button("Open File");
 		btn_openFile->setId("btn_CSScene_openFile");
@@ -45,25 +45,25 @@ namespace divaeditor
 		btn_gotoTimeLine->setId("btn_CSSCene_gotoTimeLine");
 		btn_gotoTimeLine->setSize(400,60);
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_gotoTimeLine, this, "btn_CSSCene_gotoTimeLine", sora::RESPONSEACTION);
-		top->add(btn_gotoTimeLine);
+		//top->add(btn_gotoTimeLine);
 
 		btn_gotoNote = new Button("2.Edit Note");
 		btn_gotoNote->setId("btn_CSSCene_gotoNote");
 		btn_gotoNote->setSize(400,60);
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_gotoNote, this, "btn_CSSCene_gotoNote", sora::RESPONSEACTION);
-		top->add(btn_gotoNote);
+		//top->add(btn_gotoNote);
 
 		btn_gotoResource = new Button("3.Edit Resources");
 		btn_gotoResource->setId("btn_CSSCene_gotoResource");
 		btn_gotoResource->setSize(400,60);
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_gotoResource, this, "btn_CSSCene_gotoResource", sora::RESPONSEACTION);
-		top->add(btn_gotoResource);
+		//top->add(btn_gotoResource);
 
 		btn_Release = new Button("4.Release Map");
 		btn_Release->setId("btn_CSSCene_Release");
 		btn_Release->setSize(400,60);
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_Release, this, "btn_CSSCene_Release", sora::RESPONSEACTION);
-		top->add(btn_Release);
+		//top->add(btn_Release);
 
 		black = new Container();
 		black->setSize(1280,720);
@@ -140,19 +140,15 @@ namespace divaeditor
 	{
 		if(getID() == "btn_CSScene_newFile") 
 		{
-			EDITOR_PTR->core->resume();
 		}
 		else if(getID() == "btn_CSScene_openFile")
 		{
-			EDITOR_PTR->core->pause();
 		}
 		else if(getID() == "btn_CSSCene_gotoTimeLine")
 		{
-			EDITOR_PTR->changeScene(Editor::State::TIMELINE);
 		}
 		else if(getID() == "btn_CSSCene_gotoNote")
 		{
-			EDITOR_PTR->changeScene(Editor::State::CATEGORY);
 		}
 		else if(getID() == "btn_CSSCene_gotoResource")
 		{

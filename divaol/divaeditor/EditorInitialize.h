@@ -13,7 +13,7 @@ namespace divaeditor
 		EditorPtr initialize()
 		{
 			divacore::CorePtr core = divacore::standard::initialize("system");
-			core->setSong("song/029.piano","piano_Hard.divaol");
+			core->setSong("song/Ç§±¾—@","Ç§±¾—@_Hard.divaol");
 			EditorPtr editor = INITIALIZE_EDITOR;
 			editor->registerDivaCore(core);
 

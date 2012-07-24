@@ -46,7 +46,7 @@ namespace divaeditor
 	class Editor : public sora::SoraGameState, public sora::SoraEventHandler, public EventHandler
 	{
 	public: 
-		enum State{CATEGORY,TIMELINE,NOTE,RESOURCE};
+		enum State{MAIN};
 
 	private:
 		friend class Core;

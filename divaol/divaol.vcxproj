@@ -64,7 +64,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
@@ -904,7 +904,7 @@
     <ClCompile Include="divacore\Utility\DivaSimpleUI.cpp" />
     <ClCompile Include="divaeditor\DivaEditor.cpp" />
     <ClCompile Include="divaeditor\DivaEditorDisplay.cpp" />
-    <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorSelectFileScene.cpp" />
+    <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorMainScene.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

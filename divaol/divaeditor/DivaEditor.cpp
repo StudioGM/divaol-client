@@ -85,41 +85,29 @@ namespace divaeditor
 
 	void Editor::onRender()
 	{
-		SoraSprite* coreDrawSprite = core->renderToCanvas(SoraCore::Instance()->getScreenWidth(),
-			SoraCore::Instance()->getScreenHeight());
-
-		sora::SoraGameApp::BeginScene();
-
-		coreDrawSprite->setPosition(0,0);
-		coreDrawSprite->render();
-
-		if(mState==State::NOTE||mState==State::RESOURCE)
+		if(mState==State::MAIN)
 		{
-			
-		}
-		else
-		{
-			
-		}
+			SoraSprite* coreDrawSprite = core->renderToCanvas(SoraCore::Instance()->getScreenWidth(),
+				SoraCore::Instance()->getScreenHeight());
 
-		GCN_GLOBAL->gcnDraw();
-		
-		sora::SoraGameApp::EndScene();
+			sora::SoraGameApp::BeginScene();
+
+			coreDrawSprite->setPosition(0,0);
+			coreDrawSprite->render();
+
+			GCN_GLOBAL->gcnDraw();
+
+			sora::SoraGameApp::EndScene();
+		}
 	}
 
 	void Editor::onUpdate(float dt)
 	{
-		core->onUpdate(dt);
-		SoraCore::Instance()->showMouse(true);
-		if(mState==State::NOTE||mState==State::RESOURCE)
+		if(mState==State::MAIN)
 		{
-			
+			core->onUpdate(dt);
+			SoraCore::Instance()->showMouse(true);
 		}
-		else
-		{
-			
-		}
-		
 		
 	}
 
@@ -151,11 +139,9 @@ namespace divaeditor
 
 	void Editor::initScenes()
 	{
-		scenes[State::CATEGORY] = new DivaEditorCategorySelectScene();
-		scenes[State::TIMELINE] = new DivaEditorCategorySelectScene();
-		scenes[State::TIMELINE]->sceneIndex = State::TIMELINE;
-
-		changeScene(State::CATEGORY);
+		scenes[State::MAIN] = new DivaEditorMainScene();
+		
+		changeScene(State::MAIN);
 	}
 
 

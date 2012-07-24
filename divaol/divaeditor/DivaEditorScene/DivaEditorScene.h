@@ -1,11 +1,12 @@
 #ifndef DIVA_EDITOR_SCENE
 #define DIVA_EDITOR_SCENE
 
+#include<map>
+
 #include "divaeditor/DivaEditor.h"
 #include "divacore/core/DivaCore.h"
 
 #include "guichansetup.h"
-#include "gcnPanel.h"
 
 #include "soraguichan/SoraGUI.h"
 #include "Soraguichan/SoraGUIResponserMap.h"
@@ -49,18 +50,20 @@ namespace divaeditor
 	};
 
 
-
-	class DivaEditorCategorySelectScene : public DivaEditorScene, public sora::SoraGUIResponser
+	class DivaEditorMainScene : public DivaEditorScene, public sora::SoraGUIResponser
 	{
+	public:
+		enum State{TIMELINE,NOTE,RESOURCE};
+
 	private:
-		gcn::Button *btn_newFile, *btn_openFile;
+		State nowState;
 
-		gcn::Button *btn_play, *btn_pause, *btn_stop;
-
-		gcn::Button *btn_gotoTimeLine, *btn_gotoNote, *btn_gotoResource, *btn_Release;
+		gcn::Container *container_ToolBar;
+		std::map<State,gcn::Container*> container_Categories;
 
 	public:
-		DivaEditorCategorySelectScene();
+
+		DivaEditorMainScene();
 
 		virtual void willAppear();
 		virtual void didAppear(gcn::Widget *widget);
@@ -80,21 +83,6 @@ namespace divaeditor
 		virtual void onMouseMoved(SoraMouseEvent& event){};
 	};
 
-
-	class DivaEditorEditTimelineScene : public DivaEditorScene
-	{
-
-	};
-
-	class DivaEditorEditNoteScene : public DivaEditorScene
-	{
-
-	};
-
-	class DivaEditorEditResourceScene : public DivaEditorScene
-	{
-
-	};
 }
 
 
