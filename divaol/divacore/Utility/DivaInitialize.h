@@ -35,7 +35,7 @@
 
 //#define NET
 #define UNSYNC
-#define EDIT
+//#define EDIT
 
 namespace divacore
 {

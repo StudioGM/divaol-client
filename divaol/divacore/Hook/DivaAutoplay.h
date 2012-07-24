@@ -49,8 +49,6 @@ namespace divacore
 		{
 			if(key.key>=0&&key.key<8)
 			{
-				if(key.key==0)
-					open = !open;
 				setHookInfo(1);
 				return true;
 			}
