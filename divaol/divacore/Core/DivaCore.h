@@ -212,6 +212,7 @@ namespace divacore
 		 int32 getScore();
 		 int32 getHP();
 		 int getState() {return mState;}
+		 SoraFSMManager* getManager() {return &mFSMManager;}
 	};
 
 	typedef Core* CorePtr;

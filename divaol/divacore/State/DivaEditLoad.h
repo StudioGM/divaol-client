@@ -78,5 +78,4 @@ namespace divacore
 		void registerReayCallback(Task &task) {readyTask = task;}
 	};
 }
-
 #endif

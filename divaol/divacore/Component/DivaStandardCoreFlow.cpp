@@ -468,21 +468,33 @@ namespace divacore
 
 	void StandardEditUtility::loadResource(MapResourceInfo info)
 	{
+		if(CORE_PTR->getMode()!="editMode")
+			return;
+
 		MAP_PARSER_PTR->loadResource(info);
 	}
 
 	void StandardEditUtility::unloadResource(MapResourceInfo info)
 	{
+		if(CORE_PTR->getMode()!="editMode")
+			return;
+
 		MAP_PARSER_PTR->unloadResource(info);
 	}
 
 	void StandardEditUtility::addEvent(MapEvent event)
 	{
+		if(CORE_PTR->getMode()!="editMode")
+			return;
+
 		MAP_INFO->events.push_back(event);
 		refreshAll();
 	}
 	void StandardEditUtility::delEvent(int index)
 	{
+		if(CORE_PTR->getMode()!="editMode")
+			return;
+
 		if(index<0||index>=MAP_INFO->events.size())
 			DIVA_EXCEPTION_MESSAGE("index out of range!");
 
@@ -491,11 +503,17 @@ namespace divacore
 	}
 	void StandardEditUtility::addNote(MapNote note)
 	{
+		if(CORE_PTR->getMode()!="editMode")
+			return;
+
 		MAP_INFO->notes.push_back(note);
 		refreshAll();
 	}
 	void StandardEditUtility::delNote(int index)
 	{
+		if(CORE_PTR->getMode()!="editMode")
+			return;
+
 		if(index<0||index>=MAP_INFO->notes.size())
 			DIVA_EXCEPTION_MESSAGE("index out of range!");
 
@@ -504,6 +522,9 @@ namespace divacore
 	}
 	void StandardEditUtility::reCaltTime()
 	{
+		if(CORE_PTR->getMode()!="editMode")
+			return;
+
 		MAP_PARSER_PTR->reParser(MapParser::PARSE_TIME);
 		refreshAll();
 	}
