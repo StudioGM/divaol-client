@@ -27,6 +27,8 @@ namespace sora {
         mImageLoader(NULL),
         mGraphics(NULL),
         mSoundLoader(NULL) {
+		
+			sora::SoraCore::Instance()->addFrameListener(this);
 		}
 		
 		~gcnInitializer() {
@@ -40,6 +42,10 @@ namespace sora {
 				delete mGraphics;
 			if(mSoundLoader)
 				delete mSoundLoader;
+
+		
+
+			sora::SoraCore::Instance()->delFrameListener(sora::gcnInitializer::Instance());
 		}
         
         void onFrameStart()  {}

@@ -779,10 +779,15 @@ namespace gcn
 	}
     
     void Widget::updateModifierList() {
+		if(mModifiers.size() == 0) {
+		
+			return;
+		}
+
         ModifierIterator iter = mModifiers.begin();
         ModifierIterator end = mModifiers.end();
         
-        for(; iter != end; ++iter) {
+        while(iter != end) {
             (*iter)->update(this);
             if((*iter)->isFinished()) {
                 if((*iter)->isAutoRelease()) {
@@ -792,10 +797,11 @@ namespace gcn
                     continue;
                 }
             }
+			++iter;
         }
     }
 	
-	const std::vector<Modifier*>& Widget::_getModifiers() {
+	const std::list<Modifier*>& Widget::_getModifiers() {
 		return mModifiers;
 	}
     
@@ -817,13 +823,33 @@ namespace gcn
         modifier->onAdd(this);
 	}
 	
+	void Widget::removeModifier()
+	{
+		while(mModifiers.size()>0)
+			removeModifier((*mModifiers.begin()));
+	}
+
 	void Widget::removeModifier(Modifier* modifier) {
         assert(modifier);
         
         mModifiers.erase(std::remove(mModifiers.begin(), mModifiers.end(), modifier), mModifiers.end());
         modifier->onRemove(this);
         modifier->setOwner(NULL);
+
+		if(!modifier->isAutoRelease())
+		{
+			modifier->onRelease(this);
+            modifier->release();
+		}
 	}
+
+	void Widget::removeModifierByName(const std::string& name)
+	{
+		Modifier *toRemove = findModifierByName(name);
+		if(toRemove)
+			removeModifier(toRemove);
+	}
+
 	
 	void Widget::setAlpha(int alpha) {
 		if(alpha < 0) alpha = 0; 

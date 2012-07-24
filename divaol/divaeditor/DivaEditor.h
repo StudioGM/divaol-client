@@ -9,6 +9,8 @@
 #ifndef DIVA_EDITOR
 #define DIVA_EDITOR
 
+#include<algorithm>
+
 #include "divacore/Core/DivaCommon.h"
 
 #include "divacore/Core/DivaCore.h"
@@ -19,13 +21,19 @@
 #include "SoraCanvas.h"
 #include "app/SoraGameState.h"
 
+#include "guichansetup.h"
+
+#include "divaeditor/DivaEditorScene/DivaEditorScene.h"
+
 namespace divaeditor
 {
 	using namespace sora;
 	using namespace divacore;
+	using namespace std;
 
 
 	class Editor;
+	class DivaEditorScene;
 
 	typedef Core* CorePtr;
 	typedef Editor* EditorPtr;
@@ -37,6 +45,10 @@ namespace divaeditor
 	*/
 	class Editor : public sora::SoraGameState, public sora::SoraEventHandler, public EventHandler
 	{
+	public: 
+		enum State{CATEGORY,TIMELINE,NOTE,RESOURCE};
+
+	private:
 		friend class Core;
 	    /*
 		 * Common Variables
@@ -56,29 +68,41 @@ namespace divaeditor
 
 
 	private:
-		Editor():core(NULL),mapInfo(NULL) {}
-	    /*
-		 * event functions
-		 */
+		Editor():core(NULL),mapInfo(NULL),nowScene(NULL) {};
+
 		void registerEvent(){};
 		void setState(int state) {mState=state;}
+
+		/*
+		 * Scene Manage
+		 */
+		DivaEditorScene *nowScene;
+		DivaEditorScene *nextScene;
+		map<State,DivaEditorScene*> scenes;
+
+		void initScenes();
+		void onSceneDisappeared(DivaEditorScene* sender);
+		void onSceneAppeared(DivaEditorScene* sender);
+
 	public:
-	    /*
+		
+
+		/*
 		 * singleton
 		 */
-		enum State{SELECTFILE,MAPINFO,TIMELINE,NOTEPLACEMENT,RESOURCEPLACEMENT};
-
-
 		static EditorPtr Ptr;
 		static EditorPtr instance() {static Editor instance; return (Ptr=&instance);}
 
 		/*
-			register and get
-			*/
+		register and get
+		*/
 
 		void registerDivaCore(CorePtr _core);
 
 	public:
+		// Scene
+		void changeScene(State sceneState);
+
 		 /*
 		  * GameState
 		  */
@@ -95,12 +119,6 @@ namespace divaeditor
 		void onMouseReleased(SoraMouseEvent& event);
 		void onMouseMoved(SoraMouseEvent& event);
 
-		/*
-		 * CoreState
-		 */
-        Core& addState(CoreStatePtr state, const std::string& tag);
-        CoreStatePtr getState(const std::string& tag) const;
-        void setState(const std::string& tag);
 
 	    /*
 		 * Control funcions

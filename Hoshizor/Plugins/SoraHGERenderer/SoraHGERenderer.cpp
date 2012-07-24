@@ -283,11 +283,12 @@ namespace sora{
 
 	SoraTexture* SoraHGERenderer::createTextureFromRawData(unsigned int* data, int32 w, int32 h) {
 		HTEXTURE htex = pHGE->Texture_Create(w, h);
-		unsigned long* td = pHGE->Texture_Lock(htex, false, 0, 0, w, h);
-		if(!td) return 0;
-		memcpy(td, data, 4*w*h);
-		pHGE->Texture_Unlock(htex);
 		if(htex) {
+			unsigned long* td = pHGE->Texture_Lock(htex, false, 0, 0, w, h);
+			if(!td) return 0;
+			memcpy(td, data, 4*w*h);
+			pHGE->Texture_Unlock(htex);
+
 			SoraTexture* tex = new SoraTexture;
 			tex->mTextureID = static_cast<SoraHandle>(htex);
 			tex->mTextureWidth		= w;

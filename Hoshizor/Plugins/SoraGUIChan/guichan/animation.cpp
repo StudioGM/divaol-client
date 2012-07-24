@@ -14,10 +14,13 @@ namespace gcn {
     std::string Animation::MessageStart = "anm_start";
     std::string Animation::MessageEnd = "anm_end";
     
-    Animation::Animation(int time):
+    Animation::Animation(int time, GUIAnimation_Mode animationMode, Animation *nextAnimation, SoraFunction<void(Widget*)> AnimationEnded):
     Modifier(true),
     mTotalTime(time),
-    mCurrTime(0) {
+    mCurrTime(0),
+	_animationMode(animationMode),
+	_nextAnimation(nextAnimation),
+	_AnimationEnded(AnimationEnded){
         
     }
     
@@ -66,6 +69,14 @@ namespace gcn {
     
     void Animation::onRelease(Widget* widget) {
         widget->animationEnded(this);
+
     }
+
+	void Animation::release()
+	{
+		if(_nextAnimation!=NULL && _nextAnimation->getOwner()==NULL)
+			_nextAnimation->release();
+		Modifier::release();
+	}
     
 } // namespace gcn

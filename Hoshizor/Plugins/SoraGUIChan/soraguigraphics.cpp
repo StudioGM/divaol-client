@@ -40,7 +40,7 @@ namespace gcn
 
         const ClipRectangle top = mClipStack.top();
         if (top.width == 0 || top.height == 0) {
-            mClipNull = true;
+        //    mClipNull = true;
         }
         else {
             mClipNull = false;
@@ -72,7 +72,7 @@ namespace gcn
             const ClipRectangle top = mClipStack.top();
 
             if (top.width == 0 || top.height == 0) {
-                mClipNull = true;
+           //     mClipNull = true;
             }
             else {
                 mClipNull = false;
