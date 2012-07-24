@@ -20,8 +20,8 @@ int CALLBACK WinMain(
 
 	try
 	{
-
-		divacore::CorePtr core = divacore::standard::initialize("system");
+		divacore::standard::Initializer initializer;
+		divacore::CorePtr core = initializer.get();
 
 		divacore::Config config;
 		divacore::configloader::loadWithJson(config,"system/common.json");
