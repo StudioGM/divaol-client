@@ -1497,9 +1497,6 @@
     <ClInclude Include="divacore\Timer\DivaTimeCounterImplWin32.h">
       <Filter>源文件\divacore\timer</Filter>
     </ClInclude>
-    <ClInclude Include="divacore\State\DivaCoreLoadState.h">
-      <Filter>源文件\divacore\state</Filter>
-    </ClInclude>
     <ClInclude Include="divacore\State\DivaCorePauseState.h">
       <Filter>源文件\divacore\state</Filter>
     </ClInclude>
@@ -1507,9 +1504,6 @@
       <Filter>源文件\divacore\state</Filter>
     </ClInclude>
     <ClInclude Include="divacore\State\DivaCoreResultState.h">
-      <Filter>源文件\divacore\state</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\State\DivaUnsyncLoad.h">
       <Filter>源文件\divacore\state</Filter>
     </ClInclude>
     <ClInclude Include="divacore\Note\DivaLongNote.h">
@@ -1521,7 +1515,7 @@
     <ClInclude Include="divacore\Note\DivaPingpongNote.h">
       <Filter>源文件\divacore\note</Filter>
     </ClInclude>
-    <ClInclude Include="divacore\State\DivaEditLoad.h">
+    <ClInclude Include="divacore\State\DivaCoreLoader.h">
       <Filter>源文件\divacore\state</Filter>
     </ClInclude>
   </ItemGroup>

@@ -528,12 +528,10 @@
     <ClInclude Include="divacore\Note\DivaLongNote.h" />
     <ClInclude Include="divacore\Note\DivaNormalNote.h" />
     <ClInclude Include="divacore\Note\DivaPingpongNote.h" />
-    <ClInclude Include="divacore\State\DivaCoreLoadState.h" />
+    <ClInclude Include="divacore\State\DivaCoreLoader.h" />
     <ClInclude Include="divacore\State\DivaCorePauseState.h" />
     <ClInclude Include="divacore\State\DivaCorePlayState.h" />
     <ClInclude Include="divacore\State\DivaCoreResultState.h" />
-    <ClInclude Include="divacore\State\DivaEditLoad.h" />
-    <ClInclude Include="divacore\State\DivaUnsyncLoad.h" />
     <ClInclude Include="divacore\Timer\DivaTimeCounterImplSora.h" />
     <ClInclude Include="divacore\Timer\DivaTimeCounterImplWin32.h" />
     <ClInclude Include="divacore\Utility\DivaConfigLoader.h" />
