@@ -141,7 +141,7 @@ namespace divacore
 		if(event.getKey()==SORA_KEY_J)
 		{
 			StandardEditUtility::instance().init();
-			StandardEditUtility::instance().setPosition(400);
+			StandardEditUtility::instance().setPosition(0);
 		}
 		else if(event.getKey()==SORA_KEY_D)
 		{

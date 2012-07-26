@@ -3,11 +3,11 @@
 
 #include "Core/DivaCore.h"
 #include "State/DivaCorePlayState.h"
-#include "State/DivaCoreLoadState.h"
+//#include "State/DivaCoreLoadState.h"
 #include "State/DivaCorePauseState.h"
 #include "State/DivaCoreResultState.h"
-#include "State/DivaUnsyncLoad.h"
-#include "State/DivaEditLoad.h"
+//#include "State/DivaUnsyncLoad.h"
+//#include "State/DivaEditLoad.h"
 #include "State/DivaCoreLoader.h"
 #include "Component/DivaMapJsonLoader.h"
 #include "Component/DivaMapStandardParser.h"
@@ -85,7 +85,7 @@ namespace divacore
 
 			void registerStates()
 			{
-				core->addState(new divacore::CoreLoader(isUnsync,gameMode!=EDIT),"load");
+				core->addState(new divacore::CoreLoader(isUnsync,true),"load");
 				core->addState(new divacore::NetUnsync, "net_load");
 
 				core->addState(new divacore::CorePlayState, "play");

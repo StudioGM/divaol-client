@@ -375,7 +375,7 @@ namespace divacore
 		float time = nowTime;
 
 		DISPLAY_PTR->clearImage();
-		//DISPLAY_PTR->clearVideo();
+		DISPLAY_PTR->clearVideo();
 		MUSIC_MANAGER_PTR->stop();
 
 		lastStamp = SCF_TimeStamp(0,0,0,0);
