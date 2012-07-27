@@ -35,8 +35,8 @@ namespace sora {
         typedef std::list<SoraAutoUpdate*> UpdateObjectList;
 
         static UpdateObjectList& GetObjectList() {
-            static UpdateObjectList static_objects;
-            return static_objects;
+            static UpdateObjectList* static_objects = new UpdateObjectList();
+            return *static_objects;
         }
         
     private:

@@ -36,6 +36,9 @@ namespace divacore
 		MUSICLIST musicList;
 		std::map<std::string,float> volumePool;
 		std::map<std::string, float> tagsVolume;
+
+		HSAMPLE globalSample;
+		HCHANNEL globalChannel;
 	private:
 		HSTREAM loadSound(const std::string &file, bool stream);
 		HSTREAM getSound(const std::string &ID);
@@ -64,12 +67,14 @@ namespace divacore
 		float getTagVolume(const std::string &tag);
 		void setLoop(const std::string &channel, bool flag);
 		bool isLoop(const std::string &channel);
+		bool isPlaying(const std::string &channel) {return BASS_ChannelIsActive(getChannel(channel));}
 		void stop() {BASS_Stop(); BASS_Start();}
 		void stop(const std::string &channel) {BASS_ChannelStop(getChannel(channel));}
 		void pause(const std::string &channel) {BASS_ChannelPause(getChannel(channel));}
 		void resume(const std::string &channel) {BASS_ChannelPlay(getChannel(channel),false);}
 		void setPosition(const std::string &channel,double time);
-		float getPosition(const std::string &channel) {return ::BASS_ChannelBytes2Seconds(getChannel(channel),BASS_ChannelGetPosition(getChannel(channel),BASS_POS_BYTE));}
+		float getPosition(const std::string &channel);
+		double getLength(const std::string &channel) {return BASS_ChannelBytes2Seconds(getChannel(channel),BASS_ChannelGetLength(getChannel(channel),BASS_POS_BYTE));}
 		void pause();
 		void resume();
 	};

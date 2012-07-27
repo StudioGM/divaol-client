@@ -44,6 +44,7 @@ namespace divacore
 		notesPtr = NULL, eventsPtr = NULL;
 		noteList.clear();
 		timeCounter.reset();
+		mainSound = "";
 
 		state = INIT;
 	}
@@ -52,7 +53,7 @@ namespace divacore
 		clear();
 
 		this->totalTime = core->getMapInfo()->totalTime;
-		this->totalGrid = core->getMapInfo()->header.barNum*GRID_PER_BAR;
+		this->totalGrid = core->getMapInfo()->totalGrid;
 		nowBPM = core->getMapInfo()->header.BPM;
 
 		notesPtr = &core->getMapInfo()->notes;
@@ -69,6 +70,9 @@ namespace divacore
 		}
 		timeQueue.push(SCF_TimeStamp(totalTime,totalGrid,SCF_TimeStamp::EVENT,0));
 		
+		//get main sound
+		mainSound = MAP_INFO->header.mainSound;
+
 		state = READY;
 	}
 	void StandardCoreFlow::destroy()
@@ -92,18 +96,24 @@ namespace divacore
 
 		CORE_PTR->onStart();
 
+		/*MUSIC_MANAGER_PTR->play(mainSound,MAIN_SOUND_CHANNEL);*/
+		MUSIC_MANAGER_PTR->resume(MAIN_SOUND_CHANNEL);
+
 		timeCounter.start();
 
 		//beginTask
 		beginTask.start();
+
+		MUSIC_MANAGER_PTR->setPosition(MAIN_SOUND_CHANNEL,0);
 	}
 	void StandardCoreFlow::update(float dt)
 	{
 		if(state==RUN)
 		{
-			nowTime = timeCounter.getTime();
+			nowTime = MUSIC_MANAGER_PTR->getPosition(MAIN_SOUND_CHANNEL);/*timeCounter.getTime()*/;
+			bool actived = MUSIC_MANAGER_PTR->isPlaying(MAIN_SOUND_CHANNEL);
 
-			if(nowTime>=totalTime)
+			if(!actived/*nowTime>=totalTime*/)
 			{
 				core->getMusicManager()->destroy();
 				state = END;
@@ -232,7 +242,7 @@ namespace divacore
 		}
 	}
 	double StandardCoreFlow::getRunTime() {return nowTime; }
-	double StandardCoreFlow::getRealTime() {return timeCounter.getTime(); }
+	double StandardCoreFlow::getRealTime() {return MUSIC_MANAGER_PTR->getPosition(MAIN_SOUND_CHANNEL);/*timeCounter.getTime();*/ }
 	double StandardCoreFlow::getTotalTime() {return totalTime;}
 
 	void StandardCoreFlow::onKeyPressed(KeyEvent& event)
@@ -324,6 +334,7 @@ namespace divacore
 		_reloadNotes();
 		_reloadEvents();
 
+		MUSIC_MANAGER_PTR->setPosition(MAIN_SOUND_CHANNEL,time);
 		timeCounter.resume();
 	}
 
@@ -394,6 +405,8 @@ namespace divacore
 			else
 				timeQueue.push(SCF_TimeStamp(event.time,event.position,SCF_TimeStamp::EVENT,i));
 		}
+
+		MUSIC_MANAGER_PTR->play(mainSound,MAIN_SOUND_CHANNEL);
 	}
 
     float StandardCoreFlow::_posToTime(double position)

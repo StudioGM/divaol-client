@@ -1518,6 +1518,9 @@
     <ClInclude Include="divacore\State\DivaCoreLoader.h">
       <Filter>源文件\divacore\state</Filter>
     </ClInclude>
+    <ClInclude Include="divacore\Timer\DivaTimeCounterImplBass.h">
+      <Filter>源文件\divacore\timer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

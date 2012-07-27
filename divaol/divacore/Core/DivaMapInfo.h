@@ -29,6 +29,8 @@ namespace divacore
 		std::string versionStr;
 		//music name
 		std::string mapName;
+		//main sound
+		std::string mainSound;
 		//hard level number
 		uint8 hardLevel;
 		//difficulty 0-Easy 1-Normal 2-Hard 3-Extra 4-Die
@@ -42,7 +44,7 @@ namespace divacore
 		//bar per minute
 		double BPM;
 		//number of bars
-		int32 barNum;
+		//int32 barNum;
 	};
 
 	/*
@@ -124,6 +126,7 @@ namespace divacore
 		std::vector<MapNote> notes;
 		std::string module;
 		double totalTime;
+		int totalGrid;
 	};
 
 	typedef MapInfo* MapInfoPtr;

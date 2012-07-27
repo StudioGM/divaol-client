@@ -60,6 +60,9 @@ namespace divacore
 			core->getMusicManager()->load("Data/hit.wav","hit",false);
 		if(mapInfo->resources.find("miss")==mapInfo->resources.end())
 			core->getMusicManager()->load("Data/miss.mp3","miss",false);
+
+		MUSIC_MANAGER_PTR->play(mapInfo->header.mainSound,CORE_FLOW_PTR->MAIN_SOUND_CHANNEL);
+		MUSIC_MANAGER_PTR->pause(CORE_FLOW_PTR->MAIN_SOUND_CHANNEL);
 	}
 	void MapStandardParser::_parseEvents()
 	{
@@ -121,7 +124,8 @@ namespace divacore
 				(*ptr->pRetTime) = newTime;
 		}
 
-		mapInfo->totalTime = nowTime + (mapInfo->header.barNum*GRID_PER_BAR-nowPosition)*SECOND_PER_MINUTE/(nowBPM*GRID_PER_BAR/nowBar);
+		mapInfo->totalTime = MUSIC_MANAGER_PTR->getLength(CORE_FLOW_PTR->MAIN_SOUND_CHANNEL);
+		mapInfo->totalGrid = (int)ceil(nowPosition + (mapInfo->totalTime-nowTime)/SECOND_PER_MINUTE*(nowBPM*GRID_PER_BAR/nowBar));
 	}
 	void MapStandardParser::_parseModule()
 	{

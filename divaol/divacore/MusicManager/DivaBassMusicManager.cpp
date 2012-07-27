@@ -26,7 +26,10 @@ namespace divacore
 			playDirect(Argument::asString("id",argnew),Argument::asString("tag",argnew));
 
 		if(Argument::isArg("__location__",argnew))
+		{
+			//LOGGER->log("music reset : %0.2lf",Argument::asDouble("__location__",argnew));
 			setPosition(Argument::asString("channel",argnew),Argument::asDouble("__location__",argnew));
+		}
 	}
 	void BassMusicManager::registerEvents() 
 	{
@@ -90,6 +93,14 @@ namespace divacore
 	void BassMusicManager::init()
 	{
 		::BASS_Init(-1, 44100, 0, 0, 0);
+		/*globalSample = ::BASS_SampleCreate(100000000, 28160, 1, 1, BASS_SAMPLE_LOOP|BASS_SAMPLE_OVER_POS);
+		globalChannel = BASS_SampleGetChannel(globalSample,false);
+		QWORD length = BASS_ChannelSeconds2Bytes(globalChannel,120);
+		double time = BASS_ChannelBytes2Seconds(globalChannel,length);
+		::BASS_StreamFree(globalSample);
+		globalSample = ::BASS_SampleCreate(length, 28160, 1, 1, BASS_SAMPLE_LOOP|BASS_SAMPLE_OVER_POS);
+		globalChannel = BASS_SampleGetChannel(globalSample,false);
+		::BASS_ChannelPlay(globalChannel,true);*/
 	}
 	void BassMusicManager::destroy()
 	{
@@ -224,5 +235,16 @@ namespace divacore
 	void BassMusicManager::setPosition(const std::string &channel,double time)
 	{
 		BASS_ChannelSetPosition(getChannel(channel),BASS_ChannelSeconds2Bytes(getChannel(channel),time),BASS_POS_BYTE);
+	}
+	float BassMusicManager::getPosition(const std::string &channel) {
+		try
+		{
+			HCHANNEL hChannel = getChannel(channel);
+			return ::BASS_ChannelBytes2Seconds(hChannel,BASS_ChannelGetPosition(hChannel,BASS_POS_BYTE));
+		}
+		catch(...)
+		{
+			return 0;
+		}
 	}
 }

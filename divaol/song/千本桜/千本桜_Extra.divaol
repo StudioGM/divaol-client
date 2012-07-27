@@ -8,7 +8,7 @@
       {
          "height" : 1080,
          "id" : "res_1",
-         "position" : 378,
+         "position" : 478,
          "type" : "playVideo",
          "width" : 1920
       }
@@ -18,6 +18,7 @@
       "bpm" : 616.0,
       "difficulty" : 4,
       "hard" : 9,
+	  "mainSound" : "res",
       "name" : "Ç§±¾—@",
       "noter" : "Equanimity_",
       "type" : "single",
@@ -15940,6 +15941,12 @@
       }
    ],
    "resource" : [
+	  {
+         "file" : "¡º³õÒô¥ß¥¯¡»Ç§±¾—@¡º¥ª¥ê¥¸¥Ê¥ëÇúPV¡».mp3",
+         "id" : "res",
+         "type" : "audio",
+		 "stream" : false
+      },
       {
          "file" : "RES/1212.jpg",
          "id" : "res_0",

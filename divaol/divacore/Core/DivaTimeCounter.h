@@ -9,6 +9,7 @@
 #define DIVA_TIME_COUNTER
 
 #include "Timer/DivaTimeCounterImplSora.h"
+//#include "Timer/DivaTimeCounterImplBass.h"
 
 namespace divacore
 {

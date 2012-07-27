@@ -33,6 +33,9 @@ namespace divacore
 		CorePtr core;
 	public:
 		enum STATE{INIT,READY,RUN,PAUSE,END};
+		const char* const MAIN_SOUND_CHANNEL;
+
+		CoreFlow():MAIN_SOUND_CHANNEL("__MAIN_SOUND__") {}
 		void setCore(CorePtr core) {this->core = core;}
 		virtual void over() {}
 		virtual void clear() {}
@@ -53,6 +56,7 @@ namespace divacore
 		virtual uint32 getTotalPositionI() {return 0;}
 		virtual uint8 getState() {return 0;}
 		virtual double getBPM() {return 0;}
+		virtual std::string getMainSound() = 0;
 		virtual void onKeyPressed(KeyEvent& event) {}
 		virtual void onKeyReleased(KeyEvent& event) {}
 		//registerEvent

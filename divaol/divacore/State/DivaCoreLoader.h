@@ -134,7 +134,7 @@ namespace divacore
 		{
 			MapInfoPtr mapInfo = new MapInfo;
 
-			mapInfo->header.barNum = barNum;
+			//mapInfo->header.barNum = barNum;
 			mapInfo->header.BPM = BPM;
 			mapInfo->header.versionStr =  core->getVersion();
 			mapInfo->header.difficulty = MapHeader::NORMAL;
