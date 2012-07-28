@@ -51,6 +51,7 @@ namespace divacore
 		void setAsMemberFunc(void (T::*ThreadFunc)(void* args), T* obj){task.setAsMemberFunc(ThreadFunc,obj);}
 		void setAsCFunc(void (*ThreadFunc)(void* arg)) {task.setAsCFunc(ThreadFunc);}
 
+		void run(void* args = NULL) {start(args);}
 		void start(void* args = NULL) 
 		{
 			if(running)

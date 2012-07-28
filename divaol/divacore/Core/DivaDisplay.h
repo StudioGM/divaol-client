@@ -41,6 +41,7 @@ namespace divacore
 		virtual void resume() {}
 
 		virtual void setVideoTime(const std::string &ID, double time) {}
+		virtual float getVideoTime(const std::string &ID) {return 0;}
 	};
 
 	typedef Display* DisplayPtr;

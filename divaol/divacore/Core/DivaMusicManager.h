@@ -36,12 +36,14 @@ namespace divacore
 		virtual float getTagVolume(const std::string &tag) = 0;
 		virtual void setLoop(const std::string &channel, bool flag) = 0;
 		virtual bool isLoop(const std::string &channel) = 0;
+		virtual bool isPlaying(const std::string &channel) {return false;}
 		virtual void stop(const std::string &channel) = 0;
 		virtual void stop() {clear();}
 		virtual void pause(const std::string &channel)= 0;
 		virtual void resume(const std::string &channel) = 0;
 		virtual void setPosition(const std::string &channel,double time) {}
 		virtual float getPosition(const std::string &channel) {return 0;}
+		virtual double getLength(const std::string &channel) {return 0;}
 		virtual void pause() = 0;
 		virtual void resume() = 0;
 	};

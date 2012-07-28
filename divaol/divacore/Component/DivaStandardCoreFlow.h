@@ -70,7 +70,9 @@ namespace divacore
 
 		Task beginTask;
 		Task endTask;
-	
+
+		//main sound
+		std::string mainSound;
 	private:
 		void changeBPM(ARGUMENTS &arg);
 	public:
@@ -100,11 +102,12 @@ namespace divacore
 		void _reloadEvents();
 	public:
 
+		virtual std::string getMainSound() {return mainSound;}
 		virtual double getRunTime();
 		virtual double getRealTime();
 		virtual double getTotalTime();
 		virtual double getPosition() {return nowPosition;}
-		virtual uint32 getTotalPositionI() {return totalGrid;}
+		virtual uint32 getTotalPosition() {return totalGrid;}
 		virtual uint8 getState() {return state;}
 		virtual double getBPM() {return nowBPM;}
 

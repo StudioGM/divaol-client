@@ -151,7 +151,7 @@ namespace divacore
 
 		void gameReady()
 		{
-			maxLastGrid = (int)ceil(MAP_INFO->header.barNum*GRID_PER_BAR/teams[teamID].players.size()*1.5);
+			maxLastGrid = (int)ceil(MAP_INFO->totalGrid/*header.barNum*GRID_PER_BAR*//teams[teamID].players.size()*1.5);
 			endPosition = maxLastGrid;
 			registerUI();
 

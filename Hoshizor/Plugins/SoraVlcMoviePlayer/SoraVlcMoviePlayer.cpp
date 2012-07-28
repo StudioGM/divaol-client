@@ -89,7 +89,7 @@ namespace sora {
         }
     }
     
-    SoraVlcMoviePlayer::SoraVlcMoviePlayer(): 
+    SoraVlcMoviePlayer::SoraVlcMoviePlayer(bool bNoAudio): 
     vlcInstance(0), 
     mp(0), 
     media(0), 
@@ -101,10 +101,12 @@ namespace sora {
             "--plugin-path=./Plugins",
             "--ignore-config",
 			"--no-video-title",
-			"-I", "dummy"
+			"-I", "dummy", "--noaudio"
            // ,"--verbose", "2"
         };
         int vlc_argc = sizeof(vlc_argv) / sizeof(*vlc_argv);
+		if(!bNoAudio)
+			vlc_argc--;
 
         vlcInstance = libvlc_new(vlc_argc, vlc_argv);
         

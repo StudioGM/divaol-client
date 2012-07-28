@@ -59,6 +59,7 @@ namespace divacore
 		    Json::Value header = val["header"];
 			mapInfo->header.versionStr = JsonHelper::_loadAsString(header,"version");
 			mapInfo->header.mapName = JsonHelper::_loadAsString(header,"name");
+			mapInfo->header.mainSound = JsonHelper::_loadAsString(header,"mainSound");
 			mapInfo->header.hardLevel = JsonHelper::_loadAsInt(header,"hard");
 			if(header.isMember("speedScale"))
 				mapInfo->header.speedScale = JsonHelper::_loadAsDouble(header,"speedScale");
@@ -82,7 +83,7 @@ namespace divacore
 			else
 				DIVA_EXCEPTION_MODULE("missing 'noter'!","MapLoader");
 			mapInfo->header.BPM = JsonHelper::_loadAsDouble(header,"bpm");
-			mapInfo->header.barNum = JsonHelper::_loadAsInt(header,"bar");
+			//mapInfo->header.barNum = JsonHelper::_loadAsInt(header,"bar");
 		}
 		else
 			DIVA_EXCEPTION_MODULE("missing 'header'!","MapLoader");
@@ -108,6 +109,13 @@ namespace divacore
 		}
 		else
 			DIVA_EXCEPTION_MODULE("missing 'resource'!","MapLoader");
+
+		//check main sound
+		MapInfo::RESOURCES::iterator mainSoundPtr = mapInfo->resources.find(mapInfo->header.mainSound);
+		if(mainSoundPtr==mapInfo->resources.end())
+			DIVA_EXCEPTION_MODULE("no main sound file!","MapLoader");
+		if(mainSoundPtr->second.type!=MapResourceInfo::AUDIO)
+			DIVA_EXCEPTION_MODULE("main sound file is not audio resource!","MapLoader");
 	}
 	NotePoint MapJsonLoader::_parserNote(const Json::Value& val)
 	{

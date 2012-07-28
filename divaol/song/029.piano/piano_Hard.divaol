@@ -14,13 +14,13 @@
          "type" : "displayImage","label" : "background",
          "width" : 1920
       },
-      {
+      /*{
          "channel" : "frame_154_BGS_0",
          "id" : "wav_1",
          "position" : 154,
          "tag" : "music",
          "type" : "playMusic"
-      },
+      },*/
       {
          "height" : 1080,
          "id" : "res_2",
@@ -2507,13 +2507,14 @@
       }
    ],
    "header" : {
-      "bar" : 164,
+      "bar" : 264,
       "bpm" : 175.0,
       "difficulty" : 3,
       "hard" : 8,
       "name" : "piano",
       "noter" : "bobe",
       "type" : "single",
+	  "mainSound" : "wav_1",
       "version" : "1.0.4.9"
    },
    "module" : "standard",
@@ -8371,7 +8372,7 @@
    ],
    "resource" : [
       {
-         "file" : "WAV/piano.mp3",
+         "file" : "WAV/piano.wav",
          "id" : "wav_1",
          "stream" : false,
          "type" : "audio"

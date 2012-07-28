@@ -3,11 +3,12 @@
 
 #include "Core/DivaCore.h"
 #include "State/DivaCorePlayState.h"
-#include "State/DivaCoreLoadState.h"
+//#include "State/DivaCoreLoadState.h"
 #include "State/DivaCorePauseState.h"
 #include "State/DivaCoreResultState.h"
-#include "State/DivaUnsyncLoad.h"
-#include "State/DivaEditLoad.h"
+//#include "State/DivaUnsyncLoad.h"
+//#include "State/DivaEditLoad.h"
+#include "State/DivaCoreLoader.h"
 #include "Component/DivaMapJsonLoader.h"
 #include "Component/DivaMapStandardParser.h"
 #include "Component/DivaStandardCoreFlow.h"
@@ -85,18 +86,9 @@ namespace divacore
 
 			void registerStates()
 			{
-				if(isUnsync)
-				{
-					core->addState(new divacore::UnsyncLoad,"load");
-					core->addState(new divacore::NetUnsync, "net_load");
-					core->addState(new divacore::EditLoadState, "edit_load");
-				}
-				else
-				{
-					core->addState(new divacore::CoreLoadState, "load");
-					core->addState(new divacore::NetLoadState, "net_load");
-					core->addState(new divacore::EditLoadState, "edit_load");
-				}
+				core->addState(new divacore::CoreLoader(isUnsync,true),"load");
+				core->addState(new divacore::NetUnsync, "net_load");
+
 				core->addState(new divacore::CorePlayState, "play");
 				core->addState(new divacore::CorePauseState, "pause");
 				core->addState(new divacore::CoreResultState,"result");
@@ -104,10 +96,8 @@ namespace divacore
 				switch(gameMode)
 				{
 				case SINGLE:
-					core->setInitState("load");
-					break;
 				case EDIT:
-					core->setInitState("edit_load");
+					core->setInitState("load");
 					break;
 				case MULTI:
 					core->setInitState("net_load");

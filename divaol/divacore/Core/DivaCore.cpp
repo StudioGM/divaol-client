@@ -260,8 +260,8 @@ namespace divacore
 	void Core::onRender()
 	{
 		//renderSystem->draw();
-		SoraSprite *sprite = renderToCanvas(SoraCore::Instance()->getScreenWidth(),
-											SoraCore::Instance()->getScreenHeight());
+
+		SoraSprite *sprite = renderToCanvas(SoraCore::Instance()->getScreenWidth(),SoraCore::Instance()->getScreenHeight());
 
 		//render to screen
 		sora::SoraGameApp::BeginScene();
@@ -307,7 +307,7 @@ namespace divacore
 	{
 		CoreStatePtr curState = dynamic_cast<CoreStatePtr>(mFSMManager.getCurrentState());
 		if(curState)
-			curState->onKeyPressed(event);
+			  curState->onKeyPressed(event);
 
 		inputManager->onKeyPressed(event);
 	}

@@ -4,27 +4,22 @@
          "position" : 0,
          "type" : "bpm",
          "value" : 154.0
-      },
-	  {
-		 "height" : 1080,
+      }
+	  /*,
+      {
+         "height" : 1080,
          "id" : "res_1",
          "position" : 378,
          "type" : "playVideo",
          "width" : 1920
-	  },
-	  {
-         "channel" : "frame_378_BGS_0",
-         "id" : "wav_0",
-         "position" : 378,
-         "tag" : "music",
-         "type" : "playMusic"
-      }
+      }*/
    ],
    "header" : {
       "bar" : 158,
       "bpm" : 616.0,
       "difficulty" : 3,
       "hard" : 7,
+	  "mainSound" : "res",
       "name" : "Ç§±¾—@",
       "noter" : "Equanimity_",
       "type" : "single",
@@ -15170,6 +15165,12 @@
       }
    ],
    "resource" : [
+	  {
+         "file" : "¡º³õÒô¥ß¥¯¡»Ç§±¾—@¡º¥ª¥ê¥¸¥Ê¥ëÇúPV¡».wav",
+         "id" : "res",
+         "type" : "audio",
+		 "stream" : false
+      },
       {
          "file" : "RES/1212.jpg",
          "id" : "res_0",

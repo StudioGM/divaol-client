@@ -62,6 +62,7 @@ namespace divacore
 		void update(float dt);
 
 		void setVideoTime(const std::string &ID, double time);
+		float getVideoTime(const std::string &ID);
 	};
 }
 

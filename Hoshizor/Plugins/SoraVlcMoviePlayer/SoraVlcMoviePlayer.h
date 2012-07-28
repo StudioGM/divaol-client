@@ -55,8 +55,8 @@ namespace sora {
             MP_CTX(): bChanged(false), frameCount(0), pixels(0), dummy(0), bPlaying(false), bPaused(false), bStopped(true) {}
         };
         
-        SoraVlcMoviePlayer();
-        ~SoraVlcMoviePlayer();
+		SoraVlcMoviePlayer(bool bNoAudio = false);
+		~SoraVlcMoviePlayer();
         
         bool openMedia(const StringType& filePath);
         void play();

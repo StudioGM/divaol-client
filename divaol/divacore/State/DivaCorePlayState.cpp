@@ -57,7 +57,19 @@ namespace divacore
 		mText.render();
 
 		char buffer[1000];
-		sprintf(buffer,"|#FF0000|Time: %0.6lf\nSong: %0.6lf\nScore: %d\nHP: %d\nCombo: %d\nCT: %d\nLevel: %d\nVolume:%0.2f\nKey:%d",coreFlow->getRealTime(),/*MUSIC_MANAGER_PTR->getPosition("background")+*/0.419,Core::Ptr->getScore(),Core::Ptr->getHP(),GAME_MODE_PTR->getCombo(),0,0,volume,bPressed);
+		float deltaTime = 0;
+		try
+		{
+			deltaTime = MUSIC_MANAGER_PTR->getPosition(CORE_FLOW_PTR->MAIN_SOUND_CHANNEL);
+			//LOGGER->log("music : %0.2lf",deltaTime);
+			deltaTime = coreFlow->getRealTime()-deltaTime;
+			//LOGGER->log("real : %0.2lf",coreFlow->getRealTime());
+		}
+		catch (...)
+		{
+			;
+		}
+		sprintf(buffer,"|#FF0000|Time: %0.6lf\nSong: %0.6lf\nScore: %d\nHP: %d\nCombo: %d\nCT: %d\nLevel: %d\nVolume:%0.2f\nKey:%d",coreFlow->getRealTime(),deltaTime,Core::Ptr->getScore(),Core::Ptr->getHP(),GAME_MODE_PTR->getCombo(),0,0,volume,bPressed);
 		mText.Render(sora::s2ws(buffer),0,200);
 #endif
 	}
@@ -142,13 +154,19 @@ namespace divacore
 		if(event.getKey()==SORA_KEY_J)
 		{
 			StandardEditUtility::instance().init();
-			StandardEditUtility::instance().setPosition(400);
+			StandardEditUtility::instance().setPosition(1400);
+			//StandardEditUtility::instance().refreshAll();
+			//CORE_PTR->pause();
 		}
-		else if(event.getKey()==SORA_KEY_D)
+		else if(event.getKey()==SORA_KEY_H)
+		{
+			CORE_PTR->resume();
+		}
+		/*else if(event.getKey()==SORA_KEY_D)
 		{
 			StandardEditUtility::instance().init();
 			MapEvent event;
-			event.position = 1;
+			event.position = 0;
 			event.eventType = "bpm";
 			event.arg["value"] = 100.0;
 
@@ -159,13 +177,13 @@ namespace divacore
 		{
 			StandardEditUtility::instance().init();
 			MapEvent event;
-			event.position = 2;
+			event.position = 0;
 			event.eventType = "bpm";
-			event.arg["value"] = 175.0;
+			event.arg["value"] = 154.0;
 
 			StandardEditUtility::instance().addEvent(event);
 			StandardEditUtility::instance().reCaltTime();
-		}
+		}*/
 		/*else if(event.getKey()==SORA_KEY_C)
 		{
 			Packet packet((uint32)1,0);
