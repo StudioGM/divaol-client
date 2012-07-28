@@ -194,7 +194,7 @@ namespace divacore
 		 void flowOver();
 		 void render(sora::SoraSprite *sprite, const std::string &tag = "");
 		 void render(float x, float y, sora::SoraSprite *sprite, const std::string &tag = "");
-		 sora::SoraSprite* renderToCanvas(float width = 0, float height = 0);
+		 sora::SoraSprite* renderToCanvas(float width = 0, float height = 0, uint32 mask = RenderSystem::RS_RENDER_ALL);
 		 //void holdOnConnection(float dt);
 
 		/*

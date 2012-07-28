@@ -6,6 +6,7 @@
 #include "DivaEditorScene/DivaEditorScene.h"
 #include "DivaEditorDisplay.h "
 #include "divacore/state/DivaEditLoad.h"
+#include "divacore/Component/DivaStandardCoreFlow.h"
 
 namespace divaeditor
 {
@@ -20,7 +21,10 @@ namespace divaeditor
 
 	void Editor::coreDidLoad(void* arg)
 	{
+		StandardEditUtility::instance().init();
 		core->setState("play");
+		core->pause();
+		changeScene(State::MAIN);
 	}
 
 	void Editor::registerDivaCore(CorePtr _core)
@@ -29,7 +33,7 @@ namespace divaeditor
 		Task task;
 		task.setAsMemberFunc(&Editor::coreDidLoad, this);
 		
-		((divacore::EditLoadState*)((*core->getManager())["edit_load"]))->registerReayCallback(task);
+		((divacore::EditLoadState*)((*core->getManager())["edit_load"]))->registerReadyCallback(task);
 
 		core->registerDisplay(new DivaEditorDisplay());
 	}
@@ -42,8 +46,6 @@ namespace divaeditor
 	void Editor::onStart()
 	{
 		core->onStart();
-		//core->pause();
-		
 	}
 
 	void Editor::onDestroy()
@@ -53,13 +55,13 @@ namespace divaeditor
 
 	void Editor::onEnter()
 	{
-		core->onEnter();
+		core->setSong("song/Ç§±¾—@","Ç§±¾—@_Hard.divaol");
 
 		SoraCore::Instance()->showMouse(true);
-
 		GCN_GLOBAL->initGUIChan(L"arial.ttf",14);
 
 		initScenes();
+		core->onEnter();
 
 		//gcn::Button* button = new gcn::Button("lalalala");
 		//button->setPosition(sora::SoraCore::Instance()->getScreenWidth()/2, 100);
@@ -85,27 +87,26 @@ namespace divaeditor
 
 	void Editor::onRender()
 	{
+		SoraSprite* coreDrawSprite = core->renderToCanvas(SoraCore::Instance()->getScreenWidth(),
+			SoraCore::Instance()->getScreenHeight());
+
+		sora::SoraGameApp::BeginScene();
+		coreDrawSprite->setPosition(0,0);
+		coreDrawSprite->render();
+
 		if(mState==State::MAIN)
 		{
-			SoraSprite* coreDrawSprite = core->renderToCanvas(SoraCore::Instance()->getScreenWidth(),
-				SoraCore::Instance()->getScreenHeight());
-
-			sora::SoraGameApp::BeginScene();
-
-			coreDrawSprite->setPosition(0,0);
-			coreDrawSprite->render();
-
 			GCN_GLOBAL->gcnDraw();
-
-			sora::SoraGameApp::EndScene();
 		}
+
+		sora::SoraGameApp::EndScene();
 	}
 
 	void Editor::onUpdate(float dt)
 	{
+		core->onUpdate(dt);
 		if(mState==State::MAIN)
 		{
-			core->onUpdate(dt);
 			SoraCore::Instance()->showMouse(true);
 		}
 		
@@ -140,8 +141,6 @@ namespace divaeditor
 	void Editor::initScenes()
 	{
 		scenes[State::MAIN] = new DivaEditorMainScene();
-		
-		changeScene(State::MAIN);
 	}
 
 

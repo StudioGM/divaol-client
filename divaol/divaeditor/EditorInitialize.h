@@ -12,10 +12,14 @@ namespace divaeditor
 	{
 		EditorPtr initialize()
 		{
-			divacore::CorePtr core = divacore::standard::initialize("system");
-			core->setSong("song/Ç§±¾—@","Ç§±¾—@_Hard.divaol");
+			divacore::standard::Initializer initializer("system",divacore::standard::Initializer::EDIT);
+			
+			divacore::CorePtr core = initializer.get();
+			//divacore::CorePtr core = divacore::standard::initialize("system");
+
 			EditorPtr editor = INITIALIZE_EDITOR;
 			editor->registerDivaCore(core);
+			
 
 			return editor;
 		}

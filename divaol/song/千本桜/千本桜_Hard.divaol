@@ -5,12 +5,19 @@
          "type" : "bpm",
          "value" : 154.0
       },
-      {
-         "height" : 1080,
+	  {
+		 "height" : 1080,
          "id" : "res_1",
          "position" : 378,
          "type" : "playVideo",
          "width" : 1920
+	  },
+	  {
+         "channel" : "frame_378_BGS_0",
+         "id" : "wav_0",
+         "position" : 378,
+         "tag" : "music",
+         "type" : "playMusic"
       }
    ],
    "header" : {
@@ -15178,6 +15185,12 @@
          "id" : "mm",
          "type" : "audio",
 		 "stream" : false
-      }
+      },
+		{
+         "file" : "RES/¡º³õÒô¥ß¥¯¡»Ç§±¾—@¡º¥ª¥ê¥¸¥Ê¥ëÇúPV¡».mp3",
+         "id" : "wav_0",
+         "type" : "audio",
+		 "stream" : true
+		},
    ]
 }

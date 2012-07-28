@@ -178,7 +178,5 @@ namespace divacore
 		if(event.getKey()==SORA_KEY_P)
 			core->setState("pause");
 #endif
-		if(event.getKey()==SORA_KEY_P)
-			core->setState("pause");
 	}
 }

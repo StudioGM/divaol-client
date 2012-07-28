@@ -46,7 +46,7 @@ namespace divaeditor
 	class Editor : public sora::SoraGameState, public sora::SoraEventHandler, public EventHandler
 	{
 	public: 
-		enum State{MAIN};
+		enum State{PRELOAD,MAIN};
 
 	private:
 		friend class Core;
@@ -68,7 +68,7 @@ namespace divaeditor
 
 
 	private:
-		Editor():core(NULL),mapInfo(NULL),nowScene(NULL) {};
+		Editor():core(NULL),mapInfo(NULL),nowScene(NULL),mState(PRELOAD) {};
 
 		void coreDidLoad(void* arg);
 

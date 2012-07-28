@@ -75,7 +75,8 @@ namespace divacore
 			readyTask.start();
 		}
 
-		void registerReayCallback(Task &task) {readyTask = task;}
+		void registerReadyCallback(Task &task) {readyTask = task;}
 	};
 }
+
 #endif

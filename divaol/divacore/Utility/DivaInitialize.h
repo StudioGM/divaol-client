@@ -1,5 +1,5 @@
-#ifndef DIVA_INJECT
-#define DIVA_INJECT
+#ifndef DIVA_INITIALIZER
+#define DIVA_INITIALIZER
 
 #include "Core/DivaCore.h"
 #include "State/DivaCorePlayState.h"
@@ -33,89 +33,107 @@
 //#include "MusicManager/DivaXAudioMusicManager.h"
 #include "MusicManager/DivaBassMusicManager.h"
 
-//#define NET
-#define UNSYNC
-#define EDIT
 
 namespace divacore
 {
 	namespace standard
 	{
-		void pauseTheGame(void* args)
+		class Initializer
 		{
-			CORE_PTR->pause();
-		}
+		public:
+			enum GameModeFlag{SINGLE,EDIT,MULTI};
 
-		void readyEvent(void *args)
-		{
-			CORE_PTR->setState("play");
-		}
+		protected:
+			divacore::CorePtr core;
+			std::string configFolder;
+			GameModeFlag gameMode;
+			bool isUnsync;
 
-		CorePtr initialize(std::string configFolder)
-		{
-			divacore::CorePtr core = INITIALIZE_DIVA_CORE;
-			core->registerMapLoader(new divacore::MapJsonLoader);
-			core->registerMapParser(new divacore::MapStandardParser);
-			core->registerCoreFlow(new divacore::StandardCoreFlow);
-			core->registerItemFactory(new divacore::StandardItemFactory);
-			core->registerMusicManager(new divacore::BassMusicManager);
-			core->registerDisplay(new divacore::StandardDisplay);
-			core->registerRenderSystem(new divacore::StandardRenderSystem);
-			core->registerInputManager(new divacore::StandardInputManager);
-			core->registerHookManager(new divacore::SimpleHookManager);
-			core->registerUIPainter(new divacore::SimpleUIPainter);
-			core->registerGameModule(new divacore::JsonGameModule);
-			core->registerNetworkSystem(new divacore::EnetSystem);
-			core->registerEvaluateStrategy(new divacore::CommonEvaluateStrategy);
-			core->registerEffectSystem(new divacore::HDEffectSystem);
+		protected:
+			virtual void registerComponents()
+			{
+				core->registerMapLoader(new divacore::MapJsonLoader);
+				core->registerMapParser(new divacore::MapStandardParser);
+				core->registerCoreFlow(new divacore::StandardCoreFlow);
+				core->registerItemFactory(new divacore::StandardItemFactory);
+				core->registerMusicManager(new divacore::BassMusicManager);
+				core->registerDisplay(new divacore::StandardDisplay);
+				core->registerRenderSystem(new divacore::StandardRenderSystem);
+				core->registerInputManager(new divacore::StandardInputManager);
+				core->registerHookManager(new divacore::SimpleHookManager);
+				core->registerUIPainter(new divacore::SimpleUIPainter);
+				core->registerGameModule(new divacore::JsonGameModule);
+				core->registerNetworkSystem(new divacore::EnetSystem);
+				core->registerEvaluateStrategy(new divacore::CommonEvaluateStrategy);
+				core->registerEffectSystem(new divacore::HDEffectSystem);
+			}
 
-#ifdef NET
-			core->registerStateManager(new divacore::MultiPlay);
-#else
-#ifdef EDIT
-			core->registerGameMode(new divacore::EditMode);
-#else
-			core->registerGameMode(new divacore::SinglePlay);
-#endif
-#endif
-			//core->registerStateManager(new divacore::SinglePlay);
-			//core->registerStateManager(new divacore::RelayPlay);
-#ifndef UNSYNC
-			core->addState(new divacore::CoreLoadState, "load");
-			core->addState(new divacore::NetLoadState, "net_load");
-#else
-			core->addState(new divacore::UnsyncLoad,"load");
-			core->addState(new divacore::NetUnsync, "net_load");
-#endif
-			core->addState(new divacore::CorePlayState, "play");
-			core->addState(new divacore::CorePauseState, "pause");
-			core->addState(new divacore::CoreResultState,"result");
+			void registerGameMode()
+			{
+				switch(gameMode)
+				{
+				case SINGLE:
+					core->registerGameMode(new divacore::SinglePlay);
+					break;
+				case EDIT:
+					core->registerGameMode(new divacore::EditMode);
+					break;
+				case MULTI:
+					core->registerGameMode(new divacore::MultiPlay);
+				}
+			}
 
-#ifdef NET
-			core->setInitState("net_load");
-#else
+			void registerStates()
+			{
+				if(isUnsync)
+				{
+					core->addState(new divacore::UnsyncLoad,"load");
+					core->addState(new divacore::NetUnsync, "net_load");
+					core->addState(new divacore::EditLoadState, "edit_load");
+				}
+				else
+				{
+					core->addState(new divacore::CoreLoadState, "load");
+					core->addState(new divacore::NetLoadState, "net_load");
+					core->addState(new divacore::EditLoadState, "edit_load");
+				}
+				core->addState(new divacore::CorePlayState, "play");
+				core->addState(new divacore::CorePauseState, "pause");
+				core->addState(new divacore::CoreResultState,"result");
 
-#ifndef EDIT
-			core->setInitState("load");
-#else
-			divacore::EditLoadState *load = new divacore::EditLoadState;
-			core->addState(load, "edit_load");
-			core->setInitState("edit_load");
-			//load->registerReayCallback(Task(&readyEvent));
-			//load->makeEmptySong(1,175);
-			//core->setInitState("load");
-			//CORE_FLOW_PTR->registerBeginCallback(Task(&pauseTheGame));
-#endif
+				switch(gameMode)
+				{
+				case SINGLE:
+					core->setInitState("load");
+					break;
+				case EDIT:
+					core->setInitState("edit_load");
+					break;
+				case MULTI:
+					core->setInitState("net_load");
+				}
+			}
 
-#endif
-			
-			//load config
-			core->prepare(configFolder+"/common.json");
-			EVALUATE_STRATEGY_PTR->prepare(configFolder+"/eval.json");
+		public:
+			Initializer(std::string configFolder = "system", GameModeFlag gameMode = SINGLE, bool isUnsync = true):
+			  configFolder(configFolder), gameMode(gameMode), isUnsync(isUnsync)
+			{
+				core = INITIALIZE_DIVA_CORE;
+			}
 
-			return core;
-		}
+			CorePtr get()
+			{
+				registerComponents();
+				registerGameMode();
+				registerStates();
 
+				//load config
+				core->prepare(configFolder+"/common.json");
+				EVALUATE_STRATEGY_PTR->prepare(configFolder+"/eval.json");
+
+				return core;
+			}
+		};
 	}
 }
 

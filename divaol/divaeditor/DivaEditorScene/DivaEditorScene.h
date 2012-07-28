@@ -59,6 +59,8 @@ namespace divaeditor
 		State nowState;
 
 		gcn::Container *container_ToolBar;
+
+
 		std::map<State,gcn::Container*> container_Categories;
 
 	public:

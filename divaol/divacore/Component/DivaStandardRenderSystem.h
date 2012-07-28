@@ -81,11 +81,11 @@ namespace divacore
 			if(!HOOK_MANAGER_PTR->hook(x,y,sprite,tag)||!HOOK_MANAGER_PTR->hookInfo())
 				sprite->render(x,y);
 		}
-		sora::SoraSprite* renderToCanvas(float width = 0, float height = 0)
+		sora::SoraSprite* renderToCanvas(float width = 0, float height = 0, uint32 mask = RS_RENDER_ALL)
 		{
 			sora::SoraMutexGuard lock(mutex);
 
-			draw();
+			draw(mask);
 			if(coreCanvas==NULL)
 				return NULL;
 			SoraSprite *canvas = coreCanvas->getCanvasSprite();
@@ -95,7 +95,7 @@ namespace divacore
 
 			return canvas;
 		}
-		void draw()
+		void draw(uint32 mask = RS_RENDER_ALL)
 		{
 			sora::SoraMutexGuard lock(mutex);
 
@@ -114,11 +114,16 @@ namespace divacore
 			{
 				sora::SoraMutexGuard lock(mutex);
 
-				DISPLAY_PTR->render();
-				CORE_FLOW_PTR->render();
-				UI_PAINTER_PTR->render();
-				GAME_MODE_PTR->render();
-				if(EFFECT_SYSTEM_PTR)
+				if(mask&RS_RENDER_BACKGROUND)
+					DISPLAY_PTR->render();
+				if(mask&RS_RENDER_NOTE)
+					CORE_FLOW_PTR->render();
+				if(mask&RS_RENDER_UI)
+				{
+					UI_PAINTER_PTR->render();
+					GAME_MODE_PTR->render();
+				}
+				if((mask&RS_RENDER_EFFECT)&&EFFECT_SYSTEM_PTR)
 					EFFECT_SYSTEM_PTR->render();
 			}
 			else if(CORE_PTR->getState()==Core::RESULT)

@@ -381,11 +381,11 @@ namespace divacore
 	{
 		renderSystem->render(x,y,sprite,tag);
 	}
-	sora::SoraSprite* Core::renderToCanvas(float width, float height)
+	sora::SoraSprite* Core::renderToCanvas(float width, float height, uint32 mask)
 	{
 		if(renderSystem==NULL)
 			return NULL;
-		return renderSystem->renderToCanvas(width,height);
+		return renderSystem->renderToCanvas(width,height,mask);
 	}
 	void Core::setSong(const std::string &path, const std::string &mapFileName) {mapLoader->setSong(path,mapFileName);}
 	double Core::getRealTime() {return coreFlow->getRealTime();}
