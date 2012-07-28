@@ -12,6 +12,7 @@
 #include "Core/DivaCoreState.h"
 #include "Core/DivaMapLoader.h"
 #include "Core/DivaTask.h"
+#include "SoraText.h"
 //#include "SoraFMODSoundSystem/SoraFMODSoundSystem.h"
 //#include "SoraAudiereSoundSystem/SoraAudiereSoundSystem.h"
 

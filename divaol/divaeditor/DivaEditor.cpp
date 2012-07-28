@@ -5,7 +5,7 @@
 
 #include "DivaEditorScene/DivaEditorScene.h"
 #include "DivaEditorDisplay.h "
-#include "divacore/state/DivaEditLoad.h"
+#include "divacore/state/DivaCoreLoader.h"
 #include "divacore/Component/DivaStandardCoreFlow.h"
 
 namespace divaeditor
@@ -33,7 +33,7 @@ namespace divaeditor
 		Task task;
 		task.setAsMemberFunc(&Editor::coreDidLoad, this);
 		
-		((divacore::EditLoadState*)((*core->getManager())["edit_load"]))->registerReadyCallback(task);
+		((divacore::CoreLoader*)((*core->getManager())["load"]))->registerReadyCallback(task);
 
 		core->registerDisplay(new DivaEditorDisplay());
 	}
