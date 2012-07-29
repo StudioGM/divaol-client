@@ -186,7 +186,7 @@ namespace divacore
 			}
 			if(!timeQueue.empty())
 			{
-				SCF_TimeStamp &t = timeQueue.top();
+				SCF_TimeStamp &t = const_cast<SCF_TimeStamp&>(timeQueue.top());
 				nowPosition = lastStamp.position;
 				if(lastStamp.position<t.position)
 					nowPosition += (nowTime-lastStamp.time)/(t.time-lastStamp.time)*(t.position-lastStamp.position);

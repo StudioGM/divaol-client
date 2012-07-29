@@ -9,7 +9,7 @@
 #ifndef DIVA_SOCKET_NETWORK_SYSTEM
 #define DIVA_SOCKET_NETWORK_SYSTEM
 
-#include "Network/sockSystem.h"
+//#include "Network/sockSystem.h"
 #include "Network/DivaNetworkSystem.h"
 
 namespace divacore

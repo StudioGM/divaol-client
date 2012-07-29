@@ -147,7 +147,7 @@ namespace divacore
 		sprite->setTexture(texture);
 		moviePlayer->play();
 		while(moviePlayer->isPlaying())
-			Sleep(1),moviePlayer->pause();
+			msleep(1),moviePlayer->pause();
 		
 		videoPool[ID] = std::make_pair<sora::SoraVlcMoviePlayer*,sora::SoraSprite*>(moviePlayer,sprite);
 	}

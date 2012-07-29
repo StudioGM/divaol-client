@@ -62,7 +62,7 @@ namespace divacore
 			{
 				//失败，等待一段时间后重连
 				setBaseState(FAILURE);
-				Sleep(FAILURE_WAIT_TIME);
+				msleep(FAILURE_WAIT_TIME);
 				setBaseState(CONNECT);
 				NETWORK_SYSTEM_PTR->connect();
 			}
@@ -74,7 +74,7 @@ namespace divacore
 			//接受信息
 			while(getBaseState()!=READY)
 			{
-				Sleep(1);
+				msleep(1);
 				if(getBaseState()==FULL||NETWORK_SYSTEM_PTR->getState()==NetworkSystem::READY)
 				{
 					setBaseState(FULL);
@@ -102,7 +102,7 @@ namespace divacore
 			{
 				//失败，等待一段时间后重连
 				setBaseState(FAILURE);
-				Sleep(FAILURE_WAIT_TIME);
+				msleep(FAILURE_WAIT_TIME);
 				setBaseState(CONNECT);
 				NETWORK_SYSTEM_PTR->connect();
 			}
@@ -116,7 +116,7 @@ namespace divacore
 			double nowTime = timeCounter.getTime(),tmpTime;
 			while(getBaseState()!=READY)
 			{ 
-				Sleep(100);
+				msleep(100);
 				tmpTime = timeCounter.getTime();
 
 				//hold on room connection
