@@ -10,6 +10,7 @@
 #include "enet/enet.h"
 
 #pragma comment(lib,"enet.lib")
+#pragma comment(lib, "Ws2_32.lib")
 
 namespace divacore
 {
