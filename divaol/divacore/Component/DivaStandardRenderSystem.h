@@ -90,14 +90,17 @@ namespace divacore
 				return NULL;
 			SoraSprite *canvas = coreCanvas->getCanvasSprite();
 
+#ifdef OS_WIN32
 			canvas->setScale(width==0?1:(width/double(canvas->getTextureWidth(false))),
 				height==0?1:(height/double(canvas->getTextureHeight(false))));
-
+#else
+            
+#endif // OS_WIN32
 			return canvas;
 		}
 		void draw(uint32 mask = RS_RENDER_ALL)
 		{
-			sora::SoraMutexGuard lock(mutex);
+		//	sora::SoraMutexGuard lock(mutex);
 
 			if(!coreCanvas)
 				return;
@@ -112,7 +115,7 @@ namespace divacore
 			}
 			else if(CORE_PTR->getState()==Core::RUN)
 			{
-				sora::SoraMutexGuard lock(mutex);
+//				sora::SoraMutexGuard lock(mutex);
 
 				if(mask&RS_RENDER_BACKGROUND)
 					DISPLAY_PTR->render();

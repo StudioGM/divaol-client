@@ -7,21 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		88892D3E15C55CDC00B25415 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 88892D3D15C55CDC00B25415 /* main.cpp */; };
+		886BE9B715C648E6005CFA52 /* osx_libglfw_i386.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = 886BE9B515C648E6005CFA52 /* osx_libglfw_i386.lib */; };
+		886BE9B815C648E6005CFA52 /* osx_libglfw_x86_64.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = 886BE9B615C648E6005CFA52 /* osx_libglfw_x86_64.lib */; };
+		886BE9BB15C64D35005CFA52 /* libvlc.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 886BE9B915C64D35005CFA52 /* libvlc.5.dylib */; };
+		886BE9BC15C64D35005CFA52 /* libvlccore.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 886BE9BA15C64D35005CFA52 /* libvlccore.4.dylib */; };
+		887EE98815C627A100B50941 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 887EE98715C627A100B50941 /* CoreServices.framework */; };
+		887EE98E15C628C200B50941 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 887EE98D15C628C200B50941 /* ApplicationServices.framework */; };
+		887EE99415C6290B00B50941 /* libfmodex.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 88892D6115C55CF000B25415 /* libfmodex.dylib */; };
+		887EE99515C6291F00B50941 /* libfreetype.6.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 88892DBD15C55CF000B25415 /* libfreetype.6.dylib */; };
+		887EE99B15C62A0000B50941 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 887EE99A15C62A0000B50941 /* main.cpp */; };
+		887EEA4815C6374D00B50941 /* osx_libfreetype_i386.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = 887EEA4715C6374D00B50941 /* osx_libfreetype_i386.lib */; };
+		887EEA4C15C639ED00B50941 /* libenet_x86.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 887EEA4B15C639ED00B50941 /* libenet_x86.a */; };
 		88892D4015C55CDC00B25415 /* divaol_osx.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 88892D3F15C55CDC00B25415 /* divaol_osx.1 */; };
 		888930A415C55CF100B25415 /* libfmodex.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 88892D6115C55CF000B25415 /* libfmodex.dylib */; };
-		888930A515C55CF100B25415 /* libfmodexL.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 88892D6215C55CF000B25415 /* libfmodexL.dylib */; };
 		888930A715C55CF100B25415 /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 88892DBD15C55CF000B25415 /* libfreetype.6.dylib */; };
-		888930A815C55CF100B25415 /* osx_libfreetype_i386.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = 88892E1015C55CF000B25415 /* osx_libfreetype_i386.lib */; };
 		888930A915C55CF100B25415 /* SoraFreetypeFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 88892E1115C55CF000B25415 /* SoraFreetypeFont.cpp */; };
 		888930AA15C55CF100B25415 /* SoraFTFontManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 88892E1315C55CF000B25415 /* SoraFTFontManager.cpp */; };
-		888930B515C55CF100B25415 /* libvlc.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 88892E4615C55CF000B25415 /* libvlc.5.dylib */; };
-		888930B615C55CF100B25415 /* libvlc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 88892E4715C55CF000B25415 /* libvlc.dylib */; };
-		888930B715C55CF100B25415 /* libvlccore.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 88892E4815C55CF000B25415 /* libvlccore.4.dylib */; };
-		888930B815C55CF100B25415 /* libvlccore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 88892E4915C55CF000B25415 /* libvlccore.dylib */; };
 		888930B915C55CF100B25415 /* SoraVlcMoviePlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 88892E4A15C55CF000B25415 /* SoraVlcMoviePlayer.cpp */; };
-		888930BA15C55CF100B25415 /* libvlc.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = 88892EA715C55CF000B25415 /* libvlc.lib */; };
-		888930BB15C55CF100B25415 /* libvlccore.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = 88892EA815C55CF000B25415 /* libvlccore.lib */; };
 		888930BC15C55CF100B25415 /* SoraGameApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 88892EAD15C55CF000B25415 /* SoraGameApp.cpp */; };
 		888930BD15C55CF100B25415 /* SoraGameAppDef.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 88892EAF15C55CF000B25415 /* SoraGameAppDef.cpp */; };
 		888930BE15C55CF100B25415 /* CoreCmds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 88892EB315C55CF000B25415 /* CoreCmds.cpp */; };
@@ -204,8 +206,6 @@
 		8889322115C55F8D00B25415 /* DivaStringUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 888931C415C55F8C00B25415 /* DivaStringUtil.cpp */; };
 		8889322215C55F8D00B25415 /* DivaMultiPlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 888931D015C55F8C00B25415 /* DivaMultiPlay.cpp */; };
 		8889322315C55F8D00B25415 /* DivaSinglePlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 888931D515C55F8C00B25415 /* DivaSinglePlay.cpp */; };
-		8889322415C55F8D00B25415 /* bass.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = 888931DB15C55F8C00B25415 /* bass.lib */; };
-		8889322515C55F8D00B25415 /* DivaBassMusicManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 888931DC15C55F8C00B25415 /* DivaBassMusicManager.cpp */; };
 		8889322615C55F8D00B25415 /* DivaFmodMusicManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 888931DE15C55F8C00B25415 /* DivaFmodMusicManager.cpp */; };
 		8889322715C55F8D00B25415 /* DivaLongNote.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 888931F815C55F8C00B25415 /* DivaLongNote.cpp */; };
 		8889322815C55F8D00B25415 /* DivaNormalNote.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 888931FA15C55F8C00B25415 /* DivaNormalNote.cpp */; };
@@ -214,15 +214,24 @@
 		8889322C15C55F8D00B25415 /* DivaConfigLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8889320A15C55F8C00B25415 /* DivaConfigLoader.cpp */; };
 		8889322D15C55F8D00B25415 /* DivaSimpleUI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8889321015C55F8C00B25415 /* DivaSimpleUI.cpp */; };
 		8889322F15C564F200B25415 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8889322E15C564F200B25415 /* OpenGL.framework */; };
-		8889323115C565BD00B25415 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8889323015C565BD00B25415 /* CoreGraphics.framework */; };
 		8889323315C565CC00B25415 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8889323215C565CC00B25415 /* Cocoa.framework */; };
 		8889323515C566D400B25415 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8889323415C566D300B25415 /* Foundation.framework */; };
 		8889323B15C569FA00B25415 /* libenet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8889323A15C569F900B25415 /* libenet.a */; };
-		8889323D15C56A0300B25415 /* libglfw.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8889323C15C56A0300B25415 /* libglfw.a */; };
 		8889323F15C56A4500B25415 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8889323E15C56A4400B25415 /* IOKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		887EE98F15C628D300B50941 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				887EE99515C6291F00B50941 /* libfreetype.6.dylib in CopyFiles */,
+				887EE99415C6290B00B50941 /* libfmodex.dylib in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		88892D3715C55CDC00B25415 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -236,8 +245,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		886BE9B515C648E6005CFA52 /* osx_libglfw_i386.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = osx_libglfw_i386.lib; sourceTree = "<group>"; };
+		886BE9B615C648E6005CFA52 /* osx_libglfw_x86_64.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = osx_libglfw_x86_64.lib; sourceTree = "<group>"; };
+		886BE9B915C64D35005CFA52 /* libvlc.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvlc.5.dylib; path = Build/Debug/lib/libvlc.5.dylib; sourceTree = SOURCE_ROOT; };
+		886BE9BA15C64D35005CFA52 /* libvlccore.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvlccore.4.dylib; path = Build/Debug/lib/libvlccore.4.dylib; sourceTree = SOURCE_ROOT; };
+		887EE98715C627A100B50941 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = ../../../../../../../System/Library/Frameworks/CoreServices.framework; sourceTree = "<group>"; };
+		887EE98D15C628C200B50941 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = ../../../../../../../System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<group>"; };
+		887EE99A15C62A0000B50941 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		887EEA4715C6374D00B50941 /* osx_libfreetype_i386.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = osx_libfreetype_i386.lib; sourceTree = "<group>"; };
+		887EEA4B15C639ED00B50941 /* libenet_x86.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libenet_x86.a; sourceTree = SOURCE_ROOT; };
 		88892D3915C55CDC00B25415 /* divaol-osx */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "divaol-osx"; sourceTree = BUILT_PRODUCTS_DIR; };
-		88892D3D15C55CDC00B25415 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		88892D3F15C55CDC00B25415 /* divaol_osx.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = divaol_osx.1; sourceTree = "<group>"; };
 		88892D5815C55CF000B25415 /* fmod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fmod.h; sourceTree = "<group>"; };
 		88892D5915C55CF000B25415 /* fmod.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = fmod.hpp; sourceTree = "<group>"; };
@@ -410,7 +427,6 @@
 		88892E0D15C55CF000B25415 /* tttags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tttags.h; sourceTree = "<group>"; };
 		88892E0E15C55CF000B25415 /* ttunpat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ttunpat.h; sourceTree = "<group>"; };
 		88892E0F15C55CF000B25415 /* ft2build.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ft2build.h; sourceTree = "<group>"; };
-		88892E1015C55CF000B25415 /* osx_libfreetype_i386.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = osx_libfreetype_i386.lib; sourceTree = "<group>"; };
 		88892E1115C55CF000B25415 /* SoraFreetypeFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoraFreetypeFont.cpp; sourceTree = "<group>"; };
 		88892E1215C55CF000B25415 /* SoraFreetypeFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoraFreetypeFont.h; sourceTree = "<group>"; };
 		88892E1315C55CF000B25415 /* SoraFTFontManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoraFTFontManager.cpp; sourceTree = "<group>"; };
@@ -428,10 +444,6 @@
 		88892E4215C55CF000B25415 /* libvlc_version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libvlc_version.h; sourceTree = "<group>"; };
 		88892E4315C55CF000B25415 /* libvlc_vlm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libvlc_vlm.h; sourceTree = "<group>"; };
 		88892E4415C55CF000B25415 /* vlc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vlc.h; sourceTree = "<group>"; };
-		88892E4615C55CF000B25415 /* libvlc.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libvlc.5.dylib; sourceTree = "<group>"; };
-		88892E4715C55CF000B25415 /* libvlc.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libvlc.dylib; sourceTree = "<group>"; };
-		88892E4815C55CF000B25415 /* libvlccore.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libvlccore.4.dylib; sourceTree = "<group>"; };
-		88892E4915C55CF000B25415 /* libvlccore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libvlccore.dylib; sourceTree = "<group>"; };
 		88892E4A15C55CF000B25415 /* SoraVlcMoviePlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoraVlcMoviePlayer.cpp; sourceTree = "<group>"; };
 		88892E4B15C55CF000B25415 /* SoraVlcMoviePlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoraVlcMoviePlayer.h; sourceTree = "<group>"; };
 		88892E4F15C55CF000B25415 /* deprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = deprecated.h; sourceTree = "<group>"; };
@@ -1088,10 +1100,6 @@
 		888931D515C55F8C00B25415 /* DivaSinglePlay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaSinglePlay.cpp; sourceTree = "<group>"; };
 		888931D615C55F8C00B25415 /* DivaSinglePlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaSinglePlay.h; sourceTree = "<group>"; };
 		888931D715C55F8C00B25415 /* DivaTeamPlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaTeamPlay.h; sourceTree = "<group>"; };
-		888931DA15C55F8C00B25415 /* bass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bass.h; sourceTree = "<group>"; };
-		888931DB15C55F8C00B25415 /* bass.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = bass.lib; sourceTree = "<group>"; };
-		888931DC15C55F8C00B25415 /* DivaBassMusicManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaBassMusicManager.cpp; sourceTree = "<group>"; };
-		888931DD15C55F8C00B25415 /* DivaBassMusicManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaBassMusicManager.h; sourceTree = "<group>"; };
 		888931DE15C55F8C00B25415 /* DivaFmodMusicManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaFmodMusicManager.cpp; sourceTree = "<group>"; };
 		888931DF15C55F8C00B25415 /* DivaFmodMusicManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaFmodMusicManager.h; sourceTree = "<group>"; };
 		888931E015C55F8C00B25415 /* DivaXAudioMusicManager.cpp.tmp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DivaXAudioMusicManager.cpp.tmp; sourceTree = "<group>"; };
@@ -1107,7 +1115,6 @@
 		888931EC15C55F8C00B25415 /* enet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = enet.h; sourceTree = "<group>"; };
 		888931ED15C55F8C00B25415 /* list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = list.h; sourceTree = "<group>"; };
 		888931EE15C55F8C00B25415 /* protocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = protocol.h; sourceTree = "<group>"; };
-		888931EF15C55F8C00B25415 /* time.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = time.h; sourceTree = "<group>"; };
 		888931F015C55F8C00B25415 /* types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
 		888931F115C55F8C00B25415 /* unix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unix.h; sourceTree = "<group>"; };
 		888931F215C55F8C00B25415 /* utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utility.h; sourceTree = "<group>"; };
@@ -1136,11 +1143,9 @@
 		8889321015C55F8C00B25415 /* DivaSimpleUI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaSimpleUI.cpp; sourceTree = "<group>"; };
 		8889321115C55F8C00B25415 /* DivaSimpleUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaSimpleUI.h; sourceTree = "<group>"; };
 		8889322E15C564F200B25415 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = ../../../../../../../System/Library/Frameworks/OpenGL.framework; sourceTree = "<group>"; };
-		8889323015C565BD00B25415 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = ../../../../../../../System/Library/Frameworks/CoreGraphics.framework; sourceTree = "<group>"; };
 		8889323215C565CC00B25415 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = ../../../../../../../System/Library/Frameworks/Cocoa.framework; sourceTree = "<group>"; };
 		8889323415C566D300B25415 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = ../../../../../../../System/Library/Frameworks/Foundation.framework; sourceTree = "<group>"; };
 		8889323A15C569F900B25415 /* libenet.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libenet.a; path = ../divacore/Network/libenet.a; sourceTree = "<group>"; };
-		8889323C15C56A0300B25415 /* libglfw.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libglfw.a; sourceTree = "<group>"; };
 		8889323E15C56A4400B25415 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1149,37 +1154,45 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				887EE98E15C628C200B50941 /* ApplicationServices.framework in Frameworks */,
+				887EE98815C627A100B50941 /* CoreServices.framework in Frameworks */,
 				8889323F15C56A4500B25415 /* IOKit.framework in Frameworks */,
 				8889323515C566D400B25415 /* Foundation.framework in Frameworks */,
 				8889323315C565CC00B25415 /* Cocoa.framework in Frameworks */,
-				8889323115C565BD00B25415 /* CoreGraphics.framework in Frameworks */,
 				8889322F15C564F200B25415 /* OpenGL.framework in Frameworks */,
 				888930A415C55CF100B25415 /* libfmodex.dylib in Frameworks */,
-				888930A515C55CF100B25415 /* libfmodexL.dylib in Frameworks */,
 				888930A715C55CF100B25415 /* libfreetype.6.dylib in Frameworks */,
-				888930A815C55CF100B25415 /* osx_libfreetype_i386.lib in Frameworks */,
-				888930B515C55CF100B25415 /* libvlc.5.dylib in Frameworks */,
-				888930B615C55CF100B25415 /* libvlc.dylib in Frameworks */,
-				888930B715C55CF100B25415 /* libvlccore.4.dylib in Frameworks */,
-				888930B815C55CF100B25415 /* libvlccore.dylib in Frameworks */,
-				888930BA15C55CF100B25415 /* libvlc.lib in Frameworks */,
-				888930BB15C55CF100B25415 /* libvlccore.lib in Frameworks */,
-				8889322415C55F8D00B25415 /* bass.lib in Frameworks */,
 				8889323B15C569FA00B25415 /* libenet.a in Frameworks */,
-				8889323D15C56A0300B25415 /* libglfw.a in Frameworks */,
+				887EEA4815C6374D00B50941 /* osx_libfreetype_i386.lib in Frameworks */,
+				887EEA4C15C639ED00B50941 /* libenet_x86.a in Frameworks */,
+				886BE9B715C648E6005CFA52 /* osx_libglfw_i386.lib in Frameworks */,
+				886BE9B815C648E6005CFA52 /* osx_libglfw_x86_64.lib in Frameworks */,
+				886BE9BB15C64D35005CFA52 /* libvlc.5.dylib in Frameworks */,
+				886BE9BC15C64D35005CFA52 /* libvlccore.4.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		887EE9F215C6368E00B50941 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				886BE9B915C64D35005CFA52 /* libvlc.5.dylib */,
+				886BE9BA15C64D35005CFA52 /* libvlccore.4.dylib */,
+			);
+			name = lib;
+			path = Build/Products/Debug/lib;
+			sourceTree = SOURCE_ROOT;
+		};
 		88892D2E15C55CDC00B25415 = {
 			isa = PBXGroup;
 			children = (
+				887EE98D15C628C200B50941 /* ApplicationServices.framework */,
+				887EE98715C627A100B50941 /* CoreServices.framework */,
 				8889323E15C56A4400B25415 /* IOKit.framework */,
 				8889323415C566D300B25415 /* Foundation.framework */,
 				8889323215C565CC00B25415 /* Cocoa.framework */,
-				8889323015C565BD00B25415 /* CoreGraphics.framework */,
 				8889322E15C564F200B25415 /* OpenGL.framework */,
 				8889323A15C569F900B25415 /* libenet.a */,
 				88892D4615C55CF000B25415 /* Hoshizor */,
@@ -1200,7 +1213,7 @@
 		88892D3C15C55CDC00B25415 /* divaol-osx */ = {
 			isa = PBXGroup;
 			children = (
-				88892D3D15C55CDC00B25415 /* main.cpp */,
+				887EE99A15C62A0000B50941 /* main.cpp */,
 				88892D3F15C55CDC00B25415 /* divaol_osx.1 */,
 			);
 			path = "divaol-osx";
@@ -1249,8 +1262,8 @@
 				88892D6415C55CF000B25415 /* freetype */,
 				88892DBC15C55CF000B25415 /* ft2build.h */,
 				88892DBD15C55CF000B25415 /* libfreetype.6.dylib */,
+				887EEA4715C6374D00B50941 /* osx_libfreetype_i386.lib */,
 				88892DBE15C55CF000B25415 /* old */,
-				88892E1015C55CF000B25415 /* osx_libfreetype_i386.lib */,
 				88892E1115C55CF000B25415 /* SoraFreetypeFont.cpp */,
 				88892E1215C55CF000B25415 /* SoraFreetypeFont.h */,
 				88892E1315C55CF000B25415 /* SoraFTFontManager.cpp */,
@@ -1540,10 +1553,7 @@
 		88892E4515C55CF000B25415 /* lib */ = {
 			isa = PBXGroup;
 			children = (
-				88892E4615C55CF000B25415 /* libvlc.5.dylib */,
-				88892E4715C55CF000B25415 /* libvlc.dylib */,
-				88892E4815C55CF000B25415 /* libvlccore.4.dylib */,
-				88892E4915C55CF000B25415 /* libvlccore.dylib */,
+				887EE9F215C6368E00B50941 /* lib */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -2417,7 +2427,6 @@
 				8889315715C55D0C00B25415 /* glfw */,
 				8889315E15C55D0C00B25415 /* OSXIconWrapper.h */,
 				8889315F15C55D0C00B25415 /* OSXIconWrapper.mm */,
-				8889323C15C56A0300B25415 /* libglfw.a */,
 				8889316015C55D0C00B25415 /* soil */,
 				8889316B15C55D0C00B25415 /* SoraGLSLShader.cpp */,
 				8889316C15C55D0C00B25415 /* SoraGLSLShader.h */,
@@ -2433,6 +2442,8 @@
 				8889317615C55D0C00B25415 /* SoraOGLRenderer.h */,
 				8889317715C55D0C00B25415 /* SoraOGLRenderTarget.cpp */,
 				8889317815C55D0C00B25415 /* SoraOGLRenderTarget.h */,
+				886BE9B515C648E6005CFA52 /* osx_libglfw_i386.lib */,
+				886BE9B615C648E6005CFA52 /* osx_libglfw_x86_64.lib */,
 			);
 			path = SoraOGLRenderer;
 			sourceTree = "<group>";
@@ -2593,9 +2604,6 @@
 		888931D815C55F8C00B25415 /* MusicManager */ = {
 			isa = PBXGroup;
 			children = (
-				888931D915C55F8C00B25415 /* bass */,
-				888931DC15C55F8C00B25415 /* DivaBassMusicManager.cpp */,
-				888931DD15C55F8C00B25415 /* DivaBassMusicManager.h */,
 				888931DE15C55F8C00B25415 /* DivaFmodMusicManager.cpp */,
 				888931DF15C55F8C00B25415 /* DivaFmodMusicManager.h */,
 				888931E015C55F8C00B25415 /* DivaXAudioMusicManager.cpp.tmp */,
@@ -2604,18 +2612,10 @@
 			path = MusicManager;
 			sourceTree = "<group>";
 		};
-		888931D915C55F8C00B25415 /* bass */ = {
-			isa = PBXGroup;
-			children = (
-				888931DA15C55F8C00B25415 /* bass.h */,
-				888931DB15C55F8C00B25415 /* bass.lib */,
-			);
-			path = bass;
-			sourceTree = "<group>";
-		};
 		888931E215C55F8C00B25415 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				887EEA4B15C639ED00B50941 /* libenet_x86.a */,
 				888931E315C55F8C00B25415 /* DivaEnetSystem.h */,
 				888931E415C55F8C00B25415 /* DivaNetEventHandler.h */,
 				888931E515C55F8C00B25415 /* DivaNetLoader.h */,
@@ -2635,7 +2635,6 @@
 				888931EC15C55F8C00B25415 /* enet.h */,
 				888931ED15C55F8C00B25415 /* list.h */,
 				888931EE15C55F8C00B25415 /* protocol.h */,
-				888931EF15C55F8C00B25415 /* time.h */,
 				888931F015C55F8C00B25415 /* types.h */,
 				888931F115C55F8C00B25415 /* unix.h */,
 				888931F215C55F8C00B25415 /* utility.h */,
@@ -2705,6 +2704,7 @@
 				88892D3515C55CDC00B25415 /* Sources */,
 				88892D3615C55CDC00B25415 /* Frameworks */,
 				88892D3715C55CDC00B25415 /* CopyFiles */,
+				887EE98F15C628D300B50941 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -2746,7 +2746,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				88892D3E15C55CDC00B25415 /* main.cpp in Sources */,
 				888930A915C55CF100B25415 /* SoraFreetypeFont.cpp in Sources */,
 				888930AA15C55CF100B25415 /* SoraFTFontManager.cpp in Sources */,
 				888930B915C55CF100B25415 /* SoraVlcMoviePlayer.cpp in Sources */,
@@ -2932,7 +2931,6 @@
 				8889322115C55F8D00B25415 /* DivaStringUtil.cpp in Sources */,
 				8889322215C55F8D00B25415 /* DivaMultiPlay.cpp in Sources */,
 				8889322315C55F8D00B25415 /* DivaSinglePlay.cpp in Sources */,
-				8889322515C55F8D00B25415 /* DivaBassMusicManager.cpp in Sources */,
 				8889322615C55F8D00B25415 /* DivaFmodMusicManager.cpp in Sources */,
 				8889322715C55F8D00B25415 /* DivaLongNote.cpp in Sources */,
 				8889322815C55F8D00B25415 /* DivaNormalNote.cpp in Sources */,
@@ -2940,6 +2938,7 @@
 				8889322A15C55F8D00B25415 /* DivaCorePlayState.cpp in Sources */,
 				8889322C15C55F8D00B25415 /* DivaConfigLoader.cpp in Sources */,
 				8889322D15C55F8D00B25415 /* DivaSimpleUI.cpp in Sources */,
+				887EE99B15C62A0000B50941 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2950,7 +2949,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -2970,7 +2969,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx10.7;
+				SDKROOT = "";
 			};
 			name = Debug;
 		};
@@ -2978,7 +2977,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -2991,31 +2990,38 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				SDKROOT = macosx10.7;
+				SDKROOT = "";
 			};
 			name = Release;
 		};
 		88892D4415C55CDC00B25415 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++98";
-				CLANG_CXX_LIBRARY = "libstdc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../Hoshizor/Plugins\"/**",
 					"\"$(SRCROOT)/../../Hoshizor/Sora\"/**",
 					"\"$(SRCROOT)/../../divaol/divacore\"",
+					"\"$(SRCROOT)/../../divaol/divacore/network\"",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../Hoshizor/Plugins/cg\"",
-					"\"$(SRCROOT)/../../Hoshizor/Plugins/fmod\"",
-					"\"$(SRCROOT)/../../Hoshizor/Plugins/SoraFreetypeFont\"",
-					"\"$(SRCROOT)/../../Hoshizor/Plugins/SoraVlcMoviePlayer/osx/lib\"",
-					"\"$(SRCROOT)/../../Hoshizor/Plugins/SoraVlcMoviePlayer/win32/lib\"",
-					"\"$(SRCROOT)/../../Hoshizor/Sora/thread\"",
-					"\"$(SRCROOT)/../../Hoshizor/Plugins/SoraOGLRenderer\"",
-					"\"$(SRCROOT)/../divacore/MusicManager/bass\"",
-					"\"$(SRCROOT)/../divacore/Network\"",
+					"\"$(SRCROOT)/../../Hoshizor/Plugins/cg\"/**",
+					"\"$(SRCROOT)/../../Hoshizor/Plugins/fmod\"/**",
+					"\"$(SRCROOT)/../../Hoshizor/Plugins/SoraFreetypeFont\"/**",
+					"\"$(SRCROOT)/../../Hoshizor/Plugins/SoraVlcMoviePlayer/osx/lib\"/**",
+					"\"$(SRCROOT)/../../Hoshizor/Plugins/SoraVlcMoviePlayer/win32/lib\"/**",
+					"\"$(SRCROOT)/../../Hoshizor/Sora/thread\"/**",
+					"\"$(SRCROOT)/../../Hoshizor/Plugins/SoraOGLRenderer\"/**",
+					"\"$(SRCROOT)/../divacore/MusicManager/bass\"/**",
+					"\"$(SRCROOT)/../divacore/Network\"/**",
+					"\"$(SRCROOT)/Build/Products/Debug\"/**",
+					"\"$(SRCROOT)/Build/Products/Debug/lib\"/**",
+					"\"$(SRCROOT)\"/**",
+					"\"$(SRCROOT)/Build/Debug/lib\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = "";
@@ -3025,24 +3031,31 @@
 		88892D4515C55CDC00B25415 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++98";
-				CLANG_CXX_LIBRARY = "libstdc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../Hoshizor/Plugins\"/**",
 					"\"$(SRCROOT)/../../Hoshizor/Sora\"/**",
 					"\"$(SRCROOT)/../../divaol/divacore\"",
+					"\"$(SRCROOT)/../../divaol/divacore/network\"",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../Hoshizor/Plugins/cg\"",
-					"\"$(SRCROOT)/../../Hoshizor/Plugins/fmod\"",
-					"\"$(SRCROOT)/../../Hoshizor/Plugins/SoraFreetypeFont\"",
-					"\"$(SRCROOT)/../../Hoshizor/Plugins/SoraVlcMoviePlayer/osx/lib\"",
-					"\"$(SRCROOT)/../../Hoshizor/Plugins/SoraVlcMoviePlayer/win32/lib\"",
-					"\"$(SRCROOT)/../../Hoshizor/Sora/thread\"",
-					"\"$(SRCROOT)/../../Hoshizor/Plugins/SoraOGLRenderer\"",
-					"\"$(SRCROOT)/../divacore/MusicManager/bass\"",
-					"\"$(SRCROOT)/../divacore/Network\"",
+					"\"$(SRCROOT)/../../Hoshizor/Plugins/cg\"/**",
+					"\"$(SRCROOT)/../../Hoshizor/Plugins/fmod\"/**",
+					"\"$(SRCROOT)/../../Hoshizor/Plugins/SoraFreetypeFont\"/**",
+					"\"$(SRCROOT)/../../Hoshizor/Plugins/SoraVlcMoviePlayer/osx/lib\"/**",
+					"\"$(SRCROOT)/../../Hoshizor/Plugins/SoraVlcMoviePlayer/win32/lib\"/**",
+					"\"$(SRCROOT)/../../Hoshizor/Sora/thread\"/**",
+					"\"$(SRCROOT)/../../Hoshizor/Plugins/SoraOGLRenderer\"/**",
+					"\"$(SRCROOT)/../divacore/MusicManager/bass\"/**",
+					"\"$(SRCROOT)/../divacore/Network\"/**",
+					"\"$(SRCROOT)/Build/Products/Debug\"/**",
+					"\"$(SRCROOT)/Build/Products/Debug/lib\"/**",
+					"\"$(SRCROOT)\"/**",
+					"\"$(SRCROOT)/Build/Debug/lib\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = "";
@@ -3068,6 +3081,7 @@
 				88892D4515C55CDC00B25415 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

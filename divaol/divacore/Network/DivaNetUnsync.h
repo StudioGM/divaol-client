@@ -158,7 +158,7 @@ namespace divacore
 				double nowTime = timeCounter.getTime(),tmpTime;
 				while(!bReadyToStart)
 				{ 
-					Sleep(100);
+					msleep(100);
 					tmpTime = timeCounter.getTime();
 					//CORE_PTR->holdOnConnection(tmpTime-nowTime);
 					NETWORK_SYSTEM_PTR->update(tmpTime-nowTime);

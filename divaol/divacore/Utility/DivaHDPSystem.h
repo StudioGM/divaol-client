@@ -41,9 +41,9 @@ namespace divacore
 		short	_type, _state;
 
 		ParticleBase(float x,float y,sora::SoraSprite *drawTex):_age(0),_x(x),_y(y),_drawTex(drawTex){}
-		virtual void Draw() = NULL;
-		virtual bool Update(float) = NULL;	// return false if die
-		virtual bool Die() = NULL;
+		virtual void Draw() = 0;
+		virtual bool Update(float) = 0;	// return false if die
+		virtual bool Die() = 0;
 
 		void setTag(const std::string &tag) {this->tag=tag;}
 		std::string getTag() {return tag;}
@@ -164,7 +164,10 @@ namespace divacore
 	{
 
 		int particleType;
-		std::map < int, std::vector<ParticleBase*> > m_particle_groups;
+        
+        typedef std::vector<ParticleBase*> ParticleBaseVector;
+        typedef std::map<int, ParticleBaseVector> ParticleMap;
+		ParticleMap m_particle_groups;
 
 	public:
 		PSystem():particleType(4){}
@@ -176,17 +179,24 @@ namespace divacore
 			//return;
 
 			if(particleType>0){
-				for each (auto &group in m_particle_groups){
-					for each (auto &element in group.second){
-						element->Draw();
+                for(ParticleMap::iterator it = m_particle_groups.begin(),
+                    end = m_particle_groups.end();
+                    it != end;
+                    ++it) {
+                    for(ParticleBaseVector::iterator it2 = it->second.begin(),
+                        end2 = it->second.end();
+                        it2 != end2;
+                        ++it2) {
+                        (*it2)->Draw();
 					}
 				}
 			}
 		}
 		void Update(float dwTimeMilliSecond)
 		{
-			for (auto group_it = m_particle_groups.begin(); group_it!=m_particle_groups.end();){
-				auto &group = group_it->second;
+			for (ParticleMap::iterator group_it = m_particle_groups.begin();
+                 group_it!=m_particle_groups.end();){
+				ParticleBaseVector &group = group_it->second;
 				for ( int n=0, N=group.size(); n<N; n++ ){
 					if(!group[n]->Update(dwTimeMilliSecond)){
 						delete group[n];
@@ -197,7 +207,8 @@ namespace divacore
 				}
 				if(group.empty())
 				{
-					group_it = m_particle_groups.erase(group_it);
+                    //
+					m_particle_groups.erase(group_it++);
 					continue;
 				}
 				++group_it;
@@ -206,43 +217,63 @@ namespace divacore
 
 		void AddParticle(ParticleBase* p, int group)
 		{
-			auto &particle_group = m_particle_groups[group];
+			ParticleBaseVector &particle_group = m_particle_groups[group];
 			if(particle_group.empty()) particle_group.reserve(256);
 			particle_group.push_back(p);
 		}
 
 		void Clear()
 		{
-			for each (auto group in m_particle_groups){
-				for each (auto element in group.second){
-					delete element;
+			if(particleType>0){
+                for(ParticleMap::iterator it = m_particle_groups.begin(),
+                    end = m_particle_groups.end();
+                    it != end;
+                    ++it) {
+                    for(ParticleBaseVector::iterator it2 = it->second.begin(),
+                        end2 = it->second.end();
+                        it2 != end2;
+                        ++it2) {
+                        delete *it2;
+					}
 				}
 			}
 			m_particle_groups.clear();
 		}
 		void Clear(int group)
 		{
-			auto &particle_group = m_particle_groups[group];
-			for each (auto i in particle_group){
-				delete i;
-			}
+			ParticleBaseVector &particle_group = m_particle_groups[group];
+			for(ParticleBaseVector::iterator it2 = particle_group.begin(),
+                end2 = particle_group.end();
+                it2 != end2;
+                ++it2) {
+                delete *it2;
+            }
 			m_particle_groups.erase(group);
 		}
 
 		void SetState(int state_mask)
 		{
-			for each (auto &group in m_particle_groups){
-				for each (auto &element in group.second){
-					element->_state |= state_mask;
-				}
-			}
+			for(ParticleMap::iterator it = m_particle_groups.begin(),
+                end = m_particle_groups.end();
+                it != end;
+                ++it) {
+                for(ParticleBaseVector::iterator it2 = it->second.begin(),
+                    end2 = it->second.end();
+                    it2 != end2;
+                    ++it2) {
+                    (*it2)->_state |= state_mask;
+                }
+            }
 		}
 		void SetState(int state_mask, int group)
 		{
-			auto &particle_group = m_particle_groups[group];
-			for each (auto &element in particle_group){
-				element->_state |= state_mask;
-			}
+			ParticleBaseVector &particle_group = m_particle_groups[group];
+			for(ParticleBaseVector::iterator it2 = particle_group.begin(),
+                end2 = particle_group.end();
+                it2 != end2;
+                ++it2) {
+                (*it2)->_state |= state_mask;
+            }
 		}
 
 		void AddCometParticle(float x, float y, float dx, float dy, NotePtr note)

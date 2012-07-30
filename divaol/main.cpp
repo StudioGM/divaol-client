@@ -1,7 +1,11 @@
-#include <winsock2.h>
-
 //#define NET
 //#define EDIT
+
+#include "SoraPlatform.h"
+
+#ifdef OS_WIN32
+#include <winsock2.h>
+#endif
 
 #include "app/SoraGameApp.h"
 #include "Utility/DivaInitialize.h"
@@ -10,13 +14,17 @@
 #pragma comment(linker, "/NODEFAULTLIB:libcmtd.lib")
 
 
+#ifdef OS_WIN32
 int CALLBACK WinMain(
 	HINSTANCE hInstance,
 	HINSTANCE hPrevInstance,
 	LPSTR lpCmdLine,
   int nCmdShow
-) {  
-   
+) {
+#else
+    int main(int argc, const char** argv) {
+        
+#endif
 
 	try
 	{
@@ -30,6 +38,8 @@ int CALLBACK WinMain(
 		sora::SoraGameAppDef def;
 		sora::SoraGameApp app(def);
 		app.addState(core, "core");
+        
+        sora::SoraCore::Instance()->setSystemFont(sora::SoraFont::LoadFromFile("simhei.ttf", 20));
 
 		def.width(config.getAsInt("windowWidth"));
 		def.height(config.getAsInt("windowHeight"));
@@ -41,7 +51,7 @@ int CALLBACK WinMain(
 	catch (divacore::Exception&ev)
 	{
 		divacore::LOGGER->error(ev);
-		MessageBox(0,sora::s2ws(ev.getContent()).c_str(),sora::s2ws(ev.getModuleName()).c_str(),0);
+        sora::SoraCore::Instance()->messageBox(ev.getContent(), ev.getModuleName(), 0);
 	}
 
 	//ExitProcess(0);
