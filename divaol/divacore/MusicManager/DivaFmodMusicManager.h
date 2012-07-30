@@ -51,6 +51,7 @@ namespace divacore
 		void clear();
 		void destroy();
 		void load(const std::string &file, const std::string &ID, bool stream);
+		void unload(const std::string &ID);
 		void play(const std::string &ID, const std::string &channel, const std::string &tag="");
 		void playDirect(const std::string &ID, const std::string &tag="");
 		void playDirectWithFile(const std::string &file, bool stream, const std::string &tag="");
@@ -60,9 +61,15 @@ namespace divacore
 		float getTagVolume(const std::string &tag);
 		void setLoop(const std::string &channel, bool flag);
 		bool isLoop(const std::string &channel);
+		bool isPlaying(const std::string &channel);
+		void stop();
 		void stop(const std::string &channel) {getChannel(channel)->stop();}
 		void pause(const std::string &channel) {getChannel(channel)->setPaused(true);}
 		void resume(const std::string &channel) {getChannel(channel)->setPaused(false);}
+		void setPosition(const std::string &channel,double time);
+		float getPosition(const std::string &channel);
+		double getLength(const std::string &channel);
+
 		void pause();
 		void resume();
 	};
