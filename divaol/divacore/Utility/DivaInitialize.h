@@ -56,7 +56,7 @@ namespace divacore
 				core->registerMapParser(new divacore::MapStandardParser);
 				core->registerCoreFlow(new divacore::StandardCoreFlow);
 				core->registerItemFactory(new divacore::StandardItemFactory);
-				core->registerMusicManager(new divacore::FmodMusicManager);
+				core->registerMusicManager(new divacore::BassMusicManager);
 				core->registerDisplay(new divacore::StandardDisplay);
 				core->registerRenderSystem(new divacore::StandardRenderSystem);
 				core->registerInputManager(new divacore::StandardInputManager);

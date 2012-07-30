@@ -1,11 +1,9 @@
 //#define NET
 //#define EDIT
 
-#include "SoraPlatform.h"
-
-#ifdef OS_WIN32
 #include <winsock2.h>
-#endif
+
+#include "SoraPlatform.h"
 
 #include "app/SoraGameApp.h"
 #include "Utility/DivaInitialize.h"
