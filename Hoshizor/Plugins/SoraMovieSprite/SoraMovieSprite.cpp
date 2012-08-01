@@ -8,8 +8,8 @@
  */
 
 #include "SoraMovieSprite.h"
-
 #include "SoraCore.h"
+#include "SoraLogger.h"
 
 namespace sora {
     
@@ -18,9 +18,9 @@ namespace sora {
         assert(moviePlayer);
         
         if(!moviePlayer->openMedia(videoPath))
-            DebugPtr->log("Error open movie media");
+            log_error("Error open movie media");
         else {
-            setTexture(SORA->createTextureWH(moviePlayer->getWidth(),   moviePlayer->getHeight()));
+            setTexture(SoraCore::Instance()->createTextureWH(moviePlayer->getWidth(),   moviePlayer->getHeight()));
         }
     }
     
@@ -51,7 +51,7 @@ namespace sora {
         detachShader(postProcessor);
     }
     
-    uint32 SoraMovieSprite::update(float32 dt) {
+    int32 SoraMovieSprite::update(float dt) {
         if(mQuad.tex == NULL || mMoviePlayer == NULL)
             return 0;
         

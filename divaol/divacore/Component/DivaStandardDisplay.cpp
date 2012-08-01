@@ -24,7 +24,8 @@ namespace divacore
 
 		if(Argument::isArg("__location__",argnew))
 			setVideoTime(Argument::asString("id",argnew),Argument::asDouble("__location__",argnew)+0.2);
-	}
+	
+     }
 	void StandardDisplay::displayImage(ARGUMENTS &arg)
 	{
 		ARGUMENTS argnew = arg;
@@ -139,15 +140,16 @@ namespace divacore
 		if(isExistVideo(ID))
 			DIVA_EXCEPTION_MODULE("Video "+ID+" alrealdy exists","DivaDisplay");
 		sora::SoraVlcMoviePlayer *moviePlayer = new sora::SoraVlcMoviePlayer(true);
-		if(!moviePlayer->openMedia(file))
+        if(!moviePlayer->openMedia(file))
 			DIVA_EXCEPTION_MODULE("Video "+file+" loading failed","DivaDisplay");
 		sora::SoraSprite *sprite = new sora::SoraSprite();
 		sora::SoraTextureHandle texture = sora::SoraTexture::CreateEmpty(moviePlayer->getWidth(), moviePlayer->getHeight());
 		moviePlayer->bindTexture(texture);
 		sprite->setTexture(texture);
-		moviePlayer->play();
+		
+        moviePlayer->play();
 		while(moviePlayer->isPlaying())
-			Sleep(1),moviePlayer->pause();
+			msleep(1),moviePlayer->pause();
 		
 		videoPool[ID] = std::make_pair<sora::SoraVlcMoviePlayer*,sora::SoraSprite*>(moviePlayer,sprite);
 	}
@@ -204,7 +206,6 @@ namespace divacore
 	}
 	void StandardDisplay::playVideo(const std::string &ID, float x, float y, float width, float height)
 	{
-		//return;
 		if(!isExistVideo(ID))
 		{
 			LOGGER->notice("Video "+ID+" does not exists");

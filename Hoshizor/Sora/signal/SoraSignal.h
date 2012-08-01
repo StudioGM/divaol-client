@@ -29,7 +29,49 @@ namespace sora {
      * When a specific event happened, all connection would be notified
      **/
     
-    class SoraConnection;
+    namespace signal {
+        class ConnectionBase;
+    }
+    
+    class SORA_API SoraConnection {
+    public:
+        SoraConnection():
+        isControlling(false) {
+        }
+        ~SoraConnection() {
+            if(isControlling) {
+                disconnect();
+            }
+        }
+        bool isValid();
+        void disconnect();
+        
+        bool operator ==(const SoraConnection &rhs) {
+            sora_assert(con.get());
+            return con.get() == rhs.con.get();
+        }
+        
+        /**
+         * Signal managed functions
+         * You should not call these functions
+         **/
+        
+        signal::ConnectionBase* get_con_base() {
+            return con.get();
+        }
+        
+        void setControl(bool flag) {
+            isControlling = flag;
+        }
+        
+        void reset(signal::ConnectionBase* _con) {
+            con.reset(_con);
+        }
+        
+    private:
+        bool isControlling;
+        SoraAutoPtr<signal::ConnectionBase> con;
+    };
     
     namespace signal {
  
@@ -97,54 +139,16 @@ namespace sora {
         
     } // namespace signal
   
-    class SORA_API SoraConnection {
-    public:
-        SoraConnection():
-        isControlling(false) {
-        }
-        ~SoraConnection() {
-            if(isControlling) {
-                disconnect();
-            }
-        }
-        bool isValid() {
+        inline bool SoraConnection::isValid() {
             if(con.get())
                 return con->isValid();
             return false;
         }
         
-        void disconnect() {
+        inline void SoraConnection::disconnect() {
             if(con.get())
                 con->disconnect();
         }
-        
-        bool operator ==(const SoraConnection &rhs) {
-            sora_assert(con.get());
-            return con.get() == rhs.con.get();
-        }
-        
-        /**
-         * Signal managed functions
-         * You should not call these functions
-         **/
-        
-        signal::ConnectionBase* get_con_base() {
-            return con.get();
-        }
-        
-        void setControl(bool flag) {
-            isControlling = flag;
-        }
-        
-        void reset(signal::ConnectionBase* _con) {
-            con.reset(_con);
-        }
-        
-    private:
-        bool isControlling;
-        SoraAutoPtr<signal::ConnectionBase> con;
-    };
-
     
     template<typename SIG>
     class SORA_API SoraSignalBase: public signal::SignalImpl {

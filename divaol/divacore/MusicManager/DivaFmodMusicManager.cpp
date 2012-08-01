@@ -95,6 +95,15 @@ namespace divacore
 			DIVA_EXCEPTION_MODULE("Sound "+ID+" already exists","FmodMusicManager");
 		soundPool[ID] = loadSound(file,stream);
 	}
+	void FmodMusicManager::unload(const std::string &ID)
+	{
+		SOUNDPOOL::iterator soundPtr = soundPool.find(ID);
+		if(soundPtr==soundPool.end())
+			DIVA_EXCEPTION_MODULE("Sound "+ID+" does not exist","FmodMusicManager");
+		soundPtr->second->release();
+		soundPool.erase(soundPtr);
+	}
+
 	void FmodMusicManager::play(const std::string &ID, const std::string &channel, const std::string &tag)
 	{
 		FMOD::Sound *pSound = getSound(ID);
@@ -165,6 +174,42 @@ namespace divacore
 		FMOD_MODE mode;
         getChannel(channel)->getMode(&mode);
         return mode & FMOD_LOOP_NORMAL;
+	}
+	bool FmodMusicManager::isPlaying(const std::string &channel)
+	{
+		bool bPlay;
+		getChannel(channel)->isPlaying(&bPlay);
+		return bPlay;
+	}
+	void FmodMusicManager::setPosition(const std::string &channel,double time)
+	{
+		getChannel(channel)->setPosition(time*1000,FMOD_TIMEUNIT_MS);
+	}
+	float FmodMusicManager::getPosition(const std::string &channel)
+	{
+		try
+		{
+			uint32 position;
+			getChannel(channel)->getPosition(&position,FMOD_TIMEUNIT_MS);
+			return position/1000.0;
+		}
+		catch(...)
+		{
+			return 0;
+		}
+	}
+	double FmodMusicManager::getLength(const std::string &channel)
+	{
+		uint32 length;
+		FMOD::Sound *currentSound = NULL;
+		getChannel(channel)->getCurrentSound(&currentSound);
+		currentSound->getLength(&length,FMOD_TIMEUNIT_MS);
+		return length/1000.0;
+	}
+	void FmodMusicManager::stop()
+	{
+		for(MUSICPOOL::iterator ptr = musicPool.begin(); ptr != musicPool.end(); ptr++)
+			ptr->second.second->stop();
 	}
 	void FmodMusicManager::pause()
 	{

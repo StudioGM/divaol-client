@@ -1,7 +1,9 @@
-#include <winsock2.h>
-
 //#define NET
 //#define EDIT
+
+#include <winsock2.h>
+
+#include "SoraPlatform.h"
 
 #include "app/SoraGameApp.h"
 #include "Utility/DivaInitialize.h"
@@ -11,13 +13,17 @@
 #pragma comment(linker, "/NODEFAULTLIB:libcmtd.lib")
 
 
+#ifdef OS_WIN32
 int CALLBACK WinMain(
 	HINSTANCE hInstance,
 	HINSTANCE hPrevInstance,
 	LPSTR lpCmdLine,
   int nCmdShow
-) {  
-   
+) {
+#else
+    int main(int argc, const char** argv) {
+        
+#endif
 
 	try
 	{
@@ -42,7 +48,7 @@ int CALLBACK WinMain(
 	catch (divacore::Exception&ev)
 	{
 		divacore::LOGGER->error(ev);
-		MessageBox(0,sora::s2ws(ev.getContent()).c_str(),sora::s2ws(ev.getModuleName()).c_str(),0);
+        sora::SoraCore::Instance()->messageBox(ev.getContent(), ev.getModuleName(), 0);
 	}
 
 	//ExitProcess(0);

@@ -112,7 +112,6 @@ namespace divacore
 				append(sizeof(T));
 				memcpy(&buffer[pos],&value,sizeof(T)), pos += sizeof(T);
 			}
-			template<>
 			void write(const std::string&value)
 			{
 				write(value.size());

@@ -22,7 +22,7 @@ namespace sora {
 		SoraMovieSprite(SoraMoviePlayer* moviePlayer, const SoraWString& videoPath);
 		~SoraMovieSprite();
 		
-		uint32 update(float32 dt);
+		int32 update(float dt);
         void play();
 		
         void addMovieFilter(SoraMovieFilter* movieFilter);

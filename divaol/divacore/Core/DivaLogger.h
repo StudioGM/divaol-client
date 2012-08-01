@@ -24,7 +24,7 @@ namespace divacore
 		static Logger* instance() {static Logger instance; return &instance;}
 		Logger(const std::string& file="diva_log.txt")
 		{
-			writer.open(file);
+			writer.open(file.c_str());
 			bar();
 			print("Diva Online Logger");
 			bar();

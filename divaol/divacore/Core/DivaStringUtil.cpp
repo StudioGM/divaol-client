@@ -6,16 +6,27 @@
  *
  */
 #include <stdarg.h>
+
+#include "SoraPlatform.h"
+
+
+#ifdef OS_WIN32
 #include <windows.h>
+#endif
+
+#include <string>
+#include <iostream>
+#include <sstream>
+
 #include "DivaStringUtil.h"
 
 namespace divacore
 {
 	std::string iToS(int n) 
 	{
-		char buffer[256];
-		itoa(n,buffer,10);
-		return buffer;
+        std::ostringstream strStream;
+        strStream<<n;
+        return strStream.str();
 	}
 
 	int sToI(const std::string &number)
@@ -30,6 +41,7 @@ namespace divacore
 
 	std::string GBKToUTF8(const std::string& strGBK)
 	{
+#ifdef OS_WIN32
 		std::string strOutUTF8 = "";
 		WCHAR * str1;
 		int n = MultiByteToWideChar(CP_ACP, 0, strGBK.c_str(), -1, NULL, 0);
@@ -43,7 +55,10 @@ namespace divacore
 		str1 = NULL;
 		delete[]str2;
 		str2 = NULL;
-		return strOutUTF8;
+        return strOutUTF8;
+
+#endif
+        return strGBK;
 	}
 
 	std::string format(const char *format,...)
