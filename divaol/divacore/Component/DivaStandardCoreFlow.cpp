@@ -115,11 +115,14 @@ namespace divacore
 
 			if(!actived/*nowTime>=totalTime*/)
 			{
-				core->getMusicManager()->destroy();
-				state = END;
-
 				//endTask
 				endTask.start();
+				
+				if(state!=PAUSE)
+				{
+					core->getMusicManager()->destroy();
+					state = END;
+				}
 				
 				return;
 			}
