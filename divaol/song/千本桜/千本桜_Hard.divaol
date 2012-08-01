@@ -15192,6 +15192,6 @@
          "id" : "wav_0",
          "type" : "audio",
 		 "stream" : true
-		},
+		}
    ]
 }
