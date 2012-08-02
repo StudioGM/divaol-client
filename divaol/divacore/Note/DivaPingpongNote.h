@@ -14,6 +14,7 @@
 #include "SoraSprite.h"
 #include "SoraImageEffect.h"
 #include "Component/DivaStandardFactory.h"
+#include "Utility/DivaPath.h"
 
 namespace divacore
 {
@@ -47,6 +48,8 @@ namespace divacore
 	public:
 		PingpongNote(MapNote& noteInfo):Note(noteInfo) {}
 
+		std::string getName() {return "pingpong_note";}
+
 		bool checkInfo() {return (noteInfo.noteType=="pingpong"&&noteInfo.notePoint.size()==2);}
 		void onInitiate() ;
 		void onEnter();
@@ -61,6 +64,10 @@ namespace divacore
 		void recover(int point, int position, float time);
 
 		Point getReceiveScreenPosition() {return Point(noteSprite->getPosition().x,noteSprite->getPosition().y);}
+
+		//specific gets
+		Point getRhythmHeadPosition() {return path::Bezier::getBezierPoint(tailPosition,notePosition,rhythmHead);}
+		Point getRhythmTailPosition() {return path::Bezier::getBezierPoint(tailPosition,notePosition,rhythmTail);}
 	};
 }
 

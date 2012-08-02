@@ -44,6 +44,8 @@ namespace divacore
 		inline void setConfig(ConfigPtr config) {this->config = config;}
 		inline void setOwner(bool isOwner) {bOwner=isOwner;}
 		inline bool isOwner() {return bOwner;}
+		virtual std::string getName() {return "note";}
+
 	public:
 		enum{START=-0x80,FAILED,END};
 

@@ -337,7 +337,8 @@ namespace divacore
 		_reloadNotes();
 		_reloadEvents();
 
-		static const float bufferTime = 0.1;
+		//由于音频多线程缓冲，所以setPosition之后的pause会出现时间混乱的情况，故缓冲一段时间，实属下策
+		static const float bufferTime = 0.01;
 
 		MUSIC_MANAGER_PTR->setPosition(MAIN_SOUND_CHANNEL,time-bufferTime);
 		LOGGER->log("%.3f",CORE_PTR->getRealTime());
