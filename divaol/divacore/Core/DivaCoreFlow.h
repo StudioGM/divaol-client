@@ -53,7 +53,7 @@ namespace divacore
 		virtual double getRealTime() {return 0;}
 		virtual double getTotalTime() {return 0;}
 		virtual double getPosition() {return 0;}
-		virtual uint32 getTotalPositionI() {return 0;}
+		virtual uint32 getTotalPosition() {return 0;}
 		virtual uint8 getState() {return 0;}
 		virtual double getBPM() {return 0;}
 		virtual std::string getMainSound() = 0;

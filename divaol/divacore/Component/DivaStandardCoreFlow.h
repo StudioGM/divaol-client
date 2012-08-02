@@ -138,6 +138,8 @@ namespace divacore
 		void delEvent(int index);
 		void addNote(MapNote note);
 		void delNote(int index);
+		float posToTime(double position) {return coreFlow->_posToTime(position);}
+		double timeToPos(float time) {return coreFlow->_timeToPos(time);}
 	};
 
 	typedef CoreFlow* CoreFlowPtr;
