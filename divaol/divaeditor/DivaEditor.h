@@ -124,6 +124,8 @@ namespace divaeditor
 		void onMouseClicked(SoraMouseEvent& event);
 		void onMouseReleased(SoraMouseEvent& event);
 		void onMouseMoved(SoraMouseEvent& event);
+		void onMouseWheelUp(SoraMouseEvent& event);
+		void onMouseWheelDown(SoraMouseEvent& event);
 
 
 	    /*

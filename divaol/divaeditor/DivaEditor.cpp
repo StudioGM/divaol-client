@@ -149,6 +149,16 @@ namespace divaeditor
 		core->onMouseMoved(event);
 	}
 
+	void Editor::onMouseWheelUp(SoraMouseEvent& event)
+	{
+
+	}
+
+	void Editor::onMouseWheelDown(SoraMouseEvent& event)
+	{
+
+	}
+
 
 	void Editor::initScenes()
 	{

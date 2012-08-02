@@ -299,6 +299,9 @@ namespace divacore
 
 		void addParticle(std::string type, ParticleData data, NotePtr note)
 		{
+			if(CORE_PTR->getMode()=="editMode")
+				return;
+
 			if(type=="comet")
 				pSystem.AddCometParticle(data.x,data.y,data.dx,data.dy,note);
 			else if(type=="star")

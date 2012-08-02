@@ -294,5 +294,11 @@ namespace divacore
 
 		onUpdate(0,position-this->getKeyPosition());
 		lastTailPosition = nowTailPosition;
+
+		//cancel blow up effect
+		noteSprite->clearEffects();
+		coverSprite->clearEffects();
+		noteSprite->setScale(1,1);
+		coverSprite->setScale(1,1);
 	}
 }

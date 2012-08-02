@@ -644,6 +644,7 @@
     <ClInclude Include="divaeditor\DivaEditor.h" />
     <ClInclude Include="divaeditor\DivaEditorDisplay.h" />
     <ClInclude Include="divaeditor\DivaEditorMapData.h" />
+    <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorMusicProgressWidget.h" />
     <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorScene.h" />
     <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorTimelineWidget.h" />
     <ClInclude Include="divaeditor\EditorInitialize.h" />
@@ -909,6 +910,7 @@
     <ClCompile Include="divaeditor\DivaEditor.cpp" />
     <ClCompile Include="divaeditor\DivaEditorDisplay.cpp" />
     <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorMainScene.cpp" />
+    <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorMusicProgressWidget.cpp" />
     <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorTimelineWidget.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

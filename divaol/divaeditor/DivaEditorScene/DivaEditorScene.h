@@ -48,6 +48,8 @@ namespace divaeditor
 		virtual void onMouseClicked(SoraMouseEvent& event) = NULL;
 		virtual void onMouseReleased(SoraMouseEvent& event) = NULL;
 		virtual void onMouseMoved(SoraMouseEvent& event) = NULL;
+		virtual void onMouseWheelUp(SoraMouseEvent& event) = NULL;
+		virtual void onMouseWheelDown(SoraMouseEvent& event) = NULL;
 	};
 
 
@@ -84,6 +86,8 @@ namespace divaeditor
 		virtual void onMouseClicked(SoraMouseEvent& event){};
 		virtual void onMouseReleased(SoraMouseEvent& event){};
 		virtual void onMouseMoved(SoraMouseEvent& event){};
+		virtual void onMouseWheelUp(SoraMouseEvent& event){};
+		virtual void onMouseWheelDown(SoraMouseEvent& event){};
 	};
 
 }
