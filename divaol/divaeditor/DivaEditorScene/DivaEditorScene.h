@@ -10,6 +10,7 @@
 
 #include "soraguichan/SoraGUI.h"
 #include "Soraguichan/SoraGUIResponserMap.h"
+#include "divaeditor/DivaEditorScene/DivaEditorTimelineWidget.h"
 
 namespace divaeditor
 {

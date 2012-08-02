@@ -1866,6 +1866,12 @@
     <ClInclude Include="divacore\State\DivaEditLoad.h">
       <Filter>源文件\divacore\state</Filter>
     </ClInclude>
+    <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorTimelineWidget.h">
+      <Filter>源文件\divaeditor\DivaEditorScene</Filter>
+    </ClInclude>
+    <ClInclude Include="divaeditor\DivaEditorMapData.h">
+      <Filter>源文件\divaeditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -2647,6 +2653,12 @@
     </ClCompile>
     <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorMainScene.cpp">
       <Filter>源文件\divaeditor\DivaEditorScene</Filter>
+    </ClCompile>
+    <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorTimelineWidget.cpp">
+      <Filter>源文件\divaeditor\DivaEditorScene</Filter>
+    </ClCompile>
+    <ClCompile Include="DivaEditorMapData.cpp">
+      <Filter>源文件\divaeditor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

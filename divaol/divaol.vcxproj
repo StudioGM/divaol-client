@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -643,7 +643,9 @@
     <ClInclude Include="divacore\Utility\DivaSimpleUI.h" />
     <ClInclude Include="divaeditor\DivaEditor.h" />
     <ClInclude Include="divaeditor\DivaEditorDisplay.h" />
+    <ClInclude Include="divaeditor\DivaEditorMapData.h" />
     <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorScene.h" />
+    <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorTimelineWidget.h" />
     <ClInclude Include="divaeditor\EditorInitialize.h" />
   </ItemGroup>
   <ItemGroup>
@@ -903,9 +905,11 @@
     <ClCompile Include="divacore\Timer\DivaTimeCounterImplWin32.cpp" />
     <ClCompile Include="divacore\Utility\DivaConfigLoader.cpp" />
     <ClCompile Include="divacore\Utility\DivaSimpleUI.cpp" />
+    <ClCompile Include="DivaEditorMapData.cpp" />
     <ClCompile Include="divaeditor\DivaEditor.cpp" />
     <ClCompile Include="divaeditor\DivaEditorDisplay.cpp" />
     <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorMainScene.cpp" />
+    <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorTimelineWidget.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

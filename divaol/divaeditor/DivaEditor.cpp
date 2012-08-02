@@ -7,6 +7,7 @@
 #include "DivaEditorDisplay.h "
 #include "divacore/state/DivaCoreLoader.h"
 #include "divacore/Component/DivaStandardCoreFlow.h"
+#include "divaeditor/DivaEditorMapData.h"
 
 namespace divaeditor
 {
@@ -21,11 +22,15 @@ namespace divaeditor
 
 	void Editor::coreDidLoad(void* arg)
 	{
+		if(!mapData)
+			mapData = new DivaEditorMapData();
+		mapData->registerMapInfo(core->getMapInfo());
 		StandardEditUtility::instance().init();
 		core->setState("play");
 		core->pause();
 		changeScene(State::MAIN);
 	}
+
 
 	void Editor::registerDivaCore(CorePtr _core)
 	{
@@ -34,6 +39,13 @@ namespace divaeditor
 		task.setAsMemberFunc(&Editor::coreDidLoad, this);
 		
 		((divacore::CoreLoader*)((*core->getManager())["load"]))->registerReadyCallback(task);
+
+/*
+		Task endTask;
+		endTask.setAsMemberFunc(&Editor::coreDidEnd, this);
+
+		CORE_FLOW_PTR->registerEndCallback(endTask);
+		*/
 
 		core->registerDisplay(new DivaEditorDisplay());
 	}
@@ -55,7 +67,7 @@ namespace divaeditor
 
 	void Editor::onEnter()
 	{
-		core->setSong("song/千本桜","千本桜_Extra.divaol");
+		core->setSong("song/千本桜","千本桜_Hard.divaol");
 
 		SoraCore::Instance()->showMouse(true);
 		GCN_GLOBAL->initGUIChan(L"arial.ttf",14);

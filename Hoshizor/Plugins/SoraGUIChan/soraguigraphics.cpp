@@ -133,7 +133,7 @@ namespace gcn
             return;
         }
 
-        sora->renderLine((float)x, (float)y, (float)x + 1.f, (float)y, mHardwareColor, GUI_Z);
+        sora->renderLine((float)x, (float)y, (float)x + 1.f, (float)y, mHardwareColor, 1.f, GUI_Z);
     }
 
     void SoraGUIGraphics::drawLine(int x1, int y1, int x2, int y2) {
@@ -170,7 +170,7 @@ namespace gcn
             }
         }
         
-		sora->renderLine((float)x1, (float)y1, (float)x2, (float)y2, mHardwareColor, GUI_Z);
+		sora->renderLine((float)x1, (float)y1, (float)x2, (float)y2, mHardwareColor, 1.f, GUI_Z);
     }
 
     void SoraGUIGraphics::drawRectangle(const Rectangle &rectangle) {

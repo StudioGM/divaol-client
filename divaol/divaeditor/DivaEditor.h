@@ -23,7 +23,9 @@
 
 #include "guichansetup.h"
 
+#include "divaeditor/DivaEditorMapData.h"
 #include "divaeditor/DivaEditorScene/DivaEditorScene.h"
+
 
 namespace divaeditor
 {
@@ -34,6 +36,7 @@ namespace divaeditor
 
 	class Editor;
 	class DivaEditorScene;
+	class DivaEditorMapData;
 
 	typedef Core* CorePtr;
 	typedef Editor* EditorPtr;
@@ -55,8 +58,6 @@ namespace divaeditor
 		 */
 		//total state
 		int mState,mMode;
-		//map info
-		MapInfoPtr mapInfo;
 		//the initialize state name
 		std::string initStateTag;
 		//event manager
@@ -68,7 +69,7 @@ namespace divaeditor
 
 
 	private:
-		Editor():core(NULL),mapInfo(NULL),nowScene(NULL),mState(PRELOAD) {};
+		Editor():core(NULL),nowScene(NULL),mState(PRELOAD) {};
 
 		void coreDidLoad(void* arg);
 
@@ -88,6 +89,8 @@ namespace divaeditor
 
 	public:
 		
+		//map info
+		DivaEditorMapData *mapData;
 
 		/*
 		 * singleton
