@@ -337,8 +337,26 @@ namespace divacore
 		_reloadNotes();
 		_reloadEvents();
 
-		MUSIC_MANAGER_PTR->setPosition(MAIN_SOUND_CHANNEL,time);
-		timeCounter.resume();
+		static const float bufferTime = 0.1;
+
+		MUSIC_MANAGER_PTR->setPosition(MAIN_SOUND_CHANNEL,time-bufferTime);
+		LOGGER->log("%.3f",CORE_PTR->getRealTime());
+		msleep(bufferTime*1000);
+
+		if(state==PAUSE)
+		{
+			//CORE_PTR->resume();
+			//MUSIC_MANAGER_PTR->update();
+
+			CORE_PTR->pause();
+			LOGGER->log("%.3f",CORE_PTR->getRealTime());
+		}
+
+		else
+		{
+			//MUSIC_MANAGER_PTR->resume();
+			timeCounter.resume();
+		}
 	}
 
 	void StandardCoreFlow::_reloadNotes()

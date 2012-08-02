@@ -68,7 +68,7 @@ namespace divacore
 		void setLoop(const std::string &channel, bool flag);
 		bool isLoop(const std::string &channel);
 		bool isPlaying(const std::string &channel) {return BASS_ChannelIsActive(getChannel(channel));}
-		void stop() {BASS_Stop(); BASS_Start();}
+		void stop();
 		void stop(const std::string &channel) {BASS_ChannelStop(getChannel(channel));}
 		void pause(const std::string &channel) {BASS_ChannelPause(getChannel(channel));}
 		void resume(const std::string &channel) {BASS_ChannelPlay(getChannel(channel),false);}

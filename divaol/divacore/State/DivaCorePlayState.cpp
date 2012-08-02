@@ -153,7 +153,8 @@ namespace divacore
 		if(event.getKey()==SORA_KEY_J)
 		{
 			StandardEditUtility::instance().init();
-			StandardEditUtility::instance().setPosition(1400);
+			//for(int i = 1400; i <= 3000; i+= 100)
+				StandardEditUtility::instance().setPosition(3000);
 			//StandardEditUtility::instance().refreshAll();
 			//CORE_PTR->pause();
 		}
@@ -193,7 +194,12 @@ namespace divacore
 	{
 #ifdef _DEBUG
 		if(event.getKey()==SORA_KEY_P)
-			core->setState("pause");
+		{
+			if(CORE_FLOW_PTR->getState()!=CoreFlow::PAUSE)
+				core->pause();//core->setState("pause");
+			else
+				core->resume();
+		}
 #endif
 	}
 }

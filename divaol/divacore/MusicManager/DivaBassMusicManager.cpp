@@ -23,7 +23,10 @@ namespace divacore
 		if(Argument::isArg("channel",argnew))
 			play(Argument::asString("id",argnew),Argument::asString("channel",argnew),Argument::asString("tag",argnew));
 		else
-			playDirect(Argument::asString("id",argnew),Argument::asString("tag",argnew));
+		{
+			DIVA_EXCEPTION_MODULE("no channel","DivaMusicManager");
+			//playDirect(Argument::asString("id",argnew),Argument::asString("tag",argnew));
+		}
 
 		if(Argument::isArg("__location__",argnew))
 		{
@@ -116,6 +119,14 @@ namespace divacore
 		volumePool.clear();
 		tagsVolume.clear();
 		musicList.clear();
+	}
+	void BassMusicManager::stop()
+	{
+		//BASS_SampleStop(soundPool["res"].second);
+		for(MUSICPOOL::iterator ptr = musicPool.begin(); ptr != musicPool.end(); ptr++)
+			BASS_ChannelStop(ptr->second.second);
+		//BASS_Pause();
+		//BASS_Stop(); /*BASS_Start();*/
 	}
 	void BassMusicManager::load(const std::string &file, const std::string &ID, bool stream)
 	{
@@ -226,11 +237,15 @@ namespace divacore
 	}
 	void BassMusicManager::pause()
 	{
-		BASS_Pause();
+		for(MUSICPOOL::iterator ptr = musicPool.begin(); ptr != musicPool.end(); ptr++)
+			BASS_ChannelPause(ptr->second.second);
+		//BASS_Pause();
 	}
 	void BassMusicManager::resume()
 	{
-		BASS_Start();
+		for(MUSICPOOL::iterator ptr = musicPool.begin(); ptr != musicPool.end(); ptr++)
+			BASS_ChannelPlay(ptr->second.second,false);
+		//BASS_Start();
 	}
 	void BassMusicManager::setPosition(const std::string &channel,double time)
 	{

@@ -26,7 +26,7 @@ int CALLBACK WinMain(
 
 	try
 	{
-		divacore::standard::Initializer initializer("system",divacore::standard::Initializer::SINGLE, true);
+		divacore::standard::Initializer initializer("system",divacore::standard::Initializer::EDIT, true);
 		divacore::CorePtr core = initializer.get();
 
 		divacore::Config config;
