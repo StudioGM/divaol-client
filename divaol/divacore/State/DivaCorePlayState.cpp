@@ -153,8 +153,7 @@ namespace divacore
 		if(event.getKey()==SORA_KEY_J)
 		{
 			StandardEditUtility::instance().init();
-			for(int i = 1400; i <= 3000; i+= 200)
-				StandardEditUtility::instance().setPosition(i);
+			StandardEditUtility::instance().setPosition(300);
 			//StandardEditUtility::instance().refreshAll();
 			//CORE_PTR->pause();
 		}

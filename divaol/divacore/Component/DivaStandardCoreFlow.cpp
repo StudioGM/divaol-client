@@ -522,6 +522,9 @@ namespace divacore
 		if(CORE_PTR->getMode()!="editMode")
 			return;
 
+		//calt time
+		event.time = posToTime(event.position);
+		
 		MAP_INFO->events.push_back(event);
 		refreshAll();
 	}
@@ -540,6 +543,10 @@ namespace divacore
 	{
 		if(CORE_PTR->getMode()!="editMode")
 			return;
+
+		//calt time
+		for(int i = 0; i < note.notePoint.size(); i++)
+			note.notePoint[i].time = posToTime(note.notePoint[i].position);
 
 		MAP_INFO->notes.push_back(note);
 		refreshAll();
