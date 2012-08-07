@@ -68,7 +68,7 @@ namespace divacore
 			MapEvent &event = (*eventsPtr)[i];
 			timeQueue.push(SCF_TimeStamp(event.time,event.position,SCF_TimeStamp::EVENT,i));
 		}
-		timeQueue.push(SCF_TimeStamp(totalTime,totalGrid,SCF_TimeStamp::EVENT,0));
+		timeQueue.push(SCF_TimeStamp(totalTime,totalGrid,SCF_TimeStamp::SYSTEM,0));
 		
 		//get main sound
 		mainSound = MAP_INFO->header.mainSound;
@@ -337,6 +337,9 @@ namespace divacore
 		_reloadNotes();
 		_reloadEvents();
 
+		//final point
+		timeQueue.push(SCF_TimeStamp(totalTime,totalGrid,SCF_TimeStamp::SYSTEM,0));
+
 		//由于音频多线程缓冲，所以setPosition之后的pause会出现时间混乱的情况，故缓冲一段时间，实属下策
 		static const float bufferTime = 0.01;
 
@@ -522,6 +525,9 @@ namespace divacore
 		if(CORE_PTR->getMode()!="editMode")
 			return;
 
+		//calt time
+		event.time = posToTime(event.position);
+		
 		MAP_INFO->events.push_back(event);
 		refreshAll();
 	}
@@ -540,6 +546,10 @@ namespace divacore
 	{
 		if(CORE_PTR->getMode()!="editMode")
 			return;
+
+		//calt time
+		for(int i = 0; i < note.notePoint.size(); i++)
+			note.notePoint[i].time = posToTime(note.notePoint[i].position);
 
 		MAP_INFO->notes.push_back(note);
 		refreshAll();
@@ -561,6 +571,11 @@ namespace divacore
 			return;
 
 		MAP_PARSER_PTR->reParser(MapParser::PARSE_TIME);
+
+		// set new totalGrid
+		coreFlow->totalTime = MAP_INFO->totalTime;
+		coreFlow->totalGrid = MAP_INFO->totalGrid;
+		
 		refreshAll();
 	}
 }

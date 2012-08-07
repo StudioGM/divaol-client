@@ -69,7 +69,7 @@ namespace divacore
 		{
 			;
 		}
-		sprintf(buffer,"|#FF0000|Time: %0.6lf\nSong: %0.6lf\nScore: %d\nHP: %d\nCombo: %d\nCT: %d\nLevel: %d\nVolume:%0.2f\nKey:%d",coreFlow->getRealTime(),deltaTime,Core::Ptr->getScore(),Core::Ptr->getHP(),GAME_MODE_PTR->getCombo(),0,0,volume,bPressed);
+		sprintf(buffer,"|#FF0000|Time: %0.6lf\nSong: %0.6lf\nScore: %d\nHP: %d\nCombo: %d\nCT: %d\nLevel: %d\nVolume:%0.2f\nPosition:%.3lf",coreFlow->getRealTime(),deltaTime,Core::Ptr->getScore(),Core::Ptr->getHP(),GAME_MODE_PTR->getCombo(),0,0,volume,CORE_FLOW_PTR->getPosition());
 		mText.Render(sora::s2ws(buffer),0,200);
 #endif
 	}
@@ -154,8 +154,7 @@ namespace divacore
 		if(event.getKey()==SORA_KEY_J)
 		{
 			StandardEditUtility::instance().init();
-			for(int i = 1400; i <= 3000; i+= 200)
-				StandardEditUtility::instance().setPosition(i);
+			StandardEditUtility::instance().setPosition(300);
 			//StandardEditUtility::instance().refreshAll();
 			//CORE_PTR->pause();
 		}
@@ -169,7 +168,7 @@ namespace divacore
 			MapEvent event;
 			event.position = 0;
 			event.eventType = "bpm";
-			event.arg["value"] = 100.0;
+			event.arg["value"] = 350.0;
 
 			StandardEditUtility::instance().addEvent(event);
 			StandardEditUtility::instance().reCaltTime();
@@ -184,8 +183,8 @@ namespace divacore
 
 			StandardEditUtility::instance().addEvent(event);
 			StandardEditUtility::instance().reCaltTime();
-		}*/
-		/*else if(event.getKey()==SORA_KEY_C)
+		}
+		else if(event.getKey()==SORA_KEY_C)
 		{
 			Packet packet((uint32)1,0);
 			NETWORK_SYSTEM_PTR->send(packet);
