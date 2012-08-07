@@ -223,19 +223,23 @@ namespace sora{
     }
 
 	void SoraHGERenderer::attachShaderContext(SoraShaderContext* context) {
+#ifdef SORA_USE_SHADER
 		pHGE->_render_batch();
-		
+
 		currShader = context;
 		if(currShader && !currShader->attachShaderList()) {
 			log_error("SoraHGERenderer: Unable to attach shader list");
 		}
+#endif
 	}
 
 	void SoraHGERenderer::detachShaderContext() {
+#ifdef SORA_USE_SHADER
 		if(currShader != NULL) {
 			currShader->detachShaderList();
 			currShader = 0;
 		}
+#endif
 	}
 
 	SoraTexture* SoraHGERenderer::createTexture(const StringType& sTexturePath, bool bMipmap) {

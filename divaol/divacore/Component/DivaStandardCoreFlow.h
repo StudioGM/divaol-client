@@ -22,7 +22,7 @@ namespace divacore
 	class SCF_TimeStamp
 	{
 	public:
-		enum{NOTE_START,NOTE_POINT,EVENT};
+		enum{NOTE_START,NOTE_POINT,EVENT,SYSTEM};
 
 		double time;
 		uint8 type;

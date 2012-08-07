@@ -173,8 +173,6 @@
     <ClInclude Include="..\Hoshizor\Plugins\SoraHGERenderer\SoraDXRenderBuffer.h" />
     <ClInclude Include="..\Hoshizor\Plugins\SoraHGERenderer\SoraHGEInput.h" />
     <ClInclude Include="..\Hoshizor\Plugins\SoraHGERenderer\SoraHGERenderer.h" />
-    <ClInclude Include="..\Hoshizor\Plugins\SoraShader\SoraCGD3D9Shader.h" />
-    <ClInclude Include="..\Hoshizor\Plugins\SoraShader\SoraCGGLShader.h" />
     <ClInclude Include="..\Hoshizor\Plugins\SoraVlcMoviePlayer\SoraVlcMoviePlayer.h" />
     <ClInclude Include="..\Hoshizor\Sora\app\SoraGameApp.h" />
     <ClInclude Include="..\Hoshizor\Sora\app\SoraGameAppDef.h" />
@@ -552,8 +550,6 @@
     <ClCompile Include="..\Hoshizor\Plugins\SoraHGERenderer\SoraDXRenderBuffer.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraHGERenderer\SoraHGEInput.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraHGERenderer\SoraHGERenderer.cpp" />
-    <ClCompile Include="..\Hoshizor\Plugins\SoraShader\SoraCGD3D9Shader.cpp" />
-    <ClCompile Include="..\Hoshizor\Plugins\SoraShader\SoraCGGLShader.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraVlcMoviePlayer\SoraVlcMoviePlayer.cpp" />
     <ClCompile Include="..\Hoshizor\Sora\app\SoraGameApp.cpp" />
     <ClCompile Include="..\Hoshizor\Sora\app\SoraGameAppDef.cpp" />

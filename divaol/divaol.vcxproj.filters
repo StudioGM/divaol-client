@@ -1269,12 +1269,6 @@
     <ClInclude Include="..\Hoshizor\Sora\physics\SoraPhysicWorld.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\Hoshizor\Plugins\SoraShader\SoraCGD3D9Shader.h">
-      <Filter>Plugins\hge</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Hoshizor\Plugins\SoraShader\SoraCGGLShader.h">
-      <Filter>Plugins\hge</Filter>
-    </ClInclude>
     <ClInclude Include="divacore\Component\DivaCommonEvaluateStrategy.h">
       <Filter>源文件\divacore\component</Filter>
     </ClInclude>
@@ -1955,9 +1949,6 @@
     <ClCompile Include="..\Hoshizor\Plugins\SoraHGERenderer\hge\hgeresource.cpp">
       <Filter>Plugins\hge</Filter>
     </ClCompile>
-    <ClCompile Include="..\Hoshizor\Plugins\SoraHGERenderer\hge\hgesystem.cpp">
-      <Filter>Plugins\hge</Filter>
-    </ClCompile>
     <ClCompile Include="..\Hoshizor\Plugins\SoraVlcMoviePlayer\SoraVlcMoviePlayer.cpp">
       <Filter>Plugins\vlcmovieplayer</Filter>
     </ClCompile>
@@ -1978,12 +1969,6 @@
     </ClCompile>
     <ClCompile Include="..\Hoshizor\Sora\physics\SoraPhysicWorld.cpp">
       <Filter>头文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Hoshizor\Plugins\SoraShader\SoraCGD3D9Shader.cpp">
-      <Filter>Plugins\hge</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Hoshizor\Plugins\SoraShader\SoraCGGLShader.cpp">
-      <Filter>Plugins\hge</Filter>
     </ClCompile>
     <ClCompile Include="divacore\Component\DivaJsonGameModule.cpp">
       <Filter>源文件\divacore\component</Filter>
@@ -2065,6 +2050,9 @@
     </ClCompile>
     <ClCompile Include="divacore\Note\DivaPingpongNote.cpp">
       <Filter>源文件\divacore\note</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraHGERenderer\hge\hgesystem.cpp">
+      <Filter>Plugins\hge</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
