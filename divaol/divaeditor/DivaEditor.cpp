@@ -70,7 +70,7 @@ namespace divaeditor
 		core->setSong("song/Ç§±¾—@","Ç§±¾—@_Hard.divaol");
 
 		SoraCore::Instance()->showMouse(true);
-		GCN_GLOBAL->initGUIChan(L"arial.ttf",14);
+		GCN_GLOBAL->initGUIChan(L"msyh.ttf",14);
 
 		initScenes();
 		core->onEnter();
@@ -116,11 +116,14 @@ namespace divaeditor
 
 	void Editor::onUpdate(float dt)
 	{
+		
 		core->onUpdate(dt);
 		if(mState==State::MAIN)
 		{
 			SoraCore::Instance()->showMouse(true);
+			scenes[State::MAIN]->onUpdate(dt);
 		}
+		
 		
 	}
 

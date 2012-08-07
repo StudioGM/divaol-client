@@ -14,6 +14,7 @@
 #include "SoraSprite.h"
 #include "SoraImageEffect.h"
 #include "Component/DivaStandardFactory.h"
+#include "Utility/DivaPath.h"
 
 namespace divacore
 {
@@ -36,6 +37,8 @@ namespace divacore
 	public:
 		NormalNote(MapNote& noteInfo):Note(noteInfo) {}
 
+		std::string getName() {return "normal_note";}
+
 		//check the note info to say whether it's suitable
 		bool checkInfo() {return (noteInfo.noteType=="normal"&&noteInfo.notePoint.size()==1);}
 		void onInitiate() ;
@@ -49,6 +52,9 @@ namespace divacore
 		void recover(int point, int position, float time);
 
 		Point getReceiveScreenPosition() {return Point(noteSprite->getPosition().x,noteSprite->getPosition().y);}
+
+		//specific gets
+		Point getRhythmPosition() {return Point(rhythmSprite->getPositionX(), rhythmSprite->getPositionY());}
 	};
 }
 

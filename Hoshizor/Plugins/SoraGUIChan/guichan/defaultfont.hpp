@@ -83,12 +83,15 @@ namespace gcn
         // Inherited from Font
 
         virtual void drawString(Graphics* graphics, const std::string& text, int x, int y);
+		virtual void drawStringW(Graphics* graphics, const std::wstring& text, int x, int y){}
 
         virtual int getWidth(const std::string& text) const;
+		virtual int getWidthW(const std::wstring& text) const{return 0;}
 
         virtual int getHeight() const;
 
         virtual int getStringIndexAt(const std::string& text, int x) const;
+		virtual int getStringIndexAtW(const std::string& text, int x) const{return 0;}
     };
 }
 

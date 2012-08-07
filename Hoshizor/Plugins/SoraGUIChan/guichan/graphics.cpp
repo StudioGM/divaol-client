@@ -183,4 +183,28 @@ namespace gcn
               throw GCN_EXCEPTION("Unknown alignment.");
         }
     }
+
+
+	void Graphics::drawTextW(const std::wstring& text, int x, int y,
+		Alignment alignment)
+	{
+		if (mFont == NULL)
+		{
+			throw GCN_EXCEPTION("No font set.");
+		}
+		switch (alignment)
+		{
+		case LEFT:
+			mFont->drawStringW(this, text, x, y);
+			break;
+		case CENTER:
+			mFont->drawStringW(this, text, x - mFont->getWidthW(text) / 2, y);
+			break;
+		case RIGHT:
+			mFont->drawStringW(this, text, x - mFont->getWidthW(text), y);
+			break;
+		default:
+			throw GCN_EXCEPTION("Unknown alignment.");
+		}
+	}
 }

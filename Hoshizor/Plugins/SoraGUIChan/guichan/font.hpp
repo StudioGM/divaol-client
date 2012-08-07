@@ -73,6 +73,7 @@ namespace gcn
          * @return The width of a string.
          */
         virtual int getWidth(const std::string& text) const = 0;
+		virtual int getWidthW(const std::wstring& text) const = 0;
 
         /**
          * Gets the height of the glyphs in the font.
@@ -91,6 +92,7 @@ namespace gcn
          * @return A string index in a string providing an x coordinate.
          */
         virtual int getStringIndexAt(const std::string& text, int x) const;
+		virtual int getStringIndexAtW(const std::wstring& text, int x) const;
 
         /**
          * Draws a string.
@@ -105,6 +107,8 @@ namespace gcn
          */
         virtual void drawString(Graphics* graphics, const std::string& text,
                                 int x, int y) = 0;
+		virtual void drawStringW(Graphics* graphics, const std::wstring& text,
+			int x, int y) = 0;
     };
 }
 

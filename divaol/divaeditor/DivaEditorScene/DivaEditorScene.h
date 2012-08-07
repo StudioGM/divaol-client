@@ -11,6 +11,7 @@
 #include "soraguichan/SoraGUI.h"
 #include "Soraguichan/SoraGUIResponserMap.h"
 #include "divaeditor/DivaEditorScene/DivaEditorTimelineWidget.h"
+#include "divaeditor/DivaEditorScene/DivaEditorWTextfield.h"
 
 namespace divaeditor
 {
@@ -40,7 +41,7 @@ namespace divaeditor
 		virtual void didDisappear(gcn::Widget *widget) = NULL;
 
 		virtual void onRender() = NULL;
-		virtual void onUpdate() = NULL;
+		virtual void onUpdate(float dt) = NULL;
 		
 		//Input events
 		virtual void onKeyPressed(SoraKeyEvent& event) = NULL;
@@ -66,6 +67,8 @@ namespace divaeditor
 
 		std::map<State,gcn::Container*> container_Categories;
 
+		gcn::Container* initTimelineCategory();
+
 	public:
 
 		DivaEditorMainScene();
@@ -78,7 +81,7 @@ namespace divaeditor
 		virtual void action();
 
 		virtual void onRender(){};
-		virtual void onUpdate(){};
+		virtual void onUpdate(float dt);
 
 		//Input events
 		virtual void onKeyPressed(SoraKeyEvent& event){};

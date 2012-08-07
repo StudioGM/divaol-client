@@ -52,6 +52,8 @@
 #include "guichan/key.hpp"
 #include "guichan/mouseinput.hpp"
 
+#include <Windows.h>
+
 namespace gcn
 {
     TextField::TextField()
@@ -227,7 +229,7 @@ namespace gcn
 				mText.insert(mCaretPosition, std::string(1,(char)key.getValue()));
 				++mCaretPosition;
 			} else {
-				if(key.isNumber()) {
+				if(key.isNumber()||key.getValue()=='.'||key.getValue()=='-') {
 					mText.insert(mCaretPosition, std::string(1,(char)key.getValue()));
 					++mCaretPosition;
 				}
@@ -243,16 +245,29 @@ namespace gcn
 			{
 				szImeChar[0]=(char)key.getValue();   
 				szImeChar[1]='\0';   
+
+
+				mText.insert(mCaretPosition, szImeChar);
+				++mCaretPosition;
 			}
 			else
 			{
-				szImeChar[0]=(char)(key.getValue()>>8);   
-				szImeChar[1]=(char)key.getValue();
-				szImeChar[2]='\0';
-			}
+				wchar_t wchar = (wchar_t)key.getValue();
+				std::wstring wstr;
+				wstr += wchar;
 
-			mText.insert(mCaretPosition, szImeChar);
-			 ++mCaretPosition;
+				int nLen = WideCharToMultiByte(CP_ACP, 0, wstr.c_str(), -1, NULL, 0, NULL, NULL);
+				char* pszDst = new char[nLen];
+				WideCharToMultiByte(CP_ACP, 0, wstr.c_str(), -1, pszDst, nLen, NULL, NULL);
+				pszDst[nLen -1] = 0;
+				
+				mText.insert(mCaretPosition, pszDst);
+				
+				mCaretPosition += nLen - 1;
+
+				delete [] pszDst;
+
+			}
 		}
 
         if (key.getValue() != Key::TAB)

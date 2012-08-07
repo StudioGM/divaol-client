@@ -12,7 +12,6 @@
 #include<algorithm>
 
 #include "divacore/Core/DivaCommon.h"
-
 #include "divacore/Core/DivaCore.h"
 #include "divacore/Core/DivaMapInfo.h"
 
@@ -156,6 +155,7 @@ namespace divaeditor
 
 	#define INITIALIZE_EDITOR divaeditor::Editor::instance()
 	#define EDITOR_PTR (divaeditor::Editor::Ptr)
+	#define EDITUTILITY divacore::StandardEditUtility::instance()
 }
 
 #endif

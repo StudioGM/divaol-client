@@ -9,7 +9,7 @@ namespace gcn
 {	
 	SoraGUIInput * g_sinput;
 #ifdef WIN32
-	WNDPROC	g_lpLastHgeWndProc;
+	WNDPROC	g_lpLastHgeWndProc = 0;
 #endif
     SoraGUIInput::SoraGUIInput()
     {
@@ -455,11 +455,13 @@ namespace gcn
 		if (!hWnd) throw NULL;
 
 		if (g_lpLastHgeWndProc == NULL) {
-			g_lpLastHgeWndProc = (WNDPROC)::GetWindowLongA(hWnd,GWL_WNDPROC);
-			if(g_lpLastHgeWndProc != (WNDPROC)::SetWindowLongA(hWnd,GWL_WNDPROC,(LONG)inputWndProc)) throw NULL;
-		}
+			LONG prevWndProc = ::GetWindowLong(hWnd, GWL_WNDPROC);
+			LONG wndProc = ::SetWindowLong(hWnd,GWL_WNDPROC,(LONG)inputWndProc);
 
-		g_sinput=in;
+			g_lpLastHgeWndProc = (WNDPROC)(prevWndProc);
+
+			g_sinput=in;
+		}
 #endif
 	};
 }

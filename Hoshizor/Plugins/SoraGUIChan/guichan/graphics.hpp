@@ -274,6 +274,10 @@ namespace gcn
                               int x,
                               int y,
                               Alignment alignment = LEFT);
+		virtual void drawTextW(const std::wstring& text,
+			int x,
+			int y,
+			Alignment alignment = LEFT);
         
         
         /**

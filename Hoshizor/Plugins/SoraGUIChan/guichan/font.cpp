@@ -68,4 +68,23 @@ namespace gcn
 
         return text.size();
     }
+
+
+	int Font::getStringIndexAtW(const std::wstring& text, int x) const
+	{
+		unsigned int i;
+		int size = 0;
+
+		for (i = 0; i < text.size(); ++i)
+		{
+			size = getWidthW(text.substr(0,i));
+
+			if (size > x)
+			{
+				return i;
+			}
+		}
+
+		return text.size();
+	}
 }

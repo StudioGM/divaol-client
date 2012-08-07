@@ -1875,6 +1875,12 @@
     <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorMusicProgressWidget.h">
       <Filter>源文件\divaeditor\DivaEditorScene</Filter>
     </ClInclude>
+    <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorWTextfield.h">
+      <Filter>源文件\divaeditor\DivaEditorScene</Filter>
+    </ClInclude>
+    <ClInclude Include="divaeditor\DivaEditorCommon.h">
+      <Filter>源文件\divaeditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -2665,6 +2671,12 @@
     </ClCompile>
     <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorMusicProgressWidget.cpp">
       <Filter>源文件\divaeditor\DivaEditorScene</Filter>
+    </ClCompile>
+    <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorWTextfield.cpp">
+      <Filter>源文件\divaeditor\DivaEditorScene</Filter>
+    </ClCompile>
+    <ClCompile Include="divaeditor\DivaEditorCommon.cpp">
+      <Filter>源文件\divaeditor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

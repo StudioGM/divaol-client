@@ -62,12 +62,12 @@ namespace divaeditor
 			if(jumpTo<0)jumpTo=0;
 			else if(jumpTo>1)jumpTo=1;
 
-			int jumpToGrid = jumpTo * float(((divacore::StandardCoreFlow*)CORE_FLOW_PTR)->getTotalPosition());
-			if(jumpToGrid!=CORE_PTR->getRunPosition())
-				divacore::StandardEditUtility::instance().setPosition(jumpToGrid);
+			double jumpToTime = jumpTo * float(CORE_FLOW_PTR->getTotalTime());
+			if(abs(jumpToTime-CORE_FLOW_PTR->getRealTime())>1e-4)
+				EDITUTILITY.setPosition(EDITUTILITY.timeToPos(jumpToTime));
 		}
 		
-		float nowPos = CORE_PTR->getRunPosition() / float(((divacore::StandardCoreFlow*)CORE_FLOW_PTR)->getTotalPosition());
+		float nowPos = CORE_PTR->getRunTime() / float(CORE_FLOW_PTR->getTotalTime());
 
 		int nowDrawPx = timelineOffset + int(nowPos * float(width-timelineOffset*2));
 		graphics->drawLine(nowDrawPx,height*0.2,nowDrawPx,height*0.8);

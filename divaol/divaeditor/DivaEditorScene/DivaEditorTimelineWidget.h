@@ -18,8 +18,7 @@
 namespace divaeditor
 {
 
-	static const int gridToShowPerBeatTable[6] = {1,2,3,4,6,8};
-	static const int gridToShowPerBeatTableCount = 6;
+	
 
     class GCN_CORE_DECLSPEC Timeline : public gcn::Widget,
                                      public gcn::MouseListener,
@@ -50,27 +49,12 @@ namespace divaeditor
         //virtual bool isHasMouse() const{return true;}
 
 		//Public functions
-		void setBarNumberPerScreen(int barNumberPerScreen){_beatNumberPerScreen=barNumberPerScreen;}
-		const int getBarNumberPerScreen() const{return _beatNumberPerScreen;}
+		
 
-		void increaseGridToShowPerBeat(){if(_gridToShowPerBeat<gridToShowPerBeatTableCount-1)_gridToShowPerBeat++;}
-		void decreaseGridToShowPerBeat(){if(_gridToShowPerBeat>0)_gridToShowPerBeat--;}
-		void setGridToShowPerBeat(int gridToShowPerBeat){_gridToShowPerBeat=gridToShowPerBeat;}
-		const int getGridToShowPerBeat() const{return _gridToShowPerBeat;}
-
-		void increaseShowRangeScale(){if(_showRangeFactor<0.1)_showRangeFactor*=2.0f;else if(_showRangeFactor<2)_showRangeFactor+=0.1;else if(_showRangeFactor<5)_showRangeFactor+=0.25;}
-		void decreaseShowRangeScale(){if(_showRangeFactor>2)_showRangeFactor-=0.25;else if(_showRangeFactor>0.1)_showRangeFactor-=0.1;else if(_showRangeFactor>0.05)_showRangeFactor/=2.0f;}
-		const float getShowRangeScale() const{return _showRangeFactor;}
 
 		//void registerSelectedChangedFunc(sora::SoraFunction<void(const PointF&)> &func);
 
     protected:
-		static const int GridPerBeat = 48;
-
-		int _beatNumberPerScreen;
-		int _gridToShowPerBeat;
-		float _showRangeFactor;
-		//sora::SoraFunction<void(float,float)> _selectedChanged;
 
 		float _selectedBegin,_selectedEnd;
 		bool isSelecting;

@@ -34,12 +34,15 @@ namespace gcn
         //Inherited from Font
 
         int getWidth(const std::string &text) const;
+		int getWidthW(const std::wstring &text) const;
 
         int getHeight() const;
 
         int getStringIndexAt(const std::string &text, int x) const;
+		int getStringIndexAtW(const std::wstring &text, int x) const;
 
         void drawString(Graphics *graphics, const std::string &text, int x, int y);
+		void drawStringW(Graphics *graphics, const std::wstring &text, int x, int y);
 
     protected:
         //hgeFont *mHGEFont;

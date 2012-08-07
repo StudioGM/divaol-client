@@ -1,5 +1,6 @@
 #include "divaeditor/DivaEditorScene/DivaEditorTimelineWidget.h"
 #include "divaeditor/DivaEditorMapData.h"
+#include "divaeditor/DivaEditorCommon.h"
 
 #include "divacore/Core/DivaCore.h"
 #include "divacore/Component/DivaStandardCoreFlow.h"
@@ -22,10 +23,7 @@ namespace divaeditor
 
 
 	Timeline::Timeline()
-		:_beatNumberPerScreen(20),
-		_selectedBegin(-1),
-		_gridToShowPerBeat(0),
-		_showRangeFactor(1),
+		:_selectedBegin(-1),
 		isSelecting(false)
 		//_selectedChanged(sora::SoraFunction<void(float,float)>())
 	{
@@ -52,11 +50,16 @@ namespace divaeditor
 		selectColor.b = 255-selectColor.b;
 		selectColor.a = 100;
 		gcn::Color lineColor = getForegroundColor();
-		gcn::Color stopColor = gcn::Color(255,0,0,100);
+		static const gcn::Color stopColor = gcn::Color(255,0,0,100);
+		static const gcn::Color bpmLineColor = gcn::Color(255,0,0,255);
 
 		float width = getWidth();
 		float height = getHeight();
 
+		int GridPerBeat = EDITCONFIG->GridPerBeat;
+		int _beatNumberPerScreen = EDITCONFIG->getBeatNumberPerScreen();
+		int _gridToShowPerBeat = EDITCONFIG->getGridToShowPerBeat();
+		float _showRangeFactor = EDITCONFIG->getShowRangeScale();
 
 		float rangeGridNum = float(_beatNumberPerScreen)*_showRangeFactor * GridPerBeat;
 		float mapBeginOffSet = 0;
@@ -68,9 +71,6 @@ namespace divaeditor
 		//Draw background color
 		graphics->setColor(backGroundColor);
 		graphics->fillRectangle(gcn::Rectangle(0,0,width,height));
-
-		//Draw Notes
-
 
 
 		//Draw Selected Area
@@ -93,23 +93,23 @@ namespace divaeditor
 			graphics->fillRectangle(gcn::Rectangle(selectBeginPos*width,0,(selectEndPos-selectBeginPos)*width,height));
 
 
-			float totalPosition = ((divacore::StandardCoreFlow*)CORE_FLOW_PTR)->getTotalPosition();
+			float totalPosition = CORE_FLOW_PTR->getTotalPosition();
 
 			if(isSelecting && nowMouseXPos > getWidth())
 			{
 				float outFactor = float(nowMouseXPos-getWidth()) / float(getWidth());
 				if(CORE_PTR->getRunPosition() + rangeGridNum*outFactor > totalPosition)
-					divacore::StandardEditUtility::instance().setPosition(totalPosition);
+					EDITUTILITY.setPosition(totalPosition);
 				else
-					divacore::StandardEditUtility::instance().setPosition(CORE_PTR->getRunPosition() + rangeGridNum*outFactor);
+					EDITUTILITY.setPosition(CORE_PTR->getRunPosition() + rangeGridNum*outFactor);
 			}
 			else if(isSelecting && nowMouseXPos < 0)
 			{
 				float outFactor = float(nowMouseXPos) / float(getWidth());
 				if(CORE_PTR->getRunPosition() + rangeGridNum*outFactor <0)
-					divacore::StandardEditUtility::instance().setPosition(0);
+					EDITUTILITY.setPosition(0);
 				else
-					divacore::StandardEditUtility::instance().setPosition(CORE_PTR->getRunPosition() + rangeGridNum*outFactor);
+					EDITUTILITY.setPosition(CORE_PTR->getRunPosition() + rangeGridNum*outFactor);
 			}
 		}
 
@@ -117,11 +117,10 @@ namespace divaeditor
 
 
 		//Draw Lines
-		float deltaGrid = GridPerBeat/gridToShowPerBeatTable[_gridToShowPerBeat];
 		int gridLevel;
 
-		for (float gridToDraw =EDITOR_PTR->mapData->getNowStandardGrid(leftPos, gridToShowPerBeatTable[_gridToShowPerBeat]);
-			gridToDraw <= rightPos; gridToDraw = EDITOR_PTR->mapData->getNextStandardGrid(gridToDraw, gridToShowPerBeatTable[_gridToShowPerBeat]))
+		for (float gridToDraw =EDITOR_PTR->mapData->getNowStandardGrid(leftPos, _gridToShowPerBeat);
+			gridToDraw <= rightPos; gridToDraw = EDITOR_PTR->mapData->getNextStandardGrid(gridToDraw, _gridToShowPerBeat))
 		{
 			int nowLevel = EDITOR_PTR->mapData->getGridLevel(gridToDraw);
 			
@@ -158,6 +157,35 @@ namespace divaeditor
 			graphics->fillRectangle(gcn::Rectangle(thisPosLeft,height*0.2,thisPosRight-thisPosLeft,height*0.8));
 		}
 
+
+
+		//Draw BPM Lines
+		for (std::vector<divacore::MapEvent>::iterator i=EDITOR_PTR->mapData->coreInfoPtr->events.begin(); 
+					i!=EDITOR_PTR->mapData->coreInfoPtr->events.end();i++)
+			if(i->position>=leftPos&&i->position<=rightPos)
+			{
+				if(i->eventType=="bpm")
+				{
+					int bpmPx = (i->position-leftPos)/rangeGridNum*width;
+					graphics->setColor(bpmLineColor);
+					graphics->drawLine(bpmPx,0,bpmPx,height-1);
+					graphics->setFont(getFont());
+					graphics->drawText("BPM:" + fTos(divacore::Argument::asFloat("value", i->arg),2) ,bpmPx+1, height*0.5);
+				}
+			}
+
+		
+
+		//Draw Music Begin
+		if(leftPos<=0 && rightPos>0)
+		{
+			int beginPx = (0-leftPos)/(rangeGridNum)*width;
+			graphics->setColor(lineColor);
+			graphics->drawLine(beginPx-1,0,beginPx-1,height-1);
+			graphics->drawLine(beginPx,0,beginPx,height-1);
+			graphics->setFont(getFont());
+			graphics->drawText("begin",beginPx+1,0);
+		}
 		
 		//Draw NowLine
 
@@ -184,7 +212,7 @@ namespace divaeditor
 		{
 			isSelecting = true;
 			_selectedBegin = (float(mouseEvent.getX()) / float(getWidth()) - 0.5) 
-								* float(_beatNumberPerScreen)*_showRangeFactor * GridPerBeat + CORE_PTR->getRunPosition();
+								* float(EDITCONFIG->getBeatNumberPerScreen())*EDITCONFIG->getShowRangeScale() * EDITCONFIG->GridPerBeat + CORE_PTR->getRunPosition();
 		}
 		nowMouseXPos = mouseEvent.getX();
 	}

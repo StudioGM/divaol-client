@@ -642,11 +642,13 @@
     <ClInclude Include="divacore\Utility\DivaPath.h" />
     <ClInclude Include="divacore\Utility\DivaSimpleUI.h" />
     <ClInclude Include="divaeditor\DivaEditor.h" />
+    <ClInclude Include="divaeditor\DivaEditorCommon.h" />
     <ClInclude Include="divaeditor\DivaEditorDisplay.h" />
     <ClInclude Include="divaeditor\DivaEditorMapData.h" />
     <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorMusicProgressWidget.h" />
     <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorScene.h" />
     <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorTimelineWidget.h" />
+    <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorWTextfield.h" />
     <ClInclude Include="divaeditor\EditorInitialize.h" />
   </ItemGroup>
   <ItemGroup>
@@ -908,10 +910,12 @@
     <ClCompile Include="divacore\Utility\DivaSimpleUI.cpp" />
     <ClCompile Include="DivaEditorMapData.cpp" />
     <ClCompile Include="divaeditor\DivaEditor.cpp" />
+    <ClCompile Include="divaeditor\DivaEditorCommon.cpp" />
     <ClCompile Include="divaeditor\DivaEditorDisplay.cpp" />
     <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorMainScene.cpp" />
     <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorMusicProgressWidget.cpp" />
     <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorTimelineWidget.cpp" />
+    <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorWTextfield.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

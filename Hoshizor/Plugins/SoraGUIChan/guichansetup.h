@@ -67,7 +67,8 @@ namespace sora {
 		
 			mInput = new gcn::SoraGUIInput;
 			mGUIChan->setInput(mInput);
-            
+			gcn::SoraGUIInput::setSInput(mInput);
+
 			mImageLoader = new gcn::SoraGUIImageLoader;
 			gcn::Image::setImageLoader(mImageLoader);
 			
