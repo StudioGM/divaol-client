@@ -17,6 +17,7 @@ namespace gcn
 	WTextField::WTextField()
 	{
 		mCaretPosition = 0;
+		mCaretPositionFlashCount=0;
 		mXScroll = 0;
 		mNumericMode = false;
 
@@ -29,6 +30,7 @@ namespace gcn
 	WTextField::WTextField(const std::wstring& text)
 	{
 		mCaretPosition = 0;
+		mCaretPositionFlashCount=0;
 		mXScroll = 0;
 
 		mText = text;
@@ -113,6 +115,7 @@ namespace gcn
 		graphics->drawTextW(mText.c_str(), 3 - mXScroll, 1);
 
 		graphics->popClipArea();
+
 	}
 
 
@@ -123,10 +126,15 @@ namespace gcn
 		// size than the widget might have been pushed (which is the
 		// case in the draw method when we push a clip area after we have
 		// drawn a border).
-		const Rectangle clipArea = graphics->getCurrentClipArea();
+		mCaretPositionFlashCount = (mCaretPositionFlashCount+1)%(mCaretPositionFlashMax*2);
+		if(mCaretPositionFlashCount<mCaretPositionFlashMax)
+		{
+			const Rectangle clipArea = graphics->getCurrentClipArea();
 
-		graphics->setColor(getForegroundColor());
-		graphics->drawLine(x, clipArea.height - 2, x, 1);
+			graphics->setColor(getForegroundColor());
+			graphics->drawLine(x, clipArea.height - 2, x, 1);
+		}
+		
 	}
 
 	void WTextField::mousePressed(MouseEvent& mouseEvent)
@@ -207,6 +215,8 @@ namespace gcn
 		}
 
 		fixScroll();
+
+		mCaretPositionFlashCount=0;
 	}
 
 	void WTextField::adjustSize()

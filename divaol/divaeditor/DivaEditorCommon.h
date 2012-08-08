@@ -13,16 +13,18 @@ namespace divaeditor
 	class EditorConfig
 	{
 	public:
+		enum NOTESTATE {NORMAL,LONG,COMBO} EDITSTATE_NOTESTATE;
+
+	public:
 
 		EditorConfig():beatNumberPerScreen(20),
 						gridToShowPerBeat(0),
-						showRangeFactor(1)
+						showRangeFactor(1),
+						EDITSTATE_NOTESTATE(NOTESTATE::NORMAL)
 						{};
+
 		static EditorConfig* Ptr;
 		static EditorConfig* instance() {static EditorConfig config; return (Ptr=&config);}
-
-
-
 
 		//Timeline Showing Settings
 		void setBeatNumberPerScreen(int numberPerScreen){beatNumberPerScreen=numberPerScreen;}
@@ -37,11 +39,30 @@ namespace divaeditor
 		void decreaseShowRangeScale(){if(showRangeFactor>2)showRangeFactor-=0.25;else if(showRangeFactor>0.1)showRangeFactor-=0.1;else if(showRangeFactor>0.05)showRangeFactor/=2.0f;}
 		const float getShowRangeScale() const{return showRangeFactor;}
 
+
+		//NOTE Edit Settings
+		void ChangeEditState();
+
+
 		static const int GridPerBeat = 48;
 
+		//Use for note area
+		static const int NoteAreaX = 110;
+		static const int NoteAreaY = 90;
+		static const int NoteAreaGridSize = 32;
+		static const int NoteAreaWidth = 48;
+		static const int NoteAreaHeight = 24;
+		static const int NoteAreaTailAreaSize = 2;
+		//static const double NoteAreaFactor = 0.666666666666666666666667;
+
+	private:
+		//Timeline Showing settings
 		int beatNumberPerScreen;
 		int gridToShowPerBeat;
 		float showRangeFactor;
+
+		
+
 	};
 
 

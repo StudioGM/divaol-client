@@ -134,6 +134,8 @@ namespace gcn
          * Holds the caret position.
          */
         unsigned int mCaretPosition;
+		unsigned int mCaretPositionFlashCount;
+		static const unsigned int mCaretPositionFlashMax = 30;
 
         /**
          * Holds the amount scrolled in x. If a user types more characters than

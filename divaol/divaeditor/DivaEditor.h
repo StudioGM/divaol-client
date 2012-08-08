@@ -48,7 +48,7 @@ namespace divaeditor
 	class Editor : public sora::SoraGameState, public sora::SoraEventHandler, public EventHandler
 	{
 	public: 
-		enum State{PRELOAD,MAIN};
+		enum State{PRELOAD,MAIN} mState;
 
 	private:
 		friend class Core;
@@ -56,7 +56,7 @@ namespace divaeditor
 		 * Common Variables
 		 */
 		//total state
-		int mState,mMode;
+		int mMode;
 		//the initialize state name
 		std::string initStateTag;
 		//event manager
@@ -73,7 +73,7 @@ namespace divaeditor
 		void coreDidLoad(void* arg);
 
 		void registerEvent(){};
-		void setState(int state) {mState=state;}
+
 
 		/*
 		 * Scene Manage

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -646,6 +646,7 @@
     <ClInclude Include="divaeditor\DivaEditorDisplay.h" />
     <ClInclude Include="divaeditor\DivaEditorMapData.h" />
     <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorMusicProgressWidget.h" />
+    <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorNoteArea.h" />
     <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorScene.h" />
     <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorTimelineWidget.h" />
     <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorWTextfield.h" />
@@ -908,12 +909,13 @@
     <ClCompile Include="divacore\Timer\DivaTimeCounterImplWin32.cpp" />
     <ClCompile Include="divacore\Utility\DivaConfigLoader.cpp" />
     <ClCompile Include="divacore\Utility\DivaSimpleUI.cpp" />
-    <ClCompile Include="DivaEditorMapData.cpp" />
     <ClCompile Include="divaeditor\DivaEditor.cpp" />
     <ClCompile Include="divaeditor\DivaEditorCommon.cpp" />
     <ClCompile Include="divaeditor\DivaEditorDisplay.cpp" />
+    <ClCompile Include="divaeditor\DivaEditorMapData.cpp" />
     <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorMainScene.cpp" />
     <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorMusicProgressWidget.cpp" />
+    <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorNoteArea.cpp" />
     <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorTimelineWidget.cpp" />
     <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorWTextfield.cpp" />
     <ClCompile Include="main.cpp" />

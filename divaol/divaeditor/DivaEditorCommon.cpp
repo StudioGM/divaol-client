@@ -6,6 +6,24 @@ namespace divaeditor
 {
 
 	EditorConfig* EditorConfig::Ptr = NULL;
+
+
+	void EditorConfig::ChangeEditState()
+	{
+		if(EDITSTATE_NOTESTATE==NOTESTATE::NORMAL)
+			EDITSTATE_NOTESTATE=NOTESTATE::LONG;
+		else if(EDITSTATE_NOTESTATE=NOTESTATE::LONG)
+			EDITSTATE_NOTESTATE=NOTESTATE::COMBO;
+		else
+			EDITSTATE_NOTESTATE=NOTESTATE::NORMAL;
+	}
+
+
+
+
+
+
+
 	//Utility
 	//int to Wstring()
 	std::wstring iToWS(int n) 

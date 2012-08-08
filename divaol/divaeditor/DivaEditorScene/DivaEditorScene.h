@@ -57,7 +57,7 @@ namespace divaeditor
 	class DivaEditorMainScene : public DivaEditorScene, public sora::SoraGUIResponser
 	{
 	public:
-		enum State{TIMELINE,NOTE,RESOURCE};
+		enum State{TIMELINE,NOTE,SHOW,PREVIEW};
 
 	private:
 		State nowState;
@@ -68,10 +68,13 @@ namespace divaeditor
 		std::map<State,gcn::Container*> container_Categories;
 
 		gcn::Container* initTimelineCategory();
+		gcn::Container* initNoteCategory();
 
 	public:
 
 		DivaEditorMainScene();
+
+		void ChangeState(State state);
 
 		virtual void willAppear();
 		virtual void didAppear(gcn::Widget *widget);
@@ -84,13 +87,13 @@ namespace divaeditor
 		virtual void onUpdate(float dt);
 
 		//Input events
-		virtual void onKeyPressed(SoraKeyEvent& event){};
-		virtual void onKeyReleased(SoraKeyEvent& event){};
+		virtual void onKeyPressed(SoraKeyEvent& event);
+		virtual void onKeyReleased(SoraKeyEvent& event);
 		virtual void onMouseClicked(SoraMouseEvent& event){};
 		virtual void onMouseReleased(SoraMouseEvent& event){};
 		virtual void onMouseMoved(SoraMouseEvent& event){};
-		virtual void onMouseWheelUp(SoraMouseEvent& event){};
-		virtual void onMouseWheelDown(SoraMouseEvent& event){};
+		virtual void onMouseWheelUp(SoraMouseEvent& event);
+		virtual void onMouseWheelDown(SoraMouseEvent& event);
 	};
 
 }

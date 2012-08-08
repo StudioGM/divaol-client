@@ -28,17 +28,35 @@ namespace divaeditor
 		void adjustNoteOrder(int index);
 		void adjustEventOrder(int index);
 
+		
+
+		int findLastOrEqualEventIndex(int pos, std::string type);
+		int findNextEventIndex(int pos, std::string type);
+		int findStopIndex(float pos);
+
+
+
+	public:
+		void addNote(float pos, char keyPress, bool arrow);
+
+
+
+
+
+
+
+
+
 	public:
 		divacore::MapInfoPtr coreInfoPtr;
-
-		static const int GridPerBeat = 48;
 
 		DivaEditorMapData();
 
 		void registerMapInfo(divacore::MapInfoPtr registMapInfo);
 
-		//Grid and period operation
+		///////////////Grid and period operation
 		int getGridInPeriod(float grid);
+		int getGridFromPeriod(int period);
 		int getPeriodfromGrid(float grid);
 		int getGridLevel(float nowGrid);
 		int getNextStandardGrid(float nowGrid, int gridToShowPerBeat);
@@ -47,31 +65,44 @@ namespace divaeditor
 		int getNearestStandardGrid(float nowGrid, int gridToShowPerBeat);
 
 
-		//BeatNum operation
-		int getBeatNumFromGrid(float pos);
-		void setBeatNumChanged(float pos, int beatNum);
-		
+		///////////////BeatNum operation
+		int getBeatNum(float pos);
+		std::map<int,int> getBeatNumByRange(float left, float right);
 
-		//offset
+		void beatNum_change(float pos, int beatNum);
+		void beatNum_insert(float pos, int beatNum);
+		void beatNum_delete(float pos);
+
+
+		///////////////offset
 		int getOffset();
 		void offset_set(int offset, bool movePlacedNote);
 
 
-		//stop operation
+		///////////////stop operation
 		int getStop(float pos);
 		std::vector<int> getStopPositionByRange(float left, float right);
 
 		void stop_change(float pos, int length);
 		void stop_insert(float pos, int length);
-		void stop_delete(float pos, int length);
+		void stop_delete(float pos);
 
 
-		//BPM operation
+		///////////////BPM operation
 		float getBPM(float pos);
 
 		void bpm_change(float pos, float bpm);
 		void bpm_insert(float pos, float bpm);
 		void bpm_delete(float pos);
+
+
+		///////////////Tail Speed Operation
+		float getTailSpeed();
+		void tailSpeed_change(float speed);
+
+
+		///////////////Move All Things
+		bool moveAll(int left, int right, int delta);
 	};
 
 

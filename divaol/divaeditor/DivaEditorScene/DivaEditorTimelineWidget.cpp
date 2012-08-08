@@ -52,6 +52,7 @@ namespace divaeditor
 		gcn::Color lineColor = getForegroundColor();
 		static const gcn::Color stopColor = gcn::Color(255,0,0,100);
 		static const gcn::Color bpmLineColor = gcn::Color(255,0,0,255);
+		static const gcn::Color beatNumColor = gcn::Color(0,255,0,255);
 
 		float width = getWidth();
 		float height = getHeight();
@@ -158,6 +159,16 @@ namespace divaeditor
 		}
 
 
+		//Draw Beat Lines
+		std::map<int,int> beatLines = EDITOR_PTR->mapData->getBeatNumByRange(leftPos,rightPos);
+		for(std::map<int,int>::iterator i = beatLines.begin();i!=beatLines.end();i++)
+		{
+			int linePx = (EDITOR_PTR->mapData->getGridFromPeriod(i->first)-leftPos)/rangeGridNum*width;
+			graphics->setColor(beatNumColor);
+			graphics->drawLine(linePx,0,linePx,height-1);
+			graphics->setFont(getFont());
+			graphics->drawText("Beats/Period:" + iToS(i->second) ,linePx+2, height*0.20);
+		}
 
 		//Draw BPM Lines
 		for (std::vector<divacore::MapEvent>::iterator i=EDITOR_PTR->mapData->coreInfoPtr->events.begin(); 
@@ -170,7 +181,7 @@ namespace divaeditor
 					graphics->setColor(bpmLineColor);
 					graphics->drawLine(bpmPx,0,bpmPx,height-1);
 					graphics->setFont(getFont());
-					graphics->drawText("BPM:" + fTos(divacore::Argument::asFloat("value", i->arg),2) ,bpmPx+1, height*0.5);
+					graphics->drawText("BPM:" + fTos(divacore::Argument::asFloat("value", i->arg),2) ,bpmPx+2, 0);
 				}
 			}
 
@@ -183,8 +194,10 @@ namespace divaeditor
 			graphics->setColor(lineColor);
 			graphics->drawLine(beginPx-1,0,beginPx-1,height-1);
 			graphics->drawLine(beginPx,0,beginPx,height-1);
-			graphics->setFont(getFont());
-			graphics->drawText("begin",beginPx+1,0);
+			graphics->drawLine(beginPx-height*0.4,height*0.1,beginPx,height*0.5);
+			graphics->drawLine(beginPx,height*0.5,beginPx-height*0.4,height*0.9);
+			//graphics->setFont(getFont());
+			//graphics->drawText("begin",beginPx+1,-height*0.08);
 		}
 		
 		//Draw NowLine

@@ -118,48 +118,61 @@ namespace divaeditor
 	{
 		
 		core->onUpdate(dt);
+		
 		if(mState==State::MAIN)
 		{
 			SoraCore::Instance()->showMouse(true);
-			scenes[State::MAIN]->onUpdate(dt);
+			
 		}
-		
-		
+		if(scenes.find(mState)!=scenes.end())
+			scenes[mState]->onUpdate(dt);
 	}
 
 	void Editor::onKeyPressed(SoraKeyEvent& event)
 	{
 		core->onKeyPressed(event);
+		if(scenes.find(mState)!=scenes.end())
+			scenes[mState]->onKeyPressed(event);
 	}
 
 	void Editor::onKeyReleased(SoraKeyEvent& event)
 	{
 		core->onKeyReleased(event);
+		if(scenes.find(mState)!=scenes.end())
+			scenes[mState]->onKeyReleased(event);
 	}
 
 	void Editor::onMouseClicked(SoraMouseEvent& event)
 	{
 		core->onMouseClicked(event);
+		if(scenes.find(mState)!=scenes.end())
+			scenes[mState]->onMouseClicked(event);
 	}
 
 	void Editor::onMouseReleased(SoraMouseEvent& event)
 	{
 		core->onMouseReleased(event);
+		if(scenes.find(mState)!=scenes.end())
+			scenes[mState]->onMouseReleased(event);
 	}
 
 	void Editor::onMouseMoved(SoraMouseEvent& event)
 	{
 		core->onMouseMoved(event);
+		if(scenes.find(mState)!=scenes.end())
+			scenes[mState]->onMouseMoved(event);
 	}
 
 	void Editor::onMouseWheelUp(SoraMouseEvent& event)
 	{
-
+		if(scenes.find(mState)!=scenes.end())
+			scenes[mState]->onMouseWheelUp(event);
 	}
 
 	void Editor::onMouseWheelDown(SoraMouseEvent& event)
 	{
-
+		if(scenes.find(mState)!=scenes.end())
+			scenes[mState]->onMouseWheelDown(event);
 	}
 
 
@@ -189,7 +202,7 @@ namespace divaeditor
 		nowScene = nextScene;
 		nowScene->Appeared = Bind(this, &Editor::onSceneAppeared);
 		nowScene->willAppear();
-		mState = nowScene->sceneIndex;
+		mState = (State)nowScene->sceneIndex;
 	}
 
 	void Editor::onSceneAppeared(DivaEditorScene* sender)
