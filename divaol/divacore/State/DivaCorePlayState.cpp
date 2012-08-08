@@ -8,6 +8,7 @@
 
 #include "DivaCorePlayState.h"
 #include "Component/DivaStandardCoreFlow.h"
+#include "Mode/DivaEditMode.h"
 //#include "SoraSoundManager/SoraSoundEffectManager.h"
 
 namespace divacore
@@ -161,6 +162,7 @@ namespace divacore
 		{
 			CORE_PTR->resume();
 		}
+
 		/*else if(event.getKey()==SORA_KEY_D)
 		{
 			StandardEditUtility::instance().init();
