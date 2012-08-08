@@ -136,6 +136,7 @@ namespace divacore
 		void unloadResource(MapResourceInfo info);
 		void addEvent(MapEvent event);
 		void delEvent(int index);
+		void resetNote(MapNote &note);
 		void insert(MapNote note, size_t index, bool isRefresh = true);
 		void append(MapNote note, bool isRefresh = true);
 		void delNote(int index);
