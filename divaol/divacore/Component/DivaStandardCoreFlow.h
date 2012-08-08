@@ -136,7 +136,8 @@ namespace divacore
 		void unloadResource(MapResourceInfo info);
 		void addEvent(MapEvent event);
 		void delEvent(int index);
-		void addNote(MapNote note);
+		void insert(MapNote note, size_t index, bool isRefresh = true);
+		void append(MapNote note, bool isRefresh = true);
 		void delNote(int index);
 		float posToTime(double position) {return coreFlow->_posToTime(position);}
 		double timeToPos(float time) {return coreFlow->_timeToPos(time);}

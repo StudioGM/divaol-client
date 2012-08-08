@@ -154,7 +154,17 @@ namespace divacore
 		if(event.getKey()==SORA_KEY_J)
 		{
 			StandardEditUtility::instance().init();
-			StandardEditUtility::instance().setPosition(300);
+			MapNote note;
+			NotePoint point;
+			point.position = 100;
+			point.type = 1;
+			point.x = 16;
+			point.y = 12;
+			note.notePoint.push_back(point);
+			note.noteType = "normal";
+			note.arg["tailx"] = -2;
+			note.arg["taily"] = -2;
+			StandardEditUtility::instance().insert(note,0);
 			//StandardEditUtility::instance().refreshAll();
 			//CORE_PTR->pause();
 		}
