@@ -25,7 +25,7 @@ namespace divaeditor
 
 		void sortNote();
 		void sortEvent();
-		void adjustNoteOrder(int index);
+		int adjustNoteOrder(int index);
 		void adjustEventOrder(int index);
 
 		
@@ -37,7 +37,7 @@ namespace divaeditor
 
 
 	public:
-		void addNote(float pos, char keyPress, bool arrow);
+		void addNormalNote(int pos, char keyPress, bool arrow, int x, int y, int tailX, int tailY, int key=-1);
 
 
 

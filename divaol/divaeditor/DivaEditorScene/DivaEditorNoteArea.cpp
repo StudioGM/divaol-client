@@ -26,6 +26,7 @@ namespace divaeditor
 	{
 		nowMousePos.x=-1;
 		nowMousePos.y=-1;
+		notePlacedPos=-1;
 		
 		setFocusable(true);
 		setFrameSize(1);
@@ -102,7 +103,7 @@ namespace divaeditor
 
 	void NoteArea::mousePressed(gcn::MouseEvent& mouseEvent)
 	{
-
+		
 	}
 
 	void NoteArea::mouseReleased(gcn::MouseEvent& mouseEvent)
@@ -115,13 +116,36 @@ namespace divaeditor
 
 	}
 
-	void NoteArea::keyPressed(gcn::KeyEvent& keyEvent)
+	void NoteArea::onKeyPressed(sora::SoraKeyEvent& event)
 	{
-		//if(keyEvent.
+		int thisKey = event.chr;
+		bool caps = false;
+		if(thisKey>='A'&&thisKey<='Z') 
+		{
+			thisKey+='a'-'A';
+			caps=true;
+		}
+
+		if(thisKey=='	')//Tab
+		{
+			EDITCONFIG->ChangeEditState();
+		}
+		else if(thisKey=='a'||thisKey=='w'||thisKey=='s'||thisKey=='d' && !event.isAltFlag() && !event.isCtrlFlag())
+		{
+			int noteSelectX = nowGridSelectX-EDITCONFIG->NoteAreaTailAreaSize;
+			int noteSelectY = nowGridSelectY-EDITCONFIG->NoteAreaTailAreaSize;
+			if(EDITCONFIG->EDITSTATE_NOTESTATE == EditorConfig::NOTESTATE::NORMAL &&
+				noteSelectX > 0 && noteSelectX <= EDITCONFIG->NoteAreaWidth &&
+				noteSelectY > 0 && noteSelectY <= EDITCONFIG->NoteAreaHeight)
+			{
+				int pos = EDITOR_PTR->mapData->getNearestStandardGrid(CORE_PTR->getRunPosition(),EDITCONFIG->getGridToShowPerBeat());
+				EDITOR_PTR->mapData->addNormalNote(pos,thisKey,caps,noteSelectX,noteSelectY,5,5);
+			}
+		}
 	}
 
 
-	void NoteArea::keyReleased(gcn::KeyEvent& keyEvent)
+	void NoteArea::onKeyReleased(sora::SoraKeyEvent& event)
 	{
 
 	}

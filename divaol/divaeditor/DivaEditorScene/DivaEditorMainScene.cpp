@@ -625,26 +625,19 @@ namespace divaeditor
 
 	void DivaEditorMainScene::onKeyPressed(SoraKeyEvent& event)
 	{
-		int thisKey = event.chr;
-		bool caps = false;
-		if(thisKey>='A'&&thisKey<='Z') 
+		if(nowState==State::NOTE)
 		{
-			thisKey+='a'-'A';
-			caps=true;
-		}
-
-		if(thisKey=='	')//Tab
-		{
-			EDITCONFIG->ChangeEditState();
-		}
-		else if(thisKey=='a'||thisKey=='w'||thisKey=='s'||thisKey=='d' && !event.isAltFlag() && !event.isCtrlFlag())
-		{
-			EDITOR_PTR->mapData->addNote(EDITOR_PTR->mapData->getNearestStandardGrid(CORE_PTR->getRunPosition(),EDITCONFIG->getGridToShowPerBeat()),thisKey, caps);
+			NoteArea* noteArea = (NoteArea*)container_Categories[nowState]->findWidgetById("NoteArea");
+			noteArea->onKeyPressed(event);
 		}
 	}
 
 	void DivaEditorMainScene::onKeyReleased(SoraKeyEvent& event)
 	{
-
+		if(nowState==State::NOTE)
+		{
+			NoteArea* noteArea = (NoteArea*)container_Categories[nowState]->findWidgetById("NoteArea");
+			noteArea->onKeyPressed(event);
+		}
 	}
 }

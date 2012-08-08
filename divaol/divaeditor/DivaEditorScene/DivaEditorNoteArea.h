@@ -49,8 +49,12 @@ namespace divaeditor
 
 
 		// Inherited from KeyListener
-		virtual void keyPressed(gcn::KeyEvent& keyEvent);
-		virtual void keyReleased(gcn::KeyEvent& keyEvent);
+		//virtual void keyPressed(gcn::KeyEvent& keyEvent){}
+		//virtual void keyReleased(gcn::KeyEvent& keyEvent){}
+
+		//Receive Sora KeyEvent
+		void onKeyPressed(sora::SoraKeyEvent& event);
+		void onKeyReleased(sora::SoraKeyEvent& event);
 
 	protected:
 
@@ -61,6 +65,8 @@ namespace divaeditor
 		divacore::Point _selectBegin,_selectEnd;
 		bool isSelecting;
 		bool isMouseOn;
+
+		int notePlacedPos;
 
 		divacore::Point nowMousePos;
 

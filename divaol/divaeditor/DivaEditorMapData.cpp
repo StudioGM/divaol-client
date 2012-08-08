@@ -74,7 +74,7 @@ namespace divaeditor
 	{
 		std::sort(coreInfoPtr->events.begin(),coreInfoPtr->events.end(),cmp_event);
 	}
-	void DivaEditorMapData::adjustNoteOrder(int index)
+	int DivaEditorMapData::adjustNoteOrder(int index)
 	{
 		vector<divacore::MapNote>::iterator i = coreInfoPtr->notes.begin()+index;
 		while(true)
@@ -131,11 +131,40 @@ namespace divaeditor
 
 
 	/////////Note Operations
-	void DivaEditorMapData::addNote(float pos, char keyPress, bool arrow)
+	void DivaEditorMapData::addNormalNote(int pos, char keyPress, bool arrow, int x, int y, int tailX, int tailY, int key)
 	{
-		//divacore::MapNote mapNote;
-		//mapNote.
-		//EDITUTILITY.addNote();
+		divacore::MapNote mapNote;
+
+		divacore::NotePoint notePoint;
+		if(key!=-1)
+			notePoint.key = "res_"+iToS(key);
+		notePoint.position = pos;
+		notePoint.x = x;
+		notePoint.y = y;
+
+		if(keyPress=='w')
+			notePoint.type = 0;
+		else if(keyPress=='a')
+			notePoint.type = 1;
+		else if(keyPress=='s')
+			notePoint.type = 2;
+		else if(keyPress=='d')
+			notePoint.type = 3;
+
+		if(arrow)
+			notePoint.type += 4;
+
+		mapNote.notePoint.push_back(notePoint);
+
+		mapNote.noteType = "normal";
+		mapNote.arg["tailx"]=tailX;
+		mapNote.arg["taily"]=tailY;
+
+		//EDITUTILITY.append(mapNote,false);
+		coreInfoPtr->notes.push_back(mapNote);
+		adjustNoteOrder(coreInfoPtr->notes.size()-1);
+		EDITUTILITY.insert()
+		//EDITUTILITY.refreshAll();
 	}
 
 
