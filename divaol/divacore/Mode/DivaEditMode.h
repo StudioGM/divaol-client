@@ -18,8 +18,43 @@ namespace divacore
 	//EditMode, �༭ģʽ
 	class EditMode : public GameMode
 	{
+		class UnableKeyboard : public Hook
+		{
+			friend class EditMode;
+			bool open;
+		public:
+			std::string getName() {return "UnableKeyboard";}
+
+			UnableKeyboard()
+			{
+				setPriority(Hook::NORMAL);
+				open = true;
+			}
+			bool condition()
+			{
+				return true;
+			}
+			int getAbility()
+			{
+				return Hook::INPUT;
+			}
+
+			bool hook(KeyEvent &key) 
+			{
+				if(open&&key.key>=0&&key.key<8)
+				{
+					setHookInfo(1);
+					return true;
+				}
+				return false;
+			}
+		}unableHook;
 	protected:
+		bool mPlayable;
 	public:		
+		EditMode():mPlayable(true){unableHook.open=!mPlayable;}
+		~EditMode() {HOOK_MANAGER_PTR->del(&unableHook);}
+
 		virtual std::string getName() {return "editMode";}
 
 		bool getAlive() {return true;}
@@ -34,11 +69,13 @@ namespace divacore
 		bool checkExtra(StateEvent& event) {return true;}
 		bool checkPress(StateEvent& event) 
 		{
-			event.rank = 1;
+			if(!EVALUATE_STRATEGY_PTR->evaluatePress(event))
+				return false;
 			event.type = StateEvent::PRESS;
+
 			return true;
 		}
-		bool checkPoint(StateEvent& event) {return true;}
+		bool checkPoint(StateEvent& event) {return !mPlayable;}
 		bool checkFailure(StateEvent& event) {return true;}
 		void inform(StateEvent& event) 
 		{
@@ -52,8 +89,12 @@ namespace divacore
 			}
 		}
 		void update(float dt) {}
+		
+		bool isPlayable() {return mPlayable;}
+		void setPlayble(bool flag) {mPlayable=flag,unableHook.open=!flag;}
 
 		void pressEffect(StateEvent &event) {}
+		void addHookIn() {HOOK_MANAGER_PTR->insert(&unableHook);}
 
 		void preStart() {}
 		void preEvaluate() {}

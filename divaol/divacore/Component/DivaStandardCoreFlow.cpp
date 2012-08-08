@@ -542,17 +542,46 @@ namespace divacore
 		MAP_INFO->events.erase(MAP_INFO->events.begin()+index);
 		refreshAll();
 	}
-	void StandardEditUtility::addNote(MapNote note)
+	void StandardEditUtility::insert(MapNote note, size_t index, bool isRefresh)
+	{
+		if(CORE_PTR->getMode()!="editMode")
+			return;
+		
+		if(index<0||index>=MAP_INFO->notes.size())
+			DIVA_EXCEPTION_MESSAGE("index out of range!");
+
+		//calt time
+		uint32 pos = 0;
+		if(note.notePoint[0].position>=note.aheadBar*GRID_PER_BAR)
+			pos = note.notePoint[0].position-note.aheadBar*GRID_PER_BAR;
+
+		note.aheadTime = posToTime(pos);
+		for(int i = 0; i < note.notePoint.size(); i++)
+			note.notePoint[i].time = posToTime(note.notePoint[i].position);
+
+		MAP_INFO->notes.insert(MAP_INFO->notes.begin()+index,note);
+		
+		if(isRefresh)
+			refreshAll();
+	}
+	void StandardEditUtility::append(MapNote note, bool isRefresh)
 	{
 		if(CORE_PTR->getMode()!="editMode")
 			return;
 
 		//calt time
+		uint32 pos = 0;
+		if(note.notePoint[0].position>=note.aheadBar*GRID_PER_BAR)
+			pos = note.notePoint[0].position-note.aheadBar*GRID_PER_BAR;
+
+		note.aheadTime = posToTime(pos);
 		for(int i = 0; i < note.notePoint.size(); i++)
 			note.notePoint[i].time = posToTime(note.notePoint[i].position);
 
 		MAP_INFO->notes.push_back(note);
-		refreshAll();
+		
+		if(isRefresh)
+			refreshAll();
 	}
 	void StandardEditUtility::delNote(int index)
 	{
