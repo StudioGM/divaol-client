@@ -551,13 +551,7 @@ namespace divacore
 			DIVA_EXCEPTION_MESSAGE("index out of range!");
 
 		//calt time
-		uint32 pos = 0;
-		if(note.notePoint[0].position>=note.aheadBar*GRID_PER_BAR)
-			pos = note.notePoint[0].position-note.aheadBar*GRID_PER_BAR;
-
-		note.aheadTime = posToTime(pos);
-		for(int i = 0; i < note.notePoint.size(); i++)
-			note.notePoint[i].time = posToTime(note.notePoint[i].position);
+		resetNote(note);
 
 		MAP_INFO->notes.insert(MAP_INFO->notes.begin()+index,note);
 		
@@ -569,14 +563,7 @@ namespace divacore
 		if(CORE_PTR->getMode()!="editMode")
 			return;
 
-		//calt time
-		uint32 pos = 0;
-		if(note.notePoint[0].position>=note.aheadBar*GRID_PER_BAR)
-			pos = note.notePoint[0].position-note.aheadBar*GRID_PER_BAR;
-
-		note.aheadTime = posToTime(pos);
-		for(int i = 0; i < note.notePoint.size(); i++)
-			note.notePoint[i].time = posToTime(note.notePoint[i].position);
+		resetNote(note);
 
 		MAP_INFO->notes.push_back(note);
 		
@@ -606,5 +593,19 @@ namespace divacore
 		coreFlow->totalGrid = MAP_INFO->totalGrid;
 		
 		refreshAll();
+	}
+	void StandardEditUtility::resetNote(MapNote &note)
+	{
+		if(CORE_PTR->getMode()!="editMode")
+			return;
+
+		//calt time
+		uint32 pos = 0;
+		if(note.notePoint[0].position>=note.aheadBar*GRID_PER_BAR)
+			pos = note.notePoint[0].position-note.aheadBar*GRID_PER_BAR;
+
+		note.aheadTime = posToTime(pos);
+		for(int i = 0; i < note.notePoint.size(); i++)
+			note.notePoint[i].time = posToTime(note.notePoint[i].position);
 	}
 }
