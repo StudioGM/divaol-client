@@ -380,7 +380,7 @@ namespace divacore
 			if(start_time<=time)
 			{
 				for(int index = 0; index < note.notePoint.size(); index++)
-					if(note.notePoint[index].time>time)
+					if(note.notePoint[index].time>=time)
 					{
 						NotePtr _note = core->getItemFactory()->createNote(note);
 						if(index==0)

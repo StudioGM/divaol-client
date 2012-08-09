@@ -55,6 +55,31 @@ namespace divaeditor
 	}
 
 	//Sort functions
+
+	void DivaEditorMapData::qsort_Note(int l,int r)
+	{
+		int s=l,t=r;
+		int pos=coreInfoPtr->notes[(l+r)/2].notePoint[0].position;
+		int type=coreInfoPtr->notes[(l+r)/2].notePoint[0].type;
+		while(l<=r)
+		{
+			while(l<=r&&(coreInfoPtr->notes[l].notePoint[0].position<pos ||
+				         (coreInfoPtr->notes[l].notePoint[0].position==pos && coreInfoPtr->notes[l].notePoint[0].type<type))) 
+						 l++;
+			while(l<=r&&(coreInfoPtr->notes[r].notePoint[0].position>pos ||
+						 (coreInfoPtr->notes[r].notePoint[0].position==pos && coreInfoPtr->notes[r].notePoint[0].type>type))) 
+						 r--;
+			if(l<=r)
+			{
+				std::swap(coreInfoPtr->notes[l],coreInfoPtr->notes[r]);
+				EDITCONFIG->noteIndexSwaped(l,r);
+				l++;r--;
+			}
+		}
+		if(s<r)qsort_Note(s,r);
+		if(l<t)qsort_Note(l,t);
+	}
+
 	bool cmp_note(const divacore::MapNote &left, const divacore::MapNote &right)
 	{
 		return (left.notePoint[0].position==right.notePoint[0].position)?
@@ -68,7 +93,8 @@ namespace divaeditor
 
 	void DivaEditorMapData::sortNote()
 	{
-		std::sort(coreInfoPtr->notes.begin(),coreInfoPtr->notes.end(),cmp_note);
+		qsort_Note(0,coreInfoPtr->notes.size()-1);
+		//std::sort(coreInfoPtr->notes.begin(),coreInfoPtr->notes.end(),cmp_note);
 	}
 	void DivaEditorMapData::sortEvent()
 	{
@@ -79,27 +105,46 @@ namespace divaeditor
 		vector<divacore::MapNote>::iterator i = coreInfoPtr->notes.begin()+index;
 		while(true)
 		{
-			if((i+1)!=coreInfoPtr->notes.end() && 
-				((i->notePoint[0].position > (i+1)->notePoint[0].position) || 
-					(i->notePoint[0].position == (i+1)->notePoint[0].position && i->notePoint[0].type>(i+1)->notePoint[0].type)))
+			bool operated=false;
+			if(index<coreInfoPtr->notes.size()-1)
 			{
-				std::swap(*i,*(i+1));
-				i++;
-				if((i+1)==coreInfoPtr->notes.end())
-					break;
+				divacore::MapNote &nowNote = coreInfoPtr->notes[index],
+								&nextNote = coreInfoPtr->notes[index+1];
+
+				if((nowNote.notePoint[0].position > nextNote.notePoint[0].position) || 
+					(nowNote.notePoint[0].position == nextNote.notePoint[0].position && 
+					nowNote.notePoint[0].type>nextNote.notePoint[0].type))
+				{
+					std::swap(nowNote,nextNote);
+					EDITCONFIG->noteIndexSwaped(index,index+1);
+					index++;
+					operated=true;
+					if(index>=coreInfoPtr->notes.size()-1)
+						break;
+				}
 			}
-			else if(i!=coreInfoPtr->notes.begin() && 
-				((i->notePoint[0].position < (i-1)->notePoint[0].position) || 
-				(i->notePoint[0].position == (i-1)->notePoint[0].position && i->notePoint[0].type<(i-1)->notePoint[0].type)))
+			
+			if(index>0)
 			{
-				std::swap(*i,*(i-1));
-				i--;
-				if(i==coreInfoPtr->notes.begin())
-					break;
+				divacore::MapNote &nowNote = coreInfoPtr->notes[index],
+					&pervNote = coreInfoPtr->notes[index-1];
+
+				if((nowNote.notePoint[0].position < pervNote.notePoint[0].position) || 
+					(nowNote.notePoint[0].position == pervNote.notePoint[0].position && 
+					nowNote.notePoint[0].type<pervNote.notePoint[0].type))
+				{
+					std::swap(nowNote,pervNote);
+					EDITCONFIG->noteIndexSwaped(index,index-1);
+					index--;
+					operated=true;
+					if(index<=0)
+						break;
+				}
 			}
-			else
+			if(!operated)
 				break;
 		}
+		return index;
 	}
 	void DivaEditorMapData::adjustEventOrder(int index)
 	{
@@ -128,47 +173,240 @@ namespace divaeditor
 	}
 
 
-
+	int DivaEditorMapData::checkNoteExists(int pos, int pressType, std::string noteType)
+	{
+		for (int i=0;i<coreInfoPtr->notes.size();i++)
+			if(coreInfoPtr->notes[i].notePoint[0].position>pos)
+				return -1;
+			else if(coreInfoPtr->notes[i].notePoint[0].position==pos && coreInfoPtr->notes[i].notePoint[0].type == pressType && coreInfoPtr->notes[i].noteType == noteType)
+				return i;
+		return -1;
+	}
 
 	/////////Note Operations
-	void DivaEditorMapData::addNormalNote(int pos, char keyPress, bool arrow, int x, int y, int tailX, int tailY, int key)
+	int DivaEditorMapData::getNoteTypeFromKeyPress(char keyPress, bool arrow)
+	{
+		int type = -1;
+
+		if(keyPress=='d')
+			type = 0;
+		else if(keyPress=='a')
+			type = 1;
+		else if(keyPress=='s')
+			type = 2;
+		else if(keyPress=='w')
+			type = 3;
+		if(arrow)
+			type += 4;
+
+		return type;
+	}
+
+
+	divacore::MapNote DivaEditorMapData::initNote(int pos, char keyPress, bool arrow, int x, int y, int tailX, int tailY, std::string noteType, int key)
 	{
 		divacore::MapNote mapNote;
-
 		divacore::NotePoint notePoint;
 		if(key!=-1)
 			notePoint.key = "res_"+iToS(key);
 		notePoint.position = pos;
 		notePoint.x = x;
 		notePoint.y = y;
-
-		if(keyPress=='w')
-			notePoint.type = 0;
-		else if(keyPress=='a')
-			notePoint.type = 1;
-		else if(keyPress=='s')
-			notePoint.type = 2;
-		else if(keyPress=='d')
-			notePoint.type = 3;
-
-		if(arrow)
-			notePoint.type += 4;
+		notePoint.type = getNoteTypeFromKeyPress(keyPress, arrow);
+		
 
 		mapNote.notePoint.push_back(notePoint);
 
-		mapNote.noteType = "normal";
+		mapNote.noteType = noteType;
 		mapNote.arg["tailx"]=tailX;
 		mapNote.arg["taily"]=tailY;
 
-		//EDITUTILITY.append(mapNote,false);
-		coreInfoPtr->notes.push_back(mapNote);
-		adjustNoteOrder(coreInfoPtr->notes.size()-1);
-		EDITUTILITY.insert()
-		//EDITUTILITY.refreshAll();
+		return mapNote;
+	}
+	void DivaEditorMapData::finishLongNote(divacore::MapNote &longNote, int pos, int key)
+	{
+		divacore::NotePoint notePoint;
+		if(key!=-1)
+			notePoint.key = "res_"+iToS(key);
+		notePoint.position = pos;
+		notePoint.x = longNote.notePoint[0].x;
+		notePoint.y = longNote.notePoint[0].y;
+		notePoint.type = longNote.notePoint[0].type;
+		longNote.notePoint.push_back(notePoint);
+
+		if(longNote.notePoint[0].position>longNote.notePoint[1].position)
+			std::swap(longNote.notePoint[0],longNote.notePoint[1]);
+		else if(longNote.notePoint[0].position==longNote.notePoint[1].position)
+			longNote.notePoint[1].position = longNote.notePoint[0].position + EDITCONFIG->GridPerBeat/EDITCONFIG->getGridToShowPerBeat();
+	}
+	void DivaEditorMapData::finishComboNote(divacore::MapNote &comboNote, int pos, int key)
+	{
+		finishLongNote(comboNote,pos,key);
+		comboNote.arg["standard_num"] = int((comboNote.notePoint[1].position-comboNote.notePoint[0].position)/(EDITCONFIG->GridPerBeat/4));
 	}
 
+	int DivaEditorMapData::addNormalNote(int pos, char keyPress, bool arrow, int x, int y, int tailX, int tailY, int key)
+	{
+		divacore::MapNote mapNote = initNote(pos,keyPress,arrow,x,y,tailX,tailY,"normal",key);
 
+		int checkExist = checkNoteExists(pos, mapNote.notePoint[0].type, mapNote.noteType);
+		if(checkExist==-1)
+		{
+			EDITUTILITY.resetNote(mapNote);
 
+			coreInfoPtr->notes.push_back(mapNote);
+			int insertIndex = adjustNoteOrder(coreInfoPtr->notes.size()-1);
+
+			EDITUTILITY.refreshAll();
+
+			return insertIndex;
+		}
+		else
+			return checkExist;
+	}
+	int DivaEditorMapData::addLongNote(divacore::MapNote longNote)
+	{
+		int checkExist = checkNoteExists(longNote.notePoint[0].position, longNote.notePoint[0].type, longNote.noteType);
+		if(checkExist==-1)
+		{
+			EDITUTILITY.resetNote(longNote);
+
+			coreInfoPtr->notes.push_back(longNote);
+			int insertIndex = adjustNoteOrder(coreInfoPtr->notes.size()-1);
+
+			EDITUTILITY.refreshAll();
+
+			return insertIndex;
+		}
+		else
+			return checkExist;
+	}
+
+	void DivaEditorMapData::note_modifyTail(int index,int tailX,int tailY)
+	{
+		coreInfoPtr->notes[index].arg["tailx"]=tailX;
+		coreInfoPtr->notes[index].arg["taily"]=tailY;
+	}
+	void DivaEditorMapData::note_modifyPos(int index, int x, int y, bool isDelta)
+	{
+		for(int i=0;i<coreInfoPtr->notes[index].notePoint.size();i++)
+		{
+			if(isDelta)
+			{
+				coreInfoPtr->notes[index].notePoint[i].x += x;
+				coreInfoPtr->notes[index].notePoint[i].y += y;
+			}
+			else
+			{
+				coreInfoPtr->notes[index].notePoint[i].x = x;
+				coreInfoPtr->notes[index].notePoint[i].y = y;
+			}
+		}
+	}
+	void DivaEditorMapData::note_modifyTimePos(int index, int pos, bool isDelta)
+	{
+		if(!isDelta)
+			pos = pos - coreInfoPtr->notes[index].notePoint[0].position;
+		for(int i=0;i<coreInfoPtr->notes[index].notePoint.size();i++)
+		{
+			coreInfoPtr->notes[index].notePoint[i].position += pos;
+		}
+	}
+	void DivaEditorMapData::note_modifyType(int index, char keyPress, bool arrow)
+	{
+		for(int i=0;i<coreInfoPtr->notes[index].notePoint.size();i++)
+		{
+			coreInfoPtr->notes[index].notePoint[i].type = getNoteTypeFromKeyPress(keyPress,arrow);
+		}
+	}
+	void DivaEditorMapData::note_modifyKey(int index, int key)
+	{
+		for(int i=0;i<coreInfoPtr->notes[index].notePoint.size();i++)
+		{
+			coreInfoPtr->notes[index].notePoint[i].key = key;
+		}
+	}
+	void DivaEditorMapData::note_delete(int index)
+	{
+		coreInfoPtr->notes.erase(coreInfoPtr->notes.begin()+index);
+		EDITCONFIG->deleteSelectedNote(index);
+	}
+
+	int DivaEditorMapData::findNoteToSelectByPos(int position,int x,int y)
+	{
+		if(!(x<0||x>EDITCONFIG->NoteAreaWidth||y<0||y>EDITCONFIG->NoteAreaHeight))
+			for (int i=0;i<coreInfoPtr->notes.size();i++)
+			{
+				divacore::MapNote &nowNote = coreInfoPtr->notes[i];
+			
+				if(position>nowNote.notePoint[0].position-nowNote.aheadBar*EDITCONFIG->GridPerBeat*4 && position<=nowNote.notePoint[0].position
+					&& nowNote.notePoint[0].x == x && nowNote.notePoint[0].y == y)
+					return i;
+				else
+				{
+					if(nowNote.notePoint.size()>1)
+						if(position >= nowNote.notePoint[0].position && position < nowNote.notePoint[1].position
+							&& nowNote.notePoint[0].x == x && nowNote.notePoint[0].y == y)
+							return i;
+				}
+			}
+		return -1;
+	}
+	std::vector<int> DivaEditorMapData::findNoteToSelectByRange(int position,int leftUpX,int leftUpY,int rightDownX,int rightDownY)
+	{
+		if(leftUpX<0) leftUpX=0;
+		else if(leftUpX>EDITCONFIG->NoteAreaWidth) leftUpX = EDITCONFIG->NoteAreaWidth;
+		if(leftUpY<0) leftUpY=0;
+		else if(leftUpY>EDITCONFIG->NoteAreaHeight) leftUpY = EDITCONFIG->NoteAreaHeight;
+		if(rightDownX<0) rightDownX=0;
+		else if(rightDownX>EDITCONFIG->NoteAreaWidth) rightDownX = EDITCONFIG->NoteAreaWidth;
+		if(rightDownY<0) rightDownY=0;
+		else if(rightDownY>EDITCONFIG->NoteAreaHeight) rightDownY = EDITCONFIG->NoteAreaHeight;
+
+		if(leftUpX>rightDownX)
+			std::swap(leftUpX,rightDownX);
+		if(leftUpY>rightDownY)
+			std::swap(leftUpY,rightDownY);
+
+		std::vector<int> ret;
+		for (int i=0;i<coreInfoPtr->notes.size();i++)
+		{
+			divacore::MapNote &nowNote = coreInfoPtr->notes[i];
+
+			if(position>nowNote.notePoint[0].position-nowNote.aheadBar*EDITCONFIG->GridPerBeat*4 && position<=nowNote.notePoint[0].position
+				&& nowNote.notePoint[0].x <= rightDownX && nowNote.notePoint[0].x >= leftUpX && nowNote.notePoint[0].y <= rightDownY && nowNote.notePoint[0].y >= leftUpY)
+				ret.push_back(i);
+			else
+			{
+				if(nowNote.notePoint.size()>1)
+					if(position >= nowNote.notePoint[0].position && position < nowNote.notePoint[1].position
+						&& nowNote.notePoint[0].x <= rightDownX && nowNote.notePoint[0].x >= leftUpX && nowNote.notePoint[0].y <= rightDownY && nowNote.notePoint[0].y >= leftUpY)
+						ret.push_back(i);
+			}
+		}
+		return ret;
+	}
+
+	gcn::Rectangle DivaEditorMapData::findSelectedAreaRectange()
+	{
+		if(EDITCONFIG->noteSelected.size()==0)
+			return gcn::Rectangle(-1,-1,-1,-1);
+		gcn::Rectangle ret(MAXINT32,MAXINT32,-1,-1);
+
+		for(int i=0;i<EDITCONFIG->noteSelected.size();i++)
+		{
+			divacore::NotePoint &notePoint = coreInfoPtr->notes[EDITCONFIG->noteSelected[i]].notePoint[0];
+			if(notePoint.x<ret.x)
+				ret.x = notePoint.x;
+			if(notePoint.x>ret.width)
+				ret.width = ret.x;
+			if(notePoint.y<ret.y)
+				ret.y = notePoint.y;
+			if(notePoint.y>ret.height)
+				ret.height = ret.y;
+		}
+		return ret;
+	}
 
 
 	//Grid and period operation

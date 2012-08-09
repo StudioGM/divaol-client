@@ -2,6 +2,7 @@
 #include "divaeditor/DivaEditorCommon.h"
 #include "Animation/SoraGUIAnimation.h"
 #include "divacore/Component/DivaStandardCoreFlow.h"
+#include "divacore/Mode/DivaEditMode.h"
 #include "divaeditor/DivaEditorScene/DivaEditorTimelineWidget.h"
 #include "divaeditor/DivaEditorScene/DivaEditorMusicProgressWidget.h"
 #include "divaeditor/DivaEditorScene/DivaEditorNoteArea.h"
@@ -383,6 +384,10 @@ namespace divaeditor
 			i->second->setVisible(false);
 		container_Categories[state]->setVisible(true);
 		nowState=state;
+
+		
+		((divacore::EditMode*)CORE_PTR->getGameMode())->setPlayble(nowState==State::PREVIEW);
+	
 	}
 
 	void DivaEditorMainScene::onUpdate(float dt)
@@ -625,8 +630,14 @@ namespace divaeditor
 
 	void DivaEditorMainScene::onKeyPressed(SoraKeyEvent& event)
 	{
+		if(event.key == sora::key::Ctrl)
+			EDITCONFIG->isctrl=true;
+
+
 		if(nowState==State::NOTE)
 		{
+			
+
 			NoteArea* noteArea = (NoteArea*)container_Categories[nowState]->findWidgetById("NoteArea");
 			noteArea->onKeyPressed(event);
 		}
@@ -634,10 +645,13 @@ namespace divaeditor
 
 	void DivaEditorMainScene::onKeyReleased(SoraKeyEvent& event)
 	{
+		if(event.key == sora::key::Ctrl)
+			EDITCONFIG->isctrl=false;
+
 		if(nowState==State::NOTE)
 		{
 			NoteArea* noteArea = (NoteArea*)container_Categories[nowState]->findWidgetById("NoteArea");
-			noteArea->onKeyPressed(event);
+			noteArea->onKeyReleased(event);
 		}
 	}
 }

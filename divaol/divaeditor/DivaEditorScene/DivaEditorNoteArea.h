@@ -24,6 +24,12 @@ namespace divaeditor
 		public gcn::KeyListener,
 		public gcn::FocusListener
 	{
+	private:
+		void changeSelectedNoteTailOver();
+		void placingLongNoteOver();
+		void placingComboNoteOver();
+		void updateMousePos();
+
 	public:
 		NoteArea();
 
@@ -62,15 +68,34 @@ namespace divaeditor
 
 		int nowGridSelectX,nowGridSelectY;
 
-		divacore::Point _selectBegin,_selectEnd;
-		bool isSelecting;
 		bool isMouseOn;
 
 		int notePlacedPos;
-
+		
 		divacore::Point nowMousePos;
 
+		bool moveTail;
+		int moveTailX,moveTailY;
 
+		bool placingLong;
+		bool placingCombo;
+		divacore::MapNote placingNote;
+
+
+		//Select Area
+		bool isSelecting;
+		int selectBeginX,selectBeginY;
+		int selectBeginGridX,selectBeginGridY;
+
+
+		//Drag notes
+		bool isDraging;
+		gcn::Rectangle dragAreaRect;
+		int dragingPosX,dragingPosY;
+
+		//Drag note time position
+		int pressedTimePos;
+		bool isDragingTime;
 
 	};
 

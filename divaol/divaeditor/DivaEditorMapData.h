@@ -23,6 +23,7 @@ namespace divaeditor
 		int decodeOriginalGrid(int grid);
 		int encodeToOriginalGrid(int grid);
 
+		void qsort_Note(int l,int r);
 		void sortNote();
 		void sortEvent();
 		int adjustNoteOrder(int index);
@@ -37,15 +38,27 @@ namespace divaeditor
 
 
 	public:
-		void addNormalNote(int pos, char keyPress, bool arrow, int x, int y, int tailX, int tailY, int key=-1);
+		divacore::MapNote initNote(int pos, char keyPress, bool arrow, int x, int y, int tailX, int tailY, std::string noteType, int key=-1);
+		void finishLongNote(divacore::MapNote &longNote, int pos, int key=-1);
+		void finishComboNote(divacore::MapNote &comboNote, int pos, int key=-1);
+		void note_modifyTail(int index, int tailX, int tailY);
+		void note_modifyPos(int index, int x, int y, bool isDelta);
+		void note_modifyTimePos(int index, int pos, bool isDelta);
+		void note_modifyType(int index, char keyPress, bool arrow);
+		void note_modifyKey(int index, int key);
+		void note_delete(int index);
 
+		int addNormalNote(int pos, char keyPress, bool arrow, int x, int y, int tailX, int tailY, int key=-1);
+		int addLongNote(divacore::MapNote longNote);
 
+		int checkNoteExists(int pos, int pressType, std::string noteType);
 
+		int findNoteToSelectByPos(int position,int x,int y);
+		std::vector<int> findNoteToSelectByRange(int position,int leftUpX,int leftUpY,int rightDownX,int rightDownY);
 
+		gcn::Rectangle findSelectedAreaRectange();
 
-
-
-
+		int getNoteTypeFromKeyPress(char keyPress, bool arrow);
 
 	public:
 		divacore::MapInfoPtr coreInfoPtr;

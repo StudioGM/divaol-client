@@ -12,16 +12,71 @@ namespace divaeditor
 	{
 		if(EDITSTATE_NOTESTATE==NOTESTATE::NORMAL)
 			EDITSTATE_NOTESTATE=NOTESTATE::LONG;
-		else if(EDITSTATE_NOTESTATE=NOTESTATE::LONG)
+		else if(EDITSTATE_NOTESTATE==NOTESTATE::LONG)
 			EDITSTATE_NOTESTATE=NOTESTATE::COMBO;
 		else
 			EDITSTATE_NOTESTATE=NOTESTATE::NORMAL;
 	}
 
 
+	void EditorConfig::noteIndexChanged(int oldIndex, int newIndex)
+	{
+		for(int i=0;i<noteSelected.size();i++)
+			if(noteSelected[i]==oldIndex)
+				if(newIndex!=-1)
+					noteSelected[i]=newIndex;
+				else
+				{
+					noteSelected.erase(noteSelected.begin()+i);
+					i--;
+				}
+	}
 
+	void EditorConfig::noteIndexSwaped(int indexL,int indexR)
+	{
+		for(int i=0;i<noteSelected.size();i++)
+			if(noteSelected[i]==indexL)
+				noteSelected[i]=indexR;
+			else if(noteSelected[i]==indexR)
+				noteSelected[i]=indexL;
+	}
 
+	void EditorConfig::addSelectedNote(int index)
+	{
+		//check exist
+		for(int i=0;i<noteSelected.size();i++)
+			if(noteSelected[i]==index)
+			{
+				noteSelected.erase(noteSelected.begin()+i);
+				return;
+			}
+		noteSelected.push_back(index);
+	}
 
+	void EditorConfig::deleteSelectedNote(int index)
+	{
+		for(int i=0;i<noteSelected.size();i++)
+			if(noteSelected[i]==index)
+			{
+				noteSelected.erase(noteSelected.begin()+i);
+				i--;
+			}
+			else if(noteSelected[i]>index)
+				noteSelected[i]--;
+	}
+
+	void EditorConfig::clearSelectedNote()
+	{
+		noteSelected.clear();
+	}
+
+	bool EditorConfig::isNoteSelected(int index)
+	{
+		for(int i=0;i<noteSelected.size();i++)
+			if(noteSelected[i]==index)
+				return true;
+		return false;
+	}
 
 
 	//Utility

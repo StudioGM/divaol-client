@@ -2,6 +2,7 @@
 #define DIVAEDITORCOMMON_H
 
 #include <string>
+#include <vector>
 
 namespace divaeditor
 {
@@ -20,7 +21,8 @@ namespace divaeditor
 		EditorConfig():beatNumberPerScreen(20),
 						gridToShowPerBeat(0),
 						showRangeFactor(1),
-						EDITSTATE_NOTESTATE(NOTESTATE::NORMAL)
+						EDITSTATE_NOTESTATE(NOTESTATE::NORMAL),
+						isctrl(false)
 						{};
 
 		static EditorConfig* Ptr;
@@ -44,6 +46,15 @@ namespace divaeditor
 		void ChangeEditState();
 
 
+		void noteIndexChanged(int oldIndex, int newIndex);
+		void noteIndexSwaped(int indexL,int indexR);
+		void addSelectedNote(int index);
+		void deleteSelectedNote(int index);
+		void clearSelectedNote();
+		bool isNoteSelected(int index);
+		std::vector<int> noteSelected;
+
+
 		static const int GridPerBeat = 48;
 
 		//Use for note area
@@ -54,6 +65,10 @@ namespace divaeditor
 		static const int NoteAreaHeight = 24;
 		static const int NoteAreaTailAreaSize = 2;
 		//static const double NoteAreaFactor = 0.666666666666666666666667;
+
+
+		//Global Key Event
+		bool isctrl;
 
 	private:
 		//Timeline Showing settings
