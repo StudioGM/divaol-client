@@ -11,6 +11,7 @@
 
 #include "Core/DivaEvaluateStrategy.h"
 #include "Component/DivaSimpleUIPainter.h"
+#include "Utility/DivaConfigLoader.h"
 
 namespace divacore
 {
@@ -31,7 +32,7 @@ namespace divacore
 		float weight;
 		int cntEval[EVAL_NUM];
 		int score,playerID;
-		PLAYERS players;
+		//PLAYERS players;
 		EVALDATA evalData;
 		EVALBAR evals;
 
@@ -151,8 +152,9 @@ namespace divacore
 		}
 		void updateInfo()
 		{
-			for(int i = 0; i < players.size(); i++)
-				evals[i]->setInfo(evalData[players[i].id].score,evalData[players[i].id].cntEval);
+			// NETWORK CAUTION
+			//for(int i = 0; i < players.size(); i++)
+			//	evals[i]->setInfo(evalData[players[i].id].score,evalData[players[i].id].cntEval);
 		}
 		void addSingleEvalUI()
 		{
@@ -167,47 +169,49 @@ namespace divacore
 		}
 		void addMultiEvalUI()
 		{
-			score = GAME_MODE_PTR->getScore();
+			// NETWORK CAUTION
 
-			divacore::SimpleUIPainter * uiPainter = (divacore::SimpleUIPainter*)UI_PAINTER_PTR;
-			SimpleUI::EvalBar *eval;
+			//score = GAME_MODE_PTR->getScore();
 
-			evals.clear();
-			evalData.clear();
-			players.clear();
+			//divacore::SimpleUIPainter * uiPainter = (divacore::SimpleUIPainter*)UI_PAINTER_PTR;
+			//SimpleUI::EvalBar *eval;
 
-			MultiPlay *multiplay = (MultiPlay*)GAME_MODE_PTR;
-			TEAMS &teams = multiplay->getGlobalInfo();
-			for(int i = 0; i < teams.size(); i++)
-				for(int j = 0; j < teams[i].players.size(); j++)
-				{
-					players.push_back(teams[i].players[j]);
-					evalData.push_back(EvalData());
-				}//here
+			//evals.clear();
+			//evalData.clear();
+			//players.clear();
 
-				sort(players.begin(),players.end());
+			//MultiPlay *multiplay = (MultiPlay*)GAME_MODE_PTR;
+			//TEAMS &teams = multiplay->getGlobalInfo();
+			//for(int i = 0; i < teams.size(); i++)
+			//	for(int j = 0; j < teams[i].players.size(); j++)
+			//	{
+			//		players.push_back(teams[i].players[j]);
+			//		evalData.push_back(EvalData());
+			//	}//here
 
-				for(int i = 0; i < players.size(); i++)
-				{
-					eval = (SimpleUI::EvalBar *)uiPainter->createWidget(i==0?"header":"bar");
-					//eval->addIcon(players[i].netID);
-					eval->setPosition(eval->getPositionX(),(i==0)?82:(216+(i-1)*87));
-					uiPainter->addWidget(eval);
-					evals.push_back(eval);
-				}
+			//	sort(players.begin(),players.end());
 
-			playerID = multiplay->getPlayerInfo()->id;
-			evalData[playerID].score = score;
-			for(int i = 0; i < EVAL_NUM; i++)
-				evalData[playerID].cntEval[i] = cntEval[i];
+			//	for(int i = 0; i < players.size(); i++)
+			//	{
+			//		eval = (SimpleUI::EvalBar *)uiPainter->createWidget(i==0?"header":"bar");
+			//		//eval->addIcon(players[i].netID);
+			//		eval->setPosition(eval->getPositionX(),(i==0)?82:(216+(i-1)*87));
+			//		uiPainter->addWidget(eval);
+			//		evals.push_back(eval);
+			//	}
 
-			updateInfo();
+			//playerID = multiplay->getPlayerInfo()->id;
+			//evalData[playerID].score = score;
+			//for(int i = 0; i < EVAL_NUM; i++)
+			//	evalData[playerID].cntEval[i] = cntEval[i];
 
-			Packet packet(network::DIVA_NET_CTS_EVAL_INFO,CORE_PTR->getRunTime());
-			packet.write<int32>(score);
-			for(int i = 0; i < EVAL_NUM; i++)
-				packet.write<int32>(cntEval[i]);
-			NETWORK_SYSTEM_PTR->send(packet);
+			//updateInfo();
+
+			//Packet packet(network::DIVA_NET_CTS_EVAL_INFO,CORE_PTR->getRunTime());
+			//packet.write<int32>(score);
+			//for(int i = 0; i < EVAL_NUM; i++)
+			//	packet.write<int32>(cntEval[i]);
+			//NETWORK_SYSTEM_PTR->send(packet);
 		}
 		void finalEvaluate()
 		{

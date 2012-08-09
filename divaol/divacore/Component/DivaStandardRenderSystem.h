@@ -84,7 +84,6 @@ namespace divacore
 		sora::SoraSprite* renderToCanvas(float width = 0, float height = 0, uint32 mask = RS_RENDER_ALL)
 		{
 			sora::SoraMutexGuard lock(mutex);
-
 			draw(mask);
 			if(coreCanvas==NULL)
 				return NULL;

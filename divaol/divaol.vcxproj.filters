@@ -139,6 +139,15 @@
     <Filter Include="源文件\divacore\utility">
       <UniqueIdentifier>{791bddf3-4a76-4f9c-ab14-ab2ba16e8905}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\divacore\network\new">
+      <UniqueIdentifier>{c53513bf-362c-4012-a06a-d051fd68cb22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\divacore\network\gnet">
+      <UniqueIdentifier>{086d7bb0-b5c5-4eef-aa6c-59972f36f1b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\divacore\network\gnet\base">
+      <UniqueIdentifier>{31273d95-48ab-4f3d-937e-6eacc0ec49d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Hoshizor\Sora\Hoshizora.h">
@@ -1416,25 +1425,7 @@
     <ClInclude Include="divacore\Mode\DivaEditMode.h">
       <Filter>源文件\divacore\mode</Filter>
     </ClInclude>
-    <ClInclude Include="divacore\Mode\DivaMultiplay Test.h">
-      <Filter>源文件\divacore\mode</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Mode\DivaMultiplay.h">
-      <Filter>源文件\divacore\mode</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Mode\DivaRelayPlay Ver2.h">
-      <Filter>源文件\divacore\mode</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Mode\DivaRelayPlay.h">
-      <Filter>源文件\divacore\mode</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Mode\DivaRelayUI.h">
-      <Filter>源文件\divacore\mode</Filter>
-    </ClInclude>
     <ClInclude Include="divacore\Mode\DivaSinglePlay.h">
-      <Filter>源文件\divacore\mode</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Mode\DivaTeamPlay.h">
       <Filter>源文件\divacore\mode</Filter>
     </ClInclude>
     <ClInclude Include="divacore\MusicManager\DivaBassMusicManager.h">
@@ -1442,30 +1433,6 @@
     </ClInclude>
     <ClInclude Include="divacore\MusicManager\DivaFmodMusicManager.h">
       <Filter>源文件\divacore\music</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Network\DivaEnetSystem.h">
-      <Filter>源文件\divacore\network</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Network\DivaNetEventHandler.h">
-      <Filter>源文件\divacore\network</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Network\DivaNetLoader.h">
-      <Filter>源文件\divacore\network</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Network\DivaNetPacket.h">
-      <Filter>源文件\divacore\network</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Network\DivaNetPacketID.h">
-      <Filter>源文件\divacore\network</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Network\DivaNetUnsync.h">
-      <Filter>源文件\divacore\network</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Network\DivaNetworkSystem.h">
-      <Filter>源文件\divacore\network</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Network\sockSystem.h">
-      <Filter>源文件\divacore\network</Filter>
     </ClInclude>
     <ClInclude Include="divacore\Utility\DivaConfigLoader.h">
       <Filter>源文件\divacore\utility</Filter>
@@ -1514,6 +1481,66 @@
     </ClInclude>
     <ClInclude Include="divacore\Timer\DivaTimeCounterImplBass.h">
       <Filter>源文件\divacore\timer</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Network\gnet\gnet.h">
+      <Filter>源文件\divacore\network\gnet</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Network\gnet\connection.h">
+      <Filter>源文件\divacore\network\gnet</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Network\gnet\netManager.h">
+      <Filter>源文件\divacore\network\gnet</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Network\gnet\base\Common.h">
+      <Filter>源文件\divacore\network\gnet\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Network\gnet\base\Exception.h">
+      <Filter>源文件\divacore\network\gnet\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Network\gnet\base\Logger.h">
+      <Filter>源文件\divacore\network\gnet\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Network\gnet\base\Platform.h">
+      <Filter>源文件\divacore\network\gnet\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Network\gnet\base\Singleton.h">
+      <Filter>源文件\divacore\network\gnet\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Network\gnet\base\Thread\Mutex.h">
+      <Filter>源文件\divacore\network\gnet\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Network\gnet\base\Thread\posix\MutexImpl.h">
+      <Filter>源文件\divacore\network\gnet\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Network\gnet\base\Thread\Queue.h">
+      <Filter>源文件\divacore\network\gnet\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Network\gnet\base\Thread\win32\MutexImpl.h">
+      <Filter>源文件\divacore\network\gnet\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Network\gnet\base\Timer.h">
+      <Filter>源文件\divacore\network\gnet\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Network\gnet\base\Type.h">
+      <Filter>源文件\divacore\network\gnet\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Network\gnet\base\Uncopyable.h">
+      <Filter>源文件\divacore\network\gnet\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Network\DivaGNetEventHandler.h">
+      <Filter>源文件\divacore\network\new</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Network\DivaGNetSystem.h">
+      <Filter>源文件\divacore\network\new</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Network\DivaGNetTCPSystem.h">
+      <Filter>源文件\divacore\network\new</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Mode\DivaMultiPlay.h">
+      <Filter>源文件\divacore\mode</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\State\DivaNetLoader.h">
+      <Filter>源文件\divacore\state</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2018,9 +2045,6 @@
     <ClCompile Include="divacore\Core\DivaStringUtil.cpp">
       <Filter>源文件\divacore\core</Filter>
     </ClCompile>
-    <ClCompile Include="divacore\Mode\DivaMultiPlay.cpp">
-      <Filter>源文件\divacore\mode</Filter>
-    </ClCompile>
     <ClCompile Include="divacore\Mode\DivaSinglePlay.cpp">
       <Filter>源文件\divacore\mode</Filter>
     </ClCompile>
@@ -2053,6 +2077,24 @@
     </ClCompile>
     <ClCompile Include="..\Hoshizor\Plugins\SoraHGERenderer\hge\hgesystem.cpp">
       <Filter>Plugins\hge</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Network\gnet\gnet.cpp">
+      <Filter>源文件\divacore\network\gnet</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Network\gnet\connection.cpp">
+      <Filter>源文件\divacore\network\gnet</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Network\gnet\netManager.cpp">
+      <Filter>源文件\divacore\network\gnet</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Network\gnet\base\Logger.cpp">
+      <Filter>源文件\divacore\network\gnet\base</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Network\gnet\base\Timer.cpp">
+      <Filter>源文件\divacore\network\gnet\base</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Mode\DivaMultiPlay.cpp">
+      <Filter>源文件\divacore\mode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

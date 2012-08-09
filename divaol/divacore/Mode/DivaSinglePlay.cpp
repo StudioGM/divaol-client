@@ -7,7 +7,7 @@
  */
 
 #include "DivaSinglePlay.h"
-#include "DivaRelayUI.h"
+//#include "DivaRelayUI.h"
 #include "Component/DivaCommonEvaluateStrategy.h"
 
 namespace divacore

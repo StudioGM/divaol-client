@@ -11,7 +11,7 @@
 #include "app/SoraGameApp.h"
 #include "Utility/DivaConfigLoader.h"
 #include "task/SoraTaskManager.h"
-#include "Mode/DivaRelayPlay.h"
+//#include "Mode/DivaRelayPlay.h"
 
 namespace divacore
 {
@@ -138,7 +138,7 @@ namespace divacore
 		this->effectSystem = effectSystem;
 		components["13_effectSystem"] = effectSystem;
 	}
-	void Core::registerNetworkSystem(NetworkSystemPtr networkSystem)
+	void Core::registerNetworkSystem(GNetworkSystemPtr networkSystem)
 	{
 		SAFE_DELETE(this->networkSystem);
 		this->networkSystem = networkSystem;

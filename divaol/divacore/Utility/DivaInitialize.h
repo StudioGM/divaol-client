@@ -23,16 +23,17 @@
 #include "Component/DivaHDEffectSystem.h"
 //#include "Component/DivaSocketNetworkSystem.h"
 #include "Network/DivaEnetSystem.h"
-#include "Network/DivaNetLoader.h"
-#include "Network/DivaNetUnsync.h"
+#include "State/DivaNetLoader.h"
+//#include "Network/DivaNetUnsync.h"
 #include "Mode/DivaSinglePlay.h"
 #include "Mode/DivaMultiplay.h"
-#include "Mode/DivaTeamPlay.h"
-#include "Mode/DivaRelayPlay.h"
+//#include "Mode/DivaTeamPlay.h"
+//#include "Mode/DivaRelayPlay.h"
 #include "Mode/DivaEditMode.h"
 #include "MusicManager/DivaFmodMusicManager.h"
 //#include "MusicManager/DivaXAudioMusicManager.h"
 #include "MusicManager/DivaBassMusicManager.h"
+#include "Network/DivaGNetTCPSystem.h"
 
 namespace divacore
 {
@@ -63,7 +64,8 @@ namespace divacore
 				core->registerHookManager(new divacore::SimpleHookManager);
 				core->registerUIPainter(new divacore::SimpleUIPainter);
 				core->registerGameModule(new divacore::JsonGameModule);
-				core->registerNetworkSystem(new divacore::EnetSystem);
+				//core->registerNetworkSystem(new divacore::EnetSystem);
+				core->registerNetworkSystem(new divacore::TCPGNetworkSystem);
 				core->registerEvaluateStrategy(new divacore::CommonEvaluateStrategy);
 				core->registerEffectSystem(new divacore::HDEffectSystem);
 			}
@@ -80,13 +82,14 @@ namespace divacore
 					break;
 				case MULTI:
 					core->registerGameMode(new divacore::MultiPlay);
+					break;
 				}
 			}
 
 			void registerStates()
 			{
 				core->addState(new divacore::CoreLoader(isUnsync,true),"load");
-				core->addState(new divacore::NetUnsync, "net_load");
+				core->addState(new divacore::NetLoader(isUnsync,true), "net_load");
 
 				core->addState(new divacore::CorePlayState, "play");
 				core->addState(new divacore::CorePauseState, "pause");

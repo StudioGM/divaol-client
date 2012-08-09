@@ -1088,7 +1088,7 @@ namespace divacore
 			Player::onUpdate(dt);
 		}
 
-		void MultiPlayer::construct(Config &config, const std::string &head)
+		/*void MultiPlayer::construct(Config &config, const std::string &head)
 		{
 			this->config = &config;
 			this->head = head;
@@ -1163,7 +1163,7 @@ namespace divacore
 				for(int j = 0; j < teams[i].players.size(); j++)
 					players[cnt++]->setInfo(teams[i].players[j].score,teams[i].players[j].combo,teams[i].players[j].hp);
 			}
-		}
+		} */
 
 		/*
 		 *Eval Result UI
@@ -1387,8 +1387,8 @@ namespace divacore
 				widget = new DangerSpark();
 			else if(type=="singlePlayer")
 				widget = new SinglePlayer();
-			else if(type=="multiPlayer")
-				widget = new MultiPlayer();
+			//else if(type=="multiPlayer")
+			//	widget = new MultiPlayer();
 			else if(type=="evalBar")
 				widget = new EvalBar();
 			else if(type=="button")

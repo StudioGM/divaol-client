@@ -1,7 +1,7 @@
 /*
  *  DivaMultiplay.h
  *
- *  Created by Hyf042 on 2/10/12.
+ *  Created by Hyf042 on 8/9/12.
  *  Copyright 2012 Hyf042. All rights reserved.
  *
  */
@@ -19,13 +19,23 @@
 
 namespace divacore
 {
-	class PlayerInfo
+	struct PlayerInfo
 	{
 	public:
-		std::string name;
-		int score,combo,teamID,playerID,id,netID;
+		//identity
+		std::string name,uid;
+		//slot
+		int index;
+		int teamIndex;
+		int indexInTeam;
+		//game info
+		int score;
+		int combo;
 		float hp;
-		PlayerInfo():name(""),score(0),combo(0),hp(0.5),netID(0) {}
+
+		PlayerInfo()
+			:name(""),score(0),combo(0),hp(1.0),index(0),teamIndex(0),indexInTeam(0)
+		{}
 		friend bool operator<(const PlayerInfo &a, const PlayerInfo &b)
 		{
 			return a.score>b.score;
@@ -35,10 +45,9 @@ namespace divacore
 	class TeamInfo
 	{
 	public:
-		PLAYERS players;
-		std::string name;
+		std::vector<int> players;
 		int combo,score,teamID,nowPlayer;
-		TeamInfo():name(""),combo(0),score(0),nowPlayer(-1) {}
+		TeamInfo():combo(0),score(0),nowPlayer(-1) {}
 	};
 	typedef std::vector<TeamInfo> TEAMS;
 
@@ -48,15 +57,15 @@ namespace divacore
 		static const int CONNECT_WAIT_TIME = 5000;
 		static const int FAILURE_WAIT_TIME = 1000;
 
-		int baseState;
-		int teamID, playerID;
-		TEAMS teams; //所有队伍的基本信息
-		TeamInfo *teamPtr; //本机所属的队伍信息
-		PlayerInfo *playerPtr; //本机所属的玩家信息
-
-		sora::SoraMutex mutex;
+		int mBaseState;
+		int myTeamID, myPlayerID;
+		TEAMS mTeams; //所有队伍的基本信息
+		PLAYERS mPlayers; // 所有玩家的信息
+		TeamInfo *myTeamPtr; //本机所属的队伍信息
+		PlayerInfo *myPlayerPtr; //本机所属的玩家信息
 
 		sora::SoraText mText;
+		sora::SoraMutex mutex;
 
 		Config myInfo;
 	public:
@@ -67,14 +76,16 @@ namespace divacore
 		 FAILURE表示连接失败等待中
 		 FULL表示服务器已满*/
 		enum{CONNECT,GET_INFO,READY,PLAY,FAILURE,FULL,OVER};
-		void setBaseState(int state) {sora::SoraMutexGuard lock(mutex);baseState=state;}
-		int getBaseState() {sora::SoraMutexGuard lock(mutex);return baseState;}
 
-		virtual int getTeamID() {return teamID;}
-		virtual int getPlayerID() {return playerID;}
-		virtual TEAMS& getGlobalInfo() {return teams;}
-		virtual TeamInfo* getTeamInfo() {return teamPtr;}
-		virtual PlayerInfo* getPlayerInfo() {return playerPtr;}
+		void setBaseState(int state) {sora::SoraMutexGuard lock(mutex);mBaseState=state;}
+		int getBaseState() {sora::SoraMutexGuard lock(mutex);return mBaseState;}
+
+		virtual int getTeamID() {return myTeamID;}
+		virtual int getPlayerID() {return myPlayerID;}
+		virtual TEAMS& getTeamInfo() {return mTeams;}
+		virtual PLAYERS& getPlayerInfo() {return mPlayers;}
+		virtual TeamInfo* getMyTeamInfo() {return myTeamPtr;}
+		virtual PlayerInfo* getMyPlayerInfo() {return myPlayerPtr;}
 
 		virtual std::string getName() {return "multiPlay";}
 
@@ -92,7 +103,7 @@ namespace divacore
 
 		virtual void gameLoad(const std::string &configFile);
 
-		virtual void gameLoadUnsync(const std::string &configFile);
+		//virtual void gameLoadUnsync(const std::string &configFile);
 
 		virtual void gameStart();
 
@@ -101,14 +112,16 @@ namespace divacore
 		void sendInfo();
 
 		//获得游戏信息，队伍信息
-		void getInfo(network::Packet &packet);
+		void getInfo(GPacket *packet);
 
 		//心跳包更新游戏信息
-		void updateInfo(Packet &packet);
+		void updateInfo(GPacket *packet);
 
 		void render();
 
-		void gameFull(Packet &packet);
+		void joinFailed(GPacket *packet);
+
+		void join(GPacket *packet);
 
 		void preStart();
 
