@@ -373,11 +373,13 @@ namespace divacore
 		class Text : public Widget
 		{
 		protected:
-			std::string content,color;
+			std::wstring content;
+			std::string color;
 			Point position;
 			sora::SoraText text;
 		public:
-			void setText(const std::string &content);
+			void setText(const std::wstring &content);
+			void setText(const std::string &content) {setText(sora::s2ws(content));}
 			void construct(Config &config, const std::string &head);
 			void onRender(float x, float y);
 			void setScale(float scale);

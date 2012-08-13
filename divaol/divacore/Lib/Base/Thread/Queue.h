@@ -54,12 +54,23 @@ namespace Base
 				return front;
 			}
 
+			bool take(T &ret)
+			{
+				BASE_MUTEX_GUARD(mMutex);
+				if(mQueue.empty())
+					return false;
+				ret = mQueue.front();
+				mQueue.pop();
+				return true;
+			}
+
 			size_t size() {
 				BASE_MUTEX_GUARD(mMutex);
 				return mQueue.size();
 			}
 
-			bool empty() const {
+			bool empty() {
+				BASE_MUTEX_GUARD(mMutex);
 				return mQueue.empty();
 			}
 

@@ -20,15 +20,15 @@ namespace divacore
 	*/
 	class MapLoader : public EventHandler
 	{
-		std::string mapFileName,songFolderPath;
+		std::wstring mapFileName,songFolderPath;
 	protected:
 		virtual uint32 _parserDifficulty(const std::string &diff);
 		virtual uint32 _parserResourceType(const std::string &type);
 	public:
 		virtual MapInfoPtr load() = 0;
-		virtual void setSong(const std::string &path, const std::string &mapFileName = "") {songFolderPath=path,this->mapFileName=mapFileName;}
-		std::string getMapFileName() {return mapFileName;}
-		std::string getSongPath() {return songFolderPath;}
+		virtual void setSong(const std::wstring &path, const std::wstring &mapFileName = L"") {songFolderPath=path,this->mapFileName=mapFileName;}
+		std::wstring getMapFileName() {return mapFileName;}
+		std::wstring getSongPath() {return songFolderPath;}
 	};
 
 	typedef MapLoader* MapLoaderPtr;

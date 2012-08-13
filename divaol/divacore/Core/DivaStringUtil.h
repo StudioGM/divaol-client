@@ -16,6 +16,7 @@ namespace divacore
 	std::string iToS(int n);
 	int sToI(const std::string &number);
 	std::string GBKToUTF8(const std::string& strGBK);
+	std::wstring UTF8toUnicode(const std::string& strUTF8);
 	std::string format(const char*,...);
 }
 

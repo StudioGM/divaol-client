@@ -180,7 +180,7 @@ namespace divacore
 			LOGGER->msg("Completed, ready to start","LoadState");
 		}
 
-		void setSong(const std::string &path, const std::string &mapFileName)
+		void setSong(const std::wstring &path, const std::wstring &mapFileName)
 		{
 			core->setSong(path, mapFileName);
 		}

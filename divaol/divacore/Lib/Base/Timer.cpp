@@ -66,14 +66,14 @@ namespace Base
 #endif
 	}
 
-	base_string TimeUtil::getFormatTime(bool time, bool date)
+	String TimeUtil::getFormatTime(bool time, bool date)
 	{
-		base_string ret;
+		String ret;
 		if(time)
 		{
 			uint16 hour,minute,second;
 			getTime(hour,minute,second);
-			ret += FormatString("%02d:%02d:%02d",hour,minute,second);
+			ret += String::format("%02d:%02d:%02d",hour,minute,second);
 		}
 		if(time&&date)
 			ret += " ";
@@ -81,7 +81,7 @@ namespace Base
 		{
 			uint16 year,month,day;
 			getDate(year,month,day);
-			ret += FormatString("%d/%d/%d",year,month,day);
+			ret += String::format("%d/%d/%d",year,month,day);
 		}
 		return ret;
 	}

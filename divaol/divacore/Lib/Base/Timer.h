@@ -34,7 +34,7 @@ namespace Base
 
 		static void getDate(uint16 &year, uint16 &month, uint16 &day);
 		static void getTime(uint16 &hour, uint16 &minute, uint16 &second);
-		static base_string getFormatTime(bool time = true, bool date = true);
+		static String getFormatTime(bool time = true, bool date = true);
 
 		static void mSleep(uint32 millisecond);
 	};

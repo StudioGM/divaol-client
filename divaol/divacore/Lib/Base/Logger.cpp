@@ -12,27 +12,27 @@
 
 namespace Base
 {
-	base_string Logger::DEFAULT_GLOBAL_FILE = "base_log.txt";
+	String Logger::DEFAULT_GLOBAL_FILE = "base_log.txt";
 
-	inline base_string Logger::logLevelToString(LogLevel level)
+	inline String Logger::logLevelToString(LogLevel level)
 	{
 		switch(level)
 		{
 		case LEVEL_ERROR:
-			return "*Error*";
+			return L"*Error*";
 		case LEVEL_WARNING:
-			return "*Warning*";
+			return L"*Warning*";
 		case LEVEL_NOTICE:
-			return "*notice*";
+			return L"*notice*";
 		case LEVEL_INFO:
 		default:
-			return base_string();
+			return String();
 		}
 	}
-	void Logger::redirect(const base_string &filename)
+	void Logger::redirect(const String &filename)
 	{
 		mOutput.close();
-		mOutput.open(filename);
+		mOutput.open(filename.asUnicode());
 	}
 	void Logger::setFeature(LoggerFeature feature, bool flag)
 	{
@@ -53,16 +53,16 @@ namespace Base
 		}
 	}
 
-	void Logger::log(const base_string& log, LogLevel level)
+	void Logger::log(const String& log, LogLevel level)
 	{
-		base_string msg = headDecorate();
+		String msg = headDecorate();
 
 		if(mPrependNumber)
-			msg += FormatString("%d. ",mLogQueue.size()+1);
+			msg += String::format("%d. ",mLogQueue.size()+1);
 		if(mPrependTime)
-			msg += FormatString("[%.3f] ", GlobalTimeStamp::instance().elapsedInSecond());
+			msg += String::format("[%.3f] ", GlobalTimeStamp::instance().elapsedInSecond());
 		if(mPrependLevel)
-			msg += logLevelToString(level)+" ";
+			msg += logLevelToString(level)+L" ";
 
 		msg += log;
 		msg += tailDecorate();
@@ -70,12 +70,12 @@ namespace Base
 		mLogQueue.push_back(msg);
 
 		if(mOutput)
-			mOutput << msg << std::endl;
+			mOutput << msg.asUnicode() << std::endl;
 		if(mOutpoutToConsole)
-			std::cout << msg << std::endl;
+			std::cout << msg.asAnsi() << std::endl;
 	}
 
-	Logger& Logger::operator<<(const base_string& log)
+	Logger& Logger::operator<<(const String& log)
 	{
 		this->log(log);
 		return *this;

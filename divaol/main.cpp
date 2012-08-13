@@ -26,12 +26,12 @@ int CALLBACK WinMain(
 
 	try
 	{
-		divacore::standard::Initializer initializer("system",divacore::standard::Initializer::MULTI, true);
+		divacore::standard::Initializer initializer("system",divacore::standard::Initializer::SINGLE, true);
 		divacore::CorePtr core = initializer.get();
 
 		divacore::Config config;
 		divacore::configloader::loadWithJson(config,"system/common.json");
-		core->setSong(config.getAsString("song"),config.getAsString("map"));
+		core->setSong(config.getAsWString("song"),config.getAsWString("map"));
 
 		sora::SoraGameAppDef def;
 		sora::SoraGameApp app(def);

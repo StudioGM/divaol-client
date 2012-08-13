@@ -10,6 +10,7 @@
 //#include "State/DivaEditLoad.h"
 #include "State/DivaCoreLoader.h"
 #include "Component/DivaMapJsonLoader.h"
+//#include "Component/DivaMapWJsonLoader.h"
 #include "Component/DivaMapStandardParser.h"
 #include "Component/DivaStandardCoreFlow.h"
 #include "Component/DivaStandardFactory.h"

@@ -202,7 +202,7 @@ namespace divacore
 		/*
 		 * set functions
 		 */
-		 void setSong(const std::string &path, const std::string &mapFileName = "");
+		 void setSong(const std::wstring &path, const std::wstring &mapFileName = L"");
 
 		/*
 		 * Get functions

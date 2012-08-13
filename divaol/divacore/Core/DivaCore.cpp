@@ -386,7 +386,7 @@ namespace divacore
 			return NULL;
 		return renderSystem->renderToCanvas(width,height,mask);
 	}
-	void Core::setSong(const std::string &path, const std::string &mapFileName) {mapLoader->setSong(path,mapFileName);}
+	void Core::setSong(const std::wstring &path, const std::wstring &mapFileName) {mapLoader->setSong(path,mapFileName);}
 	double Core::getRealTime() {return coreFlow->getRealTime();}
 	double Core::getRunTime() {return coreFlow->getRunTime();}
 	double Core::getRunPosition() {return coreFlow->getPosition();}

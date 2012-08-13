@@ -40,10 +40,11 @@ namespace gnet
 
 		void send(ItemBase* item) { mSendQueue.push(item); }
 		ItemBase* recv() { return mRecvQueue.take(); }
+		bool recv(ItemBase *&item) { return mRecvQueue.take(item); }
 		void waitNext() { while(mRecvQueue.empty()) Base::TimeUtil::mSleep(1); }
 		ItemBase* lookAt() { return mRecvQueue.front(); }
 		
-		bool empty() const { return mRecvQueue.empty(); }
+		bool empty() { return mRecvQueue.empty(); }
 		size_t size() { return mRecvQueue.size(); }
 		void clear(bool bRecv = true, bool bSend = false) { 
 			if(bRecv) mRecvQueue.clear(); 

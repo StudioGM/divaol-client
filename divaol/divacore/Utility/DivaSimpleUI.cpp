@@ -929,17 +929,17 @@ namespace divacore
 		/*
 		 * Text
 		 */
-		void Text::setText(const std::string &content)
+		void Text::setText(const std::wstring &content)
 		{
 			this->content = content;
-			text.setText(sora::s2ws(color+content));
+			text.setText(sora::s2ws(color)+content);
 		}
 		void Text::construct(Config &config, const std::string &head)
 		{
 			if(config.has(head+"text"))
-				content = config.getAsString(head+"text");
+				content = sora::s2ws(config.getAsString(head+"text"));
 			else
-				content = "";
+				content = L"";
 			position = config.getAsPoint(head+"position");
 			setPosition(position.x,position.y);
 

@@ -22,6 +22,9 @@ namespace Base
 	class Exception: public std::exception
 	{
 	public:
+		Exception(const std::string &msg, const char* func, const char* file, int32 line):
+		  mMsg(msg.c_str()),mFunc(func),mFile(file),mLine(line) {}
+
 		Exception(const char* msg, const char* func, const char* file, int32 line):
 		  mMsg(msg),mFunc(func),mFile(file),mLine(line) {}
 		

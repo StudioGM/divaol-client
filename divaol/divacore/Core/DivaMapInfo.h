@@ -28,7 +28,7 @@ namespace divacore
 		//version string
 		std::string versionStr;
 		//music name
-		std::string mapName;
+		std::wstring mapName;
 		//main sound
 		std::string mainSound;
 		//hard level number
@@ -36,7 +36,7 @@ namespace divacore
 		//difficulty 0-Easy 1-Normal 2-Hard 3-Extra 4-Die
 		uint8 difficulty;
 		//noters list
-		std::vector<std::string> noter;
+		std::vector<std::wstring> noter;
 		//author name
 		//std::string authorName;
 		//the scale of note's speed
@@ -55,7 +55,7 @@ namespace divacore
 	{
 	public:
 		enum ResourceType{VIDEO,AUDIO,IMAGE};
-		std::string filePath;
+		std::wstring filePath;
 		std::string ID;
 		uint8 type;
 		bool flag;

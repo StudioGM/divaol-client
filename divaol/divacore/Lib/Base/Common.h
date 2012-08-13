@@ -12,6 +12,7 @@
 
 #include "Type.h"
 #include "Exception.h"
+#include "String.h"
 
 #include <cstdarg>
 #include <cstdio>
@@ -37,18 +38,6 @@ namespace Base
 		}
 	}
 
-	static base_string FormatString(const char* format, ...)
-	{
-		va_list arg;
-		char buffer[1024] = {0};
-
-		va_start(arg, format);
-		vsprintf(buffer, format, arg);
-		va_end(arg);
-
-		return base_string(buffer);
-	}
-
 	// defines
 	
 	// prevent multi macro spread 
@@ -58,6 +47,10 @@ namespace Base
 	
 	#define BASE_UNIQUE_NAME(name)\
 		BASE_JOIN(name, __LINE__)
+
+	#define BASE_REGISTER_CLASS_NAME(_name)\
+		virtual std::string getName() {return #_name;} \
+		static std::string name() {return #_name;}
 
 	#define base_assert assert
 

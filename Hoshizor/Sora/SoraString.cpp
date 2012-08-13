@@ -17,7 +17,6 @@ namespace sora {
     namespace util {
         
         String::String() {
-            
         }
         
         String::String(const std::string& str):

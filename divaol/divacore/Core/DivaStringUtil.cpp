@@ -61,6 +61,22 @@ namespace divacore
         return strGBK;
 	}
 
+	std::wstring UTF8toUnicode(const std::string& strUTF8)
+	{
+#ifdef OS_WIN32
+		int nLenOfWcharStr=MultiByteToWideChar(CP_UTF8,0, strUTF8.c_str(),-1,NULL,0); //得到转换成unicode需要的character（不是byte）数目。
+		PWSTR pWideCharStr=(PWSTR)malloc(nLenOfWcharStr*sizeof(wchar_t));
+		if(pWideCharStr!=NULL)
+		{
+			MultiByteToWideChar(CP_UTF8,0, strUTF8.c_str(),-1,pWideCharStr,nLenOfWcharStr);
+			std::wstring ret = pWideCharStr;
+			delete pWideCharStr;
+			return ret;
+		}
+#endif
+		return L"";
+	}
+
 	std::string format(const char *format,...)
 	{
 		va_list	ArgPtr;

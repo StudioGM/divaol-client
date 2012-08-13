@@ -37,42 +37,42 @@ namespace Base
 		};
 	public:
 		Logger():
-		  mPrependTime(true),mPrependLevel(true),mPrependNumber(true),mOutpoutToConsole(true) {mOutput.open(DEFAULT_GLOBAL_FILE);}
-		Logger(const base_string &filename):
-		  mPrependTime(true),mPrependLevel(true),mPrependNumber(true),mOutpoutToConsole(true) {mOutput.open(filename);}
+		  mPrependTime(true),mPrependLevel(true),mPrependNumber(true),mOutpoutToConsole(true) {mOutput.open(DEFAULT_GLOBAL_FILE.asUnicode());}
+		Logger(const String &filename):
+		  mPrependTime(true),mPrependLevel(true),mPrependNumber(true),mOutpoutToConsole(true) {mOutput.open(filename.asUnicode());}
 		
-	    void redirect(const base_string &filename);
+	    void redirect(const String &filename);
 		void setFeature(LoggerFeature feature, bool flag);
 
-		void log(const base_string& log, LogLevel=LEVEL_INFO);
+		void log(const String& log, LogLevel=LEVEL_INFO);
 
-		Logger& operator<<(const base_string& log);
+		Logger& operator<<(const String& log);
 
 		void clear();
 
 		size getLogSize() const;
 
-		const std::deque<base_string>& getLogQueue() const {return mLogQueue;}
+		const std::deque<String>& getLogQueue() const {return mLogQueue;}
 
 		//addtional part of head and tail
 		virtual const char* headDecorate() {return "";}
 		virtual const char* tailDecorate() {return "";}
 
 		//global logger funcs
-		static void log_set_file(const base_string& log) {DEFAULT_GLOBAL_FILE = log;}
-		static void log_error(const base_string& log) {instance().log(log,Logger::LEVEL_ERROR);}
-		static void log_notice(const base_string& log) {instance().log(log,Logger::LEVEL_NOTICE);}
-		static void log_warning(const base_string& log) {instance().log(log,Logger::LEVEL_WARNING);}
-		static void log_info(const base_string& log) {instance().log(log,Logger::LEVEL_INFO);}
+		static void log_set_file(const String& log) {DEFAULT_GLOBAL_FILE = log;}
+		static void log_error(const String& log) {instance().log(log,Logger::LEVEL_ERROR);}
+		static void log_notice(const String& log) {instance().log(log,Logger::LEVEL_NOTICE);}
+		static void log_warning(const String& log) {instance().log(log,Logger::LEVEL_WARNING);}
+		static void log_info(const String& log) {instance().log(log,Logger::LEVEL_INFO);}
 
 	private:
-		static inline base_string logLevelToString(LogLevel level);
+		static inline String logLevelToString(LogLevel level);
 
-		static base_string DEFAULT_GLOBAL_FILE;
+		static String DEFAULT_GLOBAL_FILE;
 
-		std::deque<base_string> mLogQueue;
+		std::deque<String> mLogQueue;
 
-		std::ofstream mOutput;
+		std::wofstream mOutput;
 
 		bool mPrependTime;
 		bool mPrependLevel;
@@ -85,7 +85,7 @@ namespace Base
 
 	#define BASE_LOGGER_ASSERT(cond, log) \
 	if(!(cond)) { \
-		BASE_LOGGER.log_error(Base::FormatString("Base::assertion failed with mssg %s at function %s, file %s, line %d", log, __FUNCTION__, __FILE__, __LINE__)); \
+		BASE_LOGGER.log_error(Base::String::format("Base::assertion failed with mssg %s at function %s, file %s, line %d", log, __FUNCTION__, __FILE__, __LINE__)); \
 		base_assert(0); \
 	}
 }
