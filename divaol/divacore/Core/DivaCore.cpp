@@ -11,7 +11,7 @@
 #include "app/SoraGameApp.h"
 #include "Utility/DivaConfigLoader.h"
 #include "task/SoraTaskManager.h"
-#include "Mode/DivaRelayPlay.h"
+//#include "Mode/DivaRelayPlay.h"
 
 namespace divacore
 {
@@ -138,7 +138,7 @@ namespace divacore
 		this->effectSystem = effectSystem;
 		components["13_effectSystem"] = effectSystem;
 	}
-	void Core::registerNetworkSystem(NetworkSystemPtr networkSystem)
+	void Core::registerNetworkSystem(GNetworkSystemPtr networkSystem)
 	{
 		SAFE_DELETE(this->networkSystem);
 		this->networkSystem = networkSystem;
@@ -387,7 +387,7 @@ namespace divacore
 			return NULL;
 		return renderSystem->renderToCanvas(width,height,mask);
 	}
-	void Core::setSong(const std::string &path, const std::string &mapFileName) {mapLoader->setSong(path,mapFileName);}
+	void Core::setSong(const std::wstring &path, const std::wstring &mapFileName) {mapLoader->setSong(path,mapFileName);}
 	double Core::getRealTime() {return coreFlow->getRealTime();}
 	double Core::getRunTime() {return coreFlow->getRunTime();}
 	double Core::getRunPosition() {return coreFlow->getPosition();}

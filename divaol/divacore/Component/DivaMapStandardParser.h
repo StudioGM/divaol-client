@@ -48,7 +48,7 @@ namespace divacore
 		virtual void _parseNotes();
 		virtual void _parseModule();
 		void clear();
-		std::string getFullPath(const std::string fileName);
+		std::wstring getFullPath(const std::wstring fileName);
 	public:
 		MapStandardParser():mapInfo(NULL) {}
 		virtual void parser(MapInfoPtr mapInfo);

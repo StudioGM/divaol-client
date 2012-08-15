@@ -84,7 +84,6 @@ namespace divacore
 		sora::SoraSprite* renderToCanvas(float width = 0, float height = 0, uint32 mask = RS_RENDER_ALL)
 		{
 			sora::SoraMutexGuard lock(mutex);
-
 			draw(mask);
 			if(coreCanvas==NULL)
 				return NULL;
@@ -187,7 +186,7 @@ namespace divacore
 			//coreCanvas = NULL;
 			coreCanvas = new sora::SoraBaseCanvas(windowWidth,windowHeight);
 
-			preview = sora::SoraCore::Ptr->createSprite(MAP_LOADER_PTR->getSongPath()+"/preview.png");
+			preview = sora::SoraCore::Ptr->createSprite(MAP_LOADER_PTR->getSongPath()+L"/preview.png");
 			white = sora::SoraCore::Ptr->createSprite("Data/white.png");
 			if(!white->getTexture())
 				DIVA_EXCEPTION_MODULE("Do not found white.png!","RenderSystem");

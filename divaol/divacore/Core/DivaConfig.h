@@ -33,6 +33,7 @@ namespace divacore
 		void add(const std::string &key, Rect value) {items[key] = value;}
 		void add(const std::string &key, Point value) {items[key] = value;}
 		std::string getAsString(const std::string &key);
+		std::wstring getAsWString(const std::string &key);
 		int getAsInt(const std::string &key);
 		double getAsDouble(const std::string &key);
 		bool getAsBool(const std::string &key);

@@ -17,6 +17,7 @@
 #include "DivaStringUtil.h"
 #include "DivaKey.h"
 #include "DivaLogger.h"
+#include "Base/Common.h"
 
 #define SAFE_DELETE(instance)\
 	if(instance)\

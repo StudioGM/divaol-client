@@ -9,12 +9,30 @@
 #define DIVA_JSON_HELPER
 
 #include "json/json.h"
+//#include "wjson/json.h"
+#include "Core/DivaStringUtil.h"
+#include "SoraCore.h"
 
 namespace divacore
 {
 	class JsonHelper
 	{
 	public:
+		static const std::wstring _loadAsWString(const Json::Value& val, const std::string &name)
+		{
+			if(val.isMember(name))
+			{
+				if(val[name].isString())
+				{
+					std::wstring tmp = UTF8toUnicode(val[name].asString());
+					return tmp;
+				}
+				else
+					DIVA_EXCEPTION_MODULE("'"+name+"' type error!","MapLoader");
+			}
+			else
+				DIVA_EXCEPTION_MODULE("missing '"+name+"'!","MapLoader");
+		}
 		static const std::string _loadAsString(const Json::Value& val, const std::string &name)
 		{
 			if(val.isMember(name))

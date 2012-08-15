@@ -9,6 +9,7 @@
 #include "DivaMapJsonLoader.h"
 #include "SoraResourceFile.h"
 #include "Core/DivaDefault.h"
+#include "Base/Io/FileUtility.h"
 
 namespace divacore
 {
@@ -28,14 +29,15 @@ namespace divacore
 		SAFE_DELETE(mapInfo);
 		mapInfo = new MapInfo();
 
-		SoraResourceFile data(getSongPath()+"/"+getMapFileName());
-
+		size_t size;
+		//SoraResourceFile data(getSongPath()+L"/"+getMapFileName());
+		
         Json::Reader reader;
         Json::Value root;
         
-        const char* cdata = (const char*)data;
+        const char* cdata = (const char*)Base::FileUtility::readRawData(getSongPath()+L"/"+getMapFileName(),size);
 
-		if(reader.parse(cdata, cdata+data.size(), root))
+		if(reader.parse(cdata, cdata+size, root))
 		{
 			_parserHeader(root);
 			_parserResource(root);
@@ -58,7 +60,7 @@ namespace divacore
 		{
 		    Json::Value header = val["header"];
 			mapInfo->header.versionStr = JsonHelper::_loadAsString(header,"version");
-			mapInfo->header.mapName = JsonHelper::_loadAsString(header,"name");
+			mapInfo->header.mapName = JsonHelper::_loadAsWString(header,"name");
 			mapInfo->header.mainSound = JsonHelper::_loadAsString(header,"mainSound");
 			mapInfo->header.hardLevel = JsonHelper::_loadAsInt(header,"hard");
 			if(header.isMember("speedScale"))
@@ -73,10 +75,10 @@ namespace divacore
 			{
 				Json::Value noter = header["noter"];
 				if(noter.isString())
-					mapInfo->header.noter.push_back(header["noter"].asString());
+					mapInfo->header.noter.push_back(sora::s2ws(header["noter"].asString()));
 				else if(noter.isArray())
 					for(int i=0; i<noter.size(); i++)
-						mapInfo->header.noter.push_back(noter[i].asString());
+						mapInfo->header.noter.push_back(sora::s2ws(noter[i].asString()));
 				else
 					DIVA_EXCEPTION_MODULE("'noter' must be string(s)!","MapLoader");
 			}
@@ -98,7 +100,7 @@ namespace divacore
 				{
 					MapResourceInfo resourceInfo;
 					resourceInfo.ID = JsonHelper::_loadAsString(resource[i],"id");
-					resourceInfo.filePath = JsonHelper::_loadAsString(resource[i],"file");
+					resourceInfo.filePath = JsonHelper::_loadAsWString(resource[i],"file");
 					resourceInfo.type = _parserResourceType(JsonHelper::_loadAsString(resource[i],"type"));
 					if(resourceInfo.type==MapResourceInfo::AUDIO)
 						resourceInfo.flag = JsonHelper::_loadAsBool(resource[i],"stream");

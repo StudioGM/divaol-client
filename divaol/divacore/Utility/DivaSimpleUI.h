@@ -14,7 +14,8 @@
 #include "SoraText.h"
 #include "Core/DivaConfig.h"
 #include "Core/DivaHook.h"
-#include "Mode/DivaMultiplay.h"
+#include "Core/DivaEvaluateStrategy.h"
+//#include "Mode/DivaMultiplay.h"
 
 namespace divacore
 {
@@ -372,11 +373,13 @@ namespace divacore
 		class Text : public Widget
 		{
 		protected:
-			std::string content,color;
+			std::wstring content;
+			std::string color;
 			Point position;
 			sora::SoraText text;
 		public:
-			void setText(const std::string &content);
+			void setText(const std::wstring &content);
+			void setText(const std::string &content) {setText(sora::s2ws(content));}
 			void construct(Config &config, const std::string &head);
 			void onRender(float x, float y);
 			void setScale(float scale);
@@ -429,7 +432,7 @@ namespace divacore
 			void onUpdate(float dt);
 		};
 
-		class MultiPlayer : public Widget
+		/*class MultiPlayer : public Widget
 		{
 			typedef std::vector<Player*> PLAYERS;
 			typedef std::vector<int> STATE;
@@ -451,7 +454,7 @@ namespace divacore
 			void onInitialize();
 			void onStart();
 			void onUpdate(float dt);
-		};
+		};*/
 
 		class EvalBar : public Widget
 		{

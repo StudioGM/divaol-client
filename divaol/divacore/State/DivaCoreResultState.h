@@ -50,8 +50,8 @@ namespace divacore
 
 		void onEnter()
 		{
-			if(CORE_PTR->getMode()=="multiPlay")
-				RECEIVE_PACKET(network::DIVA_NET_STC_UPDATE_EVAL,&CoreResultState::getEvalInfo);
+			//if(CORE_PTR->getMode()=="multiPlay")
+			//	GNET_RECEIVE_PACKET(network::DIVA_NET_STC_UPDATE_EVAL,&CoreResultState::getEvalInfo);
 
 			uiPainter = (divacore::SimpleUIPainter*)UI_PAINTER_PTR;
 
@@ -73,8 +73,8 @@ namespace divacore
 
 		void onLeave()
 		{
-			if(CORE_PTR->getMode()=="multiPlay")
-				NETWORK_SYSTEM_PTR->unreceive(network::DIVA_NET_STC_UPDATE_EVAL);
+			//if(CORE_PTR->getMode()=="multiPlay")
+			//	NETWORK_SYSTEM_PTR->unreceive(network::DIVA_NET_STC_UPDATE_EVAL);
 			UI_PAINTER_PTR->gameStop();
 			core->over();
 		}

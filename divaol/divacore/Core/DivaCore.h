@@ -36,6 +36,8 @@
 #include "DivaCoreState.h"
 #include "app/SoraGameState.h"
 
+#include "network/DivaGNetSystem.h"
+
 namespace divacore
 {
 	using namespace sora;
@@ -98,7 +100,7 @@ namespace divacore
 		UIPainterPtr uiPainter;
 		GameModulePtr gameModule;
 		EffectSystemPtr effectSystem;
-		NetworkSystemPtr networkSystem;
+		GNetworkSystemPtr networkSystem;
 		EvaluateStrategyPtr evaluateStrategy;
 
 	private:
@@ -138,7 +140,7 @@ namespace divacore
 		void registerUIPainter(UIPainterPtr uiPainter);
 		void registerGameModule(GameModulePtr gameModule);
 		void registerEffectSystem(EffectSystemPtr effectSystem);
-		void registerNetworkSystem(NetworkSystemPtr networkSystem);
+		void registerNetworkSystem(GNetworkSystemPtr networkSystem);
 		void registerEvaluateStrategy(EvaluateStrategyPtr evaluateStrategy);
 	//protected:
 		inline MapInfoPtr getMapInfo() {return mapInfo;}
@@ -154,7 +156,7 @@ namespace divacore
 		inline UIPainterPtr getUIPainter() {return uiPainter;}
 		inline GameModulePtr getGameModule() {return gameModule;}
 		inline EffectSystemPtr getEffectSystem() {return effectSystem;}
-		inline NetworkSystemPtr getNetworkSystem() {return networkSystem;}
+		inline GNetworkSystemPtr getNetworkSystem() {return networkSystem;}
 		inline EvaluateStrategyPtr getEvaluateStrategy() {return evaluateStrategy;}
 	public:
 		 /*
@@ -200,7 +202,7 @@ namespace divacore
 		/*
 		 * set functions
 		 */
-		 void setSong(const std::string &path, const std::string &mapFileName = "");
+		 void setSong(const std::wstring &path, const std::wstring &mapFileName = L"");
 
 		/*
 		 * Get functions

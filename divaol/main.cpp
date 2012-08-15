@@ -27,7 +27,6 @@ int CALLBACK WinMain(
 
 	try
 	{
-
 		divacore::Config config;
 		divacore::configloader::loadWithJson(config,"system/common.json");
 

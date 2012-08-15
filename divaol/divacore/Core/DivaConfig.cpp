@@ -20,6 +20,10 @@ namespace divacore
 			DIVA_EXCEPTION_MODULE("item "+key+" not found!","Config");
 		return items[key];
 	}
+	std::wstring Config::getAsWString(const std::string &key)
+	{
+		return UTF8toUnicode(sora::AnyCast<std::string>(get(key)));
+	}
 	std::string Config::getAsString(const std::string &key)
 	{
 		return sora::AnyCast<std::string>(get(key));

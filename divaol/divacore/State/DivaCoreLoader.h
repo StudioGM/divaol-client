@@ -139,7 +139,7 @@ namespace divacore
 			mapInfo->header.BPM = BPM;
 			mapInfo->header.versionStr =  core->getVersion();
 			mapInfo->header.difficulty = MapHeader::NORMAL;
-			mapInfo->header.mapName = "new";
+			mapInfo->header.mapName = L"new";
 			mapInfo->header.speedScale = 1.0;
 			mapInfo->module = "standard";
 
@@ -148,7 +148,7 @@ namespace divacore
 			return mapInfo;
 		}
 
-		void setSong(const std::string &path, const std::string &mapFileName)
+		void setSong(const std::wstring &path, const std::wstring &mapFileName)
 		{
 			core->setSong(path, mapFileName);
 		}

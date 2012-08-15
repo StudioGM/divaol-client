@@ -13,10 +13,10 @@
 
 namespace divacore
 {
-	std::string MapStandardParser::getFullPath(const std::string fileName)
+	std::wstring MapStandardParser::getFullPath(const std::wstring fileName)
 	{
-		if(SoraFileUtility::FileExists(MAP_LOADER_PTR->getSongPath()+"/"+fileName))
-			return MAP_LOADER_PTR->getSongPath()+"/"+fileName;
+		if(SoraFileUtility::FileExists(MAP_LOADER_PTR->getSongPath()+L"/"+fileName))
+			return MAP_LOADER_PTR->getSongPath()+L"/"+fileName;
 		else
 			return fileName;
 	}
@@ -41,7 +41,8 @@ namespace divacore
 	{
 		for(MapInfo::RESOURCES::iterator ptr = mapInfo->resources.begin(); ptr != mapInfo->resources.end(); ptr++)
 		{
-			std::string filePath = getFullPath(ptr->second.filePath);
+			std::string filePath = sora::ws2s(getFullPath(ptr->second.filePath));
+
 			if(ptr->second.type==MapResourceInfo::AUDIO)
 			{
 				core->getMusicManager()->load(filePath,ptr->second.ID,ptr->second.flag);
@@ -159,7 +160,8 @@ namespace divacore
 
 		mapInfo->resources[info.ID] = info;
 
-		std::string filePath = getFullPath(info.filePath);
+		std::string filePath = sora::ws2s(getFullPath(info.filePath));
+
 		if(info.type==MapResourceInfo::AUDIO)
 			core->getMusicManager()->load(filePath,info.ID,info.flag);
 		else if(info.type==MapResourceInfo::VIDEO)
