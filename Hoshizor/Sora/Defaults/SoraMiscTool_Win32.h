@@ -18,9 +18,11 @@ public:
 
 	void setMainWindowHandle(SoraHandle mainWindowHandle);
 	
-	StringType fileOpenDialog(const char* filter = NULL, const char* defaultPath = NULL);
+	std::string fileOpenDialog(const char* filter = NULL, const char* defaultPath = NULL);
+	std::wstring fileOpenDialogW(const wchar_t* filter = NULL, const wchar_t* defaultPath = NULL);
 	
-	StringType fileSaveDialog(const char* filter = NULL, const char* defaultPath = NULL, const char* defaultExt = NULL);
+	std::string fileSaveDialog(const char* filter = NULL, const char* defaultPath = NULL, const char* defaultExt = NULL);
+	std::wstring fileSaveDialogW(const wchar_t* filter = NULL, const wchar_t* defaultPath = NULL, const wchar_t* defaultExt = NULL);
     
     uint32 getProcessorSpeed() const;
 	StringType getOSVersion() const;

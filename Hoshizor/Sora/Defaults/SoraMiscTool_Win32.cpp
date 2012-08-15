@@ -26,7 +26,7 @@ namespace sora {
         _hWnd = (HWND)mainWindowHandle;
     }
 	
-	StringType SoraMiscToolWin32::fileOpenDialog(const char* filter, const char* defaultPath) {
+	std::string SoraMiscToolWin32::fileOpenDialog(const char* filter, const char* defaultPath) {
         char rfilter[128];
 		if(filter != NULL) {
 			strcpy(rfilter, std::string(std::string("My Files(")+filter+") ").c_str());
@@ -47,7 +47,7 @@ namespace sora {
 		}
         
         OPENFILENAMEA ofn;
-        ofn.lStructSize       = sizeof(OPENFILENAME);
+        ofn.lStructSize       = sizeof(OPENFILENAMEA);
         ofn.hwndOwner         = _hWnd;
         ofn.hInstance         = NULL;
         ofn.lpstrFilter       = 0;
@@ -86,7 +86,31 @@ namespace sora {
         return "\0";
 	}
 	
-	StringType SoraMiscToolWin32::fileSaveDialog(const char* filter, const char* defaultPath, const char* defaultExt) {
+	std::wstring SoraMiscToolWin32::fileOpenDialogW(const wchar_t* filter, const wchar_t* defaultPath)
+	{
+		OPENFILENAMEW ofn;
+		wchar_t szFileName[MAX_PATH] = L"";
+
+		ZeroMemory(&ofn, sizeof(ofn));
+
+		ofn.lStructSize = sizeof(ofn);
+		ofn.hwndOwner = _hWnd;
+		ofn.lpstrFile = szFileName;
+		ofn.nMaxFile = MAX_PATH;
+		ofn.lpstrFilter = filter;
+		ofn.nFilterIndex = 1;
+		ofn.lpstrFileTitle = NULL;
+		ofn.nMaxFileTitle = 0;
+		ofn.lpstrInitialDir=defaultPath;
+		ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
+
+
+		if(GetOpenFileNameW(&ofn))
+			return szFileName;
+		return L"\0";
+	}
+
+	std::string SoraMiscToolWin32::fileSaveDialog(const char* filter, const char* defaultPath, const char* defaultExt) {
 		char rfilter[128];
 		if(filter != NULL) {
 			strcpy(rfilter, std::string(std::string("My Files(")+filter+") ").c_str());
@@ -147,6 +171,36 @@ namespace sora {
         return "\0";
 	}
     
+	std::wstring SoraMiscToolWin32::fileSaveDialogW(const wchar_t* filter, const wchar_t* defaultPath, const wchar_t* defaultExt)
+	{
+		OPENFILENAMEW ofn;
+		wchar_t szFileName[MAX_PATH] = L"";
+
+		ZeroMemory(&ofn, sizeof(ofn));
+
+		ofn.lStructSize = sizeof(ofn); // SEE NOTE BELOW
+		ofn.hwndOwner = _hWnd;
+
+		if(filter)
+			ofn.lpstrFilter = filter;
+
+		ofn.lpstrFile = szFileName;
+		ofn.nMaxFile = MAX_PATH;
+		ofn.Flags = OFN_EXPLORER | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;
+
+		if(defaultExt)
+			ofn.lpstrDefExt = defaultExt;
+		else
+			ofn.lpstrDefExt = NULL;
+
+		if(defaultPath)
+			ofn.lpstrInitialDir = defaultPath;
+
+		if(GetSaveFileNameW(&ofn))
+			return szFileName;
+		return L"\0";
+	}
+
     uint32 SoraMiscToolWin32::getProcessorSpeed() const {
         LONG Error;
         

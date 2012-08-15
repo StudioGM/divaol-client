@@ -346,8 +346,10 @@ namespace sora {
          **/
 		int32	messageBox  (const StringType& sMssg, const StringType& sTitle, int32 iCode);
 		
-		StringType fileOpenDialog(const char* filter = NULL, const char* defaultPath = NULL);
-		StringType fileSaveDialog(const char* filter = NULL, const char* defaultPath = NULL, const char* defaultExt = NULL);
+		std::string fileOpenDialog(const char* filter = NULL, const char* defaultPath = NULL);
+		std::wstring fileOpenDialogW(const wchar_t* filter = NULL, const wchar_t* defaultPath = NULL);
+		std::string fileSaveDialog(const char* filter = NULL, const char* defaultPath = NULL, const char* defaultExt = NULL);
+		std::wstring fileSaveDialogW(const wchar_t* filter = NULL, const wchar_t* defaultPath = NULL, const wchar_t* defaultExt = NULL);
 
        	/*
 		 for directX, return (SoraHandle)(pD3DDevice)

@@ -25,12 +25,20 @@ namespace sora {
 			return 0;
 		}
         
-		StringType fileOpenDialog(const char* filter = NULL, const char* defaultPath = NULL) {
+		std::string fileOpenDialog(const char* filter = NULL, const char* defaultPath = NULL) {
 			return "\0";
 		}
+
+		std::wstring fileOpenDialogW(const wchar_t* filter = NULL, const wchar_t* defaultPath = NULL){
+			return L"\0";
+		}
 		
-		StringType fileSaveDialog(const char* filter = NULL, const char* defaultPath = NULL, const char* defaultExt = NULL) {
+		std::string fileSaveDialog(const char* filter = NULL, const char* defaultPath = NULL, const char* defaultExt = NULL) {
 			return "\0";
+		}
+
+		std::wstring fileSaveDialogW(const wchar_t* filter = NULL, const wchar_t* defaultPath = NULL, const wchar_t* defaultExt = NULL){
+			return L"\0";
 		}
 		
 		uint32 getProcessorSpeed() const {

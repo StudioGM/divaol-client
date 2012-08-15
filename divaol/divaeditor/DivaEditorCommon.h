@@ -4,6 +4,9 @@
 #include <string>
 #include <vector>
 
+#ifndef A
+#endif
+
 namespace divaeditor
 {
 

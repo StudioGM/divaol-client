@@ -36,8 +36,17 @@ namespace divaeditor
 		int findStopIndex(float pos);
 
 
+	public:
+		//Resource operations
+		std::string addResource(std::wstring filename);
+		void deleteResource(std::string id);
+
+
+
+
 
 	public:
+		//Note Operations
 		divacore::MapNote initNote(int pos, char keyPress, bool arrow, int x, int y, int tailX, int tailY, std::string noteType, int key=-1);
 		void finishLongNote(divacore::MapNote &longNote, int pos, int key=-1);
 		void finishComboNote(divacore::MapNote &comboNote, int pos, int key=-1);

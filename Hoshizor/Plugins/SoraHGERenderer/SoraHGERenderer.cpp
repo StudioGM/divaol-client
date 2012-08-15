@@ -174,7 +174,7 @@ namespace sora{
             SET_ENV_STRING("RENDERER_DRIVER", pHGE->getDeviceInfo());
 
 			pMainWindow = windowInfo;
-			return (SoraWindowHandle)pMainWindow;
+			return (SoraWindowHandle)pHGE->System_GetState(HGE_HWND);
 	//	}
 		return 0;
 	}

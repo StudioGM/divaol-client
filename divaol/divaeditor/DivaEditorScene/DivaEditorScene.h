@@ -69,6 +69,7 @@ namespace divaeditor
 
 		gcn::Container* initTimelineCategory();
 		gcn::Container* initNoteCategory();
+		gcn::Container* initShowCategory();
 
 	public:
 

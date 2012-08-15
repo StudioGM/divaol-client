@@ -236,6 +236,22 @@ namespace divaeditor
 		return noteCategory;
 	}
 
+	gcn::Container* DivaEditorMainScene::initShowCategory()
+	{
+		//Init Note Category
+		gcn::Container *showCategory = new gcn::Container();
+		showCategory->setSize(1280,720);
+		showCategory->setOpaque(true);
+		showCategory->setBaseColor(gcn::Color(0,0,0,0));
+
+
+
+
+
+		
+		return showCategory;
+	}
+
 	DivaEditorMainScene::DivaEditorMainScene()
 	{
 		sceneIndex = Editor::State::MAIN;
@@ -355,6 +371,7 @@ namespace divaeditor
 
 		container_Categories[State::TIMELINE] = initTimelineCategory();
 		container_Categories[State::NOTE] = initNoteCategory();
+		container_Categories[State::SHOW] = initShowCategory();
 
 
 		for (std::map<State,gcn::Container*>::iterator i=container_Categories.begin();i!=container_Categories.end();i++)
@@ -512,6 +529,8 @@ namespace divaeditor
 		}
 		else if(getID() == "btn_Show")
 		{
+			sora::SoraCore::Instance()->fileOpenDialogW(L"All Files(*.*)\0*.*\0");
+			
 			ChangeState(State::SHOW);
 		}
 

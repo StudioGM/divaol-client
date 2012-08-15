@@ -339,7 +339,7 @@ namespace divaeditor
 			{
 				divacore::MapNote &nowNote = coreInfoPtr->notes[i];
 			
-				if(position>nowNote.notePoint[0].position-nowNote.aheadBar*EDITCONFIG->GridPerBeat*4 && position<=nowNote.notePoint[0].position
+				if(position>int(nowNote.notePoint[0].position)-int(nowNote.aheadBar)*EDITCONFIG->GridPerBeat*4 && position<=nowNote.notePoint[0].position
 					&& nowNote.notePoint[0].x == x && nowNote.notePoint[0].y == y)
 					return i;
 				else
@@ -373,7 +373,7 @@ namespace divaeditor
 		{
 			divacore::MapNote &nowNote = coreInfoPtr->notes[i];
 
-			if(position>nowNote.notePoint[0].position-nowNote.aheadBar*EDITCONFIG->GridPerBeat*4 && position<=nowNote.notePoint[0].position
+			if(position>int(nowNote.notePoint[0].position)-int(nowNote.aheadBar)*EDITCONFIG->GridPerBeat*4 && position<=nowNote.notePoint[0].position
 				&& nowNote.notePoint[0].x <= rightDownX && nowNote.notePoint[0].x >= leftUpX && nowNote.notePoint[0].y <= rightDownY && nowNote.notePoint[0].y >= leftUpY)
 				ret.push_back(i);
 			else

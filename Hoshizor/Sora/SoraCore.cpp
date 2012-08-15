@@ -1346,18 +1346,34 @@ namespace sora {
         SoraKeyPoll::clearGlobalHotkeys();
     }
 	
-	StringType SoraCore::fileOpenDialog(const char* filter, const char* defaultPath) {
+	std::string SoraCore::fileOpenDialog(const char* filter, const char* defaultPath) {
 		if(!pMiscTool)
 			return StringType();
 		
 		return pMiscTool->fileOpenDialog(filter, defaultPath);
 	}
+
+	std::wstring SoraCore::fileOpenDialogW(const wchar_t* filter /* = NULL */, const wchar_t* defaultPath /* = NULL */)
+	{
+		if(!pMiscTool)
+			return StringType();
+
+		return pMiscTool->fileOpenDialogW(filter, defaultPath);
+	}
 	
-	StringType SoraCore::fileSaveDialog(const char* filter, const char* defaultPath, const char* defaultExt) {
+	std::string SoraCore::fileSaveDialog(const char* filter, const char* defaultPath, const char* defaultExt) {
 		if(!pMiscTool)
 			return StringType();
 		
 		return pMiscTool->fileSaveDialog(filter, defaultPath, defaultExt);
+	}
+
+	std::wstring SoraCore::fileSaveDialogW(const wchar_t* filter /* = NULL */, const wchar_t* defaultPath /* = NULL */, const wchar_t* defaultExt /* = NULL */)
+	{
+		if(!pMiscTool)
+			return StringType();
+
+		return pMiscTool->fileSaveDialogW(filter, defaultPath, defaultExt);
 	}
 
 	int32 SoraCore::messageBox(const StringType& sMssg, const StringType& sTitle, int32 iCode) {
