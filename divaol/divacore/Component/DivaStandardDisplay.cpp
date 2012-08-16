@@ -189,6 +189,25 @@ namespace divacore
 		else
 			spritePool[label] = sprite;
 	}
+	bool StandardDisplay::getImageSize(const std::string &label, float &width, float &height)
+	{
+		if(spritePool.find(label)==spritePool.end())
+			return false;
+
+		SoraSprite *sprite = spritePool[label];
+		width = sprite->getSpriteWidth()*sprite->getHScale();
+		height = sprite->getSpriteHeight()*sprite->getVScale();
+		return true;
+	}
+	bool StandardDisplay::getVideoSize(const std::string &ID, float &width, float &height)
+	{
+		if(!isExistVideo(ID))
+			return false;
+		VIDEOPAIR pair = videoPool[ID];
+		width = pair.second->getSpriteWidth()*pair.second->getHScale();
+		height = pair.second->getSpriteHeight()*pair.second->getVScale();
+		return true;
+	}
 	void StandardDisplay::setTextureRect(const std::string &label, float x, float y, float w, float h)
 	{
 		if(spritePool.find(label)==spritePool.end())

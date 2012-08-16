@@ -53,6 +53,8 @@ namespace divacore
 		void unloadImage(const std::string &ID);
 		void unloadVideo(const std::string &ID);
 		void displayImage(const std::string &ID, float x = 0, float y = 0, float width = 0, float height = 0, const std::string &label="");
+		bool getImageSize(const std::string &label, float &width, float &height);
+		bool getVideoSize(const std::string &ID, float &width, float &height);
 		void setTextureRect(const std::string &label, float x, float y, float w, float h);
 		void clearImage(const std::string &label);
 		void playVideo(const std::string &ID, float x = 0, float y = 0, float width = 0, float height = 0);
