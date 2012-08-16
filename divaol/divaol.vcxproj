@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -40,13 +40,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)../Hoshizor/Plugins/gcnExtend;$(ProjectDir)../Hoshizor/Plugins/fmod/;$(ProjectDir)../Hoshizor/Plugins/SoraBox2dPhysics;$(ProjectDir)../Hoshizor/Plugins\SoraVlcMoviePlayer\win32\include;$(ProjectDir)../Hoshizor/Plugins/SoraLua/LuaPlus/src;$(ProjectDir)../Hoshizor/Plugins/SoraLua;$(ProjectDir)../Hoshizor/Plugins/libvlc/win32/include;$(ProjectDir)../Hoshizor/Plugins/cg;$(ProjectDir)/../Hoshizor/Plugins/SoraShader;$(ProjectDir)/../Hoshizor/Plugins/SoraGUIChan;$(ProjectDir)/../Hoshizor/Plugins/SoraFreetypeFont/;$(DXSDK_DIR)/include;$(ProjectDir)/../Hoshizor/Plugins;$(ProjectDir)/../Hoshizor/Sora;$(ProjectDir)/divacore/;$(ProjectDir)/;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)../Hoshizor/Plugins/fmod/;$(ProjectDir)../Hoshizor/Plugins/SoraBox2dPhysics;$(ProjectDir)../Hoshizor/Plugins\SoraVlcMoviePlayer\win32\include;$(ProjectDir)../Hoshizor/Plugins/SoraLua/LuaPlus/src;$(ProjectDir)../Hoshizor./Plugins/SoraLua;$(ProjectDir)../Hoshizor/Plugins/libvlc/win32/include;$(ProjectDir)../Hoshizor/Plugins/cg;$(ProjectDir)/../Hoshizor/Plugins/SoraShader;$(ProjectDir)/../Hoshizor/Plugins/SoraGUIChan;$(ProjectDir)/../Hoshizor/Plugins/SoraFreetypeFont/;$(DXSDK_DIR)/include;$(ProjectDir)/../Hoshizor/Plugins;$(ProjectDir)/../Hoshizor/Sora;$(ProjectDir)/divacore/;$(ProjectDir)/;$(ProjectDir)/divacore/Lib;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)../Hoshizor/Plugins\SoraVlcMoviePlayer/win32/lib;$(ProjectDir)../Hoshizor/Plugins/fmod/;$(ProjectDir)../Hoshizor/Plugins/SoraOGLRenderer;$(ProjectDir)../Hoshizor/Plugins/SoraGifSprite;$(ProjectDir)../Hoshizor/Plugins/SoraFreetypeFont;$(ProjectDir)../Hoshizor/Plugins/SoraAudiereSoundSystem;$(ProjectDir)../Hoshizor/Plugins/SoraHttpFile;$(ProjectDir)../Hoshizor/Plugins/SoraThread;$(ProjectDir)../Hoshizor/Plugins/SoraLua;$(ProjectDir)../Hoshizor/Plugins/libvlc/win32/lib;$(ProjectDir)/../Hoshizor/Plugins/cg;$(DXSDK_DIR)/Lib/x86;$(ProjectDir)/bin;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)../Hoshizor/Plugins/fmod/;$(ProjectDir)../Hoshizor/Plugins/SoraBox2dPhysics;$(ProjectDir)../Hoshizor/Plugins\SoraVlcMoviePlayer\win32\include;$(ProjectDir)../Hoshizor/Plugins/SoraLua/LuaPlus/src;$(ProjectDir)../Hoshizor./Plugins/SoraLua;$(ProjectDir)../Hoshizor/Plugins/libvlc/win32/include;$(ProjectDir)../Hoshizor/Plugins/cg;$(ProjectDir)/../Hoshizor/Plugins/SoraShader;$(ProjectDir)/../Hoshizor/Plugins/SoraGUIChan;$(ProjectDir)/../Hoshizor/Plugins/SoraFreetypeFont/;$(DXSDK_DIR)/include;$(ProjectDir)/../Hoshizor/Plugins;$(ProjectDir)/../Hoshizor/Sora;$(ProjectDir)/divacore;$(ProjectDir);$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)../Hoshizor/Plugins\SoraVlcMoviePlayer/win32/lib;$(ProjectDir)../Hoshizor/Plugins/fmod/;$(ProjectDir)../Hoshizor/Plugins/SoraOGLRenderer;$(ProjectDir)../Hoshizor/Plugins/SoraGifSprite;$(ProjectDir)../Hoshizor/Plugins/SoraFreetypeFont;$(ProjectDir)../Hoshizor/Plugins/SoraAudiereSoundSystem;$(ProjectDir)../Hoshizor/Plugins/SoraHttpFile;$(ProjectDir)../Hoshizor/Plugins/SoraThread;$(ProjectDir)../Hoshizor/Plugins/SoraLua;$(ProjectDir)../Hoshizor/Plugins/libvlc/win32/lib;$(ProjectDir)/../Hoshizor/Plugins/cg;$(DXSDK_DIR)/Lib/x86;$(ProjectDir)/bin;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)../Hoshizor/Plugins/fmod/;$(ProjectDir)../Hoshizor/Plugins/SoraBox2dPhysics;$(ProjectDir)../Hoshizor/Plugins\SoraVlcMoviePlayer\win32\include;$(ProjectDir)../Hoshizor/Plugins/SoraLua/LuaPlus/src;$(ProjectDir)../Hoshizor./Plugins/SoraLua;$(ProjectDir)../Hoshizor/Plugins/libvlc/win32/include;$(ProjectDir)../Hoshizor/Plugins/cg;$(ProjectDir)/../Hoshizor/Plugins/SoraShader;$(ProjectDir)/../Hoshizor/Plugins/SoraGUIChan;$(ProjectDir)/../Hoshizor/Plugins/SoraFreetypeFont/;$(DXSDK_DIR)/include;$(ProjectDir)/../Hoshizor/Plugins;$(ProjectDir)/../Hoshizor/Sora;$(ProjectDir)/divacore/;$(ProjectDir)/;$(ProjectDir)/divacore/Lib;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)../Hoshizor/Plugins\SoraVlcMoviePlayer/win32/lib;$(ProjectDir)../Hoshizor/Plugins/fmod/;$(ProjectDir)../Hoshizor/Plugins/SoraOGLRenderer;$(ProjectDir)../Hoshizor/Plugins/SoraGifSprite;$(ProjectDir)../Hoshizor/Plugins/SoraFreetypeFont;$(ProjectDir)../Hoshizor/Plugins/SoraAudiereSoundSystem;$(ProjectDir)../Hoshizor/Plugins/SoraHttpFile;$(ProjectDir)../Hoshizor/Plugins/SoraThread;$(ProjectDir)../Hoshizor/Plugins/SoraLua;$(ProjectDir)../Hoshizor/Plugins/libvlc/win32/lib;$(ProjectDir)/../Hoshizor/Plugins/cg;$(DXSDK_DIR)/Lib/x86;$(ProjectDir)/bin;$(ProjectDir)/divacore/Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -606,33 +606,43 @@
     <ClInclude Include="divacore\Hook\DivaAutoplay.h" />
     <ClInclude Include="divacore\Hook\DivaCTMode.h" />
     <ClInclude Include="divacore\Hook\DivaPVMode.h" />
+    <ClInclude Include="divacore\Lib\Base\Common.h" />
+    <ClInclude Include="divacore\Lib\Base\Exception.h" />
+    <ClInclude Include="divacore\Lib\Base\Io\FileUtility.h" />
+    <ClInclude Include="divacore\Lib\Base\Io\FileUtilityImplWin.h" />
+    <ClInclude Include="divacore\Lib\Base\Io\Stream.h" />
+    <ClInclude Include="divacore\Lib\Base\Logger.h" />
+    <ClInclude Include="divacore\Lib\Base\Platform.h" />
+    <ClInclude Include="divacore\Lib\Base\Singleton.h" />
+    <ClInclude Include="divacore\Lib\Base\String.h" />
+    <ClInclude Include="divacore\Lib\Base\StringConv.h" />
+    <ClInclude Include="divacore\Lib\Base\Thread\Mutex.h" />
+    <ClInclude Include="divacore\Lib\Base\Thread\posix\MutexImpl.h" />
+    <ClInclude Include="divacore\Lib\Base\Thread\Queue.h" />
+    <ClInclude Include="divacore\Lib\Base\Thread\win32\MutexImpl.h" />
+    <ClInclude Include="divacore\Lib\Base\Timer.h" />
+    <ClInclude Include="divacore\Lib\Base\Type.h" />
+    <ClInclude Include="divacore\Lib\Base\Uncopyable.h" />
     <ClInclude Include="divacore\Mode\DivaEditMode.h" />
-    <ClInclude Include="divacore\Mode\DivaMultiplay Test.h" />
-    <ClInclude Include="divacore\Mode\DivaMultiplay.h" />
-    <ClInclude Include="divacore\Mode\DivaRelayPlay Ver2.h" />
-    <ClInclude Include="divacore\Mode\DivaRelayPlay.h" />
-    <ClInclude Include="divacore\Mode\DivaRelayUI.h" />
+    <ClInclude Include="divacore\Mode\DivaMultiPlay.h" />
     <ClInclude Include="divacore\Mode\DivaSinglePlay.h" />
-    <ClInclude Include="divacore\Mode\DivaTeamPlay.h" />
     <ClInclude Include="divacore\MusicManager\DivaBassMusicManager.h" />
     <ClInclude Include="divacore\MusicManager\DivaFmodMusicManager.h" />
-    <ClInclude Include="divacore\Network\DivaEnetSystem.h" />
-    <ClInclude Include="divacore\Network\DivaNetEventHandler.h" />
-    <ClInclude Include="divacore\Network\DivaNetLoader.h" />
-    <ClInclude Include="divacore\Network\DivaNetPacket.h" />
-    <ClInclude Include="divacore\Network\DivaNetPacketID.h" />
-    <ClInclude Include="divacore\Network\DivaNetUnsync.h" />
-    <ClInclude Include="divacore\Network\DivaNetworkSystem.h" />
-    <ClInclude Include="divacore\Network\sockSystem.h" />
+    <ClInclude Include="divacore\Network\DivaGNetEventHandler.h" />
+    <ClInclude Include="divacore\Network\DivaGNetSystem.h" />
+    <ClInclude Include="divacore\Network\DivaGNetTCPSystem.h" />
+    <ClInclude Include="divacore\Network\gnet\connection.h" />
+    <ClInclude Include="divacore\Network\gnet\gnet.h" />
+    <ClInclude Include="divacore\Network\gnet\netManager.h" />
     <ClInclude Include="divacore\Note\DivaLongNote.h" />
     <ClInclude Include="divacore\Note\DivaNormalNote.h" />
     <ClInclude Include="divacore\Note\DivaPingpongNote.h" />
-    <ClInclude Include="divacore\State\DivaCoreLoadState.h" />
+    <ClInclude Include="divacore\State\DivaCoreLoader.h" />
     <ClInclude Include="divacore\State\DivaCorePauseState.h" />
     <ClInclude Include="divacore\State\DivaCorePlayState.h" />
     <ClInclude Include="divacore\State\DivaCoreResultState.h" />
-    <ClInclude Include="divacore\State\DivaEditLoad.h" />
-    <ClInclude Include="divacore\State\DivaUnsyncLoad.h" />
+    <ClInclude Include="divacore\State\DivaNetLoader.h" />
+    <ClInclude Include="divacore\Timer\DivaTimeCounterImplBass.h" />
     <ClInclude Include="divacore\Timer\DivaTimeCounterImplSora.h" />
     <ClInclude Include="divacore\Timer\DivaTimeCounterImplWin32.h" />
     <ClInclude Include="divacore\Utility\DivaConfigLoader.h" />
@@ -645,11 +655,15 @@
     <ClInclude Include="divaeditor\DivaEditorCommon.h" />
     <ClInclude Include="divaeditor\DivaEditorDisplay.h" />
     <ClInclude Include="divaeditor\DivaEditorMapData.h" />
+    <ClInclude Include="divaeditor\DivaEditorScene\BoarderedContainer.h" />
     <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorMusicProgressWidget.h" />
     <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorNoteArea.h" />
+    <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorResourcePanel.h" />
     <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorScene.h" />
     <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorTimelineWidget.h" />
+    <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorWListBox.h" />
     <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorWTextfield.h" />
+    <ClInclude Include="divaeditor\DivaEditorScene\WListModel.h" />
     <ClInclude Include="divaeditor\EditorInitialize.h" />
   </ItemGroup>
   <ItemGroup>
@@ -898,10 +912,17 @@
     <ClCompile Include="divacore\Core\DivaGameMode.cpp" />
     <ClCompile Include="divacore\Core\DivaMapLoader.cpp" />
     <ClCompile Include="divacore\Core\DivaStringUtil.cpp" />
+    <ClCompile Include="divacore\Lib\Base\Io\Stream.cpp" />
+    <ClCompile Include="divacore\Lib\Base\Logger.cpp" />
+    <ClCompile Include="divacore\Lib\Base\String.cpp" />
+    <ClCompile Include="divacore\Lib\Base\Timer.cpp" />
     <ClCompile Include="divacore\Mode\DivaMultiPlay.cpp" />
     <ClCompile Include="divacore\Mode\DivaSinglePlay.cpp" />
     <ClCompile Include="divacore\MusicManager\DivaBassMusicManager.cpp" />
     <ClCompile Include="divacore\MusicManager\DivaFmodMusicManager.cpp" />
+    <ClCompile Include="divacore\Network\gnet\connection.cpp" />
+    <ClCompile Include="divacore\Network\gnet\gnet.cpp" />
+    <ClCompile Include="divacore\Network\gnet\netManager.cpp" />
     <ClCompile Include="divacore\Note\DivaLongNote.cpp" />
     <ClCompile Include="divacore\Note\DivaNormalNote.cpp" />
     <ClCompile Include="divacore\Note\DivaPingpongNote.cpp" />
@@ -916,7 +937,9 @@
     <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorMainScene.cpp" />
     <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorMusicProgressWidget.cpp" />
     <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorNoteArea.cpp" />
+    <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorResourcePanel.cpp" />
     <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorTimelineWidget.cpp" />
+    <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorWListBox.cpp" />
     <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorWTextfield.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

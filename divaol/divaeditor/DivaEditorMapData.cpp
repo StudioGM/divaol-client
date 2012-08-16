@@ -7,6 +7,7 @@
 #include <cmath>
 #include <map>
 #include <vector>
+#include "stdio.h"
 
 namespace divaeditor
 {
@@ -17,6 +18,9 @@ namespace divaeditor
 	{
 		mapOffset = 0;
 		beatNumChanged[0]=4;
+
+		//DEBUG
+		workingDirectory = L"C:/Users/Administrator/Documents/GitProjects/divaol-core/divaol/song/Ç§±¾—@/";
 	}
 	void DivaEditorMapData::registerMapInfo(divacore::MapInfoPtr registMapInfo)
 	{
@@ -146,30 +150,50 @@ namespace divaeditor
 		}
 		return index;
 	}
-	void DivaEditorMapData::adjustEventOrder(int index)
+	int DivaEditorMapData::adjustEventOrder(int index)
 	{
 		vector<divacore::MapEvent>::iterator i = coreInfoPtr->events.begin()+index;
 		while(true)
 		{
-			if((i+1)!=coreInfoPtr->events.end() && 
-				(i->position > (i+1)->position))
+			bool operated=false;
+			if(index<coreInfoPtr->events.size()-1)
 			{
-				std::swap(*i,*(i+1));
-				i++;
-				if((i+1)==coreInfoPtr->events.end())
-					break;
+				divacore::MapEvent &nowEvent = coreInfoPtr->events[index],
+					&nextEvent = coreInfoPtr->events[index+1];
+
+				if((nowEvent.position > nextEvent.position) || 
+					(nowEvent.position == nextEvent.position && 
+					nowEvent.eventType>nextEvent.eventType))
+				{
+					std::swap(nowEvent,nextEvent);
+					index++;
+					operated=true;
+					if(index>=coreInfoPtr->events.size()-1)
+						break;
+				}
 			}
-			else if(i!=coreInfoPtr->events.begin() &&
-				(i->position < (i-1)->position))
+
+			if(index>0)
 			{
-				std::swap(*i,*(i-1));
-				i--;
-				if(i==coreInfoPtr->events.begin())
-					break;
+				divacore::MapEvent &nowEvent = coreInfoPtr->events[index],
+					&pervEvent = coreInfoPtr->events[index-1];
+
+				if((nowEvent.position < pervEvent.position) || 
+					(nowEvent.position == pervEvent.position && 
+					nowEvent.eventType<pervEvent.eventType))
+				{
+					std::swap(nowEvent,pervEvent);
+					index--;
+					operated=true;
+					if(index<=0)
+						break;
+				}
 			}
-			else
+			if(!operated)
 				break;
 		}
+		return index;
+
 	}
 
 
@@ -751,14 +775,12 @@ namespace divaeditor
 	{
 		return EDITOR_PTR->mapData->coreInfoPtr->header.speedScale;
 	}
-
 	void DivaEditorMapData::tailSpeed_change(float speed)
 	{
 		if(speed<0.1) speed=0.1;
 		EDITOR_PTR->mapData->coreInfoPtr->header.speedScale = speed;
 		EDITUTILITY.refreshAll();
 	}
-
 
 
 	//Move All
@@ -811,5 +833,201 @@ namespace divaeditor
 	}
 
 
-	
+
+	//Resource Function
+	std::string DivaEditorMapData::findResourceTypeStrByID(std::string id)
+	{
+		divacore::MapResourceInfo &resourceInfo = coreInfoPtr->resources[id];
+
+		if(resourceInfo.type == divacore::MapResourceInfo::VIDEO)
+			return "playVideo";
+		else if (resourceInfo.type == divacore::MapResourceInfo::IMAGE)
+			return "displayImage";
+		else if(resourceInfo.type == divacore::MapResourceInfo::AUDIO)
+			return "playMusic";
+		return "ERROR";
+	}
+	std::wstring DivaEditorMapData::getResourceDescriptionByIndex(int index)
+	{
+		std::string resourceID = findResourceIDByIndex(index);
+		if(resourceDescription.find(resourceID)==resourceDescription.end())
+			resourceDescription[resourceID] = sora::s2ws(resourceID);
+		return resourceDescription[resourceID];
+	}
+	std::string DivaEditorMapData::findResourceIDByIndex(int index)
+	{
+		int tIndex=-1;
+		for(std::map<std::string,MapResourceInfo>::iterator i=coreInfoPtr->resources.begin();i!=coreInfoPtr->resources.end();i++)
+		{
+			tIndex++;
+			if(tIndex==index)
+				return i->second.ID;
+		}
+		return "ERROR";
+	}
+	int DivaEditorMapData::findResourceIndexByID(std::string id)
+	{
+		int ret=-1;
+		for(std::map<std::string,MapResourceInfo>::iterator i=coreInfoPtr->resources.begin();i!=coreInfoPtr->resources.end();i++)
+		{
+			ret++;
+			if(i->second.ID==id)
+				return ret;
+		}
+		return -1;
+	}
+
+	std::string DivaEditorMapData::resource_add(std::wstring filename)
+	{
+		divacore::MapResourceInfo resourceInfo;
+
+		//get file type
+		std::wstring ext = L"", safeFileName = L"";
+		int dotPos;
+		for(dotPos=filename.length()-1;dotPos>=0;dotPos--)
+		{
+			if(filename[dotPos]==L'.')
+				break;
+			ext = filename[dotPos] + ext;
+		}
+
+		for (dotPos--;dotPos>=0;dotPos--)
+		{
+			if((filename[dotPos]==L'/')||(filename[dotPos]==L'\\'))
+				break;
+			safeFileName = filename[dotPos] + safeFileName;
+		}
+		
+		tolower(ext);
+		std::string typeStr = "";
+
+		if(videoExtentions.find(ext)!=std::wstring::npos)
+		{
+			resourceInfo.type = divacore::MapResourceInfo::VIDEO;
+			typeStr = "VIDEO";
+		}
+		else if(imageExtentions.find(ext)!=std::wstring::npos)
+		{
+			resourceInfo.type = divacore::MapResourceInfo::IMAGE;
+			typeStr = "IMAGE";
+		}
+		else if(audioExtentions.find(ext)!=std::wstring::npos)
+		{
+			resourceInfo.type = divacore::MapResourceInfo::AUDIO;
+			typeStr = "AUDIO";
+		}
+		else
+			return "ERROR";
+
+		
+		//get ID
+		int idToIns = 0;
+		while(true)
+		{
+			std::string thisID = typeStr + "_" + divacore::iToS(idToIns);
+			std::map<std::string,MapResourceInfo>::iterator i;
+			for(i=coreInfoPtr->resources.begin();i!=coreInfoPtr->resources.end();i++)
+			{
+				if(i->second.ID==thisID)
+					break;
+			}
+
+			//Found
+			if(i==coreInfoPtr->resources.end())
+			{
+				resourceInfo.ID = thisID;
+				break;
+			}
+		}
+
+		//Copy file
+		resourceInfo.filePath = sora::s2ws(typeStr + "/" + resourceInfo.ID) + L'.' + ext;
+		CreateDirectoryW((workingDirectory + L"/" + sora::s2ws(typeStr)).c_str(),NULL);
+		CopyFileW(filename.c_str(), (workingDirectory + L"/" + resourceInfo.filePath).c_str(), false);
+		
+		resourceInfo.flag=true;
+
+		//Map ID and filename
+		resourceDescription[resourceInfo.ID] = safeFileName;
+
+		EDITUTILITY.loadResource(resourceInfo);
+
+		return resourceInfo.ID;
+	}
+	void DivaEditorMapData::resource_delete(std::string id)
+	{
+		if(coreInfoPtr->resources.find(id)==coreInfoPtr->resources.end())
+			return;
+
+		divacore::MapResourceInfo &resourceInfo = coreInfoPtr->resources[id];
+
+		//Remove the events using this resource
+		for (int i=0;i<coreInfoPtr->events.size();i++)
+		{
+			if(coreInfoPtr->events[i].eventType == "playVideo" 
+				|| coreInfoPtr->events[i].eventType == "playMusic"
+				|| coreInfoPtr->events[i].eventType == "displayImage")
+			{
+				if(divacore::Argument::asString("id",coreInfoPtr->events[i].arg)==resourceInfo.ID
+					&&resourceInfo.ID!=coreInfoPtr->header.mainSound)
+				{
+					EDITUTILITY.delEvent(i);
+					i--;
+				}
+			}
+		}
+
+		//remove the safefilename
+		resourceDescription.erase(resourceDescription.find(resourceInfo.ID));
+		coreInfoPtr->resources.erase(coreInfoPtr->resources.find(id));
+
+		//unload the resource
+		EDITUTILITY.unloadResource(resourceInfo);
+
+		//delete the resource file
+		DeleteFileW((workingDirectory + L"/" + resourceInfo.filePath).c_str());
+	}
+
+
+	int DivaEditorMapData::resourceEvent_add(int pos, std::string resourceID)
+	{
+		divacore::MapEvent toAdd;
+		toAdd.position = pos;
+		toAdd.arg["id"] = resourceID;
+		toAdd.eventType = findResourceTypeStrByID(resourceID);
+		toAdd.time = EDITUTILITY.posToTime(pos);
+
+		if(toAdd.eventType == "playVideo" || toAdd.eventType== "displayImage")
+		{
+			toAdd.arg["width"] = 1920;
+			toAdd.arg["height"] = 1080;
+		}
+
+		coreInfoPtr->events.push_back(toAdd);
+
+		return adjustEventOrder(coreInfoPtr->events.size()-1);
+	}
+	int DivaEditorMapData::resourceEvent_modifyPos(int index, int pos)
+	{
+		coreInfoPtr->events[index].position = pos;
+		coreInfoPtr->events[index].time = EDITUTILITY.posToTime(pos);
+
+		return adjustEventOrder(index);
+	}
+	void DivaEditorMapData::resourceEvent_modifyResource(int index, std::string resourceID)
+	{
+		coreInfoPtr->events[index].arg["id"] = resourceID;
+		coreInfoPtr->events[index].eventType = findResourceTypeStrByID(resourceID);
+		if(coreInfoPtr->events[index].eventType == "playVideo" || coreInfoPtr->events[index].eventType== "displayImage")
+		{
+			coreInfoPtr->events[index].arg["width"] = 1920;
+			coreInfoPtr->events[index].arg["height"] = 1080;
+		}
+	}
+	void DivaEditorMapData::resourceEvent_delete(int index)
+	{
+		if(index>=0&&index<coreInfoPtr->events.size())
+			coreInfoPtr->events.erase(MAP_INFO->events.begin()+index);
+	}
+
 }

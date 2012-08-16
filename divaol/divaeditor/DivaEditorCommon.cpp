@@ -183,4 +183,12 @@ namespace divaeditor
 	double round(double r) {
 		return (r > 0.0) ? floor(r + 0.5) : ceil(r - 0.5);
 	}
+
+	//Wstring upper to lower
+	void tolower(std::wstring &str)
+	{
+		for(int i=0;i<str.length();i++)
+			if(str[i]>=L'A'&&str[i]<=L'Z')
+				str[i] = str[i] + (L'a'-L'A');
+	}
 }

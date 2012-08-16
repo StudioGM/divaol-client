@@ -13,7 +13,7 @@ namespace divaeditor
 	void DivaEditorDisplay::render()
 	{
 		divacore::StandardDisplay::render();
-		myGrid->render(110,90);
+		myGrid->render(174,154);
 	}
 
 	void DivaEditorDisplay::update(float dt)
@@ -26,8 +26,8 @@ namespace divaeditor
 	{
 		if(!myGrid)
 		{
-			myGrid = new SoraSprite(SoraTexture::LoadFromFile("standard/pic/grid2.png"),0,0,1668,900);
-			myGrid->fadeTo(0.8,0);
+			myGrid = new SoraSprite(SoraTexture::LoadFromFile("standard/pic/grid2.png"),0,0,1540,772);
+			//myGrid->fadeTo(0.8,0);
 		}
 	}
 }

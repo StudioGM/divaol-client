@@ -4,8 +4,6 @@
 #include <string>
 #include <vector>
 
-#ifndef A
-#endif
 
 namespace divaeditor
 {
@@ -13,6 +11,11 @@ namespace divaeditor
 
 	static const int gridToShowPerBeatTable[6] = {1,2,3,4,6,8};
 	static const int gridToShowPerBeatTableCount = 6;
+
+
+	static const std::wstring videoExtentions = L"avi,mp4,flv";
+	static const std::wstring imageExtentions = L"png,jpg";
+	static const std::wstring audioExtentions = L"wav,mp3,ogg";
 
 	class EditorConfig
 	{
@@ -61,12 +64,12 @@ namespace divaeditor
 		static const int GridPerBeat = 48;
 
 		//Use for note area
-		static const int NoteAreaX = 110;
-		static const int NoteAreaY = 90;
+		static const int NoteAreaX = 174;
+		static const int NoteAreaY = 154;
 		static const int NoteAreaGridSize = 32;
 		static const int NoteAreaWidth = 48;
 		static const int NoteAreaHeight = 24;
-		static const int NoteAreaTailAreaSize = 2;
+		static const int NoteAreaTailAreaSize = 0;
 		//static const double NoteAreaFactor = 0.666666666666666666666667;
 
 
@@ -90,6 +93,7 @@ namespace divaeditor
 	std::wstring fTows(float f,int bit);
 	float wsTof(std::wstring &s);
 	double round(double r); 
+	void tolower(std::wstring &str);
 
 
 

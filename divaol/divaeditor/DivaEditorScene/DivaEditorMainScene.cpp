@@ -6,6 +6,9 @@
 #include "divaeditor/DivaEditorScene/DivaEditorTimelineWidget.h"
 #include "divaeditor/DivaEditorScene/DivaEditorMusicProgressWidget.h"
 #include "divaeditor/DivaEditorScene/DivaEditorNoteArea.h"
+#include "divaeditor/DivaEditorScene/DivaEditorResourcePanel.h"
+#include "divaeditor/DivaEditorScene/BoarderedContainer.h"
+#include "direct.h"
 
 namespace divaeditor
 {
@@ -215,7 +218,6 @@ namespace divaeditor
 		
 		return timelineCategory;
 	}
-
 	gcn::Container* DivaEditorMainScene::initNoteCategory()
 	{
 		//Init Note Category
@@ -235,7 +237,6 @@ namespace divaeditor
 
 		return noteCategory;
 	}
-
 	gcn::Container* DivaEditorMainScene::initShowCategory()
 	{
 		//Init Note Category
@@ -244,6 +245,71 @@ namespace divaeditor
 		showCategory->setOpaque(true);
 		showCategory->setBaseColor(gcn::Color(0,0,0,0));
 
+		ResourcePanel *resourcePanel = new ResourcePanel();
+		resourcePanel->setId("resourcePanel");
+		resourcePanel->setBaseColor(gcn::Color(41,57,85,100));
+		resourcePanel->setForegroundColor(gcn::Color(255,255,255,255));
+		resourcePanel->setSize(500,500);
+		resourcePanel->setElementGridSize(128);
+		resourcePanel->adjustSize();
+		showCategory->add(resourcePanel);
+
+
+#pragma region resourcePanelControlContainer
+
+		BoarderedContainer *resourcePanelControlContainer = new BoarderedContainer();
+		resourcePanelControlContainer->setBaseColor(resourcePanel->getBaseColor());
+		resourcePanelControlContainer->setForegroundColor(gcn::Color(255,255,255,255));
+		resourcePanelControlContainer->setSize(resourcePanel->getWidth(), 30);
+
+		resourcePanel->setPosition(100,(showCategory->getHeight()-resourcePanel->getHeight()-resourcePanelControlContainer->getHeight())/2);
+		resourcePanelControlContainer->setPosition(resourcePanel->getX(),resourcePanel->getY()+resourcePanel->getHeight());
+
+		showCategory->add(resourcePanelControlContainer);
+
+		int buttonSize = resourcePanelControlContainer->getHeight()-10;
+
+		gcn::Button *btn_resourceLeftPage = new gcn::Button("¡û");
+		btn_resourceLeftPage->setId("btn_resourceLeftPage");
+		btn_resourceLeftPage->setSize(buttonSize, buttonSize);
+		btn_resourceLeftPage->setPosition(resourcePanelControlContainer->getWidth()/2-20-buttonSize,5);
+		btn_resourceLeftPage->setForegroundColor(gcn::Color(255,255,255,255));
+		sora::SoraGUI::Instance()->registerGUIResponser(btn_resourceLeftPage, this, "btn_resourceLeftPage", sora::RESPONSEACTION);
+		resourcePanelControlContainer->add(btn_resourceLeftPage);
+
+		gcn::Label *label_resourcePageNum = new gcn::Label();
+		label_resourcePageNum->setId("label_resourcePageNum");
+		label_resourcePageNum->setSize(20*2,buttonSize);
+		label_resourcePageNum->setPosition(btn_resourceLeftPage->getX()+btn_resourceLeftPage->getWidth(),5);
+		label_resourcePageNum->setAlignment(gcn::Graphics::Alignment::CENTER);
+		label_resourcePageNum->setForegroundColor(gcn::Color(255,255,255,255));
+		resourcePanelControlContainer->add(label_resourcePageNum);
+			
+		gcn::Button *btn_resourceRightPage = new gcn::Button("¡ú");
+		btn_resourceRightPage->setId("btn_resourceRightPage");
+		btn_resourceRightPage->setPosition(resourcePanelControlContainer->getWidth()/2+20,5);
+		btn_resourceRightPage->setSize(buttonSize,buttonSize);
+		btn_resourceRightPage->setForegroundColor(gcn::Color(255,255,255,255));
+		sora::SoraGUI::Instance()->registerGUIResponser(btn_resourceRightPage, this, "btn_resourceRightPage", sora::RESPONSEACTION);
+		resourcePanelControlContainer->add(btn_resourceRightPage);
+
+		gcn::Button *btn_resourceAdd = new gcn::Button("+");
+		btn_resourceAdd->setId("btn_resourceAdd");
+		btn_resourceAdd->setPosition(resourcePanelControlContainer->getWidth()-buttonSize*2-10,5);
+		btn_resourceAdd->setSize(buttonSize,buttonSize);
+		btn_resourceAdd->setForegroundColor(gcn::Color(255,255,255,255));
+		sora::SoraGUI::Instance()->registerGUIResponser(btn_resourceAdd, this, "btn_resourceAdd", sora::RESPONSEACTION);
+		resourcePanelControlContainer->add(btn_resourceAdd);
+
+		gcn::Button *btn_resourceRemove = new gcn::Button("-");
+		btn_resourceRemove->setId("btn_resourceRemove");
+		btn_resourceRemove->setPosition(btn_resourceAdd->getX()+btn_resourceAdd->getWidth()+5,5);
+		btn_resourceRemove->setSize(buttonSize,buttonSize);
+		btn_resourceRemove->setForegroundColor(gcn::Color(255,255,255,255));
+		sora::SoraGUI::Instance()->registerGUIResponser(btn_resourceRemove, this, "btn_resourceRemove", sora::RESPONSEACTION);
+		resourcePanelControlContainer->add(btn_resourceRemove);
+
+#pragma endregion resourcePanelControlContainer
 
 
 
@@ -327,10 +393,11 @@ namespace divaeditor
 		gcn::SoraGUIFont *soraFont = new gcn::SoraGUIFont(L"arial.ttf",12);
 		timeline->setFont(soraFont);
 		timeline->setId("timeline_TimeLine");
-		timeline->setSize(500,40);
+		timeline->setSize(500,80);
 		timeline->setPosition(700,0);
 		timeline->setBackgroundColor(gcn::Color(0,0,0,0));
 		timeline->setForegroundColor(gcn::Color(255,255,255,255));
+		timeline->setMaxGridHeightFactor(0.2);
 		top->add(timeline);
 
 		gcn::Button *btn_TimeLine_wider = new gcn::Button("-");
@@ -465,6 +532,12 @@ namespace divaeditor
 				txtField_timeline_TailSpeed->setText(fTows(EDITOR_PTR->mapData->coreInfoPtr->header.speedScale,1));
 			}
 		}
+		else if(nowState==SHOW)
+		{
+			ResourcePanel *resourcePanel = (ResourcePanel*)container_Categories[nowState]->findWidgetById("resourcePanel");
+			gcn::Label *label_resourcePageNum = (gcn::Label*)container_Categories[nowState]->findWidgetById("label_resourcePageNum");
+			label_resourcePageNum->setCaption(iToS(resourcePanel->_nowPage+1)+"/"+iToS((EDITOR_PTR->mapData->coreInfoPtr->resources.size()-1)/resourcePanel->_gridPerPage+1));
+		}
 	}
 
 	void DivaEditorMainScene::willAppear()
@@ -474,18 +547,15 @@ namespace divaeditor
 
 		didAppear(top);
 	}
-
 	void DivaEditorMainScene::didAppear(gcn::Widget *widget)
 	{
 		if(Appeared)
 			Appeared(this);
 	}
-
 	void DivaEditorMainScene::willDisappear()
 	{
 		
 	}
-
 	void DivaEditorMainScene::didDisappear(gcn::Widget *widget)
 	{
 		if(Disappeared)
@@ -529,8 +599,6 @@ namespace divaeditor
 		}
 		else if(getID() == "btn_Show")
 		{
-			sora::SoraCore::Instance()->fileOpenDialogW(L"All Files(*.*)\0*.*\0");
-			
 			ChangeState(State::SHOW);
 		}
 
@@ -625,6 +693,39 @@ namespace divaeditor
 			actionWidget->setFocusable(false);
 			actionWidget->setFocusable(true);
 		}
+
+		///////////////////////Show Category
+		else if(getID() == "btn_resourceLeftPage")
+		{
+			((ResourcePanel*)container_Categories[State::SHOW]->findWidgetById("resourcePanel"))->prevPage();
+		}
+		else if(getID() == "btn_resourceRightPage")
+		{
+			((ResourcePanel*)container_Categories[State::SHOW]->findWidgetById("resourcePanel"))->nextPage();
+		}
+		else if(getID() == "btn_resourceAdd")
+		{
+			//Should get back current working directory
+			wchar_t cwd[_MAX_PATH];
+			_wgetcwd(cwd,_MAX_PATH);
+
+			wstring selectFile = sora::SoraCore::Instance()->fileOpenDialogW(L"All Files(*.*)\0*.*\0");
+
+			_wchdir(cwd);
+
+			if(selectFile!=L"")
+			{
+				EDITOR_PTR->mapData->resource_add(selectFile);
+			}
+		}
+		else if(getID() == "btn_resourceRemove")
+		{
+			ResourcePanel *resourcePanel = (ResourcePanel*)container_Categories[State::SHOW]->findWidgetById("resourcePanel");
+			if(resourcePanel->getSelectedIndex()!=-1)
+			{
+				EDITOR_PTR->mapData->resource_delete( EDITOR_PTR->mapData->findResourceIDByIndex(resourcePanel->getSelectedIndex()));
+			}
+		}
 	}
 
 	void DivaEditorMainScene::onMouseWheelUp(sora::SoraMouseEvent& event)
@@ -661,7 +762,6 @@ namespace divaeditor
 			noteArea->onKeyPressed(event);
 		}
 	}
-
 	void DivaEditorMainScene::onKeyReleased(SoraKeyEvent& event)
 	{
 		if(event.key == sora::key::Ctrl)

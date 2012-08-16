@@ -61,7 +61,7 @@ namespace divaeditor
 	void NoteArea::updateMousePos()
 	{
 		float width = getWidth(),height = getHeight();
-		if(nowMousePos.x>=0&&nowMousePos.x<width && isMouseOn)
+		if((nowMousePos.x>=0&&nowMousePos.x<width && isMouseOn) || isSelecting)
 		{
 			nowGridSelectX = nowMousePos.x/(width)*float(EDITCONFIG->NoteAreaWidth+EDITCONFIG->NoteAreaTailAreaSize*2+1);
 		}
@@ -70,7 +70,7 @@ namespace divaeditor
 			nowGridSelectX=-1;
 		}
 
-		if(nowMousePos.y>=0&&nowMousePos.y<height && isMouseOn)
+		if((nowMousePos.y>=0&&nowMousePos.y<height && isMouseOn) || isSelecting)
 		{
 			nowGridSelectY = nowMousePos.y/(height)*float(EDITCONFIG->NoteAreaHeight+EDITCONFIG->NoteAreaTailAreaSize*2+1);
 		}
@@ -99,7 +99,7 @@ namespace divaeditor
 		graphics->drawLine(width-1,0,width-1,height-1);
 
 
-		if(nowGridSelectX!=-1 && nowGridSelectY!=-1)
+		if(nowGridSelectX!=-1 && nowGridSelectY!=-1 && isMouseOn)
 		{
 			graphics->setColor(normalLineColor);
 			graphics->fillRectangle(gcn::Rectangle(float(nowGridSelectX*EDITCONFIG->NoteAreaGridSize)*factor,
@@ -393,7 +393,6 @@ namespace divaeditor
 		}
 	}
 
-
 	void NoteArea::onKeyReleased(sora::SoraKeyEvent& event)
 	{
 		int thisKey = event.chr;
@@ -420,7 +419,6 @@ namespace divaeditor
 			}
 		}
 	}
-
 
 	void NoteArea::mouseEntered(gcn::MouseEvent& mouseEvent)
 	{

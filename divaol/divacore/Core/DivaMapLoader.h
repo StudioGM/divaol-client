@@ -28,7 +28,10 @@ namespace divacore
 		virtual MapInfoPtr load() = 0;
 		virtual void setSong(const std::wstring &path, const std::wstring &mapFileName = L"") {songFolderPath=path,this->mapFileName=mapFileName;}
 		std::wstring getMapFileName() {return mapFileName;}
-		std::wstring getSongPath() {return songFolderPath;}
+		std::wstring getSongPath() 
+		{
+			return songFolderPath;
+		}
 	};
 
 	typedef MapLoader* MapLoaderPtr;

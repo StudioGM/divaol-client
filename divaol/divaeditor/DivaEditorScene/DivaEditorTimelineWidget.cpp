@@ -24,7 +24,8 @@ namespace divaeditor
 
 	Timeline::Timeline()
 		:_selectedBegin(-1),
-		isSelecting(false)
+		isSelecting(false),
+		_maxGridHeightFactor(0.5)
 		//_selectedChanged(sora::SoraFunction<void(float,float)>())
 	{
 		setFocusable(true);
@@ -40,8 +41,6 @@ namespace divaeditor
 
 	void Timeline::draw(gcn::Graphics* graphics)
 	{
-		
-		static const float BeatLineHeightFactor = 0.6;
 
 		gcn::Color backGroundColor = getBackgroundColor();
 		gcn::Color selectColor = backGroundColor;
@@ -125,10 +124,10 @@ namespace divaeditor
 		{
 			int nowLevel = EDITOR_PTR->mapData->getGridLevel(gridToDraw);
 			
-			float tHeightFactor = BeatLineHeightFactor / float(nowLevel);
+			float tHeightFactor = _maxGridHeightFactor / float(nowLevel);
 
 			graphics->drawLine(width*(gridToDraw-leftPos)/rangeGridNum,
-								height*(1- BeatLineHeightFactor*tHeightFactor)-1,
+								height*(1- tHeightFactor)-1,
 								width*(gridToDraw-leftPos)/rangeGridNum,
 								height-1);
 		}
@@ -240,4 +239,11 @@ namespace divaeditor
 		}
 		nowMouseXPos = mouseEvent.getX();
 	}
+
+
+	void Timeline::setMaxGridHeightFactor(float factor)
+	{
+		_maxGridHeightFactor = factor;
+	}
+
 }

@@ -11,9 +11,20 @@ namespace divaeditor
 
 	class DivaEditorMapData
 	{
+	public:
+		divacore::MapInfoPtr coreInfoPtr;
+
+		DivaEditorMapData();
+
+		void registerMapInfo(divacore::MapInfoPtr registMapInfo);
+
 	private:
 		std::map<int,int> stopLength;
 		std::map<int,int> beatNumChanged;
+
+		std::map<std::string,std::wstring> resourceDescription;
+
+		std::wstring workingDirectory;
 
 		std::vector<divacore::MapNote*> selected;
 		std::vector<divacore::MapNote*> copyBoard;
@@ -27,7 +38,7 @@ namespace divaeditor
 		void sortNote();
 		void sortEvent();
 		int adjustNoteOrder(int index);
-		void adjustEventOrder(int index);
+		int adjustEventOrder(int index);
 
 		
 
@@ -36,13 +47,24 @@ namespace divaeditor
 		int findStopIndex(float pos);
 
 
+		
+
 	public:
 		//Resource operations
-		std::string addResource(std::wstring filename);
-		void deleteResource(std::string id);
+
+		std::string findResourceTypeStrByID(std::string id);
+		std::wstring getResourceDescriptionByIndex(int index);
+		std::string findResourceIDByIndex(int index);
+		int findResourceIndexByID(std::string id);
+		std::string resource_add(std::wstring filename);
+		void resource_delete(std::string id);
+		
 
 
-
+		int resourceEvent_add(int pos, std::string resourceID);
+		int resourceEvent_modifyPos(int index, int pos);
+		void resourceEvent_modifyResource(int index, std::string resourceID);
+		void resourceEvent_delete(int index);
 
 
 	public:
@@ -70,11 +92,6 @@ namespace divaeditor
 		int getNoteTypeFromKeyPress(char keyPress, bool arrow);
 
 	public:
-		divacore::MapInfoPtr coreInfoPtr;
-
-		DivaEditorMapData();
-
-		void registerMapInfo(divacore::MapInfoPtr registMapInfo);
 
 		///////////////Grid and period operation
 		int getGridInPeriod(float grid);

@@ -67,7 +67,7 @@ namespace divaeditor
 
 	void Editor::onEnter()
 	{
-		core->setSong("song/千本桜","千本桜_Hard.divaol");
+		core->setSong(L"song/千本桜",L"千本桜_Hard.divaol");
 
 		SoraCore::Instance()->showMouse(true);
 		GCN_GLOBAL->initGUIChan(L"msyh.ttf",14);

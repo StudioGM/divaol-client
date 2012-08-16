@@ -49,7 +49,7 @@ namespace divaeditor
         //virtual bool isHasMouse() const{return true;}
 
 		//Public functions
-		
+		void setMaxGridHeightFactor(float factor);
 
 
 		//void registerSelectedChangedFunc(sora::SoraFunction<void(const PointF&)> &func);
@@ -57,6 +57,7 @@ namespace divaeditor
     protected:
 
 		float _selectedBegin,_selectedEnd;
+		float _maxGridHeightFactor;
 		bool isSelecting;
 
 		int nowMouseXPos;
