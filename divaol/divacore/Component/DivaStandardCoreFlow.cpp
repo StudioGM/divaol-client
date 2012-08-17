@@ -115,9 +115,11 @@ namespace divacore
 
 			if(!actived/*nowTime>=totalTime*/)
 			{
+				// flow back 0.5s to have a buffer, otherwise it will cause a thread confliction so that the music will back to 0
+				MUSIC_MANAGER_PTR->setPosition(MAIN_SOUND_CHANNEL,totalTime-0.5);
 				//endTask
 				endTask.start();
-				
+
 				if(state!=PAUSE)
 				{
 					core->getMusicManager()->destroy();

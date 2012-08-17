@@ -50,6 +50,8 @@ namespace divacore
 
 		void onKeyPressed(SoraKeyEvent& event);
 		void onKeyReleased(SoraKeyEvent& event);
+
+		void pause(void* args = NULL);
 	};
 
 	typedef CorePlayState* CorePlayStatePtr;

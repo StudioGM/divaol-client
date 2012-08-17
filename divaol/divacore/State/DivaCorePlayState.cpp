@@ -40,6 +40,15 @@ namespace divacore
 		setCoreState(Core::RUN);
 
 		sora::SoraCore::Instance()->showMouse(false);
+
+		Task task;
+		task.setAsMemberFunc(&CorePlayState::pause,this);
+		coreFlow->registerEndCallback(task);
+	}
+
+	void CorePlayState::pause(void* args)
+	{
+		CORE_PTR->pause();
 	}
 
 	void CorePlayState::onLeave()
@@ -171,6 +180,20 @@ namespace divacore
 		else if(event.getKey()==SORA_KEY_H)
 		{
 			CORE_PTR->resume();
+		}
+		else if(event.getKey()==SORA_KEY_Z)
+		{
+			StandardEditUtility::instance().init();
+			StandardEditUtility::instance().setPosition(CORE_FLOW_PTR->getTotalPosition()-10);
+		}
+		else if(event.getKey()==SORA_KEY_X)
+		{
+			core->resume();
+		}
+		else if(event.getKey()==SORA_KEY_C)
+		{
+			StandardEditUtility::instance().init();
+			StandardEditUtility::instance().setPosition(200);
 		}
 
 		/*else if(event.getKey()==SORA_KEY_D)
