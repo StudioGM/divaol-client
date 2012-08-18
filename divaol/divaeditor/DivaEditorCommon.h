@@ -1,9 +1,11 @@
 #ifndef DIVAEDITORCOMMON_H
 #define DIVAEDITORCOMMON_H
 
+
 #include <string>
 #include <vector>
 
+#include < windows.h >
 
 namespace divaeditor
 {
@@ -13,9 +15,11 @@ namespace divaeditor
 	static const int gridToShowPerBeatTableCount = 6;
 
 
-	static const std::wstring videoExtentions = L"avi,mp4,flv";
+	static const std::wstring videoExtentions = L"avi,mp4,flv,mkv";
 	static const std::wstring imageExtentions = L"png,jpg";
 	static const std::wstring audioExtentions = L"wav,mp3,ogg";
+
+	static const std::string EditorVer = "2.0.0.0";
 
 	class EditorConfig
 	{
@@ -23,12 +27,18 @@ namespace divaeditor
 		enum NOTESTATE {NORMAL,LONG,COMBO} EDITSTATE_NOTESTATE;
 
 	public:
+		
+
 
 		EditorConfig():beatNumberPerScreen(20),
 						gridToShowPerBeat(0),
 						showRangeFactor(1),
 						EDITSTATE_NOTESTATE(NOTESTATE::NORMAL),
-						isctrl(false)
+						isctrl(false),
+						display_note(true),
+						display_grid(true),
+						display_background(true),
+						map_initialized(false)
 						{};
 
 		static EditorConfig* Ptr;
@@ -72,9 +82,20 @@ namespace divaeditor
 		static const int NoteAreaTailAreaSize = 0;
 		//static const double NoteAreaFactor = 0.666666666666666666666667;
 
-
+		
+		
 		//Global Key Event
 		bool isctrl;
+
+
+		//Display State
+		bool display_background;
+		bool display_note;
+		bool display_grid;
+
+
+		bool map_initialized;
+
 
 	private:
 		//Timeline Showing settings
@@ -91,9 +112,12 @@ namespace divaeditor
 	std::string fTos(float f,int bit);
 	std::wstring iToWS(int n);
 	std::wstring fTows(float f,int bit);
+	std::wstring secondToTimeWstr(float second);
 	float wsTof(std::wstring &s);
 	double round(double r); 
 	void tolower(std::wstring &str);
+	std::string to_utf8(const wchar_t* buffer, int len);
+	std::string to_utf8(const std::wstring& str);
 
 
 

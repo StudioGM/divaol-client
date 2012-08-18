@@ -204,6 +204,7 @@ namespace divacore
 	}
 	void CorePlayState::onKeyReleased(SoraKeyEvent& event)
 	{
+		/*
 #ifdef _DEBUG
 		if(event.getKey()==SORA_KEY_P)
 		{
@@ -213,5 +214,6 @@ namespace divacore
 				core->resume();
 		}
 #endif
+		*/
 	}
 }

@@ -38,6 +38,7 @@ namespace divacore
 	{
 		registerEvent("playMusic",&BassMusicManager::playEvent);
 	}
+
 	/*
 	BassMusicManager
 	*/

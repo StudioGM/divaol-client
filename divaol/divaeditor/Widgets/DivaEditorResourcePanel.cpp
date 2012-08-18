@@ -1,11 +1,11 @@
-#include "divaeditor/DivaEditorScene/DivaEditorResourcePanel.h"
-#include "divaeditor/DivaEditorMapData.h"
+
+#include<cmath>
+
+#include "divaeditor/Widgets/DivaEditorResourcePanel.h"
 #include "divaeditor/DivaEditorCommon.h"
 
 #include "divacore/Core/DivaCore.h"
 #include "divacore/Component/DivaStandardCoreFlow.h"
-
-#include "guichan/widgets/button.hpp"
 
 #include "guichan/exception.hpp"
 #include "guichan/font.hpp"
@@ -14,20 +14,18 @@
 #include "guichan/mouseevent.hpp"
 #include "guichan/mouseinput.hpp"
 
-#include<cmath>
-
 namespace divaeditor
 {
 	ResourcePanel::ResourcePanel()
 	{
 		_selectedIndex=-1;
-		_elementGridSize=1;
-		_gridPerPage=1;
+		_elementGridSize=-1;
+		_gridPerPage=-1;
 
 		addMouseListener(this);
 		addKeyListener(this);
 
-		_selectedIndex = -1;
+		setFocusable(true);
 	}
 
 	void ResourcePanel::adjustSize()
@@ -50,15 +48,23 @@ namespace divaeditor
 	{
 		if(index>=0&&index<EDITOR_PTR->mapData->coreInfoPtr->resources.size())
 		{
-			if(index!=_selectedIndex)
-				_selectedIndex = index;
+			_selectedIndex = index;
+			distributeValueChangedEvent();
 		}
 		else
+		{
 			_selectedIndex = -1;
+			distributeValueChangedEvent();
+		}
 	}
 
 	int ResourcePanel::getSelectedIndex()
 	{
+		//Check if is out of boarder
+		if(_elementGridSize!=-1)
+			if(_selectedIndex>=EDITOR_PTR->mapData->coreInfoPtr->resources.size())
+				_selectedIndex = -1;
+
 		return _selectedIndex;
 	}
 
@@ -88,7 +94,9 @@ namespace divaeditor
 
 	void ResourcePanel::logic()
 	{
-		
+		if(_elementGridSize!=-1)
+			if(_selectedIndex>=EDITOR_PTR->mapData->coreInfoPtr->resources.size())
+				setSelectedIndex(-1);
 	}
 
 	void ResourcePanel::draw(gcn::Graphics* graphics)
@@ -166,16 +174,25 @@ namespace divaeditor
 		setSelectedIndex(toSelect);
 	}
 
-	void ResourcePanel::addSelectionListener(SelectionListener* selectionListener)
+	void ResourcePanel::addSelectionListener(gcn::SelectionListener* selectionListener)
 	{
 		mSelectionListeners.push_back(selectionListener);
 	}
 
-	void ResourcePanel::removeSelectionListener(SelectionListener* selectionListener)
+	void ResourcePanel::removeSelectionListener(gcn::SelectionListener* selectionListener)
 	{
 		mSelectionListeners.remove(selectionListener);
 	}
 
+	void ResourcePanel::distributeValueChangedEvent()
+	{
+		SelectionListenerIterator iter;
 
+		for (iter = mSelectionListeners.begin(); iter != mSelectionListeners.end(); ++iter)
+		{
+			SelectionEvent event(this);
+			(*iter)->valueChanged(event);
+		}
+	}
 
 }

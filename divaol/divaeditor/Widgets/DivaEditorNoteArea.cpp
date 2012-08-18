@@ -1,4 +1,5 @@
-#include "divaeditor/DivaEditorScene/DivaEditorNoteArea.h"
+
+#include "divaeditor/Widgets/DivaEditorNoteArea.h"
 #include "divaeditor/DivaEditorMapData.h"
 #include "divaeditor/DivaEditorCommon.h"
 

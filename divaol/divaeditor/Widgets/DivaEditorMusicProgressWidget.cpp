@@ -1,4 +1,5 @@
-#include "divaeditor/DivaEditorScene/DivaEditorMusicProgressWidget.h"
+
+#include "divaeditor/Widgets/DivaEditorMusicProgressWidget.h"
 #include "divaeditor/DivaEditorMapData.h"
 
 #include "divacore/Core/DivaCore.h"

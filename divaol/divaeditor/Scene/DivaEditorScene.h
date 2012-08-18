@@ -10,8 +10,17 @@
 
 #include "soraguichan/SoraGUI.h"
 #include "Soraguichan/SoraGUIResponserMap.h"
-#include "divaeditor/DivaEditorScene/DivaEditorTimelineWidget.h"
-#include "divaeditor/DivaEditorScene/DivaEditorWTextfield.h"
+
+#include "divaeditor/Widgets/DivaEditorTimelineWidget.h"
+#include "divaeditor/Widgets/DivaEditorMusicProgressWidget.h"
+#include "divaeditor/Widgets/DivaEditorNoteArea.h"
+#include "divaeditor/Widgets/DivaEditorResourcePanel.h"
+
+#include "divaeditor/Widgets/BoarderedContainer.h"
+#include "divaeditor/Widgets/WListBox.h"
+#include "divaeditor/Widgets/WTextfield.h"
+#include "divaeditor/Widgets/WLabel.h"
+#include "divaeditor/Widgets/WCheckbox.h"
 
 namespace divaeditor
 {
@@ -53,8 +62,39 @@ namespace divaeditor
 		virtual void onMouseWheelDown(SoraMouseEvent& event) = NULL;
 	};
 
+	class DivaEditorInitScene :
+		public DivaEditorScene,
+		public sora::SoraGUIResponser
+	{
 
-	class DivaEditorMainScene : public DivaEditorScene, public sora::SoraGUIResponser
+	public:
+		DivaEditorInitScene();
+
+		virtual void willAppear();
+		virtual void didAppear(gcn::Widget *widget);
+		virtual void willDisappear();
+		virtual void didDisappear(gcn::Widget *widget);
+
+		virtual void action();
+
+		virtual void onRender(){};
+		virtual void onUpdate(float dt);
+
+		//Input events
+		virtual void onKeyPressed(SoraKeyEvent& event){};
+		virtual void onKeyReleased(SoraKeyEvent& event){};
+		virtual void onMouseClicked(SoraMouseEvent& event){};
+		virtual void onMouseReleased(SoraMouseEvent& event){};
+		virtual void onMouseMoved(SoraMouseEvent& event){};
+		virtual void onMouseWheelUp(SoraMouseEvent& event){};
+		virtual void onMouseWheelDown(SoraMouseEvent& event){};
+
+	};
+
+	class DivaEditorMainScene : 
+		public DivaEditorScene, 
+		public sora::SoraGUIResponser, 
+		public gcn::SelectionListener
 	{
 	public:
 		enum State{TIMELINE,NOTE,SHOW,PREVIEW};
@@ -70,6 +110,12 @@ namespace divaeditor
 		gcn::Container* initTimelineCategory();
 		gcn::Container* initNoteCategory();
 		gcn::Container* initShowCategory();
+		gcn::Container* initPlayCategory();
+
+		void refreshResourcePanelDetail();
+		void refreshEventDetail();
+
+		void flowDidEnd(void* arg);
 
 	public:
 
@@ -95,6 +141,9 @@ namespace divaeditor
 		virtual void onMouseMoved(SoraMouseEvent& event){};
 		virtual void onMouseWheelUp(SoraMouseEvent& event);
 		virtual void onMouseWheelDown(SoraMouseEvent& event);
+
+		//Selection events
+		virtual void valueChanged(const gcn::SelectionEvent &event);
 	};
 
 }

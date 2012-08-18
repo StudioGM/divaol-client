@@ -1,13 +1,14 @@
-#include "divaeditor/DivaEditor.h"
-#include "divaeditor/DivaEditorCommon.h"
-#include "divaeditor/DivaEditorMapData.h"
-#include "divacore/Component/DivaStandardCoreFlow.h"
-
 #include <algorithm>
 #include <cmath>
 #include <map>
 #include <vector>
 #include "stdio.h"
+
+#include "divaeditor/DivaEditorMapData.h"
+#include "divaeditor/DivaEditorCommon.h"
+
+#include "divacore/Component/DivaStandardCoreFlow.h"
+
 
 namespace divaeditor
 {
@@ -16,12 +17,21 @@ namespace divaeditor
 
 	DivaEditorMapData::DivaEditorMapData()
 	{
-		mapOffset = 0;
-		beatNumChanged[0]=4;
-
-		//DEBUG
-		workingDirectory = L"C:/Users/Administrator/Documents/GitProjects/divaol-core/divaol/song/Ç§±¾—@/";
 	}
+
+	void DivaEditorMapData::ResetEditorMapData()
+	{
+		stopLength.clear();
+		beatNumChanged.clear();
+		resourceDescription.clear();
+		selected.clear();
+		copyBoard.clear();
+
+		beatNumChanged[0]=4;
+		mapOffset=0;
+		
+	}
+
 	void DivaEditorMapData::registerMapInfo(divacore::MapInfoPtr registMapInfo)
 	{
 		coreInfoPtr = registMapInfo;
@@ -432,6 +442,11 @@ namespace divaeditor
 		return ret;
 	}
 
+	void DivaEditorMapData::findNoteIndexInRange(int leftPos, int rightPos, int &beginIndex, int &endIndex)
+	{
+
+	}
+
 
 	//Grid and period operation
 	int DivaEditorMapData::decodeOriginalGrid(int grid)
@@ -782,7 +797,6 @@ namespace divaeditor
 		EDITUTILITY.refreshAll();
 	}
 
-
 	//Move All
 	bool DivaEditorMapData::moveAll(int left, int right, int delta)
 	{
@@ -831,8 +845,6 @@ namespace divaeditor
 		else
 			return false;
 	}
-
-
 
 	//Resource Function
 	std::string DivaEditorMapData::findResourceTypeStrByID(std::string id)
@@ -938,6 +950,8 @@ namespace divaeditor
 				resourceInfo.ID = thisID;
 				break;
 			}
+
+			idToIns++;
 		}
 
 		//Copy file
@@ -947,16 +961,21 @@ namespace divaeditor
 		
 		resourceInfo.flag=true;
 
-		//Map ID and filename
-		resourceDescription[resourceInfo.ID] = safeFileName;
-
-		EDITUTILITY.loadResource(resourceInfo);
+		if(EDITCONFIG->map_initialized)
+		{
+			//Map ID and filename
+			resourceDescription[resourceInfo.ID] = safeFileName;
+			EDITUTILITY.loadResource(resourceInfo);
+		}
+		else
+			coreInfoPtr->resources[resourceInfo.ID] = resourceInfo;
 
 		return resourceInfo.ID;
 	}
 	void DivaEditorMapData::resource_delete(std::string id)
 	{
-		if(coreInfoPtr->resources.find(id)==coreInfoPtr->resources.end())
+		if(coreInfoPtr->resources.find(id)==coreInfoPtr->resources.end() ||
+			id == coreInfoPtr->header.mainSound)
 			return;
 
 		divacore::MapResourceInfo &resourceInfo = coreInfoPtr->resources[id];
@@ -968,8 +987,7 @@ namespace divaeditor
 				|| coreInfoPtr->events[i].eventType == "playMusic"
 				|| coreInfoPtr->events[i].eventType == "displayImage")
 			{
-				if(divacore::Argument::asString("id",coreInfoPtr->events[i].arg)==resourceInfo.ID
-					&&resourceInfo.ID!=coreInfoPtr->header.mainSound)
+				if(divacore::Argument::asString("id",coreInfoPtr->events[i].arg)==resourceInfo.ID)
 				{
 					EDITUTILITY.delEvent(i);
 					i--;
@@ -977,18 +995,34 @@ namespace divaeditor
 			}
 		}
 
+		//unload the resource
+		EDITUTILITY.unloadResource(resourceInfo);
+		//delete the resource file
+		DeleteFileW((workingDirectory + L"/" + resourceInfo.filePath).c_str());
+
 		//remove the safefilename
 		resourceDescription.erase(resourceDescription.find(resourceInfo.ID));
 		coreInfoPtr->resources.erase(coreInfoPtr->resources.find(id));
-
-		//unload the resource
-		EDITUTILITY.unloadResource(resourceInfo);
-
-		//delete the resource file
-		DeleteFileW((workingDirectory + L"/" + resourceInfo.filePath).c_str());
 	}
 
-
+	int DivaEditorMapData::findResourceEventIndexByIndexInResource(int index, std::string resourceID)
+	{
+		int tCount=-1;
+		for (int i=0;i<coreInfoPtr->events.size();i++)
+		{
+			divacore::MapEvent &thisEvent = coreInfoPtr->events[i];
+			if(thisEvent.eventType == "playVideo" || thisEvent.eventType == "displayImage" || thisEvent.eventType == "playMusic")
+			{
+				if(Argument::asString("id",thisEvent.arg)==resourceID)
+				{
+					tCount++;
+					if(tCount==index)
+						return i;
+				}
+			}
+		}
+		return -1;
+	}
 	int DivaEditorMapData::resourceEvent_add(int pos, std::string resourceID)
 	{
 		divacore::MapEvent toAdd;
@@ -1010,8 +1044,6 @@ namespace divaeditor
 	int DivaEditorMapData::resourceEvent_modifyPos(int index, int pos)
 	{
 		coreInfoPtr->events[index].position = pos;
-		coreInfoPtr->events[index].time = EDITUTILITY.posToTime(pos);
-
 		return adjustEventOrder(index);
 	}
 	void DivaEditorMapData::resourceEvent_modifyResource(int index, std::string resourceID)
@@ -1029,5 +1061,11 @@ namespace divaeditor
 		if(index>=0&&index<coreInfoPtr->events.size())
 			coreInfoPtr->events.erase(MAP_INFO->events.begin()+index);
 	}
+
+	void DivaEditorMapData::resourceDescription_modify(std::string resourceID, std::wstring description)
+	{
+		resourceDescription[resourceID] = description;
+	}
+
 
 }

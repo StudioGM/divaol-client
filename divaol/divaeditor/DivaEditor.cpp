@@ -1,13 +1,11 @@
-#include "DivaEditor.h"
-#include "divacore/Core/DivaCore.h"
+#include "divaeditor/DivaEditor.h"
+#include "divaeditor/DivaEditorDisplay.h"
+
+#include "divacore/state/DivaCoreLoader.h"
+#include "divacore/Component/DivaStandardCoreFlow.h"
 
 #include "app/SoraGameApp.h"
 
-#include "DivaEditorScene/DivaEditorScene.h"
-#include "DivaEditorDisplay.h "
-#include "divacore/state/DivaCoreLoader.h"
-#include "divacore/Component/DivaStandardCoreFlow.h"
-#include "divaeditor/DivaEditorMapData.h"
 
 namespace divaeditor
 {
@@ -22,143 +20,140 @@ namespace divaeditor
 
 	void Editor::coreDidLoad(void* arg)
 	{
-		if(!mapData)
-			mapData = new DivaEditorMapData();
-		mapData->registerMapInfo(core->getMapInfo());
+		mapData->registerMapInfo(CORE_PTR->getMapInfo());
 		StandardEditUtility::instance().init();
-		core->setState("play");
-		core->pause();
+		CORE_PTR->setState("play");
+		CORE_PTR->pause();
 		changeScene(State::MAIN);
 	}
 
 
-	void Editor::registerDivaCore(CorePtr _core)
+	void Editor::initDivaCoreForEditor()
 	{
-		core = _core;
 		Task task;
 		task.setAsMemberFunc(&Editor::coreDidLoad, this);
-		
-		((divacore::CoreLoader*)((*core->getManager())["load"]))->registerReadyCallback(task);
+		((divacore::CoreLoader*)((*CORE_PTR->getManager())["load"]))->registerReadyCallback(task);
 
-/*
-		Task endTask;
-		endTask.setAsMemberFunc(&Editor::coreDidEnd, this);
-
-		CORE_FLOW_PTR->registerEndCallback(endTask);
-		*/
-
-		core->registerDisplay(new DivaEditorDisplay());
+		CORE_PTR->registerDisplay(new DivaEditorDisplay());
 	}
 
-
-
-	
+	void Editor::setSongInitialized()
+	{
+		songInitialized = true;
+	}
 
 	//Editor public GameState Functions
 	void Editor::onStart()
 	{
-		core->onStart();
+		
 	}
 
 	void Editor::onDestroy()
 	{
-		core->onDestroy();
+		CORE_PTR->onDestroy();
 	}
 
 	void Editor::onEnter()
 	{
-		core->setSong(L"song/Ç§±¾—@",L"Ç§±¾—@_Hard.divaol");
-
 		SoraCore::Instance()->showMouse(true);
 		GCN_GLOBAL->initGUIChan(L"msyh.ttf",14);
 
 		initScenes();
-		core->onEnter();
 
-		//gcn::Button* button = new gcn::Button("lalalala");
-		//button->setPosition(sora::SoraCore::Instance()->getScreenWidth()/2, 100);
-		//button->setSize(100, 100);
+		if(!mapData)
+			mapData = new DivaEditorMapData();
 
-		//gcn::Window* wnd = new gcn::Window("hahahaa");
-		//wnd->add(button);
-		//wnd->setDimension(gcn::Rectangle(0, 0, 1000, 1000));
-
-		//GCN_GLOBAL->addWidget(button,NULL);
-		//GCN_GLOBAL->setGlobalForegroundColor(Color::White);
+		changeScene(State::PRELOAD);
 	}
 
 	void Editor::onInitiate()
 	{
-		core->onInitiate();
+		CORE_PTR->onInitiate();
 	}
 
 	void Editor::onLeave()
 	{
-		core->onLeave();
+		CORE_PTR->onLeave();
 	}
 
 	void Editor::onRender()
 	{
-		SoraSprite* coreDrawSprite = core->renderToCanvas(SoraCore::Instance()->getScreenWidth(),
-			SoraCore::Instance()->getScreenHeight());
-
-		sora::SoraGameApp::BeginScene();
-		coreDrawSprite->setPosition(0,0);
-		coreDrawSprite->render();
-
+		
+		
+		SoraSprite* coreDrawSprite=NULL;
 		if(mState==State::MAIN)
 		{
-			GCN_GLOBAL->gcnDraw();
+			
+
+			uint32 renderMask = 0;
+			if(EDITCONFIG->display_background)
+				renderMask = renderMask | divacore::RenderSystem::RS_RENDER_BACKGROUND;
+			if(EDITCONFIG->display_note)
+				renderMask = renderMask | divacore::RenderSystem::RS_RENDER_NOTE;
+			renderMask = renderMask | divacore::RenderSystem::RS_RENDER_UI | divacore::RenderSystem::RS_RENDER_EFFECT;
+
+
+			coreDrawSprite = CORE_PTR->renderToCanvas(SoraCore::Instance()->getScreenWidth(),
+				SoraCore::Instance()->getScreenHeight(),renderMask);
+
+			
+			coreDrawSprite->setPosition(0,0);
+			coreDrawSprite->render();
 		}
 
+		sora::SoraGameApp::BeginScene();
+		if(coreDrawSprite)
+			coreDrawSprite->render();
+		GCN_GLOBAL->gcnDraw();
 		sora::SoraGameApp::EndScene();
 	}
 
 	void Editor::onUpdate(float dt)
 	{
+		SoraCore::Instance()->showMouse(true);
+		if(songInitialized)
+			CORE_PTR->onUpdate(dt);
 		
-		core->onUpdate(dt);
-		
-		if(mState==State::MAIN)
-		{
-			SoraCore::Instance()->showMouse(true);
-			
-		}
 		if(scenes.find(mState)!=scenes.end())
 			scenes[mState]->onUpdate(dt);
 	}
 
 	void Editor::onKeyPressed(SoraKeyEvent& event)
 	{
-		core->onKeyPressed(event);
+		if(songInitialized)
+			CORE_PTR->onKeyPressed(event);
 		if(scenes.find(mState)!=scenes.end())
 			scenes[mState]->onKeyPressed(event);
 	}
 
 	void Editor::onKeyReleased(SoraKeyEvent& event)
 	{
-		core->onKeyReleased(event);
+		if(songInitialized)
+			CORE_PTR->onKeyReleased(event);
 		if(scenes.find(mState)!=scenes.end())
 			scenes[mState]->onKeyReleased(event);
 	}
 
 	void Editor::onMouseClicked(SoraMouseEvent& event)
 	{
-		core->onMouseClicked(event);
+		if(songInitialized)
+			CORE_PTR->onMouseClicked(event);
 		if(scenes.find(mState)!=scenes.end())
 			scenes[mState]->onMouseClicked(event);
 	}
 
 	void Editor::onMouseReleased(SoraMouseEvent& event)
 	{
-		core->onMouseReleased(event);
+		if(songInitialized)
+			CORE_PTR->onMouseReleased(event);
 		if(scenes.find(mState)!=scenes.end())
 			scenes[mState]->onMouseReleased(event);
 	}
 
 	void Editor::onMouseMoved(SoraMouseEvent& event)
 	{
-		core->onMouseMoved(event);
+		if(songInitialized)
+			CORE_PTR->onMouseMoved(event);
 		if(scenes.find(mState)!=scenes.end())
 			scenes[mState]->onMouseMoved(event);
 	}
@@ -179,6 +174,7 @@ namespace divaeditor
 	void Editor::initScenes()
 	{
 		scenes[State::MAIN] = new DivaEditorMainScene();
+		scenes[State::PRELOAD] = new DivaEditorInitScene();
 	}
 
 

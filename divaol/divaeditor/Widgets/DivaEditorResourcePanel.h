@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "Hoshizora.h"
+#include "divaeditor/DivaEditorMapData.h"
 
 #include "guichan/focuslistener.hpp"
 #include "guichan/graphics.hpp"
@@ -13,8 +13,7 @@
 #include "guichan/platform.hpp"
 #include "guichan/widget.hpp"
 
-#include "divaeditor/DivaEditorMapData.h"
-
+#include "Hoshizora.h"
 #include "soraguichan/SoraGUI.h"
 #include "Soraguichan/SoraGUIResponserMap.h"
 
@@ -58,8 +57,9 @@ namespace divaeditor
 		int getSelectedIndex();
 
 		//Listener functions
-		void addSelectionListener(SelectionListener* selectionListener);
-		void removeSelectionListener(SelectionListener* selectionListener);
+		void addSelectionListener(gcn::SelectionListener* selectionListener);
+		void removeSelectionListener(gcn::SelectionListener* selectionListener);
+		void distributeValueChangedEvent();
 
 		int _gridPerWidth,_gridPerHeight,_gridPerPage,_nowPage;
 
@@ -71,8 +71,9 @@ namespace divaeditor
 		int _selectedIndex;
 		int _elementGridSize;
 
+		
 
-		typedef std::list<SelectionListener*> SelectionListenerList;
+		typedef std::list<gcn::SelectionListener*> SelectionListenerList;
 		SelectionListenerList mSelectionListeners;
 
 		typedef SelectionListenerList::iterator SelectionListenerIterator;

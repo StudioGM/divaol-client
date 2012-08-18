@@ -1,11 +1,9 @@
-#include "divaeditor/DivaEditorScene/DivaEditorTimelineWidget.h"
-#include "divaeditor/DivaEditorMapData.h"
+
+#include "divaeditor/Widgets/DivaEditorTimelineWidget.h"
 #include "divaeditor/DivaEditorCommon.h"
 
 #include "divacore/Core/DivaCore.h"
 #include "divacore/Component/DivaStandardCoreFlow.h"
-
-#include "guichan/widgets/button.hpp"
 
 #include "guichan/exception.hpp"
 #include "guichan/font.hpp"
@@ -72,8 +70,16 @@ namespace divaeditor
 		graphics->setColor(backGroundColor);
 		graphics->fillRectangle(gcn::Rectangle(0,0,width,height));
 
+#pragma region Draw Notes		
 
-		//Draw Selected Area
+
+
+#pragma endregion Draw Notes
+
+
+
+#pragma region Draw Selected Area
+
 		if(isSelecting)
 		{
 			//Update selectEndPos
@@ -113,10 +119,11 @@ namespace divaeditor
 			}
 		}
 
+#pragma endregion Draw Selected Area
+
+#pragma region Draw Lines
+
 		graphics->setColor(lineColor);
-
-
-		//Draw Lines
 		int gridLevel;
 
 		for (float gridToDraw =EDITOR_PTR->mapData->getNowStandardGrid(leftPos, _gridToShowPerBeat);
@@ -132,7 +139,10 @@ namespace divaeditor
 								height-1);
 		}
 
-		//Draw StopLine
+#pragma endregion Draw Lines
+
+#pragma region Draw StopLine
+
 		vector<int> stopPos = EDITOR_PTR->mapData->getStopPositionByRange(leftPos,rightPos);
 		for(int i=0;i<stopPos.size();i+=2)
 		{
@@ -157,8 +167,9 @@ namespace divaeditor
 			graphics->fillRectangle(gcn::Rectangle(thisPosLeft,height*0.2,thisPosRight-thisPosLeft,height*0.8));
 		}
 
+#pragma endregion Draw StopLine
 
-		//Draw Beat Lines
+#pragma region Draw Beat Lines
 		std::map<int,int> beatLines = EDITOR_PTR->mapData->getBeatNumByRange(leftPos,rightPos);
 		for(std::map<int,int>::iterator i = beatLines.begin();i!=beatLines.end();i++)
 		{
@@ -168,8 +179,9 @@ namespace divaeditor
 			graphics->setFont(getFont());
 			graphics->drawText("Beats/Period:" + iToS(i->second) ,linePx+2, height*0.20);
 		}
+#pragma endregion Draw Beat Lines
 
-		//Draw BPM Lines
+#pragma region Draw BPM Lines
 		for (std::vector<divacore::MapEvent>::iterator i=EDITOR_PTR->mapData->coreInfoPtr->events.begin(); 
 					i!=EDITOR_PTR->mapData->coreInfoPtr->events.end();i++)
 			if(i->position>=leftPos&&i->position<=rightPos)
@@ -183,10 +195,9 @@ namespace divaeditor
 					graphics->drawText("BPM:" + fTos(divacore::Argument::asFloat("value", i->arg),2) ,bpmPx+2, 0);
 				}
 			}
-
+#pragma endregion Draw BPM Lines
 		
-
-		//Draw Music Begin
+#pragma region Draw Music Lines
 		if(leftPos<=0 && rightPos>0)
 		{
 			int beginPx = (0-leftPos)/(rangeGridNum)*width;
@@ -195,17 +206,17 @@ namespace divaeditor
 			graphics->drawLine(beginPx,0,beginPx,height-1);
 			graphics->drawLine(beginPx-height*0.4,height*0.1,beginPx,height*0.5);
 			graphics->drawLine(beginPx,height*0.5,beginPx-height*0.4,height*0.9);
-			//graphics->setFont(getFont());
-			//graphics->drawText("begin",beginPx+1,-height*0.08);
 		}
+#pragma endregion Draw Music Lines
 		
-		//Draw NowLine
+#pragma region Draw Now Line
 
 		graphics->setColor(lineColor);
-
 		graphics->drawLine((int(width)>>1)-1,0,(int(width)>>1)-1,height-1);
 		graphics->drawLine((int(width)>>1)+1,0,(int(width)>>1)+1,height-1);
 		graphics->drawLine(0,height-1,width,height-1);
+
+#pragma endregion Draw Now Line
 
 	}
 

@@ -2,6 +2,7 @@
 #define DIVA_EDITOR_DISPLAY
 
 #include "divacore/Component/DivaStandardDisplay.h"
+
 #include "SoraSprite.h"
 
 namespace divaeditor

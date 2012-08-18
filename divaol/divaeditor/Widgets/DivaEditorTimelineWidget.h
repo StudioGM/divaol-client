@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "Hoshizora.h"
+#include "divaeditor/DivaEditorMapData.h"
 
 #include "guichan/focuslistener.hpp"
 #include "guichan/graphics.hpp"
@@ -13,7 +13,7 @@
 #include "guichan/platform.hpp"
 #include "guichan/widget.hpp"
 
-#include "divaeditor/DivaEditorMapData.h"
+#include "Hoshizora.h"
 
 namespace divaeditor
 {

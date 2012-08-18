@@ -11,6 +11,10 @@
 
 #include<algorithm>
 
+#include "divaeditor/DivaEditorCommon.h"
+#include "divaeditor/DivaEditorMapData.h"
+#include "divaeditor/Scene/DivaEditorScene.h"
+
 #include "divacore/Core/DivaCommon.h"
 #include "divacore/Core/DivaCore.h"
 #include "divacore/Core/DivaMapInfo.h"
@@ -21,9 +25,6 @@
 #include "app/SoraGameState.h"
 
 #include "guichansetup.h"
-
-#include "divaeditor/DivaEditorMapData.h"
-#include "divaeditor/DivaEditorScene/DivaEditorScene.h"
 
 
 namespace divaeditor
@@ -37,9 +38,7 @@ namespace divaeditor
 	class DivaEditorScene;
 	class DivaEditorMapData;
 
-	typedef Core* CorePtr;
 	typedef Editor* EditorPtr;
-
 
 	/*
 	Editor
@@ -68,10 +67,11 @@ namespace divaeditor
 
 
 	private:
-		Editor():core(NULL),nowScene(NULL),mState(PRELOAD) {};
+		Editor():nowScene(NULL),mState(PRELOAD),songInitialized(false) {};
+
+		bool songInitialized;
 
 		void coreDidLoad(void* arg);
-
 		void registerEvent(){};
 
 
@@ -96,14 +96,12 @@ namespace divaeditor
 		 */
 		static EditorPtr Ptr;
 		static EditorPtr instance() {static Editor instance; return (Ptr=&instance);}
-		CorePtr core;
 
 		/*
 		register and get
 		*/
-
-		void registerDivaCore(CorePtr _core);
-
+		void initDivaCoreForEditor();
+		void setSongInitialized();
 	public:
 		// Scene
 		void changeScene(State sceneState);

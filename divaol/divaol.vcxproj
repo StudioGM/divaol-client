@@ -655,16 +655,27 @@
     <ClInclude Include="divaeditor\DivaEditorCommon.h" />
     <ClInclude Include="divaeditor\DivaEditorDisplay.h" />
     <ClInclude Include="divaeditor\DivaEditorMapData.h" />
-    <ClInclude Include="divaeditor\DivaEditorScene\BoarderedContainer.h" />
-    <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorMusicProgressWidget.h" />
-    <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorNoteArea.h" />
-    <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorResourcePanel.h" />
-    <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorScene.h" />
-    <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorTimelineWidget.h" />
-    <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorWListBox.h" />
-    <ClInclude Include="divaeditor\DivaEditorScene\DivaEditorWTextfield.h" />
-    <ClInclude Include="divaeditor\DivaEditorScene\WListModel.h" />
     <ClInclude Include="divaeditor\EditorInitialize.h" />
+    <ClInclude Include="divaeditor\Scene\DivaEditorScene.h" />
+    <ClInclude Include="divaeditor\Widgets\BoarderedContainer.h" />
+    <ClInclude Include="divaeditor\Widgets\DivaEditorMusicProgressWidget.h" />
+    <ClInclude Include="divaeditor\Widgets\DivaEditorNoteArea.h" />
+    <ClInclude Include="divaeditor\Widgets\DivaEditorResourcePanel.h" />
+    <ClInclude Include="divaeditor\Widgets\DivaEditorTimelineWidget.h" />
+    <ClInclude Include="divaeditor\Widgets\WCheckbox.h" />
+    <ClInclude Include="divaeditor\Widgets\WLabel.h" />
+    <ClInclude Include="divaeditor\Widgets\WListBox.h" />
+    <ClInclude Include="divaeditor\Widgets\WListModel.h" />
+    <ClInclude Include="divaeditor\Widgets\WTextfield.h" />
+    <ClInclude Include="divaeditor\WJson\wautolink.h" />
+    <ClInclude Include="divaeditor\WJson\wconfig.h" />
+    <ClInclude Include="divaeditor\WJson\wfeatures.h" />
+    <ClInclude Include="divaeditor\WJson\wforwards.h" />
+    <ClInclude Include="divaeditor\WJson\wjson.h" />
+    <ClInclude Include="divaeditor\WJson\wjson_batchallocator.h" />
+    <ClInclude Include="divaeditor\WJson\wreader.h" />
+    <ClInclude Include="divaeditor\WJson\wvalue.h" />
+    <ClInclude Include="divaeditor\WJson\wwriter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Hoshizor\Plugins\gcnExtend\gcnBackgroundContainer.cpp" />
@@ -934,13 +945,20 @@
     <ClCompile Include="divaeditor\DivaEditorCommon.cpp" />
     <ClCompile Include="divaeditor\DivaEditorDisplay.cpp" />
     <ClCompile Include="divaeditor\DivaEditorMapData.cpp" />
-    <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorMainScene.cpp" />
-    <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorMusicProgressWidget.cpp" />
-    <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorNoteArea.cpp" />
-    <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorResourcePanel.cpp" />
-    <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorTimelineWidget.cpp" />
-    <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorWListBox.cpp" />
-    <ClCompile Include="divaeditor\DivaEditorScene\DivaEditorWTextfield.cpp" />
+    <ClCompile Include="divaeditor\DivaEditorMapDataFileLoader.cpp" />
+    <ClCompile Include="divaeditor\Scene\DivaEditorInitScene.cpp" />
+    <ClCompile Include="divaeditor\Scene\DivaEditorMainScene.cpp" />
+    <ClCompile Include="divaeditor\Widgets\DivaEditorMusicProgressWidget.cpp" />
+    <ClCompile Include="divaeditor\Widgets\DivaEditorNoteArea.cpp" />
+    <ClCompile Include="divaeditor\Widgets\DivaEditorResourcePanel.cpp" />
+    <ClCompile Include="divaeditor\Widgets\DivaEditorTimelineWidget.cpp" />
+    <ClCompile Include="divaeditor\Widgets\WCheckbox.cpp" />
+    <ClCompile Include="divaeditor\Widgets\WLabel.cpp" />
+    <ClCompile Include="divaeditor\Widgets\WListBox.cpp" />
+    <ClCompile Include="divaeditor\Widgets\WTextfield.cpp" />
+    <ClCompile Include="divaeditor\WJson\wjson_reader.cpp" />
+    <ClCompile Include="divaeditor\WJson\wjson_value.cpp" />
+    <ClCompile Include="divaeditor\WJson\wjson_writer.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -951,6 +969,7 @@
     <None Include="..\Hoshizor\Sora\json\json_internalarray.inl" />
     <None Include="..\Hoshizor\Sora\json\json_internalmap.inl" />
     <None Include="..\Hoshizor\Sora\json\json_valueiterator.inl" />
+    <None Include="divaeditor\WJson\wjson_valueiterator.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

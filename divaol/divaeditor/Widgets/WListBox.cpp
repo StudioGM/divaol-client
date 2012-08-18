@@ -1,4 +1,4 @@
-#include "divaeditor/DivaEditorScene/DivaEditorWListBox.h"
+#include "divaeditor/Widgets/WListBox.h"
 
 #include "guichan/basiccontainer.hpp"
 #include "guichan/font.hpp"

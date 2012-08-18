@@ -1,4 +1,6 @@
 #include "divaeditor/DivaEditorDisplay.h"
+#include "divaeditor/DivaEditorCommon.h"
+
 #include "divacore/Component/DivaStandardDisplay.h"
 
 namespace divaeditor
@@ -13,7 +15,8 @@ namespace divaeditor
 	void DivaEditorDisplay::render()
 	{
 		divacore::StandardDisplay::render();
-		myGrid->render(174,154);
+		if(EDITCONFIG->display_grid)
+			myGrid->render(174,154);
 	}
 
 	void DivaEditorDisplay::update(float dt)

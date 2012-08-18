@@ -4,6 +4,8 @@
 
 #include <string>
 
+#include "divaeditor/DivaEditorMapData.h"
+
 #include "Hoshizora.h"
 
 #include "guichan/focuslistener.hpp"
@@ -14,12 +16,9 @@
 #include "guichan/platform.hpp"
 #include "guichan/widget.hpp"
 
-#include "divaeditor/DivaEditorMapData.h"
-
 
 namespace divaeditor
 {
-
 
 
 	class GCN_CORE_DECLSPEC DivaEditorMusicProgressWidget : 

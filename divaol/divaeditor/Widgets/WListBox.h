@@ -1,14 +1,15 @@
-#ifndef DivaEditorWListBox_H
-#define DivaEditorWListBox_H
+#ifndef WListBox_H
+#define WListBox_H
 
 #include <list>
+
+#include "divaeditor/Widgets/WListmodel.h"
 
 #include "guichan/keylistener.hpp"
 #include "guichan/mouselistener.hpp"
 #include "guichan/platform.hpp"
 #include "guichan/widget.hpp"
 
-#include "divaeditor/DivaEditorScene/WListmodel.h"
 
 namespace gcn
 {
@@ -70,6 +71,10 @@ namespace gcn
 
         virtual void mouseDragged(MouseEvent& mouseEvent);
 
+		/**
+         * The list model to use.
+         */
+        WListModel *mListModel;
 
     protected:
         /**
@@ -85,10 +90,7 @@ namespace gcn
          */
         int mSelected;
 
-        /**
-         * The list model to use.
-         */
-        WListModel *mListModel;
+        
 
         /**
          * True if wrapping is enabled, false otherwise.

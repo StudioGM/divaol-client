@@ -2,7 +2,11 @@
 #define DivaEditorMapData_H
 
 #include "divaeditor/DivaEditor.h"
-#include "divacore/core/DivaMapInfo.h "
+
+#include "divacore/core/DivaMapInfo.h"
+
+#include "guichan.hpp"
+
 #include <map>
 #include <vector>
 
@@ -24,12 +28,14 @@ namespace divaeditor
 
 		std::map<std::string,std::wstring> resourceDescription;
 
-		std::wstring workingDirectory;
+		std::wstring workingDirectory, workingDivaOLFile, workingDivaOLProFile;
 
 		std::vector<divacore::MapNote*> selected;
 		std::vector<divacore::MapNote*> copyBoard;
 
 		int mapOffset;
+
+		void ResetEditorMapData();
 
 		int decodeOriginalGrid(int grid);
 		int encodeToOriginalGrid(int grid);
@@ -39,15 +45,44 @@ namespace divaeditor
 		void sortEvent();
 		int adjustNoteOrder(int index);
 		int adjustEventOrder(int index);
-
+		
 		
 
 		int findLastOrEqualEventIndex(int pos, std::string type);
 		int findNextEventIndex(int pos, std::string type);
 		int findStopIndex(float pos);
 
+	public:
+		//File functions
+		enum InitSourceFileType {
+			DivaPCFile, 
+			DivaPCProFile,
+			DivaOLFile, 
+			DivaOLProFile, 
+			MusicFile, 
+			BMSFile,
+			OSUFile,
+			MIDIFile,
+			Unknown
+								};
 
-		
+
+		InitSourceFileType parseInitFileType(std::wstring path);
+		std::wstring InitFromFile(std::wstring path);
+		std::wstring InitFromDivaOLFile(std::wstring path);
+		std::wstring InitFromDivaOLProFile(std::wstring path);
+		std::wstring InitFromMusicFile(std::wstring path);
+		std::wstring InitFromDivaPCFile(std::wstring path){return L"Function not ready.";}
+		std::wstring InitFromDivaPCProFile(std::wstring path){return L"Function not ready.";}
+		std::wstring InitFromBMSFile(std::wstring path){return L"Function not ready.";}
+		std::wstring InitFromOSUFile(std::wstring path){return L"Function not ready.";}
+		std::wstring InitFromMIDIFile(std::wstring path){return L"Function not ready.";}
+
+		std::wstring ChooseWorkingFile();
+		bool SaveFile(bool olFile=true, bool proFile=true, divacore::MapInfo *infoToSave=NULL);
+
+
+
 
 	public:
 		//Resource operations
@@ -60,11 +95,14 @@ namespace divaeditor
 		void resource_delete(std::string id);
 		
 
-
+		int findResourceEventIndexByIndexInResource(int index, std::string resourceID);
 		int resourceEvent_add(int pos, std::string resourceID);
 		int resourceEvent_modifyPos(int index, int pos);
 		void resourceEvent_modifyResource(int index, std::string resourceID);
 		void resourceEvent_delete(int index);
+
+		void resourceDescription_modify(std::string resourceID, std::wstring description);
+
 
 
 	public:
@@ -84,6 +122,7 @@ namespace divaeditor
 
 		int checkNoteExists(int pos, int pressType, std::string noteType);
 
+		void findNoteIndexInRange(int leftPos, int rightPos, int &beginIndex, int &endIndex);
 		int findNoteToSelectByPos(int position,int x,int y);
 		std::vector<int> findNoteToSelectByRange(int position,int leftUpX,int leftUpY,int rightDownX,int rightDownY);
 

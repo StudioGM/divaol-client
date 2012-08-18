@@ -7,12 +7,12 @@
 #include "guichan/graphics.hpp"
 
 
-namespace divaeditor
+namespace gcn
 {
 	class GCN_CORE_DECLSPEC BoarderedContainer : public gcn::Container
 	{
 	public:
-		virtual void draw(Graphics* graphics)
+		virtual void draw(gcn::Graphics* graphics)
 		{
 			gcn::Container::draw(graphics);
 

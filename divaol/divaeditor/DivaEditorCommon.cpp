@@ -1,4 +1,6 @@
+
 #include "divaeditor/DivaEditorCommon.h"
+
 #include "divacore/Core/DivaCore.h"
 
 
@@ -190,5 +192,64 @@ namespace divaeditor
 		for(int i=0;i<str.length();i++)
 			if(str[i]>=L'A'&&str[i]<=L'Z')
 				str[i] = str[i] + (L'a'-L'A');
+	}
+
+	std::wstring secondToTimeWstr(float second)
+	{
+		int secondI = second;
+		int hour = secondI / 3600;
+		secondI %= 3600;
+		int minute = secondI / 60;
+		secondI %= 60;
+
+		std::wstring hourStr = iToWS(hour),minuteStr = iToWS(minute),secondStr = iToWS(secondI);
+		std::wstring ret = L"";
+		if(hour>0)
+		{
+			if(hourStr.length()==1)
+				hourStr = L'0' + hourStr;
+			ret = hourStr + L':';
+		}
+		if(minuteStr.length()==1)
+			minuteStr = L'0'+minuteStr;
+		ret = ret+minuteStr + L':';
+		if(secondStr.length()==1)
+			secondStr = L'0'+secondStr;
+		ret = ret+secondStr;
+
+		return ret;
+	}
+
+	std::string to_utf8(const wchar_t* buffer, int len)
+	{
+		int nChars = ::WideCharToMultiByte(
+			CP_UTF8,
+			0,
+			buffer,
+			len,
+			NULL,
+			0,
+			NULL,
+			NULL);
+		if (nChars == 0) return "";
+
+		std::string newbuffer;
+		newbuffer.resize(nChars) ;
+		::WideCharToMultiByte(
+			CP_UTF8,
+			0,
+			buffer,
+			len,
+			const_cast< char* >(newbuffer.c_str()),
+			nChars,
+			NULL,
+			NULL); 
+
+		return newbuffer;
+	}
+
+	std::string to_utf8(const std::wstring& str)
+	{
+		return to_utf8(str.c_str(), (int)str.size());
 	}
 }

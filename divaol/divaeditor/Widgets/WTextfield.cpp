@@ -1,4 +1,7 @@
-#include "divaeditor/DivaEditorScene/DivaEditorWTextfield.h"
+
+//#include <Windows.h>
+
+#include "divaeditor/Widgets/WTextfield.h"
 #include "divaeditor/DivaEditorMapData.h"
 #include "divaeditor/DivaEditorCommon.h"
 
@@ -9,8 +12,6 @@
 #include "guichan/graphics.hpp"
 #include "guichan/key.hpp"
 #include "guichan/mouseinput.hpp"
-
-#include <Windows.h>
 
 namespace gcn
 {
@@ -154,6 +155,12 @@ namespace gcn
 	void WTextField::keyPressed(KeyEvent& keyEvent)
 	{
 		Key key = keyEvent.getKey();
+
+		if(key.getValue() == Key::ESCAPE)  //Lost focus
+		{
+			setFocusable(false);
+			setFocusable(true);
+		}
 
 		if (key.getValue() == Key::LEFT && mCaretPosition > 0)
 		{

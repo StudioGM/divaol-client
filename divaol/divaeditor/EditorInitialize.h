@@ -3,8 +3,8 @@
 
 
 #include "DivaEditor.h"
-#include "divacore/Core/DivaCore.h"
 
+#include "divacore/Core/DivaCore.h"
 
 namespace divaeditor
 {
@@ -18,9 +18,8 @@ namespace divaeditor
 			//divacore::CorePtr core = divacore::standard::initialize("system");
 
 			EditorPtr editor = INITIALIZE_EDITOR;
-			editor->registerDivaCore(core);
+			editor->initDivaCoreForEditor();
 			
-
 			return editor;
 		}
 	}
