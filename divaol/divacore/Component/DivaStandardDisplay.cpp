@@ -86,6 +86,14 @@ namespace divacore
 	{
 		for(VIDEOPOOL::iterator ptr = videoPool.begin(); ptr != videoPool.end(); ptr++)
 		{
+			if(ptr->second.first->isStopped())
+			{
+				//vlc can not replay before stopped
+				ptr->second.first->openMedia();
+				ptr->second.first->play();
+				while(ptr->second.first->isPlaying())
+					msleep(1),ptr->second.first->pause();
+			}
 			ptr->second.first->setTime(0);
 			ptr->second.first->pause();
 		}
@@ -150,6 +158,7 @@ namespace divacore
         moviePlayer->play();
 		while(moviePlayer->isPlaying())
 			msleep(1),moviePlayer->pause();
+		moviePlayer->setTime(0);
 		
 		videoPool[ID] = std::make_pair<sora::SoraVlcMoviePlayer*,sora::SoraSprite*>(moviePlayer,sprite);
 	}
@@ -254,6 +263,10 @@ namespace divacore
 			ptr->second->update(dt);
 		for(SPRITELIST::iterator ptr = spriteList.begin(); ptr != spriteList.end(); ptr++)
 			(*ptr)->update(dt);
+
+		for(VIDEOPLAYING::iterator ptr = videoPlaying.begin(); ptr != videoPlaying.end(); ptr++)
+			videoPool[*ptr].first->onUpdate(dt);
+
 		for(VIDEOPLAYING::iterator ptr = videoPlaying.begin(); ptr != videoPlaying.end(); ptr++)
 			if(videoPool[*ptr].first->isStopped())
 			{
@@ -279,6 +292,7 @@ namespace divacore
 			DIVA_EXCEPTION_MODULE("Video "+ID+" does not exists","DivaDisplay");
 		VIDEOPAIR pair = videoPool[ID];
 		uint64 length = pair.first->getLength();
+
 		pair.first->setTime(time*1000);
 	}
 

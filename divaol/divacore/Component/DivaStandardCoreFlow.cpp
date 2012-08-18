@@ -346,7 +346,7 @@ namespace divacore
 		static const float bufferTime = 0.01;
 
 		MUSIC_MANAGER_PTR->setPosition(MAIN_SOUND_CHANNEL,time-bufferTime);
-		LOGGER->log("%.3f",CORE_PTR->getRealTime());
+		//LOGGER->log("%.3f",CORE_PTR->getRealTime());
 		msleep(bufferTime*1000);
 
 		if(state==PAUSE)
@@ -430,7 +430,12 @@ namespace divacore
 					lastStamp = SCF_TimeStamp(event.time,event.position,SCF_TimeStamp::EVENT,i);
 			}
 			else
+			{
+				ARGUMENTS::iterator locPtr = event.arg.find("__location__");
+				if(locPtr!=event.arg.end())
+					event.arg.erase(locPtr);
 				timeQueue.push(SCF_TimeStamp(event.time,event.position,SCF_TimeStamp::EVENT,i));
+			}
 		}
 
 		MUSIC_MANAGER_PTR->play(mainSound,MAIN_SOUND_CHANNEL);
