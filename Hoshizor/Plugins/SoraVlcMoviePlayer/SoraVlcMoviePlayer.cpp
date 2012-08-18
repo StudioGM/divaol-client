@@ -96,7 +96,8 @@ namespace sora {
     evtManager(0), 
     videoWidth(0), 
     videoHeight(0),
-    mTexture(0) {
+    mTexture(0),
+	mIsPaused(true){
         const char* vlc_argv[] = {
             "--plugin-path=./Plugins",
             "--ignore-config",
@@ -121,11 +122,20 @@ namespace sora {
             libvlc_release(vlcInstance);
     }
     
+	bool SoraVlcMoviePlayer::openMedia()
+	{
+		if(mFilePath=="")
+			return false;
+		return openMedia(mFilePath);
+	}
+
     bool SoraVlcMoviePlayer::openMedia(const StringType& filePath) {
         if(!vlcInstance)
             return false;
 
         if(media) { libvlc_media_release(media); }
+
+		mFilePath = filePath;
 
 		media = libvlc_media_new_path(vlcInstance, divacore::GBKToUTF8(filePath).c_str());
 		
@@ -209,6 +219,8 @@ namespace sora {
 		frameData.bStopped = false;
 		frameData.bPlaying = true;
         libvlc_media_player_play(mp);
+
+		mIsPaused = false;
     }
     
     void SoraVlcMoviePlayer::resume() {
@@ -218,18 +230,24 @@ namespace sora {
         libvlc_media_player_set_pause(mp, 0);
         frameData.bPlaying = true;
         frameData.bPaused = false;
+
+		mIsPaused = false;
     }
     
     void SoraVlcMoviePlayer::stop() {
         if(!isPlaying()) return;
 
         libvlc_media_player_stop(mp);
+
+		mIsPaused = true;
     }
     
     void SoraVlcMoviePlayer::pause() {
         if(!isPlaying()) return;
 
         libvlc_media_player_pause(mp);
+
+		mIsPaused = true;
     }
     
     void SoraVlcMoviePlayer::setVolume(int32 vol) {
@@ -268,7 +286,8 @@ namespace sora {
     }
     
     void SoraVlcMoviePlayer::setTime(uint64 newtime) {
-        if(!isPlaying()) return;
+        //while(!isPlaying()) 
+		//	Sleep(1),resume();
         
         if(newtime > getLength()) newtime = getLength();
         
@@ -371,5 +390,14 @@ namespace sora {
             }
             sora::SoraTexture::PutData(mTexture);
         }
+
+		//fix stupid bug
+		if(isPlaying()==mIsPaused)
+		{
+			if(mIsPaused)
+				pause();
+			else
+				resume();
+		}
     }
 } // namespace sora

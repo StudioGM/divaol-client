@@ -59,6 +59,7 @@ namespace sora {
 		~SoraVlcMoviePlayer();
         
         bool openMedia(const StringType& filePath);
+		bool openMedia();
         void play();
         void stop();
         void pause();
@@ -102,6 +103,8 @@ namespace sora {
         void setMediaInfo(uint32 w, uint32 h);
     private:
 
+		StringType mFilePath;
+
         libvlc_instance_t* vlcInstance;
         libvlc_media_player_t* mp;
         libvlc_media_t* media;
@@ -113,6 +116,8 @@ namespace sora {
 		std::string displayFormat;
         
         SoraTextureHandle mTexture;
+
+		bool mIsPaused;
     };
     
 } // namesapce sora

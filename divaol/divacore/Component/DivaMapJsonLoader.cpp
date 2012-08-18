@@ -51,6 +51,9 @@ namespace divacore
 		else
 			DIVA_EXCEPTION_MODULE(reader.getFormatedErrorMessages(),"MapLoader");
 
+		if(cdata)
+			free((void*)cdata);
+
 		return mapInfo;
 	}
 

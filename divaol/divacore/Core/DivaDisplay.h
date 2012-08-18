@@ -42,6 +42,8 @@ namespace divacore
 
 		virtual void setVideoTime(const std::string &ID, double time) {}
 		virtual float getVideoTime(const std::string &ID) {return 0;}
+		virtual bool getImageSize(const std::string &label, float &width, float &height) = 0;
+		virtual bool getVideoSize(const std::string &ID, float &width, float &height) = 0;
 	};
 
 	typedef Display* DisplayPtr;
