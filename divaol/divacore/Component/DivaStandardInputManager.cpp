@@ -52,8 +52,6 @@ namespace divacore
 		KeyEvent _event;
 		_event.key = originToKey(event.getKey());
 
-		HOOK_MANAGER_PTR->hook(_event);
-
 		if(!HOOK_MANAGER_PTR->hook(_event)||!HOOK_MANAGER_PTR->hookInfo())
 		{
 			Core::Ptr->getCoreFlow()->onKeyPressed(_event);
