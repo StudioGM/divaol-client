@@ -38,15 +38,12 @@ namespace divaeditor
         // Inherited from MouseListener
         virtual void mousePressed(gcn::MouseEvent& mouseEvent);
         virtual void mouseReleased(gcn::MouseEvent& mouseEvent);
-        virtual void mouseEntered(gcn::MouseEvent& mouseEvent){}
-        virtual void mouseExited(gcn::MouseEvent& mouseEvent){}
+        virtual void mouseEntered(gcn::MouseEvent& mouseEvent){isMouseOn=true;}
+        virtual void mouseExited(gcn::MouseEvent& mouseEvent){isMouseOn=false;}
         virtual void mouseDragged(gcn::MouseEvent& mouseEvent);
+		virtual void mouseMoved(gcn::MouseEvent& mouseEvent);
 
 
-        // Inherited from KeyListener
-        virtual void keyPressed(gcn::KeyEvent& keyEvent){}
-        virtual void keyReleased(gcn::KeyEvent& keyEvent){}
-        //virtual bool isHasMouse() const{return true;}
 
 		//Public functions
 		void setMaxGridHeightFactor(float factor);
@@ -56,13 +53,15 @@ namespace divaeditor
 
     protected:
 
+		int findNoteByMousePos(int x,int y);
+
 		float _selectedBegin,_selectedEnd;
 		float _maxGridHeightFactor;
-		bool isSelecting;
+		bool isSelecting,isDraggingNote;
 
-		int nowMouseXPos;
+		int nowMouseXPos,nowMouseYPos;
 
-		
+		bool isMouseOn;
 
     };
 }

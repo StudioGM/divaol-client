@@ -135,6 +135,7 @@ namespace divaeditor
 
 		int checkNoteExists(int pos, int pressType, std::string noteType);
 
+		int findFirstBiggerPositionNoteIndex(int pos);
 		void findNoteIndexInRange(int leftPos, int rightPos, int &beginIndex, int &endIndex);
 		int findNoteToSelectByPos(int position,int x,int y);
 		std::vector<int> findNoteToSelectByRange(int position,int leftUpX,int leftUpY,int rightDownX,int rightDownY);
@@ -142,6 +143,8 @@ namespace divaeditor
 		gcn::Rectangle findSelectedAreaRectange();
 
 		int getNoteTypeFromKeyPress(char keyPress, bool arrow);
+		int getNoteTypeIndexFromNoteType(int noteType);
+		int getNoteTypeFromNoteTypeIndex(int noteTypeIndex);
 
 	public:
 

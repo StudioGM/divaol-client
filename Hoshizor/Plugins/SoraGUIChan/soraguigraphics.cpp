@@ -183,10 +183,11 @@ namespace gcn
         float x2 = (float)rectangle.x + rectangle.width;
         float y2 = (float)rectangle.y + rectangle.height;
         
-        sora->renderLine(x1, y1, x2, y1+1.f, mHardwareColor, GUI_Z);
-        sora->renderLine(x2, y1, x2+1.f, y2, mHardwareColor, GUI_Z);
-        sora->renderLine(x2, y2, x1, y2+1.f, mHardwareColor, GUI_Z);
-        sora->renderLine(x1, y2, x1+1.f, y1, mHardwareColor, GUI_Z);
+		drawLine(x1,y1,x2,y1);
+		drawLine(x2,y1,x2,y2);
+		drawLine(x2,y2,x1,y2);
+		drawLine(x1,y2,x1,y1);
+        
     }
 
     void SoraGUIGraphics::fillRectangle(const Rectangle &rectangle) {

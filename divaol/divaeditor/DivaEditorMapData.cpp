@@ -236,6 +236,38 @@ namespace divaeditor
 
 		return type;
 	}
+	int DivaEditorMapData::getNoteTypeIndexFromNoteType(int noteType)
+	{
+		noteType%=8;
+
+		int toAdd = noteType/4;
+		noteType%=4;
+
+		if(noteType==0) //d, return 3
+			return 3+toAdd*4;
+		else if(noteType==1) //a, return 1
+			return 1+toAdd*4;
+		else if(noteType==2) //s, return 2
+			return 2+toAdd*4;
+		else if(noteType==3) //w, return 0
+			return toAdd*4;
+	}
+	int DivaEditorMapData::getNoteTypeFromNoteTypeIndex(int noteTypeIndex)
+	{
+		noteTypeIndex%=8;
+
+		int toAdd = noteTypeIndex/4;
+		noteTypeIndex%=4;
+
+		if(noteTypeIndex==0) //w, return 3
+			return 3+toAdd*4;
+		else if(noteTypeIndex==1) //a, return 1
+			return 1+toAdd*4;
+		else if(noteTypeIndex==2) //s, return 2
+			return 2+toAdd*4;
+		else if(noteTypeIndex==3) //d, return 0
+			return toAdd*4;
+	}
 
 
 	divacore::MapNote DivaEditorMapData::initNote(int pos, char keyPress, bool arrow, int x, int y, int tailX, int tailY, std::string noteType, int key)
@@ -441,6 +473,14 @@ namespace divaeditor
 				ret.height = ret.y;
 		}
 		return ret;
+	}
+
+	int DivaEditorMapData::findFirstBiggerPositionNoteIndex(int pos)
+	{
+		if(coreInfoPtr->notes.size()==0) return -1;
+
+		int pLeft = 0, pRight = coreInfoPtr->notes.size();
+		return pLeft;
 	}
 
 	void DivaEditorMapData::findNoteIndexInRange(int leftPos, int rightPos, int &beginIndex, int &endIndex)

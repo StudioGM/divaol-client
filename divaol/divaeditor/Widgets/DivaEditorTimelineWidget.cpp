@@ -23,7 +23,9 @@ namespace divaeditor
 	Timeline::Timeline()
 		:_selectedBegin(-1),
 		isSelecting(false),
-		_maxGridHeightFactor(0.5)
+		_maxGridHeightFactor(0.5),
+		isMouseOn(false),
+		isDraggingNote(false)
 		//_selectedChanged(sora::SoraFunction<void(float,float)>())
 	{
 		setFocusable(true);
@@ -39,7 +41,6 @@ namespace divaeditor
 
 	void Timeline::draw(gcn::Graphics* graphics)
 	{
-
 		gcn::Color backGroundColor = getBackgroundColor();
 		gcn::Color selectColor = backGroundColor;
 		selectColor.r = 255-selectColor.r;
@@ -50,6 +51,13 @@ namespace divaeditor
 		static const gcn::Color stopColor = gcn::Color(255,0,0,100);
 		static const gcn::Color bpmLineColor = gcn::Color(255,0,0,255);
 		static const gcn::Color beatNumColor = gcn::Color(0,255,0,255);
+
+		static const gcn::Color noteColors[4] = {gcn::Color(222,0,255),
+													gcn::Color(222,0,15),
+													gcn::Color(11,177,255),
+													gcn::Color(0,222,15)};
+
+		static const gcn::Color mouseLine = gcn::Color(255,255,0,255);
 
 		float width = getWidth();
 		float height = getHeight();
@@ -64,6 +72,8 @@ namespace divaeditor
 		float leftPos = CORE_PTR->getRunPosition() - rangeGridNum/2 + mapBeginOffSet;
 		float rightPos = leftPos + rangeGridNum;
 
+		const float noteBlockSize = height*0.1;
+
 		//float leftPos = CORE_PTR->getRunPosition();
 
 		//Draw background color
@@ -72,6 +82,43 @@ namespace divaeditor
 
 #pragma region Draw Notes		
 
+		//int noteBeginToDraw,noteEndToDraw;
+		//EDITOR_PTR->mapData->findNoteIndexInRange(leftPos, rightPos, noteBeginToDraw, noteEndToDraw);
+		for (int i=0;i<EDITOR_PTR->mapData->coreInfoPtr->notes.size();i++)
+		{
+			divacore::MapNote &thisNote = EDITOR_PTR->mapData->coreInfoPtr->notes[i];
+			if(thisNote.notePoint[0].position > rightPos) break;
+
+			if(thisNote.notePoint.size()==1 && thisNote.notePoint[0].position >= leftPos && thisNote.notePoint[0].position <= rightPos)
+			{
+				float drawPos =  ((float)thisNote.notePoint[0].position -leftPos)/rangeGridNum * width;
+				int noteTypeIndex = EDITOR_PTR->mapData->getNoteTypeIndexFromNoteType(thisNote.notePoint[0].type);
+
+				gcn::Rectangle toDraw(drawPos-noteBlockSize/2,noteBlockSize*noteTypeIndex,noteBlockSize,noteBlockSize);
+
+				graphics->setColor(noteColors[noteTypeIndex%4]);
+				graphics->fillRectangle(toDraw);
+
+				toDraw.width-=1;
+				toDraw.height-=1;
+
+				graphics->setColor(lineColor);
+				graphics->drawRectangle(toDraw);
+			}
+			else if(thisNote.notePoint.size()==2 && ((thisNote.notePoint[0].position >= leftPos && thisNote.notePoint[0].position <= rightPos)
+				                                   || (thisNote.notePoint[1].position >= leftPos && thisNote.notePoint[1].position <= rightPos)))
+			{
+				float leftDrawPos = ((float)thisNote.notePoint[0].position -leftPos)/rangeGridNum * width;
+				float rightDrawPos = ((float)thisNote.notePoint[1].position -leftPos)/rangeGridNum * width;
+				int noteTypeIndex = EDITOR_PTR->mapData->getNoteTypeIndexFromNoteType(thisNote.notePoint[0].type);
+
+				if(leftDrawPos<0) leftDrawPos=0;
+				if(rightDrawPos>width) rightDrawPos=width;
+
+				graphics->setColor(noteColors[noteTypeIndex%4]);
+				graphics->fillRectangle(gcn::Rectangle(leftDrawPos,noteBlockSize*noteTypeIndex,(rightDrawPos-leftDrawPos+1),noteBlockSize));
+			}
+		}
 
 
 #pragma endregion Draw Notes
@@ -214,7 +261,29 @@ namespace divaeditor
 		graphics->setColor(lineColor);
 		graphics->drawLine((int(width)>>1)-1,0,(int(width)>>1)-1,height-1);
 		graphics->drawLine((int(width)>>1)+1,0,(int(width)>>1)+1,height-1);
+
 		graphics->drawLine(0,height-1,width,height-1);
+
+		
+		
+		if(isMouseOn)
+		{
+			float mouseGrid = EDITOR_PTR->mapData->getNearestStandardGrid((float)nowMouseXPos/width * rangeGridNum+leftPos, EDITCONFIG->getGridToShowPerBeat());
+			int mouseGridXPos = (mouseGrid-leftPos)/rangeGridNum*width;
+
+			graphics->setColor(mouseLine);
+
+			if( (float)nowMouseYPos < height*0.8)
+			{
+				int mouseGridYPos = ((float)nowMouseYPos/(height*0.8))*8;
+
+				int mouseYPosToDraw = ((float)mouseGridYPos*0.1+0.05)*height;
+				graphics->drawLine(0,mouseYPosToDraw,width-1,mouseYPosToDraw);
+			}
+			
+			graphics->drawLine(mouseGridXPos,0,mouseGridXPos,height-1);
+		}
+		
 
 #pragma endregion Draw Now Line
 
@@ -225,30 +294,57 @@ namespace divaeditor
 
 	void Timeline::mousePressed(gcn::MouseEvent& mouseEvent)
 	{
-		isSelecting = false;
 		nowMouseXPos = mouseEvent.getX();
+		nowMouseYPos = mouseEvent.getY();
+
+		isSelecting = false;
+		isDraggingNote = false;
 	}
 
 	void Timeline::mouseDragged(gcn::MouseEvent& mouseEvent)
 	{
-		if(!isSelecting)
+		nowMouseXPos = mouseEvent.getX();
+		nowMouseYPos = mouseEvent.getY();
+
+		if(isDraggingNote)
 		{
+
+		}
+		else if(!isSelecting)
+		{
+			//Check if is dragging a note
+
+
 			isSelecting = true;
 			_selectedBegin = (float(mouseEvent.getX()) / float(getWidth()) - 0.5) 
 								* float(EDITCONFIG->getBeatNumberPerScreen())*EDITCONFIG->getShowRangeScale() * EDITCONFIG->GridPerBeat + CORE_PTR->getRunPosition();
 		}
+	}
+
+	void Timeline::mouseMoved(gcn::MouseEvent& mouseEvent)
+	{
 		nowMouseXPos = mouseEvent.getX();
+		nowMouseYPos = mouseEvent.getY();
 	}
 
 	void Timeline::mouseReleased(gcn::MouseEvent& mouseEvent)
 	{
+		nowMouseXPos = mouseEvent.getX();
+		nowMouseYPos = mouseEvent.getY();
+
 		if(isSelecting)
 			isSelecting = false;
 		else
 		{
+			//Check if is selecting note
+			bool tryToSelectNote=true;
+
+
+
+			//Else set position
 
 		}
-		nowMouseXPos = mouseEvent.getX();
+		
 	}
 
 
@@ -256,5 +352,35 @@ namespace divaeditor
 	{
 		_maxGridHeightFactor = factor;
 	}
+
+
+	int Timeline::findNoteByMousePos(int x,int y)
+	{
+		float width = getWidth();
+		float height = getHeight();
+
+		int GridPerBeat = EDITCONFIG->GridPerBeat;
+		int _beatNumberPerScreen = EDITCONFIG->getBeatNumberPerScreen();
+		int _gridToShowPerBeat = EDITCONFIG->getGridToShowPerBeat();
+		float _showRangeFactor = EDITCONFIG->getShowRangeScale();
+
+		float rangeGridNum = float(_beatNumberPerScreen)*_showRangeFactor * GridPerBeat;
+		float mapBeginOffSet = 0;
+		float leftPos = CORE_PTR->getRunPosition() - rangeGridNum/2 + mapBeginOffSet;
+		float rightPos = leftPos + rangeGridNum;
+
+		const float noteBlockSize = height*0.1;
+
+		//int typeToFind = EDITOR_PTR->mapData->getNoteTypeFromNoteTypeIndex( nowMouseYPos )
+
+		return 0;
+	}
+
+
+
+
+
+
+
 
 }
