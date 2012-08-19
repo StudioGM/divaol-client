@@ -20,11 +20,12 @@ namespace divacore
 		Argument::addDefaultArg("width",0.0,argnew);
 		Argument::addDefaultArg("height",0.0,argnew);
 
-		playVideo(Argument::asString("id",argnew),Argument::asFloat("x",argnew),Argument::asFloat("y",argnew),Argument::asFloat("width",argnew),Argument::asFloat("height",argnew));
-
 		if(Argument::isArg("__location__",argnew))
 			setVideoTime(Argument::asString("id",argnew),Argument::asDouble("__location__",argnew)+0.2);
-	
+		else
+			setVideoTime(Argument::asString("id",argnew),0);
+
+		playVideo(Argument::asString("id",argnew),Argument::asFloat("x",argnew),Argument::asFloat("y",argnew),Argument::asFloat("width",argnew),Argument::asFloat("height",argnew));
      }
 	void StandardDisplay::displayImage(ARGUMENTS &arg)
 	{
@@ -94,7 +95,7 @@ namespace divacore
 				while(ptr->second.first->isPlaying())
 					msleep(1),ptr->second.first->pause();
 			}
-			ptr->second.first->setTime(0);
+			//ptr->second.first->setTime(0);
 			ptr->second.first->pause();
 		}
 		videoPlaying.clear();

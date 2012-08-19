@@ -199,7 +199,8 @@ namespace divacore
 		}
 		else if(event.getKey()==SORA_KEY_R)
 		{
-			MUSIC_MANAGER_PTR->setPosition("__MAIN_SOUND__",CORE_FLOW_PTR->getTotalTime());
+			StandardEditUtility::instance().init();
+			StandardEditUtility::instance().refreshAll();
 		}
 		/*else if(event.getKey()==SORA_KEY_D)
 		{
