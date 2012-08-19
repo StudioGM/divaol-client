@@ -45,6 +45,7 @@ namespace divacore
 		noteList.clear();
 		timeCounter.reset();
 		mainSound = "";
+		mIsFinish = true;
 
 		state = INIT;
 	}
@@ -74,6 +75,8 @@ namespace divacore
 		mainSound = MAP_INFO->header.mainSound;
 
 		state = READY;
+
+		mIsFinish = false;
 	}
 	void StandardCoreFlow::destroy()
 	{
@@ -116,8 +119,12 @@ namespace divacore
 			if(!actived/*nowTime>=totalTime*/)
 			{
 				// flow back 0.5s to have a buffer, otherwise it will cause a thread confliction so that the music will back to 0
-				MUSIC_MANAGER_PTR->setPosition(MAIN_SOUND_CHANNEL,totalTime-0.5);
+				//MUSIC_MANAGER_PTR->setPosition(MAIN_SOUND_CHANNEL,totalTime-5);
+				//float tmp = MUSIC_MANAGER_PTR->getPosition(MAIN_SOUND_CHANNEL);
 				//endTask
+
+				mIsFinish = true;
+
 				endTask.start();
 
 				if(state!=PAUSE)
@@ -223,14 +230,16 @@ namespace divacore
 		{
 			state = PAUSE;
 			timeCounter.pause();
+			MUSIC_MANAGER_PTR->pause();
 		}
 	}
 	void StandardCoreFlow::resume()
 	{
-		if(state==PAUSE)
+		if(state==PAUSE&&!mIsFinish)
 		{
 			state = RUN;
 			timeCounter.resume();
+			MUSIC_MANAGER_PTR->resume();
 		}
 	}
 	bool StandardCoreFlow::toFail(uint32 uid)
@@ -324,10 +333,23 @@ namespace divacore
 	_locate(time,_timeToPos(time));
 	}*/
 
-	void StandardCoreFlow::_locate(double position, float time)
+	void StandardCoreFlow::_locate(double position, double time)
 	{
 		if(CORE_PTR->getMode()!="editMode")
 			return;
+		if(time>totalTime) 
+			time = totalTime;
+		if(position>totalGrid) 
+			position = totalGrid;
+
+		//because it will cause some strange bug when relocate at final point, so refuse it
+		if(time>=MUSIC_MANAGER_PTR->getLength(MAIN_SOUND_CHANNEL))
+			if(mIsFinish)
+				return;
+			else
+				mIsFinish = true;
+		else
+			mIsFinish = false;
 
 		timeQueue = TIME_QUEUE();
 
@@ -341,21 +363,23 @@ namespace divacore
 
 		//final point
 		timeQueue.push(SCF_TimeStamp(totalTime,totalGrid,SCF_TimeStamp::SYSTEM,0));
-
+		
 		//由于音频多线程缓冲，所以setPosition之后的pause会出现时间混乱的情况，故缓冲一段时间，实属下策
-		static const float bufferTime = 0.01;
-
-		MUSIC_MANAGER_PTR->setPosition(MAIN_SOUND_CHANNEL,time-bufferTime);
+		//static const float bufferTime = 0.01;
+		//msleep(bufferTime*1000);
+		MUSIC_MANAGER_PTR->setPosition(MAIN_SOUND_CHANNEL,time);
+		float tmp = MUSIC_MANAGER_PTR->getPosition(MAIN_SOUND_CHANNEL);
 		//LOGGER->log("%.3f",CORE_PTR->getRealTime());
-		msleep(bufferTime*1000);
+		//msleep(bufferTime*1000);
 
 		if(state==PAUSE)
 		{
 			//CORE_PTR->resume();
 			//MUSIC_MANAGER_PTR->update();
-
+			state = RUN;
 			CORE_PTR->pause();
-			LOGGER->log("%.3f",CORE_PTR->getRealTime());
+			state = PAUSE;
+			//LOGGER->log("%.3f",CORE_PTR->getRealTime());
 		}
 
 		else
@@ -441,7 +465,7 @@ namespace divacore
 		MUSIC_MANAGER_PTR->play(mainSound,MAIN_SOUND_CHANNEL);
 	}
 
-    float StandardCoreFlow::_posToTime(double position)
+    double StandardCoreFlow::_posToTime(double position)
 	{
 		SCF_TimeStamp left = SCF_TimeStamp(0,0,0,0),right = SCF_TimeStamp(totalTime,totalGrid,0,0);
 
@@ -460,7 +484,7 @@ namespace divacore
 		else
 			return left.time+(right.time-left.time)*(position-left.position)/(right.position-left.position);
 	}
-	double StandardCoreFlow::_timeToPos(float time)
+	double StandardCoreFlow::_timeToPos(double time)
 	{
 		SCF_TimeStamp left = SCF_TimeStamp(0,0,0,0),right = SCF_TimeStamp(totalTime,totalGrid,0,0);
 
@@ -503,7 +527,7 @@ namespace divacore
 		coreFlow->_locate(position,coreFlow->_posToTime(position));
 	}
 
-	void StandardEditUtility::setTime(float time)
+	void StandardEditUtility::setTime(double time)
 	{
 		if(CORE_PTR->getMode()!="editMode")
 			return;

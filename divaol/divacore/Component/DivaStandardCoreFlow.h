@@ -65,6 +65,8 @@ namespace divacore
 		//position
 		SCF_TimeStamp lastStamp;
 		double nowPosition;
+		
+		bool mIsFinish;
 
 		TimeCounter timeCounter;	
 
@@ -95,9 +97,9 @@ namespace divacore
 		
 		//edit functions
 	private:
-		float _posToTime(double position);
-		double _timeToPos(float time);
-		void _locate(double position, float time);
+		double _posToTime(double position);
+		double _timeToPos(double time);
+		void _locate(double position, double time);
 		void _reloadNotes();
 		void _reloadEvents();
 	public:
@@ -127,7 +129,7 @@ namespace divacore
 	public:
 		static StandardEditUtility& instance() {static StandardEditUtility instance; return instance;}
 		void init();
-		void setTime(float time);
+		void setTime(double time);
 		void setPosition(double position);
 		void sync() {refreshAll();}
 		void refreshAll();
@@ -140,8 +142,8 @@ namespace divacore
 		void insert(MapNote note, size_t index, bool isRefresh = true);
 		void append(MapNote note, bool isRefresh = true);
 		void delNote(int index);
-		float posToTime(double position) {return coreFlow->_posToTime(position);}
-		double timeToPos(float time) {return coreFlow->_timeToPos(time);}
+		double posToTime(double position) {return coreFlow->_posToTime(position);}
+		double timeToPos(double time) {return coreFlow->_timeToPos(time);}
 	};
 
 	typedef CoreFlow* CoreFlowPtr;

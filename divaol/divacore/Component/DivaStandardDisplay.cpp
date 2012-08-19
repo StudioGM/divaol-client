@@ -265,9 +265,6 @@ namespace divacore
 			(*ptr)->update(dt);
 
 		for(VIDEOPLAYING::iterator ptr = videoPlaying.begin(); ptr != videoPlaying.end(); ptr++)
-			videoPool[*ptr].first->onUpdate(dt);
-
-		for(VIDEOPLAYING::iterator ptr = videoPlaying.begin(); ptr != videoPlaying.end(); ptr++)
 			if(videoPool[*ptr].first->isStopped())
 			{
 				videoPlaying.erase(*ptr);

@@ -67,7 +67,7 @@ namespace divacore
 		void pause(const std::string &channel) {getChannel(channel)->setPaused(true);}
 		void resume(const std::string &channel) {getChannel(channel)->setPaused(false);}
 		void setPosition(const std::string &channel,double time);
-		float getPosition(const std::string &channel);
+		double getPosition(const std::string &channel);
 		double getLength(const std::string &channel);
 
 		void pause();

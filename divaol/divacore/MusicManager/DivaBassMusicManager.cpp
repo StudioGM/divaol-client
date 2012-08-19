@@ -250,9 +250,20 @@ namespace divacore
 	}
 	void BassMusicManager::setPosition(const std::string &channel,double time)
 	{
-		BASS_ChannelSetPosition(getChannel(channel),BASS_ChannelSeconds2Bytes(getChannel(channel),time),BASS_POS_BYTE);
+		//8-19
+		double totalTime = getLength(channel);
+		//when posite at final, bass won't do anything, so deal it myself
+		if(time>=totalTime)
+		{
+			//can't posite at totalTime
+			BASS_ChannelSetPosition(getChannel(channel),BASS_ChannelSeconds2Bytes(getChannel(channel),totalTime-0.01),BASS_POS_BYTE);
+			if((BASS_ChannelFlags(getChannel(channel), 0, 0)&BASS_SAMPLE_LOOP)<=0)
+				::BASS_ChannelStop(getChannel(channel));
+		}
+		else
+			BASS_ChannelSetPosition(getChannel(channel),BASS_ChannelSeconds2Bytes(getChannel(channel),time),BASS_POS_BYTE);
 	}
-	float BassMusicManager::getPosition(const std::string &channel) {
+	double BassMusicManager::getPosition(const std::string &channel) {
 		try
 		{
 			HCHANNEL hChannel = getChannel(channel);

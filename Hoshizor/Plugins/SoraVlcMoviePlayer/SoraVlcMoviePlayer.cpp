@@ -117,7 +117,10 @@ namespace sora {
     
     SoraVlcMoviePlayer::~SoraVlcMoviePlayer() {
 		if(mp)
+		{
 			libvlc_media_player_release(mp);
+			mp = 0;
+		}
         if(vlcInstance)
             libvlc_release(vlcInstance);
     }
@@ -126,6 +129,7 @@ namespace sora {
 	{
 		if(mFilePath=="")
 			return false;
+		//mp = 0;
 		return openMedia(mFilePath);
 	}
 
@@ -161,7 +165,8 @@ namespace sora {
 			libvlc_event_attach(evtManager, libvlc_MediaPlayerPositionChanged, eventHandle, &frameData);
 		}
         libvlc_media_release(media);
-		
+		media = 0;
+
 		displayFormat = "RGBA";
 #ifdef OS_WIN32
         displayFormat = "RV32";

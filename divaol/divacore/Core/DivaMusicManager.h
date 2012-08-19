@@ -42,7 +42,7 @@ namespace divacore
 		virtual void pause(const std::string &channel)= 0;
 		virtual void resume(const std::string &channel) = 0;
 		virtual void setPosition(const std::string &channel,double time) {}
-		virtual float getPosition(const std::string &channel) {return 0;}
+		virtual double getPosition(const std::string &channel) {return 0;}
 		virtual double getLength(const std::string &channel) {return 0;}
 		virtual void pause() = 0;
 		virtual void resume() = 0;
