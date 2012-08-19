@@ -347,7 +347,10 @@ namespace divacore
 			if(mIsFinish)
 				return;
 			else
+			{
 				mIsFinish = true;
+				CORE_PTR->pause();
+			}
 		else
 			mIsFinish = false;
 
