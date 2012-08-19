@@ -183,7 +183,19 @@ namespace divacore
 	}
 	void FmodMusicManager::setPosition(const std::string &channel,double time)
 	{
-		getChannel(channel)->setPosition(time*1000,FMOD_TIMEUNIT_MS);
+		uint32 length;
+		FMOD::Sound *currentSound = NULL;
+		FMOD::Channel *currentChannel = getChannel(channel);
+		currentChannel->getCurrentSound(&currentSound);
+		currentSound->getLength(&length,FMOD_TIMEUNIT_MS);
+
+		if(time*1000>=length)
+		{
+			currentChannel->setPosition(length-1,FMOD_TIMEUNIT_MS);
+			currentChannel->setPaused(true);
+		}
+		else
+			getChannel(channel)->setPosition(time*1000,FMOD_TIMEUNIT_MS);
 	}
 	double FmodMusicManager::getPosition(const std::string &channel)
 	{

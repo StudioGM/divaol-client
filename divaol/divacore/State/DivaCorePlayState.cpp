@@ -185,7 +185,7 @@ namespace divacore
 		{
 			StandardEditUtility::instance().init();
 
-			StandardEditUtility::instance().setPosition(CORE_FLOW_PTR->getTotalPosition()-1);
+			StandardEditUtility::instance().setPosition(CORE_FLOW_PTR->getTotalPosition());
 		}
 		else if(event.getKey()==SORA_KEY_X)
 		{
