@@ -243,18 +243,24 @@ namespace divaeditor
 
 			rootJsonValue[L"resource"] = resourceListJsonValue;
 #pragma endregion resource
-			/*
-			std::string jsonStrToSave = to_utf8(writer.write(rootJsonValue));
 
-			locale &loc=locale::global(locale(locale(),"",LC_CTYPE));
-			std::wofstream outFile(workingDirectory+L"/"+workingDivaOLFile);
-			locale::global(loc);
+			/*
+			FILE* writeFile;
+			
+			if(_wfopen_s(&writeFile, (workingDirectory+L"/"+workingDivaOLFile).c_str(),L"rw, ccs=UTF-8")!=0)
+				return false;
+			fwprintf(writeFile,L"%s",writer.write(rootJsonValue).c_str());
+
+			fclose(writeFile);
 			*/
+
+			
 			std::string jsonStrToSave = to_utf8(writer.write(rootJsonValue));
 			std::ofstream outFile(workingDirectory+L"/"+workingDivaOLFile);
 
 			outFile << jsonStrToSave;
 			outFile.close();
+			
 		}
 #pragma endregion Save DivaOL Play File
 		
@@ -319,18 +325,23 @@ namespace divaeditor
 
 #pragma endregion editor info
 
-			/*
-			std::wstring jsonStrToSave = writer.write(rootJsonValue);
+			
+			FILE* writeFile;
 
-			locale &loc=locale::global(locale(locale(),"",LC_CTYPE));
-			std::wofstream outFile(workingDirectory+L"/"+workingDivaOLProFile);
-			locale::global(loc);
-			*/
+			if(_wfopen_s(&writeFile, (workingDirectory+L"/"+workingDivaOLProFile).c_str(),L"wt, ccs=UTF-8")!=0)
+				return false;
+			fwprintf(writeFile,L"%s",writer.write(rootJsonValue).c_str());
+
+			fclose(writeFile);
+			
+			
+			/*
 			std::string jsonStrToSave = to_utf8(writer.write(rootJsonValue));
 			std::ofstream outFile(workingDirectory+L"/"+workingDivaOLProFile);
 
 			outFile << jsonStrToSave;
 			outFile.close();
+			*/
 		}
 
 #pragma endregion Save Diva Online Project File
@@ -368,7 +379,9 @@ namespace divaeditor
 		while(fgetws(buffer,sizeof(buffer),readFile))
 			jsonStrToParse += std::wstring(buffer);
 
+		fclose(readFile);
 		
+
 		WJson::Reader reader;
 
 		WJson::Value rootJsonValue;

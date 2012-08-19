@@ -43,8 +43,6 @@ namespace divaeditor
 
 		float width = getWidth(),height = getHeight();
 
-		const int timelineOffset = 5;
-
 		graphics->setColor(backGroundColor);
 		graphics->fillRectangle(gcn::Rectangle(0,0,width,height));
 
@@ -54,19 +52,6 @@ namespace divaeditor
 
 		//Draw nowLine
 		graphics->setColor(lineColor);
-
-
-		//Update nowPosition
-		if(mouseDown)
-		{
-			float jumpTo = float(nowMouseXPos - timelineOffset) / float(width-timelineOffset*2);
-			if(jumpTo<0)jumpTo=0;
-			else if(jumpTo>1)jumpTo=1;
-
-			double jumpToTime = jumpTo * float(CORE_FLOW_PTR->getTotalTime());
-			if(abs(jumpToTime-CORE_FLOW_PTR->getRealTime())>1e-4)
-				EDITUTILITY.setPosition(EDITUTILITY.timeToPos(jumpToTime));
-		}
 		
 		float nowPos = CORE_PTR->getRunTime() / float(CORE_FLOW_PTR->getTotalTime());
 
@@ -77,17 +62,28 @@ namespace divaeditor
 	}
 
 
+	void DivaEditorMusicProgressWidget::jumpMusicByMousePos()
+	{
+		float jumpTo = float(nowMouseXPos - timelineOffset) / float(getWidth()-timelineOffset*2);
+		if(jumpTo<0)jumpTo=0;
+		else if(jumpTo>1)jumpTo=1;
 
+		double jumpToTime = jumpTo * float(CORE_FLOW_PTR->getTotalTime());
+		if(abs(jumpToTime-CORE_FLOW_PTR->getRealTime())>1e-4)
+			EDITUTILITY.setPosition(EDITUTILITY.timeToPos(jumpToTime));
+	}
 
 	void DivaEditorMusicProgressWidget::mousePressed(gcn::MouseEvent& mouseEvent)
 	{
 		mouseDown=true;
 		nowMouseXPos = mouseEvent.getX();
+		jumpMusicByMousePos();
 	}
 
 	void DivaEditorMusicProgressWidget::mouseDragged(gcn::MouseEvent& mouseEvent)
 	{
 		nowMouseXPos = mouseEvent.getX();
+		jumpMusicByMousePos();
 	}
 
 	void DivaEditorMusicProgressWidget::mouseReleased(gcn::MouseEvent& mouseEvent)

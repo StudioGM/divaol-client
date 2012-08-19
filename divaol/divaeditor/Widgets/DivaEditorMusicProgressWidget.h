@@ -51,6 +51,11 @@ namespace divaeditor
 		
 
 	protected:
+
+		static const int timelineOffset = 5;
+
+		void jumpMusicByMousePos();
+
 		int nowMouseXPos;
 		bool mouseDown;
 		

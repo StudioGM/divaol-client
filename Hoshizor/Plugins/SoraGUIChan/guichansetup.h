@@ -10,6 +10,8 @@
 #ifndef SORA_GUICHAN_SETUP_H_
 #define SORA_GUICHAN_SETUP_H_
 
+#include <vector>
+
 #include "SoraGUIChan/guichansora.hpp"
 #include "SoraGUIChan/guichan.hpp"
 #include "SoraCore.h"
@@ -212,6 +214,22 @@ namespace sora {
 		void setGlobalSelectionColor(uint32 col) {
 			gcn::Style::DefaultStyle()->setSelectionColor(gcn::Color(CGETR(col), CGETG(col), CGETB(col), CGETA(col)));
 		}
+
+		bool keyIsIgnored(gcn::Key key)
+		{
+			return std::find(keyIgnore.begin(),keyIgnore.end(),key)!=keyIgnore.end();
+		}
+
+		void addIgnoreKey(gcn::Key key)
+		{
+			keyIgnore.push_back(key);
+		}
+
+		void removeIgnoreKey(gcn::Key key)
+		{
+			if(std::find(keyIgnore.begin(),keyIgnore.end(),key)!=keyIgnore.end())
+				keyIgnore.erase(std::find(keyIgnore.begin(),keyIgnore.end(),key));
+		}
 		
 	private:
 		gcn::SoraGUISoundLoader* mSoundLoader;
@@ -222,6 +240,7 @@ namespace sora {
 		
 		gcn::Gui* mGUIChan;
 
+		std::vector<gcn::Key> keyIgnore;
 	};
 	
 	#define GCN_GLOBAL gcnInitializer::Instance()

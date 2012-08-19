@@ -231,8 +231,6 @@ namespace divaeditor
 		noteArea->adjustSize(factor);
 		noteCategory->add(noteArea);
 
-
-
 		return noteCategory;
 	}
 	gcn::Container* DivaEditorMainScene::initShowCategory()
@@ -432,11 +430,14 @@ namespace divaeditor
 
 	DivaEditorMainScene::DivaEditorMainScene()
 	{
+		GCN_GLOBAL->addIgnoreKey(gcn::Key::SPACE);
+
 		sceneIndex = Editor::State::MAIN;
 
 		//Init Scene
 		top = new Container();
 		top->setBaseColor(gcn::Color(0,0,0,0));
+		top->setOpaque(true);
 		top->setSize(1280,720);
 
 		//Tool Bar
@@ -614,12 +615,24 @@ namespace divaeditor
 
 #pragma endregion Layer Toggle
 
+#pragma region Note Placement State
+
+		gcn::WLabel *wlabel_nowPlaceNoteCategory = new gcn::WLabel();
+		wlabel_nowPlaceNoteCategory->setId("wlabel_nowPlaceNoteCategory");
+		wlabel_nowPlaceNoteCategory->setPosition(wcheckbox_showBackground->getX(),wcheckbox_showBackground->getY()+wcheckbox_showBackground->getHeight()+10);
+		wlabel_nowPlaceNoteCategory->setBaseColor(gcn::Color(0,0,0,150));
+		wlabel_nowPlaceNoteCategory->setForegroundColor(gcn::Color(255,255,255,255));
+		top->add(wlabel_nowPlaceNoteCategory);
+		
+
+#pragma endregion Note Placement State
+
 		container_Categories[State::TIMELINE] = initTimelineCategory();
 		container_Categories[State::NOTE] = initNoteCategory();
 		container_Categories[State::SHOW] = initShowCategory();
 		container_Categories[State::PREVIEW] = initPlayCategory();
 
-		
+
 
 		for (std::map<State,gcn::Container*>::iterator i=container_Categories.begin();i!=container_Categories.end();i++)
 		{
@@ -633,6 +646,8 @@ namespace divaeditor
 		CORE_FLOW_PTR->registerEndCallback(task);
 
 		ChangeState(State::TIMELINE);
+
+		rhythm_LastPos=0;
 	}
 
 	void DivaEditorMainScene::ChangeState(State state)
@@ -648,9 +663,16 @@ namespace divaeditor
 		EDITCONFIG->display_note=true;
 		EDITCONFIG->display_background=true;
 
+		gcn::WLabel *wlabel_nowPlaceNoteCategory = (gcn::WLabel*)top->findWidgetById("wlabel_nowPlaceNoteCategory");
+		wlabel_nowPlaceNoteCategory->setVisible(false);
+
 		if(nowState==State::TIMELINE)
 		{
 			EDITCONFIG->display_grid=false;
+		}
+		else if(nowState==State::NOTE)
+		{
+			wlabel_nowPlaceNoteCategory->setVisible(true);
 		}
 		else if(nowState==State::SHOW)
 		{
@@ -670,6 +692,19 @@ namespace divaeditor
 
 	void DivaEditorMainScene::onUpdate(float dt)
 	{
+		//Play rhythm sound
+		double thisPosition = CORE_PTR->getRunPosition();
+		
+		if(nowState == TIMELINE && CORE_FLOW_PTR->getState() == CoreFlow::RUN)
+		{
+			int beatCrossNum = EDITOR_PTR->mapData->getCrossAStandardBeatPos(rhythm_LastPos,thisPosition);
+			if(beatCrossNum)
+				CORE_PTR->getMusicManager()->playDirectWithFile("Data/tick_" + iToS(beatCrossNum) + ".wav",true);
+		}
+		rhythm_LastPos = thisPosition;
+
+
+
 		gcn::WCheckBox *wcheckbox_showNote = (gcn::WCheckBox*)top->findWidgetById("wcheckbox_showNote");
 		gcn::WCheckBox *wcheckbox_showGrid = (gcn::WCheckBox*)top->findWidgetById("wcheckbox_showGrid");
 		gcn::WCheckBox *wcheckbox_showBackground = (gcn::WCheckBox*)top->findWidgetById("wcheckbox_showBackground");
@@ -737,6 +772,19 @@ namespace divaeditor
 			{
 				txtField_timeline_TailSpeed->setText(fTows(EDITOR_PTR->mapData->coreInfoPtr->header.speedScale,1));
 			}
+		}
+		else if(nowState==NOTE)
+		{
+			gcn::WLabel *wlabel_nowPlaceNoteCategory = (gcn::WLabel*)top->findWidgetById("wlabel_nowPlaceNoteCategory");
+
+			if(EDITCONFIG->EDITSTATE_NOTESTATE == EditorConfig::NORMAL)
+				wlabel_nowPlaceNoteCategory->setCaption(L"Normal Note");
+			else if(EDITCONFIG->EDITSTATE_NOTESTATE == EditorConfig::LONG)
+				wlabel_nowPlaceNoteCategory->setCaption(L"Long Note");
+			else if(EDITCONFIG->EDITSTATE_NOTESTATE == EditorConfig::COMBO)
+				wlabel_nowPlaceNoteCategory->setCaption(L"Combo Note");
+			
+			wlabel_nowPlaceNoteCategory->adjustSize();
 		}
 		else if(nowState==SHOW)
 		{
@@ -1173,11 +1221,16 @@ namespace divaeditor
 		if(event.key == sora::key::Ctrl)
 			EDITCONFIG->isctrl=true;
 
+		if(nowState!=State::PREVIEW && event.key == sora::key::Space)
+		{
+			if(CORE_FLOW_PTR->getState() == CoreFlow::RUN)
+				CORE_PTR->pause();
+			else
+				CORE_PTR->resume();
+		}
 
 		if(nowState==State::NOTE)
 		{
-			
-
 			NoteArea* noteArea = (NoteArea*)container_Categories[nowState]->findWidgetById("NoteArea");
 			noteArea->onKeyPressed(event);
 		}

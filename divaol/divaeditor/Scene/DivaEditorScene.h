@@ -117,6 +117,9 @@ namespace divaeditor
 
 		void flowDidEnd(void* arg);
 
+
+		float rhythm_LastPos;
+
 	public:
 
 		DivaEditorMainScene();

@@ -62,6 +62,8 @@
 #include "guichan/widgetfactory.hpp"
 #include "guichan/styleholder.hpp"
 
+#include "guichansetup.h"
+
 namespace gcn
 {
     Gui::Gui()
@@ -270,6 +272,10 @@ namespace gcn
         while (!mInput->isKeyQueueEmpty())
         {
             KeyInput keyInput = mInput->dequeueKeyInput();
+
+			//Check if key ignored
+			if(GCN_GLOBAL->keyIsIgnored(keyInput.getKey()))
+				continue;
 
             // Save modifiers state
             mShiftPressed = keyInput.isShiftPressed();

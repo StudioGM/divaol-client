@@ -53,6 +53,19 @@ namespace divaeditor
 		int findStopIndex(float pos);
 
 	public:
+		///////////////Grid and period operation
+		int getGridInPeriod(float grid);
+		int getGridFromPeriod(int period);
+		int getPeriodfromGrid(float grid);
+		int getGridLevel(float nowGrid);
+		int getNextStandardGrid(float nowGrid, int gridToShowPerBeat);
+		int getPrevStandardGrid(float nowGrid, int gridToShowPerBeat);
+		int getNowStandardGrid(float nowGrid, int gridToShowPerBeat);
+		int getNearestStandardGrid(float nowGrid, int gridToShowPerBeat);
+
+		int getCrossAStandardBeatPos(float lastPos, float nowPos);
+
+	public:
 		//File functions
 		enum InitSourceFileType {
 			DivaPCFile, 
@@ -131,16 +144,6 @@ namespace divaeditor
 		int getNoteTypeFromKeyPress(char keyPress, bool arrow);
 
 	public:
-
-		///////////////Grid and period operation
-		int getGridInPeriod(float grid);
-		int getGridFromPeriod(int period);
-		int getPeriodfromGrid(float grid);
-		int getGridLevel(float nowGrid);
-		int getNextStandardGrid(float nowGrid, int gridToShowPerBeat);
-		int getPrevStandardGrid(float nowGrid, int gridToShowPerBeat);
-		int getNowStandardGrid(float nowGrid, int gridToShowPerBeat);
-		int getNearestStandardGrid(float nowGrid, int gridToShowPerBeat);
 
 
 		///////////////BeatNum operation

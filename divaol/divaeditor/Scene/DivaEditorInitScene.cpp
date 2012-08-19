@@ -58,7 +58,8 @@ namespace divaeditor
 			wchar_t cwd[_MAX_PATH];
 			_wgetcwd(cwd,_MAX_PATH);
 
-			wstring selectFile = sora::SoraCore::Instance()->fileOpenDialogW(L"All Files(*.*)\0*.*\0");
+			wstring selectFile = sora::SoraCore::Instance()
+				->fileOpenDialogW(L"Diva Online Map Project(*.divaolproject)\0*.divaolproject\0All Files(*.*)\0*.*\0");
 
 			_wchdir(cwd);
 
@@ -80,7 +81,8 @@ namespace divaeditor
 					wlabel_loading->setPosition((1280-wlabel_loading->getWidth())/2,wlabel_loading->getY());
 				}
 			}
-			
+			else
+				wlabel_loading->setCaption(L"Please select a file.");
 		}
 	}
 

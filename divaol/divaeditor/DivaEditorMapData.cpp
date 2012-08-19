@@ -107,7 +107,8 @@ namespace divaeditor
 
 	void DivaEditorMapData::sortNote()
 	{
-		qsort_Note(0,coreInfoPtr->notes.size()-1);
+		if(coreInfoPtr->notes.size()>0)
+			qsort_Note(0,coreInfoPtr->notes.size()-1);
 		//std::sort(coreInfoPtr->notes.begin(),coreInfoPtr->notes.end(),cmp_note);
 	}
 	void DivaEditorMapData::sortEvent()
@@ -492,7 +493,7 @@ namespace divaeditor
 		{
 			int thisBeatPos = beatI->first;
 			int thisBeatNum = beatI->second;
-			int periodCount = 10000;
+			int periodCount = 10000000;
 			beatI++;
 			if(beatI!=beatNumChanged.end())
 				periodCount = beatI->first-thisBeatPos;
@@ -519,7 +520,7 @@ namespace divaeditor
 			{
 				int thisBeaPos = beatI->first;
 				int thisBeatNum = beatI->second;
-				int periodCount = 1000;
+				int periodCount = 10000000;
 				beatI++;
 				if(beatI!=beatNumChanged.end())
 					periodCount = beatI->first-thisBeaPos;
@@ -548,7 +549,7 @@ namespace divaeditor
 		while(true)
 		{
 			std::map<int,int>::iterator thisBeatI = beatI;
-			int periodCount = 10000;
+			int periodCount = 10000000;
 			beatI++;
 			if(beatI!=beatNumChanged.end())
 				periodCount = beatI->first-thisBeatI->first;
@@ -603,6 +604,25 @@ namespace divaeditor
 		return encodeToOriginalGrid((round(decodeOriginalGrid(round(nowGrid))/deltaGrid)) * deltaGrid);
 	}
 
+	int DivaEditorMapData::getCrossAStandardBeatPos(float lastPos, float nowPos)
+	{
+		if(lastPos>=nowPos) return 0;
+		int lastPeriod = getPeriodfromGrid(lastPos),nowPeriod = getPeriodfromGrid(nowPos),
+			lastGrid = getGridInPeriod(lastPos),nowGrid = getGridInPeriod(nowPos);
+
+		if(lastPeriod>nowPeriod || (lastPeriod==nowPeriod&&lastGrid>=nowGrid))
+			return 0;
+
+		if(lastPeriod<nowPeriod) return 1;
+
+		int lastBeat = lastGrid / EDITCONFIG->GridPerBeat;
+		int nowBeat = nowGrid / EDITCONFIG->GridPerBeat;
+
+		if(lastBeat<nowBeat) return 2;
+		
+		return 0;
+	}
+
 
 	//BeatNum operation
 	int DivaEditorMapData::getBeatNum(float pos)
@@ -615,7 +635,7 @@ namespace divaeditor
 		{
 			std::map<int,int>::iterator thisBeatI = beatI;
 			beatI++;
-			int periodCount = 10000;
+			int periodCount = 10000000;
 			if(beatI!=beatNumChanged.end())
 			{
 				periodCount = beatI->first-thisBeatI->first;
@@ -802,7 +822,7 @@ namespace divaeditor
 	{
 		//Check border	
 		int deltaOffset = delta;
-		int minPos = MAXINT32,maxPos=-1;
+		int minPos = MAXINT32-100000000,maxPos=-1;
 		for(std::vector<divacore::MapNote>::iterator i=coreInfoPtr->notes.begin();i!=coreInfoPtr->notes.end();i++)
 			for(std::vector<divacore::NotePoint>::iterator j=i->notePoint.begin();j!=i->notePoint.end();j++)
 			{
@@ -814,7 +834,7 @@ namespace divaeditor
 
 		for(std::vector<divacore::MapEvent>::iterator i=coreInfoPtr->events.begin();i!=coreInfoPtr->events.end();i++)
 		{
-			if(i->eventType != "bpm" || (i->eventType == "bpm" && (int)i->position!=0))
+			if((i->eventType == "bpm" && (int)i->position!=0))
 			{
 				if((int)i->position>maxPos)
 					maxPos = (int)i->position;
@@ -824,8 +844,7 @@ namespace divaeditor
 		}
 
 		//Move All
-		if(minPos+deltaOffset>=0 && minPos+deltaOffset<CORE_FLOW_PTR->getTotalPosition()
-			&& maxPos+deltaOffset>=0 && maxPos+deltaOffset<CORE_FLOW_PTR->getTotalPosition())
+		if(minPos+deltaOffset>=0 && maxPos+deltaOffset<(int)CORE_FLOW_PTR->getTotalPosition())
 		{
 			for(std::vector<divacore::MapNote>::iterator i=coreInfoPtr->notes.begin();i!=coreInfoPtr->notes.end();i++)
 				if(i->notePoint.begin()->position>=left && i->notePoint.begin()->position<right)
@@ -833,7 +852,7 @@ namespace divaeditor
 						j->position = (int)j->position + deltaOffset;
 
 			for(std::vector<divacore::MapEvent>::iterator i=coreInfoPtr->events.begin();i!=coreInfoPtr->events.end();i++)
-				if((i->position>=left && i->position < right) && ((i->eventType != "bpm") || (i->eventType == "bpm" && i->position!=0)))
+				if((i->position>=left && i->position < right) && (i->eventType == "bpm" && i->position!=0))
 					i->position = (int)i->position + deltaOffset;
 
 			sortEvent();
@@ -1035,6 +1054,10 @@ namespace divaeditor
 		{
 			toAdd.arg["width"] = 1920;
 			toAdd.arg["height"] = 1080;
+		}
+		else if(toAdd.eventType == "playMusic")
+		{
+			toAdd.arg["channel"] = resourceID + "_" + iToS(pos);
 		}
 
 		coreInfoPtr->events.push_back(toAdd);
