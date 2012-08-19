@@ -343,7 +343,15 @@ namespace divacore
 			position = totalGrid;
 
 		//because it will cause some strange bug when relocate at final point, so refuse it
-		if(time>=MUSIC_MANAGER_PTR->getLength(MAIN_SOUND_CHANNEL))
+		double _totalTime = MUSIC_MANAGER_PTR->getLength(MAIN_SOUND_CHANNEL);
+		if(_totalTime!=totalTime)
+		{
+			MUSIC_MANAGER_PTR->reload(MAP_INFO->header.mainSound);
+			MUSIC_MANAGER_PTR->play(MAP_INFO->header.mainSound,CORE_FLOW_PTR->MAIN_SOUND_CHANNEL);
+		}
+		_totalTime = MUSIC_MANAGER_PTR->getLength(MAIN_SOUND_CHANNEL);
+
+		if(time>=_totalTime)
 			if(mIsFinish)
 				return;
 			else
@@ -409,7 +417,7 @@ namespace divacore
 			if(start_time<=time)
 			{
 				for(int index = 0; index < note.notePoint.size(); index++)
-					if(note.notePoint[index].time>time)
+					if(note.notePoint[index].time>=time)
 					{
 						NotePtr _note = core->getItemFactory()->createNote(note);
 						if(index==0)

@@ -38,6 +38,7 @@ namespace divacore
 	{
 		registerEvent("playMusic",&BassMusicManager::playEvent);
 	}
+
 	/*
 	BassMusicManager
 	*/
@@ -119,6 +120,7 @@ namespace divacore
 		volumePool.clear();
 		tagsVolume.clear();
 		musicList.clear();
+		fileDict.clear();
 	}
 	void BassMusicManager::stop()
 	{
@@ -134,6 +136,7 @@ namespace divacore
 			DIVA_EXCEPTION_MODULE("Sound "+ID+" already exists","BassMusicManager");
 
 		soundPool[ID] = std::make_pair<bool,HSTREAM>(stream,loadSound(file,stream));
+		fileDict[ID] = file;
 	}
 	void BassMusicManager::unload(const std::string &ID) 
 	{
@@ -146,6 +149,16 @@ namespace divacore
 		else
 			::BASS_SampleFree(soundPtr->second.second);
 		soundPool.erase(soundPtr);
+	}
+	void BassMusicManager::reload(const std::string &ID)
+	{
+		SOUNDPOOL::iterator soundPtr = soundPool.find(ID);
+		if(soundPtr==soundPool.end())
+			return;
+		bool bStream = soundPtr->second.first;
+		std::string filepath = fileDict[ID];
+		unload(ID);
+		load(filepath,ID,bStream);
 	}
 	void BassMusicManager::play(const std::string &ID, const std::string &channel, const std::string &tag)
 	{
@@ -261,6 +274,7 @@ namespace divacore
 		}
 		else
 			BASS_ChannelSetPosition(getChannel(channel),BASS_ChannelSeconds2Bytes(getChannel(channel),time),BASS_POS_BYTE);
+		::BASS_ChannelUpdate(getChannel(channel),0);
 	}
 	double BassMusicManager::getPosition(const std::string &channel) {
 		try

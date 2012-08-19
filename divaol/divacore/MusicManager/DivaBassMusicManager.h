@@ -26,6 +26,7 @@ namespace divacore
 	{
 		static const int MAX_SAMPLE = 32;
 
+		typedef std::map<std::string,std::string> FILES;
 		typedef std::pair<std::string,HSTREAM> SOUNDPAIR;
 		typedef std::pair<bool,HSAMPLE> SOURCEPAIR;
 		typedef std::map<std::string,SOUNDPAIR> MUSICPOOL;
@@ -34,6 +35,7 @@ namespace divacore
 		SOUNDPOOL soundPool;
 		MUSICPOOL musicPool;
 		MUSICLIST musicList;
+		FILES fileDict;
 		std::map<std::string,float> volumePool;
 		std::map<std::string, float> tagsVolume;
 
@@ -58,6 +60,7 @@ namespace divacore
 		void destroy();
 		void load(const std::string &file, const std::string &ID, bool stream);
 		void unload(const std::string &ID);
+		void reload(const std::string &ID);
 		void play(const std::string &ID, const std::string &channel, const std::string &tag="");
 		void playDirect(const std::string &ID, const std::string &tag="");
 		void playDirectWithFile(const std::string &file, bool stream, const std::string &tag="");

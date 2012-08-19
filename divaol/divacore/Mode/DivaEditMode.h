@@ -51,8 +51,10 @@ namespace divacore
 		}unableHook;
 	protected:
 		bool mPlayable;
+		bool mHitSound;
+		bool mMissSound;
 	public:		
-		EditMode():mPlayable(true){unableHook.open=!mPlayable;}
+		EditMode():mPlayable(true),mHitSound(true),mMissSound(true) {unableHook.open=!mPlayable;}
 		~EditMode() {HOOK_MANAGER_PTR->del(&unableHook);}
 
 		virtual std::string getName() {return "editMode";}
@@ -76,23 +78,38 @@ namespace divacore
 			return true;
 		}
 		bool checkPoint(StateEvent& event) {return !mPlayable;}
-		bool checkFailure(StateEvent& event) {return true;}
+		bool checkFailure(StateEvent& event) 
+		{
+			EVALUATE_STRATEGY_PTR->evaluateFaliure(event);
+			event.type = StateEvent::FAILURE;
+			event.breakCombo = event.breakNote = true;
+			return true;
+		}
 		void inform(StateEvent& event) 
 		{
+			event.tag = "inform";
+			if(mPlayable)
+				HOOK_MANAGER_PTR->hook(event);
 			//≤•∑≈hit“Ù
 			if(event.type==StateEvent::PRESS||event.type==StateEvent::FAILURE)
 			{
 				if(event.rank<=4)
-					Core::Ptr->getMusicManager()->playDirect("hit","sound_effect");
+				{
+					if(mHitSound)
+						Core::Ptr->getMusicManager()->playDirect("hit","sound_effect");
+				}
 				else
-					Core::Ptr->getMusicManager()->playDirect("miss","sound_effect");
+				{
+					if(mMissSound)
+						Core::Ptr->getMusicManager()->playDirect("miss","sound_effect");
+				}
 			}
 		}
 		void update(float dt) {}
 		
 		bool isPlayable() {return mPlayable;}
 		void setPlayble(bool flag) {mPlayable=flag,unableHook.open=!flag;}
-
+		void setSound(bool hit, bool miss) {mHitSound=hit,mMissSound=miss;}
 		void pressEffect(StateEvent &event) {}
 		void addHookIn() {HOOK_MANAGER_PTR->insert(&unableHook);}
 

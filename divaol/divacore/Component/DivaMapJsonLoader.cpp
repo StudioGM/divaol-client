@@ -81,7 +81,7 @@ namespace divacore
 					mapInfo->header.noter.push_back(sora::s2ws(header["noter"].asString()));
 				else if(noter.isArray())
 					for(int i=0; i<noter.size(); i++)
-						mapInfo->header.noter.push_back(sora::s2ws(noter[i].asString()));
+						mapInfo->header.noter.push_back(sora::s2ws(noter[i]["name"].asString()));
 				else
 					DIVA_EXCEPTION_MODULE("'noter' must be string(s)!","MapLoader");
 			}
