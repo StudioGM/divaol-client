@@ -343,13 +343,13 @@ namespace divacore
 	}
 	void Core::pause()
 	{
-		musicManager->pause();
+		//musicManager->pause();
 		display->pause();
 		coreFlow->pause();
 	}
 	void Core::resume()
 	{
-		musicManager->resume();
+		//musicManager->resume();
 		display->resume();
 		coreFlow->resume();
 	}

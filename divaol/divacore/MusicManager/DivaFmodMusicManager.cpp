@@ -185,7 +185,7 @@ namespace divacore
 	{
 		getChannel(channel)->setPosition(time*1000,FMOD_TIMEUNIT_MS);
 	}
-	float FmodMusicManager::getPosition(const std::string &channel)
+	double FmodMusicManager::getPosition(const std::string &channel)
 	{
 		try
 		{

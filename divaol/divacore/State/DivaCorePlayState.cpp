@@ -184,7 +184,8 @@ namespace divacore
 		else if(event.getKey()==SORA_KEY_Z)
 		{
 			StandardEditUtility::instance().init();
-			StandardEditUtility::instance().setPosition(CORE_FLOW_PTR->getTotalPosition()-10);
+
+			StandardEditUtility::instance().setPosition(CORE_FLOW_PTR->getTotalPosition()-1);
 		}
 		else if(event.getKey()==SORA_KEY_X)
 		{
@@ -195,7 +196,10 @@ namespace divacore
 			StandardEditUtility::instance().init();
 			StandardEditUtility::instance().setPosition(1000);
 		}
-
+		else if(event.getKey()==SORA_KEY_R)
+		{
+			MUSIC_MANAGER_PTR->setPosition("__MAIN_SOUND__",CORE_FLOW_PTR->getTotalTime());
+		}
 		/*else if(event.getKey()==SORA_KEY_D)
 		{
 			StandardEditUtility::instance().init();
