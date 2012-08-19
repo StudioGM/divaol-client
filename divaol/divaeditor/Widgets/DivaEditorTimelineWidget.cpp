@@ -306,19 +306,65 @@ namespace divaeditor
 		nowMouseXPos = mouseEvent.getX();
 		nowMouseYPos = mouseEvent.getY();
 
-		if(isDraggingNote)
-		{
 
-		}
-		else if(!isSelecting)
+		float width = getWidth();
+		float height = getHeight();
+
+		int GridPerBeat = EDITCONFIG->GridPerBeat;
+		int _beatNumberPerScreen = EDITCONFIG->getBeatNumberPerScreen();
+		int _gridToShowPerBeat = EDITCONFIG->getGridToShowPerBeat();
+		float _showRangeFactor = EDITCONFIG->getShowRangeScale();
+
+		float rangeGridNum = float(_beatNumberPerScreen)*_showRangeFactor * GridPerBeat;
+		float mapBeginOffSet = 0;
+		float leftPos = (float)CORE_PTR->getRunPosition() - rangeGridNum/2 + mapBeginOffSet;
+		float rightPos = leftPos + rangeGridNum;
+
+
+		if(!isDraggingNote && !isSelecting)  //Detect to drag note or select note
 		{
 			//Check if is dragging a note
+			int toSelect = findNoteByMousePos(nowMouseXPos,nowMouseYPos);
+			if(toSelect!=-1)
+			{
+				//Add this to select
 
+				if (!EDITCONFIG->isctrl)
+					EDITCONFIG->clearSelectedNote();
+				
+				if(!EDITCONFIG->isNoteSelected(toSelect))
+					EDITCONFIG->addSelectedNote(toSelect);
 
-			isSelecting = true;
-			_selectedBegin = (float(mouseEvent.getX()) / float(getWidth()) - 0.5) 
-								* float(EDITCONFIG->getBeatNumberPerScreen())*EDITCONFIG->getShowRangeScale() * EDITCONFIG->GridPerBeat + CORE_PTR->getRunPosition();
+				lastDragPos = EDITOR_PTR->mapData->getNearestStandardGrid((float)nowMouseXPos/width * rangeGridNum+leftPos, EDITCONFIG->getGridToShowPerBeat());
+
+				isDraggingNote=true;
+			}
+			else
+			{
+				_selectedBegin = (float(mouseEvent.getX()) / float(getWidth()) - 0.5) 
+					* float(EDITCONFIG->getBeatNumberPerScreen())*EDITCONFIG->getShowRangeScale() * EDITCONFIG->GridPerBeat + CORE_PTR->getRunPosition();
+				isSelecting=true;
+			}
 		}
+
+
+		if(isDraggingNote)
+		{
+			int nowDragPos = EDITOR_PTR->mapData->getNearestStandardGrid((float)nowMouseXPos/width * rangeGridNum+leftPos, EDITCONFIG->getGridToShowPerBeat());
+
+			if(nowDragPos>=0 && nowDragPos<= (int)CORE_FLOW_PTR->getTotalPosition())
+				if(nowDragPos!=lastDragPos)
+				{
+					for (int i=0;i<EDITCONFIG->noteSelected.size();i++)
+						EDITOR_PTR->mapData->note_modifyTimePos(EDITCONFIG->noteSelected[i],nowDragPos-lastDragPos,true);
+					EDITOR_PTR->mapData->sortNote();
+					EDITUTILITY.reCaltTime();
+				}
+
+			lastDragPos=nowDragPos;
+		}
+
+
 	}
 
 	void Timeline::mouseMoved(gcn::MouseEvent& mouseEvent)
@@ -332,16 +378,44 @@ namespace divaeditor
 		nowMouseXPos = mouseEvent.getX();
 		nowMouseYPos = mouseEvent.getY();
 
+
+		float width = getWidth();
+		float height = getHeight();
+
+		int GridPerBeat = EDITCONFIG->GridPerBeat;
+		int _beatNumberPerScreen = EDITCONFIG->getBeatNumberPerScreen();
+		int _gridToShowPerBeat = EDITCONFIG->getGridToShowPerBeat();
+		float _showRangeFactor = EDITCONFIG->getShowRangeScale();
+
+		float rangeGridNum = float(_beatNumberPerScreen)*_showRangeFactor * GridPerBeat;
+		float mapBeginOffSet = 0;
+		float leftPos = CORE_PTR->getRunPosition() - rangeGridNum/2 + mapBeginOffSet;
+		float rightPos = leftPos + rangeGridNum;
+
+
 		if(isSelecting)
 			isSelecting = false;
+		else if(isDraggingNote)
+			isDraggingNote = false;
 		else
 		{
-			//Check if is selecting note
-			bool tryToSelectNote=true;
+			//Check if is dragging a note
+			int toSelect = findNoteByMousePos(nowMouseXPos,nowMouseYPos);
+			if(toSelect!=-1)
+			{
+				if (!EDITCONFIG->isctrl)
+					EDITCONFIG->clearSelectedNote();
 
+				//Add this to select
+				EDITCONFIG->addSelectedNote(toSelect);
+			}
+			else //Set Position
+			{
+				int nowSetPos = EDITOR_PTR->mapData->getNearestStandardGrid((float)nowMouseXPos/width * rangeGridNum+leftPos, EDITCONFIG->getGridToShowPerBeat());
 
-
-			//Else set position
+				if(nowSetPos>=0&&nowSetPos<=(int)CORE_FLOW_PTR->getTotalPosition())
+					EDITUTILITY.setPosition(nowSetPos);
+			}
 
 		}
 		
@@ -371,9 +445,16 @@ namespace divaeditor
 
 		const float noteBlockSize = height*0.1;
 
-		//int typeToFind = EDITOR_PTR->mapData->getNoteTypeFromNoteTypeIndex( nowMouseYPos )
 
-		return 0;
+		int mouseXGrid = EDITOR_PTR->mapData->getNearestStandardGrid((float)nowMouseXPos/width * rangeGridNum+leftPos, EDITCONFIG->getGridToShowPerBeat());
+		
+		if( (float)nowMouseYPos < height*0.8)
+		{
+			int mouseGridYPos = ((float)nowMouseYPos/(height*0.8))*8;
+			return EDITOR_PTR->mapData->findNoteIndexByType(mouseXGrid, EDITOR_PTR->mapData->getNoteTypeFromNoteTypeIndex(mouseGridYPos));
+		}
+		else
+			return -1;
 	}
 
 

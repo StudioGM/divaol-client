@@ -61,6 +61,8 @@ namespace divaeditor
 
 		int nowMouseXPos,nowMouseYPos;
 
+		int lastDragPos;
+
 		bool isMouseOn;
 
     };

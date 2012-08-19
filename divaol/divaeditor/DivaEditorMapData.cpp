@@ -375,9 +375,7 @@ namespace divaeditor
 		if(!isDelta)
 			pos = pos - coreInfoPtr->notes[index].notePoint[0].position;
 		for(int i=0;i<coreInfoPtr->notes[index].notePoint.size();i++)
-		{
 			coreInfoPtr->notes[index].notePoint[i].position += pos;
-		}
 	}
 	void DivaEditorMapData::note_modifyType(int index, char keyPress, bool arrow)
 	{
@@ -417,6 +415,34 @@ namespace divaeditor
 							return i;
 				}
 			}
+		return -1;
+	}
+	int DivaEditorMapData::findNoteIndexByType(int position, int type)
+	{
+		if(type<0)
+			return -1;
+
+		type%=8;
+
+		for(int i=0;i<coreInfoPtr->notes.size();i++)
+		{
+			divacore::MapNote &nowNote = coreInfoPtr->notes[i];
+
+			if(nowNote.notePoint[0].position>position)
+				break;
+
+			if(nowNote.notePoint.size()==1) //check exactly
+			{
+				if(nowNote.notePoint[0].position==position && nowNote.notePoint[0].type%8==type)
+					return i;
+			}
+			else // in is OK
+			{
+				if(nowNote.notePoint[0].type%8==type && position>=nowNote.notePoint[0].position && position<=nowNote.notePoint[1].position)
+					return i;
+			}
+		}
+
 		return -1;
 	}
 	std::vector<int> DivaEditorMapData::findNoteToSelectByRange(int position,int leftUpX,int leftUpY,int rightDownX,int rightDownY)
