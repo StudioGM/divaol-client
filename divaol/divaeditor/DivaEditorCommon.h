@@ -2,6 +2,9 @@
 #define DIVAEDITORCOMMON_H
 
 
+#include "divaeditor/Core/DivaEditorOperate.h"
+#include "divaeditor/Component/DivaEditorStandardOperation.h"
+
 #include <string>
 #include <vector>
 
@@ -14,10 +17,26 @@ namespace divaeditor
 	static const int gridToShowPerBeatTable[6] = {1,2,3,4,6,8};
 	static const int gridToShowPerBeatTableCount = 6;
 
+	static const std::wstring divaprojectDescription = L"Diva Map Project File";
+	static const std::wstring divaprojectExtensions = L"*.divaolproject;*.divaproject";
 
-	static const std::wstring videoExtentions = L"avi,mp4,flv,mkv";
-	static const std::wstring imageExtentions = L"png,jpg";
-	static const std::wstring audioExtentions = L"wav,mp3,ogg";
+	static const std::wstring divaplayFileDescription = L"Diva Map File";
+	static const std::wstring divaplayFileExtensions = L"*.divaol;*.diva";
+
+	static const std::wstring bmsFileDescription = L"Beat Mania File";
+	static const std::wstring bmsFileExtensions = L"*.bms";
+
+	static const std::wstring osuFileDescription = L"OSU! File";
+	static const std::wstring osuFileExtensions = L"*.osu";
+
+	static const std::wstring midiFileDescription = L"MIDI File";
+	static const std::wstring midiFileExtensions = L"*.mid";
+
+	static const std::wstring videoExtensions = L"*.avi;*.mp4;*.flv;*.mkv";
+	static const std::wstring imageExtensions = L"*.png;*.jpg";
+
+	static const std::wstring audioDescription = L"Music File";
+	static const std::wstring audioExtensions = L"*.wav;*.mp3;*.ogg";
 
 	static const std::string EditorVer = "2.0.0.0";
 
@@ -38,7 +57,9 @@ namespace divaeditor
 						display_note(true),
 						display_grid(true),
 						display_background(true),
-						map_initialized(false)
+						map_initialized(false),
+						operationHistoryIndex(0),
+						lockOperation(false)
 						{};
 
 		static EditorConfig* Ptr;
@@ -50,12 +71,14 @@ namespace divaeditor
 
 		void increaseGridToShowPerBeat(){if(gridToShowPerBeat<gridToShowPerBeatTableCount-1)gridToShowPerBeat++;}
 		void decreaseGridToShowPerBeat(){if(gridToShowPerBeat>0)gridToShowPerBeat--;}
-		void setGridToShowPerBeat(int gridToShowPerBeat){gridToShowPerBeat=gridToShowPerBeat;}
+		void setGridToShowPerBeat(int gridToShowPerBeat){this->gridToShowPerBeat=gridToShowPerBeat;}
+		const int getGridToShowPerBeatOrigin() const{return gridToShowPerBeat;}
 		const int getGridToShowPerBeat() const{return gridToShowPerBeatTable[gridToShowPerBeat];}
 
 		void increaseShowRangeScale(){if(showRangeFactor<0.1)showRangeFactor*=2.0f;else if(showRangeFactor<2)showRangeFactor+=0.1;else if(showRangeFactor<5)showRangeFactor+=0.25;}
 		void decreaseShowRangeScale(){if(showRangeFactor>2)showRangeFactor-=0.25;else if(showRangeFactor>0.1)showRangeFactor-=0.1;else if(showRangeFactor>0.05)showRangeFactor/=2.0f;}
 		const float getShowRangeScale() const{return showRangeFactor;}
+		void setShowRangeScale(float range) {showRangeFactor = range;}
 
 
 		//NOTE Edit Settings
@@ -80,7 +103,6 @@ namespace divaeditor
 		static const int NoteAreaWidth = 48;
 		static const int NoteAreaHeight = 24;
 		static const int NoteAreaTailAreaSize = 0;
-		//static const double NoteAreaFactor = 0.666666666666666666666667;
 
 		
 		
@@ -93,9 +115,23 @@ namespace divaeditor
 		bool display_note;
 		bool display_grid;
 
-
+		//If map is initialized
 		bool map_initialized;
 
+		//Operation System
+		bool lockOperation;
+		std::string lockOperationID;
+
+		void LockOperation(std::string operationID);
+		void UnlockOperation();
+
+		std::vector<DivaEditorOperation*> operationHistory;
+
+		void undoTo(int toHistoryIndex = -1);
+		void redoTo(int toHistoryIndex = -1);
+
+		void addAndDoOperation(DivaEditorOperation* operation, std::string operationID = "");
+		void mergeLastTwoOperation();
 
 	private:
 		//Timeline Showing settings
@@ -103,8 +139,8 @@ namespace divaeditor
 		int gridToShowPerBeat;
 		float showRangeFactor;
 
+		int operationHistoryIndex;
 		
-
 	};
 
 

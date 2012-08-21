@@ -6,12 +6,12 @@
 #include <locale>
 #include "stdio.h"
 
-#include "divaeditor/DivaEditorMapData.h"
+#include "divaeditor/Core/DivaEditorMapData.h"
 #include "divaeditor/DivaEditorCommon.h"
 
 #include "divacore/Component/DivaStandardCoreFlow.h"
 
-#include "WJson/wjson.h"
+#include "divaeditor/WJson/wjson.h"
 
 namespace divaeditor
 {
@@ -281,6 +281,8 @@ namespace divaeditor
 			headerJsonValue[L"divaol"] = workingDivaOLFile;
 			headerJsonValue[L"offset"] = mapOffset;
 			headerJsonValue[L"version"] = s2ws(EditorVer);
+			headerJsonValue[L"gridToShowPerBeat"] = EDITCONFIG->getGridToShowPerBeatOrigin();
+			headerJsonValue[L"showRangeScale"] = EDITCONFIG->getShowRangeScale();
 
 			rootJsonValue[L"header"] = headerJsonValue;
 
@@ -401,6 +403,17 @@ namespace divaeditor
 				mapOffset = header[L"offset"].asInt();
 			else
 				return L"Error: offset tag not exist";
+
+
+			if(header.isMember(L"gridToShowPerBeat"))
+				EDITCONFIG->setGridToShowPerBeat(header[L"gridToShowPerBeat"].asInt());
+			else
+				return L"Error: gridToShowPerBeat tag not exist";
+
+			if(header.isMember(L"showRangeScale"))
+				EDITCONFIG->setShowRangeScale(header[L"showRangeScale"].asDouble());
+			else
+				return L"Error: showRangeScale tag not exist";
 		}
 		else
 			return L"Error: header not exist";

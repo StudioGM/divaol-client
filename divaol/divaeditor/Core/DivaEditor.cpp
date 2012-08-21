@@ -1,5 +1,5 @@
-#include "divaeditor/DivaEditor.h"
-#include "divaeditor/DivaEditorDisplay.h"
+#include "divaeditor/Core/DivaEditor.h"
+#include "divaeditor/Component/DivaEditorDisplay.h"
 
 #include "divacore/state/DivaCoreLoader.h"
 #include "divacore/Component/DivaStandardCoreFlow.h"

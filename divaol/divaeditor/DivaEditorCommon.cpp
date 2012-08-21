@@ -80,6 +80,89 @@ namespace divaeditor
 		return false;
 	}
 
+	void EditorConfig::undoTo(int toHistoryIndex)
+	{
+		if(operationHistory.size()==0 || operationHistoryIndex==0)
+			return;
+		if(toHistoryIndex==-1)
+			toHistoryIndex = operationHistoryIndex-1;
+		else
+			toHistoryIndex-=1;
+
+		if(toHistoryIndex>=operationHistoryIndex)
+			return;
+
+		for (int i=operationHistoryIndex-1;i>=toHistoryIndex;i--)
+		{
+			if(i>=0&&i<operationHistory.size())
+			{
+				operationHistory[i]->undoOperation();
+			}
+		}
+		operationHistoryIndex = toHistoryIndex;
+	}
+
+	void EditorConfig::redoTo(int toHistoryIndex)
+	{
+		if(operationHistory.size()==0 || operationHistoryIndex==operationHistory.size())
+			return;
+		if(toHistoryIndex==-1)
+			toHistoryIndex = operationHistoryIndex+1;
+		else
+			toHistoryIndex+=1;
+		
+		if(toHistoryIndex<=operationHistoryIndex)
+			return;
+
+		for (int i=operationHistoryIndex;i<toHistoryIndex;i++)
+		{
+			if(i>=0&&i<operationHistory.size())
+			{
+				operationHistory[i]->doOperation();
+			}
+		}
+		operationHistoryIndex = toHistoryIndex;
+	}
+
+	void EditorConfig::addAndDoOperation(DivaEditorOperation* operation, std::string operationID)
+	{
+		//Check if locked
+		if(lockOperation && operationID!=lockOperationID)
+			return;
+
+		//Need to erase the operations after operationHistoryIndex
+		while(operationHistory.size()>operationHistoryIndex)
+		{
+			SAFE_DELETE(operationHistory[operationHistoryIndex]);
+			operationHistory.erase(operationHistory.begin()+operationHistoryIndex);
+		}
+		
+		operationHistory.push_back(operation);
+		redoTo();
+	}
+
+	void EditorConfig::mergeLastTwoOperation()
+	{
+		if(operationHistory.size()<2) return;
+
+		((DivaEditorOperationSet*)operationHistory[operationHistory.size()-2])->merge((DivaEditorOperationSet*)operationHistory[operationHistory.size()-1]);
+
+		SAFE_DELETE(operationHistory[operationHistory.size()-1]);
+		operationHistory.erase(operationHistory.begin()+operationHistory.size()-1);
+
+		operationHistoryIndex--;
+	}
+
+	void EditorConfig::LockOperation(std::string operationID)
+	{
+		lockOperation=true;
+		lockOperationID=operationID;
+	}
+
+	void EditorConfig::UnlockOperation()
+	{
+		lockOperation=false;
+	}
 
 	//Utility
 	//int to Wstring()

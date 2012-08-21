@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "divaeditor/DivaEditorMapData.h"
+#include "divaeditor/Core/DivaEditorMapData.h"
 
 #include "guichan/focuslistener.hpp"
 #include "guichan/graphics.hpp"

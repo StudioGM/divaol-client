@@ -58,8 +58,15 @@ namespace divaeditor
 			wchar_t cwd[_MAX_PATH];
 			_wgetcwd(cwd,_MAX_PATH);
 
-			wstring selectFile = sora::SoraCore::Instance()
-				->fileOpenDialogW(L"Diva Online Map Project(*.divaolproject)\0*.divaolproject\0All Files(*.*)\0*.*\0");
+			std::wstring filterStr = divaprojectDescription + L'(' + divaprojectExtensions+L')' + L'\0' + divaprojectExtensions + L'\0'
+									+ divaplayFileDescription + L'(' + divaplayFileExtensions+L')' + L'\0' + divaplayFileExtensions + L'\0'
+									+ audioDescription + L'(' + audioExtensions+L')' + L'\0' + audioExtensions + L'\0'
+									+ bmsFileDescription + L'(' + bmsFileExtensions+L')' + L'\0' + bmsFileExtensions + L'\0'
+									+ osuFileDescription + L'(' + osuFileExtensions+L')' + L'\0' + osuFileExtensions + L'\0'
+									+ midiFileDescription + L'(' + midiFileExtensions+L')' + L'\0' + midiFileExtensions + L'\0';
+
+			std::wstring selectFile = sora::SoraCore::Instance()
+				->fileOpenDialogW(filterStr.c_str());//L"Diva Online Map Project(*.divaolproject)\0*.divaolproject;*.divaol\0All Files(*.*)\0*.*\0");
 
 			_wchdir(cwd);
 

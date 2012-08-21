@@ -1,4 +1,4 @@
-#include "divaeditor/DivaEditorDisplay.h"
+#include "divaeditor/Component/DivaEditorDisplay.h"
 #include "divaeditor/DivaEditorCommon.h"
 
 #include "divacore/Component/DivaStandardDisplay.h"

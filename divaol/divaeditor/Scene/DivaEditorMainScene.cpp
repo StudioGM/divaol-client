@@ -1,4 +1,5 @@
 #include "divaeditor/Scene/DivaEditorScene.h"
+#include "divaeditor/Component/DivaEditorStandardOperation.h"
 #include "divaeditor/DivaEditorCommon.h"
 
 #include "Animation/SoraGUIAnimation.h"
@@ -431,6 +432,7 @@ namespace divaeditor
 	DivaEditorMainScene::DivaEditorMainScene()
 	{
 		GCN_GLOBAL->addIgnoreKey(gcn::Key::SPACE);
+		GCN_GLOBAL->addIgnoreKey(gcn::Key::TAB);
 
 		sceneIndex = Editor::State::MAIN;
 
@@ -679,12 +681,19 @@ namespace divaeditor
 		gcn::WLabel *wlabel_nowPlaceNoteCategory = (gcn::WLabel*)top->findWidgetById("wlabel_nowPlaceNoteCategory");
 		wlabel_nowPlaceNoteCategory->setVisible(false);
 
+		Timeline* timeline = (Timeline*)top->findWidgetById("timeline_TimeLine");
+		timeline->setEnabled(false);
+
+		((divacore::EditMode*)CORE_PTR->getGameMode())->setSound(true,true);
+
 		if(nowState==State::TIMELINE)
 		{
 			EDITCONFIG->display_grid=false;
+			((divacore::EditMode*)CORE_PTR->getGameMode())->setSound(false,false);
 		}
 		else if(nowState==State::NOTE)
 		{
+			timeline->setEnabled(true);
 			wlabel_nowPlaceNoteCategory->setVisible(true);
 		}
 		else if(nowState==State::SHOW)
@@ -859,6 +868,8 @@ namespace divaeditor
 	{
 		gcn::Widget *actionWidget = top->findWidgetById(getID());
 
+		float nowTimePos = CORE_PTR->getRunPosition();
+
 #pragma region Playback Control
 
 		if(getID()=="btn_Play")
@@ -929,20 +940,30 @@ namespace divaeditor
 
 		//BPM
 		else if(getID() == "txtField_timeline_BPM" || getID() == "btn_TimeLine_changeBPM")
-		{			
-			EDITOR_PTR->mapData->bpm_change(CORE_PTR->getRunPosition(), ((WTextField*)container_Categories[State::TIMELINE]->findWidgetById("txtField_timeline_BPM"))->getFloat());
+		{
+			EDITCONFIG->addAndDoOperation(new DivaEditorOperation_BPM(EDITOR_PTR->mapData->getBPM(nowTimePos),
+																		((WTextField*)container_Categories[State::TIMELINE]->findWidgetById("txtField_timeline_BPM"))->getFloat(),
+																		EDITOR_PTR->mapData->getBPMPos(nowTimePos),
+																		DivaEditorOperation_BPM::CHANGEBPM));
 			actionWidget->setFocusable(false);
 			actionWidget->setFocusable(true);
 		}
 		else if(getID() == "btn_TimeLine_insertBPM")
 		{
-			EDITOR_PTR->mapData->bpm_insert(CORE_PTR->getRunPosition(), ((WTextField*)container_Categories[State::TIMELINE]->findWidgetById("txtField_timeline_BPM"))->getFloat());
+			int nearestGrid =EDITOR_PTR->mapData->getNearestStandardGrid(nowTimePos, EDITCONFIG->getGridToShowPerBeat());
+			EDITCONFIG->addAndDoOperation(new DivaEditorOperation_BPM(0,
+																		((WTextField*)container_Categories[State::TIMELINE]->findWidgetById("txtField_timeline_BPM"))->getFloat(),
+																		nearestGrid,
+																		DivaEditorOperation_BPM::INSERTBPM));
 			actionWidget->setFocusable(false);
 			actionWidget->setFocusable(true);
 		}
 		else if(getID() == "btn_TimeLine_deleteBPM")
 		{
-			EDITOR_PTR->mapData->bpm_delete(CORE_PTR->getRunPosition());
+			EDITCONFIG->addAndDoOperation(new DivaEditorOperation_BPM(EDITOR_PTR->mapData->getBPM(nowTimePos),
+																		0,
+																		EDITOR_PTR->mapData->getBPMPos(nowTimePos),
+																		DivaEditorOperation_BPM::DELETEBPM));
 			actionWidget->setFocusable(false);
 			actionWidget->setFocusable(true);
 		}
@@ -950,19 +971,47 @@ namespace divaeditor
 		//Stop
 		else if(getID() == "btn_TimeLine_changeStop" || (getID() == "txtField_timeline_Stop" && container_Categories[State::TIMELINE]->findWidgetById("btn_TimeLine_changeStop")->isVisible()))
 		{
-			EDITOR_PTR->mapData->stop_change(CORE_PTR->getRunPosition(), ((WTextField*)container_Categories[State::TIMELINE]->findWidgetById("txtField_timeline_Stop"))->getFloat());
+			int nowStopIndex = EDITOR_PTR->mapData->getStopPos(nowTimePos);
+			if(nowStopIndex!=-1)
+			{
+				int length = ((WTextField*)container_Categories[State::TIMELINE]->findWidgetById("txtField_timeline_Stop"))->getFloat();
+
+				EDITCONFIG->addAndDoOperation(new DivaEditorOperation_STOP(EDITOR_PTR->mapData->getStop(nowTimePos),
+																		length,
+																		nowStopIndex,
+																		length==0?DivaEditorOperation_STOP::DELETESTOP:DivaEditorOperation_STOP::CHANGESTOP));
+			}
 			actionWidget->setFocusable(false);
 			actionWidget->setFocusable(true);
 		}
 		else if(getID() == "btn_TimeLine_insertStop" || (getID() == "txtField_timeline_Stop" && container_Categories[State::TIMELINE]->findWidgetById("btn_TimeLine_insertStop")->isVisible()))
 		{
-			EDITOR_PTR->mapData->stop_insert(CORE_PTR->getRunPosition(), ((WTextField*)container_Categories[State::TIMELINE]->findWidgetById("txtField_timeline_Stop"))->getFloat());
+			int nowStopIndex = EDITOR_PTR->mapData->getStopPos(nowTimePos);
+			if(nowStopIndex==-1)
+			{
+				int length = ((WTextField*)container_Categories[State::TIMELINE]->findWidgetById("txtField_timeline_Stop"))->getFloat();
+				if(length>0)
+				{
+					EDITCONFIG->addAndDoOperation(new DivaEditorOperation_STOP(0,
+																		length,
+																		nowTimePos,
+																		DivaEditorOperation_STOP::INSERTSTOP));
+				}
+			}
+
 			actionWidget->setFocusable(false);
 			actionWidget->setFocusable(true);
 		}
 		else if(getID() == "btn_TimeLine_deleteStop")
 		{
-			EDITOR_PTR->mapData->stop_delete(CORE_PTR->getRunPosition());
+			int nowStopIndex = EDITOR_PTR->mapData->getStopPos(nowTimePos);
+			if(nowStopIndex!=-1)
+			{
+				EDITCONFIG->addAndDoOperation(new DivaEditorOperation_STOP(EDITOR_PTR->mapData->getStop(nowTimePos),
+																		0,
+																		nowStopIndex,
+																		DivaEditorOperation_STOP::DELETESTOP));
+			}
 			actionWidget->setFocusable(false);
 			actionWidget->setFocusable(true);
 		}
@@ -970,22 +1019,43 @@ namespace divaeditor
 		//Offset
 		else if(getID() == "txtField_timeline_offSet" || getID() == "btn_TimeLine_changeOffset")
 		{
-			int thisOffset = ((WTextField*)container_Categories[State::TIMELINE]->findWidgetById("txtField_timeline_offSet"))->getFloat();
-			EDITOR_PTR->mapData->offset_set(thisOffset, true);
+			EDITCONFIG->addAndDoOperation(new DivaEditorOperation_GridOffset(EDITOR_PTR->mapData->getOffset(),
+																		((WTextField*)container_Categories[State::TIMELINE]->findWidgetById("txtField_timeline_offSet"))->getFloat()));
+
 			actionWidget->setFocusable(false);
 			actionWidget->setFocusable(true);
 		}
 
 		//BeatNum
 		else if(getID() == "txtField_timeline_BeatNum" || getID() == "btn_TimeLine_changeBeatNum")
-		{			
-			EDITOR_PTR->mapData->beatNum_change(CORE_PTR->getRunPosition(), ((WTextField*)container_Categories[State::TIMELINE]->findWidgetById("txtField_timeline_BeatNum"))->getFloat());
+		{
+			int thisPeriod = EDITOR_PTR->mapData->getPeriodfromGrid(nowTimePos);
+			bool beatExist = EDITOR_PTR->mapData->beatNumExist(thisPeriod);
+
+			int beatNum = ((WTextField*)container_Categories[State::TIMELINE]->findWidgetById("txtField_timeline_BeatNum"))->getFloat();
+
+			if(beatNum>0 && (!beatExist || (beatExist && beatNum != EDITOR_PTR->mapData->getBeatNum(nowTimePos))))
+			{
+				EDITCONFIG->addAndDoOperation(new DivaEditorOperation_BeatNum(EDITOR_PTR->mapData->getBeatNum(nowTimePos),
+																		beatNum,
+																		thisPeriod,
+																		beatExist?DivaEditorOperation_BeatNum::CHANGEBEATNUM:DivaEditorOperation_BeatNum::INSERTBEATNUM));
+			}
+
 			actionWidget->setFocusable(false);
 			actionWidget->setFocusable(true);
 		}
 		else if(getID() == "btn_TimeLine_deleteBeatNum")
 		{
-			EDITOR_PTR->mapData->beatNum_delete(CORE_PTR->getRunPosition());
+			int thisPeriod = EDITOR_PTR->mapData->getPeriodfromGrid(nowTimePos);
+			if(EDITOR_PTR->mapData->getBeatNumPeriod(thisPeriod)!=0)
+			{
+				EDITCONFIG->addAndDoOperation(new DivaEditorOperation_BeatNum(EDITOR_PTR->mapData->getBeatNum(nowTimePos),
+																		0,
+																		thisPeriod,
+																		DivaEditorOperation_BeatNum::DELETEBEATNUM));
+			}
+
 			actionWidget->setFocusable(false);
 			actionWidget->setFocusable(true);
 		}
@@ -993,7 +1063,10 @@ namespace divaeditor
 		//Tail Speed
 		else if(getID() == "txtField_timeline_TailSpeed" || getID() == "btn_TimeLine_changeTailSpeed")
 		{
-			EDITOR_PTR->mapData->tailSpeed_change(((WTextField*)container_Categories[State::TIMELINE]->findWidgetById("txtField_timeline_TailSpeed"))->getFloat());
+			EDITCONFIG->addAndDoOperation(new DivaEditorOperation_TailSpeed(EDITOR_PTR->mapData->getTailSpeed(),
+																		((WTextField*)container_Categories[State::TIMELINE]->findWidgetById("txtField_timeline_TailSpeed"))->getFloat()));
+
+
 			actionWidget->setFocusable(false);
 			actionWidget->setFocusable(true);
 		}
@@ -1237,6 +1310,22 @@ namespace divaeditor
 		if(event.key == sora::key::Ctrl)
 			EDITCONFIG->isctrl=true;
 
+		if(event.key == sora::key::Z && event.isCtrlFlag())
+		{
+			if(!event.isShiftFlag())
+				EDITCONFIG->undoTo();
+			else
+				EDITCONFIG->redoTo();
+		}
+
+		if(event.key == sora::key::C && event.isCtrlFlag())
+			EDITOR_PTR->mapData->copy(false);
+		else if(event.key == sora::key::X && event.isCtrlFlag())
+			EDITOR_PTR->mapData->copy(true);
+		else if(event.key == sora::key::V && event.isCtrlFlag())
+			EDITOR_PTR->mapData->paste(CORE_PTR->getRunPosition());
+
+
 		if(nowState!=State::PREVIEW && event.key == sora::key::Space)
 		{
 			if(CORE_FLOW_PTR->getState() == CoreFlow::RUN)
@@ -1249,17 +1338,26 @@ namespace divaeditor
 		{
 			NoteArea* noteArea = (NoteArea*)container_Categories[nowState]->findWidgetById("NoteArea");
 			noteArea->onKeyPressed(event);
+
+			Timeline* timeline = (Timeline*)top->findWidgetById("timeline_TimeLine");
+			timeline->onKeyPressed(event);
 		}
 	}
 	void DivaEditorMainScene::onKeyReleased(SoraKeyEvent& event)
 	{
 		if(event.key == sora::key::Ctrl)
 			EDITCONFIG->isctrl=false;
+		else if(event.key == sora::key::Tab)
+			EDITCONFIG->ChangeEditState();
+
 
 		if(nowState==State::NOTE)
 		{
 			NoteArea* noteArea = (NoteArea*)container_Categories[nowState]->findWidgetById("NoteArea");
 			noteArea->onKeyReleased(event);
+
+			Timeline* timeline = (Timeline*)top->findWidgetById("timeline_TimeLine");
+			timeline->onKeyReleased(event);
 		}
 	}
 

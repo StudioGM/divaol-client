@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "divaeditor/DivaEditorMapData.h"
+#include "divaeditor/Core/DivaEditorMapData.h"
 
 #include "Hoshizora.h"
 
@@ -99,6 +99,7 @@ namespace divaeditor
 		int pressedTimePos;
 		bool isDragingTime;
 
+		bool isFristDrag;
 	};
 
 

@@ -1,7 +1,7 @@
 #ifndef DivaEditorMapData_H
 #define DivaEditorMapData_H
 
-#include "divaeditor/DivaEditor.h"
+#include "divaeditor/Core/DivaEditor.h"
 
 #include "divacore/core/DivaMapInfo.h"
 
@@ -31,9 +31,18 @@ namespace divaeditor
 		std::wstring workingDirectory, workingDivaOLFile, workingDivaOLProFile;
 
 		std::vector<divacore::MapNote*> selected;
-		std::vector<divacore::MapNote*> copyBoard;
 
 		int mapOffset;
+
+		static const int MAXPERIOD = 1000000;
+
+	public:
+		std::vector<divacore::MapNote> copyBoard;
+
+		void copy(bool cut);
+		void paste(float pos);
+
+	public:
 
 		void ResetEditorMapData();
 
@@ -126,9 +135,11 @@ namespace divaeditor
 		void note_modifyPos(int index, int x, int y, bool isDelta);
 		void note_modifyTimePos(int index, int pos, bool isDelta);
 		void note_modifyType(int index, char keyPress, bool arrow);
-		void note_modifyKey(int index, int key);
+		void note_modifyTypeByType(int index, int type, bool delta, bool needDecode=false);
+		void note_modifyKey(int index, std::string key);
 		void note_delete(int index);
 
+		int addNormalNote(divacore::MapNote mapNote);
 		int addNormalNote(int pos, char keyPress, bool arrow, int x, int y, int tailX, int tailY, int key=-1);
 		int addLongNote(divacore::MapNote longNote);
 
@@ -137,7 +148,7 @@ namespace divaeditor
 		int findFirstBiggerPositionNoteIndex(int pos);
 		void findNoteIndexInRange(int leftPos, int rightPos, int &beginIndex, int &endIndex);
 		int findNoteToSelectByPos(int position,int x,int y);
-		int findNoteIndexByType(int position, int type);
+		int findNoteIndexByType(int position, int type, int singleDeltaNum=0);
 		std::vector<int> findNoteToSelectByRange(int position,int leftUpX,int leftUpY,int rightDownX,int rightDownY);
 
 		gcn::Rectangle findSelectedAreaRectange();
@@ -148,16 +159,19 @@ namespace divaeditor
 
 		void sortNote();
 
+		void guessThisNotePositionByLastTwo(int pos, int& out_x,int &out_y,int &tail_x,int &tail_y);
+
 	public:
 
 
 		///////////////BeatNum operation
 		int getBeatNum(float pos);
+		int getBeatNumPeriod(int period);
+		bool beatNumExist(int period);
 		std::map<int,int> getBeatNumByRange(float left, float right);
 
-		void beatNum_change(float pos, int beatNum);
-		void beatNum_insert(float pos, int beatNum);
-		void beatNum_delete(float pos);
+		void beatNum_change(int period, int beatNum);
+		void beatNum_delete(int period);
 
 
 		///////////////offset
@@ -167,6 +181,7 @@ namespace divaeditor
 
 		///////////////stop operation
 		int getStop(float pos);
+		int getStopPos(float pos);
 		std::vector<int> getStopPositionByRange(float left, float right);
 
 		void stop_change(float pos, int length);
@@ -176,6 +191,7 @@ namespace divaeditor
 
 		///////////////BPM operation
 		float getBPM(float pos);
+		float getBPMPos(float pos);
 
 		void bpm_change(float pos, float bpm);
 		void bpm_insert(float pos, float bpm);

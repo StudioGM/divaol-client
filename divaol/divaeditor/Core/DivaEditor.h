@@ -12,7 +12,7 @@
 #include<algorithm>
 
 #include "divaeditor/DivaEditorCommon.h"
-#include "divaeditor/DivaEditorMapData.h"
+#include "divaeditor/Core/DivaEditorMapData.h"
 #include "divaeditor/Scene/DivaEditorScene.h"
 
 #include "divacore/Core/DivaCommon.h"

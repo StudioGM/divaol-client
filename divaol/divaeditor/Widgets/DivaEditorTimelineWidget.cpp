@@ -1,5 +1,6 @@
 
 #include "divaeditor/Widgets/DivaEditorTimelineWidget.h"
+#include "divaeditor/Component/DivaEditorStandardOperation.h"
 #include "divaeditor/DivaEditorCommon.h"
 
 #include "divacore/Core/DivaCore.h"
@@ -25,7 +26,9 @@ namespace divaeditor
 		isSelecting(false),
 		_maxGridHeightFactor(0.5),
 		isMouseOn(false),
-		isDraggingNote(false)
+		isDraggingNote(false),
+		placingLong(false),
+		placingCombo(false)
 		//_selectedChanged(sora::SoraFunction<void(float,float)>())
 	{
 		setFocusable(true);
@@ -57,7 +60,13 @@ namespace divaeditor
 													gcn::Color(11,177,255),
 													gcn::Color(0,222,15)};
 
+		static const gcn::Color noteColorsSelected[4] = {gcn::Color(33,255,0),
+													gcn::Color(33,255,240),
+													gcn::Color(244,78,0),
+													gcn::Color(255,33,240)};
+
 		static const gcn::Color mouseLine = gcn::Color(255,255,0,255);
+		static const gcn::Color selectedColor(255,255,0,255);
 
 		float width = getWidth();
 		float height = getHeight();
@@ -96,14 +105,28 @@ namespace divaeditor
 
 				gcn::Rectangle toDraw(drawPos-noteBlockSize/2,noteBlockSize*noteTypeIndex,noteBlockSize,noteBlockSize);
 
+				//if(EDITCONFIG->isNoteSelected(i))
+					//graphics->setColor(noteColorsSelected[noteTypeIndex%4]);
+				//else
 				graphics->setColor(noteColors[noteTypeIndex%4]);
 				graphics->fillRectangle(toDraw);
 
 				toDraw.width-=1;
 				toDraw.height-=1;
 
-				graphics->setColor(lineColor);
+				graphics->setColor(gcn::Color(0,0,0,255));
 				graphics->drawRectangle(toDraw);
+
+				if(EDITCONFIG->isNoteSelected(i))
+				{
+					graphics->setColor(selectedColor);
+					toDraw.x-=1;
+					toDraw.y-=1;
+					toDraw.width+=2;
+					toDraw.height+=2;
+					graphics->drawRectangle(toDraw);
+				}
+
 			}
 			else if(thisNote.notePoint.size()==2 && ((thisNote.notePoint[0].position >= leftPos && thisNote.notePoint[0].position <= rightPos)
 				                                   || (thisNote.notePoint[1].position >= leftPos && thisNote.notePoint[1].position <= rightPos)))
@@ -115,10 +138,53 @@ namespace divaeditor
 				if(leftDrawPos<0) leftDrawPos=0;
 				if(rightDrawPos>width) rightDrawPos=width;
 
+				gcn::Rectangle toDraw(leftDrawPos,noteBlockSize*noteTypeIndex,(rightDrawPos-leftDrawPos+1),noteBlockSize);
+
+				//if(EDITCONFIG->isNoteSelected(i))
+					//graphics->setColor(noteColorsSelected[noteTypeIndex%4]);
+				//else
 				graphics->setColor(noteColors[noteTypeIndex%4]);
-				graphics->fillRectangle(gcn::Rectangle(leftDrawPos,noteBlockSize*noteTypeIndex,(rightDrawPos-leftDrawPos+1),noteBlockSize));
+				graphics->fillRectangle(toDraw);
+
+				if(EDITCONFIG->isNoteSelected(i))
+				{
+					graphics->setColor(selectedColor);
+					toDraw.x-=1;
+					toDraw.y-=1;
+					toDraw.width+=2;
+					toDraw.height+=2;
+					graphics->drawRectangle(toDraw);
+				}
 			}
 		}
+
+		//Draw Note Will be placed
+		if(placingLong||placingCombo)
+		{
+			int mouseXGrid = EDITOR_PTR->mapData->getNearestStandardGrid((float)nowMouseXPos/width * rangeGridNum+leftPos, EDITCONFIG->getGridToShowPerBeat());
+			int tBeginGrid = _placeNoteBeginPos;
+
+			if(mouseXGrid<tBeginGrid)
+				std::swap(mouseXGrid,tBeginGrid);
+
+			float leftDrawPos = (tBeginGrid -leftPos)/rangeGridNum * width;
+			float rightDrawPos = (mouseXGrid -leftPos)/rangeGridNum * width;
+			int noteTypeIndex = EDITOR_PTR->mapData->getNoteTypeIndexFromNoteType(_placeNoteType);
+
+			if(leftDrawPos<0) leftDrawPos=0;
+			if(rightDrawPos>width) rightDrawPos=width;
+
+			gcn::Rectangle toDraw(leftDrawPos,noteBlockSize*noteTypeIndex,(rightDrawPos-leftDrawPos+1),noteBlockSize);
+
+			//if(EDITCONFIG->isNoteSelected(i))
+			//graphics->setColor(noteColorsSelected[noteTypeIndex%4]);
+			//else
+			gcn::Color toDrawNoteColor = noteColors[noteTypeIndex%4];
+			toDrawNoteColor.a = 100;
+			graphics->setColor(toDrawNoteColor);
+			graphics->fillRectangle(toDraw);
+		}
+
 
 
 #pragma endregion Draw Notes
@@ -266,7 +332,7 @@ namespace divaeditor
 
 		
 		
-		if(isMouseOn)
+		if(isMouseOn && isEnabled())
 		{
 			float mouseGrid = EDITOR_PTR->mapData->getNearestStandardGrid((float)nowMouseXPos/width * rangeGridNum+leftPos, EDITCONFIG->getGridToShowPerBeat());
 			int mouseGridXPos = (mouseGrid-leftPos)/rangeGridNum*width;
@@ -290,15 +356,17 @@ namespace divaeditor
 	}
 
 
-
-
 	void Timeline::mousePressed(gcn::MouseEvent& mouseEvent)
 	{
 		nowMouseXPos = mouseEvent.getX();
 		nowMouseYPos = mouseEvent.getY();
 
-		isSelecting = false;
-		isDraggingNote = false;
+		if(mouseEvent.getButton()==gcn::MouseEvent::LEFT)
+		{
+			isSelecting = false;
+			isDraggingNote = false;
+		}
+		
 	}
 
 	void Timeline::mouseDragged(gcn::MouseEvent& mouseEvent)
@@ -306,63 +374,104 @@ namespace divaeditor
 		nowMouseXPos = mouseEvent.getX();
 		nowMouseYPos = mouseEvent.getY();
 
-
-		float width = getWidth();
-		float height = getHeight();
-
-		int GridPerBeat = EDITCONFIG->GridPerBeat;
-		int _beatNumberPerScreen = EDITCONFIG->getBeatNumberPerScreen();
-		int _gridToShowPerBeat = EDITCONFIG->getGridToShowPerBeat();
-		float _showRangeFactor = EDITCONFIG->getShowRangeScale();
-
-		float rangeGridNum = float(_beatNumberPerScreen)*_showRangeFactor * GridPerBeat;
-		float mapBeginOffSet = 0;
-		float leftPos = (float)CORE_PTR->getRunPosition() - rangeGridNum/2 + mapBeginOffSet;
-		float rightPos = leftPos + rangeGridNum;
-
-
-		if(!isDraggingNote && !isSelecting)  //Detect to drag note or select note
+		
+		if(mouseEvent.getButton()==gcn::MouseEvent::LEFT)
 		{
-			//Check if is dragging a note
-			int toSelect = findNoteByMousePos(nowMouseXPos,nowMouseYPos);
-			if(toSelect!=-1)
+			float width = getWidth();
+			float height = getHeight();
+
+			int GridPerBeat = EDITCONFIG->GridPerBeat;
+			int _beatNumberPerScreen = EDITCONFIG->getBeatNumberPerScreen();
+			int _gridToShowPerBeat = EDITCONFIG->getGridToShowPerBeat();
+			float _showRangeFactor = EDITCONFIG->getShowRangeScale();
+
+			float rangeGridNum = float(_beatNumberPerScreen)*_showRangeFactor * GridPerBeat;
+			float mapBeginOffSet = 0;
+			float leftPos = (float)CORE_PTR->getRunPosition() - rangeGridNum/2 + mapBeginOffSet;
+			float rightPos = leftPos + rangeGridNum;
+
+			bool lastIsDraggingNote = isDraggingNote;
+
+			if(!isDraggingNote && !isSelecting)  //Detect to drag note or select note
 			{
-				//Add this to select
-
-				if (!EDITCONFIG->isctrl)
-					EDITCONFIG->clearSelectedNote();
-				
-				if(!EDITCONFIG->isNoteSelected(toSelect))
-					EDITCONFIG->addSelectedNote(toSelect);
-
-				lastDragPos = EDITOR_PTR->mapData->getNearestStandardGrid((float)nowMouseXPos/width * rangeGridNum+leftPos, EDITCONFIG->getGridToShowPerBeat());
-
-				isDraggingNote=true;
-			}
-			else
-			{
-				_selectedBegin = (float(mouseEvent.getX()) / float(getWidth()) - 0.5) 
-					* float(EDITCONFIG->getBeatNumberPerScreen())*EDITCONFIG->getShowRangeScale() * EDITCONFIG->GridPerBeat + CORE_PTR->getRunPosition();
-				isSelecting=true;
-			}
-		}
-
-
-		if(isDraggingNote)
-		{
-			int nowDragPos = EDITOR_PTR->mapData->getNearestStandardGrid((float)nowMouseXPos/width * rangeGridNum+leftPos, EDITCONFIG->getGridToShowPerBeat());
-
-			if(nowDragPos>=0 && nowDragPos<= (int)CORE_FLOW_PTR->getTotalPosition())
-				if(nowDragPos!=lastDragPos)
+				//Check if is dragging a note
+				int toSelect = findNoteByMousePos(nowMouseXPos,nowMouseYPos);
+				if(toSelect!=-1)
 				{
-					for (int i=0;i<EDITCONFIG->noteSelected.size();i++)
-						EDITOR_PTR->mapData->note_modifyTimePos(EDITCONFIG->noteSelected[i],nowDragPos-lastDragPos,true);
-					EDITOR_PTR->mapData->sortNote();
-					EDITUTILITY.reCaltTime();
+					//Add this to select
+
+					if (!EDITCONFIG->isNoteSelected(toSelect)&&!EDITCONFIG->isctrl)
+						EDITCONFIG->clearSelectedNote();
+
+					if(!EDITCONFIG->isNoteSelected(toSelect))
+						EDITCONFIG->addSelectedNote(toSelect);
+
+					lastDragPos = EDITOR_PTR->mapData->getNearestStandardGrid((float)nowMouseXPos/width * rangeGridNum+leftPos, EDITCONFIG->getGridToShowPerBeat());
+					lastDragType = ((float)nowMouseYPos/(height*0.8))*8;
+
+
+					isDraggingNote=true;
+					firstDrag=true;
+				}
+				else
+				{
+					_selectedBegin = (float(mouseEvent.getX()) / float(getWidth()) - 0.5) 
+						* float(EDITCONFIG->getBeatNumberPerScreen())*EDITCONFIG->getShowRangeScale() * EDITCONFIG->GridPerBeat + CORE_PTR->getRunPosition();
+					isSelecting=true;
+				}
+			}
+
+
+			if(isDraggingNote)
+			{
+				int nowDragPos = EDITOR_PTR->mapData->getNearestStandardGrid((float)nowMouseXPos/width * rangeGridNum+leftPos, EDITCONFIG->getGridToShowPerBeat());
+
+				int nowDragType = ((float)nowMouseYPos/(height*0.8))*8;
+
+				if(nowDragPos>=0 && nowDragPos<= (int)CORE_FLOW_PTR->getTotalPosition())
+				{
+					if(nowDragPos!=lastDragPos && EDITCONFIG->noteSelected.size()>0)
+					{
+						EDITCONFIG->LockOperation(getId()+"_drag");
+
+						DivaEditorOperationSet *thisModifySet = new DivaEditorOperationSet();
+						thisModifySet->needToRecalcTime = true;
+
+						for (int i=0;i<EDITCONFIG->noteSelected.size();i++)
+							thisModifySet->addOperation(new DivaEditorOperation_ModifyNote(EDITCONFIG->noteSelected[i],nowDragPos-lastDragPos,true));
+
+						EDITCONFIG->addAndDoOperation(thisModifySet, getId()+"_drag");
+
+						if(!firstDrag)
+							EDITCONFIG->mergeLastTwoOperation();
+
+						firstDrag=false;
+					}
+
+					if(nowDragType!=lastDragType)
+					{
+						EDITCONFIG->LockOperation(getId()+"_drag");
+
+						DivaEditorOperationSet *thisModifySet = new DivaEditorOperationSet();
+
+						for (int i=0;i<EDITCONFIG->noteSelected.size();i++)
+							thisModifySet->addOperation(new DivaEditorOperation_ModifyNote(EDITCONFIG->noteSelected[i],nowDragType-lastDragType,true,true));
+
+						EDITCONFIG->addAndDoOperation(thisModifySet, getId()+"_drag");
+
+						if(!firstDrag)
+							EDITCONFIG->mergeLastTwoOperation();
+
+						firstDrag=false;
+					}
 				}
 
-			lastDragPos=nowDragPos;
+				lastDragPos=nowDragPos;
+
+				lastDragType = nowDragType;
+			}
 		}
+		
 
 
 	}
@@ -392,32 +501,97 @@ namespace divaeditor
 		float leftPos = CORE_PTR->getRunPosition() - rangeGridNum/2 + mapBeginOffSet;
 		float rightPos = leftPos + rangeGridNum;
 
-
-		if(isSelecting)
-			isSelecting = false;
-		else if(isDraggingNote)
-			isDraggingNote = false;
-		else
+		if(mouseEvent.getButton()==gcn::MouseEvent::LEFT)
 		{
-			//Check if is dragging a note
-			int toSelect = findNoteByMousePos(nowMouseXPos,nowMouseYPos);
-			if(toSelect!=-1)
+			if(isSelecting)
 			{
 				if (!EDITCONFIG->isctrl)
 					EDITCONFIG->clearSelectedNote();
 
-				//Add this to select
-				EDITCONFIG->addSelectedNote(toSelect);
-			}
-			else //Set Position
-			{
-				int nowSetPos = EDITOR_PTR->mapData->getNearestStandardGrid((float)nowMouseXPos/width * rangeGridNum+leftPos, EDITCONFIG->getGridToShowPerBeat());
+				if(_selectedEnd<_selectedBegin)
+					std::swap(_selectedBegin,_selectedEnd);
 
-				if(nowSetPos>=0&&nowSetPos<=(int)CORE_FLOW_PTR->getTotalPosition())
-					EDITUTILITY.setPosition(nowSetPos);
+				for (int i=0;i<EDITOR_PTR->mapData->coreInfoPtr->notes.size();i++)
+				{
+					divacore::MapNote& thisNote = EDITOR_PTR->mapData->coreInfoPtr->notes[i];
+
+					if(thisNote.notePoint[0].position>_selectedEnd)
+						break;
+
+					bool needToSelect = false;
+
+					for(int notePointI=0;notePointI<thisNote.notePoint.size();notePointI++)
+						needToSelect = needToSelect || (thisNote.notePoint[notePointI].position>=_selectedBegin && thisNote.notePoint[notePointI].position<=_selectedEnd);
+
+					if(needToSelect && !EDITCONFIG->isNoteSelected(i))
+						EDITCONFIG->addSelectedNote(i);
+				}
+
+				isSelecting = false;
+			}
+			else if(isDraggingNote)
+			{
+				EDITCONFIG->UnlockOperation();
+				isDraggingNote = false;
+			}
+			else
+			{
+				//Check if is select a note
+				int toSelect = findNoteByMousePos(nowMouseXPos,nowMouseYPos);
+				if(toSelect!=-1)
+				{
+					if (!EDITCONFIG->isctrl)
+						EDITCONFIG->clearSelectedNote();
+
+					//Add this to select
+					EDITCONFIG->addSelectedNote(toSelect);
+				}
+				else //Set Position
+				{
+					int nowSetPos = EDITOR_PTR->mapData->getNearestStandardGrid((float)nowMouseXPos/width * rangeGridNum+leftPos, EDITCONFIG->getGridToShowPerBeat());
+
+					if(nowSetPos>=0&&nowSetPos<=(int)CORE_FLOW_PTR->getTotalPosition())
+						EDITUTILITY.setPosition(nowSetPos);
+				}
+
+			}
+		}
+		else if(mouseEvent.getButton()==gcn::MouseEvent::RIGHT)
+		{
+
+			//if the note is selected, delete it
+			//else , select the note, and delete it
+
+			//Check if is dragging a note
+			int toSelect = findNoteByMousePos(nowMouseXPos,nowMouseYPos);
+
+			if(toSelect!=-1)
+			{
+				//Check if it's selected
+				if(!EDITCONFIG->isNoteSelected(toSelect))
+				{
+					if (!EDITCONFIG->isctrl)
+						EDITCONFIG->clearSelectedNote();
+
+					EDITCONFIG->addSelectedNote(toSelect);
+				}
+
+				//Begin to delete
+
+				DivaEditorOperationSet *thisDeleteSet = new DivaEditorOperationSet();
+
+				for(int i=0;i<EDITCONFIG->noteSelected.size();i++)
+					thisDeleteSet->addOperation(new DivaEditorOperation_DeleteNote(EDITCONFIG->noteSelected[i]));
+
+				EDITCONFIG->addAndDoOperation(thisDeleteSet);
+			}
+			else //Clear all selection
+			{
+				EDITCONFIG->clearSelectedNote();
 			}
 
 		}
+		
 		
 	}
 
@@ -446,12 +620,13 @@ namespace divaeditor
 		const float noteBlockSize = height*0.1;
 
 
-		int mouseXGrid = EDITOR_PTR->mapData->getNearestStandardGrid((float)nowMouseXPos/width * rangeGridNum+leftPos, EDITCONFIG->getGridToShowPerBeat());
+		//int mouseXGrid = EDITOR_PTR->mapData->getNearestStandardGrid((float)nowMouseXPos/width * rangeGridNum+leftPos, EDITCONFIG->getGridToShowPerBeat());
+		int mouseXGrid = (float)nowMouseXPos/width * rangeGridNum+leftPos;
 		
 		if( (float)nowMouseYPos < height*0.8)
 		{
 			int mouseGridYPos = ((float)nowMouseYPos/(height*0.8))*8;
-			return EDITOR_PTR->mapData->findNoteIndexByType(mouseXGrid, EDITOR_PTR->mapData->getNoteTypeFromNoteTypeIndex(mouseGridYPos));
+			return EDITOR_PTR->mapData->findNoteIndexByType(mouseXGrid, EDITOR_PTR->mapData->getNoteTypeFromNoteTypeIndex(mouseGridYPos),height*0.1 / width * rangeGridNum );
 		}
 		else
 			return -1;
@@ -459,7 +634,132 @@ namespace divaeditor
 
 
 
+	void Timeline::onKeyPressed(sora::SoraKeyEvent& event)
+	{
+		int thisKey = event.chr;
+		bool caps = false;
+		if(thisKey>='A'&&thisKey<='Z') 
+		{
+			thisKey+='a'-'A';
+			caps=true;
+		}
+		
 
+		float width = getWidth();
+		float height = getHeight();
+
+		int GridPerBeat = EDITCONFIG->GridPerBeat;
+		int _beatNumberPerScreen = EDITCONFIG->getBeatNumberPerScreen();
+		int _gridToShowPerBeat = EDITCONFIG->getGridToShowPerBeat();
+		float _showRangeFactor = EDITCONFIG->getShowRangeScale();
+
+		float rangeGridNum = float(_beatNumberPerScreen)*_showRangeFactor * GridPerBeat;
+		float mapBeginOffSet = 0;
+		float leftPos = CORE_PTR->getRunPosition() - rangeGridNum/2 + mapBeginOffSet;
+		float rightPos = leftPos + rangeGridNum;
+
+		const float noteBlockSize = height*0.1;
+
+		
+
+		if(thisKey=='a'||thisKey=='w'||thisKey=='s'||thisKey=='d' && !event.isAltFlag() && !event.isCtrlFlag())
+		{
+			int mouseXGrid = EDITOR_PTR->mapData->getNearestStandardGrid((float)nowMouseXPos/width * rangeGridNum+leftPos, EDITCONFIG->getGridToShowPerBeat());
+
+			if(mouseXGrid>=0&&mouseXGrid<=CORE_FLOW_PTR->getTotalPosition() && isMouseOn)
+			{
+				int guessX,guessY,guessTailX,guessTailY;
+
+				EDITOR_PTR->mapData->guessThisNotePositionByLastTwo(mouseXGrid,guessX,guessY,guessTailX,guessTailY);
+
+				if(EDITCONFIG->EDITSTATE_NOTESTATE == EditorConfig::NOTESTATE::NORMAL)
+				{
+					int toAddFind = EDITOR_PTR->mapData->findNoteIndexByType(mouseXGrid, EDITOR_PTR->mapData->getNoteTypeFromKeyPress(thisKey,caps));
+					if(toAddFind==-1)
+						EDITCONFIG->addAndDoOperation(new DivaEditorOperation_AddNormalNote(mouseXGrid,thisKey,caps,guessX,guessY,guessTailX,guessTailY));
+					else
+					{
+						EDITCONFIG->clearSelectedNote();
+						EDITCONFIG->addSelectedNote(toAddFind);
+					}
+				}
+				else if(EDITCONFIG->EDITSTATE_NOTESTATE == EditorConfig::NOTESTATE::LONG && !placingLong)
+				{
+					_placeNoteType = EDITOR_PTR->mapData->getNoteTypeFromKeyPress(thisKey,caps);
+					_placeNoteBeginPos = mouseXGrid;
+
+					placingLong = true;
+				}
+				else if(EDITCONFIG->EDITSTATE_NOTESTATE == EditorConfig::NOTESTATE::COMBO && !placingCombo)
+				{
+					_placeNoteType = EDITOR_PTR->mapData->getNoteTypeFromKeyPress(thisKey,caps);
+					_placeNoteBeginPos = mouseXGrid;
+
+					placingCombo = true;
+				}
+			}
+
+		}
+	}
+
+	void Timeline::onKeyReleased(sora::SoraKeyEvent& event)
+	{
+		int thisKey = event.chr;
+		bool caps = false;
+		if(thisKey>='A'&&thisKey<='Z') 
+		{
+			thisKey+='a'-'A';
+			caps=true;
+		}
+
+
+		float width = getWidth();
+		float height = getHeight();
+
+		int GridPerBeat = EDITCONFIG->GridPerBeat;
+		int _beatNumberPerScreen = EDITCONFIG->getBeatNumberPerScreen();
+		int _gridToShowPerBeat = EDITCONFIG->getGridToShowPerBeat();
+		float _showRangeFactor = EDITCONFIG->getShowRangeScale();
+
+		float rangeGridNum = float(_beatNumberPerScreen)*_showRangeFactor * GridPerBeat;
+		float mapBeginOffSet = 0;
+		float leftPos = CORE_PTR->getRunPosition() - rangeGridNum/2 + mapBeginOffSet;
+		float rightPos = leftPos + rangeGridNum;
+
+		const float noteBlockSize = height*0.1;
+
+
+		if(thisKey=='a'||thisKey=='w'||thisKey=='s'||thisKey=='d' && !event.isAltFlag() && !event.isCtrlFlag())
+		{
+			int mouseXGrid = EDITOR_PTR->mapData->getNearestStandardGrid((float)nowMouseXPos/width * rangeGridNum+leftPos, EDITCONFIG->getGridToShowPerBeat());
+
+			if(mouseXGrid<0||mouseXGrid>CORE_FLOW_PTR->getTotalPosition() || mouseXGrid==_placeNoteBeginPos)
+				return;
+			else if(mouseXGrid<_placeNoteBeginPos)
+				std::swap(mouseXGrid,_placeNoteBeginPos);
+
+			int guessX,guessY,guessTailX,guessTailY;
+			EDITOR_PTR->mapData->guessThisNotePositionByLastTwo(mouseXGrid,guessX,guessY,guessTailX,guessTailY);
+
+			if(placingLong && EDITCONFIG->EDITSTATE_NOTESTATE == EditorConfig::NOTESTATE::LONG && isMouseOn)
+			{
+				divacore::MapNote placingNote = EDITOR_PTR->mapData->initNote(_placeNoteBeginPos,thisKey,caps,guessX,guessY,guessTailX,guessTailY,"long");
+				EDITOR_PTR->mapData->finishLongNote(placingNote,mouseXGrid);
+				
+				EDITCONFIG->addAndDoOperation(new DivaEditorOperation_AddLongNote(placingNote));
+			}
+			else if(placingCombo && EDITCONFIG->EDITSTATE_NOTESTATE == EditorConfig::NOTESTATE::COMBO && isMouseOn)
+			{
+				divacore::MapNote placingNote = EDITOR_PTR->mapData->initNote(_placeNoteBeginPos,thisKey,caps,guessX,guessY,guessTailX,guessTailY,"pingpong");
+				EDITOR_PTR->mapData->finishComboNote(placingNote,mouseXGrid);
+
+				EDITCONFIG->addAndDoOperation(new DivaEditorOperation_AddLongNote(placingNote));
+			}
+
+			placingLong=false;
+			placingCombo=false;
+		}
+	}
 
 
 

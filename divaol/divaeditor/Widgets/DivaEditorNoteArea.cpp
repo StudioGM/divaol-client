@@ -1,6 +1,7 @@
 
 #include "divaeditor/Widgets/DivaEditorNoteArea.h"
-#include "divaeditor/DivaEditorMapData.h"
+#include "divaeditor/Core/DivaEditorMapData.h"
+#include "divaeditor/Component/DivaEditorStandardOperation.h"
 #include "divaeditor/DivaEditorCommon.h"
 
 #include "divacore/Core/DivaCore.h"
@@ -85,10 +86,17 @@ namespace divaeditor
 	{
 
 		static const gcn::Color normalLineColor(255,255,255,255);
-		static const gcn::Color selectedColor(255,255,0,130);
+		static const gcn::Color selectedColor(255,255,0,255);
 		static const gcn::Color selectAreaColor(255,255,255,100);
 
 		float width = getWidth(),height = getHeight();
+
+
+		static const gcn::Color noteColors[4] = {gcn::Color(222,0,255,150),
+											gcn::Color(222,0,15,150),
+											gcn::Color(11,177,255,150),
+											gcn::Color(0,222,15,150)};
+
 
 #ifdef NOTEAREA_DEBUG
 
@@ -111,8 +119,54 @@ namespace divaeditor
 
 #endif
 
+		float nowPosition = CORE_PTR->getRunPosition();
 
 		//Draw selected note's tail
+
+		for (int i=0;i<EDITOR_PTR->mapData->coreInfoPtr->notes.size();i++)
+		{
+			divacore::MapNote &thisNote = EDITOR_PTR->mapData->coreInfoPtr->notes[i];
+
+			if(thisNote.notePoint[0].position>nowPosition + EDITCONFIG->GridPerBeat*4)
+				break;
+
+			//Draw Note need
+			float deltaPos;
+
+			if(thisNote.notePoint.size()==1)
+			{
+				deltaPos = abs((int)thisNote.notePoint[0].position-nowPosition);
+			}
+			else
+			{
+				if(nowPosition>=thisNote.notePoint[0].position && nowPosition<=thisNote.notePoint[1].position)
+					deltaPos = 0;
+				else if(nowPosition<thisNote.notePoint[0].position)
+					deltaPos = abs((int)thisNote.notePoint[0].position-nowPosition);
+				else
+					deltaPos = abs((int)thisNote.notePoint[1].position-nowPosition);
+			}
+
+
+			if(deltaPos<=(EDITCONFIG->GridPerBeat*4))
+			{
+				int noteTypeIndex = EDITOR_PTR->mapData->getNoteTypeIndexFromNoteType(thisNote.notePoint[0].type);
+				gcn::Color thisNoteColor = noteColors[noteTypeIndex%4];
+				thisNoteColor.a = (float)thisNoteColor.a * (1.0f - deltaPos/float(EDITCONFIG->GridPerBeat*4));
+
+				graphics->setColor(thisNoteColor);
+
+				gcn::Rectangle rectangleToDraw(float((thisNote.notePoint[0].x+EDITCONFIG->NoteAreaTailAreaSize-0.5)*EDITCONFIG->NoteAreaGridSize)*factor,
+					float((thisNote.notePoint[0].y+EDITCONFIG->NoteAreaTailAreaSize-0.5)*EDITCONFIG->NoteAreaGridSize)*factor,
+					float(EDITCONFIG->NoteAreaGridSize*2)*factor,
+					float(EDITCONFIG->NoteAreaGridSize*2)*factor);
+
+				graphics->fillRectangle(rectangleToDraw);
+			}
+			
+		}
+		
+
 
 		for (int i=0;i<EDITCONFIG->noteSelected.size();i++)
 		{
@@ -121,7 +175,7 @@ namespace divaeditor
 
 			for(int j=0;j<selectedNote.notePoint.size();j++)
 			{
-				graphics->fillRectangle(gcn::Rectangle(float((selectedNote.notePoint[j].x+EDITCONFIG->NoteAreaTailAreaSize-0.5)*EDITCONFIG->NoteAreaGridSize)*factor,
+				graphics->drawRectangle(gcn::Rectangle(float((selectedNote.notePoint[j].x+EDITCONFIG->NoteAreaTailAreaSize-0.5)*EDITCONFIG->NoteAreaGridSize)*factor,
 					float((selectedNote.notePoint[j].y+EDITCONFIG->NoteAreaTailAreaSize-0.5)*EDITCONFIG->NoteAreaGridSize)*factor,
 					float(EDITCONFIG->NoteAreaGridSize*2)*factor,
 					float(EDITCONFIG->NoteAreaGridSize*2)*factor));
@@ -178,11 +232,8 @@ namespace divaeditor
 					moveTailX = (nowMousePos.x - centerX)*1000;
 					moveTailY = (nowMousePos.y - centerY)*1000;
 
-					//EDITOR_PTR->mapData->note_modifyTail(EDITCONFIG->noteSelected[i],nowMousePos.x - centerX,nowMousePos.y - centerY);
 				}
 			}
-			//if(EDITCONFIG->noteSelected.size()>0)
-				//EDITUTILITY.refreshAll();
 		}
 		else if(moveTail)
 			changeSelectedNoteTailOver();
@@ -232,14 +283,21 @@ namespace divaeditor
 		{
 			if(isDragingTime)
 			{
+				/*
 				int thisPos = EDITOR_PTR->mapData->getNearestStandardGrid(CORE_PTR->getRunPosition(),EDITCONFIG->getGridToShowPerBeat());
 
-				if(thisPos!=pressedTimePos)
+				if(thisPos!=pressedTimePos && EDITCONFIG->noteSelected.size()>0)
 				{
+					DivaEditorOperationSet *thisModifySet = new DivaEditorOperationSet();
+					thisModifySet->needToRecalcTime = true;
+
 					for (int i=0;i<EDITCONFIG->noteSelected.size();i++)
-						EDITOR_PTR->mapData->note_modifyTimePos(EDITCONFIG->noteSelected[i],thisPos-pressedTimePos,true);
-					EDITUTILITY.reCaltTime();
+						thisModifySet->addOperation(new DivaEditorOperation_ModifyNote(EDITCONFIG->noteSelected[i],thisPos-pressedTimePos,true));
+
+					EDITCONFIG->addAndDoOperation(thisModifySet);
 				}
+				*/
+				//disable note area draging time function
 
 				isDragingTime=false;
 			}
@@ -269,16 +327,22 @@ namespace divaeditor
 				isSelecting=false;
 			}
 			else if(isDraging)
+			{
+				EDITCONFIG->UnlockOperation();
 				isDraging=false;
+			}
 		}
 		else if(mouseEvent.getButton() == MouseEvent::RIGHT)
 		{
-			int thisPos = EDITOR_PTR->mapData->getNearestStandardGrid(CORE_PTR->getRunPosition(),EDITCONFIG->getGridToShowPerBeat());
+			if(EDITCONFIG->noteSelected.size()>0)
+			{
+				DivaEditorOperationSet *thisDeleteSet = new DivaEditorOperationSet();
 
-			for (int i=0;i<EDITCONFIG->noteSelected.size();)
-				EDITOR_PTR->mapData->note_delete(EDITCONFIG->noteSelected[i]);
-				
-			EDITUTILITY.refreshAll();
+				for(int i=0;i<EDITCONFIG->noteSelected.size();i++)
+					thisDeleteSet->addOperation(new DivaEditorOperation_DeleteNote(EDITCONFIG->noteSelected[i]));
+
+				EDITCONFIG->addAndDoOperation(thisDeleteSet);
+			}
 		}
 		
 	}
@@ -310,6 +374,7 @@ namespace divaeditor
 				dragingPosX = (nowGridSelectX-EDITCONFIG->NoteAreaTailAreaSize) - dragAreaRect.x;
 				dragingPosY = (nowGridSelectY-EDITCONFIG->NoteAreaTailAreaSize) - dragAreaRect.y;
 				isDraging=true;
+				isFristDrag=true;
 			}
 			else
 				isSelecting=true;
@@ -327,21 +392,32 @@ namespace divaeditor
 					dragAreaRect.y+deltaDragY>=0 && dragAreaRect.y+deltaDragY<=EDITCONFIG->NoteAreaHeight &&
 					dragAreaRect.height+deltaDragY>=0 && dragAreaRect.height+deltaDragY<=EDITCONFIG->NoteAreaHeight)
 				{
+					//Lock operation
+					EDITCONFIG->LockOperation(getId()+"_drag");
+
 					//Operation move set of notes pos
+					DivaEditorOperationSet *thisModifySet = new DivaEditorOperationSet();
+
 					for(int i=0;i<EDITCONFIG->noteSelected.size();i++)
-						EDITOR_PTR->mapData->note_modifyPos(EDITCONFIG->noteSelected[i],deltaDragX,deltaDragY,true);
+						thisModifySet->addOperation(new DivaEditorOperation_ModifyNote(EDITCONFIG->noteSelected[i],deltaDragX,deltaDragY,true));
+					EDITCONFIG->addAndDoOperation(thisModifySet, getId()+"_drag");
+
+					if(!isFristDrag)
+						EDITCONFIG->mergeLastTwoOperation();
+
+					isFristDrag=false;
+
 					dragAreaRect.x += deltaDragX;
 					dragAreaRect.width += deltaDragX;
 					dragAreaRect.y += deltaDragY;
 					dragAreaRect.height += deltaDragY;
-					EDITUTILITY.refreshAll();
 				}
 			}
 		}
 	}
 
 	void NoteArea::onKeyPressed(sora::SoraKeyEvent& event)
-	{		
+	{
 		int thisKey = event.chr;
 		bool caps = false;
 		if(thisKey>='A'&&thisKey<='Z') 
@@ -350,37 +426,49 @@ namespace divaeditor
 			caps=true;
 		}
 
-		else if(thisKey=='	' && !placingLong && !placingCombo && !moveTail)//Tab
-		{
-			EDITCONFIG->ChangeEditState();
-		}
-		else if(thisKey=='a'||thisKey=='w'||thisKey=='s'||thisKey=='d' && !event.isAltFlag() && !event.isCtrlFlag())
+		float nowTimePos = CORE_PTR->getRunPosition();
+
+		if(thisKey=='a'||thisKey=='w'||thisKey=='s'||thisKey=='d' && !event.isAltFlag() && !event.isCtrlFlag())
 		{
 			int noteSelectX = nowGridSelectX-EDITCONFIG->NoteAreaTailAreaSize;
 			int noteSelectY = nowGridSelectY-EDITCONFIG->NoteAreaTailAreaSize;
 			if(noteSelectX > 0 && noteSelectX <= EDITCONFIG->NoteAreaWidth &&
-				noteSelectY > 0 && noteSelectY <= EDITCONFIG->NoteAreaHeight)
+				noteSelectY > 0 && noteSelectY <= EDITCONFIG->NoteAreaHeight && isMouseOn)
 			{
 				if(EDITCONFIG->EDITSTATE_NOTESTATE == EditorConfig::NOTESTATE::NORMAL)
 				{
-					int pos = EDITOR_PTR->mapData->getNearestStandardGrid(CORE_PTR->getRunPosition(),EDITCONFIG->getGridToShowPerBeat());
-					int addedIndex = EDITOR_PTR->mapData->addNormalNote(pos,thisKey,caps,noteSelectX,noteSelectY,5,5);
-					EDITUTILITY.setPosition(pos);
-					EDITCONFIG->clearSelectedNote();
-					EDITCONFIG->addSelectedNote(addedIndex);
+					int guessX,guessY,guessTailX,guessTailY;
+					EDITOR_PTR->mapData->guessThisNotePositionByLastTwo(nowTimePos,guessX,guessY,guessTailX,guessTailY);
+
+					int pos = EDITOR_PTR->mapData->getNearestStandardGrid(nowTimePos,EDITCONFIG->getGridToShowPerBeat());
+
+					int toAddFind = EDITOR_PTR->mapData->findNoteIndexByType(pos, EDITOR_PTR->mapData->getNoteTypeFromKeyPress(thisKey,caps));
+					if(toAddFind==-1)
+						EDITCONFIG->addAndDoOperation(new DivaEditorOperation_AddNormalNote(pos,thisKey,caps,noteSelectX,noteSelectY,guessTailX,guessTailY));
+					else
+					{
+						EDITCONFIG->clearSelectedNote();
+						EDITCONFIG->addSelectedNote(toAddFind);
+					}
 				}
 				else if(EDITCONFIG->EDITSTATE_NOTESTATE == EditorConfig::NOTESTATE::LONG && !placingLong)
 				{
+					int guessX,guessY,guessTailX,guessTailY;
+					EDITOR_PTR->mapData->guessThisNotePositionByLastTwo(nowTimePos,guessX,guessY,guessTailX,guessTailY);
+
 					int pos = EDITOR_PTR->mapData->getNearestStandardGrid(CORE_PTR->getRunPosition(),EDITCONFIG->getGridToShowPerBeat());
-					placingNote = EDITOR_PTR->mapData->initNote(pos,thisKey,caps,noteSelectX,noteSelectY,5,5,"long");
+					placingNote = EDITOR_PTR->mapData->initNote(pos,thisKey,caps,noteSelectX,noteSelectY,guessTailX,guessTailY,"long");
 					//EDITUTILITY.setPosition(pos);
 
 					placingLong = true;
 				}
 				else if(EDITCONFIG->EDITSTATE_NOTESTATE == EditorConfig::NOTESTATE::COMBO && !placingCombo)
 				{
+					int guessX,guessY,guessTailX,guessTailY;
+					EDITOR_PTR->mapData->guessThisNotePositionByLastTwo(nowTimePos,guessX,guessY,guessTailX,guessTailY);
+
 					int pos = EDITOR_PTR->mapData->getNearestStandardGrid(CORE_PTR->getRunPosition(),EDITCONFIG->getGridToShowPerBeat());
-					placingNote = EDITOR_PTR->mapData->initNote(pos,thisKey,caps,noteSelectX,noteSelectY,5,5,"pingpong");
+					placingNote = EDITOR_PTR->mapData->initNote(pos,thisKey,caps,noteSelectX,noteSelectY,guessTailX,guessTailY,"pingpong");
 					//EDITUTILITY.setPosition(pos);
 
 					placingCombo = true;
@@ -410,14 +498,17 @@ namespace divaeditor
 		}
 		else if(thisKey=='a'||thisKey=='w'||thisKey=='s'||thisKey=='d' && !event.isAltFlag() && !event.isCtrlFlag())
 		{
-			if(placingLong && EDITCONFIG->EDITSTATE_NOTESTATE == EditorConfig::NOTESTATE::LONG)
+			if(placingLong && EDITCONFIG->EDITSTATE_NOTESTATE == EditorConfig::NOTESTATE::LONG && isMouseOn)
 			{
 				placingLongNoteOver();
 			}
-			else if(placingCombo && EDITCONFIG->EDITSTATE_NOTESTATE == EditorConfig::NOTESTATE::COMBO)
+			else if(placingCombo && EDITCONFIG->EDITSTATE_NOTESTATE == EditorConfig::NOTESTATE::COMBO && isMouseOn)
 			{
 				placingComboNoteOver();
 			}
+
+			placingLong=false;
+			placingCombo=false;
 		}
 	}
 
@@ -438,18 +529,23 @@ namespace divaeditor
 		updateMousePos();
 	}
 
-
 	void NoteArea::changeSelectedNoteTailOver()
 	{
-		for (int i=0;i<EDITCONFIG->noteSelected.size();i++)
-		{
-			divaeditor::MapNote &selectedNote = EDITOR_PTR->mapData->coreInfoPtr->notes[EDITCONFIG->noteSelected[i]];
-			if(selectedNote.arg.find("tailx")!=selectedNote.arg.end() && 
-				selectedNote.arg.find("taily")!=selectedNote.arg.end())
-				EDITOR_PTR->mapData->note_modifyTail(EDITCONFIG->noteSelected[i],moveTailX,moveTailY);
-		}
 		if(EDITCONFIG->noteSelected.size()>0)
-			EDITUTILITY.refreshAll();
+		{
+			DivaEditorOperationSet *thisModifySet = new DivaEditorOperationSet();
+
+			for (int i=0;i<EDITCONFIG->noteSelected.size();i++)
+			{
+				divaeditor::MapNote &selectedNote = EDITOR_PTR->mapData->coreInfoPtr->notes[EDITCONFIG->noteSelected[i]];
+				if(selectedNote.arg.find("tailx")!=selectedNote.arg.end() && 
+					selectedNote.arg.find("taily")!=selectedNote.arg.end())
+					thisModifySet->addOperation(new DivaEditorOperation_ModifyNote(EDITCONFIG->noteSelected[i],moveTailX,moveTailY));
+			}
+
+			EDITCONFIG->addAndDoOperation(thisModifySet);
+		}
+
 		moveTail=false;
 	}
 
@@ -459,12 +555,7 @@ namespace divaeditor
 		int pos = EDITOR_PTR->mapData->getNearestStandardGrid(CORE_PTR->getRunPosition(),EDITCONFIG->getGridToShowPerBeat());
 		EDITOR_PTR->mapData->finishLongNote(placingNote,pos);
 
-		int addedIndex = EDITOR_PTR->mapData->addLongNote(placingNote);
-
-		EDITCONFIG->clearSelectedNote();
-		EDITCONFIG->addSelectedNote(addedIndex);
-
-		placingLong=false;
+		EDITCONFIG->addAndDoOperation(new DivaEditorOperation_AddLongNote(placingNote));
 	}
 
 	void NoteArea::placingComboNoteOver()
@@ -472,11 +563,6 @@ namespace divaeditor
 		int pos = EDITOR_PTR->mapData->getNearestStandardGrid(CORE_PTR->getRunPosition(),EDITCONFIG->getGridToShowPerBeat());
 		EDITOR_PTR->mapData->finishComboNote(placingNote,pos);
 
-		int addedIndex = EDITOR_PTR->mapData->addLongNote(placingNote);
-
-		EDITCONFIG->clearSelectedNote();
-		EDITCONFIG->addSelectedNote(addedIndex);
-
-		placingCombo=false;
+		EDITCONFIG->addAndDoOperation(new DivaEditorOperation_AddLongNote(placingNote));
 	}
 }

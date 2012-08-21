@@ -2,7 +2,7 @@
 //#include <Windows.h>
 
 #include "divaeditor/Widgets/WTextfield.h"
-#include "divaeditor/DivaEditorMapData.h"
+#include "divaeditor/Core/DivaEditorMapData.h"
 #include "divaeditor/DivaEditorCommon.h"
 
 #include "Hoshizora.h"

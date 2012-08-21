@@ -4,7 +4,7 @@
 
 #include <string>
 
-#include "divaeditor/DivaEditorMapData.h"
+#include "divaeditor/Core/DivaEditorMapData.h"
 
 #include "Hoshizora.h"
 

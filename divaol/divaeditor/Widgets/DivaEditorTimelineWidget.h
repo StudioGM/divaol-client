@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "divaeditor/DivaEditorMapData.h"
+#include "divaeditor/Core/DivaEditorMapData.h"
 
 #include "guichan/focuslistener.hpp"
 #include "guichan/graphics.hpp"
@@ -43,7 +43,8 @@ namespace divaeditor
         virtual void mouseDragged(gcn::MouseEvent& mouseEvent);
 		virtual void mouseMoved(gcn::MouseEvent& mouseEvent);
 
-
+		void onKeyPressed(sora::SoraKeyEvent& event);
+		void onKeyReleased(sora::SoraKeyEvent& event);
 
 		//Public functions
 		void setMaxGridHeightFactor(float factor);
@@ -62,8 +63,17 @@ namespace divaeditor
 		int nowMouseXPos,nowMouseYPos;
 
 		int lastDragPos;
+		int lastDragType;
+		bool firstDrag;
 
 		bool isMouseOn;
+
+		bool placingLong;
+		bool placingCombo;
+
+		int _placeNoteBeginPos;
+		int _placeNoteType;
+		//divacore::MapNote placingNote;
 
     };
 }

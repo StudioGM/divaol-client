@@ -1,6 +1,6 @@
 
 #include "divaeditor/Widgets/DivaEditorMusicProgressWidget.h"
-#include "divaeditor/DivaEditorMapData.h"
+#include "divaeditor/Core/DivaEditorMapData.h"
 
 #include "divacore/Core/DivaCore.h"
 #include "divacore/Component/DivaStandardCoreFlow.h"

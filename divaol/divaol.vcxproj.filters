@@ -190,6 +190,12 @@
     <Filter Include="源文件\divaeditor\WJson">
       <UniqueIdentifier>{7ed1d548-277c-48ae-9f15-9ec688804667}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\divaeditor\Core">
+      <UniqueIdentifier>{591a5f8d-c48b-4db7-ae61-6bcae67d56a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\divaeditor\Component">
+      <UniqueIdentifier>{1e676b62-f0e9-45c4-8b28-eb827688612a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Hoshizor\Sora\Hoshizora.h">
@@ -1605,9 +1611,6 @@
     <ClInclude Include="divacore\Lib\Base\Uncopyable.h">
       <Filter>源文件\divacore\lib\base</Filter>
     </ClInclude>
-    <ClInclude Include="divaeditor\DivaEditor.h">
-      <Filter>源文件\divaeditor</Filter>
-    </ClInclude>
     <ClInclude Include="divaeditor\EditorInitialize.h">
       <Filter>源文件\divaeditor</Filter>
     </ClInclude>
@@ -1908,12 +1911,6 @@
     <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\Animation\SoraGUIAnimation.h">
       <Filter>Plugins\SoraGUIChan\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="divaeditor\DivaEditorDisplay.h">
-      <Filter>源文件\divaeditor</Filter>
-    </ClInclude>
-    <ClInclude Include="divaeditor\DivaEditorMapData.h">
-      <Filter>源文件\divaeditor</Filter>
-    </ClInclude>
     <ClInclude Include="divaeditor\DivaEditorCommon.h">
       <Filter>源文件\divaeditor</Filter>
     </ClInclude>
@@ -1976,6 +1973,21 @@
     </ClInclude>
     <ClInclude Include="divaeditor\WJson\wwriter.h">
       <Filter>源文件\divaeditor\WJson</Filter>
+    </ClInclude>
+    <ClInclude Include="divaeditor\Core\DivaEditor.h">
+      <Filter>源文件\divaeditor\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="divaeditor\Core\DivaEditorMapData.h">
+      <Filter>源文件\divaeditor\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="divaeditor\Component\DivaEditorDisplay.h">
+      <Filter>源文件\divaeditor\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="divaeditor\Core\DivaEditorOperate.h">
+      <Filter>源文件\divaeditor\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="divaeditor\Component\DivaEditorStandardOperation.h">
+      <Filter>源文件\divaeditor\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2546,9 +2558,6 @@
     <ClCompile Include="divacore\Lib\Base\Timer.cpp">
       <Filter>源文件\divacore\lib\base</Filter>
     </ClCompile>
-    <ClCompile Include="divaeditor\DivaEditor.cpp">
-      <Filter>源文件\divaeditor</Filter>
-    </ClCompile>
     <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\jsongui.cpp">
       <Filter>Plugins\SoraGUIChan</Filter>
     </ClCompile>
@@ -2777,13 +2786,7 @@
     <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\Animation\SoraGUIAnimation.cpp">
       <Filter>Plugins\SoraGUIChan\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="divaeditor\DivaEditorDisplay.cpp">
-      <Filter>源文件\divaeditor</Filter>
-    </ClCompile>
     <ClCompile Include="divaeditor\DivaEditorCommon.cpp">
-      <Filter>源文件\divaeditor</Filter>
-    </ClCompile>
-    <ClCompile Include="divaeditor\DivaEditorMapData.cpp">
       <Filter>源文件\divaeditor</Filter>
     </ClCompile>
     <ClCompile Include="divaeditor\Widgets\DivaEditorMusicProgressWidget.cpp">
@@ -2816,9 +2819,6 @@
     <ClCompile Include="divaeditor\Scene\DivaEditorInitScene.cpp">
       <Filter>源文件\divaeditor\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="divaeditor\DivaEditorMapDataFileLoader.cpp">
-      <Filter>源文件\divaeditor</Filter>
-    </ClCompile>
     <ClCompile Include="divaeditor\WJson\wjson_reader.cpp">
       <Filter>源文件\divaeditor\WJson</Filter>
     </ClCompile>
@@ -2827,6 +2827,21 @@
     </ClCompile>
     <ClCompile Include="divaeditor\WJson\wjson_writer.cpp">
       <Filter>源文件\divaeditor\WJson</Filter>
+    </ClCompile>
+    <ClCompile Include="divaeditor\Core\DivaEditor.cpp">
+      <Filter>源文件\divaeditor\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="divaeditor\Core\DivaEditorMapData.cpp">
+      <Filter>源文件\divaeditor\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="divaeditor\Core\DivaEditorMapDataFileLoader.cpp">
+      <Filter>源文件\divaeditor\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="divaeditor\Component\DivaEditorDisplay.cpp">
+      <Filter>源文件\divaeditor\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="divaeditor\Component\DivaEditorStandardOperation.cpp">
+      <Filter>源文件\divaeditor\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,7 @@
 #define EDITOR_INIT
 
 
-#include "DivaEditor.h"
+#include "divaeditor/Core/DivaEditor.h"
 
 #include "divacore/Core/DivaCore.h"
 

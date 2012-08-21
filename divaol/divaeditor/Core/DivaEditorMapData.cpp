@@ -4,7 +4,7 @@
 #include <vector>
 #include "stdio.h"
 
-#include "divaeditor/DivaEditorMapData.h"
+#include "divaeditor/Core/DivaEditorMapData.h"
 #include "divaeditor/DivaEditorCommon.h"
 
 #include "divacore/Component/DivaStandardCoreFlow.h"
@@ -18,6 +18,58 @@ namespace divaeditor
 	DivaEditorMapData::DivaEditorMapData()
 	{
 	}
+
+
+	void DivaEditorMapData::copy(bool cut)
+	{
+		if(EDITCONFIG->noteSelected.size()==0) return;
+
+		copyBoard.clear();
+		for (int i=0;i<EDITCONFIG->noteSelected.size();i++)
+			copyBoard.push_back(coreInfoPtr->notes[EDITCONFIG->noteSelected[i]]);
+		std::sort(copyBoard.begin(),copyBoard.end(),cmp_note);
+
+		if(cut)
+		{
+			DivaEditorOperationSet *thisModifySet = new DivaEditorOperationSet();
+			for(int i=0;i<EDITCONFIG->noteSelected.size();i++)
+				thisModifySet->addOperation(new DivaEditorOperation_DeleteNote(EDITCONFIG->noteSelected[i]));
+			EDITCONFIG->addAndDoOperation(thisModifySet);
+		}
+	}
+
+	void DivaEditorMapData::paste(float pos)
+	{
+		if(copyBoard.size()==0) return;
+
+		int toPastePosBegin = getNearestStandardGrid(pos,EDITCONFIG->getGridToShowPerBeat());
+		
+		int deltaPos = toPastePosBegin - copyBoard[0].notePoint[0].position;
+		
+		DivaEditorOperationSet *thisModifySet = new DivaEditorOperationSet();
+		for(int i=0;i<copyBoard.size();i++)
+		{
+			divacore::MapNote noteToPaste = copyBoard[i];
+			bool isInRange = true;
+			for(int notePointI = 0;notePointI<noteToPaste.notePoint.size();notePointI++)
+			{
+				noteToPaste.notePoint[notePointI].position += deltaPos;
+				if(noteToPaste.notePoint[notePointI].position<0||noteToPaste.notePoint[notePointI].position>(int)CORE_FLOW_PTR->getTotalPosition())
+					isInRange=false;
+			}
+			if(isInRange && findNoteIndexByType(noteToPaste.notePoint[0].position,noteToPaste.notePoint[0].type)==-1)
+			{
+				if(noteToPaste.notePoint.size()==1)
+					thisModifySet->addOperation(new DivaEditorOperation_AddNormalNote(noteToPaste));
+				else
+					thisModifySet->addOperation(new DivaEditorOperation_AddLongNote(noteToPaste));
+			}
+		}
+		if(thisModifySet->operations.size()>0)
+			EDITCONFIG->addAndDoOperation(thisModifySet);
+	}
+
+
 
 	void DivaEditorMapData::ResetEditorMapData()
 	{
@@ -78,7 +130,7 @@ namespace divaeditor
 		while(l<=r)
 		{
 			while(l<=r&&(coreInfoPtr->notes[l].notePoint[0].position<pos ||
-				         (coreInfoPtr->notes[l].notePoint[0].position==pos && coreInfoPtr->notes[l].notePoint[0].type<type))) 
+				         (coreInfoPtr->notes[l].notePoint[0].position==pos && coreInfoPtr->notes[l].notePoint[0].type<=type))) 
 						 l++;
 			while(l<=r&&(coreInfoPtr->notes[r].notePoint[0].position>pos ||
 						 (coreInfoPtr->notes[r].notePoint[0].position==pos && coreInfoPtr->notes[r].notePoint[0].type>type))) 
@@ -312,11 +364,10 @@ namespace divaeditor
 		comboNote.arg["standard_num"] = int((comboNote.notePoint[1].position-comboNote.notePoint[0].position)/(EDITCONFIG->GridPerBeat/4));
 	}
 
-	int DivaEditorMapData::addNormalNote(int pos, char keyPress, bool arrow, int x, int y, int tailX, int tailY, int key)
-	{
-		divacore::MapNote mapNote = initNote(pos,keyPress,arrow,x,y,tailX,tailY,"normal",key);
 
-		int checkExist = checkNoteExists(pos, mapNote.notePoint[0].type, mapNote.noteType);
+	int DivaEditorMapData::addNormalNote(divacore::MapNote mapNote)
+	{
+		int checkExist = checkNoteExists(mapNote.notePoint[0].position, mapNote.notePoint[0].type, mapNote.noteType);
 		if(checkExist==-1)
 		{
 			EDITUTILITY.resetNote(mapNote);
@@ -324,12 +375,15 @@ namespace divaeditor
 			coreInfoPtr->notes.push_back(mapNote);
 			int insertIndex = adjustNoteOrder(coreInfoPtr->notes.size()-1);
 
-			EDITUTILITY.refreshAll();
-
 			return insertIndex;
 		}
 		else
 			return checkExist;
+	}
+
+	int DivaEditorMapData::addNormalNote(int pos, char keyPress, bool arrow, int x, int y, int tailX, int tailY, int key)
+	{
+		return addNormalNote(initNote(pos,keyPress,arrow,x,y,tailX,tailY,"normal",key));	
 	}
 	int DivaEditorMapData::addLongNote(divacore::MapNote longNote)
 	{
@@ -340,8 +394,6 @@ namespace divaeditor
 
 			coreInfoPtr->notes.push_back(longNote);
 			int insertIndex = adjustNoteOrder(coreInfoPtr->notes.size()-1);
-
-			EDITUTILITY.refreshAll();
 
 			return insertIndex;
 		}
@@ -384,7 +436,31 @@ namespace divaeditor
 			coreInfoPtr->notes[index].notePoint[i].type = getNoteTypeFromKeyPress(keyPress,arrow);
 		}
 	}
-	void DivaEditorMapData::note_modifyKey(int index, int key)
+	void DivaEditorMapData::note_modifyTypeByType(int index, int type, bool delta, bool needDecode)
+	{
+		for(int i=0;i<coreInfoPtr->notes[index].notePoint.size();i++)
+		{
+			int realType = coreInfoPtr->notes[index].notePoint[i].type;
+			if(needDecode)
+				realType = getNoteTypeIndexFromNoteType(realType);
+
+			if(delta)
+				realType += type;
+			else
+				realType = type;
+
+			if(realType<0)
+				realType = realType%8+8;
+			else
+				coreInfoPtr->notes[index].notePoint[i].type=realType%8;
+
+			if(needDecode)
+				realType = getNoteTypeFromNoteTypeIndex(realType);
+
+			coreInfoPtr->notes[index].notePoint[i].type=realType;
+		}
+	}
+	void DivaEditorMapData::note_modifyKey(int index, std::string key)
 	{
 		for(int i=0;i<coreInfoPtr->notes[index].notePoint.size();i++)
 		{
@@ -417,7 +493,7 @@ namespace divaeditor
 			}
 		return -1;
 	}
-	int DivaEditorMapData::findNoteIndexByType(int position, int type)
+	int DivaEditorMapData::findNoteIndexByType(int position, int type, int singleDeltaNum)
 	{
 		if(type<0)
 			return -1;
@@ -428,12 +504,13 @@ namespace divaeditor
 		{
 			divacore::MapNote &nowNote = coreInfoPtr->notes[i];
 
-			if(nowNote.notePoint[0].position>position)
+			if(nowNote.notePoint[0].position>position+singleDeltaNum)
 				break;
+
 
 			if(nowNote.notePoint.size()==1) //check exactly
 			{
-				if(nowNote.notePoint[0].position==position && nowNote.notePoint[0].type%8==type)
+				if(nowNote.notePoint[0].type%8==type && position>=nowNote.notePoint[0].position-singleDeltaNum && position<=nowNote.notePoint[0].position+singleDeltaNum)
 					return i;
 			}
 			else // in is OK
@@ -503,15 +580,32 @@ namespace divaeditor
 
 	int DivaEditorMapData::findFirstBiggerPositionNoteIndex(int pos)
 	{
-		if(coreInfoPtr->notes.size()==0) return -1;
-
 		int pLeft = 0, pRight = coreInfoPtr->notes.size();
+		
+		while(pLeft!=pRight)
+		{
+			int pMid=(pLeft+pRight)>>1;
+			divacore::MapNote &pMidNote = coreInfoPtr->notes[pMid];
+			if(pMidNote.notePoint[0].position<pos)
+				pLeft = pMid;
+			else if(pMidNote.notePoint[0].position>=pos)
+				pRight = pMid;
+		}
+
 		return pLeft;
 	}
 
 	void DivaEditorMapData::findNoteIndexInRange(int leftPos, int rightPos, int &beginIndex, int &endIndex)
 	{
 
+	}
+
+	void DivaEditorMapData::guessThisNotePositionByLastTwo(int pos, int& out_x,int &out_y,int &tail_x,int &tail_y)
+	{
+		out_x=0;
+		out_y=0;
+		tail_x=5;
+		tail_y=5;
 	}
 
 
@@ -559,7 +653,7 @@ namespace divaeditor
 		{
 			int thisBeatPos = beatI->first;
 			int thisBeatNum = beatI->second;
-			int periodCount = 10000000;
+			int periodCount = MAXPERIOD;
 			beatI++;
 			if(beatI!=beatNumChanged.end())
 				periodCount = beatI->first-thisBeatPos;
@@ -586,7 +680,7 @@ namespace divaeditor
 			{
 				int thisBeaPos = beatI->first;
 				int thisBeatNum = beatI->second;
-				int periodCount = 10000000;
+				int periodCount = MAXPERIOD;
 				beatI++;
 				if(beatI!=beatNumChanged.end())
 					periodCount = beatI->first-thisBeaPos;
@@ -615,7 +709,7 @@ namespace divaeditor
 		while(true)
 		{
 			std::map<int,int>::iterator thisBeatI = beatI;
-			int periodCount = 10000000;
+			int periodCount = MAXPERIOD;
 			beatI++;
 			if(beatI!=beatNumChanged.end())
 				periodCount = beatI->first-thisBeatI->first;
@@ -701,17 +795,31 @@ namespace divaeditor
 		{
 			std::map<int,int>::iterator thisBeatI = beatI;
 			beatI++;
-			int periodCount = 10000000;
+			int periodCount = MAXPERIOD;
 			if(beatI!=beatNumChanged.end())
 			{
 				periodCount = beatI->first-thisBeatI->first;
 			}
 
-			if(nowGrid >= periodCount*thisBeatI->second)
-				nowGrid -= periodCount*thisBeatI->second;
+			if(nowGrid >= periodCount*thisBeatI->second*EDITCONFIG->GridPerBeat)
+				nowGrid -= periodCount*thisBeatI->second*EDITCONFIG->GridPerBeat;
 			else
 				return thisBeatI->second;
 		}
+	}
+	int DivaEditorMapData::getBeatNumPeriod(int period)
+	{
+		int thisPeriod = period;
+		int ret = -1;
+		for (std::map<int,int>::iterator i=beatNumChanged.begin();i!=beatNumChanged.end();i++)
+			if(i->first<=thisPeriod)
+				ret=i->first;
+		return ret;
+	}
+
+	bool DivaEditorMapData::beatNumExist(int period)
+	{
+		return beatNumChanged.find(period)!=beatNumChanged.end();
 	}
 	std::map<int,int> DivaEditorMapData::getBeatNumByRange(float left, float right)
 	{
@@ -726,18 +834,14 @@ namespace divaeditor
 		return ret;
 	}
 
-	void DivaEditorMapData::beatNum_change(float pos, int beatNum)
+	void DivaEditorMapData::beatNum_change(int period, int beatNum)
 	{
 		if(beatNum<=0) return;
-		beatNumChanged[getPeriodfromGrid(pos)]=beatNum;
+			beatNumChanged[period]=beatNum;
 	}
-	void DivaEditorMapData::beatNum_delete(float pos)
+	void DivaEditorMapData::beatNum_delete(int period)
 	{
-		int thisPeriod = getPeriodfromGrid(pos);
-		int toDel = -1;
-		for (std::map<int,int>::iterator i=beatNumChanged.begin();i!=beatNumChanged.end();i++)
-			if(i->first<=thisPeriod)
-				toDel=i->first;
+		int toDel = getBeatNumPeriod(period);
 		if(toDel!=0)
 			beatNumChanged.erase(beatNumChanged.find(toDel));
 	}
@@ -767,6 +871,15 @@ namespace divaeditor
 			return stopLength[nowStopIndex];
 		return 0;
 	}
+	int DivaEditorMapData::getStopPos(float pos)
+	{
+		int stopIndex = findStopIndex(pos);
+		if(stopIndex==-1)
+			return -1;
+		else
+			return encodeToOriginalGrid(stopIndex);
+	}
+
 	vector<int> DivaEditorMapData::getStopPositionByRange(float left, float right)
 	{
 		vector<int> ret;
@@ -827,6 +940,11 @@ namespace divaeditor
 		int nowBPMIndex=findLastOrEqualEventIndex(pos,"bpm");
 		return divacore::Argument::asFloat("value",coreInfoPtr->events[nowBPMIndex].arg);
 	}
+	float DivaEditorMapData::getBPMPos(float pos)
+	{
+		int nowBPMIndex=findLastOrEqualEventIndex(pos,"bpm");
+		return coreInfoPtr->events[nowBPMIndex].position;
+	}
 	
 	void DivaEditorMapData::bpm_change(float pos, float bpm)
 	{
@@ -880,7 +998,6 @@ namespace divaeditor
 	{
 		if(speed<0.1) speed=0.1;
 		EDITOR_PTR->mapData->coreInfoPtr->header.speedScale = speed;
-		EDITUTILITY.refreshAll();
 	}
 
 	//Move All
@@ -998,17 +1115,17 @@ namespace divaeditor
 		tolower(ext);
 		std::string typeStr = "";
 
-		if(videoExtentions.find(ext)!=std::wstring::npos)
+		if(videoExtensions.find(ext)!=std::wstring::npos)
 		{
 			resourceInfo.type = divacore::MapResourceInfo::VIDEO;
 			typeStr = "VIDEO";
 		}
-		else if(imageExtentions.find(ext)!=std::wstring::npos)
+		else if(imageExtensions.find(ext)!=std::wstring::npos)
 		{
 			resourceInfo.type = divacore::MapResourceInfo::IMAGE;
 			typeStr = "IMAGE";
 		}
-		else if(audioExtentions.find(ext)!=std::wstring::npos)
+		else if(audioExtensions.find(ext)!=std::wstring::npos)
 		{
 			resourceInfo.type = divacore::MapResourceInfo::AUDIO;
 			typeStr = "AUDIO";

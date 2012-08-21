@@ -3,7 +3,7 @@
 
 #include<map>
 
-#include "divaeditor/DivaEditor.h"
+#include "divaeditor/Core/DivaEditor.h"
 #include "divacore/core/DivaCore.h"
 
 #include "guichansetup.h"
