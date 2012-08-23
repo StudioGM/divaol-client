@@ -47,6 +47,9 @@ namespace divacore
 		virtual double getLength(const std::string &channel) {return 0;}
 		virtual void pause() = 0;
 		virtual void resume() = 0;
+
+		virtual void setSpeedScale(float scale=1.0) {}
+		virtual float getSpeedScale() {return 0;}
 	};
 
 	typedef MusicManager* MusicManagerPtr;
