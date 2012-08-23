@@ -299,6 +299,6 @@ namespace gcn
 
 	unsigned int WListBox::getRowHeight() const
 	{
-		return getFont()->getHeight();
+		return getFont()->getHeight()+4;
 	}
 }

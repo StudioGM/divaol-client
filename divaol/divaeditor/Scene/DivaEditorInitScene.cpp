@@ -1,6 +1,6 @@
 #include "divaeditor/Scene/DivaEditorScene.h"
-
-
+#include "divaeditor/Core/DivaEditorLocalization.h"
+#include "divaeditor/Widgets/WButton.h"
 
 
 namespace divaeditor
@@ -16,7 +16,7 @@ namespace divaeditor
 		top->setSize(1920,1080);
 
 
-		gcn::Button *btn_selectFile = new gcn::Button("Open File...");
+		gcn::WButton *btn_selectFile = new gcn::WButton(LOCALIZATION->getLocalStr(L"InitScene_btn_openFile"));
 		btn_selectFile->setId("btn_selectFile");
 		btn_selectFile->setForegroundColor(gcn::Color(255,255,255,255));
 		btn_selectFile->setSize(500,50);
@@ -25,7 +25,7 @@ namespace divaeditor
 		top->add(btn_selectFile);
 
 
-		gcn::WLabel *wlabel_loading = new gcn::WLabel(L"Please select a file.");
+		gcn::WLabel *wlabel_loading = new gcn::WLabel(LOCALIZATION->getLocalStr(L"InitScene_SelectFile"));
 		wlabel_loading->setId("wlabel_loading");
 		wlabel_loading->setBaseColor(gcn::Color(0,0,0,0));
 		wlabel_loading->setForegroundColor(gcn::Color(255,255,255,255));
@@ -39,7 +39,7 @@ namespace divaeditor
 	{
 		if(!EDITCONFIG->map_initialized)
 		{
-			gcn::Button *btn_selectFile = (gcn::Button*)top->findWidgetById("btn_selectFile");
+			gcn::WButton *btn_selectFile = (gcn::WButton*)top->findWidgetById("btn_selectFile");
 			btn_selectFile->setVisible(true);
 		}
 	}
@@ -48,11 +48,11 @@ namespace divaeditor
 	{
 		if(getID()=="btn_selectFile" && !EDITCONFIG->map_initialized)
 		{
-			gcn::Button *btn_selectFile = (gcn::Button*)top->findWidgetById("btn_selectFile");
+			gcn::WButton *btn_selectFile = (gcn::WButton*)top->findWidgetById("btn_selectFile");
 			gcn::WLabel *wlabel_loading = (gcn::WLabel*)top->findWidgetById("wlabel_loading");
 
 			btn_selectFile->setVisible(false);
-			wlabel_loading->setCaption(L"loading...");
+			wlabel_loading->setCaption(LOCALIZATION->getLocalStr(L"InitScene_isLoading"));
 
 			//Should get back current working directory
 			wchar_t cwd[_MAX_PATH];
@@ -66,7 +66,7 @@ namespace divaeditor
 									+ midiFileDescription + L'(' + midiFileExtensions+L')' + L'\0' + midiFileExtensions + L'\0';
 
 			std::wstring selectFile = sora::SoraCore::Instance()
-				->fileOpenDialogW(filterStr.c_str());//L"Diva Online Map Project(*.divaolproject)\0*.divaolproject;*.divaol\0All Files(*.*)\0*.*\0");
+				->fileOpenDialogW(filterStr.c_str());
 
 			_wchdir(cwd);
 
@@ -89,7 +89,7 @@ namespace divaeditor
 				}
 			}
 			else
-				wlabel_loading->setCaption(L"Please select a file.");
+				wlabel_loading->setCaption(LOCALIZATION->getLocalStr(L"InitScene_SelectFile"));
 		}
 	}
 

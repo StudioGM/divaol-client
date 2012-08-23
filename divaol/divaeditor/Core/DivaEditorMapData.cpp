@@ -121,7 +121,6 @@ namespace divaeditor
 	}
 
 	//Sort functions
-
 	void DivaEditorMapData::qsort_Note(int l,int r)
 	{
 		int s=l,t=r;
@@ -130,7 +129,7 @@ namespace divaeditor
 		while(l<=r)
 		{
 			while(l<=r&&(coreInfoPtr->notes[l].notePoint[0].position<pos ||
-				         (coreInfoPtr->notes[l].notePoint[0].position==pos && coreInfoPtr->notes[l].notePoint[0].type<=type))) 
+				         (coreInfoPtr->notes[l].notePoint[0].position==pos && coreInfoPtr->notes[l].notePoint[0].type<type))) 
 						 l++;
 			while(l<=r&&(coreInfoPtr->notes[r].notePoint[0].position>pos ||
 						 (coreInfoPtr->notes[r].notePoint[0].position==pos && coreInfoPtr->notes[r].notePoint[0].type>type))) 
@@ -429,6 +428,14 @@ namespace divaeditor
 		for(int i=0;i<coreInfoPtr->notes[index].notePoint.size();i++)
 			coreInfoPtr->notes[index].notePoint[i].position += pos;
 	}
+	void DivaEditorMapData::note_modifySecondTimePos(int index, int pos, bool isDelta)
+	{
+		if(coreInfoPtr->notes[index].notePoint.size()<2) return;
+		if(!isDelta)
+			pos = pos - coreInfoPtr->notes[index].notePoint[1].position;
+		coreInfoPtr->notes[index].notePoint[1].position += pos;
+	}
+
 	void DivaEditorMapData::note_modifyType(int index, char keyPress, bool arrow)
 	{
 		for(int i=0;i<coreInfoPtr->notes[index].notePoint.size();i++)
@@ -493,7 +500,7 @@ namespace divaeditor
 			}
 		return -1;
 	}
-	int DivaEditorMapData::findNoteIndexByType(int position, int type, int singleDeltaNum)
+	int DivaEditorMapData::findNoteIndexByType(int position, int type, int singleDeltaNum, std::string specificType)
 	{
 		if(type<0)
 			return -1;
@@ -510,12 +517,14 @@ namespace divaeditor
 
 			if(nowNote.notePoint.size()==1) //check exactly
 			{
-				if(nowNote.notePoint[0].type%8==type && position>=nowNote.notePoint[0].position-singleDeltaNum && position<=nowNote.notePoint[0].position+singleDeltaNum)
+				if(nowNote.notePoint[0].type%8==type && position>=nowNote.notePoint[0].position-singleDeltaNum && position<=nowNote.notePoint[0].position+singleDeltaNum
+					&& (specificType == "" || (specificType!="" && specificType == nowNote.noteType)))
 					return i;
 			}
 			else // in is OK
 			{
-				if(nowNote.notePoint[0].type%8==type && position>=nowNote.notePoint[0].position && position<=nowNote.notePoint[1].position)
+				if(nowNote.notePoint[0].type%8==type && position>=nowNote.notePoint[0].position && position<=nowNote.notePoint[1].position
+					&& (specificType == "" || (specificType!="" && specificType == nowNote.noteType)))
 					return i;
 			}
 		}
@@ -602,10 +611,98 @@ namespace divaeditor
 
 	void DivaEditorMapData::guessThisNotePositionByLastTwo(int pos, int& out_x,int &out_y,int &tail_x,int &tail_y)
 	{
-		out_x=0;
-		out_y=0;
-		tail_x=5;
-		tail_y=5;
+
+		int prev = -1,prev2 = -1;
+
+
+		//Find last two notes before pos
+
+		for (int i=0;i<EDITOR_PTR->mapData->coreInfoPtr->notes.size();i++)
+		{
+			divacore::MapNote &thisNote = EDITOR_PTR->mapData->coreInfoPtr->notes[i];
+				
+			if(thisNote.notePoint[0].position > pos)
+				break;
+
+			bool canCount = true;
+			if(thisNote.notePoint.size()==2 && thisNote.notePoint[1].position > pos)
+				canCount=false;
+
+			if(canCount)
+			{
+				if(prev==-1)
+					prev = i;
+				else
+				{
+					prev2 = prev;
+					prev = i;
+				}
+			}
+		}
+
+		//If not found
+		if(prev==-1)
+		{
+			out_x=EDITCONFIG->NoteAreaWidth/2;
+			out_y=EDITCONFIG->NoteAreaHeight/2;
+			tail_x=5;
+			tail_y=5;
+			return;
+		}
+		else if(prev2==-1) //Only found one, can use tail position
+		{
+			divacore::MapNote &prevNote = EDITOR_PTR->mapData->coreInfoPtr->notes[prev];
+			out_x=EDITCONFIG->NoteAreaWidth/2;
+			out_y=EDITCONFIG->NoteAreaHeight/2;
+			tail_x = Argument::asInt("tailx",prevNote.arg);
+			tail_y = Argument::asInt("taily",prevNote.arg);
+			return;
+		}
+		
+
+		divacore::MapNote &prevNote = EDITOR_PTR->mapData->coreInfoPtr->notes[prev];
+		divacore::MapNote &prev2Note = EDITOR_PTR->mapData->coreInfoPtr->notes[prev2];
+		
+		//Use the same tail direction as last note
+		tail_x = Argument::asInt("tailx",prevNote.arg);
+		tail_y = Argument::asInt("taily",prevNote.arg);
+
+		//Calculater time delta
+		int timeDelta = prevNote.notePoint[0].position - prev2Note.notePoint[prev2Note.notePoint.size()-1].position;
+
+		// if there's no time delta, just return the last one
+		if(timeDelta==0)
+		{
+			out_x = prevNote.notePoint[0].x;
+			out_y = prevNote.notePoint[0].y;
+			
+			return;
+		}
+
+		//Calculate note position delta;
+		int xDelta = prevNote.notePoint[0].x - prev2Note.notePoint[0].x,
+			yDelta = prevNote.notePoint[0].y - prev2Note.notePoint[0].y;
+
+		//Use time delta to calculate note position
+		int needToDeltaX = (float)xDelta / (float)timeDelta * float(pos - prevNote.notePoint[prevNote.notePoint.size()-1].position),
+			needToDeltaY = (float)yDelta / (float)timeDelta * float(pos - prevNote.notePoint[prevNote.notePoint.size()-1].position);
+
+		int newX = prevNote.notePoint[0].x + needToDeltaX,
+			newY = prevNote.notePoint[0].y + needToDeltaY;
+
+		if(newX<0||newX>EDITCONFIG->NoteAreaWidth||newY<0||newY>EDITCONFIG->NoteAreaHeight)
+		{
+			//if out of range, symmetry it
+			out_x = EDITCONFIG->NoteAreaWidth - prevNote.notePoint[0].x;
+			out_y = EDITCONFIG->NoteAreaHeight - prevNote.notePoint[0].y;
+			tail_x = -Argument::asInt("tailx",prevNote.arg);
+			tail_y = -Argument::asInt("taily",prevNote.arg);
+		}
+		else
+		{
+			out_x = newX;
+			out_y = newY;
+		}
 	}
 
 

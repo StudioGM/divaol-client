@@ -129,7 +129,7 @@ namespace gcn
     {
         int height = getFont()->getHeight();
 
-        setHeight(height);
+        setHeight(height+3);
         setWidth(getFont()->getWidthW(mCaption) + height + height / 2);
     }
 

@@ -134,6 +134,7 @@ namespace divaeditor
 		void note_modifyTail(int index, int tailX, int tailY);
 		void note_modifyPos(int index, int x, int y, bool isDelta);
 		void note_modifyTimePos(int index, int pos, bool isDelta);
+		void note_modifySecondTimePos(int index, int pos, bool isDelta);
 		void note_modifyType(int index, char keyPress, bool arrow);
 		void note_modifyTypeByType(int index, int type, bool delta, bool needDecode=false);
 		void note_modifyKey(int index, std::string key);
@@ -148,7 +149,7 @@ namespace divaeditor
 		int findFirstBiggerPositionNoteIndex(int pos);
 		void findNoteIndexInRange(int leftPos, int rightPos, int &beginIndex, int &endIndex);
 		int findNoteToSelectByPos(int position,int x,int y);
-		int findNoteIndexByType(int position, int type, int singleDeltaNum=0);
+		int findNoteIndexByType(int position, int type, int singleDeltaNum=0,std::string specificType = "");
 		std::vector<int> findNoteToSelectByRange(int position,int leftUpX,int leftUpY,int rightDownX,int rightDownY);
 
 		gcn::Rectangle findSelectedAreaRectange();

@@ -71,6 +71,9 @@ namespace divaeditor
 		bool placingLong;
 		bool placingCombo;
 
+		bool dragingLongPos;
+		int dragingLongPosIndex;
+
 		int _placeNoteBeginPos;
 		int _placeNoteType;
 		//divacore::MapNote placingNote;

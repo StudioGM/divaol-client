@@ -68,7 +68,7 @@ namespace divaeditor
 		else if(fileType==InitSourceFileType::MIDIFile)
 			return InitFromMIDIFile(path);
 		else
-			return path + L" is not supported.";
+			return LOCALIZATION->getLocalStr(L"ReadFile_FileNotSupported", path.c_str());
 	}
 	std::wstring DivaEditorMapData::ChooseWorkingFile()
 	{
@@ -90,7 +90,7 @@ namespace divaeditor
 				if(saveFile[dotPos]==L'.')
 					break;
 
-			if(pathPos==-1) return L"Diva OL Project Path Error: " + saveFile;
+			if(pathPos==-1) return LOCALIZATION->getLocalStr(L"ReadFile_PathError", saveFile.c_str());
 
 			workingDirectory = saveFile.substr(0,pathPos);
 			workingDivaOLFile = saveFile.substr(pathPos+1, dotPos-(pathPos+1)) + L".divaol";
@@ -99,7 +99,7 @@ namespace divaeditor
 			return L"OK";
 		}
 		else
-			return L"Canceled";
+			return LOCALIZATION->getLocalStr(L"ReadFile_CancelChooseWorkingFile");
 	}
 	bool DivaEditorMapData::SaveFile(bool olFile, bool proFile, divacore::MapInfo *infoToSave)
 	{
@@ -348,7 +348,7 @@ namespace divaeditor
 
 #pragma endregion Save Diva Online Project File
 
-
+		EDITCONFIG->isMapChanged=false;
 		return true;
 	}
 
@@ -363,7 +363,7 @@ namespace divaeditor
 			if(path[dotPos]==L'.')
 				break;
 
-		if(pathPos==-1) return L"File path error : " + path;
+		if(pathPos==-1) return LOCALIZATION->getLocalStr(L"ReadFile_PathError", path.c_str());
 
 		workingDirectory = path.substr(0,pathPos);
 		workingDivaOLProFile = path.substr(pathPos+1, path.length()-(pathPos+1));
@@ -375,7 +375,7 @@ namespace divaeditor
 
 		FILE* readFile;
 		if(_wfopen_s(&readFile, (workingDirectory+L"/"+workingDivaOLProFile).c_str(),L"rt, ccs=UTF-8")!=0)
-			return L"Error while open file: " + path;
+			return LOCALIZATION->getLocalStr(L"ReadFile_OpenFileError", path.c_str());
 
 		wchar_t buffer[1000];
 		while(fgetws(buffer,sizeof(buffer),readFile))
@@ -388,7 +388,7 @@ namespace divaeditor
 
 		WJson::Value rootJsonValue;
 		if(!reader.parse(jsonStrToParse,rootJsonValue))
-			return L"Error while parse json file: " + path;
+			return LOCALIZATION->getLocalStr(L"ReadFile_ParseFileError", path.c_str());
 
 		//Parse header
 		if(rootJsonValue.isMember(L"header"))
@@ -397,26 +397,26 @@ namespace divaeditor
 			if(header.isMember(L"divaol"))
 				workingDivaOLFile = header[L"divaol"].asString();
 			else
-				return L"Error: divaol tag not exist";
+				return LOCALIZATION->getLocalStr(L"ReadOLFile_divaolTagError");
 
 			if(header.isMember(L"offset"))
 				mapOffset = header[L"offset"].asInt();
 			else
-				return L"Error: offset tag not exist";
+				return LOCALIZATION->getLocalStr(L"ReadOLFile_offsetTagError");
 
 
 			if(header.isMember(L"gridToShowPerBeat"))
 				EDITCONFIG->setGridToShowPerBeat(header[L"gridToShowPerBeat"].asInt());
 			else
-				return L"Error: gridToShowPerBeat tag not exist";
+				return LOCALIZATION->getLocalStr(L"ReadOLFile_gridToShowPerBeatTagError");
 
 			if(header.isMember(L"showRangeScale"))
 				EDITCONFIG->setShowRangeScale(header[L"showRangeScale"].asDouble());
 			else
-				return L"Error: showRangeScale tag not exist";
+				return LOCALIZATION->getLocalStr(L"ReadOLFile_showRangeScaleTagError");
 		}
 		else
-			return L"Error: header not exist";
+			return LOCALIZATION->getLocalStr(L"ReadOLFile_headError");
 
 		//Parse stop
 		stopLength.clear();
@@ -431,7 +431,7 @@ namespace divaeditor
 				}
 		}
 		else
-			return L"Error: stopblock not exist";
+			return LOCALIZATION->getLocalStr(L"ReadOLFile_stopBlockError");
 
 		//Parse beat num
 		beatNumChanged.clear();
@@ -446,7 +446,7 @@ namespace divaeditor
 				}
 		}
 		else
-			return L"Error: beat info not exist";
+			return LOCALIZATION->getLocalStr(L"ReadOLFile_beatNumError");
 
 		//Parse label
 		resourceDescription.clear();
@@ -461,7 +461,7 @@ namespace divaeditor
 				}
 		}
 		else
-			return L"Error: label info not exist";
+			return LOCALIZATION->getLocalStr(L"ReadOLFile_labelError");
 
 
 		CORE_PTR->setSong(workingDirectory, workingDivaOLFile);
@@ -479,7 +479,7 @@ namespace divaeditor
 			if(path[dotPos]==L'.')
 				break;
 
-		if(pathPos==-1) return L"File path error : " + path;
+		if(pathPos==-1) return LOCALIZATION->getLocalStr(L"ReadFile_PathError", path.c_str());
 
 		workingDirectory = path.substr(0,pathPos);
 		workingDivaOLFile = path.substr(pathPos+1, path.length()-(pathPos+1));
@@ -499,8 +499,6 @@ namespace divaeditor
 		std::wstring chooseWorkingFileResult = ChooseWorkingFile();
 		if(chooseWorkingFileResult==L"OK")
 		{
-
-
 			divacore::MapInfo contructMapInfo;
 			registerMapInfo(&contructMapInfo);
 
@@ -534,7 +532,7 @@ namespace divaeditor
 				resource_delete(soundID);
 				bpm_delete(0);
 
-				return L"Save diva project file error.";
+				return LOCALIZATION->getLocalStr(L"ReadFile_SaveFileError", (workingDirectory + L"/" + workingDivaOLProFile).c_str());
 			}
 
 			registerMapInfo(NULL);
@@ -545,7 +543,6 @@ namespace divaeditor
 			return chooseWorkingFileResult;
 		
 	}
-	
 
 }
 

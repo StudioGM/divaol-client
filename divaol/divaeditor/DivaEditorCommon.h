@@ -4,6 +4,7 @@
 
 #include "divaeditor/Core/DivaEditorOperate.h"
 #include "divaeditor/Component/DivaEditorStandardOperation.h"
+#include "divaeditor/Core/DivaEditorLocalization.h"
 
 #include <string>
 #include <vector>
@@ -59,6 +60,7 @@ namespace divaeditor
 						display_background(true),
 						map_initialized(false),
 						operationHistoryIndex(0),
+						isMapChanged(false),
 						lockOperation(false)
 						{};
 
@@ -133,6 +135,8 @@ namespace divaeditor
 		void addAndDoOperation(DivaEditorOperation* operation, std::string operationID = "");
 		void mergeLastTwoOperation();
 
+		bool isMapChanged;
+
 	private:
 		//Timeline Showing settings
 		int beatNumberPerScreen;
@@ -140,6 +144,7 @@ namespace divaeditor
 		float showRangeFactor;
 
 		int operationHistoryIndex;
+
 		
 	};
 

@@ -21,6 +21,7 @@
 #include "divaeditor/Widgets/WTextfield.h"
 #include "divaeditor/Widgets/WLabel.h"
 #include "divaeditor/Widgets/WCheckbox.h"
+#include "divaeditor/Widgets/WButton.h"
 
 namespace divaeditor
 {

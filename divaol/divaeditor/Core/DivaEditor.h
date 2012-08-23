@@ -69,6 +69,8 @@ namespace divaeditor
 	private:
 		Editor():nowScene(NULL),mState(PRELOAD),songInitialized(false) {};
 
+		void initEditorProc();
+
 		bool songInitialized;
 
 		void coreDidLoad(void* arg);
@@ -148,6 +150,9 @@ namespace divaeditor
 		 * Get functions
 		 */
 		 int getState() {return mState;}
+
+
+
 	};
 
 

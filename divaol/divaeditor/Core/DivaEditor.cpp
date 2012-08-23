@@ -1,5 +1,6 @@
 #include "divaeditor/Core/DivaEditor.h"
 #include "divaeditor/Component/DivaEditorDisplay.h"
+#include "divaeditor/Core/DivaEditorLocalization.h"
 
 #include "divacore/state/DivaCoreLoader.h"
 #include "divacore/Component/DivaStandardCoreFlow.h"
@@ -11,6 +12,9 @@ namespace divaeditor
 {
 	using namespace divacore;
 
+#ifdef WIN32
+	WNDPROC	g_lpLastEditorWndProc = 0;
+#endif
 	
 
 	EditorPtr Editor::Ptr = NULL;
@@ -55,8 +59,11 @@ namespace divaeditor
 
 	void Editor::onEnter()
 	{
+		initEditorProc();
+
+
 		SoraCore::Instance()->showMouse(true);
-		GCN_GLOBAL->initGUIChan(L"msyh.ttf",14);
+		GCN_GLOBAL->initGUIChan(LOCALIZATION->getLocalFontPath().c_str(),14);
 
 		initScenes();
 
@@ -204,5 +211,42 @@ namespace divaeditor
 	void Editor::onSceneAppeared(DivaEditorScene* sender)
 	{
 
+	}
+
+#ifdef WIN32
+	LRESULT CALLBACK EditorWndProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
+	{
+
+		if(nMsg==WM_CLOSE)
+		{
+			if(EDITCONFIG->isMapChanged)
+			{
+				int msgBoxResult = MessageBoxW(hWnd,LOCALIZATION->getLocalStr(L"CloseApp_MapModifiedNotification").c_str(),
+												LOCALIZATION->getLocalStr(L"CloseApp_MapModified").c_str()
+												,MB_YESNOCANCEL);
+				if(msgBoxResult == IDYES)
+					EDITOR_PTR->mapData->SaveFile();
+				else if(msgBoxResult == IDCANCEL)
+					return(0);
+			}
+		}
+
+		return g_lpLastEditorWndProc ? g_lpLastEditorWndProc(hWnd, nMsg, wParam, lParam): TRUE;
+	}
+#endif
+
+	void Editor::initEditorProc()
+	{
+#ifdef WIN32
+		HWND hWnd = (HWND)sora::SoraCore::Instance()->getMainWindowHandle();
+		if (!hWnd) throw NULL;
+
+		if (g_lpLastEditorWndProc == NULL) {
+			LONG prevWndProc = ::GetWindowLong(hWnd, GWL_WNDPROC);
+			LONG wndProc = ::SetWindowLong(hWnd,GWL_WNDPROC,(LONG)EditorWndProc);
+
+			g_lpLastEditorWndProc = (WNDPROC)(prevWndProc);
+		}
+#endif
 	}
 }

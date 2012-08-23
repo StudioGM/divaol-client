@@ -1989,6 +1989,12 @@
     <ClInclude Include="divaeditor\Component\DivaEditorStandardOperation.h">
       <Filter>源文件\divaeditor\Component</Filter>
     </ClInclude>
+    <ClInclude Include="divaeditor\Core\DivaEditorLocalization.h">
+      <Filter>源文件\divaeditor\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="divaeditor\Widgets\WButton.h">
+      <Filter>源文件\divaeditor\Widgets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -2842,6 +2848,12 @@
     </ClCompile>
     <ClCompile Include="divaeditor\Component\DivaEditorStandardOperation.cpp">
       <Filter>源文件\divaeditor\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="divaeditor\Core\DivaEditorLocalization.cpp">
+      <Filter>源文件\divaeditor\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="divaeditor\Widgets\WButton.cpp">
+      <Filter>源文件\divaeditor\Widgets</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

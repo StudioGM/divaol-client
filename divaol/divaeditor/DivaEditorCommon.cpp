@@ -136,9 +136,11 @@ namespace divaeditor
 			SAFE_DELETE(operationHistory[operationHistoryIndex]);
 			operationHistory.erase(operationHistory.begin()+operationHistoryIndex);
 		}
-		
+	
 		operationHistory.push_back(operation);
 		redoTo();
+
+		isMapChanged=true;
 	}
 
 	void EditorConfig::mergeLastTwoOperation()

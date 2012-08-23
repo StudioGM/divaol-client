@@ -68,6 +68,6 @@ namespace gcn
     void WLabel::adjustSize()
     {
         setWidth(getFont()->getWidthW(getCaption()));
-        setHeight(getFont()->getHeight());
+        setHeight(getFont()->getHeight()+3);
     }
 }

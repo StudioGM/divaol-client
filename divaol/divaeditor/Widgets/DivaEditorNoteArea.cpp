@@ -355,6 +355,7 @@ namespace divaeditor
 
 		if(!isDraging && !isSelecting)
 		{
+
 			int nowToSelect = EDITOR_PTR->mapData->findNoteToSelectByPos(ceil(CORE_PTR->getRunPosition()), nowGridSelectX-EDITCONFIG->NoteAreaTailAreaSize,nowGridSelectY-EDITCONFIG->NoteAreaTailAreaSize);
 
 			//if(!EDITCONFIG->isctrl)
@@ -368,7 +369,18 @@ namespace divaeditor
 			}
 
 
-			if(EDITCONFIG->isNoteSelected(nowToSelect))
+			//check if is clicked on some selected note
+			bool clickedOnSelected = false;
+			for (int i=0;i<EDITCONFIG->noteSelected.size();i++)
+				if(EDITOR_PTR->mapData->coreInfoPtr->notes[EDITCONFIG->noteSelected[i]].notePoint[0].x == nowGridSelectX-EDITCONFIG->NoteAreaTailAreaSize
+					&&EDITOR_PTR->mapData->coreInfoPtr->notes[EDITCONFIG->noteSelected[i]].notePoint[0].y == nowGridSelectY-EDITCONFIG->NoteAreaTailAreaSize)
+				{
+					clickedOnSelected = true;
+					break;
+				}
+			
+
+			if(clickedOnSelected)
 			{
 				dragAreaRect = EDITOR_PTR->mapData->findSelectedAreaRectange();
 				dragingPosX = (nowGridSelectX-EDITCONFIG->NoteAreaTailAreaSize) - dragAreaRect.x;

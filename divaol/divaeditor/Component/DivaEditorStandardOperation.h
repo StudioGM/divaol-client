@@ -175,19 +175,35 @@ namespace divaeditor
 		bool calculated;
 		divacore::MapNote oldNote,newNote;
 
-		enum Type{KEY,TAIL,POS,TIMEPOS,TYPEBYTYPE,TYPE} noteModifyType;
+		enum Type{KEY,TAIL,POS,TIMEPOS,LONGNOTETIMEPOS,TYPEBYTYPE,TYPE,FLIPHORIZONTAL,FLIPVERTICAL,TOLETTER,TOARROW,TYPESYMMETRY,SIMPLE2KEY,SIMPLE1KEY} noteModifyType;
 
 		DivaEditorOperation_ModifyNote(int index,	std::string key);									//note_modifyKey
 		DivaEditorOperation_ModifyNote(int index,	int tailX,		int tailY);							//note_modifyTail
 		DivaEditorOperation_ModifyNote(int index,	int x,			int y,         bool isDelta);		//note_modifyPos
 		DivaEditorOperation_ModifyNote(int index,	int pos,		bool isDelta);						//note_modifyTimePos
+		DivaEditorOperation_ModifyNote(int index,	int posLeft,	int posRight,	Type noteModifyType);//note_modifyLongNoteTimePos
 		DivaEditorOperation_ModifyNote(int index,	int type,		bool isDelta,    bool needDecode);	//note_modifyTypeByType
 		DivaEditorOperation_ModifyNote(int index,	char keyPress,	bool arrow);						//note_modifyType
+		DivaEditorOperation_ModifyNote(int index,	Type noteModifyType); //Other operations
 		
 		virtual void doOperation();
 		virtual void undoOperation();
 
 		void merge(DivaEditorOperation_ModifyNote* tomerge);
+
+		virtual std::wstring ToString();
+	};
+
+	class DivaEditorOperation_SplitLongNote : public DivaEditorOperation
+	{
+	private:
+		divacore::MapNote oldNote, newNote1, newNote2;
+	public:
+
+		DivaEditorOperation_SplitLongNote(int index);
+
+		virtual void doOperation();
+		virtual void undoOperation();
 
 		virtual std::wstring ToString();
 	};

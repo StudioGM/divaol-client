@@ -654,6 +654,7 @@
     <ClInclude Include="divaeditor\Component\DivaEditorDisplay.h" />
     <ClInclude Include="divaeditor\Component\DivaEditorStandardOperation.h" />
     <ClInclude Include="divaeditor\Core\DivaEditor.h" />
+    <ClInclude Include="divaeditor\Core\DivaEditorLocalization.h" />
     <ClInclude Include="divaeditor\Core\DivaEditorMapData.h" />
     <ClInclude Include="divaeditor\Core\DivaEditorOperate.h" />
     <ClInclude Include="divaeditor\DivaEditorCommon.h" />
@@ -664,6 +665,7 @@
     <ClInclude Include="divaeditor\Widgets\DivaEditorNoteArea.h" />
     <ClInclude Include="divaeditor\Widgets\DivaEditorResourcePanel.h" />
     <ClInclude Include="divaeditor\Widgets\DivaEditorTimelineWidget.h" />
+    <ClInclude Include="divaeditor\Widgets\WButton.h" />
     <ClInclude Include="divaeditor\Widgets\WCheckbox.h" />
     <ClInclude Include="divaeditor\Widgets\WLabel.h" />
     <ClInclude Include="divaeditor\Widgets\WListBox.h" />
@@ -946,6 +948,7 @@
     <ClCompile Include="divaeditor\Component\DivaEditorDisplay.cpp" />
     <ClCompile Include="divaeditor\Component\DivaEditorStandardOperation.cpp" />
     <ClCompile Include="divaeditor\Core\DivaEditor.cpp" />
+    <ClCompile Include="divaeditor\Core\DivaEditorLocalization.cpp" />
     <ClCompile Include="divaeditor\Core\DivaEditorMapData.cpp" />
     <ClCompile Include="divaeditor\Core\DivaEditorMapDataFileLoader.cpp" />
     <ClCompile Include="divaeditor\DivaEditorCommon.cpp" />
@@ -955,6 +958,7 @@
     <ClCompile Include="divaeditor\Widgets\DivaEditorNoteArea.cpp" />
     <ClCompile Include="divaeditor\Widgets\DivaEditorResourcePanel.cpp" />
     <ClCompile Include="divaeditor\Widgets\DivaEditorTimelineWidget.cpp" />
+    <ClCompile Include="divaeditor\Widgets\WButton.cpp" />
     <ClCompile Include="divaeditor\Widgets\WCheckbox.cpp" />
     <ClCompile Include="divaeditor\Widgets\WLabel.cpp" />
     <ClCompile Include="divaeditor\Widgets\WListBox.cpp" />

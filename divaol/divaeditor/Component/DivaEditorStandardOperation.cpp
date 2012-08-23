@@ -351,7 +351,7 @@ namespace divaeditor
 
 	void DivaEditorOperation_DeleteNote::doOperation()
 	{
-		EDITOR_PTR->mapData->note_delete(EDITOR_PTR->mapData->findNoteIndexByType(deletedNote.notePoint[0].position,deletedNote.notePoint[0].type));
+		EDITOR_PTR->mapData->note_delete(EDITOR_PTR->mapData->findNoteIndexByType(deletedNote.notePoint[0].position,deletedNote.notePoint[0].type,0,deletedNote.noteType));
 
 		if(needToRefreshAll)
 			EDITUTILITY.refreshAll();
@@ -414,6 +414,21 @@ namespace divaeditor
 		noteModifyType = POS;
 	}
 
+	DivaEditorOperation_ModifyNote::DivaEditorOperation_ModifyNote(int index, int posLeft, int posRight, Type noteModifyType)
+	{
+		oldNote = EDITOR_PTR->mapData->coreInfoPtr->notes[index];
+		newNote = oldNote;
+
+		if(posLeft>posRight)
+			std::swap(posLeft,posRight);
+
+		newNote.notePoint[0].position = posLeft;
+		newNote.notePoint[1].position = posRight;
+
+		calculated=true;
+		noteModifyType = LONGNOTETIMEPOS;
+	}
+
 	DivaEditorOperation_ModifyNote::DivaEditorOperation_ModifyNote(int index, int pos, bool isDelta) //note_modifyTimePos
 	{
 		calculated=false;
@@ -448,10 +463,19 @@ namespace divaeditor
 		noteModifyType = TYPE;
 	}
 
+	DivaEditorOperation_ModifyNote::DivaEditorOperation_ModifyNote(int index, Type noteModifyType)
+	{
+		calculated = false;
+
+		oldNote = EDITOR_PTR->mapData->coreInfoPtr->notes[index];
+
+		this->noteModifyType = noteModifyType;
+	}
+
 
 	void DivaEditorOperation_ModifyNote::doOperation()
 	{
-		int nowNoteIndex = EDITOR_PTR->mapData->findNoteIndexByType(oldNote.notePoint[0].position,oldNote.notePoint[0].type);
+		int nowNoteIndex = EDITOR_PTR->mapData->findNoteIndexByType(oldNote.notePoint[0].position,oldNote.notePoint[0].type,0,oldNote.noteType);
 
 		if(calculated && oldNote.notePoint[0].key != newNote.notePoint[0].key)
 			EDITOR_PTR->mapData->note_modifyKey(nowNoteIndex,newNote.notePoint[0].key);
@@ -464,12 +488,20 @@ namespace divaeditor
 			EDITOR_PTR->mapData->note_modifyTail(nowNoteIndex,Argument::asInt("tailx",newNote.arg),Argument::asInt("taily",newNote.arg));
 		else if(noteModifyType == TAIL)
 			EDITOR_PTR->mapData->note_modifyTail(nowNoteIndex,tailX,tailY);
+		else if(noteModifyType == FLIPHORIZONTAL)
+			EDITOR_PTR->mapData->note_modifyTail(nowNoteIndex, -Argument::asInt("tailx",oldNote.arg), Argument::asInt("taily",oldNote.arg));
+		else if(noteModifyType == FLIPVERTICAL)
+			EDITOR_PTR->mapData->note_modifyTail(nowNoteIndex, Argument::asInt("tailx",oldNote.arg), -Argument::asInt("taily",oldNote.arg));
 
 
 		if(calculated && (oldNote.notePoint[0].x != newNote.notePoint[0].x || oldNote.notePoint[0].y != newNote.notePoint[0].y))
 			EDITOR_PTR->mapData->note_modifyPos(nowNoteIndex,newNote.notePoint[0].x,newNote.notePoint[0].y,false);
 		else if(noteModifyType == POS)
 			EDITOR_PTR->mapData->note_modifyPos(nowNoteIndex,x,y,isDelta);
+		else if(noteModifyType == FLIPHORIZONTAL)
+			EDITOR_PTR->mapData->note_modifyPos(nowNoteIndex, EDITCONFIG->NoteAreaWidth-oldNote.notePoint[0].x, oldNote.notePoint[0].y, false);
+		else if(noteModifyType == FLIPVERTICAL)
+			EDITOR_PTR->mapData->note_modifyPos(nowNoteIndex, oldNote.notePoint[0].x,EDITCONFIG->NoteAreaHeight-oldNote.notePoint[0].y, false);
 
 
 		if(calculated && oldNote.notePoint[0].position != newNote.notePoint[0].position)
@@ -483,6 +515,11 @@ namespace divaeditor
 			nowNoteIndex = EDITOR_PTR->mapData->adjustNoteOrder(nowNoteIndex);
 		}
 
+		if(calculated && oldNote.notePoint.size()>1 && oldNote.notePoint[1].position != newNote.notePoint[1].position)
+		{
+			EDITOR_PTR->mapData->note_modifySecondTimePos(nowNoteIndex,newNote.notePoint[1].position,false);
+		}
+
 
 		if(calculated && oldNote.notePoint[0].type != newNote.notePoint[0].type)
 			EDITOR_PTR->mapData->note_modifyTypeByType(nowNoteIndex,newNote.notePoint[0].type,false);
@@ -490,10 +527,27 @@ namespace divaeditor
 			EDITOR_PTR->mapData->note_modifyTypeByType(nowNoteIndex,type,isDelta,needDecode);
 		else if(noteModifyType == TYPE)
 			EDITOR_PTR->mapData->note_modifyType(nowNoteIndex,keyPress,arrow);
-
+		else if(noteModifyType == TOARROW && oldNote.notePoint[0].type<4)
+			EDITOR_PTR->mapData->note_modifyTypeByType(nowNoteIndex,4,true);
+		else if(noteModifyType == TOLETTER && oldNote.notePoint[0].type>=4)
+			EDITOR_PTR->mapData->note_modifyTypeByType(nowNoteIndex,-4,true);
+		else if(noteModifyType == TYPESYMMETRY)
+		{
+			int toAdd = ((oldNote.notePoint[0].type/4)+1)%2;
+			int tType = EDITOR_PTR->mapData->getNoteTypeIndexFromNoteType(oldNote.notePoint[0].type%4);
+			if(tType==1) tType=3;
+			else if(tType==3) tType=1;
+			EDITOR_PTR->mapData->note_modifyTypeByType(nowNoteIndex,tType + toAdd*4,false,true);
+		}
+		else if(noteModifyType == SIMPLE2KEY)
+			EDITOR_PTR->mapData->note_modifyTypeByType(nowNoteIndex,oldNote.notePoint[0].type%2 + (oldNote.notePoint[0].type / 4)*4,false);
+		else if(noteModifyType == SIMPLE1KEY)
+			EDITOR_PTR->mapData->note_modifyTypeByType(nowNoteIndex,(oldNote.notePoint[0].type / 4)*4,false);
+		
 
 		if (!calculated)
 			newNote = EDITOR_PTR->mapData->coreInfoPtr->notes[nowNoteIndex];
+
 		
 		if(needToRefreshAll)
 			EDITUTILITY.refreshAll();
@@ -502,7 +556,7 @@ namespace divaeditor
 
 	void DivaEditorOperation_ModifyNote::undoOperation()
 	{
-		int nowNoteIndex = EDITOR_PTR->mapData->findNoteIndexByType(newNote.notePoint[0].position,newNote.notePoint[0].type);
+		int nowNoteIndex = EDITOR_PTR->mapData->findNoteIndexByType(newNote.notePoint[0].position,newNote.notePoint[0].type,0,newNote.noteType);
 
 		if(newNote.notePoint[0].key != oldNote.notePoint[0].key)
 		{
@@ -524,6 +578,11 @@ namespace divaeditor
 		{
 			EDITOR_PTR->mapData->note_modifyTimePos(nowNoteIndex,oldNote.notePoint[0].position,false);
 			nowNoteIndex = EDITOR_PTR->mapData->adjustNoteOrder(nowNoteIndex);
+		}
+
+		if(oldNote.notePoint.size()>1 && oldNote.notePoint[1].position != newNote.notePoint[1].position)
+		{
+			EDITOR_PTR->mapData->note_modifySecondTimePos(nowNoteIndex, oldNote.notePoint[1].position, false);
 		}
 
 		if(oldNote.notePoint[0].type != newNote.notePoint[0].type)
@@ -551,6 +610,58 @@ namespace divaeditor
 	}
 
 #pragma endregion DivaEditorOperation_ModifyNote
+#pragma region DivaEditorOperation_SplitLongNote
 
+	DivaEditorOperation_SplitLongNote::DivaEditorOperation_SplitLongNote(int index)
+	{
+		oldNote = EDITOR_PTR->mapData->coreInfoPtr->notes[index];
+		newNote1 = oldNote;
+		newNote2 = oldNote;
+
+		newNote1.notePoint.erase(newNote1.notePoint.begin()+1);
+		newNote1.noteType = "normal";
+		newNote2.notePoint.erase(newNote2.notePoint.begin());
+		newNote2.noteType = "normal";
+	}
+
+	void DivaEditorOperation_SplitLongNote::doOperation()
+	{
+		int nowNoteIndex = EDITOR_PTR->mapData->findNoteIndexByType(oldNote.notePoint[0].position,oldNote.notePoint[0].type,0,oldNote.noteType);
+		EDITOR_PTR->mapData->note_delete(nowNoteIndex);
+
+		int newNoteIndex = EDITOR_PTR->mapData->addNormalNote(newNote1);
+		if(!EDITCONFIG->isNoteSelected(newNoteIndex))
+			EDITCONFIG->addSelectedNote(newNoteIndex);
+		newNoteIndex = EDITOR_PTR->mapData->addNormalNote(newNote2);
+		if(!EDITCONFIG->isNoteSelected(newNoteIndex))
+			EDITCONFIG->addSelectedNote(newNoteIndex);
+
+		
+
+		if(needToRefreshAll)
+			EDITUTILITY.refreshAll();
+	}
+
+	void DivaEditorOperation_SplitLongNote::undoOperation()
+	{
+		int newNoteIndex = EDITOR_PTR->mapData->findNoteIndexByType(newNote1.notePoint[0].position,newNote1.notePoint[0].type,0,newNote1.noteType);
+		EDITOR_PTR->mapData->note_delete(newNoteIndex);
+		newNoteIndex = EDITOR_PTR->mapData->findNoteIndexByType(newNote2.notePoint[0].position,newNote2.notePoint[0].type,0,newNote1.noteType);
+		EDITOR_PTR->mapData->note_delete(newNoteIndex);
+
+		int nowNoteIndex = EDITOR_PTR->mapData->addLongNote(oldNote);
+		if(!EDITCONFIG->isNoteSelected(nowNoteIndex))
+			EDITCONFIG->addSelectedNote(nowNoteIndex);
+
+		if(needToRefreshAll)
+			EDITUTILITY.refreshAll();
+	}
+
+	std::wstring DivaEditorOperation_SplitLongNote::ToString()
+	{
+		return L"";
+	}
+
+#pragma endregion DivaEditorOperation_SplitLongNote
 
 }
