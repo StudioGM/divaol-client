@@ -24,6 +24,7 @@ namespace divacore
 	*/
 	class BassMusicManager : public MusicManager
 	{
+		static const int NORMAL_FREQ = 44100;
 		static const int MAX_SAMPLE = 32;
 
 		typedef std::map<std::string,std::string> FILES;
@@ -36,6 +37,7 @@ namespace divacore
 		MUSICPOOL musicPool;
 		MUSICLIST musicList;
 		FILES fileDict;
+		float mSpeedScale;
 		std::map<std::string,float> volumePool;
 		std::map<std::string, float> tagsVolume;
 
@@ -80,6 +82,9 @@ namespace divacore
 		double getLength(const std::string &channel) {return BASS_ChannelBytes2Seconds(getChannel(channel),BASS_ChannelGetLength(getChannel(channel),BASS_POS_BYTE));}
 		void pause();
 		void resume();
+
+		void setSpeedScale(float scale=1.0);
+		float getSpeedScale();
 	};
 }
 

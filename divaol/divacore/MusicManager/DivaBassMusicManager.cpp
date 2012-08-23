@@ -96,6 +96,7 @@ namespace divacore
 	}
 	void BassMusicManager::init()
 	{
+		mSpeedScale = 1.0;
 		::BASS_Init(-1, 44100, 0, 0, 0);
 		/*globalSample = ::BASS_SampleCreate(100000000, 28160, 1, 1, BASS_SAMPLE_LOOP|BASS_SAMPLE_OVER_POS);
 		globalChannel = BASS_SampleGetChannel(globalSample,false);
@@ -179,6 +180,9 @@ namespace divacore
 			::BASS_ChannelPlay(hChannel,true);
 			::BASS_ChannelSetAttribute(hChannel,BASS_ATTRIB_VOL,getTagVolume(tag)*volumePool[channel]);
 			::BASS_ChannelUpdate(hChannel,0);
+
+			if(mSpeedScale!=1.0)
+				BASS_ChannelSlideAttribute(hChannel, BASS_ATTRIB_FREQ, int(NORMAL_FREQ*mSpeedScale), 0);
         }
 
 		musicPool[channel] = std::make_pair<std::string,HSTREAM>(tag,hChannel);
@@ -286,5 +290,15 @@ namespace divacore
 		{
 			return 0;
 		}
+	}
+	void BassMusicManager::setSpeedScale(float scale)
+	{
+		mSpeedScale = scale;
+		for(MUSICPOOL::iterator ptr = musicPool.begin(); ptr != musicPool.end(); ptr++)
+			BASS_ChannelSlideAttribute(ptr->second.second, BASS_ATTRIB_FREQ, int(NORMAL_FREQ*mSpeedScale), 0);
+	}
+	float BassMusicManager::getSpeedScale()
+	{
+		return mSpeedScale;
 	}
 }

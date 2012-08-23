@@ -54,7 +54,7 @@ namespace divacore
 		bool mHitSound;
 		bool mMissSound;
 	public:		
-		EditMode():mPlayable(true),mHitSound(true),mMissSound(true) {unableHook.open=!mPlayable;}
+		EditMode():mPlayable(false),mHitSound(true),mMissSound(true) {unableHook.open=!mPlayable;}
 		~EditMode() {HOOK_MANAGER_PTR->del(&unableHook);}
 
 		virtual std::string getName() {return "editMode";}
