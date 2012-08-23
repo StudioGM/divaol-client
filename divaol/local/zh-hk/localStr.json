@@ -1,5 +1,5 @@
 {
-  "font": "華康中圓體.TTC",
+  "font": "hkzyt.TTC",
   "InitScene_SelectFile": "請選擇一個文件",
   "InitScene_btn_openFile": "打開文件...",
   "InitScene_isLoading": "載入中...",

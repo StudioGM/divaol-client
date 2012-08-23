@@ -1,5 +1,5 @@
 {
-  "font": "ヒラギノ角ゴ ProN W3.otf",
+  "font": "Hiragino Mincho ProN W6.otf",
   "InitScene_SelectFile": "ファイルを選択してください",
   "InitScene_btn_openFile": "ファイルを開く...",
   "InitScene_isLoading": "読み込んでいます...",
