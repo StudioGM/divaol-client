@@ -60,9 +60,9 @@ namespace divacore
 			/*else*/
 		}
 		if(mapInfo->resources.find("hit")==mapInfo->resources.end())
-			core->getMusicManager()->load("Data/hit.wav","hit",false);
+			core->getMusicManager()->load("","hit",false);
 		if(mapInfo->resources.find("miss")==mapInfo->resources.end())
-			core->getMusicManager()->load("Data/miss.mp3","miss",false);
+			core->getMusicManager()->load("","miss",false);
 
 		MUSIC_MANAGER_PTR->play(mapInfo->header.mainSound,CORE_FLOW_PTR->MAIN_SOUND_CHANNEL);
 		MUSIC_MANAGER_PTR->pause(CORE_FLOW_PTR->MAIN_SOUND_CHANNEL);
@@ -174,8 +174,8 @@ namespace divacore
 
 	void MapStandardParser::unloadResource(MapResourceInfo info)
 	{
-		if(mapInfo->resources.find(info.ID)==mapInfo->resources.end())
-			return;
+		//if(mapInfo->resources.find(info.ID)==mapInfo->resources.end())
+		//	return;
 
 		if(info.type==MapResourceInfo::AUDIO)
 			core->getMusicManager()->unload(info.ID);
