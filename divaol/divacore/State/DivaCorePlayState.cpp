@@ -196,13 +196,13 @@ namespace divacore
 		{
 			//StandardEditUtility::instance().init();
 			//StandardEditUtility::instance().setPosition(1000);
-			MUSIC_MANAGER_PTR->setSpeedScale(0.5);
+			CORE_PTR->setSpeedScale(0.5);
 		}
 		else if(event.getKey()==SORA_KEY_R)
 		{
 			//StandardEditUtility::instance().init();
 			//StandardEditUtility::instance().refreshAll();
-			MUSIC_MANAGER_PTR->setSpeedScale();
+			CORE_PTR->setSpeedScale();
 		}
 		/*else if(event.getKey()==SORA_KEY_D)
 		{

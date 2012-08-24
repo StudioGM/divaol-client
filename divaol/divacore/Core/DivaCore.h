@@ -61,13 +61,19 @@ namespace divacore
 	*/
 	class Core : public sora::SoraGameState, public sora::SoraEventHandler, public EventHandler
 	{
+	public:
 		friend class CoreState;
-		
+
+		static const float NORMAL_SPEED;
+
+	private:
 	    /*
 		 * Common Variables
 		 */
 		//total state
 		int mState,mMode;
+		//speed scale
+		float mSpeedScale;
 		//map info
 		MapInfoPtr mapInfo;
 		//the initialize state name
@@ -183,6 +189,7 @@ namespace divacore
         void setState(const std::string& tag);
 		void setInitState(const std::string& tag) {initStateTag = tag;}
 		void setMode(GameModePtr gameMode) {registerGameMode(gameMode);}
+		void setSpeedScale(float scale=NORMAL_SPEED);
 		std::string getMode() {return gameMode->getName();}
 	    /*
 		 * Control funcions
@@ -214,6 +221,8 @@ namespace divacore
 		 int32 getScore();
 		 int32 getHP();
 		 int getState() {return mState;}
+		 float getSpeedScale() {
+			 return mSpeedScale;}
 		 SoraFSMManager* getManager() {return &mFSMManager;}
 	};
 
