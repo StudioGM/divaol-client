@@ -1376,12 +1376,6 @@ namespace divaeditor
 		if(EDITOR_PTR->mapData->coreInfoPtr->resources.find(type)!=EDITOR_PTR->mapData->coreInfoPtr->resources.end())
 		{
 			resourceInfo = EDITOR_PTR->mapData->coreInfoPtr->resources[type];
-
-			//unload the old resource file
-			EDITUTILITY.unloadResource(resourceInfo);
-			DeleteFileW((workingDirectory + L"/" + resourceInfo.filePath).c_str());
-			resourceDescription.erase(resourceDescription.find(type));
-			coreInfoPtr->resources.erase(coreInfoPtr->resources.find(type));
 		}
 		else
 		{
@@ -1389,6 +1383,14 @@ namespace divaeditor
 			resourceInfo.type = divacore::MapResourceInfo::AUDIO;
 			resourceInfo.flag = false;
 		}
+
+		//unload the old resource file
+		EDITUTILITY.unloadResource(resourceInfo);
+		DeleteFileW((workingDirectory + L"/" + resourceInfo.filePath).c_str());
+		if(resourceDescription.find(type)!=resourceDescription.end())
+			resourceDescription.erase(resourceDescription.find(type));
+		if(coreInfoPtr->resources.find(type)!=coreInfoPtr->resources.end())
+			coreInfoPtr->resources.erase(coreInfoPtr->resources.find(type));
 
 		resourceInfo.flag=false;
 
