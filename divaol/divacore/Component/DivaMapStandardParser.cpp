@@ -41,7 +41,9 @@ namespace divacore
 	{
 		for(MapInfo::RESOURCES::iterator ptr = mapInfo->resources.begin(); ptr != mapInfo->resources.end(); ptr++)
 		{
-			std::string filePath = sora::ws2s(getFullPath(ptr->second.filePath));
+			std::string filePath = "";
+			if(ptr->second.filePath!=L"")
+				filePath = sora::ws2s(getFullPath(ptr->second.filePath));
 
 			if(ptr->second.type==MapResourceInfo::AUDIO)
 			{

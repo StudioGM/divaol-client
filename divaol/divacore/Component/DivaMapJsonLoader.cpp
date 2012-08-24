@@ -106,7 +106,12 @@ namespace divacore
 					resourceInfo.filePath = JsonHelper::_loadAsWString(resource[i],"file");
 					resourceInfo.type = _parserResourceType(JsonHelper::_loadAsString(resource[i],"type"));
 					if(resourceInfo.type==MapResourceInfo::AUDIO)
-						resourceInfo.flag = JsonHelper::_loadAsBool(resource[i],"stream");
+					{
+						if(resource[i].isMember("stream"))
+							resourceInfo.flag = JsonHelper::_loadAsBool(resource[i],"stream");
+						else
+							resourceInfo.flag = false;
+					}
 					mapInfo->resources[resourceInfo.ID] = resourceInfo;
 				}
 				else

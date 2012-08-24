@@ -136,7 +136,11 @@ namespace divacore
 		if(soundPool.find(ID)!=soundPool.end())
 			DIVA_EXCEPTION_MODULE("Sound "+ID+" already exists","BassMusicManager");
 
-		soundPool[ID] = std::make_pair<bool,HSTREAM>(stream,loadSound(file,stream));
+		if(file=="")
+			soundPool[ID] = std::make_pair<bool,HSTREAM>(stream,0);
+		else
+			soundPool[ID] = std::make_pair<bool,HSTREAM>(stream,loadSound(file,stream));
+
 		fileDict[ID] = file;
 	}
 	void BassMusicManager::unload(const std::string &ID) 
@@ -145,10 +149,13 @@ namespace divacore
 		if(soundPtr==soundPool.end())
 			return;
 
-		if(soundPtr->second.first)
-			::BASS_StreamFree(soundPtr->second.second);
-		else
-			::BASS_SampleFree(soundPtr->second.second);
+		if(soundPtr->second.second)
+		{
+			if(soundPtr->second.first)
+				::BASS_StreamFree(soundPtr->second.second);
+			else
+				::BASS_SampleFree(soundPtr->second.second);
+		}
 		soundPool.erase(soundPtr);
 	}
 	void BassMusicManager::reload(const std::string &ID)
@@ -181,9 +188,10 @@ namespace divacore
 			::BASS_ChannelSetAttribute(hChannel,BASS_ATTRIB_VOL,getTagVolume(tag)*volumePool[channel]);
 			::BASS_ChannelUpdate(hChannel,0);
 
-			if(mSpeedScale!=1.0)
-				BASS_ChannelSlideAttribute(hChannel, BASS_ATTRIB_FREQ, int(NORMAL_FREQ*mSpeedScale), 0);
-        }
+			musicPool[channel] = std::make_pair<std::string,HSTREAM>(tag,hChannel);
+		}
+		else
+			musicPool.erase(musicPool.find(channel));
 
 		musicPool[channel] = std::make_pair<std::string,HSTREAM>(tag,hChannel);
 	}
