@@ -343,11 +343,59 @@ namespace divaeditor
 
 #pragma endregion tool box button set
 		
+
+		gcn::BoarderedContainer *keySoundBox = new gcn::BoarderedContainer();
+		keySoundBox->setId("keySoundBox");
+		keySoundBox->setForegroundColor(gcn::Color(255,255,255,255));
+		keySoundBox->setSize((noteCategory->getWidth()-noteArea->getWidth())/2-10,noteArea->getHeight());
+		keySoundBox->setAlpha(150);
+		keySoundBox->setPosition(noteCategory->getWidth()-toolBox->getWidth()-5,noteArea->getY()+50);
+		noteCategory->add(keySoundBox);
+
+
+		gcn::WButton *btn_note_expandKeySoundBox = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_btn_note_expandKeySoundBox"));
+		btn_note_expandKeySoundBox->setId("btn_note_expandKeySoundBox");
+		btn_note_expandKeySoundBox->setSize(keySoundBox->getWidth(), 40);
+		btn_note_expandKeySoundBox->setPosition(0,0);
+		btn_note_expandKeySoundBox->setForegroundColor(gcn::Color(255,255,255,255));
+		defaultColor = btn_note_expandKeySoundBox->getBaseColor();
+		defaultColor.a = 150;
+		btn_note_expandKeySoundBox->setBaseColor(defaultColor);
+		sora::SoraGUI::Instance()->registerGUIResponser(btn_note_expandKeySoundBox, this, "btn_note_expandKeySoundBox", sora::RESPONSEACTION);
+		
+#pragma region key sound box set
+
+		gcn::Container *keySoundControlSet = new gcn::Container();
+		keySoundControlSet->setId("keySoundControlSet");
+		keySoundControlSet->setSize(400,noteArea->getHeight());
+		keySoundControlSet->setBaseColor(gcn::Color(0,0,0,0));
+		keySoundControlSet->setPosition(0,0);
+		keySoundBox->add(keySoundControlSet);
+
+		gcn::WLabel *wlabel_globalKeySound = new gcn::WLabel(LOCALIZATION->getLocalStr(L"MainScene_wlabel_globalKeySound"));
+		wlabel_globalKeySound->setForegroundColor(gcn::Color(255,255,255,255));
+		wlabel_globalKeySound->setBackgroundColor(gcn::Color(0,0,0,0));
+		wlabel_globalKeySound->setPosition(5,30);
+		wlabel_globalKeySound->adjustSize();
+		toolBoxButtonSet->add(wlabel_globalKeySound);
+
+		gcn::WLabel *wlabel_globalMissSound = new gcn::WLabel(LOCALIZATION->getLocalStr(L"MainScene_wlabel_globalMissSound"));
+		wlabel_globalMissSound->setForegroundColor(gcn::Color(255,255,255,255));
+		wlabel_globalMissSound->setBackgroundColor(gcn::Color(0,0,0,0));
+		wlabel_globalMissSound->setPosition(5,30);
+		wlabel_globalMissSound->adjustSize();
+		toolBoxButtonSet->add(wlabel_globalMissSound);
+
+
+#pragma endregion key sound box set
+
 		toolBox->add(btn_note_expandToolBox);
-
 		toolBoxButtonSet->setVisible(false);
-
 		toolBox->setSize(btn_note_expandToolBox->getWidth(),btn_note_expandToolBox->getHeight());
+
+		keySoundBox->add(btn_note_expandKeySoundBox);
+		keySoundControlSet->setVisible(false);
+		keySoundBox->setSize(btn_note_expandKeySoundBox->getWidth(),btn_note_expandKeySoundBox->getHeight());
 
 		return noteCategory;
 	}
@@ -866,7 +914,7 @@ namespace divaeditor
 		wcheckbox_showBackground->setSelected(EDITCONFIG->display_background);
 
 		gcn::WLabel *wlabel_playTime = (gcn::WLabel*)top->findWidgetById("wlabel_playTime");
-		wlabel_playTime->setCaption( secondToTimeWstr(CORE_PTR->getRunTime()) + L'/' + secondToTimeWstr(CORE_FLOW_PTR->getTotalTime()) + L" " +  fTows(CORE_PTR->getMusicManager()->getSpeedScale(),2) + L"x");
+		wlabel_playTime->setCaption( secondToTimeWstr(CORE_PTR->getRunTime()) + L'/' + secondToTimeWstr(CORE_FLOW_PTR->getTotalTime()) + L" " +  fTows(CORE_PTR->getSpeedScale(),2) + L"x");
 		wlabel_playTime->adjustSize();
 
 		gcn::WLabel *wlabel_playPos = (gcn::WLabel*)top->findWidgetById("wlabel_playPos");
@@ -984,6 +1032,19 @@ namespace divaeditor
 	{
 		if(Appeared)
 			Appeared(this);
+
+		//After map initialized here
+		//Check if the map has key and miss resource
+		//If not, add default key sound
+		if(EDITOR_PTR->mapData->coreInfoPtr->resources.find("hit")==EDITOR_PTR->mapData->coreInfoPtr->resources.end())
+		{
+			EDITOR_PTR->mapData->modifyGlobalHitMissSound(L"Data/hit.wav","hit");
+		}
+
+		if(EDITOR_PTR->mapData->coreInfoPtr->resources.find("miss")==EDITOR_PTR->mapData->coreInfoPtr->resources.end())
+		{
+			EDITOR_PTR->mapData->modifyGlobalHitMissSound(L"Data/miss.wav","hit");
+		}
 	}
 	void DivaEditorMainScene::willDisappear()
 	{
@@ -1025,21 +1086,21 @@ namespace divaeditor
 		}
 		else if(getID()=="btn_SpeedUp")
 		{
-			float nowSpeed = CORE_PTR->getMusicManager()->getSpeedScale();
+			float nowSpeed = CORE_PTR->getSpeedScale();
 			if(nowSpeed<2)
 			{
 				nowSpeed += 0.25;
-				CORE_PTR->getMusicManager()->setSpeedScale(nowSpeed);
+				CORE_PTR->setSpeedScale(nowSpeed);
 				EditUtility.refreshAll();
 			}
 		}
 		else if(getID()=="btn_SpeedDown")
 		{
-			float nowSpeed = CORE_PTR->getMusicManager()->getSpeedScale();
+			float nowSpeed = CORE_PTR->getSpeedScale();
 			if(nowSpeed>0.3)
 			{
 				nowSpeed -= 0.25;
-				CORE_PTR->getMusicManager()->setSpeedScale(nowSpeed);
+				CORE_PTR->setSpeedScale(nowSpeed);
 				EditUtility.refreshAll();
 			}
 		}
@@ -1226,6 +1287,8 @@ namespace divaeditor
 
 #pragma region Note Category Actions
 
+#pragma region toolbox
+
 		else if(getID()=="btn_note_expandToolBox")
 		{
 			gcn::BoarderedContainer *toolBox = (gcn::BoarderedContainer*)container_Categories[State::NOTE]->findWidgetById("toolBox");
@@ -1340,6 +1403,42 @@ namespace divaeditor
 			else
 				delete thisSplitSet;
 		}
+#pragma endregion toolbox
+
+#pragma region key sound
+
+		else if(getID()=="btn_note_expandKeySoundBox")
+		{
+			gcn::BoarderedContainer *keySoundBox = (gcn::BoarderedContainer*)container_Categories[State::NOTE]->findWidgetById("keySoundBox");
+			gcn::Container *keySoundControlSet = (gcn::Container*)container_Categories[State::NOTE]->findWidgetById("keySoundControlSet");
+			gcn::WButton *btn_note_expandKeySoundBox = (gcn::WButton*)container_Categories[State::NOTE]->findWidgetById("btn_note_expandKeySoundBox");
+
+			if(btn_note_expandKeySoundBox->getCaption() == LOCALIZATION->getLocalStr(L"MainScene_btn_note_expandKeySoundBox"))
+			{
+				//Expand
+				keySoundBox->setSize(keySoundControlSet->getWidth() + keySoundControlSet->getX()+5,keySoundControlSet->getHeight());
+				keySoundBox->setPosition(container_Categories[State::NOTE]->getWidth() - keySoundBox->getWidth() - 5, keySoundBox->getY() - 50);
+
+				keySoundControlSet->setVisible(true);
+
+				btn_note_expandKeySoundBox->setPosition(keySoundBox->getWidth()-btn_note_expandKeySoundBox->getWidth(),50);
+				btn_note_expandKeySoundBox->setCaption(LOCALIZATION->getLocalStr(L"MainScene_btn_expandToolBoxHide"));
+
+				container_Categories[State::NOTE]->moveToTop(keySoundBox);
+			}
+			else if(btn_note_expandKeySoundBox->getCaption() == LOCALIZATION->getLocalStr(L"MainScene_btn_expandToolBoxHide"))
+			{
+				keySoundBox->setSize(btn_note_expandKeySoundBox->getWidth(),btn_note_expandKeySoundBox->getHeight());
+				keySoundBox->setPosition(container_Categories[State::NOTE]->getWidth() - keySoundBox->getWidth() - 5, keySoundBox->getY()+50);
+
+				keySoundControlSet->setVisible(false);
+
+				btn_note_expandKeySoundBox->setPosition(0,0);
+				btn_note_expandKeySoundBox->setCaption(LOCALIZATION->getLocalStr(L"MainScene_btn_note_expandKeySoundBox"));
+			}
+		}
+
+#pragma endregion key sound
 
 #pragma endregion Note Category Actions
 

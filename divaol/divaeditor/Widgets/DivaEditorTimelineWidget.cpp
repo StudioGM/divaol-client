@@ -375,7 +375,6 @@ namespace divaeditor
 
 	}
 
-
 	void Timeline::mousePressed(gcn::MouseEvent& mouseEvent)
 	{
 		nowMouseXPos = mouseEvent.getX();
@@ -652,12 +651,10 @@ namespace divaeditor
 		
 	}
 
-
 	void Timeline::setMaxGridHeightFactor(float factor)
 	{
 		_maxGridHeightFactor = factor;
 	}
-
 
 	int Timeline::findNoteByMousePos(int x,int y)
 	{
@@ -688,8 +685,6 @@ namespace divaeditor
 		else
 			return -1;
 	}
-
-
 
 	void Timeline::onKeyPressed(sora::SoraKeyEvent& event)
 	{

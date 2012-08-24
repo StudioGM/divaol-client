@@ -360,7 +360,7 @@ namespace divaeditor
 	void DivaEditorMapData::finishComboNote(divacore::MapNote &comboNote, int pos, int key)
 	{
 		finishLongNote(comboNote,pos,key);
-		comboNote.arg["standard_num"] = int((comboNote.notePoint[1].position-comboNote.notePoint[0].position)/(EDITCONFIG->GridPerBeat/4));
+		comboNote.arg["standard_num"] = int((comboNote.notePoint[1].position-comboNote.notePoint[0].position)/(EDITCONFIG->GridPerBeat/2));
 	}
 
 
@@ -1369,6 +1369,45 @@ namespace divaeditor
 	{
 		resourceDescription[resourceID] = description;
 	}
+
+	void DivaEditorMapData::modifyGlobalHitMissSound(std::wstring filename, std::string type)
+	{
+		divacore::MapResourceInfo resourceInfo;
+		if(EDITOR_PTR->mapData->coreInfoPtr->resources.find(type)!=EDITOR_PTR->mapData->coreInfoPtr->resources.end())
+		{
+			resourceInfo = EDITOR_PTR->mapData->coreInfoPtr->resources[type];
+
+			//unload the old resource file
+			EDITUTILITY.unloadResource(resourceInfo);
+			DeleteFileW((workingDirectory + L"/" + resourceInfo.filePath).c_str());
+			resourceDescription.erase(resourceDescription.find(type));
+			coreInfoPtr->resources.erase(coreInfoPtr->resources.find(type));
+		}
+		else
+		{
+			resourceInfo.ID = type;
+			resourceInfo.type = divacore::MapResourceInfo::AUDIO;
+			resourceInfo.flag = false;
+		}
+
+		resourceInfo.flag=false;
+
+		//get safe filename
+		std::wstring safeFileName = L"";
+		for (int dotPos=filename.length()-1;dotPos>=0;dotPos--)
+		{
+			if((filename[dotPos]==L'/')||(filename[dotPos]==L'\\'))
+				break;
+			safeFileName = filename[dotPos] + safeFileName;
+		}
+		resourceInfo.filePath = safeFileName;
+
+		//Copy file
+		CopyFileW(filename.c_str(), (workingDirectory + L"/" + resourceInfo.filePath).c_str(), false);
+		resourceDescription[type] = safeFileName;
+		EDITUTILITY.loadResource(resourceInfo);
+	}
+
 
 
 }

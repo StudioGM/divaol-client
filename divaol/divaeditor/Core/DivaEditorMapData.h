@@ -115,6 +115,7 @@ namespace divaeditor
 		std::string resource_add(std::wstring filename);
 		void resource_delete(std::string id);
 		
+		void modifyGlobalHitMissSound(std::wstring filename, std::string type);
 
 		int findResourceEventIndexByIndexInResource(int index, std::string resourceID);
 		int resourceEvent_add(int pos, std::string resourceID);
