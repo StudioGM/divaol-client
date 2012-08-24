@@ -307,9 +307,9 @@ namespace divacore
 			setReceiveNote(0);
 		else if(getState()==TAIL&&noteInfo.notePoint[1].time+EVALUATE_STRATEGY_PTR->getProtectedTime()>time)
 			setReceiveNote(1);
-		
+
 		//receive key in turns 
-		if(twoType[cntHit%2]%8!=event.key)
+		if(twoType[cntHit%2]!=event.key)
 			return false;
 		return true;
 	}

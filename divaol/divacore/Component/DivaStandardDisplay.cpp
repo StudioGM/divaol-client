@@ -8,6 +8,7 @@
 #include "DivaStandardDisplay.h"
 #include "SoraCore.h"
 #include "SoraTextureMap.h"
+#include "core/DivaCore.h"
 
 namespace divacore
 {
@@ -250,8 +251,9 @@ namespace divacore
 
 	void StandardDisplay::render()
 	{
-		for(VIDEOPLAYING::iterator ptr = videoPlaying.begin(); ptr != videoPlaying.end(); ptr++)
-			videoPool[*ptr].second->render();
+		if(CORE_PTR->getSpeedScale()==Core::NORMAL_SPEED)
+			for(VIDEOPLAYING::iterator ptr = videoPlaying.begin(); ptr != videoPlaying.end(); ptr++)
+				videoPool[*ptr].second->render();
 		for(SPRITEPOOL::iterator ptr = spritePool.begin(); ptr != spritePool.end(); ptr++)
 			ptr->second->render();
 		for(SPRITELIST::iterator ptr = spriteList.begin(); ptr != spriteList.end(); ptr++)

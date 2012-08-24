@@ -16,7 +16,7 @@
 namespace divacore
 {
 	CorePtr Core::Ptr = NULL;
-
+	const float Core::NORMAL_SPEED = 1.0;
 	/*
 	 * Event functions
 	 */
@@ -205,6 +205,10 @@ namespace divacore
 	void Core::gameReset()
 	{
 		LOGGER->msg("Game Set On","Core");
+		
+		//reset speed scale
+		setSpeedScale();
+		MUSIC_MANAGER_PTR->setSpeedScale();
 	}
 
 	void Core::gameStop()
@@ -385,6 +389,11 @@ namespace divacore
 		if(renderSystem==NULL)
 			return NULL;
 		return renderSystem->renderToCanvas(width,height,mask);
+	}
+	void Core::setSpeedScale(float scale){
+		assert(musicManager!=NULL);
+		mSpeedScale=scale;
+		musicManager->setSpeedScale(scale);
 	}
 	void Core::setSong(const std::wstring &path, const std::wstring &mapFileName) {mapLoader->setSong(path,mapFileName);}
 	double Core::getRealTime() {return coreFlow->getRealTime();}
