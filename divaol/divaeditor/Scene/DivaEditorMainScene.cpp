@@ -544,6 +544,8 @@ namespace divaeditor
 	{
 		CORE_PTR->pause();
 		EditUtility.setPosition(CORE_FLOW_PTR->getTotalPosition());
+
+		
 	}
 
 	DivaEditorMainScene::DivaEditorMainScene()
@@ -609,7 +611,7 @@ namespace divaeditor
 		progressBar->setId("progressBar");
 		//progressBar->setSize(500,30);
 		//progressBar->setPosition(50,680);
-		progressBar->setSize(410,30);
+		progressBar->setSize(390,30);
 		progressBar->setPosition(670,20);
 		progressBar->setBackgroundColor(gcn::Color(0,0,0,150));
 		progressBar->setForegroundColor(gcn::Color(255,255,255,255));
@@ -642,11 +644,27 @@ namespace divaeditor
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_Stop, this, "btn_Stop", sora::RESPONSEACTION);
 		top->add(btn_Stop);
 
+		gcn::WButton *btn_SpeedUp = new gcn::WButton(L">>");
+		btn_SpeedUp->setId("btn_SpeedUp");
+		btn_SpeedUp->setSize(14,14);
+		btn_SpeedUp->setPosition(btn_Stop->getX()+btn_Stop->getWidth()+5,btn_Stop->getY());
+		btn_SpeedUp->setForegroundColor(gcn::Color(255,255,255,255));
+		sora::SoraGUI::Instance()->registerGUIResponser(btn_SpeedUp, this, "btn_SpeedUp", sora::RESPONSEACTION);
+		top->add(btn_SpeedUp);
+
+		gcn::WButton *btn_SpeedDown = new gcn::WButton(L"<<");
+		btn_SpeedDown->setId("btn_SpeedDown");
+		btn_SpeedDown->setSize(14,14);
+		btn_SpeedDown->setPosition(btn_SpeedUp->getX(),btn_SpeedUp->getY()+btn_SpeedUp->getHeight()+2);
+		btn_SpeedDown->setForegroundColor(gcn::Color(255,255,255,255));
+		sora::SoraGUI::Instance()->registerGUIResponser(btn_SpeedDown, this, "btn_SpeedDown", sora::RESPONSEACTION);
+		top->add(btn_SpeedDown);
+
 		gcn::WLabel *wlabel_playTime = new gcn::WLabel();
 		wlabel_playTime->setId("wlabel_playTime");
 		wlabel_playTime->setBaseColor(gcn::Color(0,0,0,150));
 		wlabel_playTime->setForegroundColor(gcn::Color(255,255,255,255));
-		wlabel_playTime->setPosition(btn_Stop->getX() + btn_Stop->getWidth()+5,progressBar->getY());
+		wlabel_playTime->setPosition(btn_SpeedUp->getX() + btn_SpeedUp->getWidth()+5,progressBar->getY());
 		top->add(wlabel_playTime);
 
 		gcn::WLabel *wlabel_playPos = new gcn::WLabel();
@@ -663,6 +681,8 @@ namespace divaeditor
 		btn_Save->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_Save, this, "btn_Save", sora::RESPONSEACTION);
 		top->add(btn_Save);
+
+		
 
 
 
@@ -846,7 +866,7 @@ namespace divaeditor
 		wcheckbox_showBackground->setSelected(EDITCONFIG->display_background);
 
 		gcn::WLabel *wlabel_playTime = (gcn::WLabel*)top->findWidgetById("wlabel_playTime");
-		wlabel_playTime->setCaption( secondToTimeWstr(CORE_PTR->getRunTime()) + L'/' + secondToTimeWstr(CORE_FLOW_PTR->getTotalTime()));
+		wlabel_playTime->setCaption( secondToTimeWstr(CORE_PTR->getRunTime()) + L'/' + secondToTimeWstr(CORE_FLOW_PTR->getTotalTime()) + L" " +  fTows(CORE_PTR->getMusicManager()->getSpeedScale(),2) + L"x");
 		wlabel_playTime->adjustSize();
 
 		gcn::WLabel *wlabel_playPos = (gcn::WLabel*)top->findWidgetById("wlabel_playPos");
@@ -1002,6 +1022,26 @@ namespace divaeditor
 		{
 			CORE_PTR->pause();
 			EditUtility.setPosition(0);
+		}
+		else if(getID()=="btn_SpeedUp")
+		{
+			float nowSpeed = CORE_PTR->getMusicManager()->getSpeedScale();
+			if(nowSpeed<2)
+			{
+				nowSpeed += 0.25;
+				CORE_PTR->getMusicManager()->setSpeedScale(nowSpeed);
+				EditUtility.refreshAll();
+			}
+		}
+		else if(getID()=="btn_SpeedDown")
+		{
+			float nowSpeed = CORE_PTR->getMusicManager()->getSpeedScale();
+			if(nowSpeed>0.3)
+			{
+				nowSpeed -= 0.25;
+				CORE_PTR->getMusicManager()->setSpeedScale(nowSpeed);
+				EditUtility.refreshAll();
+			}
 		}
 
 #pragma endregion Playback Control

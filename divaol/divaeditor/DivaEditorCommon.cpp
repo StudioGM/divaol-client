@@ -221,7 +221,9 @@ namespace divaeditor
 			for(int i=0;i<bit;i++)
 			{
 				tail*=10;
-				ret += (wchar_t)(int(tail) + '0');
+				int thisBit = tail;
+				ret += (wchar_t)(thisBit + '0');
+				tail-=thisBit;
 			}
 		}
 		return ret;

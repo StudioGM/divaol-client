@@ -198,7 +198,7 @@ namespace divaeditor
 				if(!moveTail)
 					graphics->drawLine(centerX*factor,centerY*factor,tailX*factor,tailY*factor);
 				else
-					graphics->drawLine(centerX*factor,centerY*factor,moveTailX,moveTailY);
+					graphics->drawLine(centerX*factor,centerY*factor,moveTailX*1000,moveTailY*1000);
 			}
 			
 		}
@@ -229,8 +229,8 @@ namespace divaeditor
 					float centerX = (selectedNote.notePoint[0].x+EDITCONFIG->NoteAreaTailAreaSize + 0.5)*EDITCONFIG->NoteAreaGridSize * factor;
 					float centerY = (selectedNote.notePoint[0].y+EDITCONFIG->NoteAreaTailAreaSize + 0.5)*EDITCONFIG->NoteAreaGridSize * factor;
 
-					moveTailX = (nowMousePos.x - centerX)*1000;
-					moveTailY = (nowMousePos.y - centerY)*1000;
+					moveTailX = nowMousePos.x - centerX;
+					moveTailY = nowMousePos.y - centerY;
 
 				}
 			}
