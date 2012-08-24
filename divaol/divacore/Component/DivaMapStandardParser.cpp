@@ -174,8 +174,8 @@ namespace divacore
 
 	void MapStandardParser::unloadResource(MapResourceInfo info)
 	{
-		if(mapInfo->resources.find(info.ID)==mapInfo->resources.end())
-			return;
+		//if(mapInfo->resources.find(info.ID)==mapInfo->resources.end())
+		//	return;
 
 		if(info.type==MapResourceInfo::AUDIO)
 			core->getMusicManager()->unload(info.ID);
