@@ -1411,20 +1411,23 @@ namespace divaeditor
 		{
 			//unload the old resource file
 			resourceInfo = EDITOR_PTR->mapData->coreInfoPtr->resources[type];
-			
-			EDITUTILITY.unloadResource(resourceInfo);
-			DeleteFileW((workingDirectory + L"/" + resourceInfo.filePath).c_str());
-			if(resourceDescription.find(type)!=resourceDescription.end())
-				resourceDescription.erase(resourceDescription.find(type));
-			if(coreInfoPtr->resources.find(type)!=coreInfoPtr->resources.end())
-				coreInfoPtr->resources.erase(coreInfoPtr->resources.find(type));
 		}
 		else
 		{
 			resourceInfo.ID = type;
+			resourceInfo.filePath = L"";
 			resourceInfo.type = divacore::MapResourceInfo::AUDIO;
 			resourceInfo.flag = false;
 		}
+
+		EDITUTILITY.unloadResource(resourceInfo);
+
+		if(resourceInfo.filePath!=L"")
+			DeleteFileW((workingDirectory + L"/" + resourceInfo.filePath).c_str());
+		if(resourceDescription.find(type)!=resourceDescription.end())
+			resourceDescription.erase(resourceDescription.find(type));
+		if(coreInfoPtr->resources.find(type)!=coreInfoPtr->resources.end())
+			coreInfoPtr->resources.erase(coreInfoPtr->resources.find(type));
 		
 
 		resourceInfo.flag=false;
