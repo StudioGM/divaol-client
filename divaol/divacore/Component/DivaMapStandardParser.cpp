@@ -60,9 +60,27 @@ namespace divacore
 			/*else*/
 		}
 		if(mapInfo->resources.find("hit")==mapInfo->resources.end())
+		{
+			MapResourceInfo res;
+			res.filePath = L"";
+			res.ID = "hit";
+			res.type = MapResourceInfo::AUDIO;
+			res.flag = false;
+			mapInfo->resources["hit"] = res;
+
 			core->getMusicManager()->load("","hit",false);
+		}
 		if(mapInfo->resources.find("miss")==mapInfo->resources.end())
+		{
+			MapResourceInfo res;
+			res.filePath = L"";
+			res.ID = "miss";
+			res.type = MapResourceInfo::AUDIO;
+			res.flag = false;
+			mapInfo->resources["miss"] = res;
+
 			core->getMusicManager()->load("","miss",false);
+		}
 
 		MUSIC_MANAGER_PTR->play(mapInfo->header.mainSound,CORE_FLOW_PTR->MAIN_SOUND_CHANNEL);
 		MUSIC_MANAGER_PTR->pause(CORE_FLOW_PTR->MAIN_SOUND_CHANNEL);
@@ -162,7 +180,9 @@ namespace divacore
 
 		mapInfo->resources[info.ID] = info;
 
-		std::string filePath = sora::ws2s(getFullPath(info.filePath));
+		std::string filePath = "";
+		if(info.filePath!=L"")
+			filePath = sora::ws2s(getFullPath(info.filePath));
 
 		if(info.type==MapResourceInfo::AUDIO)
 			core->getMusicManager()->load(filePath,info.ID,info.flag);

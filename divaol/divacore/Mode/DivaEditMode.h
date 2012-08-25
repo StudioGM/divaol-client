@@ -111,9 +111,15 @@ namespace divacore
 		void setPlayble(bool flag) {mPlayable=flag,unableHook.open=!flag;}
 		void setSound(bool hit, bool miss) {mHitSound=hit,mMissSound=miss;}
 		void pressEffect(StateEvent &event) {}
-		void addHookIn() {HOOK_MANAGER_PTR->insert(&unableHook);}
+		void addHookIn() {
+			HOOK_MANAGER_PTR->insert(&unableHook);
+		}
 
-		void preStart() {}
+		void preStart() {
+			HookPtr hook = HOOK_MANAGER_PTR->getHook("CTMode");
+			if(hook)
+				HOOK_MANAGER_PTR->del(hook);
+		}
 		void preEvaluate() {}
 	};
 }
