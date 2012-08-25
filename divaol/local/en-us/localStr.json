@@ -57,5 +57,10 @@
   "MainScene_btn_note_noteTypeHorizontalSymmetry": "Make Note Keys Horizontal Symmetry",
   "MainScene_btn_note_simplifyTo2Key": "Simplify Selected Notes To 2 Keys ",
   "MainScene_btn_note_simplifyTo1Key": "Simplify Selected Notes To 1 Key",
-  "MainScene_btn_note_splitLongNoteToSingle": "Split Long Notes To Two Single Notes"
+  "MainScene_btn_note_splitLongNoteToSingle": "Split Long Notes To Two Single Notes",
+  "MainScene_btn_note_expandKeySoundBox": "Key Sounds",
+  "MainScene_wlabel_globalHitSound": "Global Hit Sound",
+  "MainScene_wlabel_globalMissSound": "Global Miss Sound",
+  "GlobalSoundDisabled": "Disabled",
+  "MainScene_wcheckbox_timeline_moveNote": "Move notes while changing timeline"
 }

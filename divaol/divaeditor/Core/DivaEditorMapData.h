@@ -164,7 +164,9 @@ namespace divaeditor
 		void guessThisNotePositionByLastTwo(int pos, int& out_x,int &out_y,int &tail_x,int &tail_y);
 
 	public:
-
+		/////////Event modify
+		void event_modifyTimePos(int index, int pos);
+		int findEvent(divacore::MapEvent &event);
 
 		///////////////BeatNum operation
 		int getBeatNum(float pos);
@@ -193,7 +195,9 @@ namespace divaeditor
 
 		///////////////BPM operation
 		float getBPM(float pos);
-		float getBPMPos(float pos);
+		int getBPMPos(float pos);
+		int getNextBPMPos(float pos);
+		int getPrevBPMIndex(float pos);
 
 		void bpm_change(float pos, float bpm);
 		void bpm_insert(float pos, float bpm);

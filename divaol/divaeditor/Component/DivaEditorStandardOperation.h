@@ -52,9 +52,10 @@ namespace divaeditor
 	{
 	private:
 		int offsetOld,offsetNew;
+		bool moveAll;
 
 	public:
-		DivaEditorOperation_GridOffset(int offsetOld, int offsetNew);
+		DivaEditorOperation_GridOffset(int offsetOld, int offsetNew, bool moveAll);
 
 		virtual void doOperation();
 		virtual void undoOperation();
@@ -107,8 +108,21 @@ namespace divaeditor
 		virtual std::wstring ToString();
 	};
 
+	class DivaEditorOperation_ModifyEvent : public DivaEditorOperation
+	{
+	private:
+		bool calculated;
+		divacore::MapEvent oldEvent,newEvent;
 
+	public:
+		enum TYPE{BPMCHANGED} eventModifyType;
+		DivaEditorOperation_ModifyEvent(int eventIndex, int bpmPos, int nextbpmPos, float oldBPM, float newBPM);
 
+		virtual void doOperation();
+		virtual void undoOperation();
+
+		virtual std::wstring ToString();
+	};
 
 
 	class DivaEditorOperation_AddNormalNote : public DivaEditorOperation
@@ -175,7 +189,7 @@ namespace divaeditor
 		bool calculated;
 		divacore::MapNote oldNote,newNote;
 
-		enum Type{KEY,TAIL,POS,TIMEPOS,LONGNOTETIMEPOS,TYPEBYTYPE,TYPE,FLIPHORIZONTAL,FLIPVERTICAL,TOLETTER,TOARROW,TYPESYMMETRY,SIMPLE2KEY,SIMPLE1KEY} noteModifyType;
+		enum Type{KEY,TAIL,POS,TIMEPOS,LONGNOTETIMEPOS,TYPEBYTYPE,TYPE,FLIPHORIZONTAL,FLIPVERTICAL,TOLETTER,TOARROW,TYPESYMMETRY,SIMPLE2KEY,SIMPLE1KEY,BPMCHANGED} noteModifyType;
 
 		DivaEditorOperation_ModifyNote(int index,	std::string key);									//note_modifyKey
 		DivaEditorOperation_ModifyNote(int index,	int tailX,		int tailY);							//note_modifyTail
@@ -184,6 +198,7 @@ namespace divaeditor
 		DivaEditorOperation_ModifyNote(int index,	int posLeft,	int posRight,	Type noteModifyType);//note_modifyLongNoteTimePos
 		DivaEditorOperation_ModifyNote(int index,	int type,		bool isDelta,    bool needDecode);	//note_modifyTypeByType
 		DivaEditorOperation_ModifyNote(int index,	char keyPress,	bool arrow);						//note_modifyType
+		DivaEditorOperation_ModifyNote(int index,	int bpmPos,		int nextbpmPos,	float oldBPM,	float newBPMValue);	//note_bpmChanged
 		DivaEditorOperation_ModifyNote(int index,	Type noteModifyType); //Other operations
 		
 		virtual void doOperation();

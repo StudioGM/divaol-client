@@ -578,11 +578,11 @@ namespace divaeditor
 			if(notePoint.x<ret.x)
 				ret.x = notePoint.x;
 			if(notePoint.x>ret.width)
-				ret.width = ret.x;
+				ret.width = notePoint.x;
 			if(notePoint.y<ret.y)
 				ret.y = notePoint.y;
 			if(notePoint.y>ret.height)
-				ret.height = ret.y;
+				ret.height = notePoint.y;
 		}
 		return ret;
 	}
@@ -955,8 +955,9 @@ namespace divaeditor
 		int lastOffset = mapOffset;
 		mapOffset = offset;
 
-		if(!(movePlacedNote&&moveAll(0,MAXINT32,mapOffset-lastOffset)))
-			mapOffset = lastOffset;
+		if(movePlacedNote)
+			if(!moveAll(0,MAXINT32,mapOffset-lastOffset))
+				mapOffset = lastOffset;
 	}
 
 
@@ -1031,16 +1032,49 @@ namespace divaeditor
 	}
 
 
+	//Event
+	void DivaEditorMapData::event_modifyTimePos(int index, int pos)
+	{
+		coreInfoPtr->events[index].position = pos;
+	}
+	int DivaEditorMapData::findEvent(divacore::MapEvent &event)
+	{
+		for (int i=0;i<coreInfoPtr->events.size();i++)
+		{
+			divacore::MapEvent &thisEvent = coreInfoPtr->events[i];
+			if(thisEvent.position == event.position && thisEvent.eventType == event.eventType)
+				return i;
+		}
+		return -1;
+	}
+
 	//BPM
 	float DivaEditorMapData::getBPM(float pos)
 	{
 		int nowBPMIndex=findLastOrEqualEventIndex(pos,"bpm");
 		return divacore::Argument::asFloat("value",coreInfoPtr->events[nowBPMIndex].arg);
 	}
-	float DivaEditorMapData::getBPMPos(float pos)
+	int DivaEditorMapData::getBPMPos(float pos)
 	{
 		int nowBPMIndex=findLastOrEqualEventIndex(pos,"bpm");
 		return coreInfoPtr->events[nowBPMIndex].position;
+	}
+	int DivaEditorMapData::getNextBPMPos(float pos)
+	{
+		int nextBPMIndex=findNextEventIndex(pos,"bpm");
+		if(nextBPMIndex==-1)
+			return MAXINT32;
+		else
+			return coreInfoPtr->events[nextBPMIndex].position;
+	}
+	int DivaEditorMapData::getPrevBPMIndex(float pos)
+	{
+		int lastOrEqual = findLastOrEqualEventIndex(pos,"bpm");
+		int prev = lastOrEqual-1;
+		for(;prev>=0;prev--)
+			if(coreInfoPtr->events[prev].eventType == "bpm")
+				return prev;
+		return -1;
 	}
 	
 	void DivaEditorMapData::bpm_change(float pos, float bpm)
@@ -1375,7 +1409,15 @@ namespace divaeditor
 		divacore::MapResourceInfo resourceInfo;
 		if(EDITOR_PTR->mapData->coreInfoPtr->resources.find(type)!=EDITOR_PTR->mapData->coreInfoPtr->resources.end())
 		{
+			//unload the old resource file
 			resourceInfo = EDITOR_PTR->mapData->coreInfoPtr->resources[type];
+			
+			EDITUTILITY.unloadResource(resourceInfo);
+			DeleteFileW((workingDirectory + L"/" + resourceInfo.filePath).c_str());
+			if(resourceDescription.find(type)!=resourceDescription.end())
+				resourceDescription.erase(resourceDescription.find(type));
+			if(coreInfoPtr->resources.find(type)!=coreInfoPtr->resources.end())
+				coreInfoPtr->resources.erase(coreInfoPtr->resources.find(type));
 		}
 		else
 		{
@@ -1383,14 +1425,7 @@ namespace divaeditor
 			resourceInfo.type = divacore::MapResourceInfo::AUDIO;
 			resourceInfo.flag = false;
 		}
-
-		//unload the old resource file
-		EDITUTILITY.unloadResource(resourceInfo);
-		DeleteFileW((workingDirectory + L"/" + resourceInfo.filePath).c_str());
-		if(resourceDescription.find(type)!=resourceDescription.end())
-			resourceDescription.erase(resourceDescription.find(type));
-		if(coreInfoPtr->resources.find(type)!=coreInfoPtr->resources.end())
-			coreInfoPtr->resources.erase(coreInfoPtr->resources.find(type));
+		
 
 		resourceInfo.flag=false;
 
@@ -1405,9 +1440,10 @@ namespace divaeditor
 		resourceInfo.filePath = safeFileName;
 
 		//Copy file
+
 		CopyFileW(filename.c_str(), (workingDirectory + L"/" + resourceInfo.filePath).c_str(), false);
-		resourceDescription[type] = safeFileName;
 		EDITUTILITY.loadResource(resourceInfo);
+		resourceDescription[type] = safeFileName;
 	}
 
 

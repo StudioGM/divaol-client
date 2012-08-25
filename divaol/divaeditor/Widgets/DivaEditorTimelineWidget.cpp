@@ -453,6 +453,8 @@ namespace divaeditor
 					}
 
 					firstDrag=true;
+					lockDragPos=false;
+					lockDragType=false;
 				}
 				else
 				{
@@ -471,7 +473,7 @@ namespace divaeditor
 
 				if(nowDragPos>=0 && nowDragPos<= (int)CORE_FLOW_PTR->getTotalPosition())
 				{
-					if(nowDragPos!=lastDragPos && EDITCONFIG->noteSelected.size()>0)
+					if(nowDragPos!=lastDragPos && EDITCONFIG->noteSelected.size()>0&&!lockDragType)
 					{
 						EDITCONFIG->LockOperation(getId()+"_drag");
 
@@ -485,11 +487,16 @@ namespace divaeditor
 
 						if(!firstDrag)
 							EDITCONFIG->mergeLastTwoOperation();
+						else
+						{
+							if(EDITCONFIG->isshift)
+								lockDragPos=true;
+						}
 
 						firstDrag=false;
 					}
 
-					if(nowDragType!=lastDragType)
+					if(nowDragType!=lastDragType&&!lockDragPos)
 					{
 						EDITCONFIG->LockOperation(getId()+"_drag");
 
@@ -502,6 +509,11 @@ namespace divaeditor
 
 						if(!firstDrag)
 							EDITCONFIG->mergeLastTwoOperation();
+						else
+						{
+							if(EDITCONFIG->isshift)
+								lockDragType=true;
+						}
 
 						firstDrag=false;
 					}
@@ -596,11 +608,45 @@ namespace divaeditor
 				int toSelect = findNoteByMousePos(nowMouseXPos,nowMouseYPos);
 				if(toSelect!=-1)
 				{
-					if (!EDITCONFIG->isctrl)
+					if (!EDITCONFIG->isctrl && !EDITCONFIG->isshift)
 						EDITCONFIG->clearSelectedNote();
 
-					//Add this to select
-					EDITCONFIG->addSelectedNote(toSelect);
+					if(!EDITCONFIG->isshift || EDITCONFIG->noteSelected.size()==0)
+						EDITCONFIG->addSelectedNote(toSelect);
+					else
+					{
+						//find min time pos and max time pos
+						int minPos = MAXINT32,maxPos=-1;
+						for (int i=0;i<EDITCONFIG->noteSelected.size();i++)
+						{
+							divacore::MapNote &thisNote = EDITOR_PTR->mapData->coreInfoPtr->notes[EDITCONFIG->noteSelected[i]];
+							for(int j=0;j<thisNote.notePoint.size();j++)
+							{
+								if((int)thisNote.notePoint[j].position>maxPos)
+									maxPos = (int)thisNote.notePoint[j].position;
+								if(thisNote.notePoint[j].position<minPos)
+									minPos = thisNote.notePoint[j].position;
+							}
+						}
+						
+						divacore::MapNote &nowToSelect = EDITOR_PTR->mapData->coreInfoPtr->notes[toSelect];
+
+						for (int i=0;i<EDITOR_PTR->mapData->coreInfoPtr->notes.size();i++)
+						{
+							divacore::MapNote &thisNote = EDITOR_PTR->mapData->coreInfoPtr->notes[i];
+							if(thisNote.notePoint[0].position>=nowToSelect.notePoint[0].position && thisNote.notePoint[0].position <= minPos)
+							{
+								if(!EDITCONFIG->isNoteSelected(i))
+									EDITCONFIG->addSelectedNote(i);
+							}
+							if(thisNote.notePoint[0].position<=nowToSelect.notePoint[0].position && thisNote.notePoint[0].position >= maxPos)
+							{
+								if(!EDITCONFIG->isNoteSelected(i))
+									EDITCONFIG->addSelectedNote(i);
+							}
+						}
+
+					}
 				}
 				else //Set Position
 				{

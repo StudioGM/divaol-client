@@ -57,5 +57,10 @@
   "MainScene_btn_note_noteTypeHorizontalSymmetry": "ノートのタイプを水平対称",
   "MainScene_btn_note_simplifyTo2Key": "キーの2種類に減少",
   "MainScene_btn_note_simplifyTo1Key": "キーの1種類に減少",
-  "MainScene_btn_note_splitLongNoteToSingle": "ロングノートは2つのノートに分割"
+  "MainScene_btn_note_splitLongNoteToSingle": "ロングノートは2つのノートに分割",
+  "MainScene_btn_note_expandKeySoundBox": "キー音",
+  "MainScene_wlabel_globalHitSound": "グローバルヒット音",
+  "MainScene_wlabel_globalMissSound": "グローバルミス音",
+  "GlobalSoundDisabled": "無効に",
+  "MainScene_wcheckbox_timeline_moveNote": "ノートは時間軸変更の同時に変更されて"
 }

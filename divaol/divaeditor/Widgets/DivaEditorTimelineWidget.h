@@ -63,7 +63,9 @@ namespace divaeditor
 		int nowMouseXPos,nowMouseYPos;
 
 		int lastDragPos;
+		bool lockDragPos;
 		int lastDragType;
+		bool lockDragType;
 		bool firstDrag;
 
 		bool isMouseOn;

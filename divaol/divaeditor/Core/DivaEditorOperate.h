@@ -14,10 +14,10 @@ namespace divaeditor
 		std::string operation_type;
 
 	public:
-		bool needToRefreshAll,needToRecalcTime;
+		bool needToRefreshAll,needToRecalcTime,needToPause;
 		bool isTemp;
 
-		DivaEditorOperation(){needToRefreshAll=true;needToRecalcTime=false;isTemp=false;operation_type="ERROR";}
+		DivaEditorOperation(){needToRefreshAll=true;needToRecalcTime=false;isTemp=false;needToPause=false;operation_type="ERROR";}
 
 		virtual void doOperation() = 0;
 		virtual void undoOperation() = 0;

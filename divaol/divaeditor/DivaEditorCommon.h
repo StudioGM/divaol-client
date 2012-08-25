@@ -55,13 +55,15 @@ namespace divaeditor
 						showRangeFactor(1),
 						EDITSTATE_NOTESTATE(NOTESTATE::NORMAL),
 						isctrl(false),
+						isshift(false),
 						display_note(true),
 						display_grid(true),
 						display_background(true),
 						map_initialized(false),
 						operationHistoryIndex(0),
 						isMapChanged(false),
-						lockOperation(false)
+						lockOperation(false),
+						config_moveNoteAsWell(true)
 						{};
 
 		static EditorConfig* Ptr;
@@ -110,12 +112,14 @@ namespace divaeditor
 		
 		//Global Key Event
 		bool isctrl;
+		bool isshift;
 
 
 		//Display State
 		bool display_background;
 		bool display_note;
 		bool display_grid;
+		bool config_moveNoteAsWell;
 
 		//If map is initialized
 		bool map_initialized;

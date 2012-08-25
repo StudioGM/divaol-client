@@ -33,7 +33,22 @@ namespace divaeditor
 		timelinePanel->setPosition(800,380);
 		timelineCategory->add(timelinePanel);
 
+
+		gcn::WCheckBox *wcheckbox_timeline_moveNote = new gcn::WCheckBox(LOCALIZATION->getLocalStr(L"MainScene_wcheckbox_timeline_moveNote"));
+		wcheckbox_timeline_moveNote->setSelected(true);
+		wcheckbox_timeline_moveNote->setId("wcheckbox_timeline_moveNote");
+		wcheckbox_timeline_moveNote->adjustSize();
+		wcheckbox_timeline_moveNote->setPosition(10,20);
+		wcheckbox_timeline_moveNote->setBaseColor(gcn::Color(0,0,0,150));
+		wcheckbox_timeline_moveNote->setForegroundColor(gcn::Color(255,255,255,255));
+		wcheckbox_timeline_moveNote->setCheckForeGroundColor(gcn::Color(0,0,0,255));
+		sora::SoraGUI::Instance()->registerGUIResponser(wcheckbox_timeline_moveNote, this, "wcheckbox_timeline_moveNote", sora::RESPONSEACTION);
+		timelinePanel->add(wcheckbox_timeline_moveNote);
+
+
 #pragma region BPM operation
+
+		
 
 		gcn::WTextField *txtField_timeline_BPM = new gcn::WTextField();
 		txtField_timeline_BPM->enableNumericMode(true);
@@ -372,19 +387,53 @@ namespace divaeditor
 		keySoundControlSet->setPosition(0,0);
 		keySoundBox->add(keySoundControlSet);
 
-		gcn::WLabel *wlabel_globalKeySound = new gcn::WLabel(LOCALIZATION->getLocalStr(L"MainScene_wlabel_globalKeySound"));
-		wlabel_globalKeySound->setForegroundColor(gcn::Color(255,255,255,255));
-		wlabel_globalKeySound->setBackgroundColor(gcn::Color(0,0,0,0));
-		wlabel_globalKeySound->setPosition(5,30);
-		wlabel_globalKeySound->adjustSize();
-		toolBoxButtonSet->add(wlabel_globalKeySound);
+		gcn::WButton *btn_note_modifyHitSound = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_changeStr"));
+		btn_note_modifyHitSound->setId("btn_note_modifyHitSound");
+		btn_note_modifyHitSound->setSize(50,20);
+		btn_note_modifyHitSound->setPosition(10,100);
+		btn_note_modifyHitSound->setForegroundColor(gcn::Color(255,255,255,255));
+		sora::SoraGUI::Instance()->registerGUIResponser(btn_note_modifyHitSound, this, "btn_note_modifyHitSound", sora::RESPONSEACTION);
+		keySoundControlSet->add(btn_note_modifyHitSound);
+
+		gcn::WButton *btn_note_deleteHitSound = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_deleteStr"));
+		btn_note_deleteHitSound->setId("btn_note_deleteHitSound");
+		btn_note_deleteHitSound->setSize(50,20);
+		btn_note_deleteHitSound->setPosition(btn_note_modifyHitSound->getX()+btn_note_modifyHitSound->getWidth()+5,btn_note_modifyHitSound->getY());
+		btn_note_deleteHitSound->setForegroundColor(gcn::Color(255,255,255,255));
+		sora::SoraGUI::Instance()->registerGUIResponser(btn_note_deleteHitSound, this, "btn_note_deleteHitSound", sora::RESPONSEACTION);
+		keySoundControlSet->add(btn_note_deleteHitSound);
+
+		gcn::WLabel *wlabel_globalHitSound = new gcn::WLabel(LOCALIZATION->getLocalStr(L"MainScene_wlabel_globalHitSound"));
+		wlabel_globalHitSound->setId("wlabel_globalHitSound");
+		wlabel_globalHitSound->setForegroundColor(gcn::Color(255,255,255,255));
+		wlabel_globalHitSound->setBackgroundColor(gcn::Color(0,0,0,0));
+		wlabel_globalHitSound->setPosition(btn_note_deleteHitSound->getX()+btn_note_deleteHitSound->getWidth()+5,btn_note_deleteHitSound->getY());
+		wlabel_globalHitSound->adjustSize();
+		keySoundControlSet->add(wlabel_globalHitSound);
+
+		gcn::WButton *btn_note_modifyMissSound = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_changeStr"));
+		btn_note_modifyMissSound->setId("btn_note_modifyMissSound");
+		btn_note_modifyMissSound->setSize(50,20);
+		btn_note_modifyMissSound->setPosition(btn_note_modifyHitSound->getX(),btn_note_modifyHitSound->getY()+btn_note_modifyHitSound->getHeight()+5);
+		btn_note_modifyMissSound->setForegroundColor(gcn::Color(255,255,255,255));
+		sora::SoraGUI::Instance()->registerGUIResponser(btn_note_modifyMissSound, this, "btn_note_modifyMissSound", sora::RESPONSEACTION);
+		keySoundControlSet->add(btn_note_modifyMissSound);
+
+		gcn::WButton *btn_note_deleteMissSound = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_deleteStr"));
+		btn_note_deleteMissSound->setId("btn_note_deleteMissSound");
+		btn_note_deleteMissSound->setSize(50,20);
+		btn_note_deleteMissSound->setPosition(btn_note_modifyMissSound->getX()+btn_note_modifyMissSound->getWidth()+5,btn_note_modifyMissSound->getY());
+		btn_note_deleteMissSound->setForegroundColor(gcn::Color(255,255,255,255));
+		sora::SoraGUI::Instance()->registerGUIResponser(btn_note_deleteMissSound, this, "btn_note_deleteMissSound", sora::RESPONSEACTION);
+		keySoundControlSet->add(btn_note_deleteMissSound);
 
 		gcn::WLabel *wlabel_globalMissSound = new gcn::WLabel(LOCALIZATION->getLocalStr(L"MainScene_wlabel_globalMissSound"));
+		wlabel_globalMissSound->setId("wlabel_globalMissSound");
 		wlabel_globalMissSound->setForegroundColor(gcn::Color(255,255,255,255));
 		wlabel_globalMissSound->setBackgroundColor(gcn::Color(0,0,0,0));
-		wlabel_globalMissSound->setPosition(5,30);
+		wlabel_globalMissSound->setPosition(btn_note_deleteMissSound->getX()+btn_note_deleteMissSound->getWidth()+5,btn_note_deleteMissSound->getY());
 		wlabel_globalMissSound->adjustSize();
-		toolBoxButtonSet->add(wlabel_globalMissSound);
+		keySoundControlSet->add(wlabel_globalMissSound);
 
 
 #pragma endregion key sound box set
@@ -1040,11 +1089,19 @@ namespace divaeditor
 		{
 			EDITOR_PTR->mapData->modifyGlobalHitMissSound(L"Data/hit.wav","hit");
 		}
+		gcn::WLabel *wlabel_globalHitSound = (gcn::WLabel*)container_Categories[State::NOTE]->findWidgetById("wlabel_globalHitSound");
+		std::wstring hitPath = EDITOR_PTR->mapData->coreInfoPtr->resources["hit"].filePath;
+		wlabel_globalHitSound->setCaption(LOCALIZATION->getLocalStr(L"MainScene_wlabel_globalHitSound") + L": " + (hitPath==L""?LOCALIZATION->getLocalStr(L"GlobalSoundDisabled"):hitPath));
+		wlabel_globalHitSound->adjustSize();
 
 		if(EDITOR_PTR->mapData->coreInfoPtr->resources.find("miss")==EDITOR_PTR->mapData->coreInfoPtr->resources.end())
 		{
-			EDITOR_PTR->mapData->modifyGlobalHitMissSound(L"Data/miss.wav","hit");
+			EDITOR_PTR->mapData->modifyGlobalHitMissSound(L"Data/miss.wav","miss");
 		}
+		gcn::WLabel *wlabel_globalMissSound = (gcn::WLabel*)container_Categories[State::NOTE]->findWidgetById("wlabel_globalMissSound");
+		std::wstring missPath = EDITOR_PTR->mapData->coreInfoPtr->resources["miss"].filePath;
+		wlabel_globalMissSound->setCaption(LOCALIZATION->getLocalStr(L"MainScene_wlabel_globalMissSound") + L": " + (missPath==L""?LOCALIZATION->getLocalStr(L"GlobalSoundDisabled"):missPath));
+		wlabel_globalMissSound->adjustSize();
 	}
 	void DivaEditorMainScene::willDisappear()
 	{
@@ -1150,32 +1207,151 @@ namespace divaeditor
 
 #pragma region Timeline Category Actions
 
+		else if(getID() == "wcheckbox_timeline_moveNote")
+		{
+			gcn::WCheckBox *wcheckbox_timeline_moveNote = (gcn::WCheckBox*)top->findWidgetById("wcheckbox_timeline_moveNote");
+			EDITCONFIG->config_moveNoteAsWell = wcheckbox_timeline_moveNote->isSelected();
+		}
 		//BPM
 		else if(getID() == "txtField_timeline_BPM" || getID() == "btn_TimeLine_changeBPM")
 		{
-			EDITCONFIG->addAndDoOperation(new DivaEditorOperation_BPM(EDITOR_PTR->mapData->getBPM(nowTimePos),
-																		((WTextField*)container_Categories[State::TIMELINE]->findWidgetById("txtField_timeline_BPM"))->getFloat(),
-																		EDITOR_PTR->mapData->getBPMPos(nowTimePos),
-																		DivaEditorOperation_BPM::CHANGEBPM));
+			DivaEditorOperationSet *thisBPMOperationSet = new DivaEditorOperationSet();
+			thisBPMOperationSet->needToRecalcTime=true;
+			thisBPMOperationSet->needToPause=true;
+
+			int thisBPMPos = EDITOR_PTR->mapData->getBPMPos(nowTimePos),
+				nextBPMPos = EDITOR_PTR->mapData->getNextBPMPos(nowTimePos);
+			float oldBPM = EDITOR_PTR->mapData->getBPM(nowTimePos),
+				newBPM = ((WTextField*)container_Categories[State::TIMELINE]->findWidgetById("txtField_timeline_BPM"))->getFloat();
+
+			if(newBPM<10) newBPM=10;
+			else if(newBPM>999) newBPM=999;
+
+			if(newBPM==oldBPM) return;
+
+			bool needReverse = newBPM>oldBPM;
+
+			if(EDITCONFIG->config_moveNoteAsWell)
+			{
+				for (int i=needReverse?(EDITOR_PTR->mapData->coreInfoPtr->notes.size()-1):0;needReverse?(i>=0):(i<EDITOR_PTR->mapData->coreInfoPtr->notes.size());needReverse?(i--):(i++))
+				{
+					divacore::MapNote &thisNote = EDITOR_PTR->mapData->coreInfoPtr->notes[i];
+					if(thisNote.notePoint[0].position>thisBPMPos ||
+						(thisNote.notePoint.size()>1 && thisNote.notePoint[1].position>thisBPMPos))
+						thisBPMOperationSet->addOperation(new DivaEditorOperation_ModifyNote(i,thisBPMPos,nextBPMPos,oldBPM,newBPM));
+				}
+
+				for(int i=needReverse?(EDITOR_PTR->mapData->coreInfoPtr->events.size()-1):0;needReverse?(i>=0):(i<EDITOR_PTR->mapData->coreInfoPtr->events.size());needReverse?(i--):(i++))
+				{
+					divacore::MapEvent &thisEvent = EDITOR_PTR->mapData->coreInfoPtr->events[i];
+					if(thisEvent.position > thisBPMPos)
+						thisBPMOperationSet->addOperation(new DivaEditorOperation_ModifyEvent(i,thisBPMPos,nextBPMPos,oldBPM,newBPM));
+				}
+			}
+
+			thisBPMOperationSet->addOperation(new DivaEditorOperation_BPM(oldBPM,
+						newBPM,
+						thisBPMPos,
+						DivaEditorOperation_BPM::CHANGEBPM));
+
+			EDITCONFIG->addAndDoOperation(thisBPMOperationSet);
+			
 			actionWidget->setFocusable(false);
 			actionWidget->setFocusable(true);
 		}
 		else if(getID() == "btn_TimeLine_insertBPM")
 		{
-			int nearestGrid =EDITOR_PTR->mapData->getNearestStandardGrid(nowTimePos, EDITCONFIG->getGridToShowPerBeat());
-			EDITCONFIG->addAndDoOperation(new DivaEditorOperation_BPM(0,
-																		((WTextField*)container_Categories[State::TIMELINE]->findWidgetById("txtField_timeline_BPM"))->getFloat(),
-																		nearestGrid,
-																		DivaEditorOperation_BPM::INSERTBPM));
+			DivaEditorOperationSet *thisBPMOperationSet = new DivaEditorOperationSet();
+			thisBPMOperationSet->needToRecalcTime=true;
+			thisBPMOperationSet->needToPause=true;
+
+			int thisBPMPos = EDITOR_PTR->mapData->getNearestStandardGrid(nowTimePos, EDITCONFIG->getGridToShowPerBeat()),
+				nextBPMPos = EDITOR_PTR->mapData->getNextBPMPos(nowTimePos);
+			float oldBPM = EDITOR_PTR->mapData->getBPM(nowTimePos),
+				newBPM = ((WTextField*)container_Categories[State::TIMELINE]->findWidgetById("txtField_timeline_BPM"))->getFloat();
+
+			if(newBPM<10) newBPM=10;
+			else if(newBPM>999) newBPM=999;
+
+			if(newBPM==oldBPM) return;
+
+
+			bool needReverse = newBPM>oldBPM;
+
+			if(EDITCONFIG->config_moveNoteAsWell)
+			{
+				for (int i=needReverse?(EDITOR_PTR->mapData->coreInfoPtr->notes.size()-1):0;needReverse?(i>=0):(i<EDITOR_PTR->mapData->coreInfoPtr->notes.size());needReverse?(i--):(i++))
+				{
+					divacore::MapNote &thisNote = EDITOR_PTR->mapData->coreInfoPtr->notes[i];
+					if(thisNote.notePoint[0].position>thisBPMPos ||
+						(thisNote.notePoint.size()>1 && thisNote.notePoint[1].position>thisBPMPos))
+						thisBPMOperationSet->addOperation(new DivaEditorOperation_ModifyNote(i,thisBPMPos,nextBPMPos,oldBPM,newBPM));
+				}
+
+				for(int i=needReverse?(EDITOR_PTR->mapData->coreInfoPtr->events.size()-1):0;needReverse?(i>=0):(i<EDITOR_PTR->mapData->coreInfoPtr->events.size());needReverse?(i--):(i++))
+				{
+					divacore::MapEvent &thisEvent = EDITOR_PTR->mapData->coreInfoPtr->events[i];
+					if(thisEvent.position > thisBPMPos)
+						thisBPMOperationSet->addOperation(new DivaEditorOperation_ModifyEvent(i,thisBPMPos,nextBPMPos,oldBPM,newBPM));
+				}
+			}
+
+			thisBPMOperationSet->addOperation(new DivaEditorOperation_BPM(0,
+				newBPM,
+				thisBPMPos,
+				DivaEditorOperation_BPM::INSERTBPM));
+
+			EDITCONFIG->addAndDoOperation(thisBPMOperationSet);
+			
 			actionWidget->setFocusable(false);
 			actionWidget->setFocusable(true);
 		}
 		else if(getID() == "btn_TimeLine_deleteBPM")
 		{
-			EDITCONFIG->addAndDoOperation(new DivaEditorOperation_BPM(EDITOR_PTR->mapData->getBPM(nowTimePos),
-																		0,
-																		EDITOR_PTR->mapData->getBPMPos(nowTimePos),
-																		DivaEditorOperation_BPM::DELETEBPM));
+			DivaEditorOperationSet *thisBPMOperationSet = new DivaEditorOperationSet();
+			thisBPMOperationSet->needToRecalcTime=true;
+			thisBPMOperationSet->needToPause=true;
+
+			int prevBPMIndex = EDITOR_PTR->mapData->getPrevBPMIndex(nowTimePos);
+			if(prevBPMIndex==-1) return;
+
+
+			int thisBPMPos = EDITOR_PTR->mapData->getBPMPos(nowTimePos),
+				nextBPMPos = EDITOR_PTR->mapData->getNextBPMPos(nowTimePos);
+			float oldBPM = EDITOR_PTR->mapData->getBPM(nowTimePos),
+				newBPM = divacore::Argument::asFloat("value", EDITOR_PTR->mapData->coreInfoPtr->events[prevBPMIndex].arg);
+
+			if(newBPM<10) newBPM=10;
+			else if(newBPM>999) newBPM=999;
+
+			bool needReverse = newBPM>oldBPM;
+
+			if(EDITCONFIG->config_moveNoteAsWell)
+			{
+				for (int i=needReverse?(EDITOR_PTR->mapData->coreInfoPtr->notes.size()-1):0;needReverse?(i>=0):(i<EDITOR_PTR->mapData->coreInfoPtr->notes.size());needReverse?(i--):(i++))
+				{
+					divacore::MapNote &thisNote = EDITOR_PTR->mapData->coreInfoPtr->notes[i];
+					if(thisNote.notePoint[0].position>thisBPMPos ||
+						(thisNote.notePoint.size()>1 && thisNote.notePoint[1].position>thisBPMPos))
+						thisBPMOperationSet->addOperation(new DivaEditorOperation_ModifyNote(i,thisBPMPos,nextBPMPos,oldBPM,newBPM));
+				}
+
+				for(int i=needReverse?(EDITOR_PTR->mapData->coreInfoPtr->events.size()-1):0;needReverse?(i>=0):(i<EDITOR_PTR->mapData->coreInfoPtr->events.size());needReverse?(i--):(i++))
+				{
+					divacore::MapEvent &thisEvent = EDITOR_PTR->mapData->coreInfoPtr->events[i];
+					if(thisEvent.position > thisBPMPos)
+						thisBPMOperationSet->addOperation(new DivaEditorOperation_ModifyEvent(i,thisBPMPos,nextBPMPos,oldBPM,newBPM));
+				}
+			}
+
+			thisBPMOperationSet->addOperation(new DivaEditorOperation_BPM(EDITOR_PTR->mapData->getBPM(nowTimePos),
+				0,
+				EDITOR_PTR->mapData->getBPMPos(nowTimePos),
+				DivaEditorOperation_BPM::DELETEBPM));
+
+			EDITCONFIG->addAndDoOperation(thisBPMOperationSet);
+
+
 			actionWidget->setFocusable(false);
 			actionWidget->setFocusable(true);
 		}
@@ -1232,7 +1408,9 @@ namespace divaeditor
 		else if(getID() == "txtField_timeline_offSet" || getID() == "btn_TimeLine_changeOffset")
 		{
 			EDITCONFIG->addAndDoOperation(new DivaEditorOperation_GridOffset(EDITOR_PTR->mapData->getOffset(),
-																		((WTextField*)container_Categories[State::TIMELINE]->findWidgetById("txtField_timeline_offSet"))->getFloat()));
+																		((WTextField*)container_Categories[State::TIMELINE]->findWidgetById("txtField_timeline_offSet"))->getFloat(),
+																		EDITCONFIG->config_moveNoteAsWell
+																		));
 
 			actionWidget->setFocusable(false);
 			actionWidget->setFocusable(true);
@@ -1437,6 +1615,48 @@ namespace divaeditor
 				btn_note_expandKeySoundBox->setCaption(LOCALIZATION->getLocalStr(L"MainScene_btn_note_expandKeySoundBox"));
 			}
 		}
+		else if(getID()=="btn_note_modifyHitSound"||getID()=="btn_note_modifyMissSound")
+		{
+			//Should get back current working directory
+			wchar_t cwd[_MAX_PATH];
+			_wgetcwd(cwd,_MAX_PATH);
+
+			wstring selectFile = sora::SoraCore::Instance()->fileOpenDialogW((audioDescription + L'(' + audioExtensions+L')' + L'\0' + audioExtensions + L'\0').c_str());
+
+			_wchdir(cwd);
+
+			if(selectFile!=L"")
+			{
+				if(getID()=="btn_note_modifyHitSound")
+				{
+					EDITOR_PTR->mapData->modifyGlobalHitMissSound(selectFile,"hit");
+					gcn::WLabel *wlabel_globalHitSound = (gcn::WLabel*)container_Categories[State::NOTE]->findWidgetById("wlabel_globalHitSound");
+					wlabel_globalHitSound->setCaption(LOCALIZATION->getLocalStr(L"MainScene_wlabel_globalHitSound") + L": " + EDITOR_PTR->mapData->coreInfoPtr->resources["hit"].filePath);
+					wlabel_globalHitSound->adjustSize();
+				}
+				else
+				{
+					EDITOR_PTR->mapData->modifyGlobalHitMissSound(selectFile,"miss");
+					gcn::WLabel *wlabel_globalMissSound = (gcn::WLabel*)container_Categories[State::NOTE]->findWidgetById("wlabel_globalMissSound");
+					wlabel_globalMissSound->setCaption(LOCALIZATION->getLocalStr(L"MainScene_wlabel_globalMissSound") + L": " + EDITOR_PTR->mapData->coreInfoPtr->resources["miss"].filePath);
+					wlabel_globalMissSound->adjustSize();
+				}
+			}
+		}
+		else if(getID()=="btn_note_deleteHitSound")
+		{
+			EDITOR_PTR->mapData->modifyGlobalHitMissSound(L"","hit");
+			gcn::WLabel *wlabel_globalHitSound = (gcn::WLabel*)container_Categories[State::NOTE]->findWidgetById("wlabel_globalHitSound");
+			wlabel_globalHitSound->setCaption(LOCALIZATION->getLocalStr(L"MainScene_wlabel_globalHitSound") + L": " + LOCALIZATION->getLocalStr(L"GlobalSoundDisabled"));
+			wlabel_globalHitSound->adjustSize();
+		}
+		else if(getID()=="btn_note_deleteMissSound")
+		{
+			EDITOR_PTR->mapData->modifyGlobalHitMissSound(L"","miss");
+			gcn::WLabel *wlabel_globalMissSound = (gcn::WLabel*)container_Categories[State::NOTE]->findWidgetById("wlabel_globalMissSound");
+			wlabel_globalMissSound->setCaption(LOCALIZATION->getLocalStr(L"MainScene_wlabel_globalMissSound") + L": " + LOCALIZATION->getLocalStr(L"GlobalSoundDisabled"));
+			wlabel_globalMissSound->adjustSize();
+		}
 
 #pragma endregion key sound
 
@@ -1464,8 +1684,9 @@ namespace divaeditor
 
 			if(selectFile!=L"")
 			{
-				((ResourcePanel*)container_Categories[State::SHOW]->findWidgetById("resourcePanel"))->setSelectedIndex(
-																				EDITOR_PTR->mapData->findResourceIndexByID(EDITOR_PTR->mapData->resource_add(selectFile)));
+				std::string addedResource = EDITOR_PTR->mapData->resource_add(selectFile);
+				if(addedResource!="ERROR")
+					((ResourcePanel*)container_Categories[State::SHOW]->findWidgetById("resourcePanel"))->setSelectedIndex(EDITOR_PTR->mapData->findResourceIndexByID(addedResource));
 			}
 		}
 		else if(getID() == "btn_resourceRemove")
@@ -1679,6 +1900,8 @@ namespace divaeditor
 	{
 		if(event.key == sora::key::Ctrl)
 			EDITCONFIG->isctrl=true;
+		if(event.key == sora::key::Shift)
+			EDITCONFIG->isshift=true;
 
 		if(event.key == sora::key::Z && event.isCtrlFlag())
 		{
@@ -1694,23 +1917,81 @@ namespace divaeditor
 		else if(event.key == sora::key::V && event.isCtrlFlag())
 			EDITOR_PTR->mapData->paste(CORE_PTR->getRunPosition());
 		
-		if(nowState==State::NOTE && event.key == sora::key::Left)
+		if(nowState==State::NOTE && event.key == sora::key::Left && !event.isShiftFlag() && !event.isAltFlag())
 		{
 			int setTo = EDITOR_PTR->mapData->getPrevStandardGrid(CORE_PTR->getRunPosition(),EDITCONFIG->getGridToShowPerBeat());
 			if(setTo<0) setTo=0;
 			EditUtility.setPosition(setTo);
 		}
-		else if(nowState==State::NOTE && event.key == sora::key::Right)
+		else if(nowState==State::NOTE && (event.key == sora::key::Left || event.key == sora::key::Right || event.key == sora::key::Up || event.key == sora::key::Down) && event.isShiftFlag()
+					&&EDITCONFIG->noteSelected.size()>0)
+		{
+			//Move in note area
+			gcn::Rectangle dragAreaRect = EDITOR_PTR->mapData->findSelectedAreaRectange();
+
+			int deltaDragX = (event.key == sora::key::Left)?-1:((event.key == sora::key::Right)?1:0),
+				deltaDragY = (event.key == sora::key::Up)?-1:((event.key == sora::key::Down)?1:0);
+
+			//Check boarder
+			if(dragAreaRect.x+deltaDragX>=0 && dragAreaRect.x+deltaDragX<=EDITCONFIG->NoteAreaWidth &&
+				dragAreaRect.width+deltaDragX>=0 && dragAreaRect.width+deltaDragX<=EDITCONFIG->NoteAreaWidth &&
+				dragAreaRect.y+deltaDragY>=0 && dragAreaRect.y+deltaDragY<=EDITCONFIG->NoteAreaHeight &&
+				dragAreaRect.height+deltaDragY>=0 && dragAreaRect.height+deltaDragY<=EDITCONFIG->NoteAreaHeight)
+			{
+				//Operation move set of notes pos
+				DivaEditorOperationSet *thisModifySet = new DivaEditorOperationSet();
+
+				for(int i=0;i<EDITCONFIG->noteSelected.size();i++)
+					thisModifySet->addOperation(new DivaEditorOperation_ModifyNote(EDITCONFIG->noteSelected[i],deltaDragX,deltaDragY,true));
+				EDITCONFIG->addAndDoOperation(thisModifySet);
+
+				dragAreaRect.x += deltaDragX;
+				dragAreaRect.width += deltaDragX;
+				dragAreaRect.y += deltaDragY;
+				dragAreaRect.height += deltaDragY;
+			}
+		}
+		else if(nowState==State::NOTE && (event.key == sora::key::Left || event.key == sora::key::Right || event.key == sora::key::Up || event.key == sora::key::Down) && event.isAltFlag()
+					&&EDITCONFIG->noteSelected.size()>0)
+		{
+			//Move in time line
+			int posDelta = (event.key == sora::key::Left)?-1:((event.key == sora::key::Right)?1:0),
+				typeDelta = (event.key == sora::key::Up)?-1:((event.key == sora::key::Down)?1:0);
+
+			if(posDelta!=0)
+			{
+				int thisPos = EDITOR_PTR->mapData->coreInfoPtr->notes[EDITCONFIG->noteSelected[0]].notePoint[0].position;
+				if(posDelta<0)
+					posDelta = EDITOR_PTR->mapData->getPrevStandardGrid(thisPos ,EDITCONFIG->getGridToShowPerBeat())-thisPos;
+				else if(posDelta>0)
+					posDelta = EDITOR_PTR->mapData->getNextStandardGrid(thisPos ,EDITCONFIG->getGridToShowPerBeat())-thisPos;
+
+				DivaEditorOperationSet *thisModifySet = new DivaEditorOperationSet();
+				thisModifySet->needToRecalcTime = true;
+				for (int i=0;i<EDITCONFIG->noteSelected.size();i++)
+					thisModifySet->addOperation(new DivaEditorOperation_ModifyNote(EDITCONFIG->noteSelected[i],posDelta,true));
+				EDITCONFIG->addAndDoOperation(thisModifySet);
+			}
+			else if(typeDelta!=0)
+			{
+				DivaEditorOperationSet *thisModifySet = new DivaEditorOperationSet();
+				for (int i=0;i<EDITCONFIG->noteSelected.size();i++)
+					thisModifySet->addOperation(new DivaEditorOperation_ModifyNote(EDITCONFIG->noteSelected[i],typeDelta,true,true));
+				EDITCONFIG->addAndDoOperation(thisModifySet);
+			}
+
+		}
+		else if(nowState==State::NOTE && event.key == sora::key::Right && !event.isShiftFlag() && !event.isAltFlag())
 		{
 			int setTo = EDITOR_PTR->mapData->getNextStandardGrid(CORE_PTR->getRunPosition(),EDITCONFIG->getGridToShowPerBeat());
 			if(setTo>CORE_FLOW_PTR->getTotalPosition()) setTo = CORE_FLOW_PTR->getTotalPosition();
 			EditUtility.setPosition(setTo);
 		}
-		else if(nowState==State::NOTE && event.key == sora::key::Up)
+		else if(nowState==State::NOTE && event.key == sora::key::Up && !event.isShiftFlag() && !event.isAltFlag())
 		{
 			EDITCONFIG->decreaseGridToShowPerBeat();
 		}
-		else if(nowState==State::NOTE && event.key == sora::key::Down)
+		else if(nowState==State::NOTE && event.key == sora::key::Down && !event.isShiftFlag() && !event.isAltFlag())
 		{
 			EDITCONFIG->increaseGridToShowPerBeat();
 		}
@@ -1737,6 +2018,8 @@ namespace divaeditor
 	{
 		if(event.key == sora::key::Ctrl)
 			EDITCONFIG->isctrl=false;
+		else if(event.key == sora::key::Shift)
+			EDITCONFIG->isshift=false;
 		else if(event.key == sora::key::Tab && !event.isAltFlag())
 			EDITCONFIG->ChangeEditState();
 		if(event.key == sora::key::A && event.isCtrlFlag())

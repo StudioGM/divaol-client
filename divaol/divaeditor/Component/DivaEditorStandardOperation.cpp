@@ -32,13 +32,17 @@ namespace divaeditor
 
 	void DivaEditorOperationSet::doOperation()
 	{
+		int isPlaying = CORE_FLOW_PTR->getState();
+		if(needToPause && isPlaying == CoreFlow::RUN)
+			CORE_PTR->pause();
+
 		for (int i=0;i<operations.size();i++)
 			if(operations[i]!=NULL)
 				operations[i]->doOperation();
 		if(needToRecalcTime)
 		{
 			EDITOR_PTR->mapData->sortNote();
-
+			EDITOR_PTR->mapData->sortEvent();
 			/*
 			for (int i=1;i<EDITOR_PTR->mapData->coreInfoPtr->notes.size();i++)
 			{
@@ -54,10 +58,17 @@ namespace divaeditor
 		}
 		if(needToRefreshAll)
 			EDITUTILITY.refreshAll();
+
+		if(needToPause && isPlaying == CoreFlow::RUN)
+			CORE_PTR->resume();
 	}
 
 	void DivaEditorOperationSet::undoOperation()
 	{
+		int isPlaying = CORE_FLOW_PTR->getState();
+		if(needToPause && isPlaying == CoreFlow::RUN)
+			CORE_PTR->pause();
+
 		for (int i=operations.size()-1;i>=0;i--)
 			if(operations[i]!=NULL)
 				operations[i]->undoOperation();
@@ -65,6 +76,7 @@ namespace divaeditor
 		if(needToRecalcTime)
 		{
 			EDITOR_PTR->mapData->sortNote();
+			EDITOR_PTR->mapData->sortEvent();
 			/*
 			for (int i=1;i<EDITOR_PTR->mapData->coreInfoPtr->notes.size();i++)
 			{
@@ -80,6 +92,9 @@ namespace divaeditor
 		}
 		if(needToRefreshAll)
 			EDITUTILITY.refreshAll();
+
+		if(needToPause && isPlaying == CoreFlow::RUN)
+			CORE_PTR->resume();
 	}
 
 	void DivaEditorOperationSet::clearOperation()
@@ -152,10 +167,11 @@ namespace divaeditor
 #pragma endregion DivaEditorOperation_BPM
 #pragma region DivaEditorOperation_GridOffset
 
-	DivaEditorOperation_GridOffset::DivaEditorOperation_GridOffset(int offsetOld, int offsetNew)
+	DivaEditorOperation_GridOffset::DivaEditorOperation_GridOffset(int offsetOld, int offsetNew, bool moveAll)
 	{
 		this->offsetOld = offsetOld;
 		this->offsetNew = offsetNew;
+		this->moveAll = moveAll;
 	}
 
 	std::wstring DivaEditorOperation_GridOffset::ToString()
@@ -165,12 +181,12 @@ namespace divaeditor
 
 	void DivaEditorOperation_GridOffset::doOperation()
 	{
-		EDITOR_PTR->mapData->offset_set(offsetNew, true);
+		EDITOR_PTR->mapData->offset_set(offsetNew, moveAll);
 	}
 
 	void DivaEditorOperation_GridOffset::undoOperation()
 	{
-		EDITOR_PTR->mapData->offset_set(offsetOld, true);
+		EDITOR_PTR->mapData->offset_set(offsetOld, moveAll);
 	}
 
 #pragma endregion DivaEditorOperation_GridOffset
@@ -273,6 +289,51 @@ namespace divaeditor
 	}
 
 #pragma endregion DivaEditorOperation_TailSpeed
+
+#pragma region DivaEditorOperation_ModifyEvent
+
+	DivaEditorOperation_ModifyEvent::DivaEditorOperation_ModifyEvent(int eventIndex, int bpmPos, int nextbpmPos, float oldBPM, float newBPM)
+	{
+		calculated=true;
+		eventModifyType=BPMCHANGED;
+
+		float bpmFactor = newBPM/oldBPM;
+
+		oldEvent = EDITOR_PTR->mapData->coreInfoPtr->events[eventIndex];
+		newEvent = oldEvent;
+
+		if(newEvent.position>bpmPos && newEvent.position <nextbpmPos)
+			newEvent.position = ((float)(newEvent.position-bpmPos)) * bpmFactor + bpmPos;
+		else if(newEvent.position>=nextbpmPos)
+			newEvent.position = ((float)(nextbpmPos-bpmPos)) * bpmFactor + bpmPos + (newEvent.position-nextbpmPos);
+	}
+
+	void DivaEditorOperation_ModifyEvent::doOperation()
+	{
+		int thisEventIndex = EDITOR_PTR->mapData->findEvent(oldEvent);
+		if(calculated && oldEvent.position!=newEvent.position)
+		{
+			EDITOR_PTR->mapData->event_modifyTimePos(thisEventIndex, newEvent.position);
+			thisEventIndex = EDITOR_PTR->mapData->adjustEventOrder(thisEventIndex);
+		}
+	}
+	void DivaEditorOperation_ModifyEvent::undoOperation()
+	{
+		int thisEventIndex = EDITOR_PTR->mapData->findEvent(newEvent);
+		if(newEvent.position!=oldEvent.position)
+		{
+			EDITOR_PTR->mapData->event_modifyTimePos(thisEventIndex, oldEvent.position);
+			thisEventIndex = EDITOR_PTR->mapData->adjustEventOrder(thisEventIndex);
+		}
+	}
+
+	std::wstring DivaEditorOperation_ModifyEvent::ToString()
+	{
+		return L"";
+	}
+
+#pragma endregion DivaEditorOperation_ModifyEvent
+
 
 #pragma region DivaEditorOperation_AddNormalNote
 
@@ -462,6 +523,28 @@ namespace divaeditor
 
 		noteModifyType = TYPE;
 	}
+
+	DivaEditorOperation_ModifyNote::DivaEditorOperation_ModifyNote(int index, int bpmPos,int nextbpmPos, float oldBPM,	float newBPMValue) //note_bpmChanged
+	{
+		float bpmFactor = newBPMValue/oldBPM;
+
+		calculated = true;
+
+		oldNote = EDITOR_PTR->mapData->coreInfoPtr->notes[index];
+
+		noteModifyType = BPMCHANGED;
+
+		newNote = oldNote;
+		for (int i=0;i<newNote.notePoint.size();i++)
+			if(newNote.notePoint[i].position>=bpmPos)
+			{
+				if(newNote.notePoint[i].position>bpmPos && newNote.notePoint[i].position <nextbpmPos)
+					newNote.notePoint[i].position = ((float)(newNote.notePoint[i].position-bpmPos)) * bpmFactor + bpmPos;
+				else if(newNote.notePoint[i].position>=nextbpmPos)
+					newNote.notePoint[i].position = ((float)(nextbpmPos-bpmPos)) * bpmFactor + bpmPos + (newNote.notePoint[i].position-nextbpmPos);
+			}
+	}
+
 
 	DivaEditorOperation_ModifyNote::DivaEditorOperation_ModifyNote(int index, Type noteModifyType)
 	{
