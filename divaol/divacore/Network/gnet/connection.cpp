@@ -145,7 +145,10 @@ namespace gnet
 		{
 			int retVal = ::send(mSocket,data,size,0);
 			if(retVal == SOCKET_ERROR)
+			{
+				int errcode = WSAGetLastError();
 				throw "Send Failed";
+			}
 			writeSize += retVal;
 		}
 	}
@@ -158,7 +161,10 @@ namespace gnet
 			int retVal = ::recv(mSocket,reinterpret_cast<char*>(&mBuffer[0]),size-readSize,0);
 			
 			if (SOCKET_ERROR == retVal)
+			{
+				int errcode = WSAGetLastError();
 				throw "Recv Failed";
+			}
 			
 			readSize += retVal;
 		}

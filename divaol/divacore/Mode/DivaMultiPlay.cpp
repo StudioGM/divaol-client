@@ -11,6 +11,61 @@
 
 namespace divacore
 {
+	void NetGameInfo::setConfig(const std::string &configFile)
+	{
+		mConfig.clear();
+		configloader::loadWithJson(mConfig,configFile);
+	}
+	void NetGameInfo::update(float dt)
+	{
+		mPlayers[myPlayerID].score = mOwner->getScore();
+		mPlayers[myPlayerID].hp = mOwner->getHPinRatio();
+		mPlayers[myPlayerID].combo = mOwner->getCombo();
+		mTeams[myTeamID].combo = mOwner->getCombo();
+		mTeams[myTeamID].score = 0;
+		for(int i = 0; i < mTeams[myTeamID].players.size(); i++)
+			mTeams[myTeamID].score += mPlayers[mTeams[myTeamID].players[i]].score;
+	}
+	void NetGameInfo::newGame(GPacket *packet)
+	{
+		gnet::Item<gnet::List> *list = dynamic_cast<gnet::Item<gnet::List>*>(dynamic_cast<GPacket*>(packet->getItem(3))->getItem(1));
+		mPlayers = PLAYERS(list->size());
+		mTeams = TEAMS(list->size());
+
+		for(int i = 0; i < mPlayers.size(); i++)
+		{
+			PlayerInfo playerInfo;
+
+			playerInfo.uid = list->getItem(i)->getString();
+			playerInfo.index = i;
+			playerInfo.teamIndex = i;
+			playerInfo.indexInTeam = 0;
+
+			mPlayers[i] = playerInfo;
+			mTeams[playerInfo.teamIndex].nowPlayer = 0;
+			mTeams[playerInfo.teamIndex].players.push_back(i);
+
+			if(mConfig.getAsString("uid")==playerInfo.uid)
+			{
+				myPlayerID = playerInfo.index;
+				myTeamID = playerInfo.teamIndex;
+				myPlayerPtr = &mPlayers[myPlayerID];
+				myTeamPtr = &mTeams[myTeamID];
+			}
+		}
+	}
+	void NetGameInfo::updateSingle(GPacket *packet)
+	{
+		gnet::Item<gnet::List> *list = dynamic_cast<gnet::Item<gnet::List>*>(packet->getItem(2));
+
+		for(int i = 0; i < mPlayers.size(); i++)
+		{
+			GPacket *player = dynamic_cast<GPacket*>(list->getItem(i));
+			mPlayers[i].score = gnet::ItemUtility::getUInt(player->getItem(1));
+			mPlayers[i].combo = gnet::ItemUtility::getUInt(player->getItem(2));
+		}
+	}
+
 		 void MultiPlay::init() 
 		{
 			//debug info
@@ -25,6 +80,7 @@ namespace divacore
 			GNET_RECEIVE_PACKET("stage#join_ok",&MultiPlay::join);
 
 			SinglePlay::gameReset();
+			mInfo.setOwner(this);
 
 			setBaseState(CONNECT);
 		}
@@ -42,44 +98,46 @@ namespace divacore
 		}
 		 void MultiPlay::setMyInfo(Config &config)
 		{
-			myInfo = config;
+			mInfo.mConfig = config;
 		}
 		 void MultiPlay::setMyInfo(const std::string &configFile)
 		{
-			myInfo.clear();
-			configloader::loadWithJson(myInfo,configFile);
+			mInfo.setConfig(configFile);
 		}
 		 void MultiPlay::gameLoad(const std::string &configFile) {
 			if(configFile!="")
+				mInfo.setConfig(configFile);
+
+			//连接server
+			NETWORK_SYSTEM_PTR->connect();
+
+			NETWORK_SYSTEM_PTR->send("auth#setuid","%s",mInfo.mConfig.getAsString("uid").c_str());
+
+			NETWORK_SYSTEM_PTR->send("stage#join","%s","919");
+
+			NETWORK_SYSTEM_PTR->waitForNext();
+
+			NETWORK_SYSTEM_PTR->refresh();
+
+			if(getBaseState()==FAILURE)
 			{
-				myInfo.clear();
-				configloader::loadWithJson(myInfo,configFile);
+				NETWORK_SYSTEM_PTR->disconnect();
+				return;
 			}
 
-				//连接server
-				NETWORK_SYSTEM_PTR->connect();
+			NETWORK_SYSTEM_PTR->waitForNext();
 
-				NETWORK_SYSTEM_PTR->send("auth#setuid","%s","1");
-
-				NETWORK_SYSTEM_PTR->send("stage#join","%s","919");
-
-				NETWORK_SYSTEM_PTR->waitForNext();
-
-				NETWORK_SYSTEM_PTR->refresh();
-
-				NETWORK_SYSTEM_PTR->waitForNext();
-
-				NETWORK_SYSTEM_PTR->refresh();
+			NETWORK_SYSTEM_PTR->refresh();
 
 
-				if(getBaseState()!=READY)
-				{
-					NETWORK_SYSTEM_PTR->disconnect();
-					return;
-				}
+			if(getBaseState()!=READY)
+			{
+				NETWORK_SYSTEM_PTR->disconnect();
+				return;
+			}
 
-				//准备完成
-				NETWORK_SYSTEM_PTR->send("game#systemready");
+			//准备完成
+			NETWORK_SYSTEM_PTR->send("game#systemready");
 		}
 
 		 void MultiPlay::gameStart() {
@@ -97,13 +155,7 @@ namespace divacore
 				sendInfo();
 				DEAL_PER_PERIOD_END();
 
-				/*teams[teamID].players[playerID].score = getScore();
-				teams[teamID].players[playerID].hp = getHPinRatio();
-				teams[teamID].players[playerID].combo = getCombo();
-				teams[teamID].combo = getCombo();
-				teams[teamID].score = 0;
-				for(int i = 0; i < teams[teamID].players.size(); i++)
-					teams[teamID].score += teams[teamID].players[i].score;*/
+				mInfo.update(dt);
 			}
 		}
 
@@ -117,38 +169,7 @@ namespace divacore
 		//获得游戏信息，队伍信息
 		void MultiPlay::getInfo(GPacket *packet)
 		{
-			/*teamID = packet.readByte();
-			playerID = packet.readByte();
-
-			teams.clear();
-			int teamNum = packet.readByte(),cnt = 0;
-			for(int i = 0; i < teamNum; i++)
-			{
-			TeamInfo teamInfo;
-			teamInfo.teamID = i;
-			teamInfo.name = packet.readString();
-			int playerNum = packet.readByte();
-			for(int j = 0; j < playerNum; j++)
-			{
-			teamInfo.players.push_back(PlayerInfo());
-			teamInfo.players[j].teamID = i;
-			teamInfo.players[j].playerID = j;
-			teamInfo.players[j].id = cnt++;
-			teamInfo.players[j].name = packet.readString();
-			teamInfo.players[j].netID = packet.readInt32();
-			teamInfo.players[j].score = teamInfo.players[j].combo = 0;
-			teamInfo.players[j].hp = float(ORIGIN_HP)/MAX_HP;
-			}
-			teams.push_back(teamInfo);
-			}
-			teamPtr = &teams[teamID];
-			playerPtr = &teams[teamID].players[playerID];
-			setBaseState(READY);*/
-			gnet::Item<gnet::List> *list = dynamic_cast<gnet::Item<gnet::List>*>(dynamic_cast<GPacket*>(packet->getItem(3))->getItem(1));
-			mPlayers = PLAYERS(list->size());
-
-			for(int i = 0; i < mPlayers.size(); i++)
-				mPlayers[i].uid = dynamic_cast<gnet::Item<gnet::Binary>*>(list->getItem(i))->getData();
+			mInfo.newGame(packet);
 
 			setBaseState(READY);
 		}
@@ -156,48 +177,7 @@ namespace divacore
 		//心跳包更新游戏信息
 		void MultiPlay::updateInfo(GPacket *packet)
 		{
-			//float hp;
-			//int score,combo;
-			////更新所有人的得分情况，除去自己
-			//for(int j = 0; j < teams.size(); j++)
-			//{
-			//	for(int i = 0; i < teams[j].players.size(); i++)
-			//	{
-			//		score = packet.readInt32();
-			//		combo = packet.readInt32();
-			//		hp = packet.readDouble();
-			//		if(j!=teamID||i!=playerID)
-			//			teams[j].players[i].score = score, teams[j].players[i].combo = combo, teams[j].players[i].hp = hp;
-			//	}
-			//}
-			////加入自己的信息，以本机为准
-			//teamPtr->players[playerID].score = getScore();
-			////更新队伍信息，除了本队以外
-			//for(int i = 0; i < teams.size(); i++)
-			//{
-			//	score = packet.readInt32();
-			//	combo = packet.readInt32();
-			//	teams[i].nowPlayer = packet.readInt32();
-			//	if(i!=teamID)
-			//	{
-			//		teams[i].score = score;
-			//		teams[i].combo = combo;
-			//	}
-			//}
-			////更新本队总分
-			//teams[teamID].score = 0;
-			//for(int i = 0; i < teams[teamID].players.size(); i++)
-			//	teams[teamID].score += teams[teamID].players[i].score;
-			//teams[teamID].players[playerID].hp = getHPinRatio();
-			//teams[teamID].combo = getCombo();
-			gnet::Item<gnet::List> *list = dynamic_cast<gnet::Item<gnet::List>*>(packet->getItem(2));
-
-			for(int i = 0; i < mPlayers.size(); i++)
-			{
-				GPacket *player = dynamic_cast<GPacket*>(list->getItem(i));
-				mPlayers[i].score = gnet::ItemUtility::getUInt(player->getItem(1));
-				mPlayers[i].combo = gnet::ItemUtility::getUInt(player->getItem(2));
-			}
+			mInfo.updateSingle(packet);
 		}
 
 		void MultiPlay::render()
@@ -206,15 +186,10 @@ namespace divacore
 			{
 #ifdef _DEBUG
 				//显示一些调试信息
-				std::string output = format("%d Players",mPlayers.size());
-				//for(int i = 0; i < mTeams.size(); i++)
-				//	output += format("team%d score: %d\n",i+1,mTeams[i].score);
-				//output += format("\nThe number of your team member is %d\nYour position is %d and the scores:\n",mTeams[myTeamID].players.size(),myPlayerID);
-				//for(int i = 0; i < mTeams[myTeamID].players.size(); i++)
-				//	output += format("Member.%d : %d\n",i+1,mTeams[myTeamID].players[i]);
+				std::string output = format("%d Players",mInfo.mPlayers.size());
 	
-				for(int i = 0; i < mPlayers.size(); i++)
-					output += format("player%d score:%d\tcombo:%d\n",i+1,mPlayers[i].score,mPlayers[i].combo);
+				for(int i = 0; i < mInfo.mPlayers.size(); i++)
+					output += format("player%d score:%d\tcombo:%d\n",i+1,mInfo.mPlayers[i].score,mInfo.mPlayers[i].combo);
 
 				mText.setText(sora::s2ws(output));
 				mText.renderTo(200,200);
@@ -234,8 +209,8 @@ namespace divacore
 
 		void MultiPlay::preStart()
 		{
-			//if(CORE_PTR->getState()!=Core::RESULT)
-			//	UI_PAINTER_PTR->addWidget("multiPlayer");
+			if(CORE_PTR->getState()!=Core::RESULT)
+				UI_PAINTER_PTR->addWidget("multiPlayer");
 		}
 
 		void MultiPlay::preEvaluate()

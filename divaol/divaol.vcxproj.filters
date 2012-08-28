@@ -121,9 +121,6 @@
     <Filter Include="源文件\divacore\mode">
       <UniqueIdentifier>{e6a2b21b-8e15-4f3a-9c2f-3478c2b832cf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\divacore\music">
-      <UniqueIdentifier>{038ca617-2977-43ce-8ce3-6e8075dec142}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\divacore\network">
       <UniqueIdentifier>{15043eb1-9433-4f50-b659-b8cca2b7ad66}</UniqueIdentifier>
     </Filter>
@@ -150,6 +147,9 @@
     </Filter>
     <Filter Include="源文件\divacore\lib\base">
       <UniqueIdentifier>{af5e0ea1-c69b-4665-80af-ab0e6266c9c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\divacore\mode\music">
+      <UniqueIdentifier>{038ca617-2977-43ce-8ce3-6e8075dec142}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1432,10 +1432,10 @@
       <Filter>源文件\divacore\mode</Filter>
     </ClInclude>
     <ClInclude Include="divacore\MusicManager\DivaBassMusicManager.h">
-      <Filter>源文件\divacore\music</Filter>
+      <Filter>源文件\divacore\mode\music</Filter>
     </ClInclude>
     <ClInclude Include="divacore\MusicManager\DivaFmodMusicManager.h">
-      <Filter>源文件\divacore\music</Filter>
+      <Filter>源文件\divacore\mode\music</Filter>
     </ClInclude>
     <ClInclude Include="divacore\Utility\DivaConfigLoader.h">
       <Filter>源文件\divacore\utility</Filter>
@@ -2067,10 +2067,10 @@
       <Filter>源文件\divacore\mode</Filter>
     </ClCompile>
     <ClCompile Include="divacore\MusicManager\DivaBassMusicManager.cpp">
-      <Filter>源文件\divacore\music</Filter>
+      <Filter>源文件\divacore\mode\music</Filter>
     </ClCompile>
     <ClCompile Include="divacore\MusicManager\DivaFmodMusicManager.cpp">
-      <Filter>源文件\divacore\music</Filter>
+      <Filter>源文件\divacore\mode\music</Filter>
     </ClCompile>
     <ClCompile Include="divacore\Utility\DivaConfigLoader.cpp">
       <Filter>源文件\divacore\utility</Filter>

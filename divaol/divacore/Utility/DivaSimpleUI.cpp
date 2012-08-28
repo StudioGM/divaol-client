@@ -1088,7 +1088,7 @@ namespace divacore
 			Player::onUpdate(dt);
 		}
 
-		/*void MultiPlayer::construct(Config &config, const std::string &head)
+		void MultiPlayer::construct(Config &config, const std::string &head)
 		{
 			this->config = &config;
 			this->head = head;
@@ -1101,69 +1101,70 @@ namespace divacore
 		}; 
 		void MultiPlayer::onInitialize()
 		{
-			players.clear();
+			panels.clear();
 			state = (MultiPlay*)GAME_MODE_PTR;
 		}
 		void MultiPlayer::onStart()
 		{
-			TEAMS& teams = state->getGlobalInfo();
+			TEAMS& teams = state->getTeamInfo();
+			PLAYERS& players = state->getPlayerInfo();
 			teamID = state->getTeamID();
 			playerID = state->getPlayerID();
 
 			int width = 0;
-
+			
 			for(int i = 0; i < teams.size(); i++)
-			{
 				nowPlayers.push_back(-1);
-				for(int j = 0; j < teams[i].players.size(); j++)
+			for(int i = 0; i < players.size(); i++)
+			{
+				Player *player = new Player();
+				//if(0<=teams[i].players[j].netID&&teams[i].players[j].netID<ICON_NUM)
+				//{
+				//	//player->icon = new Image();
+				//	//player->icon->construct(*config,head+"icon"+iToS(teams[i].players[j].netID)+"_");
+				//}
+				player->construct(*config,head);
+				player->onInitialize();
+
+				player->hpBar->setColor(Player::TEAM_COLOR[players[i].teamIndex]);
+				player->setPosition(width,0);
+				player->setName(players[i].name);
+				player->setInfo(0,0,0.5);
+				player->flushOnly();
+				player->flush();
+
+				add(player);
+				panels.push_back(player);
+
+				if(i==playerID)
 				{
-					Player *player = new Player();
-					//if(0<=teams[i].players[j].netID&&teams[i].players[j].netID<ICON_NUM)
-					//{
-					//	//player->icon = new Image();
-					//	//player->icon->construct(*config,head+"icon"+iToS(teams[i].players[j].netID)+"_");
-					//}
-					player->construct(*config,head);
-					player->onInitialize();
-
-					player->hpBar->setColor(Player::TEAM_COLOR[i]);
-					player->setPosition(width,0);
-					player->setName(teams[i].players[j].name);
-					player->setInfo(0,0,0.5);
-					player->flushOnly();
-					player->flush();
-
-					add(player);
-					players.push_back(player);
-
-					if(i==teamID&&j==playerID)
-					{
-						Image *highLight = new Image();
-						highLight->construct(*config,head+"highlight_");
-						player->add(highLight);
-					}
-					width += gap+size.x;
+					Image *highLight = new Image();
+					highLight->construct(*config,head+"highlight_");
+					player->add(highLight);
 				}
+				width += gap+size.x;
 			}
 		}
 		void MultiPlayer::onUpdate(float dt)
 		{
-			TEAMS& teams = state->getGlobalInfo();
-			int cnt = 0;
+			TEAMS& teams = state->getTeamInfo();
+			PLAYERS &players = state->getPlayerInfo();
 			for(int i = 0; i < teams.size(); i++)
 			{
 				if(teams[i].nowPlayer!=nowPlayers[i])
 				{
 					if(nowPlayers[i]>=0)
-						players[teams[i].players[nowPlayers[i]].id]->setFocus(false);
+						panels[teams[i].players[nowPlayers[i]]]->setFocus(false);
 					if(teams[i].nowPlayer>=0)
-						players[teams[i].players[teams[i].nowPlayer].id]->setFocus(true);
+						panels[teams[i].players[teams[i].nowPlayer]]->setFocus(true);
 					nowPlayers[i] = teams[i].nowPlayer;
 				}
-				for(int j = 0; j < teams[i].players.size(); j++)
-					players[cnt++]->setInfo(teams[i].players[j].score,teams[i].players[j].combo,teams[i].players[j].hp);
 			}
-		} */
+			for(int i = 0; i < players.size(); i++)
+			{
+				panels[i]->setInfo(players[i].score,players[i].combo,players[i].hp);
+			}
+		} 
 
 		/*
 		 *Eval Result UI
@@ -1387,8 +1388,8 @@ namespace divacore
 				widget = new DangerSpark();
 			else if(type=="singlePlayer")
 				widget = new SinglePlayer();
-			//else if(type=="multiPlayer")
-			//	widget = new MultiPlayer();
+			else if(type=="multiPlayer")
+				widget = new MultiPlayer();
 			else if(type=="evalBar")
 				widget = new EvalBar();
 			else if(type=="button")

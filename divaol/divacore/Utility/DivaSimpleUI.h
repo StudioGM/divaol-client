@@ -15,7 +15,7 @@
 #include "Core/DivaConfig.h"
 #include "Core/DivaHook.h"
 #include "Core/DivaEvaluateStrategy.h"
-//#include "Mode/DivaMultiplay.h"
+#include "Mode/DivaMultiplay.h"
 
 namespace divacore
 {
@@ -432,12 +432,12 @@ namespace divacore
 			void onUpdate(float dt);
 		};
 
-		/*class MultiPlayer : public Widget
+		class MultiPlayer : public Widget
 		{
-			typedef std::vector<Player*> PLAYERS;
+			typedef std::vector<Player*> PANELS;
 			typedef std::vector<int> STATE;
 			static const int ICON_NUM = 4;
-			PLAYERS players;
+			PANELS panels;
 			STATE nowPlayers;
 			MultiPlay* state;
 			Rect range;
@@ -454,7 +454,7 @@ namespace divacore
 			void onInitialize();
 			void onStart();
 			void onUpdate(float dt);
-		};*/
+		};
 
 		class EvalBar : public Widget
 		{

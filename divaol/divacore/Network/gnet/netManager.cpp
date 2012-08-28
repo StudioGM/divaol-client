@@ -16,7 +16,18 @@ namespace gnet
 		NetManager *netManager = static_cast<NetManager*>(param);
 		
 		while(true)
-			netManager->mRecvQueue.push(netManager->mConnector.recv());
+		{
+			ItemBase *item = 0;
+			try{
+				item = netManager->mConnector.recv();
+			}
+			catch(...)
+			{
+				return 0;
+			}
+			if(item)
+				netManager->mRecvQueue.push(item);
+		}
 	}
 	
 	DWORD WINAPI NetManager::_SendThread(LPVOID param)
@@ -28,7 +39,14 @@ namespace gnet
 			if(!netManager->mSendQueue.empty())
 			{
 				ItemBase *item = netManager->mSendQueue.take();
-				netManager->mConnector.send(item);
+				try
+				{
+					netManager->mConnector.send(item);
+				}
+				catch (...)
+				{
+					return 0;
+				}
 				delete item;
 			}
 			else

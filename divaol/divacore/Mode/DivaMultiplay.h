@@ -19,6 +19,8 @@
 
 namespace divacore
 {
+	class MultiPlay;
+
 	struct PlayerInfo
 	{
 	public:
@@ -51,6 +53,28 @@ namespace divacore
 	};
 	typedef std::vector<TeamInfo> TEAMS;
 
+	class NetGameInfo
+	{
+	public:
+		typedef std::map<std::string,int32> UID_MAP;
+
+		Config mConfig;
+		int myTeamID, myPlayerID;
+		TEAMS mTeams; //所有队伍的基本信息
+		PLAYERS mPlayers; // 所有玩家的信息
+		TeamInfo *myTeamPtr; //本机所属的队伍信息
+		PlayerInfo *myPlayerPtr; //本机所属的玩家信息
+		UID_MAP mUidMap;
+
+		MultiPlay *mOwner;
+			
+		void setOwner(MultiPlay *owner) {mOwner=owner;}
+		void newGame(GPacket *packet);
+		void updateSingle(GPacket *packet);
+		void update(float dt);
+		void setConfig(const std::string &configFile);
+	};
+
 	class MultiPlay : public SinglePlay
 	{
 	protected:
@@ -58,16 +82,11 @@ namespace divacore
 		static const int FAILURE_WAIT_TIME = 1000;
 
 		int mBaseState;
-		int myTeamID, myPlayerID;
-		TEAMS mTeams; //所有队伍的基本信息
-		PLAYERS mPlayers; // 所有玩家的信息
-		TeamInfo *myTeamPtr; //本机所属的队伍信息
-		PlayerInfo *myPlayerPtr; //本机所属的玩家信息
+
+		NetGameInfo mInfo;
 
 		sora::SoraText mText;
 		sora::SoraMutex mutex;
-
-		Config myInfo;
 	public:
 		/*CONNECT为等待连接状态
 		 GET_INFO为连接成功等待服务器信息状态
@@ -80,12 +99,13 @@ namespace divacore
 		void setBaseState(int state) {sora::SoraMutexGuard lock(mutex);mBaseState=state;}
 		int getBaseState() {sora::SoraMutexGuard lock(mutex);return mBaseState;}
 
-		virtual int getTeamID() {return myTeamID;}
-		virtual int getPlayerID() {return myPlayerID;}
-		virtual TEAMS& getTeamInfo() {return mTeams;}
-		virtual PLAYERS& getPlayerInfo() {return mPlayers;}
-		virtual TeamInfo* getMyTeamInfo() {return myTeamPtr;}
-		virtual PlayerInfo* getMyPlayerInfo() {return myPlayerPtr;}
+		NetGameInfo& getGlobalInfo() {return mInfo;}
+		virtual int getTeamID() {return mInfo.myTeamID;}
+		virtual int getPlayerID() {return mInfo.myPlayerID;}
+		virtual TEAMS& getTeamInfo() {return mInfo.mTeams;}
+		virtual PLAYERS& getPlayerInfo() {return mInfo.mPlayers;}
+		virtual TeamInfo* getMyTeamInfo() {return mInfo.myTeamPtr;}
+		virtual PlayerInfo* getMyPlayerInfo() {return mInfo.myPlayerPtr;}
 
 		virtual std::string getName() {return "multiPlay";}
 

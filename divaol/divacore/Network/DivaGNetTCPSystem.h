@@ -29,7 +29,7 @@ namespace divacore
 
 		void init()  {
 			mHostIP = "127.0.0.1";
-			mPort = "1234";
+			mPort = "9899";
 		}
 		void destory() {
 			mNetManager.disconnect();
