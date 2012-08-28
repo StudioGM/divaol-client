@@ -389,8 +389,10 @@ namespace divaeditor
 		
 
 		gcn::BoarderedContainer *keySoundBox = new gcn::BoarderedContainer();
+		keySoundBox->setBoarderSize(3);
+		keySoundBox->setBaseColor(gcn::Color(16,22,33,200));
+		keySoundBox->setForegroundColor(gcn::Color(53,53,53,150));
 		keySoundBox->setId("keySoundBox");
-		keySoundBox->setForegroundColor(gcn::Color(255,255,255,255));
 		keySoundBox->setSize((noteCategory->getWidth()-noteArea->getWidth())/2-10,noteArea->getHeight());
 		keySoundBox->setAlpha(150);
 		keySoundBox->setPosition(noteCategory->getWidth()-5-keySoundBox->getWidth(),toolBoxButtonSet->getY()+toolBoxButtonSet->getHeight());
@@ -402,9 +404,6 @@ namespace divaeditor
 		btn_note_expandKeySoundBox->setSize(keySoundBox->getWidth(), 40);
 		btn_note_expandKeySoundBox->setPosition(0,0);
 		btn_note_expandKeySoundBox->setForegroundColor(gcn::Color(255,255,255,255));
-		gcn::Color defaultColor = btn_note_expandKeySoundBox->getBaseColor();
-		defaultColor.a = 150;
-		btn_note_expandKeySoundBox->setBaseColor(defaultColor);
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_note_expandKeySoundBox, this, "btn_note_expandKeySoundBox", sora::RESPONSEACTION);
 		
 #pragma region key sound box set
@@ -783,7 +782,7 @@ namespace divaeditor
 		btn_Stop->setDownImage(MainSceneImageFile,gcn::Rectangle(45,318,45,45));
 		btn_Stop->setId("btn_Stop");
 		btn_Stop->setSize(btn_Pause->getWidth(),btn_Pause->getHeight());
-		btn_Stop->setPosition(btn_Pause->getX()+btn_Pause->getWidth()+5,btn_Pause->getY());
+		btn_Stop->setPosition(btn_Pause->getX()+btn_Pause->getWidth()+3,btn_Pause->getY());
 		btn_Stop->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_Stop, this, "btn_Stop", sora::RESPONSEACTION);
 		top->add(btn_Stop);
@@ -795,7 +794,7 @@ namespace divaeditor
 		btn_SpeedDown->setDownImage(MainSceneImageFile,gcn::Rectangle(0,318,45,45));
 		btn_SpeedDown->setId("btn_SpeedDown");
 		btn_SpeedDown->setSize(btn_Pause->getWidth(),btn_Pause->getHeight());
-		btn_SpeedDown->setPosition(btn_Stop->getX()+btn_Stop->getWidth()+5,btn_Stop->getY());
+		btn_SpeedDown->setPosition(btn_Stop->getX()+btn_Stop->getWidth()+3,btn_Stop->getY());
 		btn_SpeedDown->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_SpeedDown, this, "btn_SpeedDown", sora::RESPONSEACTION);
 		top->add(btn_SpeedDown);
@@ -806,7 +805,7 @@ namespace divaeditor
 		btn_SpeedUp->setDownImage(MainSceneImageFile,gcn::Rectangle(225,318,45,45));
 		btn_SpeedUp->setId("btn_SpeedUp");
 		btn_SpeedUp->setSize(btn_Pause->getWidth(),btn_Pause->getHeight());
-		btn_SpeedUp->setPosition(btn_SpeedDown->getX()+btn_SpeedDown->getWidth(),btn_SpeedDown->getY());
+		btn_SpeedUp->setPosition(btn_SpeedDown->getX()+btn_SpeedDown->getWidth()+3,btn_SpeedDown->getY());
 		btn_SpeedUp->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_SpeedUp, this, "btn_SpeedUp", sora::RESPONSEACTION);
 		top->add(btn_SpeedUp);
@@ -1042,6 +1041,18 @@ namespace divaeditor
 		}
 		rhythm_LastPos = thisPosition;
 
+
+		gcn::WButton *btn_Pause = (gcn::WButton*)top->findWidgetById("btn_Pause");
+		if(CORE_FLOW_PTR->getState() == CoreFlow::PAUSE)
+		{
+			btn_Pause->setNormalImage(L"",gcn::Rectangle(225,273,45,45));
+			btn_Pause->setDownImage(L"",gcn::Rectangle(135,318,45,45));
+		}
+		else
+		{
+			btn_Pause->setNormalImage(L"",gcn::Rectangle(180,273,45,45));
+			btn_Pause->setDownImage(L"",gcn::Rectangle(270,318,45,45));
+		}
 
 
 		gcn::WCheckBox *wcheckbox_showNote = (gcn::WCheckBox*)top->findWidgetById("wcheckbox_showNote");
