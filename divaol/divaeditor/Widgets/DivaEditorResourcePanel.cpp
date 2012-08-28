@@ -16,6 +16,9 @@
 
 namespace divaeditor
 {
+
+#define MainSceneImageFile L"standard/pic/editor_001.png"
+
 	ResourcePanel::ResourcePanel()
 	{
 		_selectedIndex=-1;
@@ -26,6 +29,8 @@ namespace divaeditor
 		addKeyListener(this);
 
 		setFocusable(true);
+
+		image = gcn::Image::load(MainSceneImageFile);
 	}
 
 	void ResourcePanel::adjustSize()
@@ -104,21 +109,48 @@ namespace divaeditor
 		gcn::Color baseColor = getBaseColor();
 		gcn::Color selectionColor = gcn::Color(255-baseColor.r,255-baseColor.g,255-baseColor.b,255);
 		gcn::Color textColor = getForegroundColor();
-		gcn::Color selectionTextColor = gcn::Color(255-textColor.r,255-textColor.g,255-textColor.b,textColor.a);
+		textColor.a = 150;
+		gcn::Color selectionTextColor = gcn::Color(textColor.r,textColor.g,textColor.b,255);
 
 		float width = getWidth(),height = getHeight();
 
-		//Draw background
-		graphics->setColor(baseColor);
-		graphics->fillRectangle(gcn::Rectangle(0,0,width,height));
+		const int boarderSize=3;
 
-		//Draw boarder line
-		graphics->setColor(textColor);
-		gcn::Rectangle boarder(0,0,width-1,height-1);
-		graphics->drawLine(boarder.x,boarder.y,boarder.x + boarder.width, boarder.y);
-		graphics->drawLine(boarder.x + boarder.width,boarder.y,boarder.x + boarder.width, boarder.y+boarder.height);
-		graphics->drawLine(boarder.x + boarder.width, boarder.y+boarder.height,boarder.x, boarder.y+boarder.height);
-		graphics->drawLine(boarder.x, boarder.y+boarder.height, boarder.x,boarder.y);
+		gcn::Rectangle backColorRect(boarderSize,boarderSize,getWidth()-boarderSize*2,getHeight()-boarderSize*2);
+		graphics->setColor(baseColor);
+		graphics->fillRectangle(backColorRect);
+
+		gcn::Rectangle boarderRect;
+		gcn::Color boarderColor = gcn::Color(53,53,53,150);
+		graphics->setColor(boarderColor);
+
+		boarderRect = gcn::Rectangle(0,2,boarderSize,getHeight()-4);
+		graphics->fillRectangle(boarderRect);
+
+		boarderRect = gcn::Rectangle(2,0,getWidth()-4,boarderSize);
+		graphics->fillRectangle(boarderRect);
+
+		boarderRect = gcn::Rectangle(getWidth()-boarderSize,2,boarderSize,getHeight()-4);
+		graphics->fillRectangle(boarderRect);
+
+		boarderRect = gcn::Rectangle(2,getHeight()-boarderSize,getWidth()-4,boarderSize);
+		graphics->fillRectangle(boarderRect);
+
+		graphics->drawPoint(1,2);
+		graphics->drawPoint(getWidth()-2,2);
+		graphics->drawPoint(1,getHeight()-1);
+		graphics->drawPoint(getWidth()-2,getHeight()-1);
+
+		boarderColor.a/=2;
+		graphics->setColor(boarderColor);
+		graphics->drawPoint(0,2);
+		graphics->drawPoint(1,1);
+		graphics->drawPoint(getWidth()-1,2);
+		graphics->drawPoint(getWidth()-2,1);
+		graphics->drawPoint(1,getHeight());
+		graphics->drawPoint(0,getHeight()-1);
+		graphics->drawPoint(getWidth()-1,getHeight()-1);
+		graphics->drawPoint(getWidth()-2,getHeight());
 		
 
 
@@ -136,20 +168,27 @@ namespace divaeditor
 				if(thisIndex>=0&&thisIndex< EDITOR_PTR->mapData->coreInfoPtr->resources.size())
 				{
 					//Draw Selected Area
+					graphics->setColor(gcn::Color(255,255,255,255));
 					if(thisIndex==_selectedIndex)
 					{
-						graphics->setColor(selectionColor);
-						graphics->fillRectangle(gcn::Rectangle(nowX*gridWidth, nowY*gridHeight,gridWidth,gridHeight));
+						graphics->drawImage(image,0,0,nowX*gridWidth+gridOffset-5,nowY*gridHeight+gridOffset-5,138,145);
 					}
 
 					//Draw Resource Preview
-					graphics->setColor(textColor);
-					gcn::Rectangle previewGrid(nowX*gridWidth+gridOffset,nowY*gridHeight+gridOffset,_elementGridSize-1,_elementGridSize-1);
-					graphics->drawLine(previewGrid.x,previewGrid.y,previewGrid.x + previewGrid.width, previewGrid.y);
-					graphics->drawLine(previewGrid.x + previewGrid.width,previewGrid.y,previewGrid.x + previewGrid.width, previewGrid.y+previewGrid.height);
-					graphics->drawLine(previewGrid.x + previewGrid.width, previewGrid.y+previewGrid.height,previewGrid.x, previewGrid.y+previewGrid.height);
-					graphics->drawLine(previewGrid.x, previewGrid.y+previewGrid.height, previewGrid.x,previewGrid.y);
+					divacore::MapResourceInfo &thisResource = EDITOR_PTR->mapData->coreInfoPtr->resources[EDITOR_PTR->mapData->findResourceIDByIndex(thisIndex)];
 
+					if(thisResource.type == divacore::MapResourceInfo::VIDEO)
+					{
+						graphics->drawImage(image,266,0,nowX*gridWidth+gridOffset,nowY*gridHeight+gridOffset,_elementGridSize,_elementGridSize);
+					}
+					else if(thisResource.type == divacore::MapResourceInfo::AUDIO)
+					{
+						graphics->drawImage(image,138,0,nowX*gridWidth+gridOffset,nowY*gridHeight+gridOffset,_elementGridSize,_elementGridSize);
+					}
+					else if(thisResource.type == divacore::MapResourceInfo::IMAGE)
+					{
+						graphics->drawImage(image,0,145,nowX*gridWidth+gridOffset,nowY*gridHeight+gridOffset,_elementGridSize,_elementGridSize);
+					}
 
 					//Draw Resource Name
 					graphics->setColor((thisIndex==_selectedIndex)?selectionTextColor:textColor);
@@ -158,7 +197,7 @@ namespace divaeditor
 					int drawPos = 0;
 					for(;drawPos!=thisDescription.length() && getFont()->getWidthW(thisDescription.substr(0,drawPos))<=_elementGridSize;drawPos++)
 					{}
-						
+					
 					graphics->drawTextW(thisDescription.substr(0,drawPos==thisDescription.length()?(drawPos):(drawPos-1)),
 						nowX*gridWidth+gridOffset,nowY*gridHeight+gridOffset+_elementGridSize);
 				}

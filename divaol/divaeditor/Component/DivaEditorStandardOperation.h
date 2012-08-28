@@ -35,13 +35,13 @@ namespace divaeditor
 	class DivaEditorOperation_BPM : public DivaEditorOperation
 	{
 	private:
-		float bpmOld, bpmNew;
+		double bpmOld, bpmNew;
 		float position;
 
 	public:
 		enum Type{CHANGEBPM,INSERTBPM,DELETEBPM} bpmOperation_Type;
 
-		DivaEditorOperation_BPM(float bpmOld, float bpmNew, float position, Type bpmOperation_Type);
+		DivaEditorOperation_BPM(double bpmOld, double bpmNew, float position, Type bpmOperation_Type);
 
 		virtual void doOperation();
 		virtual void undoOperation();
@@ -116,7 +116,7 @@ namespace divaeditor
 
 	public:
 		enum TYPE{BPMCHANGED} eventModifyType;
-		DivaEditorOperation_ModifyEvent(int eventIndex, int bpmPos, int nextbpmPos, float oldBPM, float newBPM);
+		DivaEditorOperation_ModifyEvent(int eventIndex, int bpmPos, int nextbpmPos, double oldBPM, double newBPM);
 
 		virtual void doOperation();
 		virtual void undoOperation();
@@ -198,7 +198,7 @@ namespace divaeditor
 		DivaEditorOperation_ModifyNote(int index,	int posLeft,	int posRight,	Type noteModifyType);//note_modifyLongNoteTimePos
 		DivaEditorOperation_ModifyNote(int index,	int type,		bool isDelta,    bool needDecode);	//note_modifyTypeByType
 		DivaEditorOperation_ModifyNote(int index,	char keyPress,	bool arrow);						//note_modifyType
-		DivaEditorOperation_ModifyNote(int index,	int bpmPos,		int nextbpmPos,	float oldBPM,	float newBPMValue);	//note_bpmChanged
+		DivaEditorOperation_ModifyNote(int index,	int bpmPos,		int nextbpmPos,	double oldBPM,	double newBPMValue);	//note_bpmChanged
 		DivaEditorOperation_ModifyNote(int index,	Type noteModifyType); //Other operations
 		
 		virtual void doOperation();

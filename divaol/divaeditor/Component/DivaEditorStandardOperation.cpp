@@ -32,6 +32,8 @@ namespace divaeditor
 
 	void DivaEditorOperationSet::doOperation()
 	{
+
+
 		int isPlaying = CORE_FLOW_PTR->getState();
 		if(needToPause && isPlaying == CoreFlow::RUN)
 			CORE_PTR->pause();
@@ -39,24 +41,13 @@ namespace divaeditor
 		for (int i=0;i<operations.size();i++)
 			if(operations[i]!=NULL)
 				operations[i]->doOperation();
-		if(needToRecalcTime)
-		{
-			EDITOR_PTR->mapData->sortNote();
-			EDITOR_PTR->mapData->sortEvent();
-			/*
-			for (int i=1;i<EDITOR_PTR->mapData->coreInfoPtr->notes.size();i++)
-			{
-				if(EDITOR_PTR->mapData->coreInfoPtr->notes[i].notePoint[0].position < EDITOR_PTR->mapData->coreInfoPtr->notes[i-1].notePoint[0].position
-						|| (EDITOR_PTR->mapData->coreInfoPtr->notes[i].notePoint[0].position == EDITOR_PTR->mapData->coreInfoPtr->notes[i-1].notePoint[0].position
-						    && EDITOR_PTR->mapData->coreInfoPtr->notes[i].notePoint[0].type < EDITOR_PTR->mapData->coreInfoPtr->notes[i-1].notePoint[0].type))
-				{
-					divacore::Logger::instance()->log("sort failed!!");
-				}
-			}*/
 
+		EDITOR_PTR->mapData->sortNote();
+		EDITOR_PTR->mapData->sortEvent();
+
+		if(needToRecalcTime)
 			EDITUTILITY.reCaltTime();
-		}
-		if(needToRefreshAll)
+		else if(needToRefreshAll)
 			EDITUTILITY.refreshAll();
 
 		if(needToPause && isPlaying == CoreFlow::RUN)
@@ -65,6 +56,8 @@ namespace divaeditor
 
 	void DivaEditorOperationSet::undoOperation()
 	{
+
+
 		int isPlaying = CORE_FLOW_PTR->getState();
 		if(needToPause && isPlaying == CoreFlow::RUN)
 			CORE_PTR->pause();
@@ -73,28 +66,17 @@ namespace divaeditor
 			if(operations[i]!=NULL)
 				operations[i]->undoOperation();
 
-		if(needToRecalcTime)
-		{
-			EDITOR_PTR->mapData->sortNote();
-			EDITOR_PTR->mapData->sortEvent();
-			/*
-			for (int i=1;i<EDITOR_PTR->mapData->coreInfoPtr->notes.size();i++)
-			{
-				if(EDITOR_PTR->mapData->coreInfoPtr->notes[i].notePoint[0].position < EDITOR_PTR->mapData->coreInfoPtr->notes[i-1].notePoint[0].position
-					|| (EDITOR_PTR->mapData->coreInfoPtr->notes[i].notePoint[0].position == EDITOR_PTR->mapData->coreInfoPtr->notes[i-1].notePoint[0].position
-					&& EDITOR_PTR->mapData->coreInfoPtr->notes[i].notePoint[0].type < EDITOR_PTR->mapData->coreInfoPtr->notes[i-1].notePoint[0].type))
-				{
-					divacore::Logger::instance()->log("sort failed!!");
-				}
-			}*/
+		EDITOR_PTR->mapData->sortNote();
+		EDITOR_PTR->mapData->sortEvent();
 
+		if(needToRecalcTime)
 			EDITUTILITY.reCaltTime();
-		}
-		if(needToRefreshAll)
+		else if(needToRefreshAll)
 			EDITUTILITY.refreshAll();
 
 		if(needToPause && isPlaying == CoreFlow::RUN)
 			CORE_PTR->resume();
+
 	}
 
 	void DivaEditorOperationSet::clearOperation()
@@ -110,6 +92,7 @@ namespace divaeditor
 	void DivaEditorOperationSet::addOperation(DivaEditorOperation* newOperation)
 	{
 		newOperation->needToRefreshAll = false;
+		newOperation->needToRecalcTime = false;
 		operations.push_back(newOperation);
 	}
 
@@ -124,7 +107,7 @@ namespace divaeditor
 #pragma endregion DivaEditorOperationSet
 #pragma region DivaEditorOperation_BPM
 
-	DivaEditorOperation_BPM::DivaEditorOperation_BPM(float bpmOld, float bpmNew, float position, Type bpmOperation_Type)
+	DivaEditorOperation_BPM::DivaEditorOperation_BPM(double bpmOld, double bpmNew, float position, Type bpmOperation_Type)
 	{
 		this->bpmOld = bpmOld;
 		this->bpmNew = bpmNew;
@@ -143,7 +126,10 @@ namespace divaeditor
 		else if(bpmOperation_Type == DELETEBPM)
 			EDITOR_PTR->mapData->bpm_delete(position);
 
-		EDITUTILITY.reCaltTime();
+		if(needToRecalcTime)
+			EDITUTILITY.reCaltTime();
+		else if(needToRefreshAll)
+			EDITUTILITY.refreshAll();
 	}
 
 	void DivaEditorOperation_BPM::undoOperation()
@@ -155,7 +141,10 @@ namespace divaeditor
 		else if(bpmOperation_Type == DELETEBPM)
 			EDITOR_PTR->mapData->bpm_insert(position,bpmOld);
 
-		EDITUTILITY.reCaltTime();
+		if(needToRecalcTime)
+			EDITUTILITY.reCaltTime();
+		else if(needToRefreshAll)
+			EDITUTILITY.refreshAll();
 	}
 
 	std::wstring DivaEditorOperation_BPM::ToString()
@@ -292,20 +281,20 @@ namespace divaeditor
 
 #pragma region DivaEditorOperation_ModifyEvent
 
-	DivaEditorOperation_ModifyEvent::DivaEditorOperation_ModifyEvent(int eventIndex, int bpmPos, int nextbpmPos, float oldBPM, float newBPM)
+	DivaEditorOperation_ModifyEvent::DivaEditorOperation_ModifyEvent(int eventIndex, int bpmPos, int nextbpmPos, double oldBPM, double newBPM)
 	{
 		calculated=true;
 		eventModifyType=BPMCHANGED;
 
-		float bpmFactor = newBPM/oldBPM;
+		double bpmFactor = newBPM/oldBPM;
 
 		oldEvent = EDITOR_PTR->mapData->coreInfoPtr->events[eventIndex];
 		newEvent = oldEvent;
 
 		if(newEvent.position>bpmPos && newEvent.position <nextbpmPos)
-			newEvent.position = ((float)(newEvent.position-bpmPos)) * bpmFactor + bpmPos;
+			newEvent.position = ((double)(newEvent.position-bpmPos)) * bpmFactor + bpmPos;
 		else if(newEvent.position>=nextbpmPos)
-			newEvent.position = ((float)(nextbpmPos-bpmPos)) * bpmFactor + bpmPos + (newEvent.position-nextbpmPos);
+			newEvent.position = ((double)(nextbpmPos-bpmPos)) * bpmFactor + bpmPos + (newEvent.position-nextbpmPos);
 	}
 
 	void DivaEditorOperation_ModifyEvent::doOperation()
@@ -316,6 +305,11 @@ namespace divaeditor
 			EDITOR_PTR->mapData->event_modifyTimePos(thisEventIndex, newEvent.position);
 			thisEventIndex = EDITOR_PTR->mapData->adjustEventOrder(thisEventIndex);
 		}
+		
+		if(needToRecalcTime)
+			EDITUTILITY.reCaltTime();
+		else if(needToRefreshAll)
+			EDITUTILITY.refreshAll();
 	}
 	void DivaEditorOperation_ModifyEvent::undoOperation()
 	{
@@ -325,6 +319,11 @@ namespace divaeditor
 			EDITOR_PTR->mapData->event_modifyTimePos(thisEventIndex, oldEvent.position);
 			thisEventIndex = EDITOR_PTR->mapData->adjustEventOrder(thisEventIndex);
 		}
+
+		if(needToRecalcTime)
+			EDITUTILITY.reCaltTime();
+		else if(needToRefreshAll)
+			EDITUTILITY.refreshAll();
 	}
 
 	std::wstring DivaEditorOperation_ModifyEvent::ToString()
@@ -351,7 +350,9 @@ namespace divaeditor
 	{
 		addedIndex = EDITOR_PTR->mapData->addNormalNote(addedNote);
 
-		if(needToRefreshAll)
+		if(needToRecalcTime)
+			EDITUTILITY.reCaltTime();
+		else if(needToRefreshAll)
 			EDITUTILITY.refreshAll();
 
 		EDITCONFIG->clearSelectedNote();
@@ -361,7 +362,9 @@ namespace divaeditor
 	void DivaEditorOperation_AddNormalNote::undoOperation()
 	{
 		EDITOR_PTR->mapData->note_delete(addedIndex);
-		if(needToRefreshAll)
+		if(needToRecalcTime)
+			EDITUTILITY.reCaltTime();
+		else if(needToRefreshAll)
 			EDITUTILITY.refreshAll();
 	}
 
@@ -382,7 +385,9 @@ namespace divaeditor
 	{
 		addedIndex = EDITOR_PTR->mapData->addNormalNote(addedNote);
 
-		if(needToRefreshAll)
+		if(needToRecalcTime)
+			EDITUTILITY.reCaltTime();
+		else if(needToRefreshAll)
 			EDITUTILITY.refreshAll();
 
 		EDITCONFIG->clearSelectedNote();
@@ -393,7 +398,9 @@ namespace divaeditor
 	{
 		EDITOR_PTR->mapData->note_delete(addedIndex);
 
-		if(needToRefreshAll)
+		if(needToRecalcTime)
+			EDITUTILITY.reCaltTime();
+		else if(needToRefreshAll)
 			EDITUTILITY.refreshAll();
 	}
 
@@ -414,7 +421,9 @@ namespace divaeditor
 	{
 		EDITOR_PTR->mapData->note_delete(EDITOR_PTR->mapData->findNoteIndexByType(deletedNote.notePoint[0].position,deletedNote.notePoint[0].type,0,deletedNote.noteType));
 
-		if(needToRefreshAll)
+		if(needToRecalcTime)
+			EDITUTILITY.reCaltTime();
+		else if(needToRefreshAll)
 			EDITUTILITY.refreshAll();
 	}
 
@@ -426,7 +435,9 @@ namespace divaeditor
 		else
 			deletedIndex = EDITOR_PTR->mapData->addLongNote(deletedNote);
 
-		if(needToRefreshAll)
+		if(needToRecalcTime)
+			EDITUTILITY.reCaltTime();
+		else if(needToRefreshAll)
 			EDITUTILITY.refreshAll();
 
 		EDITCONFIG->clearSelectedNote();
@@ -524,9 +535,9 @@ namespace divaeditor
 		noteModifyType = TYPE;
 	}
 
-	DivaEditorOperation_ModifyNote::DivaEditorOperation_ModifyNote(int index, int bpmPos,int nextbpmPos, float oldBPM,	float newBPMValue) //note_bpmChanged
+	DivaEditorOperation_ModifyNote::DivaEditorOperation_ModifyNote(int index, int bpmPos,int nextbpmPos, double oldBPM,	double newBPMValue) //note_bpmChanged
 	{
-		float bpmFactor = newBPMValue/oldBPM;
+		double bpmFactor = newBPMValue/oldBPM;
 
 		calculated = true;
 
@@ -539,9 +550,9 @@ namespace divaeditor
 			if(newNote.notePoint[i].position>=bpmPos)
 			{
 				if(newNote.notePoint[i].position>bpmPos && newNote.notePoint[i].position <nextbpmPos)
-					newNote.notePoint[i].position = ((float)(newNote.notePoint[i].position-bpmPos)) * bpmFactor + bpmPos;
+					newNote.notePoint[i].position = ((double)(newNote.notePoint[i].position-bpmPos)) * bpmFactor + bpmPos;
 				else if(newNote.notePoint[i].position>=nextbpmPos)
-					newNote.notePoint[i].position = ((float)(nextbpmPos-bpmPos)) * bpmFactor + bpmPos + (newNote.notePoint[i].position-nextbpmPos);
+					newNote.notePoint[i].position = ((double)(nextbpmPos-bpmPos)) * bpmFactor + bpmPos + (newNote.notePoint[i].position-nextbpmPos);
 			}
 	}
 
@@ -629,16 +640,22 @@ namespace divaeditor
 		
 
 		if (!calculated)
+		{
 			newNote = EDITOR_PTR->mapData->coreInfoPtr->notes[nowNoteIndex];
+			calculated=true;
+		}
 
 		
-		if(needToRefreshAll)
+		if(needToRecalcTime)
+			EDITUTILITY.reCaltTime();
+		else if(needToRefreshAll)
 			EDITUTILITY.refreshAll();
 	}
 
 
 	void DivaEditorOperation_ModifyNote::undoOperation()
 	{
+
 		int nowNoteIndex = EDITOR_PTR->mapData->findNoteIndexByType(newNote.notePoint[0].position,newNote.notePoint[0].type,0,newNote.noteType);
 
 		if(newNote.notePoint[0].key != oldNote.notePoint[0].key)
@@ -673,14 +690,14 @@ namespace divaeditor
 			EDITOR_PTR->mapData->note_modifyTypeByType(nowNoteIndex,oldNote.notePoint[0].type,false);
 		}
 
-		if(needToRefreshAll)
+		if(needToRecalcTime)
+			EDITUTILITY.reCaltTime();
+		else if(needToRefreshAll)
 			EDITUTILITY.refreshAll();
 	}
 
 	void DivaEditorOperation_ModifyNote::merge(DivaEditorOperation_ModifyNote* tomerge)
 	{
-		if(newNote.notePoint[0].position!=tomerge->oldNote.notePoint[0].position || newNote.notePoint[0].type!=tomerge->oldNote.notePoint[0].type)
-			divacore::Logger::instance()->log("conflict!");
 
 		newNote = tomerge->newNote;
 		calculated=true;
@@ -721,7 +738,9 @@ namespace divaeditor
 
 		
 
-		if(needToRefreshAll)
+		if(needToRecalcTime)
+			EDITUTILITY.reCaltTime();
+		else if(needToRefreshAll)
 			EDITUTILITY.refreshAll();
 	}
 
@@ -736,7 +755,9 @@ namespace divaeditor
 		if(!EDITCONFIG->isNoteSelected(nowNoteIndex))
 			EDITCONFIG->addSelectedNote(nowNoteIndex);
 
-		if(needToRefreshAll)
+		if(needToRecalcTime)
+			EDITUTILITY.reCaltTime();
+		else if(needToRefreshAll)
 			EDITUTILITY.refreshAll();
 	}
 

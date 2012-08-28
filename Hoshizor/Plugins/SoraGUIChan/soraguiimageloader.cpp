@@ -35,4 +35,24 @@ namespace gcn
 
         return image; 
     }
+
+	Image *SoraGUIImageLoader::load(const std::wstring &filename, bool convertToDisplayFormat)
+	{
+		sora::SoraTexture* tex = (sora::SoraTexture*)sora->createTexture(filename);
+
+		if (tex == NULL)
+		{
+			throw GCN_EXCEPTION(std::string("Unable to load: ") + sora::ws2s(filename));
+		}
+
+		SoraGUIImage *image = new SoraGUIImage((sora::SoraTextureHandle)tex);
+		image->setName(sora::ws2s(filename));
+
+		if (convertToDisplayFormat)
+		{
+			image->convertToDisplayFormat();
+		}
+
+		return image; 
+	}
 }

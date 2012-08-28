@@ -92,6 +92,7 @@ namespace gcn
          *                               to display, false otherwise.
          */
         virtual Image* load(const std::string& filename, bool convertToDisplayFormat = true) = 0;
+		virtual Image* load(const std::wstring& filename, bool convertToDisplayFormat = true) = 0;
     };
 }
 

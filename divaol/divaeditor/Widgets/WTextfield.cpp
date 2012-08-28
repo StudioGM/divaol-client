@@ -70,6 +70,10 @@ namespace gcn
 		return 0;
 	}
 
+	double WTextField::getDouble(){
+		return divaeditor::wsTod(mText);
+	}
+
 	float WTextField::getFloat(){
 		return divaeditor::wsTof(mText);
 	}

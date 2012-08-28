@@ -58,6 +58,8 @@ namespace divaeditor
 
 		int nowMouseXPos;
 		bool mouseDown;
+
+		gcn::Image *image;
 		
 	};
 

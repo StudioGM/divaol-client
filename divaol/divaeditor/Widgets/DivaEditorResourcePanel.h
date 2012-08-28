@@ -65,7 +65,7 @@ namespace divaeditor
 
 	protected:
 
-		static const int gridOffset = 5;
+		static const int gridOffset = 3;
 		static const int gridTextHeight = 20;
 
 		int _selectedIndex;
@@ -78,6 +78,7 @@ namespace divaeditor
 
 		typedef SelectionListenerList::iterator SelectionListenerIterator;
 
+		gcn::Image *image;
 	};
 }
 

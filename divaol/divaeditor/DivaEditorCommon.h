@@ -63,7 +63,10 @@ namespace divaeditor
 						operationHistoryIndex(0),
 						isMapChanged(false),
 						lockOperation(false),
-						config_moveNoteAsWell(true)
+						config_moveNoteAsWell(true),
+						lastSavedTimeDelta(0),
+						AutoSaveTime(120),
+						isAutoSave(true)
 						{};
 
 		static EditorConfig* Ptr;
@@ -123,6 +126,9 @@ namespace divaeditor
 
 		//If map is initialized
 		bool map_initialized;
+		float lastSavedTimeDelta;
+		float AutoSaveTime;
+		bool isAutoSave;
 
 		//Operation System
 		bool lockOperation;
@@ -157,8 +163,10 @@ namespace divaeditor
 	std::string fTos(float f,int bit);
 	std::wstring iToWS(int n);
 	std::wstring fTows(float f,int bit);
+	std::wstring dTows(double d,int bit);
 	std::wstring secondToTimeWstr(float second);
 	float wsTof(std::wstring &s);
+	double wsTod(std::wstring &s);
 	double round(double r); 
 	void tolower(std::wstring &str);
 	std::string to_utf8(const wchar_t* buffer, int len);

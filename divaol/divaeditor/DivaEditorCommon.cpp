@@ -32,6 +32,7 @@ namespace divaeditor
 					noteSelected.erase(noteSelected.begin()+i);
 					i--;
 				}
+		std::sort(noteSelected.begin(),noteSelected.end());
 	}
 
 	void EditorConfig::noteIndexSwaped(int indexL,int indexR)
@@ -41,6 +42,7 @@ namespace divaeditor
 				noteSelected[i]=indexR;
 			else if(noteSelected[i]==indexR)
 				noteSelected[i]=indexL;
+		std::sort(noteSelected.begin(),noteSelected.end());
 	}
 
 	void EditorConfig::addSelectedNote(int index)
@@ -53,6 +55,7 @@ namespace divaeditor
 				return;
 			}
 		noteSelected.push_back(index);
+		std::sort(noteSelected.begin(),noteSelected.end());
 	}
 
 	void EditorConfig::deleteSelectedNote(int index)
@@ -147,9 +150,13 @@ namespace divaeditor
 	{
 		if(operationHistory.size()<2) return;
 
+		/*
 		((DivaEditorOperationSet*)operationHistory[operationHistory.size()-2])->merge((DivaEditorOperationSet*)operationHistory[operationHistory.size()-1]);
+		*/
 
-		SAFE_DELETE(operationHistory[operationHistory.size()-1]);
+		((DivaEditorOperationSet*)operationHistory[operationHistory.size()-2])->addOperation((DivaEditorOperationSet*)operationHistory[operationHistory.size()-1]);
+
+		//SAFE_DELETE(operationHistory[operationHistory.size()-1]);
 		operationHistory.erase(operationHistory.begin()+operationHistory.size()-1);
 
 		operationHistoryIndex--;
@@ -229,6 +236,34 @@ namespace divaeditor
 		return ret;
 	}
 
+	//Double to Wstring
+	std::wstring dTows(double d,int bit)
+	{
+		std::wstring ret;
+		if(d<0)
+		{
+			ret += L"-";
+			d=-d;
+		}
+
+		ret += iToWS(int(d));
+
+		if(bit>0)
+		{
+			ret += L".";
+
+			double tail = d - int(d);
+			for(int i=0;i<bit;i++)
+			{
+				tail*=10;
+				int thisBit = tail;
+				ret += (wchar_t)(thisBit + '0');
+				tail-=thisBit;
+			}
+		}
+		return ret;
+	}
+
 	//WString to float
 	float wsTof(std::wstring &s)
 	{
@@ -266,6 +301,52 @@ namespace divaeditor
 		}
 
 		return negative?(-((leftPart+rightPart))):(leftPart+rightPart);
+	}
+
+	//WString to double
+	double wsTod(std::wstring &s)
+	{
+		double ret;
+		swscanf(s.c_str(),L"%lf",&ret);
+		return ret;
+
+		//Check validate
+		int dotPosCount=s.length();
+		bool negative=0;
+		for(int i=0;i<s.length();i++)
+		{
+			if(s[i]==(wchar_t)'.')
+			{
+				if(dotPosCount!=s.length()) //too many dots
+					return 0;
+				else
+					dotPosCount = i;
+			}
+			else if((s[i]==(wchar_t)'-'&&!negative))
+				negative=true;
+			else if(s[i]<(wchar_t)'0'||s[i]>(wchar_t)'9')
+				return 0;
+
+		}
+
+		double leftPart = 0;
+		for(int i=negative?1:0;i<dotPosCount;i++)
+		{
+			leftPart*=10;
+			leftPart+=s[i]-(wchar_t)'0';
+		}
+
+		int rightPartI=0;int toDevide=10;
+		for(int i=s.length()-1;i>dotPosCount;i--)
+		{
+			rightPartI+=s[i]-(wchar_t)'0';
+			rightPartI*=10;
+			toDevide*=10;
+		}
+
+		double rightPart = (double)rightPartI/(double)toDevide;
+
+		return negative?(-((double)((int)(leftPart*1000)+(int)(rightPart*1000))/1000)):((double)((int)(leftPart*1000)+(int)(rightPart*1000))/1000);
 	}
 
 	//round to integer

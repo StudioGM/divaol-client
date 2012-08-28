@@ -16,25 +16,27 @@
 
 #include<cmath>
 
+#define MainSceneImageFile L"standard/pic/editor_001.png"
+
 namespace divaeditor
 {
 	using namespace gcn;
-
 
 	DivaEditorMusicProgressWidget::DivaEditorMusicProgressWidget()
 		:mouseDown(false)
 		//_selectedChanged(sora::SoraFunction<void(float,float)>())
 	{
 		setFocusable(true);
-		setFrameSize(1);
+		setFrameSize(0);
 
 		addMouseListener(this);
 		addKeyListener(this);
 		addFocusListener(this);
 
 		setBaseColor(gcn::Color(0,0,0,0));
-	}
 
+		image = Image::load(MainSceneImageFile);
+	}
 
 	void DivaEditorMusicProgressWidget::draw(gcn::Graphics* graphics)
 	{
@@ -43,24 +45,26 @@ namespace divaeditor
 
 		float width = getWidth(),height = getHeight();
 
-		graphics->setColor(backGroundColor);
-		graphics->fillRectangle(gcn::Rectangle(0,0,width,height));
+		//graphics->setColor(backGroundColor);
+		//graphics->fillRectangle(gcn::Rectangle(0,0,width,height));
 
 		//Draw total timeline
-		graphics->setColor(lineColor);
-		graphics->drawLine(timelineOffset,height/2,width-timelineOffset-1,height/2);
+		//graphics->setColor(lineColor);
+		//graphics->drawLine(timelineOffset,height/2,width-timelineOffset-1,height/2);
+		graphics->setColor(gcn::Color(255,255,255,255));
+		graphics->drawImage(image,214,403,0,13,277,9);
 
 		//Draw nowLine
+		/*
 		graphics->setColor(lineColor);
-		
-		float nowPos = CORE_PTR->getRunTime() / float(CORE_FLOW_PTR->getTotalTime());
-
-		int nowDrawPx = timelineOffset + int(nowPos * float(width-timelineOffset*2));
 		graphics->drawLine(nowDrawPx,height*0.2,nowDrawPx,height*0.8);
 		graphics->drawLine(nowDrawPx-2,height*0.2,nowDrawPx+2,height*0.2);
 		graphics->drawLine(nowDrawPx-2,height*0.8,nowDrawPx+2,height*0.8);
+		*/
+		float nowPos = CORE_PTR->getRunTime() / float(CORE_FLOW_PTR->getTotalTime());
+		int nowDrawPx = nowPos * float(width-7);
+		graphics->drawImage(image,125,363,nowDrawPx,0,7,35);
 	}
-
 
 	void DivaEditorMusicProgressWidget::jumpMusicByMousePos()
 	{

@@ -15,6 +15,7 @@ namespace divaeditor
 
 #define EditUtility divacore::StandardEditUtility::instance()
 
+#define MainSceneImageFile L"standard/pic/editor_001.png"
 
 	gcn::Container* DivaEditorMainScene::initTimelineCategory()
 	{
@@ -25,11 +26,14 @@ namespace divaeditor
 		timelineCategory->setBaseColor(gcn::Color(0,0,0,0));
 
 		//Timeline Panel
-		gcn::Container *timelinePanel = new gcn::Container();
-		timelinePanel->setOpaque(true);
-		timelinePanel->setAlpha(150);
+		gcn::BoarderedContainer *timelinePanel = new gcn::BoarderedContainer();
+		timelinePanel->setBoarderSize(3);
+		timelinePanel->setBaseColor(gcn::Color(16,22,33,200));
+		timelinePanel->setForegroundColor(gcn::Color(53,53,53,150));
+		//timelinePanel->setOpaque(true);
+		//timelinePanel->setAlpha(150);
 		timelinePanel->setId("timelinePanel");
-		timelinePanel->setSize(400,240);
+		timelinePanel->setSize(400,220);
 		timelinePanel->setPosition(800,380);
 		timelineCategory->add(timelinePanel);
 
@@ -38,7 +42,7 @@ namespace divaeditor
 		wcheckbox_timeline_moveNote->setSelected(true);
 		wcheckbox_timeline_moveNote->setId("wcheckbox_timeline_moveNote");
 		wcheckbox_timeline_moveNote->adjustSize();
-		wcheckbox_timeline_moveNote->setPosition(10,20);
+		wcheckbox_timeline_moveNote->setPosition(60,20);
 		wcheckbox_timeline_moveNote->setBaseColor(gcn::Color(0,0,0,150));
 		wcheckbox_timeline_moveNote->setForegroundColor(gcn::Color(255,255,255,255));
 		wcheckbox_timeline_moveNote->setCheckForeGroundColor(gcn::Color(0,0,0,255));
@@ -54,7 +58,7 @@ namespace divaeditor
 		txtField_timeline_BPM->enableNumericMode(true);
 		txtField_timeline_BPM->setId("txtField_timeline_BPM");
 		txtField_timeline_BPM->setSize(100,20);
-		txtField_timeline_BPM->setPosition(100,50);
+		txtField_timeline_BPM->setPosition(150,50);
 		sora::SoraGUI::Instance()->registerGUIResponser(txtField_timeline_BPM, this, "txtField_timeline_BPM", sora::RESPONSEACTION);
 		timelinePanel->add(txtField_timeline_BPM);
 
@@ -66,26 +70,35 @@ namespace divaeditor
 		label_timeline_bpm->setForegroundColor(gcn::Color(255,255,255,255));
 		timelinePanel->add(label_timeline_bpm);
 
-		gcn::WButton *btn_TimeLine_changeBPM = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_changeStr"));
+		gcn::WButton *btn_TimeLine_changeBPM = new gcn::WButton();
+		btn_TimeLine_changeBPM->setFrameSize(0);
+		btn_TimeLine_changeBPM->setNormalImage(MainSceneImageFile,gcn::Rectangle(316,363,23,23));
+		btn_TimeLine_changeBPM->setDownImage(MainSceneImageFile,gcn::Rectangle(385,363,23,23));
 		btn_TimeLine_changeBPM->setId("btn_TimeLine_changeBPM");
-		btn_TimeLine_changeBPM->setSize(50,20);
+		btn_TimeLine_changeBPM->setSize(23,23);
 		btn_TimeLine_changeBPM->setPosition(txtField_timeline_BPM->getX()+txtField_timeline_BPM->getWidth()+5,txtField_timeline_BPM->getY());
 		btn_TimeLine_changeBPM->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_TimeLine_changeBPM, this, "btn_TimeLine_changeBPM", sora::RESPONSEACTION);
 		timelinePanel->add(btn_TimeLine_changeBPM);
 
-		gcn::WButton *btn_TimeLine_insertBPM = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_insertStr"));
+		gcn::WButton *btn_TimeLine_insertBPM = new gcn::WButton();
+		btn_TimeLine_insertBPM->setFrameSize(0);
+		btn_TimeLine_insertBPM->setNormalImage(MainSceneImageFile,gcn::Rectangle(339,363,23,23));
+		btn_TimeLine_insertBPM->setDownImage(MainSceneImageFile,gcn::Rectangle(408,363,23,23));
 		btn_TimeLine_insertBPM->setId("btn_TimeLine_insertBPM");
-		btn_TimeLine_insertBPM->setSize(50,20);
-		btn_TimeLine_insertBPM->setPosition(btn_TimeLine_changeBPM->getX()+btn_TimeLine_changeBPM->getWidth()+5,txtField_timeline_BPM->getY());
+		btn_TimeLine_insertBPM->setSize(23,23);
+		btn_TimeLine_insertBPM->setPosition(btn_TimeLine_changeBPM->getX()+btn_TimeLine_changeBPM->getWidth()+2,txtField_timeline_BPM->getY());
 		btn_TimeLine_insertBPM->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_TimeLine_insertBPM, this, "btn_TimeLine_insertBPM", sora::RESPONSEACTION);
 		timelinePanel->add(btn_TimeLine_insertBPM);
 
-		gcn::WButton *btn_TimeLine_deleteBPM = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_deleteStr"));
+		gcn::WButton *btn_TimeLine_deleteBPM = new gcn::WButton();
+		btn_TimeLine_deleteBPM->setFrameSize(0);
+		btn_TimeLine_deleteBPM->setNormalImage(MainSceneImageFile,gcn::Rectangle(362,363,23,23));
+		btn_TimeLine_deleteBPM->setDownImage(MainSceneImageFile,gcn::Rectangle(431,363,23,23));
 		btn_TimeLine_deleteBPM->setId("btn_TimeLine_deleteBPM");
-		btn_TimeLine_deleteBPM->setSize(50,20);
-		btn_TimeLine_deleteBPM->setPosition(btn_TimeLine_insertBPM->getX()+btn_TimeLine_insertBPM->getWidth()+5,txtField_timeline_BPM->getY());
+		btn_TimeLine_deleteBPM->setSize(23,23);
+		btn_TimeLine_deleteBPM->setPosition(btn_TimeLine_insertBPM->getX()+btn_TimeLine_insertBPM->getWidth()+2,txtField_timeline_BPM->getY());
 		btn_TimeLine_deleteBPM->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_TimeLine_deleteBPM, this, "btn_TimeLine_deleteBPM", sora::RESPONSEACTION);
 		timelinePanel->add(btn_TimeLine_deleteBPM);
@@ -98,7 +111,7 @@ namespace divaeditor
 		txtField_timeline_offSet->enableNumericMode(true);
 		txtField_timeline_offSet->setId("txtField_timeline_offSet");
 		txtField_timeline_offSet->setSize(100,20);
-		txtField_timeline_offSet->setPosition(100,80);
+		txtField_timeline_offSet->setPosition(txtField_timeline_BPM->getX(),80);
 		sora::SoraGUI::Instance()->registerGUIResponser(txtField_timeline_offSet, this, "txtField_timeline_offSet", sora::RESPONSEACTION);
 		timelinePanel->add(txtField_timeline_offSet);
 
@@ -110,9 +123,12 @@ namespace divaeditor
 		label_timeline_offset->setForegroundColor(gcn::Color(255,255,255,255));
 		timelinePanel->add(label_timeline_offset);
 
-		gcn::WButton *btn_TimeLine_changeOffset = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_changeStr"));
+		gcn::WButton *btn_TimeLine_changeOffset = new gcn::WButton();
+		btn_TimeLine_changeOffset->setFrameSize(0);
+		btn_TimeLine_changeOffset->setNormalImage(MainSceneImageFile,gcn::Rectangle(316,363,23,23));
+		btn_TimeLine_changeOffset->setDownImage(MainSceneImageFile,gcn::Rectangle(385,363,23,23));
 		btn_TimeLine_changeOffset->setId("btn_TimeLine_changeOffset");
-		btn_TimeLine_changeOffset->setSize(50,20);
+		btn_TimeLine_changeOffset->setSize(23,23);
 		btn_TimeLine_changeOffset->setPosition(txtField_timeline_offSet->getX()+txtField_timeline_offSet->getWidth()+5,txtField_timeline_offSet->getY());
 		btn_TimeLine_changeOffset->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_TimeLine_changeOffset, this, "btn_TimeLine_changeOffset", sora::RESPONSEACTION);
@@ -127,7 +143,7 @@ namespace divaeditor
 		txtField_timeline_Stop->enableNumericMode(true);
 		txtField_timeline_Stop->setId("txtField_timeline_Stop");
 		txtField_timeline_Stop->setSize(100,20);
-		txtField_timeline_Stop->setPosition(100,110);
+		txtField_timeline_Stop->setPosition(txtField_timeline_BPM->getX(),110);
 		sora::SoraGUI::Instance()->registerGUIResponser(txtField_timeline_Stop, this, "txtField_timeline_Stop", sora::RESPONSEACTION);
 		timelinePanel->add(txtField_timeline_Stop);
 
@@ -139,26 +155,35 @@ namespace divaeditor
 		label_timeline_Stop->setForegroundColor(gcn::Color(255,255,255,255));
 		timelinePanel->add(label_timeline_Stop);
 
-		gcn::WButton *btn_TimeLine_changeStop = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_changeStr"));
+		gcn::WButton *btn_TimeLine_changeStop = new gcn::WButton();
+		btn_TimeLine_changeStop->setFrameSize(0);
+		btn_TimeLine_changeStop->setNormalImage(MainSceneImageFile,gcn::Rectangle(316,363,23,23));
+		btn_TimeLine_changeStop->setDownImage(MainSceneImageFile,gcn::Rectangle(385,363,23,23));
 		btn_TimeLine_changeStop->setId("btn_TimeLine_changeStop");
-		btn_TimeLine_changeStop->setSize(50,20);
+		btn_TimeLine_changeStop->setSize(23,23);
 		btn_TimeLine_changeStop->setPosition(txtField_timeline_Stop->getX()+txtField_timeline_Stop->getWidth()+5,txtField_timeline_Stop->getY());
 		btn_TimeLine_changeStop->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_TimeLine_changeStop, this, "btn_TimeLine_changeStop", sora::RESPONSEACTION);
 		timelinePanel->add(btn_TimeLine_changeStop);
 
-		gcn::WButton *btn_TimeLine_insertStop = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_insertStr"));
+		gcn::WButton *btn_TimeLine_insertStop = new gcn::WButton();
+		btn_TimeLine_insertStop->setFrameSize(0);
+		btn_TimeLine_insertStop->setNormalImage(MainSceneImageFile,gcn::Rectangle(339,363,23,23));
+		btn_TimeLine_insertStop->setDownImage(MainSceneImageFile,gcn::Rectangle(408,363,23,23));
 		btn_TimeLine_insertStop->setId("btn_TimeLine_insertStop");
-		btn_TimeLine_insertStop->setSize(50,20);
+		btn_TimeLine_insertStop->setSize(23,23);
 		btn_TimeLine_insertStop->setPosition(txtField_timeline_Stop->getX()+txtField_timeline_Stop->getWidth()+5,txtField_timeline_Stop->getY());
 		btn_TimeLine_insertStop->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_TimeLine_insertStop, this, "btn_TimeLine_insertStop", sora::RESPONSEACTION);
 		timelinePanel->add(btn_TimeLine_insertStop);
 
-		gcn::WButton *btn_TimeLine_deleteStop = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_deleteStr"));
+		gcn::WButton *btn_TimeLine_deleteStop = new gcn::WButton();
+		btn_TimeLine_deleteStop->setFrameSize(0);
+		btn_TimeLine_deleteStop->setNormalImage(MainSceneImageFile,gcn::Rectangle(362,363,23,23));
+		btn_TimeLine_deleteStop->setDownImage(MainSceneImageFile,gcn::Rectangle(431,363,23,23));
 		btn_TimeLine_deleteStop->setId("btn_TimeLine_deleteStop");
-		btn_TimeLine_deleteStop->setSize(50,20);
-		btn_TimeLine_deleteStop->setPosition(btn_TimeLine_changeStop->getX()+btn_TimeLine_changeStop->getWidth()+5,txtField_timeline_Stop->getY());
+		btn_TimeLine_deleteStop->setSize(23,23);
+		btn_TimeLine_deleteStop->setPosition(btn_TimeLine_changeStop->getX()+btn_TimeLine_changeStop->getWidth()+2,txtField_timeline_Stop->getY());
 		btn_TimeLine_deleteStop->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_TimeLine_deleteStop, this, "btn_TimeLine_deleteStop", sora::RESPONSEACTION);
 		timelinePanel->add(btn_TimeLine_deleteStop);
@@ -171,7 +196,7 @@ namespace divaeditor
 		txtField_timeline_BeatNum->enableNumericMode(true);
 		txtField_timeline_BeatNum->setId("txtField_timeline_BeatNum");
 		txtField_timeline_BeatNum->setSize(100,20);
-		txtField_timeline_BeatNum->setPosition(100,140);
+		txtField_timeline_BeatNum->setPosition(txtField_timeline_BPM->getX(),140);
 		sora::SoraGUI::Instance()->registerGUIResponser(txtField_timeline_BeatNum, this, "txtField_timeline_BeatNum", sora::RESPONSEACTION);
 		timelinePanel->add(txtField_timeline_BeatNum);
 
@@ -183,18 +208,24 @@ namespace divaeditor
 		label_timeline_BeatNum->setForegroundColor(gcn::Color(255,255,255,255));
 		timelinePanel->add(label_timeline_BeatNum);
 
-		gcn::WButton *btn_TimeLine_changeBeatNum = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_changeStr"));
+		gcn::WButton *btn_TimeLine_changeBeatNum = new gcn::WButton();
+		btn_TimeLine_changeBeatNum->setFrameSize(0);
+		btn_TimeLine_changeBeatNum->setNormalImage(MainSceneImageFile,gcn::Rectangle(339,363,23,23));
+		btn_TimeLine_changeBeatNum->setDownImage(MainSceneImageFile,gcn::Rectangle(408,363,23,23));
 		btn_TimeLine_changeBeatNum->setId("btn_TimeLine_changeBeatNum");
-		btn_TimeLine_changeBeatNum->setSize(50,20);
+		btn_TimeLine_changeBeatNum->setSize(23,23);
 		btn_TimeLine_changeBeatNum->setPosition(txtField_timeline_BeatNum->getX()+txtField_timeline_BeatNum->getWidth()+5,txtField_timeline_BeatNum->getY());
 		btn_TimeLine_changeBeatNum->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_TimeLine_changeBeatNum, this, "btn_TimeLine_changeBeatNum", sora::RESPONSEACTION);
 		timelinePanel->add(btn_TimeLine_changeBeatNum);
 
-		gcn::WButton *btn_TimeLine_deleteBeatNum = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_deleteStr"));
+		gcn::WButton *btn_TimeLine_deleteBeatNum = new gcn::WButton();
+		btn_TimeLine_deleteBeatNum->setFrameSize(0);
+		btn_TimeLine_deleteBeatNum->setNormalImage(MainSceneImageFile,gcn::Rectangle(362,363,23,23));
+		btn_TimeLine_deleteBeatNum->setDownImage(MainSceneImageFile,gcn::Rectangle(431,363,23,23));
 		btn_TimeLine_deleteBeatNum->setId("btn_TimeLine_deleteBeatNum");
-		btn_TimeLine_deleteBeatNum->setSize(50,20);
-		btn_TimeLine_deleteBeatNum->setPosition(btn_TimeLine_changeBeatNum->getX()+btn_TimeLine_changeBeatNum->getWidth()+5,txtField_timeline_BeatNum->getY());
+		btn_TimeLine_deleteBeatNum->setSize(23,23);
+		btn_TimeLine_deleteBeatNum->setPosition(btn_TimeLine_changeBeatNum->getX()+btn_TimeLine_changeBeatNum->getWidth()+2,txtField_timeline_BeatNum->getY());
 		btn_TimeLine_deleteBeatNum->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_TimeLine_deleteBeatNum, this, "btn_TimeLine_deleteBeatNum", sora::RESPONSEACTION);
 		timelinePanel->add(btn_TimeLine_deleteBeatNum);
@@ -208,7 +239,7 @@ namespace divaeditor
 		txtField_timeline_TailSpeed->enableNumericMode(true);
 		txtField_timeline_TailSpeed->setId("txtField_timeline_TailSpeed");
 		txtField_timeline_TailSpeed->setSize(100,20);
-		txtField_timeline_TailSpeed->setPosition(100,170);
+		txtField_timeline_TailSpeed->setPosition(txtField_timeline_BPM->getX(),170);
 		sora::SoraGUI::Instance()->registerGUIResponser(txtField_timeline_TailSpeed, this, "txtField_timeline_TailSpeed", sora::RESPONSEACTION);
 		timelinePanel->add(txtField_timeline_TailSpeed);
 
@@ -220,9 +251,12 @@ namespace divaeditor
 		label_timeline_TailSpeed->setForegroundColor(gcn::Color(255,255,255,255));
 		timelinePanel->add(label_timeline_TailSpeed);
 
-		gcn::WButton *btn_TimeLine_changeTailSpeed = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_changeStr"));
+		gcn::WButton *btn_TimeLine_changeTailSpeed = new gcn::WButton();
+		btn_TimeLine_changeTailSpeed->setFrameSize(0);
+		btn_TimeLine_changeTailSpeed->setNormalImage(MainSceneImageFile,gcn::Rectangle(316,363,23,23));
+		btn_TimeLine_changeTailSpeed->setDownImage(MainSceneImageFile,gcn::Rectangle(385,363,23,23));
 		btn_TimeLine_changeTailSpeed->setId("btn_TimeLine_changeTailSpeed");
-		btn_TimeLine_changeTailSpeed->setSize(50,20);
+		btn_TimeLine_changeTailSpeed->setSize(23,23);
 		btn_TimeLine_changeTailSpeed->setPosition(txtField_timeline_TailSpeed->getX()+txtField_timeline_TailSpeed->getWidth()+5,txtField_timeline_TailSpeed->getY());
 		btn_TimeLine_changeTailSpeed->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_TimeLine_changeTailSpeed, this, "btn_TimeLine_changeTailSpeed", sora::RESPONSEACTION);
@@ -236,7 +270,7 @@ namespace divaeditor
 	{
 		//Init Note Category
 		gcn::Container *noteCategory = new gcn::Container();
-		noteCategory->setSize(1280,720);
+		noteCategory->setSize(top->getWidth(),top->getHeight());
 		noteCategory->setOpaque(true);
 		noteCategory->setBaseColor(gcn::Color(0,0,0,0));
 
@@ -248,53 +282,30 @@ namespace divaeditor
 		noteCategory->add(noteArea);
 
 
-
-		gcn::BoarderedContainer *toolBox = new gcn::BoarderedContainer();
-		toolBox->setId("toolBox");
-		toolBox->setForegroundColor(gcn::Color(255,255,255,255));
-		toolBox->setSize((noteCategory->getWidth()-noteArea->getWidth())/2-10,noteArea->getHeight());
-		toolBox->setAlpha(150);
-		toolBox->setPosition(noteCategory->getWidth()-toolBox->getWidth()-5,noteArea->getY());
-		noteCategory->add(toolBox);
-
-
-		gcn::WButton *btn_note_expandToolBox = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_btn_expandToolBox"));
-		btn_note_expandToolBox->setId("btn_note_expandToolBox");
-		btn_note_expandToolBox->setSize(toolBox->getWidth(), 40);
-		btn_note_expandToolBox->setPosition(0,0);
-		btn_note_expandToolBox->setForegroundColor(gcn::Color(255,255,255,255));
-		gcn::Color defaultColor = btn_note_expandToolBox->getBaseColor();
-		defaultColor.a = 150;
-		btn_note_expandToolBox->setBaseColor(defaultColor);
-		sora::SoraGUI::Instance()->registerGUIResponser(btn_note_expandToolBox, this, "btn_note_expandToolBox", sora::RESPONSEACTION);
-
-		
-
 #pragma region tool box button set
 
 		gcn::Container *toolBoxButtonSet = new gcn::Container();
 		toolBoxButtonSet->setId("toolBoxButtonSet");
-		toolBoxButtonSet->setSize(400,noteArea->getHeight());
 		toolBoxButtonSet->setBaseColor(gcn::Color(0,0,0,0));
-		toolBoxButtonSet->setPosition(0,0);
-		toolBox->add(toolBoxButtonSet);
-
-		gcn::WLabel *wlable_toolBoxTitle = new gcn::WLabel(LOCALIZATION->getLocalStr(L"MainScene_wlable_toolBoxTitle"));
-		wlable_toolBoxTitle->setForegroundColor(gcn::Color(255,255,255,255));
-		wlable_toolBoxTitle->setBackgroundColor(gcn::Color(0,0,0,0));
-		wlable_toolBoxTitle->setPosition(5,30);
-		wlable_toolBoxTitle->adjustSize();
-		toolBoxButtonSet->add(wlable_toolBoxTitle);
-
-		gcn::WButton *btn_note_flipHorizontal = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_btn_note_flipHorizontal"));
+		toolBoxButtonSet->setPosition(top->getWidth() - 55,noteArea->getY());
+		noteCategory->add(toolBoxButtonSet);
+		
+		gcn::WButton *btn_note_flipHorizontal = new gcn::WButton();
+		btn_note_flipHorizontal->setFrameSize(0);
+		btn_note_flipHorizontal->setNormalImage(MainSceneImageFile,gcn::Rectangle(353,145,45,45));
+		btn_note_flipHorizontal->setDownImage(MainSceneImageFile,gcn::Rectangle(90,318,45,45));
 		btn_note_flipHorizontal->setForegroundColor(gcn::Color(255,255,255,255));
 		btn_note_flipHorizontal->setId("btn_note_flipHorizontal");
-		btn_note_flipHorizontal->setSize(toolBoxButtonSet->getWidth()-10,btn_note_expandToolBox->getHeight());
-		btn_note_flipHorizontal->setPosition(wlable_toolBoxTitle->getX()+5,wlable_toolBoxTitle->getY()+wlable_toolBoxTitle->getHeight()+5);
+		btn_note_flipHorizontal->setSize(45,45);
+		//btn_note_flipHorizontal->setPosition(wlable_toolBoxTitle->getX()+5,wlable_toolBoxTitle->getY()+wlable_toolBoxTitle->getHeight()+5);
+		btn_note_flipHorizontal->setPosition(0,0);
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_note_flipHorizontal, this, "btn_note_flipHorizontal", sora::RESPONSEACTION);
 		toolBoxButtonSet->add(btn_note_flipHorizontal);
 
-		gcn::WButton *btn_note_flipVertical = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_btn_note_flipVertical"));
+		gcn::WButton *btn_note_flipVertical = new gcn::WButton();
+		btn_note_flipVertical->setFrameSize(0);
+		btn_note_flipVertical->setNormalImage(MainSceneImageFile,gcn::Rectangle(443,145,45,45));
+		btn_note_flipVertical->setDownImage(MainSceneImageFile,gcn::Rectangle(173,145,45,45));
 		btn_note_flipVertical->setForegroundColor(gcn::Color(255,255,255,255));
 		btn_note_flipVertical->setId("btn_note_flipVertical");
 		btn_note_flipVertical->setSize(btn_note_flipHorizontal->getWidth(),btn_note_flipHorizontal->getHeight());
@@ -303,7 +314,10 @@ namespace divaeditor
 		toolBoxButtonSet->add(btn_note_flipVertical);
 
 
-		gcn::WButton *btn_note_allToLetter = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_btn_note_allToLetter"));
+		gcn::WButton *btn_note_allToLetter = new gcn::WButton();
+		btn_note_allToLetter->setFrameSize(0);
+		btn_note_allToLetter->setNormalImage(MainSceneImageFile,gcn::Rectangle(263,145,45,45));
+		btn_note_allToLetter->setDownImage(MainSceneImageFile,gcn::Rectangle(315,273,45,45));
 		btn_note_allToLetter->setForegroundColor(gcn::Color(255,255,255,255));
 		btn_note_allToLetter->setId("btn_note_allToLetter");
 		btn_note_allToLetter->setSize(btn_note_flipHorizontal->getWidth(),btn_note_flipHorizontal->getHeight());
@@ -311,7 +325,10 @@ namespace divaeditor
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_note_allToLetter, this, "btn_note_allToLetter", sora::RESPONSEACTION);
 		toolBoxButtonSet->add(btn_note_allToLetter);
 
-		gcn::WButton *btn_note_allToArrow = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_btn_note_allToArrow"));
+		gcn::WButton *btn_note_allToArrow = new gcn::WButton();
+		btn_note_allToArrow->setFrameSize(0);
+		btn_note_allToArrow->setNormalImage(MainSceneImageFile,gcn::Rectangle(128,145,45,45));
+		btn_note_allToArrow->setDownImage(MainSceneImageFile,gcn::Rectangle(90,273,45,45));
 		btn_note_allToArrow->setForegroundColor(gcn::Color(255,255,255,255));
 		btn_note_allToArrow->setId("btn_note_allToArrow");
 		btn_note_allToArrow->setSize(btn_note_flipHorizontal->getWidth(),btn_note_flipHorizontal->getHeight());
@@ -319,7 +336,10 @@ namespace divaeditor
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_note_allToArrow, this, "btn_note_allToArrow", sora::RESPONSEACTION);
 		toolBoxButtonSet->add(btn_note_allToArrow);
 
-		gcn::WButton *btn_note_noteTypeSymmetry = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_btn_note_noteTypeHorizontalSymmetry"));
+		gcn::WButton *btn_note_noteTypeSymmetry = new gcn::WButton();
+		btn_note_noteTypeSymmetry->setFrameSize(0);
+		btn_note_noteTypeSymmetry->setNormalImage(MainSceneImageFile,gcn::Rectangle(308,145,45,45));
+		btn_note_noteTypeSymmetry->setDownImage(MainSceneImageFile,gcn::Rectangle(218,145,45,45));
 		btn_note_noteTypeSymmetry->setForegroundColor(gcn::Color(255,255,255,255));
 		btn_note_noteTypeSymmetry->setId("btn_note_noteTypeSymmetry");
 		btn_note_noteTypeSymmetry->setSize(btn_note_flipHorizontal->getWidth(),btn_note_flipHorizontal->getHeight());
@@ -328,7 +348,10 @@ namespace divaeditor
 		toolBoxButtonSet->add(btn_note_noteTypeSymmetry);
 		
 
-		gcn::WButton *btn_note_simplifyTo2Key = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_btn_note_simplifyTo2Key"));
+		gcn::WButton *btn_note_simplifyTo2Key = new gcn::WButton();
+		btn_note_simplifyTo2Key->setFrameSize(0);
+		btn_note_simplifyTo2Key->setNormalImage(MainSceneImageFile,gcn::Rectangle(45,273,45,45));
+		btn_note_simplifyTo2Key->setDownImage(MainSceneImageFile,gcn::Rectangle(405,273,45,45));
 		btn_note_simplifyTo2Key->setForegroundColor(gcn::Color(255,255,255,255));
 		btn_note_simplifyTo2Key->setId("btn_note_simplifyTo2Key");
 		btn_note_simplifyTo2Key->setSize(btn_note_flipHorizontal->getWidth(),btn_note_flipHorizontal->getHeight());
@@ -336,7 +359,10 @@ namespace divaeditor
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_note_simplifyTo2Key, this, "btn_note_simplifyTo2Key", sora::RESPONSEACTION);
 		toolBoxButtonSet->add(btn_note_simplifyTo2Key);
 
-		gcn::WButton *btn_note_simplifyTo1Key = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_btn_note_simplifyTo1Key"));
+		gcn::WButton *btn_note_simplifyTo1Key = new gcn::WButton();
+		btn_note_simplifyTo1Key->setFrameSize(0);
+		btn_note_simplifyTo1Key->setNormalImage(MainSceneImageFile,gcn::Rectangle(398,145,45,45));
+		btn_note_simplifyTo1Key->setDownImage(MainSceneImageFile,gcn::Rectangle(270,273,45,45));
 		btn_note_simplifyTo1Key->setForegroundColor(gcn::Color(255,255,255,255));
 		btn_note_simplifyTo1Key->setId("btn_note_simplifyTo1Key");
 		btn_note_simplifyTo1Key->setSize(btn_note_flipHorizontal->getWidth(),btn_note_flipHorizontal->getHeight());
@@ -344,7 +370,10 @@ namespace divaeditor
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_note_simplifyTo1Key, this, "btn_note_simplifyTo1Key", sora::RESPONSEACTION);
 		toolBoxButtonSet->add(btn_note_simplifyTo1Key);
 
-		gcn::WButton *btn_note_splitLongNoteToSingle = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_btn_note_splitLongNoteToSingle"));
+		gcn::WButton *btn_note_splitLongNoteToSingle = new gcn::WButton();
+		btn_note_splitLongNoteToSingle->setFrameSize(0);
+		btn_note_splitLongNoteToSingle->setNormalImage(MainSceneImageFile,gcn::Rectangle(0,273,45,45));
+		btn_note_splitLongNoteToSingle->setDownImage(MainSceneImageFile,gcn::Rectangle(360,273,45,45));
 		btn_note_splitLongNoteToSingle->setForegroundColor(gcn::Color(255,255,255,255));
 		btn_note_splitLongNoteToSingle->setId("btn_note_splitLongNoteToSingle");
 		btn_note_splitLongNoteToSingle->setSize(btn_note_flipHorizontal->getWidth(),btn_note_flipHorizontal->getHeight());
@@ -354,7 +383,7 @@ namespace divaeditor
 
 
 
-		toolBoxButtonSet->setSize(400,btn_note_splitLongNoteToSingle->getY() + btn_note_splitLongNoteToSingle->getHeight() + 10);
+		toolBoxButtonSet->setSize(200,btn_note_splitLongNoteToSingle->getY() + btn_note_splitLongNoteToSingle->getHeight() + 10);
 
 #pragma endregion tool box button set
 		
@@ -364,7 +393,7 @@ namespace divaeditor
 		keySoundBox->setForegroundColor(gcn::Color(255,255,255,255));
 		keySoundBox->setSize((noteCategory->getWidth()-noteArea->getWidth())/2-10,noteArea->getHeight());
 		keySoundBox->setAlpha(150);
-		keySoundBox->setPosition(noteCategory->getWidth()-toolBox->getWidth()-5,noteArea->getY()+50);
+		keySoundBox->setPosition(noteCategory->getWidth()-5-keySoundBox->getWidth(),toolBoxButtonSet->getY()+toolBoxButtonSet->getHeight());
 		noteCategory->add(keySoundBox);
 
 
@@ -373,7 +402,7 @@ namespace divaeditor
 		btn_note_expandKeySoundBox->setSize(keySoundBox->getWidth(), 40);
 		btn_note_expandKeySoundBox->setPosition(0,0);
 		btn_note_expandKeySoundBox->setForegroundColor(gcn::Color(255,255,255,255));
-		defaultColor = btn_note_expandKeySoundBox->getBaseColor();
+		gcn::Color defaultColor = btn_note_expandKeySoundBox->getBaseColor();
 		defaultColor.a = 150;
 		btn_note_expandKeySoundBox->setBaseColor(defaultColor);
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_note_expandKeySoundBox, this, "btn_note_expandKeySoundBox", sora::RESPONSEACTION);
@@ -390,7 +419,7 @@ namespace divaeditor
 		gcn::WButton *btn_note_modifyHitSound = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_changeStr"));
 		btn_note_modifyHitSound->setId("btn_note_modifyHitSound");
 		btn_note_modifyHitSound->setSize(50,20);
-		btn_note_modifyHitSound->setPosition(10,100);
+		btn_note_modifyHitSound->setPosition(10,50);
 		btn_note_modifyHitSound->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_note_modifyHitSound, this, "btn_note_modifyHitSound", sora::RESPONSEACTION);
 		keySoundControlSet->add(btn_note_modifyHitSound);
@@ -438,9 +467,6 @@ namespace divaeditor
 
 #pragma endregion key sound box set
 
-		toolBox->add(btn_note_expandToolBox);
-		toolBoxButtonSet->setVisible(false);
-		toolBox->setSize(btn_note_expandToolBox->getWidth(),btn_note_expandToolBox->getHeight());
 
 		keySoundBox->add(btn_note_expandKeySoundBox);
 		keySoundControlSet->setVisible(false);
@@ -470,8 +496,9 @@ namespace divaeditor
 #pragma region resourcePanelControlContainer
 
 		gcn::BoarderedContainer *resourcePanelControlContainer = new gcn::BoarderedContainer();
-		resourcePanelControlContainer->setBaseColor(resourcePanel->getBaseColor());
-		resourcePanelControlContainer->setForegroundColor(gcn::Color(255,255,255,255));
+		resourcePanelControlContainer->setBoarderSize(3);
+		resourcePanelControlContainer->setBaseColor(gcn::Color(16,22,33,200));
+		resourcePanelControlContainer->setForegroundColor(gcn::Color(53,53,53,150));
 		resourcePanelControlContainer->setSize(resourcePanel->getWidth(), 30);
 
 		resourcePanel->setPosition(100,(showCategory->getHeight()-resourcePanel->getHeight()-resourcePanelControlContainer->getHeight())/2);
@@ -479,7 +506,7 @@ namespace divaeditor
 
 		showCategory->add(resourcePanelControlContainer);
 
-		int buttonSize = resourcePanelControlContainer->getHeight()-10;
+		int buttonSize = 23;
 
 		gcn::WButton *btn_resourceLeftPage = new gcn::WButton(L"¡û");
 		btn_resourceLeftPage->setId("btn_resourceLeftPage");
@@ -505,7 +532,10 @@ namespace divaeditor
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_resourceRightPage, this, "btn_resourceRightPage", sora::RESPONSEACTION);
 		resourcePanelControlContainer->add(btn_resourceRightPage);
 
-		gcn::WButton *btn_resourceAdd = new gcn::WButton(L"+");
+		gcn::WButton *btn_resourceAdd = new gcn::WButton();
+		btn_resourceAdd->setFrameSize(0);
+		btn_resourceAdd->setNormalImage(MainSceneImageFile,gcn::Rectangle(339,363,23,23));
+		btn_resourceAdd->setDownImage(MainSceneImageFile,gcn::Rectangle(408,363,23,23));
 		btn_resourceAdd->setId("btn_resourceAdd");
 		btn_resourceAdd->setPosition(resourcePanelControlContainer->getWidth()-buttonSize*2-10,5);
 		btn_resourceAdd->setSize(buttonSize,buttonSize);
@@ -513,7 +543,10 @@ namespace divaeditor
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_resourceAdd, this, "btn_resourceAdd", sora::RESPONSEACTION);
 		resourcePanelControlContainer->add(btn_resourceAdd);
 
-		gcn::WButton *btn_resourceRemove = new gcn::WButton(L"-");
+		gcn::WButton *btn_resourceRemove = new gcn::WButton();
+		btn_resourceRemove->setFrameSize(0);
+		btn_resourceRemove->setNormalImage(MainSceneImageFile,gcn::Rectangle(362,363,23,23));
+		btn_resourceRemove->setDownImage(MainSceneImageFile,gcn::Rectangle(431,363,23,23));
 		btn_resourceRemove->setId("btn_resourceRemove");
 		btn_resourceRemove->setPosition(btn_resourceAdd->getX()+btn_resourceAdd->getWidth()+5,5);
 		btn_resourceRemove->setSize(buttonSize,buttonSize);
@@ -526,10 +559,11 @@ namespace divaeditor
 #pragma region resourceDetail
 
 		gcn::BoarderedContainer *resourceDetailContainer = new gcn::BoarderedContainer();
+		resourceDetailContainer->setBoarderSize(3);
+		resourceDetailContainer->setBaseColor(gcn::Color(16,22,33,200));
+		resourceDetailContainer->setForegroundColor(gcn::Color(53,53,53,150));
 		resourceDetailContainer->setId("resourceDetailContainer");
 		resourceDetailContainer->setSize(resourcePanel->getWidth()+210,resourcePanel->getHeight()/2);
-		resourceDetailContainer->setBaseColor(gcn::Color(41,57,85,100));
-		resourceDetailContainer->setForegroundColor(gcn::Color(255,255,255,255));
 		resourceDetailContainer->setPosition(resourcePanel->getX()+resourcePanel->getWidth()+20,resourcePanel->getY());
 		resourceDetailContainer->setVisible(false);
 		showCategory->add(resourceDetailContainer);
@@ -607,14 +641,20 @@ namespace divaeditor
 		sora::SoraGUI::Instance()->registerGUIResponser(wtextField_resourceDetail_fileEventsPosition, this, "wtextField_resourceDetail_fileEventsPosition", sora::RESPONSEACTION);
 		resourceDetailContainer->add(wtextField_resourceDetail_fileEventsPosition);
 
-		gcn::WButton *btn_resourceDetail_addFileEvent = new gcn::WButton(L"+");
+		gcn::WButton *btn_resourceDetail_addFileEvent = new gcn::WButton();
+		btn_resourceDetail_addFileEvent->setFrameSize(0);
+		btn_resourceDetail_addFileEvent->setNormalImage(MainSceneImageFile,gcn::Rectangle(339,363,23,23));
+		btn_resourceDetail_addFileEvent->setDownImage(MainSceneImageFile,gcn::Rectangle(408,363,23,23));
 		btn_resourceDetail_addFileEvent->setId("btn_resourceDetail_addFileEvent");
 		btn_resourceDetail_addFileEvent->setSize(buttonSize,buttonSize);
 		btn_resourceDetail_addFileEvent->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_resourceDetail_addFileEvent, this, "btn_resourceDetail_addFileEvent", sora::RESPONSEACTION);
 		resourceDetailContainer->add(btn_resourceDetail_addFileEvent);
 
-		gcn::WButton *btn_resourceDetail_removeFileEvent = new gcn::WButton(L"-");
+		gcn::WButton *btn_resourceDetail_removeFileEvent = new gcn::WButton();
+		btn_resourceDetail_removeFileEvent->setFrameSize(0);
+		btn_resourceDetail_removeFileEvent->setNormalImage(MainSceneImageFile,gcn::Rectangle(362,363,23,23));
+		btn_resourceDetail_removeFileEvent->setDownImage(MainSceneImageFile,gcn::Rectangle(431,363,23,23));
 		btn_resourceDetail_removeFileEvent->setId("btn_resourceDetail_removeFileEvent");
 		btn_resourceDetail_removeFileEvent->setSize(buttonSize,buttonSize);
 		btn_resourceDetail_removeFileEvent->setForegroundColor(gcn::Color(255,255,255,255));
@@ -660,39 +700,52 @@ namespace divaeditor
 
 		//Tool Bar
 		container_ToolBar = new Container();
-		container_ToolBar->setSize(510,40);
-		container_ToolBar->setBaseColor(gcn::Color(34,137,227,255));
+		container_ToolBar->setSize(top->getWidth(),56);
+		container_ToolBar->setBaseColor(gcn::Color(0,0,0,120));
 
 #pragma region Category Buttons
 		//Three Category Buttons
 		gcn::WButton *btn_TimeLine = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_btn_TimeLine"));
+		btn_TimeLine->setFrameSize(0);
+		btn_TimeLine->setNormalImage(MainSceneImageFile,gcn::Rectangle(315,318,125,40));
+		btn_TimeLine->setDownImage(MainSceneImageFile,gcn::Rectangle(0,363,125,40));
 		btn_TimeLine->setId("btn_TimeLine");
-		btn_TimeLine->setSize(120,30);
-		btn_TimeLine->setPosition(5,5);
+		btn_TimeLine->setSize(125,40);
+		btn_TimeLine->setPosition(8,7);
 		btn_TimeLine->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_TimeLine, this, "btn_TimeLine", sora::RESPONSEACTION);
 		container_ToolBar->add(btn_TimeLine);
 
 		gcn::WButton *btn_Note = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_btn_Note"));
+		btn_Note->setFrameSize(0);
+		btn_Note->setNormalImage(MainSceneImageFile,gcn::Rectangle(315,318,125,40));
+		btn_Note->setDownImage(MainSceneImageFile,gcn::Rectangle(0,363,125,40));
 		btn_Note->setId("btn_Note");
-		btn_Note->setSize(120,30);
-		btn_Note->setPosition(130,5);
+		btn_Note->setSize(125,40);
+		btn_Note->setPosition(btn_TimeLine->getX()+btn_TimeLine->getWidth()+3,7);
 		btn_Note->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_Note, this, "btn_Note", sora::RESPONSEACTION);
 		container_ToolBar->add(btn_Note);
 
+
 		gcn::WButton *btn_Show = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_btn_Show"));
+		btn_Show->setFrameSize(0);
+		btn_Show->setNormalImage(MainSceneImageFile,gcn::Rectangle(315,318,125,40));
+		btn_Show->setDownImage(MainSceneImageFile,gcn::Rectangle(0,363,125,40));
 		btn_Show->setId("btn_Show");
-		btn_Show->setSize(120,30);
-		btn_Show->setPosition(255,5);
+		btn_Show->setSize(125,40);
+		btn_Show->setPosition(btn_Note->getX()+btn_Note->getWidth()+3,7);
 		btn_Show->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_Show, this, "btn_Show", sora::RESPONSEACTION);
 		container_ToolBar->add(btn_Show);
 
 		gcn::WButton *btn_Category_Play = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_btn_Category_Play"));
+		btn_Category_Play->setFrameSize(0);
+		btn_Category_Play->setNormalImage(MainSceneImageFile,gcn::Rectangle(315,318,125,40));
+		btn_Category_Play->setDownImage(MainSceneImageFile,gcn::Rectangle(0,363,125,40));
 		btn_Category_Play->setId("btn_Category_Play");
-		btn_Category_Play->setSize(120,30);
-		btn_Category_Play->setPosition(380,5);
+		btn_Category_Play->setSize(125,40);
+		btn_Category_Play->setPosition(btn_Show->getX()+btn_Show->getWidth()+3,7);
 		btn_Category_Play->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_Category_Play, this, "btn_Category_Play", sora::RESPONSEACTION);
 		container_ToolBar->add(btn_Category_Play);
@@ -706,34 +759,28 @@ namespace divaeditor
 		//Add Total Time Progress
 		DivaEditorMusicProgressWidget *progressBar = new DivaEditorMusicProgressWidget();
 		progressBar->setId("progressBar");
-		//progressBar->setSize(500,30);
-		//progressBar->setPosition(50,680);
-		progressBar->setSize(390,30);
-		progressBar->setPosition(670,20);
+		progressBar->setSize(277,35);
+		progressBar->setPosition(677,10);
 		progressBar->setBackgroundColor(gcn::Color(0,0,0,150));
 		progressBar->setForegroundColor(gcn::Color(255,255,255,255));
-		top->add(progressBar);
+		container_ToolBar->add(progressBar);
 
-		//Play Control Buttons
-		/*
-		gcn::WButton *btn_Play = new gcn::WButton("Play");
-		btn_Play->setId("btn_Play");
-		btn_Play->setSize(30,30);
-		btn_Play->setPosition(progressBar->getX()+progressBar->getWidth()+5,progressBar->getY());
-		btn_Play->setForegroundColor(gcn::Color(255,255,255,255));
-		sora::SoraGUI::Instance()->registerGUIResponser(btn_Play, this, "btn_Play", sora::RESPONSEACTION);
-		top->add(btn_Play);
-		*/
 
-		gcn::WButton *btn_Pause = new gcn::WButton(L"Pause");
+		gcn::WButton *btn_Pause = new gcn::WButton();
+		btn_Pause->setFrameSize(0);
+		btn_Pause->setNormalImage(MainSceneImageFile,gcn::Rectangle(225,273,45,45));
+		btn_Pause->setDownImage(MainSceneImageFile,gcn::Rectangle(135,318,45,45));
 		btn_Pause->setId("btn_Pause");
-		btn_Pause->setSize(30,30);
-		btn_Pause->setPosition(progressBar->getX()+progressBar->getWidth()+5,progressBar->getY());
+		btn_Pause->setSize(45,45);
+		btn_Pause->setPosition(progressBar->getX()+progressBar->getWidth()+5,progressBar->getY()-5);
 		btn_Pause->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_Pause, this, "btn_Pause", sora::RESPONSEACTION);
 		top->add(btn_Pause);
 
-		gcn::WButton *btn_Stop = new gcn::WButton(L"Stop");
+		gcn::WButton *btn_Stop = new gcn::WButton();
+		btn_Stop->setFrameSize(0);
+		btn_Stop->setNormalImage(MainSceneImageFile,gcn::Rectangle(180,318,45,45));
+		btn_Stop->setDownImage(MainSceneImageFile,gcn::Rectangle(45,318,45,45));
 		btn_Stop->setId("btn_Stop");
 		btn_Stop->setSize(btn_Pause->getWidth(),btn_Pause->getHeight());
 		btn_Stop->setPosition(btn_Pause->getX()+btn_Pause->getWidth()+5,btn_Pause->getY());
@@ -741,21 +788,28 @@ namespace divaeditor
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_Stop, this, "btn_Stop", sora::RESPONSEACTION);
 		top->add(btn_Stop);
 
-		gcn::WButton *btn_SpeedUp = new gcn::WButton(L">>");
-		btn_SpeedUp->setId("btn_SpeedUp");
-		btn_SpeedUp->setSize(14,14);
-		btn_SpeedUp->setPosition(btn_Stop->getX()+btn_Stop->getWidth()+5,btn_Stop->getY());
-		btn_SpeedUp->setForegroundColor(gcn::Color(255,255,255,255));
-		sora::SoraGUI::Instance()->registerGUIResponser(btn_SpeedUp, this, "btn_SpeedUp", sora::RESPONSEACTION);
-		top->add(btn_SpeedUp);
 
-		gcn::WButton *btn_SpeedDown = new gcn::WButton(L"<<");
+		gcn::WButton *btn_SpeedDown = new gcn::WButton();
+		btn_SpeedDown->setFrameSize(0);
+		btn_SpeedDown->setNormalImage(MainSceneImageFile,gcn::Rectangle(450,273,45,45));
+		btn_SpeedDown->setDownImage(MainSceneImageFile,gcn::Rectangle(0,318,45,45));
 		btn_SpeedDown->setId("btn_SpeedDown");
-		btn_SpeedDown->setSize(14,14);
-		btn_SpeedDown->setPosition(btn_SpeedUp->getX(),btn_SpeedUp->getY()+btn_SpeedUp->getHeight()+2);
+		btn_SpeedDown->setSize(btn_Pause->getWidth(),btn_Pause->getHeight());
+		btn_SpeedDown->setPosition(btn_Stop->getX()+btn_Stop->getWidth()+5,btn_Stop->getY());
 		btn_SpeedDown->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_SpeedDown, this, "btn_SpeedDown", sora::RESPONSEACTION);
 		top->add(btn_SpeedDown);
+
+		gcn::WButton *btn_SpeedUp = new gcn::WButton();
+		btn_SpeedUp->setFrameSize(0);
+		btn_SpeedUp->setNormalImage(MainSceneImageFile,gcn::Rectangle(135,273,45,45));
+		btn_SpeedUp->setDownImage(MainSceneImageFile,gcn::Rectangle(225,318,45,45));
+		btn_SpeedUp->setId("btn_SpeedUp");
+		btn_SpeedUp->setSize(btn_Pause->getWidth(),btn_Pause->getHeight());
+		btn_SpeedUp->setPosition(btn_SpeedDown->getX()+btn_SpeedDown->getWidth(),btn_SpeedDown->getY());
+		btn_SpeedUp->setForegroundColor(gcn::Color(255,255,255,255));
+		sora::SoraGUI::Instance()->registerGUIResponser(btn_SpeedUp, this, "btn_SpeedUp", sora::RESPONSEACTION);
+		top->add(btn_SpeedUp);
 
 		gcn::WLabel *wlabel_playTime = new gcn::WLabel();
 		wlabel_playTime->setId("wlabel_playTime");
@@ -772,15 +826,24 @@ namespace divaeditor
 		top->add(wlabel_playPos);
 
 		gcn::WButton *btn_Save = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_btn_Save"));
+		btn_Save->setFrameSize(0);
+		btn_Save->setNormalImage(MainSceneImageFile,gcn::Rectangle(97,403,97,22));
+		btn_Save->setDownImage(MainSceneImageFile,gcn::Rectangle(0,403,97,22));
 		btn_Save->setId("btn_Save");
-		btn_Save->setSize(btn_Pause->getWidth()*2,btn_Pause->getHeight());
+		btn_Save->setSize(97,22);
 		btn_Save->setPosition(top->getWidth() - btn_Save->getWidth()-5, top->getHeight()-btn_Save->getHeight()-5);
 		btn_Save->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_Save, this, "btn_Save", sora::RESPONSEACTION);
 		top->add(btn_Save);
 
-		
-
+		gcn::WCheckBox *wcheckbox_autosave = new gcn::WCheckBox(LOCALIZATION->getLocalStr(L"MainScene_wcheckbox_autosave"));
+		wcheckbox_autosave->setSelected(true);
+		wcheckbox_autosave->setId("wcheckbox_autosave");
+		wcheckbox_autosave->adjustSize();
+		wcheckbox_autosave->setForegroundColor(gcn::Color(255,255,255,255));
+		wcheckbox_autosave->setPosition(btn_Save->getX(),btn_Save->getY() - wcheckbox_autosave->getHeight()-2);
+		sora::SoraGUI::Instance()->registerGUIResponser(wcheckbox_autosave, this, "wcheckbox_autosave", sora::RESPONSEACTION);
+		top->add(wcheckbox_autosave);
 
 
 		Timeline *timeline = new Timeline();
@@ -792,34 +855,46 @@ namespace divaeditor
 		timeline->setMaxGridHeightFactor(0.2);
 		top->add(timeline);
 
-		gcn::WButton *btn_TimeLine_wider = new gcn::WButton(L"-");
+		gcn::WButton *btn_TimeLine_wider = new gcn::WButton();
+		btn_TimeLine_wider->setFrameSize(0);
+		btn_TimeLine_wider->setNormalImage(MainSceneImageFile,gcn::Rectangle(293,363,23,23));
+		btn_TimeLine_wider->setDownImage(MainSceneImageFile,gcn::Rectangle(224,363,23,23));
 		btn_TimeLine_wider->setId("btn_TimeLine_wider");
-		btn_TimeLine_wider->setSize(20,20);
-		btn_TimeLine_wider->setPosition(timeline->getX()+timeline->getWidth()+5,timeline->getY());
+		btn_TimeLine_wider->setSize(23,23);
+		btn_TimeLine_wider->setPosition(timeline->getX()+timeline->getWidth()+3,top->getHeight()-5-btn_TimeLine_wider->getHeight()*2-1);
 		btn_TimeLine_wider->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_TimeLine_wider, this, "btn_TimeLine_wider", sora::RESPONSEACTION);
 		top->add(btn_TimeLine_wider);
 
-		gcn::WButton *btn_TimeLine_tighter = new gcn::WButton(L"+");
+		gcn::WButton *btn_TimeLine_tighter = new gcn::WButton();
+		btn_TimeLine_tighter->setFrameSize(0);
+		btn_TimeLine_tighter->setNormalImage(MainSceneImageFile,gcn::Rectangle(247,363,23,23));
+		btn_TimeLine_tighter->setDownImage(MainSceneImageFile,gcn::Rectangle(270,363,23,23));
 		btn_TimeLine_tighter->setId("btn_TimeLine_tighter");
-		btn_TimeLine_tighter->setSize(20,20);
-		btn_TimeLine_tighter->setPosition(btn_TimeLine_wider->getX(),btn_TimeLine_wider->getY()+btn_TimeLine_wider->getHeight()+5);
+		btn_TimeLine_tighter->setSize(23,23);
+		btn_TimeLine_tighter->setPosition(btn_TimeLine_wider->getX(),btn_TimeLine_wider->getY()+btn_TimeLine_wider->getHeight()+1);
 		btn_TimeLine_tighter->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_TimeLine_tighter, this, "btn_TimeLine_tighter", sora::RESPONSEACTION);
 		top->add(btn_TimeLine_tighter);
 
-		gcn::WButton *btn_TimeLine_deeper = new gcn::WButton(L"¡ý");
+		gcn::WButton *btn_TimeLine_deeper = new gcn::WButton();
+		btn_TimeLine_deeper->setFrameSize(0);
+		btn_TimeLine_deeper->setNormalImage(MainSceneImageFile,gcn::Rectangle(201,363,23,23));
+		btn_TimeLine_deeper->setDownImage(MainSceneImageFile,gcn::Rectangle(155,363,23,23));
 		btn_TimeLine_deeper->setId("btn_TimeLine_deeper");
-		btn_TimeLine_deeper->setSize(20,20);
-		btn_TimeLine_deeper->setPosition(btn_TimeLine_wider->getX()+btn_TimeLine_wider->getWidth()+5,btn_TimeLine_wider->getY());
+		btn_TimeLine_deeper->setSize(23,23);
+		btn_TimeLine_deeper->setPosition(btn_TimeLine_wider->getX()+btn_TimeLine_wider->getWidth()+2,btn_TimeLine_wider->getY());
 		btn_TimeLine_deeper->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_TimeLine_deeper, this, "btn_TimeLine_deeper", sora::RESPONSEACTION);
 		top->add(btn_TimeLine_deeper);
 
-		gcn::WButton *btn_TimeLine_lighter = new gcn::WButton(L"¡ü");
+		gcn::WButton *btn_TimeLine_lighter = new gcn::WButton();
+		btn_TimeLine_lighter->setFrameSize(0);
+		btn_TimeLine_lighter->setNormalImage(MainSceneImageFile,gcn::Rectangle(178,363,23,23));
+		btn_TimeLine_lighter->setDownImage(MainSceneImageFile,gcn::Rectangle(132,363,23,23));
 		btn_TimeLine_lighter->setId("btn_TimeLine_lighter");
-		btn_TimeLine_lighter->setSize(20,20);
-		btn_TimeLine_lighter->setPosition(btn_TimeLine_deeper->getX(),btn_TimeLine_deeper->getY()+btn_TimeLine_deeper->getHeight()+5);
+		btn_TimeLine_lighter->setSize(23,23);
+		btn_TimeLine_lighter->setPosition(btn_TimeLine_deeper->getX(),btn_TimeLine_deeper->getY()+btn_TimeLine_deeper->getHeight()+1);
 		btn_TimeLine_lighter->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_TimeLine_lighter, this, "btn_TimeLine_lighter", sora::RESPONSEACTION);
 		top->add(btn_TimeLine_lighter);
@@ -831,7 +906,7 @@ namespace divaeditor
 		gcn::WCheckBox *wcheckbox_showNote = new gcn::WCheckBox(LOCALIZATION->getLocalStr(L"MainScene_wcheckbox_showNote"));
 		wcheckbox_showNote->setId("wcheckbox_showNote");
 		wcheckbox_showNote->adjustSize();
-		wcheckbox_showNote->setPosition(container_ToolBar->getX()+container_ToolBar->getWidth()+5,5);
+		wcheckbox_showNote->setPosition(btn_Category_Play->getX()+btn_Category_Play->getWidth()+5,2);
 		wcheckbox_showNote->setBaseColor(gcn::Color(0,0,0,150));
 		wcheckbox_showNote->setForegroundColor(gcn::Color(255,255,255,255));
 		wcheckbox_showNote->setCheckForeGroundColor(gcn::Color(0,0,0,255));
@@ -841,7 +916,7 @@ namespace divaeditor
 		gcn::WCheckBox *wcheckbox_showGrid = new gcn::WCheckBox(LOCALIZATION->getLocalStr(L"MainScene_wcheckbox_showGrid"));
 		wcheckbox_showGrid->setId("wcheckbox_showGrid");
 		wcheckbox_showGrid->adjustSize();
-		wcheckbox_showGrid->setPosition(wcheckbox_showNote->getX(),wcheckbox_showNote->getY()+wcheckbox_showNote->getHeight()+5);
+		wcheckbox_showGrid->setPosition(wcheckbox_showNote->getX(),wcheckbox_showNote->getY()+wcheckbox_showNote->getHeight()+1);
 		wcheckbox_showGrid->setBaseColor(gcn::Color(0,0,0,150));
 		wcheckbox_showGrid->setForegroundColor(gcn::Color(255,255,255,255));
 		wcheckbox_showGrid->setCheckForeGroundColor(gcn::Color(0,0,0,255));
@@ -851,7 +926,7 @@ namespace divaeditor
 		gcn::WCheckBox *wcheckbox_showBackground = new gcn::WCheckBox(LOCALIZATION->getLocalStr(L"MainScene_wcheckbox_showBackground"));
 		wcheckbox_showBackground->setId("wcheckbox_showBackground");
 		wcheckbox_showBackground->adjustSize();
-		wcheckbox_showBackground->setPosition(wcheckbox_showGrid->getX(),wcheckbox_showGrid->getY()+wcheckbox_showGrid->getHeight()+5);
+		wcheckbox_showBackground->setPosition(wcheckbox_showGrid->getX(),wcheckbox_showGrid->getY()+wcheckbox_showGrid->getHeight()+1);
 		wcheckbox_showBackground->setBaseColor(gcn::Color(0,0,0,150));
 		wcheckbox_showBackground->setForegroundColor(gcn::Color(255,255,255,255));
 		wcheckbox_showBackground->setCheckForeGroundColor(gcn::Color(0,0,0,255));
@@ -914,18 +989,31 @@ namespace divaeditor
 
 		((divacore::EditMode*)CORE_PTR->getGameMode())->setSound(true,true);
 
+
+		gcn::WButton *btn_TimeLine = (gcn::WButton*)top->findWidgetById("btn_TimeLine");
+		gcn::WButton *btn_Note = (gcn::WButton*)top->findWidgetById("btn_Note");
+		gcn::WButton *btn_Show = (gcn::WButton*)top->findWidgetById("btn_Show");
+		gcn::WButton *btn_Category_Play = (gcn::WButton*)top->findWidgetById("btn_Category_Play");
+		btn_TimeLine->setChecked(false);
+		btn_Note->setChecked(false);
+		btn_Show->setChecked(false);
+		btn_Category_Play->setChecked(false);
+
 		if(nowState==State::TIMELINE)
 		{
+			btn_TimeLine->setChecked(true);
 			EDITCONFIG->display_grid=false;
 			((divacore::EditMode*)CORE_PTR->getGameMode())->setSound(false,false);
 		}
 		else if(nowState==State::NOTE)
 		{
+			btn_Note->setChecked(true);
 			timeline->setEnabled(true);
 			wlabel_nowPlaceNoteCategory->setVisible(true);
 		}
 		else if(nowState==State::SHOW)
 		{
+			btn_Show->setChecked(true);
 			EDITCONFIG->display_grid=false;
 			EDITCONFIG->display_note=false;
 			refreshResourcePanelDetail();
@@ -933,6 +1021,7 @@ namespace divaeditor
 		}
 		else if(nowState==State::PREVIEW)
 		{
+			btn_Category_Play->setChecked(true);
 			EDITCONFIG->display_grid=false;
 		}
 		
@@ -995,7 +1084,7 @@ namespace divaeditor
 
 			if(!(txtField_timeline_BPM->isFocused()||btn_TimeLine_changeBPM->isFocused()||btn_TimeLine_insertBPM->isFocused()||btn_TimeLine_deleteBPM->isFocused()))
 			{
-				txtField_timeline_BPM->setText(fTows(EDITOR_PTR->mapData->getBPM(CORE_PTR->getRunPosition()),2));
+				txtField_timeline_BPM->setText(dTows(EDITOR_PTR->mapData->getBPM(CORE_PTR->getRunPosition()),3));
 			}
 			if(!(txtField_timeline_offSet->isFocused()||btn_TimeLine_changeOffset->isFocused()))
 			{
@@ -1068,6 +1157,17 @@ namespace divaeditor
 				}
 			}
 		}
+
+		//check auto update
+		if(EDITCONFIG->isAutoSave)
+		{
+			EDITCONFIG->lastSavedTimeDelta += dt;
+			if(EDITCONFIG->lastSavedTimeDelta > EDITCONFIG->AutoSaveTime)
+			{
+				EDITCONFIG->lastSavedTimeDelta = 0;
+				EDITOR_PTR->mapData->SaveFile();
+			}
+		}
 	}
 
 	void DivaEditorMainScene::willAppear()
@@ -1102,6 +1202,8 @@ namespace divaeditor
 		std::wstring missPath = EDITOR_PTR->mapData->coreInfoPtr->resources["miss"].filePath;
 		wlabel_globalMissSound->setCaption(LOCALIZATION->getLocalStr(L"MainScene_wlabel_globalMissSound") + L": " + (missPath==L""?LOCALIZATION->getLocalStr(L"GlobalSoundDisabled"):missPath));
 		wlabel_globalMissSound->adjustSize();
+
+		EditUtility.refreshAll();
 	}
 	void DivaEditorMainScene::willDisappear()
 	{
@@ -1221,13 +1323,13 @@ namespace divaeditor
 
 			int thisBPMPos = EDITOR_PTR->mapData->getBPMPos(nowTimePos),
 				nextBPMPos = EDITOR_PTR->mapData->getNextBPMPos(nowTimePos);
-			float oldBPM = EDITOR_PTR->mapData->getBPM(nowTimePos),
-				newBPM = ((WTextField*)container_Categories[State::TIMELINE]->findWidgetById("txtField_timeline_BPM"))->getFloat();
+			double oldBPM = EDITOR_PTR->mapData->getBPM(nowTimePos),
+				newBPM = ((WTextField*)container_Categories[State::TIMELINE]->findWidgetById("txtField_timeline_BPM"))->getDouble();
 
 			if(newBPM<10) newBPM=10;
 			else if(newBPM>999) newBPM=999;
 
-			if(newBPM==oldBPM) return;
+			if(abs(newBPM-oldBPM)<1e-6) return;
 
 			bool needReverse = newBPM>oldBPM;
 
@@ -1267,13 +1369,13 @@ namespace divaeditor
 
 			int thisBPMPos = EDITOR_PTR->mapData->getNearestStandardGrid(nowTimePos, EDITCONFIG->getGridToShowPerBeat()),
 				nextBPMPos = EDITOR_PTR->mapData->getNextBPMPos(nowTimePos);
-			float oldBPM = EDITOR_PTR->mapData->getBPM(nowTimePos),
-				newBPM = ((WTextField*)container_Categories[State::TIMELINE]->findWidgetById("txtField_timeline_BPM"))->getFloat();
+			double oldBPM = EDITOR_PTR->mapData->getBPM(nowTimePos),
+				newBPM = ((WTextField*)container_Categories[State::TIMELINE]->findWidgetById("txtField_timeline_BPM"))->getDouble();
 
 			if(newBPM<10) newBPM=10;
 			else if(newBPM>999) newBPM=999;
 
-			if(newBPM==oldBPM) return;
+			if(abs(newBPM-oldBPM)<1e-6) return;
 
 
 			bool needReverse = newBPM>oldBPM;
@@ -1318,8 +1420,8 @@ namespace divaeditor
 
 			int thisBPMPos = EDITOR_PTR->mapData->getBPMPos(nowTimePos),
 				nextBPMPos = EDITOR_PTR->mapData->getNextBPMPos(nowTimePos);
-			float oldBPM = EDITOR_PTR->mapData->getBPM(nowTimePos),
-				newBPM = divacore::Argument::asFloat("value", EDITOR_PTR->mapData->coreInfoPtr->events[prevBPMIndex].arg);
+			double oldBPM = EDITOR_PTR->mapData->getBPM(nowTimePos),
+				newBPM = divacore::Argument::asDouble("value", EDITOR_PTR->mapData->coreInfoPtr->events[prevBPMIndex].arg);
 
 			if(newBPM<10) newBPM=10;
 			else if(newBPM>999) newBPM=999;
@@ -1467,37 +1569,6 @@ namespace divaeditor
 
 #pragma region toolbox
 
-		else if(getID()=="btn_note_expandToolBox")
-		{
-			gcn::BoarderedContainer *toolBox = (gcn::BoarderedContainer*)container_Categories[State::NOTE]->findWidgetById("toolBox");
-			gcn::Container *toolBoxButtonSet = (gcn::Container*)container_Categories[State::NOTE]->findWidgetById("toolBoxButtonSet");
-			gcn::WButton *btn_note_expandToolBox = (gcn::WButton*)container_Categories[State::NOTE]->findWidgetById("btn_note_expandToolBox");
-
-			if(btn_note_expandToolBox->getCaption() == LOCALIZATION->getLocalStr(L"MainScene_btn_expandToolBox"))
-			{
-				//Expand
-				toolBox->setSize(toolBoxButtonSet->getWidth() + toolBoxButtonSet->getX()+5,toolBoxButtonSet->getHeight());
-				toolBox->setPosition(container_Categories[State::NOTE]->getWidth() - toolBox->getWidth() - 5, toolBox->getY());
-
-				toolBoxButtonSet->setVisible(true);
-
-				btn_note_expandToolBox->setPosition(toolBox->getWidth()-btn_note_expandToolBox->getWidth(),0);
-				btn_note_expandToolBox->setCaption(LOCALIZATION->getLocalStr(L"MainScene_btn_expandToolBoxHide"));
-
-				container_Categories[State::NOTE]->moveToTop(toolBox);
-			}
-			else if(btn_note_expandToolBox->getCaption() == LOCALIZATION->getLocalStr(L"MainScene_btn_expandToolBoxHide"))
-			{
-				toolBox->setSize(btn_note_expandToolBox->getWidth(),btn_note_expandToolBox->getHeight());
-				toolBox->setPosition(container_Categories[State::NOTE]->getWidth() - toolBox->getWidth() - 5, toolBox->getY());
-
-				toolBoxButtonSet->setVisible(false);
-
-				btn_note_expandToolBox->setPosition(0,0);
-				btn_note_expandToolBox->setCaption(LOCALIZATION->getLocalStr(L"MainScene_btn_expandToolBox"));
-			}
-		}
-
 		else if(getID()=="btn_note_flipHorizontal")
 		{
 			if(EDITCONFIG->noteSelected.size()>0)
@@ -1587,19 +1658,23 @@ namespace divaeditor
 
 		else if(getID()=="btn_note_expandKeySoundBox")
 		{
+			NoteArea *noteArea = (NoteArea*)container_Categories[State::NOTE]->findWidgetById("NoteArea");
 			gcn::BoarderedContainer *keySoundBox = (gcn::BoarderedContainer*)container_Categories[State::NOTE]->findWidgetById("keySoundBox");
 			gcn::Container *keySoundControlSet = (gcn::Container*)container_Categories[State::NOTE]->findWidgetById("keySoundControlSet");
 			gcn::WButton *btn_note_expandKeySoundBox = (gcn::WButton*)container_Categories[State::NOTE]->findWidgetById("btn_note_expandKeySoundBox");
+			gcn::Container *toolBoxButtonSet = (gcn::Container*)container_Categories[State::NOTE]->findWidgetById("toolBoxButtonSet");
 
 			if(btn_note_expandKeySoundBox->getCaption() == LOCALIZATION->getLocalStr(L"MainScene_btn_note_expandKeySoundBox"))
 			{
 				//Expand
+				int yDelta = keySoundBox->getY() - noteArea->getY();
+
 				keySoundBox->setSize(keySoundControlSet->getWidth() + keySoundControlSet->getX()+5,keySoundControlSet->getHeight());
-				keySoundBox->setPosition(container_Categories[State::NOTE]->getWidth() - keySoundBox->getWidth() - 5, keySoundBox->getY() - 50);
+				keySoundBox->setPosition(container_Categories[State::NOTE]->getWidth() - keySoundBox->getWidth() - 5, noteArea->getY());
 
 				keySoundControlSet->setVisible(true);
 
-				btn_note_expandKeySoundBox->setPosition(keySoundBox->getWidth()-btn_note_expandKeySoundBox->getWidth(),50);
+				btn_note_expandKeySoundBox->setPosition(keySoundBox->getWidth()-btn_note_expandKeySoundBox->getWidth(),yDelta);
 				btn_note_expandKeySoundBox->setCaption(LOCALIZATION->getLocalStr(L"MainScene_btn_expandToolBoxHide"));
 
 				container_Categories[State::NOTE]->moveToTop(keySoundBox);
@@ -1607,7 +1682,7 @@ namespace divaeditor
 			else if(btn_note_expandKeySoundBox->getCaption() == LOCALIZATION->getLocalStr(L"MainScene_btn_expandToolBoxHide"))
 			{
 				keySoundBox->setSize(btn_note_expandKeySoundBox->getWidth(),btn_note_expandKeySoundBox->getHeight());
-				keySoundBox->setPosition(container_Categories[State::NOTE]->getWidth() - keySoundBox->getWidth() - 5, keySoundBox->getY()+50);
+				keySoundBox->setPosition(container_Categories[State::NOTE]->getWidth() - keySoundBox->getWidth() - 5, toolBoxButtonSet->getY()+toolBoxButtonSet->getHeight());
 
 				keySoundControlSet->setVisible(false);
 
@@ -1782,6 +1857,14 @@ namespace divaeditor
 		{
 			EDITOR_PTR->mapData->SaveFile();
 		}
+		else if(getID() == "wcheckbox_autosave")
+		{
+			gcn::WCheckBox *wcheckbox_autoSave = (gcn::WCheckBox*)top->findWidgetById("wcheckbox_autosave");
+			if(!EDITCONFIG->isAutoSave)
+				EDITCONFIG->lastSavedTimeDelta = 0;
+			EDITCONFIG->isAutoSave = wcheckbox_autoSave->isSelected();
+		}
+		
 
 #pragma endregion Editor Controls
 	}
@@ -1831,6 +1914,8 @@ namespace divaeditor
 			btn_resourceDetail_addFileEvent->setPosition(wlistbox_resourceDetail_fileEventsValue->getX()+5, 
 				wlistbox_resourceDetail_fileEventsValue->getY() + wlistbox_resourceDetail_fileEventsValue->getHeight()+5);
 			btn_resourceDetail_removeFileEvent->setPosition(btn_resourceDetail_addFileEvent->getX()+btn_resourceDetail_addFileEvent->getWidth()+5, btn_resourceDetail_addFileEvent->getY());
+
+			resourceDetailContainer->setSize(resourceDetailContainer->getWidth(), btn_resourceDetail_addFileEvent->getY()+btn_resourceDetail_addFileEvent->getHeight()+10);
 		}
 		else
 			resourceDetailContainer->setVisible(false);
@@ -1966,18 +2051,11 @@ namespace divaeditor
 				else if(posDelta>0)
 					posDelta = EDITOR_PTR->mapData->getNextStandardGrid(thisPos ,EDITCONFIG->getGridToShowPerBeat())-thisPos;
 
-				DivaEditorOperationSet *thisModifySet = new DivaEditorOperationSet();
-				thisModifySet->needToRecalcTime = true;
-				for (int i=0;i<EDITCONFIG->noteSelected.size();i++)
-					thisModifySet->addOperation(new DivaEditorOperation_ModifyNote(EDITCONFIG->noteSelected[i],posDelta,true));
-				EDITCONFIG->addAndDoOperation(thisModifySet);
+				EDITOR_PTR->mapData->modifySelectedNotesPos(posDelta);
 			}
 			else if(typeDelta!=0)
 			{
-				DivaEditorOperationSet *thisModifySet = new DivaEditorOperationSet();
-				for (int i=0;i<EDITCONFIG->noteSelected.size();i++)
-					thisModifySet->addOperation(new DivaEditorOperation_ModifyNote(EDITCONFIG->noteSelected[i],typeDelta,true,true));
-				EDITCONFIG->addAndDoOperation(thisModifySet);
+				EDITOR_PTR->mapData->modifySelectedNotesType(typeDelta);
 			}
 
 		}

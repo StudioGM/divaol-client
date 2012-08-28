@@ -42,7 +42,6 @@ namespace divaeditor
 		setBaseColor(gcn::Color(0,0,0,0));
 	}
 
-
 	void Timeline::draw(gcn::Graphics* graphics)
 	{
 		gcn::Color backGroundColor = getBackgroundColor();
@@ -325,7 +324,7 @@ namespace divaeditor
 					graphics->setColor(bpmLineColor);
 					graphics->drawLine(bpmPx,0,bpmPx,height-1);
 					graphics->setFont(getFont());
-					graphics->drawText("BPM:" + fTos(divacore::Argument::asFloat("value", i->arg),2) ,bpmPx+2, 0);
+					graphics->drawTextW(L"BPM:" + dTows(divacore::Argument::asDouble("value", i->arg),3) ,bpmPx+2, 0);
 				}
 			}
 #pragma endregion Draw BPM Lines
@@ -446,7 +445,7 @@ namespace divaeditor
 					//If drag long note pos not detected, then it means drag note
 					if(!dragingLongPos)
 					{
-						lastDragPos = EDITOR_PTR->mapData->getNearestStandardGrid((float)nowMouseXPos/width * rangeGridNum+leftPos, EDITCONFIG->getGridToShowPerBeat());
+						lastDragPos = EDITOR_PTR->mapData->coreInfoPtr->notes[toSelect].notePoint[0].position;
 						lastDragType = ((float)nowMouseYPos/(height*0.8))*8;
 
 						isDraggingNote=true;
@@ -477,51 +476,58 @@ namespace divaeditor
 					{
 						EDITCONFIG->LockOperation(getId()+"_drag");
 
-						DivaEditorOperationSet *thisModifySet = new DivaEditorOperationSet();
-						thisModifySet->needToRecalcTime = true;
-
-						for (int i=0;i<EDITCONFIG->noteSelected.size();i++)
-							thisModifySet->addOperation(new DivaEditorOperation_ModifyNote(EDITCONFIG->noteSelected[i],nowDragPos-lastDragPos,true));
-
-						EDITCONFIG->addAndDoOperation(thisModifySet, getId()+"_drag");
-
-						if(!firstDrag)
-							EDITCONFIG->mergeLastTwoOperation();
-						else
+						if(EDITOR_PTR->mapData->modifySelectedNotesPos(nowDragPos-lastDragPos,getId()+"_drag"))
 						{
-							if(EDITCONFIG->isshift)
-								lockDragPos=true;
-						}
+							if(!firstDrag)
+							{
+								//int thisDragDelta = nowDragPos-lastDragPos;
+								//if((thisDragDelta<0&&lastDragDelta<0) || (thisDragDelta>0&&lastDragDelta>0))
+									EDITCONFIG->mergeLastTwoOperation();
+							}
+							else
+							{
+								if(EDITCONFIG->isshift)
+									lockDragPos=true;
+							}
 
-						firstDrag=false;
+							lastDragDelta = nowDragPos-lastDragPos;
+							
+							firstDrag=false;
+
+							lastDragPos=nowDragPos;
+						}
 					}
 
 					if(nowDragType!=lastDragType&&!lockDragPos)
 					{
 						EDITCONFIG->LockOperation(getId()+"_drag");
 
-						DivaEditorOperationSet *thisModifySet = new DivaEditorOperationSet();
-
-						for (int i=0;i<EDITCONFIG->noteSelected.size();i++)
-							thisModifySet->addOperation(new DivaEditorOperation_ModifyNote(EDITCONFIG->noteSelected[i],nowDragType-lastDragType,true,true));
-
-						EDITCONFIG->addAndDoOperation(thisModifySet, getId()+"_drag");
-
-						if(!firstDrag)
-							EDITCONFIG->mergeLastTwoOperation();
-						else
+						if(EDITOR_PTR->mapData->modifySelectedNotesType(nowDragType-lastDragType, getId()+"_drag"))
 						{
-							if(EDITCONFIG->isshift)
-								lockDragType=true;
-						}
+							if(!firstDrag)
+							{
+								//int thisDragDelta = nowDragType-lastDragType;
+								//if((thisDragDelta<0&&lastDragDelta<0) || (thisDragDelta>0&&lastDragDelta>0))
+									EDITCONFIG->mergeLastTwoOperation();
+							}
+							else
+							{
+								if(EDITCONFIG->isshift)
+									lockDragType=true;
+							}
 
-						firstDrag=false;
+							lastDragDelta = nowDragType-lastDragType;
+
+							firstDrag=false;
+
+							lastDragType = nowDragType;
+						}
 					}
 				}
 
-				lastDragPos=nowDragPos;
+				
 
-				lastDragType = nowDragType;
+				
 			}
 		}
 		

@@ -705,6 +705,43 @@ namespace divaeditor
 		}
 	}
 
+	bool DivaEditorMapData::isNoteConflict(divacore::MapNote &note, bool ignoreSelected)
+	{
+		for(int i=0;i<note.notePoint.size();i++)
+			if(note.notePoint[i].position<0 || note.notePoint[i].position>CORE_FLOW_PTR->getTotalPosition())
+				return true;
+
+		int deltaAccess = coreInfoPtr->notes.size()/10;
+
+		int nowIndex = 0;
+		if(deltaAccess>0)
+			while(nowIndex+deltaAccess < coreInfoPtr->notes.size() && 
+					coreInfoPtr->notes[nowIndex+deltaAccess].notePoint[coreInfoPtr->notes[nowIndex+deltaAccess].notePoint.size()-1].position 
+								< note.notePoint[0].position)
+					nowIndex += deltaAccess;
+
+		for (;nowIndex<coreInfoPtr->notes.size();nowIndex++)
+		{
+			if(ignoreSelected&&EDITCONFIG->isNoteSelected(nowIndex))
+				continue;
+			if(coreInfoPtr->notes[nowIndex].notePoint[0].position > note.notePoint[note.notePoint.size()-1].position)
+				break;
+
+			int note1_left=coreInfoPtr->notes[nowIndex].notePoint[0].position,
+				note1_right=coreInfoPtr->notes[nowIndex].notePoint[coreInfoPtr->notes[nowIndex].notePoint.size()-1].position,
+				note1_type = coreInfoPtr->notes[nowIndex].notePoint[0].type,
+				note2_left=note.notePoint[0].position,
+				note2_right=note.notePoint[note.notePoint.size()-1].position,
+				note2_type = note.notePoint[0].type;
+
+			if( (note1_type==note2_type) && (!(note1_right<note2_left || note1_left > note2_right)) )
+				return true;
+		}
+
+		return false;
+	}
+
+
 
 	//Grid and period operation
 	int DivaEditorMapData::decodeOriginalGrid(int grid)
@@ -1049,10 +1086,10 @@ namespace divaeditor
 	}
 
 	//BPM
-	float DivaEditorMapData::getBPM(float pos)
+	double DivaEditorMapData::getBPM(float pos)
 	{
 		int nowBPMIndex=findLastOrEqualEventIndex(pos,"bpm");
-		return divacore::Argument::asFloat("value",coreInfoPtr->events[nowBPMIndex].arg);
+		return divacore::Argument::asDouble("value",coreInfoPtr->events[nowBPMIndex].arg);
 	}
 	int DivaEditorMapData::getBPMPos(float pos)
 	{
@@ -1077,15 +1114,15 @@ namespace divaeditor
 		return -1;
 	}
 	
-	void DivaEditorMapData::bpm_change(float pos, float bpm)
+	void DivaEditorMapData::bpm_change(float pos, double bpm)
 	{
 		if(bpm<=0) return;
 		int nowBPMIndex=findLastOrEqualEventIndex(pos,"bpm");
-		coreInfoPtr->events[nowBPMIndex].arg["value"] = sora::SoraAny((double)bpm);
+		coreInfoPtr->events[nowBPMIndex].arg["value"] = sora::SoraAny(bpm);
 		adjustEventOrder(nowBPMIndex);
 		EDITUTILITY.reCaltTime();
 	}
-	void DivaEditorMapData::bpm_insert(float pos, float bpm)
+	void DivaEditorMapData::bpm_insert(float pos, double bpm)
 	{
 		if(bpm<=0) return;
 		//Get Nearest Standard Grid
@@ -1094,7 +1131,7 @@ namespace divaeditor
 		//Check if already exist or last bpm index is equal with this one
 		int findBPMIndex = findLastOrEqualEventIndex(toInsertPos,"bpm");
 
-		float lastBPMValue = divacore::Argument::asFloat("value",coreInfoPtr->events[findBPMIndex].arg);
+		double lastBPMValue = divacore::Argument::asDouble("value",coreInfoPtr->events[findBPMIndex].arg);
 
 		if(coreInfoPtr->events[findBPMIndex].position == toInsertPos) // meas change
 		{
@@ -1105,7 +1142,7 @@ namespace divaeditor
 			divacore::MapEvent eventToPush;
 			eventToPush.eventType = "bpm";
 			eventToPush.position = toInsertPos;
-			eventToPush.arg["value"] = sora::SoraAny((double)bpm);
+			eventToPush.arg["value"] = sora::SoraAny(bpm);
 			coreInfoPtr->events.push_back(eventToPush);
 			adjustEventOrder(coreInfoPtr->events.size()-1);
 			EDITUTILITY.reCaltTime();
@@ -1449,6 +1486,60 @@ namespace divaeditor
 		resourceDescription[type] = safeFileName;
 	}
 
+	bool DivaEditorMapData::modifySelectedNotesPos(int posDelta, std::string operationID)
+	{
+		if(posDelta==0)
+			return false;
 
+		//Check conflict here
+		for (int i=0;i<EDITCONFIG->noteSelected.size();i++)
+		{
+			divacore::MapNote thisNote = coreInfoPtr->notes[EDITCONFIG->noteSelected[i]];
+			for(int notePosI = 0;notePosI < thisNote.notePoint.size();notePosI++)
+				thisNote.notePoint[notePosI].position += posDelta;
+			if(isNoteConflict(thisNote,true))
+				return false;
+		}
+
+
+		DivaEditorOperationSet *thisModifySet = new DivaEditorOperationSet();
+		for (int i=posDelta<0?0:(EDITCONFIG->noteSelected.size()-1);posDelta<0?(i<EDITCONFIG->noteSelected.size()):(i>=0);posDelta<0?(i++):(i--))
+			thisModifySet->addOperation(new DivaEditorOperation_ModifyNote(EDITCONFIG->noteSelected[i],posDelta,true));
+		EDITCONFIG->addAndDoOperation(thisModifySet,operationID);
+
+		return true;
+	}
+
+	bool DivaEditorMapData::modifySelectedNotesType(int typeDelta, std::string operationID)
+	{
+		if(typeDelta==0)
+			return false;
+
+		//Check conflict here
+		for (int i=0;i<EDITCONFIG->noteSelected.size();i++)
+		{
+			divacore::MapNote thisNote = coreInfoPtr->notes[EDITCONFIG->noteSelected[i]];
+
+			int thisType = thisNote.notePoint[0].type;
+			thisType = getNoteTypeIndexFromNoteType(thisType);
+
+			if(thisType+typeDelta<0||thisType+typeDelta>=8)
+				return false;
+
+			for(int notePosI = 0;notePosI < thisNote.notePoint.size();notePosI++)
+				thisNote.notePoint[notePosI].type = getNoteTypeFromNoteTypeIndex(thisType+typeDelta);
+
+			if(isNoteConflict(thisNote,true))
+				return false;
+		}
+
+
+		DivaEditorOperationSet *thisModifySet = new DivaEditorOperationSet();
+		for (int i=typeDelta<0?0:(EDITCONFIG->noteSelected.size()-1);typeDelta<0?(i<EDITCONFIG->noteSelected.size()):(i>=0);typeDelta<0?(i++):(i--))
+			thisModifySet->addOperation(new DivaEditorOperation_ModifyNote(EDITCONFIG->noteSelected[i],typeDelta,true,true));
+		EDITCONFIG->addAndDoOperation(thisModifySet, operationID);
+
+		return true;
+	}
 
 }

@@ -159,6 +159,8 @@ namespace divaeditor
 		int getNoteTypeIndexFromNoteType(int noteType);
 		int getNoteTypeFromNoteTypeIndex(int noteTypeIndex);
 
+		bool isNoteConflict(divacore::MapNote &note, bool ignoreSelected);
+
 		void sortNote();
 
 		void guessThisNotePositionByLastTwo(int pos, int& out_x,int &out_y,int &tail_x,int &tail_y);
@@ -194,13 +196,13 @@ namespace divaeditor
 
 
 		///////////////BPM operation
-		float getBPM(float pos);
+		double getBPM(float pos);
 		int getBPMPos(float pos);
 		int getNextBPMPos(float pos);
 		int getPrevBPMIndex(float pos);
 
-		void bpm_change(float pos, float bpm);
-		void bpm_insert(float pos, float bpm);
+		void bpm_change(float pos, double bpm);
+		void bpm_insert(float pos, double bpm);
 		void bpm_delete(float pos);
 
 
@@ -211,6 +213,10 @@ namespace divaeditor
 
 		///////////////Move All Things
 		bool moveAll(int left, int right, int delta);
+
+
+		bool modifySelectedNotesPos(int posDelta, std::string operationID = "");
+		bool modifySelectedNotesType(int typeDelta, std::string operationID = "");
 	};
 
 

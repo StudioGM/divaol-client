@@ -47,20 +47,11 @@
   "displayImage": "显示图片",
   "playMusic": "播放音乐",
   "Event_detail": "%s (时间点%d)",
-  "MainScene_wlable_toolBoxTitle": "对选中的NOTE操作：",
-  "MainScene_btn_expandToolBox": "工具箱",
   "MainScene_btn_expandToolBoxHide": "隐藏",
-  "MainScene_btn_note_flipHorizontal": "在画布中水平翻转",
-  "MainScene_btn_note_flipVertical": "在画布中垂直翻转",
-  "MainScene_btn_note_allToLetter": "将方向键转化为字母键",
-  "MainScene_btn_note_allToArrow": "将字母键转化为方向键",
-  "MainScene_btn_note_noteTypeHorizontalSymmetry": "将按键左右对称",
-  "MainScene_btn_note_simplifyTo2Key": "简化至2种按键",
-  "MainScene_btn_note_simplifyTo1Key": "简化至1种按键",
-  "MainScene_btn_note_splitLongNoteToSingle": "将长条拆分为两个单键音符",
   "MainScene_btn_note_expandKeySoundBox": "击打音效",
   "MainScene_wlabel_globalHitSound": "全局击打音",
   "MainScene_wlabel_globalMissSound": "全局丢失音",
   "GlobalSoundDisabled": "已禁用",
-  "MainScene_wcheckbox_timeline_moveNote": "改变时间轴的同时移动受影响的音符"
+  "MainScene_wcheckbox_timeline_moveNote": "改变时间轴的同时移动受影响的音符",
+  "MainScene_wcheckbox_autosave": "自动"
 }

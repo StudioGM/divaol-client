@@ -90,6 +90,7 @@ namespace gcn
 		 **/
 		virtual int getNumber() const;
 		virtual float getFloat();
+		virtual double getDouble();
 		
         // Inherited from Widget
         virtual void fontChanged();

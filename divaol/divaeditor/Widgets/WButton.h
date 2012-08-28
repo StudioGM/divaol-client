@@ -130,6 +130,12 @@ namespace gcn
         
         virtual bool isHasMouse() const;
 
+		void setNormalImage(std::wstring filename, gcn::Rectangle srcRect);
+		void setOnImage(std::wstring filename, gcn::Rectangle srcRect);
+		void setDownImage(std::wstring filename, gcn::Rectangle srcRect);
+
+		void setChecked(bool checked);
+
     protected:
         /**
          * Checks if the button is pressed. Convenient method to use
@@ -139,10 +145,18 @@ namespace gcn
          */
         bool isPressed() const;
 
+
+		void resetInit();
         /**
          * Holds the caption of the button.
          */
         std::wstring mCaption;
+
+		bool checked;
+
+		bool isUsingPic;
+		gcn::Image *image_normal,*image_down,*image_on;
+		gcn::Rectangle srcRect_normal, srcRect_down, srcRect_on;
 
         /**
          * True if the mouse is ontop of the button, false otherwise.

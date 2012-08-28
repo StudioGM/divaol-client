@@ -27,6 +27,7 @@ namespace gcn
         // Inherited from ImageLoader
 
         virtual Image* load(const std::string &filename, bool convertToDisplayFormat = true);
+		virtual Image* load(const std::wstring &filename, bool convertToDisplayFormat = true);
 
     protected:
         sora::SoraCore* sora;

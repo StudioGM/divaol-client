@@ -96,6 +96,7 @@ namespace gcn
          * @since 0.5.0
          */
         static Image* load(const std::string& filename, bool convertToDisplayFormat = true);
+		static Image* load(const std::wstring& filename, bool convertToDisplayFormat = true);
 		
 
         /**
