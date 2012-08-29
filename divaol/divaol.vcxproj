@@ -524,6 +524,9 @@
     <ClInclude Include="divacore\Lib\Base\Uncopyable.h" />
     <ClInclude Include="divacore\Mode\DivaEditMode.h" />
     <ClInclude Include="divacore\Mode\DivaMultiPlay.h" />
+    <ClInclude Include="divacore\Mode\DivaPairPlay.h" />
+    <ClInclude Include="divacore\Mode\DivaRelayPlay.h" />
+    <ClInclude Include="divacore\Mode\DivaRelayUI.h" />
     <ClInclude Include="divacore\Mode\DivaSinglePlay.h" />
     <ClInclude Include="divacore\MusicManager\DivaBassMusicManager.h" />
     <ClInclude Include="divacore\MusicManager\DivaFmodMusicManager.h" />

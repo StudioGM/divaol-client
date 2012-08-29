@@ -54,15 +54,28 @@ namespace divacore
 			}
 		}
 	}
-	void NetGameInfo::updateSingle(GPacket *packet)
+	void NetGameInfo::updateInfoFromPacket(GPacket *packet)
 	{
 		gnet::Item<gnet::List> *list = dynamic_cast<gnet::Item<gnet::List>*>(packet->getItem(2));
 
 		for(int i = 0; i < mPlayers.size(); i++)
+			if(i!=myPlayerID)
+			{
+				GPacket *player = dynamic_cast<GPacket*>(list->getItem(i));
+				mPlayers[i].score = gnet::ItemUtility::getUInt(player->getItem(1));
+				mPlayers[i].combo = gnet::ItemUtility::getUInt(player->getItem(2));
+				mPlayers[i].hp = gnet::ItemUtility::getValue(player->getItem(3));
+			}
+		updateTeamInfo();
+	}
+	void NetGameInfo::updateTeamInfo()
+	{
+		for(int i = 0; i < mTeams.size(); i++)
 		{
-			GPacket *player = dynamic_cast<GPacket*>(list->getItem(i));
-			mPlayers[i].score = gnet::ItemUtility::getUInt(player->getItem(1));
-			mPlayers[i].combo = gnet::ItemUtility::getUInt(player->getItem(2));
+			mTeams[i].score = 0;
+			mTeams[i].combo = mPlayers[mTeams[i].nowPlayer].combo;
+			for(int j = 0; j < mTeams[i].players.size(); j++)
+				mTeams[i].score += mPlayers[mTeams[i].players[j]].score;
 		}
 	}
 
@@ -162,7 +175,7 @@ namespace divacore
 		{
 			////与server同步score，hp和combo信息，此信息仅为他人显示用，不参与数据处理
 			NETWORK_SYSTEM_PTR->send("game#heartbeat",
-				"%d%d",getScore(),getCombo());
+				"%f%d%d%f",CORE_PTR->getRunPosition(),getScore(),getCombo(),getHPinRatio());
 		}
 
 		//获得游戏信息，队伍信息
@@ -176,7 +189,7 @@ namespace divacore
 		//心跳包更新游戏信息
 		void MultiPlay::gnetPlayerUpdate(GPacket *packet)
 		{
-			mInfo.updateSingle(packet);
+			mInfo.updateInfoFromPacket(packet);
 		}
 
 		void MultiPlay::gnetJoinFailed(GPacket *packet)

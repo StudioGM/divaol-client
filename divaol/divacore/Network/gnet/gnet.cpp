@@ -186,6 +186,8 @@ namespace gnet
 				case 'c':
 					*tuple += (char)va_arg(ArgPtr,char);
 					break;
+				case 'b':
+					*tuple += (char)va_arg(ArgPtr,bool);
 				}
 			}
 		}
@@ -231,7 +233,7 @@ namespace gnet
 				case 'd':
 					{
 					int32 *tmp = va_arg(ArgPtr,int32*);
-					*tmp = (*tuple)[index]->getInt();
+					*tmp = static_cast<int32>((*tuple)[index]->getInt());
 					//*tuple += (Atom)va_arg(ArgPtr,char*);
 					}
 					break;
@@ -252,10 +254,16 @@ namespace gnet
 				case 'c':
 					{
 					char *tmp = va_arg(ArgPtr,char*);
-					*tmp = (*tuple)[index]->getInt();
+					*tmp = static_cast<char>((*tuple)[index]->getInt());
 					//*tuple += (Atom)va_arg(ArgPtr,char*);
 					}
 					break;
+				case 'b':
+					{
+					bool *tmp = va_arg(ArgPtr,bool*);
+					*tmp = ((*tuple)[index]->getInt())!=0;
+					//*tuple += (Atom)va_arg(ArgPtr,char*);
+					}
 				}
 				index++;
 			}
@@ -308,7 +316,7 @@ namespace gnet
 		if(item->getType()==GNET_TYPE_DOUBLE)
 			return ((Item<double>*)item)->getData();
 		else
-			return getInt(item);
+			return static_cast<double>(getInt(item));
 	}
 	std::string ItemUtility::getString(ItemBase *item)
 	{

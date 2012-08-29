@@ -22,6 +22,7 @@ namespace divacore
 	public:
 		virtual void insert(HookPtr hook) = 0;
 		virtual void del(HookPtr hook) = 0;
+		virtual void del(const std::string &name) {del(getHook(name));}
 		virtual HookPtr getHook(const std::string &name) {return NULL;}
 
 		virtual bool hook(StateEvent &key) {return false;}

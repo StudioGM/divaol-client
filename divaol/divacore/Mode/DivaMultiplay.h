@@ -70,8 +70,9 @@ namespace divacore
 			
 		void setOwner(MultiPlay *owner) {mOwner=owner;}
 		void newGame(GPacket *packet);
-		void updateSingle(GPacket *packet);
+		void updateInfoFromPacket(GPacket *packet);
 		void update(float dt);
+		void updateTeamInfo();
 		void setConfig(const std::string &configFile);
 	};
 
