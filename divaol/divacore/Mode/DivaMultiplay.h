@@ -132,16 +132,14 @@ namespace divacore
 		void sendInfo();
 
 		//获得游戏信息，队伍信息
-		void getInfo(GPacket *packet);
-
+		void gnetMembersInfo(GPacket *packet);
 		//心跳包更新游戏信息
-		void updateInfo(GPacket *packet);
+		void gnetPlayerUpdate(GPacket *packet);
+		void gnetGameStart(GPacket *packet);
+		void gnetJoinFailed(GPacket *packet);
+		void gnetJoinOK(GPacket *packet);
 
 		void render();
-
-		void joinFailed(GPacket *packet);
-
-		void join(GPacket *packet);
 
 		void preStart();
 

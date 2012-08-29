@@ -74,10 +74,10 @@ namespace divacore
 		}
 		 void MultiPlay::gameReset() {
 			//注册接收函数
-			GNET_RECEIVE_PACKET("game#membersinfo",&MultiPlay::getInfo);
-			GNET_RECEIVE_PACKET("game#playerupdate",&MultiPlay::updateInfo);
-			GNET_RECEIVE_PACKET("stage#join_failed",&MultiPlay::joinFailed);
-			GNET_RECEIVE_PACKET("stage#join_ok",&MultiPlay::join);
+			GNET_RECEIVE_PACKET("game#membersinfo",&MultiPlay::gnetMembersInfo);
+			GNET_RECEIVE_PACKET("game#playerupdate",&MultiPlay::gnetPlayerUpdate);
+			GNET_RECEIVE_PACKET("stage#join_failed",&MultiPlay::gnetJoinFailed);
+			GNET_RECEIVE_PACKET("stage#join_ok",&MultiPlay::gnetJoinOK);
 
 			SinglePlay::gameReset();
 			mInfo.setOwner(this);
@@ -115,25 +115,24 @@ namespace divacore
 
 			NETWORK_SYSTEM_PTR->send("stage#join","%s","919");
 
-			NETWORK_SYSTEM_PTR->waitForNext();
+			if(getBaseState()==CONNECT)
+			{
+				NETWORK_SYSTEM_PTR->waitForNext();
 
-			NETWORK_SYSTEM_PTR->refresh();
+				NETWORK_SYSTEM_PTR->refresh();
+			}
 
-			if(getBaseState()==FAILURE)
+			if(getBaseState()!=GET_INFO)
 			{
 				NETWORK_SYSTEM_PTR->disconnect();
 				return;
 			}
 
-			NETWORK_SYSTEM_PTR->waitForNext();
-
-			NETWORK_SYSTEM_PTR->refresh();
-
-
-			if(getBaseState()!=READY)
+			while(getBaseState()!=READY)
 			{
-				NETWORK_SYSTEM_PTR->disconnect();
-				return;
+				NETWORK_SYSTEM_PTR->waitForNext();
+				
+				NETWORK_SYSTEM_PTR->refresh();
 			}
 
 			//准备完成
@@ -167,7 +166,7 @@ namespace divacore
 		}
 
 		//获得游戏信息，队伍信息
-		void MultiPlay::getInfo(GPacket *packet)
+		void MultiPlay::gnetMembersInfo(GPacket *packet)
 		{
 			mInfo.newGame(packet);
 
@@ -175,9 +174,19 @@ namespace divacore
 		}
 
 		//心跳包更新游戏信息
-		void MultiPlay::updateInfo(GPacket *packet)
+		void MultiPlay::gnetPlayerUpdate(GPacket *packet)
 		{
 			mInfo.updateSingle(packet);
+		}
+
+		void MultiPlay::gnetJoinFailed(GPacket *packet)
+		{
+			setBaseState(FAILURE);
+		}
+
+		void MultiPlay::gnetJoinOK(GPacket *packet)
+		{
+			setBaseState(GET_INFO);
 		}
 
 		void MultiPlay::render()
@@ -195,16 +204,6 @@ namespace divacore
 				mText.renderTo(200,200);
 #endif
 			}
-		}
-
-		void MultiPlay::joinFailed(GPacket *packet)
-		{
-			setBaseState(FAILURE);
-		}
-
-		void MultiPlay::join(GPacket *packet)
-		{
-			setBaseState(GET_INFO);
 		}
 
 		void MultiPlay::preStart()

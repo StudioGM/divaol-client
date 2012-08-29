@@ -162,8 +162,9 @@ namespace gnet
 			
 			if (SOCKET_ERROR == retVal)
 			{
-				int errcode = WSAGetLastError();
-				throw "Recv Failed";
+				retVal = 0;
+				//int errcode = WSAGetLastError();
+				//throw "Recv Failed";
 			}
 			
 			readSize += retVal;

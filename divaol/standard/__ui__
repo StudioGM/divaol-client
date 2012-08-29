@@ -215,7 +215,7 @@
 		"reserve" : true,
 		"type" : "multiPlayer",
 		"icon" : {
-			"tex" : "pic/head1.png",
+			"tex" : "pic/head/head1.png",
 			"texRect" : [0,0,92,90],
 			"position" : [3,3,92,90]
 		},
