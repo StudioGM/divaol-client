@@ -68,11 +68,12 @@ namespace divacore
 		float getProtectedTime() {return 0.1;}
 
 		bool checkNote(NotePtr note) {return true;}
-		bool checkExtra(StateEvent& event)
-		{
+
+		bool checkExtra(StateEvent& event) {
 			event.type = StateEvent::EXTRA;
 			return true;
 		}
+
 		bool checkPress(StateEvent& event) 
 		{
 			if(!EVALUATE_STRATEGY_PTR->evaluatePress(event))
@@ -120,9 +121,8 @@ namespace divacore
 		}
 
 		void preStart() {
-			HookPtr hook = HOOK_MANAGER_PTR->getHook("CTMode");
-			if(hook)
-				HOOK_MANAGER_PTR->del(hook);
+			HOOK_MANAGER_PTR->del("CTMode");
+			HOOK_MANAGER_PTR->del("AutoPlay");
 		}
 		void preEvaluate() {}
 	};

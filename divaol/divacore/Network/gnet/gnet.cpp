@@ -56,6 +56,10 @@ namespace gnet
 			memcpy((void*)(&ret[0]),(void*)(&data),sizeof(uint8));
 			return ret;
 		}
+		/*Bytes convertToBytes(char data)
+		{
+			return convertToBytes(static_cast<uint8>(data));
+		}*/
 		Bytes convertToBytes(int8 data)
 		{
 			return convertToBytes(static_cast<uint8>(data));
@@ -143,6 +147,19 @@ namespace gnet
 		return ret;
 	}
 
+	uint64 ItemBase::getUInt() {
+		return ItemUtility::getUInt(this);
+	}
+	int64 ItemBase::getInt() {
+		return ItemUtility::getInt(this);
+	}
+	double ItemBase::getValue() {
+		return ItemUtility::getValue(this);
+	}
+	std::string ItemBase::getString() {
+		return ItemUtility::getString(this);
+	}
+
 	Item<Tuple>* ItemUtility::formatTuple(const char* format, va_list ArgPtr)
 	{
 		Item<Tuple> *tuple = new Item<Tuple>;
@@ -171,7 +188,10 @@ namespace gnet
 					*tuple += (double)va_arg(ArgPtr,double);
 					break;
 				case 'c':
-					*tuple += (char)va_arg(ArgPtr,char);
+					*tuple += (int8)va_arg(ArgPtr,char);
+					break;
+				case 'b':
+					*tuple += (int8)va_arg(ArgPtr,bool);
 					break;
 				}
 			}
@@ -192,6 +212,78 @@ namespace gnet
 		va_end(ArgPtr);
 
 		return tuple;
+	}
+
+	void ItemUtility::formatReadTuple(Item<Tuple> *tuple, const char *format, va_list ArgPtr)
+	{
+		int index = 0;
+		for(;*format;++format)
+		{
+			if(*format!='%')
+				continue;
+			else
+			{
+				++format;
+				if('\0'==*format)
+					break;
+				switch(*format)
+				{
+				case 'a':
+					{
+					char *tmp = va_arg(ArgPtr,char*);
+					memcpy(tmp,(*tuple)[index]->getString().c_str(),sizeof(char)*(*tuple)[index]->getString().length()+1);
+					//*tuple += (Atom)va_arg(ArgPtr,char*);
+					}
+					break;
+				case 'd':
+					{
+					int32 *tmp = va_arg(ArgPtr,int32*);
+					*tmp = static_cast<int32>((*tuple)[index]->getInt());
+					//*tuple += (Atom)va_arg(ArgPtr,char*);
+					}
+					break;
+				case 's':
+					{
+					char *tmp = va_arg(ArgPtr,char*);
+					memcpy(tmp,(*tuple)[index]->getString().c_str(),sizeof(char)*(*tuple)[index]->getString().length()+1);
+					//*tuple += (Atom)va_arg(ArgPtr,char*);
+					}
+					break;
+				case 'f':
+					{
+					double *tmp = va_arg(ArgPtr,double*);
+					*tmp = (*tuple)[index]->getValue();
+					//*tuple += (Atom)va_arg(ArgPtr,char*);
+					}
+					break;
+				case 'c':
+					{
+					char *tmp = va_arg(ArgPtr,char*);
+					*tmp = static_cast<char>((*tuple)[index]->getInt());
+					//*tuple += (Atom)va_arg(ArgPtr,char*);
+					}
+					break;
+				case 'b':
+					{
+					bool *tmp = va_arg(ArgPtr,bool*);
+					*tmp = ((*tuple)[index]->getInt())!=0;
+					//*tuple += (Atom)va_arg(ArgPtr,char*);
+					}
+				}
+				index++;
+			}
+		}
+	}
+	void ItemUtility::formatReadTuple(Item<Tuple> *tuple, const char *format, ...)
+	{
+		va_list	ArgPtr;
+
+		va_start(ArgPtr, format);
+		//vsprintf(Message, format, ArgPtr);
+
+		formatReadTuple(tuple, format,ArgPtr);
+
+		va_end(ArgPtr);
 	}
 
 	uint64 ItemUtility::getUInt(ItemBase *item)
@@ -229,7 +321,7 @@ namespace gnet
 		if(item->getType()==GNET_TYPE_DOUBLE)
 			return ((Item<double>*)item)->getData();
 		else
-			return getInt(item);
+			return static_cast<double>(getInt(item));
 	}
 	std::string ItemUtility::getString(ItemBase *item)
 	{

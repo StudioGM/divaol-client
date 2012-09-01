@@ -51,6 +51,8 @@ namespace divacore
 	{
 		KeyEvent _event;
 		_event.key = originToKey(event.getKey());
+		_event.type = KeyEvent::PRESS;
+		_event.origin = event.getKey();
 
 		if(!HOOK_MANAGER_PTR->hook(_event)||!HOOK_MANAGER_PTR->hookInfo())
 		{
@@ -62,6 +64,8 @@ namespace divacore
 	{
 		KeyEvent _event;
 		_event.key = originToKey(event.getKey());
+		_event.type = KeyEvent::RELEASE;
+		_event.origin = event.getKey();
 
 		if(!HOOK_MANAGER_PTR->hook(_event)||!HOOK_MANAGER_PTR->hookInfo())
 		{

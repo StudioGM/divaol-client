@@ -10,10 +10,12 @@
 #define DIVA_BASS_MUSIC_MANAGER
 
 #include "bass/bass.h"
+#include "bass/bass_fx.h"
 #include "Core/DivaMusicManager.h"
 
 #ifdef OS_WIN32
 #pragma comment(lib, "bass.lib")
+#pragma comment(lib, "bass_fx.lib")
 #endif
 
 namespace divacore

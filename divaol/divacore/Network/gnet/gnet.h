@@ -271,6 +271,10 @@ namespace gnet
 		Bytes getItem() {
 			return _getType()+_getItem();
 		}
+		uint64 getUInt();
+		int64 getInt();
+		double getValue();
+		std::string getString();
 	protected:
 		Bytes _getType() {return BinaryUtility::convertToBytes(static_cast<uint32>(getType()));}
 		virtual Bytes _getItem() = 0;
@@ -356,7 +360,7 @@ namespace gnet
 
 		ItemType getType() {return GNET_TYPE_TUPLE;}
 
-		Tuple getData() {return mData;}
+		Tuple getData() const {return mData;}
 
 		ItemBase* getItem(size_t index)
 		{
@@ -370,10 +374,11 @@ namespace gnet
 				throw "Index out of range";
 			mData.erase(mData.begin()+index);
 		}
-		void clear()
+		void clear(bool isWeak = false)
 		{
-			for(Tuple::iterator ptr = mData.begin(); ptr != mData.end(); ptr++)
-				delete *ptr;
+			if(!isWeak)
+				for(Tuple::iterator ptr = mData.begin(); ptr != mData.end(); ptr++)
+					delete *ptr;
 			mData.clear();
 		}
 		bool empty() {return mData.empty();}
@@ -422,6 +427,7 @@ namespace gnet
 		Item() {}
 		Item(const Tuple &data):Item<Tuple>(data) {}
 		Item(const List &list):Item<Tuple>(list.data) {}
+		Item(const Item<Tuple> &tuple):Item<Tuple>(tuple.getData()) {}
 
 		std::string getDescription() {return _getStrWithBracket('[',']');}
 
@@ -433,6 +439,8 @@ namespace gnet
 	public:
 		static Item<Tuple>* formatTuple(const char* format, va_list	ArgPtr);
 		static Item<Tuple>* formatTuple(const char* format, ...);
+		static void formatReadTuple(Item<Tuple> *tuple, const char *format, va_list ArgPtr);
+		static void formatReadTuple(Item<Tuple> *tuple, const char *format, ...);
 		static uint64 getUInt(ItemBase *item);
 		static int64 getInt(ItemBase *item);
 		static double getValue(ItemBase *item);

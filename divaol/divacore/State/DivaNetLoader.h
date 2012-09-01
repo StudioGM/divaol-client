@@ -91,7 +91,7 @@ namespace divacore
 				if(((MultiPlay*)GAME_MODE_PTR)->getBaseState()==MultiPlay::CONNECT)
 					text += L"Connect";
 				else if(((MultiPlay*)GAME_MODE_PTR)->getBaseState()==MultiPlay::FAILURE)
-					text += L"Failed, wait for reconnecting";
+					text += L"Failed";
 				else if(((MultiPlay*)GAME_MODE_PTR)->getBaseState()==MultiPlay::GET_INFO)
 					text += L"Server connected, now wait";
 				else if(((MultiPlay*)GAME_MODE_PTR)->getBaseState()==MultiPlay::FULL)
@@ -146,7 +146,8 @@ namespace divacore
 				core->getCoreFlow()->ready();
 
 				NETWORK_SYSTEM_PTR->gameLoad("netConfig.json");
-				GAME_MODE_PTR->gameLoad("");
+				
+				GAME_MODE_PTR->gameLoad("netConfig.json");
 
 				LOGGER->msg("Wait for start...","NetworkSystem");
 

@@ -28,8 +28,8 @@
 //#include "Network/DivaNetUnsync.h"
 #include "Mode/DivaSinglePlay.h"
 #include "Mode/DivaMultiplay.h"
-//#include "Mode/DivaTeamPlay.h"
-//#include "Mode/DivaRelayPlay.h"
+#include "Mode/DivaPairPlay.h"
+#include "Mode/DivaRelayPlay.h"
 #include "Mode/DivaEditMode.h"
 #include "MusicManager/DivaFmodMusicManager.h"
 //#include "MusicManager/DivaXAudioMusicManager.h"
@@ -83,7 +83,7 @@ namespace divacore
 					core->registerGameMode(new divacore::EditMode);
 					break;
 				case MULTI:
-					core->registerGameMode(new divacore::MultiPlay);
+					core->registerGameMode(new divacore::PairPlay);
 					break;
 				}
 			}

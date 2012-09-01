@@ -87,6 +87,9 @@ namespace divacore
 		}
 		virtual void del(HookPtr hook)
 		{
+			if(hook==0)
+				return;
+
 			if(hook->hasAbility(Hook::RENDER))
 				renderHooks -= hook;
 			if(hook->hasAbility(Hook::STATE))

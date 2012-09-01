@@ -160,23 +160,10 @@ namespace divacore
 		{
 			bShowDetail = !bShowDetail;
 		}
-#endif
 		if(event.getKey()==SORA_KEY_J)
 		{
 			StandardEditUtility::instance().init();
-			MapNote note;
-			NotePoint point;
-			point.position = 100;
-			point.type = 1;
-			point.x = 16;
-			point.y = 12;
-			note.notePoint.push_back(point);
-			note.noteType = "normal";
-			note.arg["tailx"] = -2;
-			note.arg["taily"] = -2;
-			StandardEditUtility::instance().insert(note,0);
-			//StandardEditUtility::instance().refreshAll();
-			//CORE_PTR->pause();
+			StandardEditUtility::instance().setPosition(0);
 		}
 		else if(event.getKey()==SORA_KEY_H)
 		{
@@ -204,6 +191,7 @@ namespace divacore
 			//StandardEditUtility::instance().refreshAll();
 			CORE_PTR->setSpeedScale();
 		}
+#endif
 		/*else if(event.getKey()==SORA_KEY_D)
 		{
 			StandardEditUtility::instance().init();

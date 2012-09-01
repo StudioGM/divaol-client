@@ -19,6 +19,8 @@
 
 namespace divacore
 {
+	class MultiPlay;
+
 	struct PlayerInfo
 	{
 	public:
@@ -51,6 +53,35 @@ namespace divacore
 	};
 	typedef std::vector<TeamInfo> TEAMS;
 
+	class NetGameInfo
+	{
+	public:
+		typedef std::map<std::string,int32> UID_MAP;
+
+		Config mConfig;
+		int myTeamID, myPlayerID;
+		TEAMS mTeams; //所有队伍的基本信息
+		PLAYERS mPlayers; // 所有玩家的信息
+		TeamInfo *myTeamPtr; //本机所属的队伍信息
+		PlayerInfo *myPlayerPtr; //本机所属的玩家信息
+		UID_MAP mUidMap;
+
+		MultiPlay *mOwner;
+			
+		void setOwner(MultiPlay *owner) {mOwner=owner;}
+		virtual void newGame(GPacket *packet) = 0;
+		virtual void updateInfoFromPacket(GPacket *packet);
+		virtual void update(float dt);
+		virtual void updateTeamInfo();
+		void setConfig(const std::string &configFile);
+	};
+
+	class MultiGameInfo : public NetGameInfo
+	{
+	public:
+		void newGame(GPacket *packet);
+	};
+
 	class MultiPlay : public SinglePlay
 	{
 	protected:
@@ -58,16 +89,11 @@ namespace divacore
 		static const int FAILURE_WAIT_TIME = 1000;
 
 		int mBaseState;
-		int myTeamID, myPlayerID;
-		TEAMS mTeams; //所有队伍的基本信息
-		PLAYERS mPlayers; // 所有玩家的信息
-		TeamInfo *myTeamPtr; //本机所属的队伍信息
-		PlayerInfo *myPlayerPtr; //本机所属的玩家信息
+
+		NetGameInfo *mInfo;
 
 		sora::SoraText mText;
 		sora::SoraMutex mutex;
-
-		Config myInfo;
 	public:
 		/*CONNECT为等待连接状态
 		 GET_INFO为连接成功等待服务器信息状态
@@ -77,15 +103,18 @@ namespace divacore
 		 FULL表示服务器已满*/
 		enum{CONNECT,GET_INFO,READY,PLAY,FAILURE,FULL,OVER};
 
+		MultiPlay():mInfo(0) {}
+
 		void setBaseState(int state) {sora::SoraMutexGuard lock(mutex);mBaseState=state;}
 		int getBaseState() {sora::SoraMutexGuard lock(mutex);return mBaseState;}
 
-		virtual int getTeamID() {return myTeamID;}
-		virtual int getPlayerID() {return myPlayerID;}
-		virtual TEAMS& getTeamInfo() {return mTeams;}
-		virtual PLAYERS& getPlayerInfo() {return mPlayers;}
-		virtual TeamInfo* getMyTeamInfo() {return myTeamPtr;}
-		virtual PlayerInfo* getMyPlayerInfo() {return myPlayerPtr;}
+		NetGameInfo* getGlobalInfo() {return mInfo;}
+		virtual int getTeamID() {return mInfo->myTeamID;}
+		virtual int getPlayerID() {return mInfo->myPlayerID;}
+		virtual TEAMS& getTeamInfo() {return mInfo->mTeams;}
+		virtual PLAYERS& getPlayerInfo() {return mInfo->mPlayers;}
+		virtual TeamInfo* getMyTeamInfo() {return mInfo->myTeamPtr;}
+		virtual PlayerInfo* getMyPlayerInfo() {return mInfo->myPlayerPtr;}
 
 		virtual std::string getName() {return "multiPlay";}
 
@@ -112,16 +141,14 @@ namespace divacore
 		void sendInfo();
 
 		//获得游戏信息，队伍信息
-		void getInfo(GPacket *packet);
-
+		void gnetMembersInfo(GPacket *packet);
 		//心跳包更新游戏信息
-		void updateInfo(GPacket *packet);
+		void gnetPlayerUpdate(GPacket *packet);
+		void gnetGameStart(GPacket *packet);
+		void gnetJoinFailed(GPacket *packet);
+		void gnetJoinOK(GPacket *packet);
 
 		void render();
-
-		void joinFailed(GPacket *packet);
-
-		void join(GPacket *packet);
 
 		void preStart();
 

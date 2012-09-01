@@ -29,7 +29,7 @@ namespace divacore
 
 		void init()  {
 			mHostIP = "127.0.0.1";
-			mPort = "1234";
+			mPort = "9899";
 		}
 		void destory() {
 			mNetManager.disconnect();
@@ -78,6 +78,23 @@ namespace divacore
 			packet->appendAhead<Atom>(group);
 
 			mNetManager.send(packet);
+		}
+		void read(GPacket *packet, const char* format, va_list ArgPtr) {
+			GPacket tmp = *packet;
+			tmp.deleteItem(0);
+			tmp.deleteItem(0);
+			gnet::ItemUtility::formatReadTuple(&tmp,format,ArgPtr);
+			tmp.clear(true);
+		}
+		void read(GPacket *packet, const char* format, ...) {
+			va_list	ArgPtr;
+
+			va_start(ArgPtr, format);
+			//vsprintf(Message, format, ArgPtr);
+
+			read(packet, format,ArgPtr);
+
+			va_end(ArgPtr);
 		}
 		void waitForNext()
 		{

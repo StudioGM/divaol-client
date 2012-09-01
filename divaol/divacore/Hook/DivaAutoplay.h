@@ -47,6 +47,8 @@ namespace divacore
 
 		bool hook(KeyEvent &key) 
 		{
+			if(key.key==0&&key.type==KeyEvent::RELEASE)
+				open = !open;
 			if(key.key>=0&&key.key<8)
 			{
 				setHookInfo(1);
