@@ -231,17 +231,17 @@ namespace divaeditor
 			{
 				float outFactor = float(nowMouseXPos-getWidth()) / float(getWidth());
 				if(CORE_PTR->getRunPosition() + rangeGridNum*outFactor > totalPosition)
-					EDITUTILITY.setPosition(totalPosition);
+					EDITOR_PTR->mapData->setPos(totalPosition);
 				else
-					EDITUTILITY.setPosition(CORE_PTR->getRunPosition() + rangeGridNum*outFactor);
+					EDITOR_PTR->mapData->setPos(CORE_PTR->getRunPosition() + rangeGridNum*outFactor);
 			}
 			else if(isSelecting && nowMouseXPos < 0)
 			{
 				float outFactor = float(nowMouseXPos) / float(getWidth());
 				if(CORE_PTR->getRunPosition() + rangeGridNum*outFactor <0)
-					EDITUTILITY.setPosition(0);
+					EDITOR_PTR->mapData->setPos(0);
 				else
-					EDITUTILITY.setPosition(CORE_PTR->getRunPosition() + rangeGridNum*outFactor);
+					EDITOR_PTR->mapData->setPos(CORE_PTR->getRunPosition() + rangeGridNum*outFactor);
 			}
 		}
 
@@ -659,7 +659,7 @@ namespace divaeditor
 					int nowSetPos = EDITOR_PTR->mapData->getNearestStandardGrid((float)nowMouseXPos/width * rangeGridNum+leftPos, EDITCONFIG->getGridToShowPerBeat());
 
 					if(nowSetPos>=0&&nowSetPos<=(int)CORE_FLOW_PTR->getTotalPosition())
-						EDITUTILITY.setPosition(nowSetPos);
+						EDITOR_PTR->mapData->setPos(nowSetPos);
 				}
 
 			}
@@ -781,7 +781,16 @@ namespace divaeditor
 
 					int toAddFind = EDITOR_PTR->mapData->findNoteIndexByType(mouseXGrid, EDITOR_PTR->mapData->getNoteTypeFromKeyPress(thisKey,caps));
 					if(toAddFind==-1)
-						EDITCONFIG->addAndDoOperation(new DivaEditorOperation_AddNormalNote(mouseXGrid,thisKey,caps,guessX,guessY,guessTailX,guessTailY));
+					{
+						DivaEditorOperation_AddNormalNote *toOp = new DivaEditorOperation_AddNormalNote(mouseXGrid,thisKey,caps,guessX,guessY,guessTailX,guessTailY);
+						if(CORE_FLOW_PTR->getState() == CoreFlow::RUN)
+						{
+							toOp->needToRefreshAll=false;
+							toOp->needToRecalcTime=false;
+							EDITCONFIG->needReCalcNextTime=true;
+						}
+						EDITCONFIG->addAndDoOperation(toOp);
+					}
 					else
 					{
 						EDITCONFIG->clearSelectedNote();
@@ -854,7 +863,16 @@ namespace divaeditor
 			{
 				int toAddFind = EDITOR_PTR->mapData->findNoteIndexByType(mouseXGrid, EDITOR_PTR->mapData->getNoteTypeFromKeyPress(thisKey,caps));
 				if(toAddFind==-1)
-					EDITCONFIG->addAndDoOperation(new DivaEditorOperation_AddNormalNote(mouseXGrid,thisKey,caps,guessX,guessY,guessTailX,guessTailY));
+				{
+					DivaEditorOperation_AddNormalNote *toOp = new DivaEditorOperation_AddNormalNote(mouseXGrid,thisKey,caps,guessX,guessY,guessTailX,guessTailY);
+					if(CORE_FLOW_PTR->getState() == CoreFlow::RUN && (mouseXGrid <= CORE_PTR->getRunPosition()))
+					{
+						toOp->needToRefreshAll=false;
+						toOp->needToRecalcTime=false;
+						EDITCONFIG->needReCalcNextTime=true;
+					}
+					EDITCONFIG->addAndDoOperation(toOp);
+				}
 				else
 				{
 					EDITCONFIG->clearSelectedNote();
@@ -866,14 +884,28 @@ namespace divaeditor
 				divacore::MapNote placingNote = EDITOR_PTR->mapData->initNote(_placeNoteBeginPos,thisKey,caps,guessX,guessY,guessTailX,guessTailY,"long");
 				EDITOR_PTR->mapData->finishLongNote(placingNote,mouseXGrid);
 				
-				EDITCONFIG->addAndDoOperation(new DivaEditorOperation_AddLongNote(placingNote));
+				DivaEditorOperation_AddLongNote *toOp = new DivaEditorOperation_AddLongNote(placingNote);
+				if(CORE_FLOW_PTR->getState() == CoreFlow::RUN && (placingNote.notePoint[placingNote.notePoint.size()].position <= CORE_PTR->getRunPosition()))
+				{
+					toOp->needToRefreshAll=false;
+					toOp->needToRecalcTime=false;
+					EDITCONFIG->needReCalcNextTime=true;
+				}
+				EDITCONFIG->addAndDoOperation(toOp);
 			}
 			else if(placingCombo && EDITCONFIG->EDITSTATE_NOTESTATE == EditorConfig::NOTESTATE::COMBO && isMouseOn)
 			{
 				divacore::MapNote placingNote = EDITOR_PTR->mapData->initNote(_placeNoteBeginPos,thisKey,caps,guessX,guessY,guessTailX,guessTailY,"pingpong");
 				EDITOR_PTR->mapData->finishComboNote(placingNote,mouseXGrid);
 
-				EDITCONFIG->addAndDoOperation(new DivaEditorOperation_AddLongNote(placingNote));
+				DivaEditorOperation_AddLongNote *toOp = new DivaEditorOperation_AddLongNote(placingNote);
+				if(CORE_FLOW_PTR->getState() == CoreFlow::RUN && (placingNote.notePoint[placingNote.notePoint.size()].position <= CORE_PTR->getRunPosition()))
+				{
+					toOp->needToRefreshAll=false;
+					toOp->needToRecalcTime=false;
+					EDITCONFIG->needReCalcNextTime=true;
+				}
+				EDITCONFIG->addAndDoOperation(toOp);
 			}
 
 			placingLong=false;

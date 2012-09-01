@@ -74,7 +74,7 @@ namespace divaeditor
 
 		double jumpToTime = jumpTo * float(CORE_FLOW_PTR->getTotalTime());
 		if(abs(jumpToTime-CORE_FLOW_PTR->getRealTime())>1e-4)
-			EDITUTILITY.setPosition(EDITUTILITY.timeToPos(jumpToTime));
+			EDITOR_PTR->mapData->setPos(EDITUTILITY.timeToPos(jumpToTime));
 	}
 
 	void DivaEditorMusicProgressWidget::mousePressed(gcn::MouseEvent& mouseEvent)

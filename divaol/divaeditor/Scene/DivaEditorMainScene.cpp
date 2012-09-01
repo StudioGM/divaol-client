@@ -678,8 +678,8 @@ namespace divaeditor
 
 	void DivaEditorMainScene::flowDidEnd(void* arg)
 	{
-		CORE_PTR->pause();
-		EditUtility.setPosition(CORE_FLOW_PTR->getTotalPosition());
+		EDITOR_PTR->mapData->PauseAndResume();
+		EDITOR_PTR->mapData->setPos(CORE_FLOW_PTR->getTotalPosition());
 
 		
 	}
@@ -1234,25 +1234,14 @@ namespace divaeditor
 
 #pragma region Playback Control
 
-		if(getID()=="btn_Play")
+
+		if(getID()=="btn_Pause")
 		{
-			if(CORE_FLOW_PTR->getState()==CoreFlow::PAUSE)
-				CORE_PTR->resume();
-			else if(CORE_FLOW_PTR->getState()==CoreFlow::RUN)
-				EditUtility.setPosition(0);
-			
-		}
-		else if(getID()=="btn_Pause")
-		{
-			if(CORE_FLOW_PTR->getState() == CoreFlow::RUN)
-				CORE_PTR->pause();
-			else if(CORE_FLOW_PTR->getState() == CoreFlow::PAUSE)
-				CORE_PTR->resume();
+			EDITOR_PTR->mapData->PauseAndResume();
 		}
 		else if(getID()=="btn_Stop")
 		{
-			CORE_PTR->pause();
-			EditUtility.setPosition(0);
+			EDITOR_PTR->mapData->stop();
 		}
 		else if(getID()=="btn_SpeedUp")
 		{
@@ -1978,7 +1967,9 @@ namespace divaeditor
 		{
 			int setTo = EDITOR_PTR->mapData->getPrevStandardGrid(CORE_PTR->getRunPosition(),EDITCONFIG->getGridToShowPerBeat());
 			if(setTo<0) setTo=0;
-			EditUtility.setPosition(setTo);
+			if(CORE_FLOW_PTR->getState() == CoreFlow::RUN)
+				EDITUTILITY.reCaltTime();
+			EDITOR_PTR->mapData->setPos(setTo);
 		}
 	}
 	void DivaEditorMainScene::onMouseWheelDown(sora::SoraMouseEvent& event)
@@ -1987,7 +1978,7 @@ namespace divaeditor
 		{
 			int setTo = EDITOR_PTR->mapData->getNextStandardGrid(CORE_PTR->getRunPosition(),EDITCONFIG->getGridToShowPerBeat());
 			if(setTo>CORE_FLOW_PTR->getTotalPosition()) setTo = CORE_FLOW_PTR->getTotalPosition();
-			EditUtility.setPosition(setTo);
+			EDITOR_PTR->mapData->setPos(setTo);
 		}
 	}
 
@@ -2017,7 +2008,7 @@ namespace divaeditor
 		{
 			int setTo = EDITOR_PTR->mapData->getPrevStandardGrid(CORE_PTR->getRunPosition(),EDITCONFIG->getGridToShowPerBeat());
 			if(setTo<0) setTo=0;
-			EditUtility.setPosition(setTo);
+			EDITOR_PTR->mapData->setPos(setTo);
 		}
 		else if(nowState==State::NOTE && (event.key == sora::key::Left || event.key == sora::key::Right || event.key == sora::key::Up || event.key == sora::key::Down) && event.isShiftFlag()
 					&&EDITCONFIG->noteSelected.size()>0)
@@ -2074,7 +2065,7 @@ namespace divaeditor
 		{
 			int setTo = EDITOR_PTR->mapData->getNextStandardGrid(CORE_PTR->getRunPosition(),EDITCONFIG->getGridToShowPerBeat());
 			if(setTo>CORE_FLOW_PTR->getTotalPosition()) setTo = CORE_FLOW_PTR->getTotalPosition();
-			EditUtility.setPosition(setTo);
+			EDITOR_PTR->mapData->setPos(setTo);
 		}
 		else if(nowState==State::NOTE && event.key == sora::key::Up && !event.isShiftFlag() && !event.isAltFlag())
 		{
@@ -2089,9 +2080,13 @@ namespace divaeditor
 		if(nowState!=State::PREVIEW && event.key == sora::key::Space)
 		{
 			if(CORE_FLOW_PTR->getState() == CoreFlow::RUN)
-				CORE_PTR->pause();
+				EDITOR_PTR->mapData->PauseAndResume();
 			else
-				CORE_PTR->resume();
+			{
+				EDITUTILITY.reCaltTime();
+				EDITOR_PTR->mapData->PauseAndResume();
+			}
+			
 		}
 
 		if(nowState==State::NOTE)

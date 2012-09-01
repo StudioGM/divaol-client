@@ -36,7 +36,7 @@ namespace divaeditor
 
 		int isPlaying = CORE_FLOW_PTR->getState();
 		if(needToPause && isPlaying == CoreFlow::RUN)
-			CORE_PTR->pause();
+			EDITOR_PTR->mapData->PauseAndResume();
 
 		for (int i=0;i<operations.size();i++)
 			if(operations[i]!=NULL)
@@ -51,16 +51,14 @@ namespace divaeditor
 			EDITUTILITY.refreshAll();
 
 		if(needToPause && isPlaying == CoreFlow::RUN)
-			CORE_PTR->resume();
+			EDITOR_PTR->mapData->PauseAndResume();
 	}
 
 	void DivaEditorOperationSet::undoOperation()
 	{
-
-
 		int isPlaying = CORE_FLOW_PTR->getState();
 		if(needToPause && isPlaying == CoreFlow::RUN)
-			CORE_PTR->pause();
+			EDITOR_PTR->mapData->PauseAndResume();
 
 		for (int i=operations.size()-1;i>=0;i--)
 			if(operations[i]!=NULL)
@@ -69,13 +67,13 @@ namespace divaeditor
 		EDITOR_PTR->mapData->sortNote();
 		EDITOR_PTR->mapData->sortEvent();
 
-		if(needToRecalcTime)
-			EDITUTILITY.reCaltTime();
-		else if(needToRefreshAll)
-			EDITUTILITY.refreshAll();
+		//if(needToRecalcTime)
+		EDITUTILITY.reCaltTime();
+		//else if(needToRefreshAll)
+		EDITUTILITY.refreshAll();
 
 		if(needToPause && isPlaying == CoreFlow::RUN)
-			CORE_PTR->resume();
+			EDITOR_PTR->mapData->PauseAndResume();
 
 	}
 

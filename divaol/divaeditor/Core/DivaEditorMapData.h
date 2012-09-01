@@ -42,6 +42,10 @@ namespace divaeditor
 		void copy(bool cut);
 		void paste(float pos);
 
+		void setPos(float pos);
+		void PauseAndResume();
+		void stop();
+
 	public:
 
 		void ResetEditorMapData();

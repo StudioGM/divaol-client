@@ -8,12 +8,12 @@
 #include "divaeditor/DivaEditorCommon.h"
 
 #include "divacore/Component/DivaStandardCoreFlow.h"
-
+#include "divacore/Mode/DivaEditMode.h"
 
 namespace divaeditor
 {
 	//using namespace divacore;
-
+#define EditUtility divacore::StandardEditUtility::instance()
 
 	DivaEditorMapData::DivaEditorMapData()
 	{
@@ -67,6 +67,40 @@ namespace divaeditor
 		}
 		if(thisModifySet->operations.size()>0)
 			EDITCONFIG->addAndDoOperation(thisModifySet);
+	}
+
+	void DivaEditorMapData::setPos(float pos)
+	{
+		if(EDITCONFIG->needReCalcNextTime)
+		{
+			EDITUTILITY.reCaltTime();
+			EDITCONFIG->needReCalcNextTime=false;
+		}
+		EditUtility.setPosition(pos);
+	}
+
+	void DivaEditorMapData::PauseAndResume()
+	{
+		if(EDITCONFIG->needReCalcNextTime)
+		{
+			EDITUTILITY.reCaltTime();
+			EDITCONFIG->needReCalcNextTime=false;
+		}
+		if(CORE_FLOW_PTR->getState() == CoreFlow::RUN)
+			CORE_PTR->pause();
+		else if(CORE_FLOW_PTR->getState() == CoreFlow::PAUSE)
+			CORE_PTR->resume();
+	}
+
+	void DivaEditorMapData::stop()
+	{
+		CORE_PTR->pause();
+		if(EDITCONFIG->needReCalcNextTime)
+		{
+			EDITUTILITY.reCaltTime();
+			EDITCONFIG->needReCalcNextTime = false;
+		}
+		EditUtility.setPosition(0);
 	}
 
 

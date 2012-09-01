@@ -66,7 +66,8 @@ namespace divaeditor
 						config_moveNoteAsWell(true),
 						lastSavedTimeDelta(0),
 						AutoSaveTime(120),
-						isAutoSave(true)
+						isAutoSave(true),
+						needReCalcNextTime(false)
 						{};
 
 		static EditorConfig* Ptr;
@@ -129,6 +130,7 @@ namespace divaeditor
 		float lastSavedTimeDelta;
 		float AutoSaveTime;
 		bool isAutoSave;
+		bool needReCalcNextTime;
 
 		//Operation System
 		bool lockOperation;

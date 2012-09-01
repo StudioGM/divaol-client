@@ -456,7 +456,16 @@ namespace divaeditor
 
 					int toAddFind = EDITOR_PTR->mapData->findNoteIndexByType(pos, EDITOR_PTR->mapData->getNoteTypeFromKeyPress(thisKey,caps));
 					if(toAddFind==-1)
-						EDITCONFIG->addAndDoOperation(new DivaEditorOperation_AddNormalNote(pos,thisKey,caps,noteSelectX,noteSelectY,guessTailX,guessTailY));
+					{
+						DivaEditorOperation_AddNormalNote *toOp = new DivaEditorOperation_AddNormalNote(pos,thisKey,caps,noteSelectX,noteSelectY,guessTailX,guessTailY);
+						if(CORE_FLOW_PTR->getState() == CoreFlow::RUN)
+						{
+							toOp->needToRefreshAll=false;
+							toOp->needToRecalcTime=false;
+							EDITCONFIG->needReCalcNextTime=true;
+						}
+						EDITCONFIG->addAndDoOperation(toOp);
+					}
 					else
 					{
 						EDITCONFIG->clearSelectedNote();
@@ -470,7 +479,6 @@ namespace divaeditor
 
 					int pos = EDITOR_PTR->mapData->getNearestStandardGrid(CORE_PTR->getRunPosition(),EDITCONFIG->getGridToShowPerBeat());
 					placingNote = EDITOR_PTR->mapData->initNote(pos,thisKey,caps,noteSelectX,noteSelectY,guessTailX,guessTailY,"long");
-					//EDITUTILITY.setPosition(pos);
 
 					placingLong = true;
 				}
@@ -481,7 +489,6 @@ namespace divaeditor
 
 					int pos = EDITOR_PTR->mapData->getNearestStandardGrid(CORE_PTR->getRunPosition(),EDITCONFIG->getGridToShowPerBeat());
 					placingNote = EDITOR_PTR->mapData->initNote(pos,thisKey,caps,noteSelectX,noteSelectY,guessTailX,guessTailY,"pingpong");
-					//EDITUTILITY.setPosition(pos);
 
 					placingCombo = true;
 				}
@@ -567,7 +574,15 @@ namespace divaeditor
 		int pos = EDITOR_PTR->mapData->getNearestStandardGrid(CORE_PTR->getRunPosition(),EDITCONFIG->getGridToShowPerBeat());
 		EDITOR_PTR->mapData->finishLongNote(placingNote,pos);
 
-		EDITCONFIG->addAndDoOperation(new DivaEditorOperation_AddLongNote(placingNote));
+
+		DivaEditorOperation_AddLongNote *toOp = new DivaEditorOperation_AddLongNote(placingNote);
+		if(CORE_FLOW_PTR->getState() == CoreFlow::RUN && (placingNote.notePoint[placingNote.notePoint.size()].position <= CORE_PTR->getRunPosition()))
+		{
+			toOp->needToRefreshAll=false;
+			toOp->needToRecalcTime=false;
+			EDITCONFIG->needReCalcNextTime=true;
+		}
+		EDITCONFIG->addAndDoOperation(toOp);
 	}
 
 	void NoteArea::placingComboNoteOver()
@@ -575,6 +590,13 @@ namespace divaeditor
 		int pos = EDITOR_PTR->mapData->getNearestStandardGrid(CORE_PTR->getRunPosition(),EDITCONFIG->getGridToShowPerBeat());
 		EDITOR_PTR->mapData->finishComboNote(placingNote,pos);
 
-		EDITCONFIG->addAndDoOperation(new DivaEditorOperation_AddLongNote(placingNote));
+		DivaEditorOperation_AddLongNote *toOp = new DivaEditorOperation_AddLongNote(placingNote);
+		if(CORE_FLOW_PTR->getState() == CoreFlow::RUN && (placingNote.notePoint[placingNote.notePoint.size()].position <= CORE_PTR->getRunPosition()))
+		{
+			toOp->needToRefreshAll=false;
+			toOp->needToRecalcTime=false;
+			EDITCONFIG->needReCalcNextTime=true;
+		}
+		EDITCONFIG->addAndDoOperation(toOp);
 	}
 }
