@@ -26,7 +26,32 @@ namespace divacore
 		for(int i = 0; i < mTeams[myTeamID].players.size(); i++)
 			mTeams[myTeamID].score += mPlayers[mTeams[myTeamID].players[i]].score;
 	}
-	void NetGameInfo::newGame(GPacket *packet)
+	void NetGameInfo::updateInfoFromPacket(GPacket *packet)
+	{
+		gnet::Item<gnet::List> *list = dynamic_cast<gnet::Item<gnet::List>*>(packet->getItem(2));
+
+		for(int i = 0; i < mPlayers.size(); i++)
+			if(i!=myPlayerID)
+			{
+				GPacket *player = dynamic_cast<GPacket*>(list->getItem(i));
+				mPlayers[i].score = gnet::ItemUtility::getUInt(player->getItem(1));
+				mPlayers[i].combo = gnet::ItemUtility::getUInt(player->getItem(2));
+				mPlayers[i].hp = gnet::ItemUtility::getValue(player->getItem(3));
+			}
+		updateTeamInfo();
+	}
+	void NetGameInfo::updateTeamInfo()
+	{
+		for(int i = 0; i < mTeams.size(); i++)
+		{
+			mTeams[i].score = 0;
+			mTeams[i].combo = mPlayers[mTeams[i].nowPlayer].combo;
+			for(int j = 0; j < mTeams[i].players.size(); j++)
+				mTeams[i].score += mPlayers[mTeams[i].players[j]].score;
+		}
+	}
+
+	void MultiGameInfo::newGame(GPacket *packet)
 	{
 		gnet::Item<gnet::List> *list = dynamic_cast<gnet::Item<gnet::List>*>(dynamic_cast<GPacket*>(packet->getItem(3))->getItem(1));
 		mPlayers = PLAYERS(list->size());
@@ -54,30 +79,6 @@ namespace divacore
 			}
 		}
 	}
-	void NetGameInfo::updateInfoFromPacket(GPacket *packet)
-	{
-		gnet::Item<gnet::List> *list = dynamic_cast<gnet::Item<gnet::List>*>(packet->getItem(2));
-
-		for(int i = 0; i < mPlayers.size(); i++)
-			if(i!=myPlayerID)
-			{
-				GPacket *player = dynamic_cast<GPacket*>(list->getItem(i));
-				mPlayers[i].score = gnet::ItemUtility::getUInt(player->getItem(1));
-				mPlayers[i].combo = gnet::ItemUtility::getUInt(player->getItem(2));
-				mPlayers[i].hp = gnet::ItemUtility::getValue(player->getItem(3));
-			}
-		updateTeamInfo();
-	}
-	void NetGameInfo::updateTeamInfo()
-	{
-		for(int i = 0; i < mTeams.size(); i++)
-		{
-			mTeams[i].score = 0;
-			mTeams[i].combo = mPlayers[mTeams[i].nowPlayer].combo;
-			for(int j = 0; j < mTeams[i].players.size(); j++)
-				mTeams[i].score += mPlayers[mTeams[i].players[j]].score;
-		}
-	}
 
 		 void MultiPlay::init() 
 		{
@@ -93,8 +94,12 @@ namespace divacore
 			GNET_RECEIVE_PACKET("stage#join_ok",&MultiPlay::gnetJoinOK);
 
 			SinglePlay::gameReset();
-			mInfo.setOwner(this);
-
+			
+			if(mInfo==0) {
+				mInfo = new MultiGameInfo();
+				mInfo->setOwner(this);
+			}
+			
 			setBaseState(CONNECT);
 		}
 		 void MultiPlay::gameStop() {
@@ -104,6 +109,8 @@ namespace divacore
 			GNET_UNRECEIVE_PACKET("stage#join_ok");
 
 			NETWORK_SYSTEM_PTR->disconnect();
+
+			SAFE_DELETE(mInfo);
 		}
 		 void MultiPlay::gameOver()
 		{
@@ -111,20 +118,20 @@ namespace divacore
 		}
 		 void MultiPlay::setMyInfo(Config &config)
 		{
-			mInfo.mConfig = config;
+			mInfo->mConfig = config;
 		}
 		 void MultiPlay::setMyInfo(const std::string &configFile)
 		{
-			mInfo.setConfig(configFile);
+			mInfo->setConfig(configFile);
 		}
 		 void MultiPlay::gameLoad(const std::string &configFile) {
 			if(configFile!="")
-				mInfo.setConfig(configFile);
+				mInfo->setConfig(configFile);
 
 			//连接server
 			NETWORK_SYSTEM_PTR->connect();
 
-			NETWORK_SYSTEM_PTR->send("auth#setuid","%s",mInfo.mConfig.getAsString("uid").c_str());
+			NETWORK_SYSTEM_PTR->send("auth#setuid","%s",mInfo->mConfig.getAsString("uid").c_str());
 
 			NETWORK_SYSTEM_PTR->send("stage#join","%s","919");
 
@@ -167,7 +174,7 @@ namespace divacore
 				sendInfo();
 				DEAL_PER_PERIOD_END();
 
-				mInfo.update(dt);
+				mInfo->update(dt);
 			}
 		}
 
@@ -181,7 +188,10 @@ namespace divacore
 		//获得游戏信息，队伍信息
 		void MultiPlay::gnetMembersInfo(GPacket *packet)
 		{
-			mInfo.newGame(packet);
+			mInfo->newGame(packet);
+
+			for(int i = 0; i < mInfo->mPlayers.size(); i++)
+				mInfo->mPlayers[i].hp = float(ORIGIN_HP)/MAX_HP;
 
 			setBaseState(READY);
 		}
@@ -189,7 +199,7 @@ namespace divacore
 		//心跳包更新游戏信息
 		void MultiPlay::gnetPlayerUpdate(GPacket *packet)
 		{
-			mInfo.updateInfoFromPacket(packet);
+			mInfo->updateInfoFromPacket(packet);
 		}
 
 		void MultiPlay::gnetJoinFailed(GPacket *packet)
@@ -208,10 +218,10 @@ namespace divacore
 			{
 #ifdef _DEBUG
 				//显示一些调试信息
-				std::string output = format("%d Players",mInfo.mPlayers.size());
+				std::string output = format("%d Players",mInfo->mPlayers.size());
 	
-				for(int i = 0; i < mInfo.mPlayers.size(); i++)
-					output += format("player%d score:%d\tcombo:%d\n",i+1,mInfo.mPlayers[i].score,mInfo.mPlayers[i].combo);
+				for(int i = 0; i < mInfo->mPlayers.size(); i++)
+					output += format("player%d score:%d\tcombo:%d\n",i+1,mInfo->mPlayers[i].score,mInfo->mPlayers[i].combo);
 
 				mText.setText(sora::s2ws(output));
 				mText.renderTo(200,200);

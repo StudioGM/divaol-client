@@ -69,11 +69,17 @@ namespace divacore
 		MultiPlay *mOwner;
 			
 		void setOwner(MultiPlay *owner) {mOwner=owner;}
-		void newGame(GPacket *packet);
-		void updateInfoFromPacket(GPacket *packet);
-		void update(float dt);
-		void updateTeamInfo();
+		virtual void newGame(GPacket *packet) = 0;
+		virtual void updateInfoFromPacket(GPacket *packet);
+		virtual void update(float dt);
+		virtual void updateTeamInfo();
 		void setConfig(const std::string &configFile);
+	};
+
+	class MultiGameInfo : public NetGameInfo
+	{
+	public:
+		void newGame(GPacket *packet);
 	};
 
 	class MultiPlay : public SinglePlay
@@ -84,7 +90,7 @@ namespace divacore
 
 		int mBaseState;
 
-		NetGameInfo mInfo;
+		NetGameInfo *mInfo;
 
 		sora::SoraText mText;
 		sora::SoraMutex mutex;
@@ -97,16 +103,18 @@ namespace divacore
 		 FULL表示服务器已满*/
 		enum{CONNECT,GET_INFO,READY,PLAY,FAILURE,FULL,OVER};
 
+		MultiPlay():mInfo(0) {}
+
 		void setBaseState(int state) {sora::SoraMutexGuard lock(mutex);mBaseState=state;}
 		int getBaseState() {sora::SoraMutexGuard lock(mutex);return mBaseState;}
 
-		NetGameInfo& getGlobalInfo() {return mInfo;}
-		virtual int getTeamID() {return mInfo.myTeamID;}
-		virtual int getPlayerID() {return mInfo.myPlayerID;}
-		virtual TEAMS& getTeamInfo() {return mInfo.mTeams;}
-		virtual PLAYERS& getPlayerInfo() {return mInfo.mPlayers;}
-		virtual TeamInfo* getMyTeamInfo() {return mInfo.myTeamPtr;}
-		virtual PlayerInfo* getMyPlayerInfo() {return mInfo.myPlayerPtr;}
+		NetGameInfo* getGlobalInfo() {return mInfo;}
+		virtual int getTeamID() {return mInfo->myTeamID;}
+		virtual int getPlayerID() {return mInfo->myPlayerID;}
+		virtual TEAMS& getTeamInfo() {return mInfo->mTeams;}
+		virtual PLAYERS& getPlayerInfo() {return mInfo->mPlayers;}
+		virtual TeamInfo* getMyTeamInfo() {return mInfo->myTeamPtr;}
+		virtual PlayerInfo* getMyPlayerInfo() {return mInfo->myPlayerPtr;}
 
 		virtual std::string getName() {return "multiPlay";}
 

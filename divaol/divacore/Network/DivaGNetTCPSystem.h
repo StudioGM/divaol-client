@@ -79,6 +79,23 @@ namespace divacore
 
 			mNetManager.send(packet);
 		}
+		void read(GPacket *packet, const char* format, va_list ArgPtr) {
+			GPacket tmp = *packet;
+			tmp.deleteItem(0);
+			tmp.deleteItem(0);
+			gnet::ItemUtility::formatReadTuple(&tmp,format,ArgPtr);
+			tmp.clear(true);
+		}
+		void read(GPacket *packet, const char* format, ...) {
+			va_list	ArgPtr;
+
+			va_start(ArgPtr, format);
+			//vsprintf(Message, format, ArgPtr);
+
+			read(packet, format,ArgPtr);
+
+			va_end(ArgPtr);
+		}
 		void waitForNext()
 		{
 			mNetManager.waitNext();

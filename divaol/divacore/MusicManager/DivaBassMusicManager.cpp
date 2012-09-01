@@ -68,7 +68,10 @@ namespace divacore
 				DIVA_EXCEPTION_MODULE("Creating "+file+": File not existed","BassMusicManager");
 		} else {
 			if(stream)
-				hSound = ::BASS_StreamCreateFile(FALSE,file.c_str(),0,0,0);
+			{
+				hSound = ::BASS_StreamCreateFile(FALSE,file.c_str(),0,0,BASS_STREAM_DECODE);
+				hSound=BASS_FX_TempoCreate(hSound, BASS_FX_FREESOURCE); // create a tempo stream from it
+			}
 			else
 				hSound = ::BASS_SampleLoad(FALSE,file.c_str(),0,0,MAX_SAMPLE,BASS_SAMPLE_OVER_POS);
 		}
@@ -184,6 +187,10 @@ namespace divacore
 			volumePool[channel] = 1.0;
 		hChannel = hSound;
 		if(hSound) {
+			if(mSpeedScale!=Core::NORMAL_SPEED)
+				if(!BASS_ChannelSetAttribute(hChannel, BASS_ATTRIB_TEMPO, int((mSpeedScale-1.0)*100)))
+					BASS_ChannelSlideAttribute(hChannel, BASS_ATTRIB_FREQ, int(NORMAL_FREQ*mSpeedScale), 0);
+
 			::BASS_ChannelPlay(hChannel,true);
 			::BASS_ChannelSetAttribute(hChannel,BASS_ATTRIB_VOL,getTagVolume(tag)*volumePool[channel]);
 			::BASS_ChannelUpdate(hChannel,0);
@@ -302,8 +309,13 @@ namespace divacore
 	void BassMusicManager::setSpeedScale(float scale)
 	{
 		mSpeedScale = scale;
+		//for(MUSICPOOL::iterator ptr = musicPool.begin(); ptr != musicPool.end(); ptr++)
+		//	BASS_ChannelSlideAttribute(ptr->second.second, BASS_ATTRIB_FREQ, int(NORMAL_FREQ*mSpeedScale), 0);
 		for(MUSICPOOL::iterator ptr = musicPool.begin(); ptr != musicPool.end(); ptr++)
-			BASS_ChannelSlideAttribute(ptr->second.second, BASS_ATTRIB_FREQ, int(NORMAL_FREQ*mSpeedScale), 0);
+		{
+			if(!BASS_ChannelSetAttribute(ptr->second.second, BASS_ATTRIB_TEMPO, int((scale-1.0)*100)))
+				BASS_ChannelSlideAttribute(ptr->second.second, BASS_ATTRIB_FREQ, int(NORMAL_FREQ*mSpeedScale), 0);
+		}
 	}
 	float BassMusicManager::getSpeedScale()
 	{

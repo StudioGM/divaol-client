@@ -56,6 +56,10 @@ namespace gnet
 			memcpy((void*)(&ret[0]),(void*)(&data),sizeof(uint8));
 			return ret;
 		}
+		/*Bytes convertToBytes(char data)
+		{
+			return convertToBytes(static_cast<uint8>(data));
+		}*/
 		Bytes convertToBytes(int8 data)
 		{
 			return convertToBytes(static_cast<uint8>(data));
@@ -184,10 +188,11 @@ namespace gnet
 					*tuple += (double)va_arg(ArgPtr,double);
 					break;
 				case 'c':
-					*tuple += (char)va_arg(ArgPtr,char);
+					*tuple += (int8)va_arg(ArgPtr,char);
 					break;
 				case 'b':
-					*tuple += (char)va_arg(ArgPtr,bool);
+					*tuple += (int8)va_arg(ArgPtr,bool);
+					break;
 				}
 			}
 		}

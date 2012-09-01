@@ -374,10 +374,11 @@ namespace gnet
 				throw "Index out of range";
 			mData.erase(mData.begin()+index);
 		}
-		void clear()
+		void clear(bool isWeak = false)
 		{
-			for(Tuple::iterator ptr = mData.begin(); ptr != mData.end(); ptr++)
-				delete *ptr;
+			if(!isWeak)
+				for(Tuple::iterator ptr = mData.begin(); ptr != mData.end(); ptr++)
+					delete *ptr;
 			mData.clear();
 		}
 		bool empty() {return mData.empty();}
