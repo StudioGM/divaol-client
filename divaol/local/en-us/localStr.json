@@ -24,6 +24,7 @@
   "MainScene_btn_Show": "Show",
   "MainScene_btn_Category_Play": "Play!",
   "MainScene_btn_Save": "Save",
+  "MainScene_btn_SaveTo": "Save to...",
   "MainScene_wcheckbox_showNote": "Show Note",
   "MainScene_wcheckbox_showGrid": "Show Grid",
   "MainScene_wcheckbox_showBackground": "Show Background",
@@ -53,5 +54,9 @@
   "MainScene_wlabel_globalMissSound": "Global Miss Sound",
   "GlobalSoundDisabled": "Disabled",
   "MainScene_wcheckbox_timeline_moveNote": "Move notes while changing timeline",
-  "MainScene_wcheckbox_autosave": "Auto"
+  "MainScene_wcheckbox_autosave": "Auto",
+  "Messagebox_Tips": "Tips",
+  "Tip_CannotModifyMainSound": "Can't modify main sound.",
+  "Tip_CannotModifyHitMiss": "Can't modify hit or miss sound in show category. Please go to note category.",
+  "Tip_InitializeVideoPlugins": "The first time to load video will lasts about 1 minute to initialize video plugins."
 }

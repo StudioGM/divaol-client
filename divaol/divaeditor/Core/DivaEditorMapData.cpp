@@ -1293,6 +1293,27 @@ namespace divaeditor
 		return -1;
 	}
 
+	bool DivaEditorMapData::checkResourceCanModify(std::string resourceID)
+	{
+		if(resourceID == coreInfoPtr->header.mainSound)
+		{
+			MessageBoxW((HWND)sora::SoraCore::Instance()->getMainWindowHandle(),
+				LOCALIZATION->getLocalStr(L"Tip_CannotModifyMainSound").c_str(),
+				LOCALIZATION->getLocalStr(L"Messagebox_Tips").c_str()
+				,MB_OK);
+			return false;
+		}
+		else if(resourceID == "hit" || resourceID == "miss")
+		{
+			MessageBoxW((HWND)sora::SoraCore::Instance()->getMainWindowHandle(),
+				LOCALIZATION->getLocalStr(L"Tip_CannotModifyHitMiss").c_str(),
+				LOCALIZATION->getLocalStr(L"Messagebox_Tips").c_str()
+				,MB_OK);
+			return false;
+		}
+		return true;
+	}
+
 	std::string DivaEditorMapData::resource_add(std::wstring filename)
 	{
 		divacore::MapResourceInfo resourceInfo;
@@ -1321,6 +1342,10 @@ namespace divaeditor
 		{
 			resourceInfo.type = divacore::MapResourceInfo::VIDEO;
 			typeStr = "VIDEO";
+			MessageBoxW((HWND)sora::SoraCore::Instance()->getMainWindowHandle(),
+				LOCALIZATION->getLocalStr(L"Tip_InitializeVideoPlugins").c_str(),
+				LOCALIZATION->getLocalStr(L"Messagebox_Tips").c_str()
+				,MB_OK);
 		}
 		else if(imageExtensions.find(ext)!=std::wstring::npos)
 		{
@@ -1378,9 +1403,13 @@ namespace divaeditor
 	}
 	void DivaEditorMapData::resource_delete(std::string id)
 	{
-		if(coreInfoPtr->resources.find(id)==coreInfoPtr->resources.end() ||
-			id == coreInfoPtr->header.mainSound)
+		if(coreInfoPtr->resources.find(id)==coreInfoPtr->resources.end())
 			return;
+		
+		if(!checkResourceCanModify(id))
+			return;
+		EDITCONFIG->isMapChanged=true;
+			
 
 		divacore::MapResourceInfo &resourceInfo = coreInfoPtr->resources[id];
 
@@ -1429,6 +1458,10 @@ namespace divaeditor
 	}
 	int DivaEditorMapData::resourceEvent_add(int pos, std::string resourceID)
 	{
+		if(!checkResourceCanModify(resourceID))
+			return -1;
+		EDITCONFIG->isMapChanged=true;
+
 		divacore::MapEvent toAdd;
 		toAdd.position = pos;
 		toAdd.arg["id"] = resourceID;
@@ -1446,16 +1479,21 @@ namespace divaeditor
 		}
 
 		coreInfoPtr->events.push_back(toAdd);
-
 		return adjustEventOrder(coreInfoPtr->events.size()-1);
 	}
 	int DivaEditorMapData::resourceEvent_modifyPos(int index, int pos)
 	{
+		if(!checkResourceCanModify(Argument::asString("id",(coreInfoPtr->events.begin()+index)->arg)))
+			return -1;
+		EDITCONFIG->isMapChanged=true;
 		coreInfoPtr->events[index].position = pos;
 		return adjustEventOrder(index);
 	}
 	void DivaEditorMapData::resourceEvent_modifyResource(int index, std::string resourceID)
 	{
+		if(!checkResourceCanModify(Argument::asString("id",(coreInfoPtr->events.begin()+index)->arg)))
+			return;
+		EDITCONFIG->isMapChanged=true;
 		coreInfoPtr->events[index].arg["id"] = resourceID;
 		coreInfoPtr->events[index].eventType = findResourceTypeStrByID(resourceID);
 		if(coreInfoPtr->events[index].eventType == "playVideo" || coreInfoPtr->events[index].eventType== "displayImage")
@@ -1466,8 +1504,12 @@ namespace divaeditor
 	}
 	void DivaEditorMapData::resourceEvent_delete(int index)
 	{
+		if(!checkResourceCanModify(Argument::asString("id",(coreInfoPtr->events.begin()+index)->arg)))
+			return;
+		EDITCONFIG->isMapChanged=true;
+
 		if(index>=0&&index<coreInfoPtr->events.size())
-			coreInfoPtr->events.erase(MAP_INFO->events.begin()+index);
+			coreInfoPtr->events.erase(coreInfoPtr->events.begin()+index);
 	}
 
 	void DivaEditorMapData::resourceDescription_modify(std::string resourceID, std::wstring description)
@@ -1517,6 +1559,8 @@ namespace divaeditor
 
 		CopyFileW(filename.c_str(), (workingDirectory + L"/" + resourceInfo.filePath).c_str(), false);
 		EDITUTILITY.loadResource(resourceInfo);
+		if(safeFileName == L"")
+			safeFileName = s2ws(type);
 		resourceDescription[type] = safeFileName;
 	}
 

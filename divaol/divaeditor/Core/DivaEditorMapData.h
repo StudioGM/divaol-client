@@ -129,7 +129,7 @@ namespace divaeditor
 
 		void resourceDescription_modify(std::string resourceID, std::wstring description);
 
-
+		bool checkResourceCanModify(std::string resourceID);
 
 	public:
 		//Note Operations

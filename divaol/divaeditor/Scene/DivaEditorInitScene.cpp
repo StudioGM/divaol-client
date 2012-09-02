@@ -52,7 +52,9 @@ namespace divaeditor
 			gcn::WLabel *wlabel_loading = (gcn::WLabel*)top->findWidgetById("wlabel_loading");
 
 			btn_selectFile->setVisible(false);
-			wlabel_loading->setCaption(LOCALIZATION->getLocalStr(L"InitScene_isLoading"));
+			wlabel_loading->setCaption(LOCALIZATION->getLocalStr(L"InitScene_isLoading")+LOCALIZATION->getLocalStr(L"Tip_InitializeVideoPlugins"));
+			wlabel_loading->adjustSize();
+			wlabel_loading->setPosition((1280-wlabel_loading->getWidth())/2,wlabel_loading->getY());
 
 			//Should get back current working directory
 			wchar_t cwd[_MAX_PATH];

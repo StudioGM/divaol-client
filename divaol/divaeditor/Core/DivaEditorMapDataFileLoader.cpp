@@ -464,6 +464,12 @@ namespace divaeditor
 			return LOCALIZATION->getLocalStr(L"ReadOLFile_labelError");
 
 
+		//Check if the .divaol exists
+		if(_wfopen_s(&readFile, (workingDirectory+L"/"+workingDivaOLFile).c_str(),L"rt, ccs=UTF-8")!=0)
+			return LOCALIZATION->getLocalStr(L"ReadFile_OpenFileError", workingDivaOLFile.c_str());
+		fclose(readFile);
+
+
 		CORE_PTR->setSong(workingDirectory, workingDivaOLFile);
 
 		return L"OK";

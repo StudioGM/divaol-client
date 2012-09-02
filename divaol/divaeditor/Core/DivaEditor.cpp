@@ -61,6 +61,7 @@ namespace divaeditor
 	{
 		initEditorProc();
 
+		SoraCore::ClearGlobalHotkeys();
 
 		SoraCore::Instance()->showMouse(true);
 		GCN_GLOBAL->initGUIChan(LOCALIZATION->getLocalFontPath().c_str(),14);

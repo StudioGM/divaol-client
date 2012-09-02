@@ -24,6 +24,7 @@
   "MainScene_btn_Show": "演出",
   "MainScene_btn_Category_Play": "試玩！",
   "MainScene_btn_Save": "保存",
+  "MainScene_btn_SaveTo": "另存為...",
   "MainScene_wcheckbox_showNote": "顯示音符",
   "MainScene_wcheckbox_showGrid": "顯示格子",
   "MainScene_wcheckbox_showBackground": "顯示背景演出",
@@ -53,5 +54,9 @@
   "MainScene_wlabel_globalMissSound": "全局丟失音",
   "GlobalSoundDisabled": "已禁用",
   "MainScene_wcheckbox_timeline_moveNote": "改變時間軸的同時移動受影響的音符",
-  "MainScene_wcheckbox_autosave": "自動"
+  "MainScene_wcheckbox_autosave": "自動",
+  "Messagebox_Tips": "提示",
+  "Tip_CannotModifyMainSound": "禁止更改主音頻",
+  "Tip_CannotModifyHitMiss": "無法在演出模塊更改擊打音或丟失音。請前往音符模塊進行更改",
+  "Tip_InitializeVideoPlugins": "第一次載入視頻需要1分鐘時間來初始化視頻插件"
 }

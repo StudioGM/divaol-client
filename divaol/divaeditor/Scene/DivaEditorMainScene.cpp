@@ -316,8 +316,8 @@ namespace divaeditor
 
 		gcn::WButton *btn_note_allToLetter = new gcn::WButton();
 		btn_note_allToLetter->setFrameSize(0);
-		btn_note_allToLetter->setNormalImage(MainSceneImageFile,gcn::Rectangle(263,145,45,45));
-		btn_note_allToLetter->setDownImage(MainSceneImageFile,gcn::Rectangle(315,273,45,45));
+		btn_note_allToLetter->setNormalImage(MainSceneImageFile,gcn::Rectangle(128,145,45,45));
+		btn_note_allToLetter->setDownImage(MainSceneImageFile,gcn::Rectangle(90,273,45,45));
 		btn_note_allToLetter->setForegroundColor(gcn::Color(255,255,255,255));
 		btn_note_allToLetter->setId("btn_note_allToLetter");
 		btn_note_allToLetter->setSize(btn_note_flipHorizontal->getWidth(),btn_note_flipHorizontal->getHeight());
@@ -327,8 +327,8 @@ namespace divaeditor
 
 		gcn::WButton *btn_note_allToArrow = new gcn::WButton();
 		btn_note_allToArrow->setFrameSize(0);
-		btn_note_allToArrow->setNormalImage(MainSceneImageFile,gcn::Rectangle(128,145,45,45));
-		btn_note_allToArrow->setDownImage(MainSceneImageFile,gcn::Rectangle(90,273,45,45));
+		btn_note_allToArrow->setNormalImage(MainSceneImageFile,gcn::Rectangle(263,145,45,45));
+		btn_note_allToArrow->setDownImage(MainSceneImageFile,gcn::Rectangle(315,273,45,45));
 		btn_note_allToArrow->setForegroundColor(gcn::Color(255,255,255,255));
 		btn_note_allToArrow->setId("btn_note_allToArrow");
 		btn_note_allToArrow->setSize(btn_note_flipHorizontal->getWidth(),btn_note_flipHorizontal->getHeight());
@@ -824,13 +824,24 @@ namespace divaeditor
 		wlabel_playPos->setPosition(wlabel_playTime->getX(),wlabel_playTime->getY()+15);
 		top->add(wlabel_playPos);
 
+		gcn::WButton *btn_SaveTo = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_btn_SaveTo"));
+		btn_SaveTo->setFrameSize(0);
+		btn_SaveTo->setNormalImage(MainSceneImageFile,gcn::Rectangle(97,403,97,22));
+		btn_SaveTo->setDownImage(MainSceneImageFile,gcn::Rectangle(0,403,97,22));
+		btn_SaveTo->setId("btn_SaveTo");
+		btn_SaveTo->setSize(97,22);
+		btn_SaveTo->setPosition(top->getWidth() - btn_SaveTo->getWidth()-5, top->getHeight()-btn_SaveTo->getHeight()-5);
+		btn_SaveTo->setForegroundColor(gcn::Color(255,255,255,255));
+		sora::SoraGUI::Instance()->registerGUIResponser(btn_SaveTo, this, "btn_SaveTo", sora::RESPONSEACTION);
+		top->add(btn_SaveTo);
+
 		gcn::WButton *btn_Save = new gcn::WButton(LOCALIZATION->getLocalStr(L"MainScene_btn_Save"));
 		btn_Save->setFrameSize(0);
 		btn_Save->setNormalImage(MainSceneImageFile,gcn::Rectangle(97,403,97,22));
 		btn_Save->setDownImage(MainSceneImageFile,gcn::Rectangle(0,403,97,22));
 		btn_Save->setId("btn_Save");
 		btn_Save->setSize(97,22);
-		btn_Save->setPosition(top->getWidth() - btn_Save->getWidth()-5, top->getHeight()-btn_Save->getHeight()-5);
+		btn_Save->setPosition(top->getWidth() - btn_Save->getWidth()-5, btn_SaveTo->getY()-btn_Save->getHeight()-5);
 		btn_Save->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_Save, this, "btn_Save", sora::RESPONSEACTION);
 		top->add(btn_Save);
@@ -1857,6 +1868,11 @@ namespace divaeditor
 		{
 			EDITOR_PTR->mapData->SaveFile();
 		}
+		else if(getID() == "btn_SaveTo")
+		{
+			if(EDITOR_PTR->mapData->ChooseWorkingFile()==L"OK")
+				EDITOR_PTR->mapData->SaveFile();
+		}
 		else if(getID() == "wcheckbox_autosave")
 		{
 			gcn::WCheckBox *wcheckbox_autoSave = (gcn::WCheckBox*)top->findWidgetById("wcheckbox_autosave");
@@ -1963,25 +1979,63 @@ namespace divaeditor
 
 	void DivaEditorMainScene::onMouseWheelUp(sora::SoraMouseEvent& event)
 	{
-		for(int i=event.wheel;i!=0;i--)
+		int setTo = CORE_PTR->getRunPosition();
+		if(EDITCONFIG->isctrl)
 		{
-			int setTo = EDITOR_PTR->mapData->getPrevStandardGrid(CORE_PTR->getRunPosition(),EDITCONFIG->getGridToShowPerBeat());
-			if(setTo<0) setTo=0;
-			if(CORE_FLOW_PTR->getState() == CoreFlow::RUN)
-				EDITUTILITY.reCaltTime();
-			EDITOR_PTR->mapData->setPos(setTo);
+			//Find last position which contains a note
+			for (int i=EDITOR_PTR->mapData->coreInfoPtr->notes.size()-1;i>=0;i--)
+				if(EDITOR_PTR->mapData->coreInfoPtr->notes[i].notePoint[0].position<setTo)
+				{
+					setTo = EDITOR_PTR->mapData->coreInfoPtr->notes[i].notePoint[0].position;
+					break;
+				}
 		}
+		else
+		{
+			if(EDITCONFIG->isshift)
+			{
+				int nowPeriod = EDITOR_PTR->mapData->getPeriodfromGrid(setTo)-1;
+				setTo = EDITOR_PTR->mapData->getGridFromPeriod(nowPeriod);
+			}
+			else
+				for(int i=event.wheel;i!=0;i--)
+					setTo = EDITOR_PTR->mapData->getPrevStandardGrid(setTo,EDITCONFIG->getGridToShowPerBeat());
+
+			if(setTo<0) setTo=0;
+		}
+		
+		EDITOR_PTR->mapData->setPos(setTo);
 	}
 	void DivaEditorMainScene::onMouseWheelDown(sora::SoraMouseEvent& event)
 	{
-		for(int i=abs(event.wheel);i!=0;i--)
-		{
-			int setTo = EDITOR_PTR->mapData->getNextStandardGrid(CORE_PTR->getRunPosition(),EDITCONFIG->getGridToShowPerBeat());
-			if(setTo>CORE_FLOW_PTR->getTotalPosition()) setTo = CORE_FLOW_PTR->getTotalPosition();
-			EDITOR_PTR->mapData->setPos(setTo);
-		}
-	}
+		int setTo = CORE_PTR->getRunPosition();
 
+		if(EDITCONFIG->isctrl)
+		{
+			//Find next position which contains a note
+			for (int i=0;i<EDITOR_PTR->mapData->coreInfoPtr->notes.size();i++)
+				if(EDITOR_PTR->mapData->coreInfoPtr->notes[i].notePoint[0].position>setTo)
+				{
+					setTo = EDITOR_PTR->mapData->coreInfoPtr->notes[i].notePoint[0].position;
+					break;
+				}
+		}
+		else
+		{
+			if(EDITCONFIG->isshift)
+			{
+				int nowPeriod = EDITOR_PTR->mapData->getPeriodfromGrid(setTo) + 1;
+				setTo = EDITOR_PTR->mapData->getGridFromPeriod(nowPeriod);
+			}
+			else
+				for(int i=abs(event.wheel);i!=0;i--)
+					setTo = EDITOR_PTR->mapData->getNextStandardGrid(setTo,EDITCONFIG->getGridToShowPerBeat());
+
+			if(setTo>CORE_FLOW_PTR->getTotalPosition()) setTo = CORE_FLOW_PTR->getTotalPosition();
+		}
+		
+		EDITOR_PTR->mapData->setPos(setTo);
+	}
 
 	void DivaEditorMainScene::onKeyPressed(SoraKeyEvent& event)
 	{

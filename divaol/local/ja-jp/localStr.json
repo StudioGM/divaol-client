@@ -23,7 +23,8 @@
   "MainScene_btn_Note": "ノート",
   "MainScene_btn_Show": "演出",
   "MainScene_btn_Category_Play": "プレー！",
-  "MainScene_btn_Save": "セーブ",
+  "MainScene_btn_Save": "保存",
+  "MainScene_btn_SaveTo": "他所に保存...",
   "MainScene_wcheckbox_showNote": "音符を表示",
   "MainScene_wcheckbox_showGrid": "グリッドを表示",
   "MainScene_wcheckbox_showBackground": "背景を表示",
@@ -53,5 +54,9 @@
   "MainScene_wlabel_globalMissSound": "グローバルミス音",
   "GlobalSoundDisabled": "無効に",
   "MainScene_wcheckbox_timeline_moveNote": "ノートは時間軸変更の同時に変更されて",
-  "MainScene_wcheckbox_autosave": "オート"
+  "MainScene_wcheckbox_autosave": "オート",
+  "Messagebox_Tips": "ヒント",
+  "Tip_CannotModifyMainSound": "メインのサウンドを変更することはできません。",
+  "Tip_CannotModifyHitMiss": "ヒット音とミス音を変更することはできません。ノートカテゴリに移動してください。",
+  "Tip_InitializeVideoPlugins": "ビデオをロードするのは初めてでは、ビデオプラグインを初期化するために、約1分で終了します。"
 }
