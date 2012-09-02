@@ -527,7 +527,11 @@ namespace divacore
 		if(CORE_PTR->getMode()!="editMode")
 			return;
 
-		coreFlow->_locate(coreFlow->nowPosition,coreFlow->timeCounter.getTime());
+		double caltTime = coreFlow->_posToTime(coreFlow->nowPosition);
+		
+		if(abs(caltTime-coreFlow->timeCounter.getTime())<EPS)
+			caltTime = coreFlow->timeCounter.getTime();
+		coreFlow->_locate(coreFlow->nowPosition,caltTime);
 	}
 
 	void StandardEditUtility::setPosition(double position)
