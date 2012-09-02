@@ -131,6 +131,8 @@ namespace divacore
 		//BASS_SampleStop(soundPool["res"].second);
 		for(MUSICPOOL::iterator ptr = musicPool.begin(); ptr != musicPool.end(); ptr++)
 			BASS_ChannelStop(ptr->second.second);
+
+		musicPool.clear();
 		//BASS_Pause();
 		//BASS_Stop(); /*BASS_Start();*/
 	}
@@ -270,13 +272,15 @@ namespace divacore
 	void BassMusicManager::pause()
 	{
 		for(MUSICPOOL::iterator ptr = musicPool.begin(); ptr != musicPool.end(); ptr++)
-			BASS_ChannelPause(ptr->second.second);
+			if(BASS_ChannelIsActive(ptr->second.second))
+				BASS_ChannelPause(ptr->second.second);
 		//BASS_Pause();
 	}
 	void BassMusicManager::resume()
 	{
 		for(MUSICPOOL::iterator ptr = musicPool.begin(); ptr != musicPool.end(); ptr++)
-			BASS_ChannelPlay(ptr->second.second,false);
+			if(BASS_ChannelIsActive(ptr->second.second))
+				BASS_ChannelPlay(ptr->second.second,false);
 		//BASS_Start();
 	}
 	void BassMusicManager::setPosition(const std::string &channel,double time)
