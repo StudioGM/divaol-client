@@ -15,6 +15,21 @@
 
 namespace divacore
 {
+	class DisplayNode
+	{
+	public:
+		enum{IMAGE,VIDEO};
+		std::string mLabel;
+		double z;
+		int mType;
+		sora::SoraSprite *mSprite;
+		DisplayNode():mLabel(""),z(0),mType(IMAGE),mSprite(NULL) {}
+		DisplayNode(int type, sora::SoraSprite *sprite):mLabel(""),z(0),mType(type),mSprite(sprite) {}
+
+		inline int type() const {return mType;}
+		inline virtual void render() {mSprite->render();}
+	};
+	typedef std::vector<DisplayNode> DISPLAY_LIST;
 
 	class StandardDisplay : public Display
 	{
@@ -30,7 +45,7 @@ namespace divacore
 		SPRITEPOOL spritePool;
 		SPRITELIST spriteList;
 		VIDEOPLAYING videoPlaying;
-
+		DISPLAY_LIST displayList;
 	private:
 		void playVideo(ARGUMENTS &arg);
 		void displayImage(ARGUMENTS &arg);

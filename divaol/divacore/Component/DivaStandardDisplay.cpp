@@ -63,6 +63,8 @@ namespace divacore
 			spriteList.push_back(sprite);
 		else
 			spritePool[label] = sprite;
+
+		displayList.push_back(DisplayNode(DisplayNode::IMAGE,sprite));
 	}
 	void StandardDisplay::registerEvents() 
 	{
@@ -100,6 +102,13 @@ namespace divacore
 			ptr->second.first->pause();
 		}
 		videoPlaying.clear();
+
+		//delete image in display list
+		DISPLAY_LIST tmpList;
+		for(DISPLAY_LIST::iterator ptr = displayList.begin(); ptr != displayList.end(); ptr++)
+			if(ptr->type()!=DisplayNode::VIDEO)
+				tmpList.push_back(*ptr);
+		displayList = tmpList;
 	}
 
 	void StandardDisplay::clear()
@@ -121,6 +130,7 @@ namespace divacore
 		spritePool.clear();
 		spriteList.clear();
 		videoPlaying.clear();
+		displayList.clear();
 	}
 	void StandardDisplay::loadImage(const std::string &file, const std::string &ID)
 	{
@@ -199,6 +209,8 @@ namespace divacore
 			spriteList.push_back(sprite);
 		else
 			spritePool[label] = sprite;
+
+		displayList.push_back(DisplayNode(DisplayNode::IMAGE,sprite));
 	}
 	bool StandardDisplay::getImageSize(const std::string &label, float &width, float &height)
 	{
@@ -233,6 +245,13 @@ namespace divacore
 			return;
 		SAFE_DELETE(spritePool[label]);
 		spritePool.erase(spritePool.find(label));
+
+		//delete image in display list
+		DISPLAY_LIST tmpList;
+		for(DISPLAY_LIST::iterator ptr = displayList.begin(); ptr != displayList.end(); ptr++)
+			if(ptr->type()!=DisplayNode::IMAGE)
+				tmpList.push_back(*ptr);
+		displayList = tmpList;
 	}
 	void StandardDisplay::playVideo(const std::string &ID, float x, float y, float width, float height)
 	{
@@ -247,17 +266,25 @@ namespace divacore
 		pair.second->setPosition(x,y);
 		pair.second->setScale((width>0)?(width/pair.second->getSpriteWidth()):1.0,(height>0)?(height/pair.second->getSpriteHeight()):1.0);
 		videoPlaying.insert(ID);
+
+		displayList.push_back(DisplayNode(DisplayNode::VIDEO,pair.second));
 	}
 
 	void StandardDisplay::render()
 	{
-		if(CORE_PTR->getSpeedScale()==Core::NORMAL_SPEED)
-			for(VIDEOPLAYING::iterator ptr = videoPlaying.begin(); ptr != videoPlaying.end(); ptr++)
-				videoPool[*ptr].second->render();
-		for(SPRITEPOOL::iterator ptr = spritePool.begin(); ptr != spritePool.end(); ptr++)
-			ptr->second->render();
-		for(SPRITELIST::iterator ptr = spriteList.begin(); ptr != spriteList.end(); ptr++)
-			(*ptr)->render();
+		for(DISPLAY_LIST::iterator ptr = displayList.begin(); ptr != displayList.end(); ptr++)
+		{
+			if(ptr->type()==DisplayNode::VIDEO&&CORE_PTR->getSpeedScale()!=Core::NORMAL_SPEED)
+				continue;
+			ptr->render();
+		}
+		//if(CORE_PTR->getSpeedScale()==Core::NORMAL_SPEED)
+		//	for(VIDEOPLAYING::iterator ptr = videoPlaying.begin(); ptr != videoPlaying.end(); ptr++)
+		//		videoPool[*ptr].second->render();
+		//for(SPRITEPOOL::iterator ptr = spritePool.begin(); ptr != spritePool.end(); ptr++)
+		//	ptr->second->render();
+		//for(SPRITELIST::iterator ptr = spriteList.begin(); ptr != spriteList.end(); ptr++)
+		//	(*ptr)->render();
 	}
 
 	void StandardDisplay::update(float dt)
