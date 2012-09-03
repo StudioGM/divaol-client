@@ -36,8 +36,12 @@ namespace divacore
         Json::Value root;
         
         const char* cdata = (const char*)Base::FileUtility::readRawData(getSongPath()+L"/"+getMapFileName(),size);
+		const char* rdata = cdata;
+		//check bom
+		if(size>=3&&uint8(cdata[0])==0xef&&uint8(cdata[1])==0xbb&&uint8(cdata[2])==0xbf)
+			rdata = cdata+3, size -= 3;
 
-		if(reader.parse(cdata, cdata+size, root))
+		if(reader.parse(rdata, rdata+size, root))
 		{
 			_parserHeader(root);
 			_parserResource(root);
