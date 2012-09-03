@@ -98,7 +98,7 @@ namespace divaeditor
 		std::wstring InitFromDivaOLProFile(std::wstring path);
 		std::wstring InitFromMusicFile(std::wstring path);
 		std::wstring InitFromDivaPCFile(std::wstring path){return L"Function not ready.";}
-		std::wstring InitFromDivaPCProFile(std::wstring path){return L"Function not ready.";}
+		std::wstring InitFromDivaPCProFile(std::wstring path);
 		std::wstring InitFromBMSFile(std::wstring path){return L"Function not ready.";}
 		std::wstring InitFromOSUFile(std::wstring path){return L"Function not ready.";}
 		std::wstring InitFromMIDIFile(std::wstring path){return L"Function not ready.";}
@@ -207,6 +207,7 @@ namespace divaeditor
 
 		void bpm_change(float pos, double bpm);
 		void bpm_insert(float pos, double bpm);
+		void bpm_insert(int pos, double bpm);
 		void bpm_delete(float pos);
 
 

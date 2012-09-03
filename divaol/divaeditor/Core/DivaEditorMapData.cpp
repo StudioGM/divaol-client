@@ -403,7 +403,8 @@ namespace divaeditor
 		int checkExist = checkNoteExists(mapNote.notePoint[0].position, mapNote.notePoint[0].type, mapNote.noteType);
 		if(checkExist==-1)
 		{
-			EDITUTILITY.resetNote(mapNote);
+			if(EDITCONFIG->map_initialized)
+				EDITUTILITY.resetNote(mapNote);
 
 			coreInfoPtr->notes.push_back(mapNote);
 			int insertIndex = adjustNoteOrder(coreInfoPtr->notes.size()-1);
@@ -423,7 +424,8 @@ namespace divaeditor
 		int checkExist = checkNoteExists(longNote.notePoint[0].position, longNote.notePoint[0].type, longNote.noteType);
 		if(checkExist==-1)
 		{
-			EDITUTILITY.resetNote(longNote);
+			if(EDITCONFIG->map_initialized)
+				EDITUTILITY.resetNote(longNote);
 
 			coreInfoPtr->notes.push_back(longNote);
 			int insertIndex = adjustNoteOrder(coreInfoPtr->notes.size()-1);
@@ -1182,6 +1184,19 @@ namespace divaeditor
 			EDITUTILITY.reCaltTime();
 		}
 	}
+	void DivaEditorMapData::bpm_insert(int pos, double bpm)
+	{
+		if(bpm<=0) return;
+		//Get Nearest Standard Grid
+		int toInsertPos = pos;
+
+		divacore::MapEvent eventToPush;
+		eventToPush.eventType = "bpm";
+		eventToPush.position = toInsertPos;
+		eventToPush.arg["value"] = sora::SoraAny(bpm);
+		coreInfoPtr->events.push_back(eventToPush);
+		adjustEventOrder(coreInfoPtr->events.size()-1);
+	}
 	void DivaEditorMapData::bpm_delete(float pos)
 	{
 		int nowBPMIndex=findLastOrEqualEventIndex(pos,"bpm");
@@ -1297,18 +1312,20 @@ namespace divaeditor
 	{
 		if(resourceID == coreInfoPtr->header.mainSound)
 		{
-			MessageBoxW((HWND)sora::SoraCore::Instance()->getMainWindowHandle(),
-				LOCALIZATION->getLocalStr(L"Tip_CannotModifyMainSound").c_str(),
-				LOCALIZATION->getLocalStr(L"Messagebox_Tips").c_str()
-				,MB_OK);
+			if(EDITCONFIG->map_initialized)
+				MessageBoxW((HWND)sora::SoraCore::Instance()->getMainWindowHandle(),
+					LOCALIZATION->getLocalStr(L"Tip_CannotModifyMainSound").c_str(),
+					LOCALIZATION->getLocalStr(L"Messagebox_Tips").c_str()
+					,MB_OK);
 			return false;
 		}
 		else if(resourceID == "hit" || resourceID == "miss")
 		{
-			MessageBoxW((HWND)sora::SoraCore::Instance()->getMainWindowHandle(),
-				LOCALIZATION->getLocalStr(L"Tip_CannotModifyHitMiss").c_str(),
-				LOCALIZATION->getLocalStr(L"Messagebox_Tips").c_str()
-				,MB_OK);
+			if(EDITCONFIG->map_initialized)
+				MessageBoxW((HWND)sora::SoraCore::Instance()->getMainWindowHandle(),
+					LOCALIZATION->getLocalStr(L"Tip_CannotModifyHitMiss").c_str(),
+					LOCALIZATION->getLocalStr(L"Messagebox_Tips").c_str()
+					,MB_OK);
 			return false;
 		}
 		return true;
@@ -1342,10 +1359,11 @@ namespace divaeditor
 		{
 			resourceInfo.type = divacore::MapResourceInfo::VIDEO;
 			typeStr = "VIDEO";
-			MessageBoxW((HWND)sora::SoraCore::Instance()->getMainWindowHandle(),
-				LOCALIZATION->getLocalStr(L"Tip_InitializeVideoPlugins").c_str(),
-				LOCALIZATION->getLocalStr(L"Messagebox_Tips").c_str()
-				,MB_OK);
+			if (EDITCONFIG->map_initialized)
+				MessageBoxW((HWND)sora::SoraCore::Instance()->getMainWindowHandle(),
+					LOCALIZATION->getLocalStr(L"Tip_InitializeVideoPlugins").c_str(),
+					LOCALIZATION->getLocalStr(L"Messagebox_Tips").c_str()
+					,MB_OK);
 		}
 		else if(imageExtensions.find(ext)!=std::wstring::npos)
 		{
@@ -1386,7 +1404,10 @@ namespace divaeditor
 		//Copy file
 		resourceInfo.filePath = sora::s2ws(typeStr + "/" + resourceInfo.ID) + L'.' + ext;
 		CreateDirectoryW((workingDirectory + L"/" + sora::s2ws(typeStr)).c_str(),NULL);
-		CopyFileW(filename.c_str(), (workingDirectory + L"/" + resourceInfo.filePath).c_str(), false);
+
+		std::wstring copyTo = (workingDirectory + L"/" + resourceInfo.filePath);
+		
+		bool ret = CopyFileW(filename.c_str(), copyTo.c_str(), false);
 		
 		resourceInfo.flag=true;
 
@@ -1466,7 +1487,8 @@ namespace divaeditor
 		toAdd.position = pos;
 		toAdd.arg["id"] = resourceID;
 		toAdd.eventType = findResourceTypeStrByID(resourceID);
-		toAdd.time = EDITUTILITY.posToTime(pos);
+		if(EDITCONFIG->map_initialized)
+			toAdd.time = EDITUTILITY.posToTime(pos);
 
 		if(toAdd.eventType == "playVideo" || toAdd.eventType== "displayImage")
 		{

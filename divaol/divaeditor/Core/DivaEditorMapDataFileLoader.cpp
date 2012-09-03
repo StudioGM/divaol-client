@@ -15,7 +15,21 @@
 
 namespace divaeditor
 {
-	
+	std::wstring checkTailEnter(std::wstring str)
+	{
+		std::wstring ret = str;
+		if(ret.length()==0) return L"";
+
+		int rightTrim=ret.length()-1,leftTrim=0;
+		while(rightTrim>=0&&(ret[rightTrim]=='\n'||ret[rightTrim]=='\r'||ret[rightTrim]==' '))
+			rightTrim--;
+		while(leftTrim<ret.length()&&(ret[leftTrim]=='\n'||ret[leftTrim]=='\r'||ret[leftTrim]==' '))
+			leftTrim++;
+
+		if(rightTrim<0 || leftTrim==ret.length()) return L"";
+		return ret.substr(leftTrim,(rightTrim-leftTrim)+1);
+	}
+
 	DivaEditorMapData::InitSourceFileType DivaEditorMapData::parseInitFileType(std::wstring path)
 	{
 		std::wstring ext=L"";
@@ -247,10 +261,9 @@ namespace divaeditor
 			/*
 			FILE* writeFile;
 			
-			if(_wfopen_s(&writeFile, (workingDirectory+L"/"+workingDivaOLFile).c_str(),L"rw, ccs=UTF-8")!=0)
+			if(_wfopen_s(&writeFile, (workingDirectory+L"/"+workingDivaOLFile).c_str(),L"w, ccs=UTF-8")!=0)
 				return false;
 			fwprintf(writeFile,L"%s",writer.write(rootJsonValue).c_str());
-
 			fclose(writeFile);
 			*/
 
@@ -260,6 +273,7 @@ namespace divaeditor
 
 			outFile << jsonStrToSave;
 			outFile.close();
+			
 			
 		}
 #pragma endregion Save DivaOL Play File
@@ -500,6 +514,267 @@ namespace divaeditor
 
 		return L"OK";
 	}
+
+	std::wstring DivaEditorMapData::InitFromDivaPCProFile(std::wstring path)
+	{
+		std::wstring chooseWorkingFileResult = ChooseWorkingFile();
+		if(chooseWorkingFileResult!=L"OK")
+			return chooseWorkingFileResult;
+
+		//Init editor default value
+		ResetEditorMapData();
+
+		divacore::MapInfo contructMapInfo;
+		registerMapInfo(&contructMapInfo);
+
+		coreInfoPtr->header.speedScale = 1;
+		coreInfoPtr->header.versionStr = EditorVer;
+
+		//Init module
+		coreInfoPtr->module = "standard";
+
+#pragma region Read DivaOLPro File
+
+		wchar_t tempbuffer[1000];
+
+		FILE* readFile;
+		if(_wfopen_s(&readFile, path.c_str(),L"rt, ccs=UTF-8")!=0)
+			return LOCALIZATION->getLocalStr(L"ReadFile_OpenFileError", path.c_str());
+
+		wstring thisVer;
+		//Version
+		thisVer = checkTailEnter(fgetws(tempbuffer,sizeof(tempbuffer),readFile));
+		//MapName
+		coreInfoPtr->header.mapName = checkTailEnter(fgetws(tempbuffer,sizeof(tempbuffer),readFile));
+		//NoterName
+		fgetws(tempbuffer,sizeof(tempbuffer),readFile);
+		std::wstring noterName = tempbuffer;
+		noterName = checkTailEnter(noterName);
+		coreInfoPtr->header.noter.push_back(noterName);
+		//AuthorName
+		fgetws(tempbuffer,sizeof(tempbuffer),readFile);
+		//MusicStyle
+		fgetws(tempbuffer,sizeof(tempbuffer),readFile);
+
+		//Preview Image number
+		fgetws(tempbuffer,sizeof(tempbuffer),readFile);
+		//HardLevel
+		int hardLevel;
+		fwscanf(readFile, L"%d\n", &hardLevel);
+		coreInfoPtr->header.hardLevel = hardLevel;
+		//Difficulty
+		int difficualty;
+		fwscanf(readFile, L"%d\n", &difficualty);
+		coreInfoPtr->header.difficulty=difficualty;
+		//BPM Label
+		fwscanf(readFile, L"%lf\n", &coreInfoPtr->header.BPM);
+		//Period Number
+		fgetws(tempbuffer,sizeof(tempbuffer),readFile);
+
+
+		//BPM Info
+		std::map<int,double> bpmEvent;
+		while(true)
+		{
+			int pos;double bpmValue;
+			fwscanf(readFile,L"%d",&pos);
+			if(pos==-1)
+				break;
+			fwscanf(readFile,L"%lf",&bpmValue);
+			bpmEvent[pos]=bpmValue;
+		}
+
+		//Resource Event
+		std::map<int,vector<int>> resourceEvent;
+		while(true)
+		{
+			int pos,resId;
+			fwscanf(readFile,L"%d",&pos);
+			if(pos==-1)
+				break;
+			fwscanf(readFile,L"%d",&resId);
+			resourceEvent[pos].push_back(resId);
+		}
+
+		//BGM
+		int beginPos,mainSoundResId;
+
+		std::map<int,vector<int>> bgmEvent;
+		while(true)
+		{
+			int pos,bgmTrack,resId;
+			fwscanf(readFile,L"%d",&pos);
+			if(pos==-1)
+				break;
+			fwscanf(readFile,L"%d\n%d",&bgmTrack,&resId);
+			if(bgmEvent.size()==0)
+			{
+				beginPos = pos;
+				mainSoundResId = resId;
+				mapOffset = -beginPos%192;
+			}
+			bgmEvent[pos].push_back(resId);
+		}
+
+		if(bgmEvent.size()==0)
+			return LOCALIZATION->getLocalStr(L"ReadFile_NoMainSoundError", path.c_str());
+
+		//Note
+		while(true)
+		{
+			int pos;
+			divacore::MapNote thisNote;
+			fwscanf(readFile,L"%d",&pos);
+			if(pos==-1)
+				break;
+
+			divacore::NotePoint thisNotePoint;
+			thisNotePoint.position = pos-beginPos;
+			fwscanf(readFile,L"%d%d%d",&thisNotePoint.type,&thisNotePoint.x,&thisNotePoint.y);
+
+			if(thisNotePoint.type<8)
+				thisNote.noteType="normal";
+			else
+				thisNote.noteType="long";
+			thisNotePoint.type%=8;
+
+			int tailX,tailY;
+			fwscanf(readFile,L"%d%d",&tailX,&tailY);
+			thisNote.arg["tailx"]=tailX-(36+thisNotePoint.x*12);
+			thisNote.arg["taily"]=tailY-(63+thisNotePoint.y*12);
+
+			int keyNum;
+			fwscanf(readFile,L"%d",&keyNum);
+			thisNotePoint.key = divacore::iToS(keyNum);
+			thisNotePoint.x += 1+(EDITCONFIG->NoteAreaWidth-36)/2;
+			thisNotePoint.y += 1+(EDITCONFIG->NoteAreaHeight-14)/2;
+
+			thisNote.notePoint.push_back(thisNotePoint);
+
+			if(thisNote.noteType=="long")
+			{
+				int noteLength;
+				fwscanf(readFile,L"%d",&noteLength);
+				divacore::NotePoint tailNotePoint = thisNotePoint;
+				tailNotePoint.position += noteLength;
+				thisNote.notePoint.push_back(tailNotePoint);
+				addLongNote(thisNote);
+			}
+			else
+			{
+				addNormalNote(thisNote);
+			}
+		}
+
+		//AUDIO Resource
+		std::map<int,string> audioResIDMap;
+		while(true)
+		{
+			int wavResId;
+			fwscanf(readFile,L"%d",&wavResId);
+			if(wavResId==-1)
+				break;
+			
+			std::string addedID = resource_add(checkTailEnter(fgetws(tempbuffer,sizeof(tempbuffer),readFile)));
+			audioResIDMap[wavResId] = addedID;
+			if(wavResId == mainSoundResId)
+				contructMapInfo.header.mainSound = addedID;
+		}
+
+		//VIDEO IMAGE Resource
+		std::map<int,string> videoResIDMap;
+		while(true)
+		{
+			int resId;
+			fwscanf(readFile,L"%d",&resId);
+			if(resId==-1)
+				break;
+
+			std::string addedID = resource_add(checkTailEnter(fgetws(tempbuffer,sizeof(tempbuffer),readFile)));
+			videoResIDMap[resId] = addedID;
+		}
+
+		//ChanceTime
+		if(thisVer >= L"1.0.1.0")
+		{
+			int ct_begin,ct_end;
+			fwscanf(readFile,L"%d%d",&ct_begin,&ct_end);
+		}
+
+		//Stop
+		if(thisVer >= L"1.0.4.2")
+		{
+			while(true)
+			{
+				int pos;
+				fwscanf(readFile,L"%d",&pos);
+				if(pos==-1)
+					break;
+				int stopLength;
+				fwscanf(readFile,L"%d",&stopLength);
+				stop_insert(pos-beginPos,stopLength);
+			}
+		}
+
+		fclose(readFile);
+
+
+		//Deal with event
+		for (std::map<int,double>::iterator i=bpmEvent.begin();i!=bpmEvent.end();i++)
+		{
+			int thisPos = i->first-beginPos;
+			if(thisPos<0) thisPos=0;
+			bpm_insert(thisPos,i->second);
+		}
+
+		for (std::map<int,vector<int>>::iterator i=resourceEvent.begin();i!=resourceEvent.end();i++)
+		{
+			int thisPos = i->first-beginPos;
+			if(thisPos<0) thisPos=0;
+			for (vector<int>::iterator eventI = i->second.begin();eventI!=i->second.end();eventI++)
+			{
+				if(videoResIDMap.find(*eventI)!=videoResIDMap.end())
+				resourceEvent_add(thisPos, videoResIDMap[(*eventI)]);
+			}
+		}
+
+		for (std::map<int,vector<int>>::iterator i=bgmEvent.begin();i!=bgmEvent.end();i++)
+		{
+			int thisPos = i->first-beginPos;
+			if(thisPos<0) thisPos=0;
+			for (vector<int>::iterator eventI = i->second.begin();eventI!=i->second.end();eventI++)
+			{
+				if(audioResIDMap.find(*eventI)!=audioResIDMap.end())
+					resourceEvent_add(thisPos, audioResIDMap[(*eventI)]);
+			}
+		}
+
+		for(int i=0;i<coreInfoPtr->notes.size();i++)
+		{
+			for (int j=0;j<coreInfoPtr->notes[i].notePoint.size();j++)
+			{
+				int keyNum = sToI(coreInfoPtr->notes[i].notePoint[j].key);
+				if(audioResIDMap.find(keyNum)!=audioResIDMap.end())
+					coreInfoPtr->notes[i].notePoint[j].key = audioResIDMap[keyNum];
+				else
+					coreInfoPtr->notes[i].notePoint[j].key = "";
+			}
+		}
+
+#pragma endregion Read DivaOLPro File
+
+		//coreInfoPtr->header.noter.clear();
+
+		if(!SaveFile())
+			return LOCALIZATION->getLocalStr(L"ReadFile_SaveFileError", (workingDirectory + L"/" + workingDivaOLProFile).c_str());
+
+		ResetEditorMapData();
+		registerMapInfo(NULL);
+
+		return InitFromDivaOLProFile(workingDirectory + L"/" + workingDivaOLProFile);
+	}
+
+
 	std::wstring DivaEditorMapData::InitFromMusicFile(std::wstring path)
 	{
 		std::wstring chooseWorkingFileResult = ChooseWorkingFile();
@@ -529,8 +804,6 @@ namespace divaeditor
 			//Init module
 			contructMapInfo.module = "standard";
 
-			//Init editor default value
-			ResetEditorMapData();
 			
 			if(!SaveFile())
 			{
@@ -541,6 +814,9 @@ namespace divaeditor
 				return LOCALIZATION->getLocalStr(L"ReadFile_SaveFileError", (workingDirectory + L"/" + workingDivaOLProFile).c_str());
 			}
 
+			//Init editor default value
+			ResetEditorMapData();
+
 			registerMapInfo(NULL);
 			CORE_PTR->setSong(workingDirectory,workingDivaOLFile);
 			return L"OK";
@@ -549,6 +825,7 @@ namespace divaeditor
 			return chooseWorkingFileResult;
 		
 	}
+	
 
 }
 

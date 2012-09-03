@@ -18,8 +18,9 @@ namespace divaeditor
 		std::wstring language;
 
 	public:
+		Localization() {InitFromLocalizationJsonFile(this);}
 		static Localization* Ptr;
-		static Localization* instance() {static Localization instance; InitFromLocalizationJsonFile(&instance); return (Ptr=&instance);}
+		static Localization* instance() {static Localization instance; return (Ptr=&instance);}
 
 		std::wstring getLocalStr(std::wstring strID,...);
 		std::wstring getLocalFontPath();
