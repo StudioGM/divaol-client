@@ -1331,7 +1331,7 @@ namespace divaeditor
 		return true;
 	}
 
-	std::string DivaEditorMapData::resource_add(std::wstring filename)
+	std::string DivaEditorMapData::resource_add(std::wstring filename, bool onlyAddInfo)
 	{
 		divacore::MapResourceInfo resourceInfo;
 
@@ -1378,7 +1378,6 @@ namespace divaeditor
 		else
 			return "ERROR";
 
-		
 		//get ID
 		int idToIns = 0;
 		while(true)
@@ -1401,20 +1400,28 @@ namespace divaeditor
 			idToIns++;
 		}
 
-		//Copy file
-		resourceInfo.filePath = sora::s2ws(typeStr + "/" + resourceInfo.ID) + L'.' + ext;
-		CreateDirectoryW((workingDirectory + L"/" + sora::s2ws(typeStr)).c_str(),NULL);
+		if(!onlyAddInfo)
+		{
+			//Copy file
+			resourceInfo.filePath = sora::s2ws(typeStr + "/" + resourceInfo.ID) + L'.' + ext;
+			CreateDirectoryW((workingDirectory + L"/" + sora::s2ws(typeStr)).c_str(),NULL);
 
-		std::wstring copyTo = (workingDirectory + L"/" + resourceInfo.filePath);
-		
-		bool ret = CopyFileW(filename.c_str(), copyTo.c_str(), false);
+			std::wstring copyTo = (workingDirectory + L"/" + resourceInfo.filePath);
+
+			bool ret = CopyFileW(filename.c_str(), copyTo.c_str(), false);
+		}
+		else
+		{
+			resourceInfo.filePath = filename;
+		}
 		
 		resourceInfo.flag=true;
+
+		resourceDescription[resourceInfo.ID] = safeFileName;
 
 		if(EDITCONFIG->map_initialized)
 		{
 			//Map ID and filename
-			resourceDescription[resourceInfo.ID] = safeFileName;
 			EDITUTILITY.loadResource(resourceInfo);
 		}
 		else

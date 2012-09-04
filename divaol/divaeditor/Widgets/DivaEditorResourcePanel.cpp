@@ -164,7 +164,7 @@ namespace divaeditor
 		{
 			for (int nowX=0;nowX<_gridPerWidth;nowX++)
 			{
-				int thisIndex = nowY * _gridPerHeight + nowX;
+				int thisIndex = nowY * _gridPerHeight + nowX + _nowPage * _gridPerPage;
 				if(thisIndex>=0&&thisIndex< EDITOR_PTR->mapData->coreInfoPtr->resources.size())
 				{
 					//Draw Selected Area

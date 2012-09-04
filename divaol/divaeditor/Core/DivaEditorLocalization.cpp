@@ -115,7 +115,7 @@ namespace divaeditor
 
 		std::wstring formatedStr = strMap[strID];
 
-		wchar_t retStrBuffer[100];
+		wchar_t retStrBuffer[500];
 
 		if(_vswprintf(retStrBuffer, formatedStr.c_str(),varList)<0)
 			return strID + L" print failed";

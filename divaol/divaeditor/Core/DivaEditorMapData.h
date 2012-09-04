@@ -97,7 +97,7 @@ namespace divaeditor
 		std::wstring InitFromDivaOLFile(std::wstring path);
 		std::wstring InitFromDivaOLProFile(std::wstring path);
 		std::wstring InitFromMusicFile(std::wstring path);
-		std::wstring InitFromDivaPCFile(std::wstring path){return L"Function not ready.";}
+		std::wstring InitFromDivaPCFile(std::wstring path);
 		std::wstring InitFromDivaPCProFile(std::wstring path);
 		std::wstring InitFromBMSFile(std::wstring path){return L"Function not ready.";}
 		std::wstring InitFromOSUFile(std::wstring path){return L"Function not ready.";}
@@ -116,7 +116,7 @@ namespace divaeditor
 		std::wstring getResourceDescriptionByIndex(int index);
 		std::string findResourceIDByIndex(int index);
 		int findResourceIndexByID(std::string id);
-		std::string resource_add(std::wstring filename);
+		std::string resource_add(std::wstring filename, bool onlyAddInfo = false);
 		void resource_delete(std::string id);
 		
 		void modifyGlobalHitMissSound(std::wstring filename, std::string type);
