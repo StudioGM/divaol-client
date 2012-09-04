@@ -85,6 +85,13 @@ namespace divacore
 		for(SPRITELIST::iterator ptr = spriteList.begin(); ptr != spriteList.end(); ptr++)
 			SAFE_DELETE_SPRITE((*ptr));
 		spriteList.clear();
+
+		//delete image in display list
+		DISPLAY_LIST tmpList;
+		for(DISPLAY_LIST::iterator ptr = displayList.begin(); ptr != displayList.end(); ptr++)
+			if(ptr->type()!=DisplayNode::IMAGE)
+				tmpList.push_back(*ptr);
+		displayList = tmpList;
 	}
 	void StandardDisplay::clearVideo()
 	{
@@ -243,15 +250,17 @@ namespace divacore
 	{
 		if(spritePool.find(label)==spritePool.end())
 			return;
-		SAFE_DELETE(spritePool[label]);
-		spritePool.erase(spritePool.find(label));
 
 		//delete image in display list
-		DISPLAY_LIST tmpList;
 		for(DISPLAY_LIST::iterator ptr = displayList.begin(); ptr != displayList.end(); ptr++)
-			if(ptr->type()!=DisplayNode::IMAGE)
-				tmpList.push_back(*ptr);
-		displayList = tmpList;
+			if(ptr->type()==DisplayNode::IMAGE&&ptr->mSprite==spritePool[label])
+			{
+				displayList.erase(ptr);
+				break;
+			}
+
+		SAFE_DELETE(spritePool[label]);
+		spritePool.erase(spritePool.find(label));
 	}
 	void StandardDisplay::playVideo(const std::string &ID, float x, float y, float width, float height)
 	{
