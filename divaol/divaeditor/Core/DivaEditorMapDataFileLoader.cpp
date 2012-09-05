@@ -177,8 +177,8 @@ namespace divaeditor
 #pragma region Convert header to json
 
 			headerJsonValue[L"bpm"] = infoToSave->header.BPM;
-			headerJsonValue[L"difficulty"] = infoToSave->header.difficulty;
-			headerJsonValue[L"hard"] = infoToSave->header.hardLevel;
+			headerJsonValue[L"difficulty"] = (int)infoToSave->header.difficulty;
+			headerJsonValue[L"hard"] = (int)infoToSave->header.hardLevel;
 			headerJsonValue[L"mainSound"] = s2ws(infoToSave->header.mainSound);
 			headerJsonValue[L"name"] = infoToSave->header.mapName;
 			

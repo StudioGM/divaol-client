@@ -628,7 +628,7 @@ Reader::decodeDouble( Token &token )
    if ( length <= bufferSize )
    {
       Char buffer[bufferSize];
-      memcpy( buffer, token.start_, length );
+      wcsncpy( buffer, token.start_, length );
       buffer[length] = 0;
       count = swscanf( buffer, L"%lf", &value );
    }

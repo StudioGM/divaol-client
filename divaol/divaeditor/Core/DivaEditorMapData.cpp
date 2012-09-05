@@ -438,11 +438,22 @@ namespace divaeditor
 
 	void DivaEditorMapData::note_modifyTail(int index,int tailX,int tailY)
 	{
+		if(index==-1)
+		{
+			divacore::Logger::instance()->log("Editor: An errror occured when modify notes.");
+			return;
+		}
+		
 		coreInfoPtr->notes[index].arg["tailx"]=tailX;
 		coreInfoPtr->notes[index].arg["taily"]=tailY;
 	}
 	void DivaEditorMapData::note_modifyPos(int index, int x, int y, bool isDelta)
 	{
+		if(index==-1)
+		{
+			divacore::Logger::instance()->log("Editor: An errror occured when modify notes.");
+			return;
+		}
 		for(int i=0;i<coreInfoPtr->notes[index].notePoint.size();i++)
 		{
 			if(isDelta)
@@ -459,6 +470,11 @@ namespace divaeditor
 	}
 	void DivaEditorMapData::note_modifyTimePos(int index, int pos, bool isDelta)
 	{
+		if(index==-1)
+		{
+			divacore::Logger::instance()->log("Editor: An errror occured when modify notes.");
+			return;
+		}
 		if(!isDelta)
 			pos = pos - coreInfoPtr->notes[index].notePoint[0].position;
 		for(int i=0;i<coreInfoPtr->notes[index].notePoint.size();i++)
@@ -466,6 +482,11 @@ namespace divaeditor
 	}
 	void DivaEditorMapData::note_modifySecondTimePos(int index, int pos, bool isDelta)
 	{
+		if(index==-1)
+		{
+			divacore::Logger::instance()->log("Editor: An errror occured when modify notes.");
+			return;
+		}
 		if(coreInfoPtr->notes[index].notePoint.size()<2) return;
 		if(!isDelta)
 			pos = pos - coreInfoPtr->notes[index].notePoint[1].position;
@@ -474,6 +495,11 @@ namespace divaeditor
 
 	void DivaEditorMapData::note_modifyType(int index, char keyPress, bool arrow)
 	{
+		if(index==-1)
+		{
+			divacore::Logger::instance()->log("Editor: An errror occured when modify notes.");
+			return;
+		}
 		for(int i=0;i<coreInfoPtr->notes[index].notePoint.size();i++)
 		{
 			coreInfoPtr->notes[index].notePoint[i].type = getNoteTypeFromKeyPress(keyPress,arrow);
@@ -481,6 +507,11 @@ namespace divaeditor
 	}
 	void DivaEditorMapData::note_modifyTypeByType(int index, int type, bool delta, bool needDecode)
 	{
+		if(index==-1)
+		{
+			divacore::Logger::instance()->log("Editor: An errror occured when modify notes.");
+			return;
+		}
 		for(int i=0;i<coreInfoPtr->notes[index].notePoint.size();i++)
 		{
 			int realType = coreInfoPtr->notes[index].notePoint[i].type;
@@ -505,6 +536,11 @@ namespace divaeditor
 	}
 	void DivaEditorMapData::note_modifyKey(int index, std::string key)
 	{
+		if(index==-1)
+		{
+			divacore::Logger::instance()->log("Editor: An errror occured when modify notes.");
+			return;
+		}
 		for(int i=0;i<coreInfoPtr->notes[index].notePoint.size();i++)
 		{
 			coreInfoPtr->notes[index].notePoint[i].key = key;
@@ -512,6 +548,11 @@ namespace divaeditor
 	}
 	void DivaEditorMapData::note_delete(int index)
 	{
+		if(index==-1)
+		{
+			divacore::Logger::instance()->log("Editor: An errror occured when modify notes.");
+			return;
+		}
 		coreInfoPtr->notes.erase(coreInfoPtr->notes.begin()+index);
 		EDITCONFIG->deleteSelectedNote(index);
 	}

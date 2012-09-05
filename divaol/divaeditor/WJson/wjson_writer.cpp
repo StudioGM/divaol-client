@@ -44,7 +44,7 @@ static void uintToString( unsigned int value,
 std::wstring valueToString( Int value )
 {
    wchar_t buffer[32];
-   wchar_t *current = buffer + sizeof(buffer);
+   wchar_t *current = buffer + sizeof(buffer)/sizeof(wchar_t);
    bool isNegative = value < 0;
    if ( isNegative )
       value = -value;
@@ -59,7 +59,7 @@ std::wstring valueToString( Int value )
 std::wstring valueToString( UInt value )
 {
    wchar_t buffer[32];
-   wchar_t *current = buffer + sizeof(buffer);
+   wchar_t *current = buffer + sizeof(buffer)/sizeof(wchar_t);
    uintToString( value, current );
    assert( current >= buffer );
    return current;
