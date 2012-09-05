@@ -29,7 +29,7 @@
 #include "DivaEventManager.h"
 #include "DivaParticleSystem.h"
 
-#include "DivaConfig.h"
+#include "Core/DivaConfig.h"
 #include "SoraFSM.h"
 #include "SoraInputListeners.h"
 #include "SoraCanvas.h"

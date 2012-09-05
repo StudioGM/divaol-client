@@ -10,7 +10,7 @@
 #define DIVA_GAME_MODULE
 
 #include "DivaCommon.h"
-#include "DivaConfig.h"
+#include "Core/DivaConfig.h"
 #include "DivaEventManager.h"
 
 namespace divacore

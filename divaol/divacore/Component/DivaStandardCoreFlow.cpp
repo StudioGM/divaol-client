@@ -8,7 +8,7 @@
 
 #include "DivaStandardCoreFlow.h"
 //#include "SoraSoundManager/SoraSoundEffectManager.h"
-//#include "SoraSoundManager/SoraBGMManager.h"
+//#include "Plugins/SoraSoundManager/SoraBGMManager.h"
 
 namespace divacore
 {

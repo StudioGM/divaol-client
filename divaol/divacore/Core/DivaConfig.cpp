@@ -6,7 +6,7 @@
  *
  */
 
-#include "DivaConfig.h"
+#include "divacore/Core/DivaConfig.h"
 
 namespace divacore
 {

@@ -11,7 +11,7 @@
 
 #include "DivaCommon.h"
 #include "DivaMapInfo.h"
-#include "DivaConfig.h"
+#include "divacore/Core/DivaConfig.h"
 #include "DivaGameMode.h"
 
 namespace divacore

@@ -151,6 +151,81 @@
     <Filter Include="源文件\divacore\music">
       <UniqueIdentifier>{038ca617-2977-43ce-8ce3-6e8075dec142}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\ui">
+      <UniqueIdentifier>{a206c460-3923-4162-b733-1acb120946a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins\SoraLua">
+      <UniqueIdentifier>{21fedffa-7795-4442-8043-f49dd230f99e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins\SoraLua\Luaplus">
+      <UniqueIdentifier>{5a7df037-df9e-402c-b5d3-e9bd4e085b3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\divacore\lib\Wjson">
+      <UniqueIdentifier>{c01fb7bb-6785-45ed-a5dd-366733d41180}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\ui\DivaConfig">
+      <UniqueIdentifier>{d1121bd2-b8fb-4f04-be96-a6b8992d8b38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\ui\DivaGUI">
+      <UniqueIdentifier>{d4c29e4f-d3f6-4384-8a08-9fb767fafc3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\ui\DivaNetwork">
+      <UniqueIdentifier>{7780046b-757d-4a14-b503-4de33f3b1023}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\ui\GUIChanEx">
+      <UniqueIdentifier>{fc23d71c-e854-40e9-932f-674b4fbf5f9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\ui\Timer">
+      <UniqueIdentifier>{ef9f5128-062d-4724-a937-9bca1093649c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\ui\Player">
+      <UniqueIdentifier>{244dbca9-26ac-456d-b5c5-bf01bdc86dc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\ui\UI">
+      <UniqueIdentifier>{575f752b-d62d-40da-83bf-85a3f228184a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\ui\UI\House">
+      <UniqueIdentifier>{6ff16d0b-b45b-4753-871f-0bbd142d96b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\ui\UI\Stage">
+      <UniqueIdentifier>{fab81794-509b-4883-b86b-ddf0ece0c9f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\ui\UI\TitleScreen">
+      <UniqueIdentifier>{f358fddf-3b32-41ce-8637-5b49d9939965}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins\SoraGUIChan">
+      <UniqueIdentifier>{e29eb5e2-39cd-4e0b-b6ac-3ad374dabde4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins\SoraGUIChan\widgets">
+      <UniqueIdentifier>{bb1c2d6b-a697-4bf0-9968-eb1349b9607d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins\SoraGUIChan\guichan">
+      <UniqueIdentifier>{528d0c19-a677-46b3-a45c-9b57456b0cc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins\SoraGUIChan\guichan\widgets">
+      <UniqueIdentifier>{04469fe1-54e0-4796-8beb-c2fc886d8383}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins\SoraGUIChan\guichan\contrib">
+      <UniqueIdentifier>{5e703e39-2562-4aa6-97f5-a963dfd21df3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins\SoraGUIChan\guichan\contrib\widgets">
+      <UniqueIdentifier>{2432e4c2-a04c-4db0-9878-3b95f74c1cbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins\SoraGUIChan\Modifiers">
+      <UniqueIdentifier>{7f9ac894-2b14-47eb-a71f-b4588dd51449}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins\SoraGUIChan\ticpp">
+      <UniqueIdentifier>{86ad1b1a-2a08-49d5-982e-2322b6876c26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins\SoraSoundManager">
+      <UniqueIdentifier>{a99e3b53-7752-4b48-8a63-3abd25619c1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins\SoraFMODSoundSystem">
+      <UniqueIdentifier>{43660f93-2dc5-4d48-8fd8-e6604c075bfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins\gcnExtend">
+      <UniqueIdentifier>{f97c0bd4-044e-4310-b4b5-bad88542ef72}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Hoshizor\Sora\Hoshizora.h">
@@ -1569,6 +1644,618 @@
     <ClInclude Include="divacore\Mode\DivaRelayUI.h">
       <Filter>源文件\divacore\mode</Filter>
     </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\EnvVarExport.h">
+      <Filter>Plugins\SoraLua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\pluto.h">
+      <Filter>Plugins\SoraLua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\SoraLuaConfig.h">
+      <Filter>Plugins\SoraLua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\SoraLuaExport.h">
+      <Filter>Plugins\SoraLua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\SoraLuaExporter.h">
+      <Filter>Plugins\SoraLua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\SoraLuaObject.h">
+      <Filter>Plugins\SoraLua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\SoraLuaStateManager.h">
+      <Filter>Plugins\SoraLua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\spriteWrapper.h">
+      <Filter>Plugins\SoraLua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaAutoBlock.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaCall.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaFunction.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaHelper.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaHelper_Object.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaHelper_StackObject.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaLink.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaObject.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaPlus.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaPlusCD.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaPlusInternal.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaStackObject.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaStackTableIterator.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaState.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaStateCD.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaStateOutFile.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaTableIterator.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\luathread.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\pt.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\srm.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lapi.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lauxlib.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lcode.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\ldebug.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\ldo.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lfunc.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lgc.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\llex.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\llimits.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lmem.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lobject.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lopcodes.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lparser.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lstate.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lstring.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\ltable.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\ltm.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lua.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lua.hpp">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\luaconf.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lualib.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lundump.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lvm.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lzio.h">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Lib\wjson\wautolink.h">
+      <Filter>源文件\divacore\lib\Wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Lib\wjson\wconfig.h">
+      <Filter>源文件\divacore\lib\Wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Lib\wjson\wfeatures.h">
+      <Filter>源文件\divacore\lib\Wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Lib\wjson\wforwards.h">
+      <Filter>源文件\divacore\lib\Wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Lib\wjson\wjson.h">
+      <Filter>源文件\divacore\lib\Wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Lib\wjson\wjson_batchallocator.h">
+      <Filter>源文件\divacore\lib\Wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Lib\wjson\wreader.h">
+      <Filter>源文件\divacore\lib\Wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Lib\wjson\wvalue.h">
+      <Filter>源文件\divacore\lib\Wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Lib\wjson\wwriter.h">
+      <Filter>源文件\divacore\lib\Wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\DivaGUI\DivaPlayerItem.h">
+      <Filter>源文件\ui\DivaGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\DivaGUI\DivaPlayerList.h">
+      <Filter>源文件\ui\DivaGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\DivaGUI\DivaSelectedListBox.h">
+      <Filter>源文件\ui\DivaGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\DivaGUI\DivaSongInfoContainer.h">
+      <Filter>源文件\ui\DivaGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\DivaGUI\DivaSongList.h">
+      <Filter>源文件\ui\DivaGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\DivaGUI\DivaSongListItem.h">
+      <Filter>源文件\ui\DivaGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\DivaNetwork\DivaNetwork.h">
+      <Filter>源文件\ui\DivaNetwork</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\GUIChanEx\GUIChanAnimeEx.h">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\GUIChanEx\GUIChanButtonEx.h">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\GUIChanEx\GUIChanContainerEx.h">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\GUIChanEx\GUIChanEx.h">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\GUIChanEx\GUIChanImageDisplayerEx.h">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\GUIChanEx\GUIChanLabelEx.h">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\GUIChanEx\GUIChanListBoxEx.h">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\GUIChanEx\GUIChanListItemEx.h">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\GUIChanEx\GUIChanMarkerEx.h">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\GUIChanEx\GUIChanSliderEx.h">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\GUIChanEx\GUIChanSuperButtonEx.h">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\GUIChanEx\GUIChanTextBoxEx.h">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\Player\PlayerManager.h">
+      <Filter>源文件\ui\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\Timer\DivaTimeCounterImplSora.h">
+      <Filter>源文件\ui\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\Timer\DivaTimeCounterImplWin32.h">
+      <Filter>源文件\ui\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UI\House\HouseGameState.h">
+      <Filter>源文件\ui\UI\House</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UI\House\HouseUI.h">
+      <Filter>源文件\ui\UI\House</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UI\House\HouseUIRoomInfoListItem.h">
+      <Filter>源文件\ui\UI\House</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UI\Stage\StageGameState.h">
+      <Filter>源文件\ui\UI\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UI\Stage\StageUI.h">
+      <Filter>源文件\ui\UI\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UI\TitleScreen\TitleScreenExpander.h">
+      <Filter>源文件\ui\UI\TitleScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UI\TitleScreen\TitleScreenMovingShader.h">
+      <Filter>源文件\ui\UI\TitleScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UI\TitleScreen\TitleScreenPressAnyKey.h">
+      <Filter>源文件\ui\UI\TitleScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UI\TitleScreen\TitleScreenUI.h">
+      <Filter>源文件\ui\UI\TitleScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UI\TitleScreen\TitleScreenWheel.h">
+      <Filter>源文件\ui\UI\TitleScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\GUIChanEx\WTextfield.h">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\network.h">
+      <Filter>源文件\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\roomUI.h">
+      <Filter>源文件\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\structure.h">
+      <Filter>源文件\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan.hpp">
+      <Filter>Plugins\SoraGUIChan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichanLuaWrapper.h">
+      <Filter>Plugins\SoraGUIChan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichansetup.h">
+      <Filter>Plugins\SoraGUIChan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichansora.hpp">
+      <Filter>Plugins\SoraGUIChan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\jsongui.h">
+      <Filter>Plugins\SoraGUIChan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\SoraGUI.h">
+      <Filter>Plugins\SoraGUIChan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\soraguifont.hpp">
+      <Filter>Plugins\SoraGUIChan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\soraguigraphics.hpp">
+      <Filter>Plugins\SoraGUIChan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\soraguiimage.hpp">
+      <Filter>Plugins\SoraGUIChan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\soraguiimageloader.hpp">
+      <Filter>Plugins\SoraGUIChan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\soraguiinput.hpp">
+      <Filter>Plugins\SoraGUIChan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\SoraGUIListener.h">
+      <Filter>Plugins\SoraGUIChan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\SoraGUIResponser.h">
+      <Filter>Plugins\SoraGUIChan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\SoraGUIResponserMap.h">
+      <Filter>Plugins\SoraGUIChan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\SoraGUISound.h">
+      <Filter>Plugins\SoraGUIChan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\SoraGUISoundLoader.h">
+      <Filter>Plugins\SoraGUIChan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\xmlgui.h">
+      <Filter>Plugins\SoraGUIChan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\widgets\ImageButton.h">
+      <Filter>Plugins\SoraGUIChan\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\actionevent.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\actionlistener.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\animation.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\animationFactory.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\AnimationFadeIn.h">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\animationlistener.h">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\basiccontainer.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\birthListener.h">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\cliprectangle.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\color.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\deathlistener.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\defaultfont.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\event.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\exception.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\factory.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\focushandler.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\focuslistener.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\font.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\genericinput.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\graphics.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\gui.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\image.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\imagefont.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\imageloader.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\input.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\inputevent.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\key.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\keyevent.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\keyinput.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\keylistener.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\listmodel.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\modifier.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\modifierFactory.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\mouseevent.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\mouseinput.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\mouselistener.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\platform.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\rectangle.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\selectionevent.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\selectionlistener.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\Sound.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\SoundLoader.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\style.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\styleholder.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widget.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgetFactory.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgetlistener.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\button.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\checkbox.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\container.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\dropdown.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\icon.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\imagebutton.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\label.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\listbox.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\radiobutton.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\scrollarea.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\slider.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\tab.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\tabbedarea.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\textbox.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\textfield.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\window.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\contrib\widgets\adjustingcontainer.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan\contrib\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\Modifiers\CloseModifier.h">
+      <Filter>Plugins\SoraGUIChan\Modifiers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\Modifiers\LabelSliderLinker.h">
+      <Filter>Plugins\SoraGUIChan\Modifiers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\Modifiers\TimedWidget.h">
+      <Filter>Plugins\SoraGUIChan\Modifiers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\ticpp\ticpp.h">
+      <Filter>Plugins\SoraGUIChan\ticpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\ticpp\ticpprc.h">
+      <Filter>Plugins\SoraGUIChan\ticpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\ticpp\tinystr.h">
+      <Filter>Plugins\SoraGUIChan\ticpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\ticpp\tinyxml.h">
+      <Filter>Plugins\SoraGUIChan\ticpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraSoundManager\SoraBGMManager.h">
+      <Filter>Plugins\SoraSoundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraSoundManager\SoraSoundEffectManager.h">
+      <Filter>Plugins\SoraSoundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraSoundManager\SoundManagerLuaExport.h">
+      <Filter>Plugins\SoraSoundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFMODSoundSystem\SoraFMODSoundFile.h">
+      <Filter>Plugins\SoraFMODSoundSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFMODSoundSystem\SoraFMODSoundSystem.h">
+      <Filter>Plugins\SoraFMODSoundSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraFMODSoundSystem\SoraFMODSystem.h">
+      <Filter>Plugins\SoraFMODSoundSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\gcnExtend\gcnBackgroundContainer.h">
+      <Filter>Plugins\gcnExtend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\gcnExtend\gcnConnectable.h">
+      <Filter>Plugins\gcnExtend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\gcnExtend\gcnDraggableIcon.h">
+      <Filter>Plugins\gcnExtend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\gcnExtend\gcnDraggableImageButton.h">
+      <Filter>Plugins\gcnExtend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\gcnExtend\gcnDraggableImageButtonIncubator.h">
+      <Filter>Plugins\gcnExtend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\gcnExtend\gcnImageButton2.h">
+      <Filter>Plugins\gcnExtend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\gcnExtend\gcnMenuContainer.h">
+      <Filter>Plugins\gcnExtend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\gcnExtend\gcnPanel.h">
+      <Filter>Plugins\gcnExtend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\gcnExtend\gcnProgressBar.h">
+      <Filter>Plugins\gcnExtend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\gcnExtend\gcnSelectableContainer.h">
+      <Filter>Plugins\gcnExtend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\gcnExtend\gcnWidgetSwitcher.h">
+      <Filter>Plugins\gcnExtend</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\Config\DivaUIConfig.h">
+      <Filter>源文件\ui\DivaConfig</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -2129,6 +2816,522 @@
     <ClCompile Include="divacore\Lib\Base\Timer.cpp">
       <Filter>源文件\divacore\lib\base</Filter>
     </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\EnvVarExport.cpp">
+      <Filter>Plugins\SoraLua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\pluto.c">
+      <Filter>Plugins\SoraLua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\SoraLuaExport.cpp">
+      <Filter>Plugins\SoraLua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\SoraLuaExporter.cpp">
+      <Filter>Plugins\SoraLua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\SoraLuaObject.cpp">
+      <Filter>Plugins\SoraLua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\SoraLuaStateManager.cpp">
+      <Filter>Plugins\SoraLua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\spriteWrapper.cpp">
+      <Filter>Plugins\SoraLua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaObject.cpp">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaPlus.cpp">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaPlus_Libs.cpp">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaPlusAddons.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaPlusFunctions.cpp">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaStackObject.cpp">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaState.cpp">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaState_DumpObject.cpp">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaStateOutFile.cpp">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaTableIterator.cpp">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\luathread.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\lwstrlib.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\popen.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\pt.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\srm.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lapi.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lauxlib.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lbaselib.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lcode.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\ldblib.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\ldebug.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\ldo.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\ldump.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lfunc.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lgc.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\linit.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\liolib.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\llex.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lmathlib.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lmem.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\loadlib.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lobject.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lopcodes.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\loslib.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lparser.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lstate.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lstring.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lstrlib.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\ltable.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\ltablib.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\ltm.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lundump.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lvm.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lzio.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\print.c">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Lib\wjson\wjson_reader.cpp">
+      <Filter>源文件\divacore\lib\Wjson</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Lib\wjson\wjson_value.cpp">
+      <Filter>源文件\divacore\lib\Wjson</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Lib\wjson\wjson_writer.cpp">
+      <Filter>源文件\divacore\lib\Wjson</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\DivaGUI\DivaPlayerItem.cpp">
+      <Filter>源文件\ui\DivaGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\DivaGUI\DivaPlayerList.cpp">
+      <Filter>源文件\ui\DivaGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\DivaGUI\DivaSelectedListBox.cpp">
+      <Filter>源文件\ui\DivaGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\DivaGUI\DivaSongInfoCotainer.cpp">
+      <Filter>源文件\ui\DivaGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\DivaGUI\DivaSongList.cpp">
+      <Filter>源文件\ui\DivaGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\DivaGUI\DivaSongListItem.cpp">
+      <Filter>源文件\ui\DivaGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\DivaNetwork\DivaNetwork.cpp">
+      <Filter>源文件\ui\DivaNetwork</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\GUIChanEx\GUIChanAnimeEx.cpp">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\GUIChanEx\GUIChanButtonEx.cpp">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\GUIChanEx\GUIChanContainerEx.cpp">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\GUIChanEx\GUIChanEx.cpp">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\GUIChanEx\GUIChanImageDisplayerEx.cpp">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\GUIChanEx\GUIChanLabelEx.cpp">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\GUIChanEx\GUIChanListBoxEx.cpp">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\GUIChanEx\GUIChanListItemEx.cpp">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\GUIChanEx\GUIChanMarkerEx.cpp">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\GUIChanEx\GUIChanSliderEx.cpp">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\GUIChanEx\GUIChanSuperButtonEx.cpp">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\GUIChanEx\GUIChanTextBoxEx.cpp">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\Player\PlayerManager.cpp">
+      <Filter>源文件\ui\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\Timer\DivaTimeCounterImplWin32.cpp">
+      <Filter>源文件\ui\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\House\HouseGameState.cpp">
+      <Filter>源文件\ui\UI\House</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\House\HouseUI.cpp">
+      <Filter>源文件\ui\UI\House</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\House\HouseUIRoomInfoListItem.cpp">
+      <Filter>源文件\ui\UI\House</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\Stage\StageGameState.cpp">
+      <Filter>源文件\ui\UI\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\Stage\StageUI.cpp">
+      <Filter>源文件\ui\UI\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\TitleScreen\TitleScreenExpander.cpp">
+      <Filter>源文件\ui\UI\TitleScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\TitleScreen\TitleScreenMovingShader.cpp">
+      <Filter>源文件\ui\UI\TitleScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\TitleScreen\TitleScreenPressAnyKey.cpp">
+      <Filter>源文件\ui\UI\TitleScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\TitleScreen\TitleScreenUI.cpp">
+      <Filter>源文件\ui\UI\TitleScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\TitleScreen\TitleScreenWheel.cpp">
+      <Filter>源文件\ui\UI\TitleScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\GUIChanEx\WTextfield.cpp">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\network.cpp">
+      <Filter>源文件\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\roomUI.cpp">
+      <Filter>源文件\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\structure.cpp">
+      <Filter>源文件\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichanLuaWrapper.cpp">
+      <Filter>Plugins\SoraGUIChan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\jsongui.cpp">
+      <Filter>Plugins\SoraGUIChan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\soraguifont.cpp">
+      <Filter>Plugins\SoraGUIChan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\soraguigraphics.cpp">
+      <Filter>Plugins\SoraGUIChan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\soraguiimage.cpp">
+      <Filter>Plugins\SoraGUIChan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\soraguiimageloader.cpp">
+      <Filter>Plugins\SoraGUIChan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\soraguiinput.cpp">
+      <Filter>Plugins\SoraGUIChan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\SoraGUISound.cpp">
+      <Filter>Plugins\SoraGUIChan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\SoraGUISoundLoader.cpp">
+      <Filter>Plugins\SoraGUIChan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\xmlgui.cpp">
+      <Filter>Plugins\SoraGUIChan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\widgets\ImageButton.cpp">
+      <Filter>Plugins\SoraGUIChan\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\actionevent.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\animation.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\basiccontainer.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\cliprectangle.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\color.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\defaultfont.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\event.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\exception.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\focushandler.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\font.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\genericinput.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\graphics.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\gui.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\guichan.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\image.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\imagefont.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\inputevent.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\key.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\keyevent.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\keyinput.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\modifier.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\mouseevent.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\mouseinput.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\rectangle.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\selectionevent.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\Sound.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\style.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\styleholder.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widget.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgetFactory.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\button.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\checkbox.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\container.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\dropdown.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\icon.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\imagebutton.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\label.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\listbox.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\radiobutton.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\scrollarea.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\slider.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\tab.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\tabbedarea.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\textbox.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\textfield.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\window.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\contrib\widgets\adjustingcontainer.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan\contrib\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\Modifiers\CloseModifier.cpp">
+      <Filter>Plugins\SoraGUIChan\Modifiers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\Modifiers\LabelSliderLinker.cpp">
+      <Filter>Plugins\SoraGUIChan\Modifiers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\Modifiers\TimedWidget.cpp">
+      <Filter>Plugins\SoraGUIChan\Modifiers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\ticpp\ticpp.cpp">
+      <Filter>Plugins\SoraGUIChan\ticpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\ticpp\tinystr.cpp">
+      <Filter>Plugins\SoraGUIChan\ticpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\ticpp\tinyxml.cpp">
+      <Filter>Plugins\SoraGUIChan\ticpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\ticpp\tinyxmlerror.cpp">
+      <Filter>Plugins\SoraGUIChan\ticpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\ticpp\tinyxmlparser.cpp">
+      <Filter>Plugins\SoraGUIChan\ticpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraSoundManager\SoraBGMManager.cpp">
+      <Filter>Plugins\SoraSoundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraSoundManager\SoraSoundEffectManager.cpp">
+      <Filter>Plugins\SoraSoundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraFMODSoundSystem\SoraFMODSoundFile.cpp">
+      <Filter>Plugins\SoraFMODSoundSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraFMODSoundSystem\SoraFMODSoundSystem.cpp">
+      <Filter>Plugins\SoraFMODSoundSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\gcnExtend\gcnBackgroundContainer.cpp">
+      <Filter>Plugins\gcnExtend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\gcnExtend\gcnConnectable.cpp">
+      <Filter>Plugins\gcnExtend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\gcnExtend\gcnDraggableIcon.cpp">
+      <Filter>Plugins\gcnExtend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\gcnExtend\gcnDraggableImageButton.cpp">
+      <Filter>Plugins\gcnExtend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\gcnExtend\gcnDraggableImageButtonIncubator.cpp">
+      <Filter>Plugins\gcnExtend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\gcnExtend\gcnImageButton2.cpp">
+      <Filter>Plugins\gcnExtend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\gcnExtend\gcnMenuContainer.cpp">
+      <Filter>Plugins\gcnExtend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\gcnExtend\gcnPanel.cpp">
+      <Filter>Plugins\gcnExtend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\gcnExtend\gcnProgressBar.cpp">
+      <Filter>Plugins\gcnExtend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\gcnExtend\gcnSelectableContainer.cpp">
+      <Filter>Plugins\gcnExtend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\gcnExtend\gcnWidgetSwitcher.cpp">
+      <Filter>Plugins\gcnExtend</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\Config\DivaUIConfig.cpp">
+      <Filter>源文件\ui\DivaConfig</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Hoshizor\Sora\json\json_internalarray.inl">
@@ -2139,6 +3342,36 @@
     </None>
     <None Include="..\Hoshizor\Sora\json\json_valueiterator.inl">
       <Filter>头文件\json</Filter>
+    </None>
+    <None Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaCall.inl">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </None>
+    <None Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaObject.inl">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </None>
+    <None Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaStackObject.inl">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </None>
+    <None Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaStackTableIterator.inl">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </None>
+    <None Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaState.inl">
+      <Filter>Plugins\SoraLua\Luaplus</Filter>
+    </None>
+    <None Include="divacore\Lib\wjson\wjson_valueiterator.inl">
+      <Filter>源文件\divacore\lib\Wjson</Filter>
+    </None>
+    <None Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\Makefile.am">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </None>
+    <None Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\Makefile.in">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </None>
+    <None Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\Makefile.am">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </None>
+    <None Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\Makefile.in">
+      <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
     </None>
   </ItemGroup>
 </Project>
