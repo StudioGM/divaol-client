@@ -76,18 +76,26 @@ namespace divacore
 	void JsonGameModule::distribute() 
 	{
 		defaultFolder = sora::SoraCore::Ptr->loadResourcePack(DEFAULT_INFO_PTR->getAsString("module"));
+		if(MY_PLAYER_INFO.module()!="")
+			customFolder = sora::SoraCore::Ptr->loadResourcePack(MY_PLAYER_INFO.module());
 
 		ITEM_FACTORY_PTR->gameLoad(noteFile);
 		UI_PAINTER_PTR->gameLoad(uiFile);
 		RENDER_SYSTEM_PTR->gameLoad(renderFile);
 		EFFECT_SYSTEM_PTR->gameLoad(effectFile);
 
+		//insert hook
+		std::vector<std::string> customHooks = MY_PLAYER_INFO.hooks();
+		for(int i = 0; i < customHooks.size(); i++)
+			HOOK_MANAGER_PTR->insert(HOOK_MANAGER_PTR->createHook(customHooks[i]));
 		for(int i = 0; i < hooks.size(); i++)
 			HOOK_MANAGER_PTR->insert(HOOK_MANAGER_PTR->createHook(hooks[i]));
 	}
 	void JsonGameModule::gameStop()
 	{
 		sora::SoraCore::Ptr->detachResourcePack(moduleFolder);
+		if(MY_PLAYER_INFO.module()!="")
+			sora::SoraCore::Ptr->detachResourcePack(customFolder);
 		sora::SoraCore::Ptr->detachResourcePack(defaultFolder);
 	}
 }

@@ -51,26 +51,28 @@ namespace divacore
 		}
 	}
 
-	void MultiGameInfo::newGame(GPacket *packet)
+	void NetGameInfo::newGame(GPacket *packet)
 	{
 		gnet::Item<gnet::List> *list = dynamic_cast<gnet::Item<gnet::List>*>(dynamic_cast<GPacket*>(packet->getItem(3))->getItem(1));
 		mPlayers = PLAYERS(list->size());
-		mTeams = TEAMS(list->size());
+		mTeams = TEAMS(packet->getItem(4)->getInt());
 
 		for(int i = 0; i < mPlayers.size(); i++)
 		{
 			PlayerInfo playerInfo;
 
-			playerInfo.uid = list->getItem(i)->getString();
-			playerInfo.index = i;
-			playerInfo.teamIndex = i;
-			playerInfo.indexInTeam = 0;
+			gnet::Item<gnet::List> *playerList = dynamic_cast<gnet::Item<gnet::List>*>(list->getItem(i));
+
+			playerInfo.uid = playerList->getItem(0)->getString();
+			playerInfo.index = playerList->getItem(1)->getInt()-1;
+			playerInfo.teamIndex = playerList->getItem(2)->getInt()-1;
+			playerInfo.indexInTeam = playerList->getItem(3)->getInt()-1;
 
 			mPlayers[i] = playerInfo;
 			mTeams[playerInfo.teamIndex].nowPlayer = 0;
 			mTeams[playerInfo.teamIndex].players.push_back(i);
 
-			if(mConfig.getAsString("uid")==playerInfo.uid)
+			if(MY_PLAYER_INFO.uid()==playerInfo.uid)
 			{
 				myPlayerID = playerInfo.index;
 				myTeamID = playerInfo.teamIndex;
@@ -88,23 +90,23 @@ namespace divacore
 		}
 		 void MultiPlay::gameReset() {
 			//注册接收函数
-			GNET_RECEIVE_PACKET("game#membersinfo",&MultiPlay::gnetMembersInfo);
-			GNET_RECEIVE_PACKET("game#playerupdate",&MultiPlay::gnetPlayerUpdate);
+			GNET_RECEIVE_PACKET("game#membersinfoL",&MultiPlay::gnetMembersInfo);
+			GNET_RECEIVE_PACKET("game#playerupdateL",&MultiPlay::gnetPlayerUpdate);
 			GNET_RECEIVE_PACKET("stage#join_failed",&MultiPlay::gnetJoinFailed);
 			GNET_RECEIVE_PACKET("stage#join_ok",&MultiPlay::gnetJoinOK);
 
 			SinglePlay::gameReset();
 			
 			if(mInfo==0) {
-				mInfo = new MultiGameInfo();
+				mInfo = new NetGameInfo();
 				mInfo->setOwner(this);
 			}
 			
 			setBaseState(CONNECT);
 		}
 		 void MultiPlay::gameStop() {
-			GNET_UNRECEIVE_PACKET("game#membersinfo");
-			GNET_UNRECEIVE_PACKET("game#playerupdate");
+			GNET_UNRECEIVE_PACKET("game#membersinfoL");
+			GNET_UNRECEIVE_PACKET("game#playerupdateL");
 			GNET_UNRECEIVE_PACKET("stage#join_failed");
 			GNET_UNRECEIVE_PACKET("stage#join_ok");
 
@@ -131,7 +133,7 @@ namespace divacore
 			//连接server
 			NETWORK_SYSTEM_PTR->connect();
 
-			NETWORK_SYSTEM_PTR->send("auth#setuid","%s",mInfo->mConfig.getAsString("uid").c_str());
+			NETWORK_SYSTEM_PTR->send("auth#setuid","%s",MY_PLAYER_INFO.uid().c_str());
 
 			NETWORK_SYSTEM_PTR->send("stage#join","%s","919");
 
@@ -181,7 +183,7 @@ namespace divacore
 		void MultiPlay::sendInfo()
 		{
 			////与server同步score，hp和combo信息，此信息仅为他人显示用，不参与数据处理
-			NETWORK_SYSTEM_PTR->send("game#heartbeat",
+			NETWORK_SYSTEM_PTR->send("game#heartbeatR",
 				"%f%d%d%f",CORE_PTR->getRunPosition(),getScore(),getCombo(),getHPinRatio());
 		}
 

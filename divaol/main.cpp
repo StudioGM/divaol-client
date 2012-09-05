@@ -26,12 +26,14 @@ int CALLBACK WinMain(
 
 	try
 	{
-		divacore::standard::Initializer initializer("system",divacore::standard::Initializer::EDIT, true);
+		divacore::standard::Initializer initializer("system",divacore::standard::Initializer::MULTI, true);
 		divacore::CorePtr core = initializer.get();
 
 		divacore::Config config;
 		divacore::configloader::loadWithJson(config,"system/common.json");
 		core->setSong(config.getAsWString("song"),config.getAsWString("map"));
+
+		core->myPlayerInfo().loadFromFile("system/playerInfo.json");
 
 		sora::SoraGameAppDef def;
 		sora::SoraGameApp app(def);
@@ -49,7 +51,13 @@ int CALLBACK WinMain(
 	catch (divacore::Exception&ev)
 	{
 		divacore::LOGGER->error(ev);
-        sora::SoraCore::Instance()->messageBox(ev.getContent(), ev.getModuleName(), 0);
+		MessageBox(
+			NULL,
+			sora::s2ws(ev.getContent()).c_str(),
+			sora::s2ws(ev.getModuleName()).c_str(),
+			MB_ICONERROR | MB_DEFBUTTON2
+			);
+        //sora::SoraCore::Instance()->messageBox(ev.getContent(), ev.getModuleName(), 0);
 	}
 
 	//ExitProcess(0);

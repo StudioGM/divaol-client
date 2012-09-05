@@ -100,13 +100,11 @@ namespace divacore
 		{
 			MultiPlay::gameReset();
 
-			GNET_RECEIVE_PACKET("game#failure",&RelayPlay::gnetGetFailure);
-			GNET_RECEIVE_PACKET("game#relayTimeUp",&RelayPlay::gnetRelayTimeUP);
-			GNET_RECEIVE_PACKET("game#relayChance",&RelayPlay::gnetRelayChance);
-			GNET_RECEIVE_PACKET("game#relayYouCanPlay",&RelayPlay::gnetRelayYouCanPlay);
-			GNET_RECEIVE_PACKET("game#relayNewPlayer",&RelayPlay::gnetRelayNewPlayer);
-			GNET_RECEIVE_PACKET("game#relayRenew",&RelayPlay::gnetRelayRenew);
-			GNET_RECEIVE_PACKET("game#relayVoidPeriod",&RelayPlay::gnetRelayVoidPeriod);
+			GNET_RECEIVE_PACKET("game#relayChanceL",&RelayPlay::gnetRelayChance);
+			GNET_RECEIVE_PACKET("game#relayYouCanPlayL",&RelayPlay::gnetRelayYouCanPlay);
+			GNET_RECEIVE_PACKET("game#relayNewPlayerL",&RelayPlay::gnetRelayNewPlayer);
+			GNET_RECEIVE_PACKET("game#renewL",&RelayPlay::gnetRelayRenew);
+			GNET_RECEIVE_PACKET("game#relayVoidPeriodL",&RelayPlay::gnetRelayVoidPeriod);
 
 			noteBlender = new RelayPlay_NoteBlender;
 			HOOK_MANAGER_PTR->insert(noteBlender);
@@ -128,7 +126,7 @@ namespace divacore
 		void gameStart()
 		{
 			MultiPlay::gameStart();
-			if(getMyPlayerInfo()->indexInTeam==0)
+			if(getMyPlayerInfo()->indexInTeam==1)
 				setRelayState(MYTURN);
 			else
 				setRelayState(WAIT);
@@ -140,13 +138,11 @@ namespace divacore
 		{
 			MultiPlay::gameOver();
 			setRelayState(OVER);
-			GNET_UNRECEIVE_PACKET("game#failure");
-			GNET_UNRECEIVE_PACKET("game#relayTimeUp");
-			GNET_UNRECEIVE_PACKET("game#relayChance");
-			GNET_UNRECEIVE_PACKET("game#relayYouCanPlay");
-			GNET_UNRECEIVE_PACKET("game#relayNewPlayer");
-			GNET_UNRECEIVE_PACKET("game#relayRenew");
-			GNET_UNRECEIVE_PACKET("game#relayVoidPeriod");
+			GNET_UNRECEIVE_PACKET("game#relayChanceL");
+			GNET_UNRECEIVE_PACKET("game#relayYouCanPlayL");
+			GNET_UNRECEIVE_PACKET("game#relayNewPlayerL");
+			GNET_UNRECEIVE_PACKET("game#renewL");
+			GNET_UNRECEIVE_PACKET("game#relayVoidPeriodL");
 		}
 
 		void gameReady()
@@ -187,7 +183,6 @@ namespace divacore
 		void checkNoteOver(NotePtr note)
 		{
 			stateList[note->getID()].over();
-			//LOGGER->log("over %d %d",note->getID(),combo);
 		}
 		bool checkNote(NotePtr note) 
 		{
@@ -197,15 +192,6 @@ namespace divacore
 				note->setTailTag("_not_mine");
 			}
 			MultiPlay::checkNote(note);
-			/*if(getRelayState()!=MYTURN&&getRelayState()!=CHANGE)
-			{	
-				for(int i = 0; i < failure_list.size(); i++)
-					if(note->getID()==failure_list[i])
-					{
-						failure_list.erase(failure_list.begin()+i);
-						return false;
-					}
-			}*/
 			return true;
 		}
 		bool checkPoint(StateEvent& event) 
@@ -233,8 +219,8 @@ namespace divacore
 
 				if(event.type==StateEvent::PRESS||event.type==StateEvent::FAILURE)
 				{
-					if(event.breakCombo||event.breakNote)
-						sendFailure(event);
+					//if(event.breakCombo||event.breakNote)
+					//	sendFailure(event);
 					sendRenew(event.note->getID(),event.rank,event.breakCombo,event.breakNote,event.getScreenPosition().x,event.getScreenPosition().y);
 				}
 			}
@@ -249,33 +235,26 @@ namespace divacore
 						Core::Ptr->getMusicManager()->playDirect("miss","sound_effect");
 				}
 
+				//show effect
 				if(event.type==StateEvent::PRESS)
-					//show effect
 					pressEffect(event);
-				//	combo++;
 
 				stateList[event.note->getID()].addKey(event);
 				stateQueue.push_back(event);
 			}
 		}
 
-		void sendFailure(StateEvent &event)
-		{
-			NETWORK_SYSTEM_PTR->send("game#failure",
-				"%f%d%b%b",CORE_PTR->getRunTime(),event.note->getID(),event.breakCombo,event.breakNote);
-		}
-
-		void sendRenew(uint32 uid, int rank, bool breakCombo, bool breakNote, float positionX, float positionY)
+		void sendRenew(uint32 uid, int rank, bool breakCombo, bool breakNote, double positionX, double positionY)
 		{
 			int cnt = stateList[uid].eventList.size()-1;
-			NETWORK_SYSTEM_PTR->send("game#relayRenew",
+			NETWORK_SYSTEM_PTR->send("game#renewR",
 				"%f%d%d%d%d%b%b%f%f",CORE_PTR->getRunTime(),nowTurn,uid,cnt,rank,breakCombo,breakNote,positionX,positionY);
 		}
 
 		void iAmPlaying()
 		{
-			NETWORK_SYSTEM_PTR->send("game#relayIamPlaying",
-				"%f",CORE_PTR->getRunTime());
+			NETWORK_SYSTEM_PTR->send("game#relayIamPlayingR",
+				"%f",CORE_PTR->getRunPosition());
 		}
 
 		void onKeyPressed(KeyEvent& event)
@@ -289,24 +268,9 @@ namespace divacore
 			}
 		}
 
-		void gnetGetFailure(GPacket *packet)
-		{
-			uint32 uid;
-			bool breakCombo;
-			bool breakNote;
-			NETWORK_SYSTEM_PTR->read(packet,"%d%b%b",&uid,&breakCombo,&breakNote);
-			/*if(breakNote)
-			{
-				if(!CORE_FLOW_PTR->toFail(uid))
-					failure_list.push_back(uid);
-				else
-					MUSIC_MANAGER_PTR->playDirectWithFile("fail.wav",true);
-			}*/
-		}
-
 		void relayWantToChange()
 		{
-			NETWORK_SYSTEM_PTR->send("game#relayWantToChange",
+			NETWORK_SYSTEM_PTR->send("game#relayWantToChangeR",
 				"%f",CORE_PTR->getRunPosition()+BUFFER_POSITION);
 
 			changePosition = CORE_PTR->getRunPosition()+BUFFER_POSITION;
@@ -317,7 +281,7 @@ namespace divacore
 		}
 		void relayWantToPlay()
 		{
-			NETWORK_SYSTEM_PTR->send("game#relayWantToPlay","");
+			NETWORK_SYSTEM_PTR->send("game#relayWantToPlayR","");
 
 			setRelayState(APPLY);
 		}
@@ -376,9 +340,8 @@ namespace divacore
 			if(CORE_PTR->getRunPosition()>changePosition)
 			{
 				endPosition = CORE_PTR->getRunPosition()+maxLastGrid;
-				//LOGGER->log("%0.3lf %0.3lf",CORE_PTR->getRunPosition(),endPosition);
 				changePosition = 0, setRelayState(MYTURN);
-				//nowPlayer = nextPlayer;
+				
 				iAmPlaying();
 			}
 		}
@@ -407,8 +370,8 @@ namespace divacore
 			int rank;
 			bool breakCombo;
 			bool breakNote;
-			float positionX;
-			float positionY;
+			double positionX;
+			double positionY;
 			NETWORK_SYSTEM_PTR->read(packet,"%f%d%d%d%d%b%b%f%f",&packetTime,&turn,&pID,&cnt,&rank,&breakCombo,&breakNote,&positionX,&positionY);
 			Point position = Point(positionX,positionY);
 
@@ -421,16 +384,17 @@ namespace divacore
 			{
 				relayQueue.push_back(note);
 				return;
-			} 
-			else if(breakNote)
-			{
-				MUSIC_MANAGER_PTR->playDirect("miss","sound_effect");
-				CORE_FLOW_PTR->toFail(pID);
 			}
+			
+			if(rank>4)
+				MUSIC_MANAGER_PTR->playDirect("miss","sound_effect");
+			if(breakNote)
+				CORE_FLOW_PTR->toFail(pID);
 
 			relayRenew(note);
 
-			//if(!stateList[pID].isOver())
+			if(event.rank<0)
+				event.rank = event.rank;
 			HOOK_MANAGER_PTR->hook(event);
 		}
 		void relayRenew(RelayNote &data)
@@ -522,7 +486,6 @@ namespace divacore
 			{
 				if(CORE_PTR->getRunPosition()>endPosition)
 				{
-					//LOGGER->log("end %0.3lf %0.3lf",CORE_PTR->getRunPosition(),endPosition);
 					relayWantToChange();
 				}
 			}
@@ -532,33 +495,23 @@ namespace divacore
 				if(stateList.size()>relayQueue.begin()->noteID)
 				{
 					KeyState &keyState = stateList[relayQueue.begin()->noteID];
-					//if(keyState.eventList.size()>relayQueue.begin()->pointCnt||keyState.isOver())
-					//{
+
+					if(relayQueue.begin()->event.rank>4)
+						MUSIC_MANAGER_PTR->playDirect("miss","sound_effect");
+
 					if(relayQueue.begin()->event.breakNote&&!keyState.isOver())
 					{
-						MUSIC_MANAGER_PTR->playDirect("miss","sound_effect");
 						CORE_FLOW_PTR->toFail(keyState.noteID);
 					}
 
 					relayRenew(*relayQueue.begin());
 
-					//if(!keyState.isOver())
 					HOOK_MANAGER_PTR->hook(relayQueue.begin()->event);
 
 					relayQueue.erase(relayQueue.begin());
 				}
 			}
-			
-			/*if(relayQueue.size())
-				if(stateList.size()>relayQueue.begin()->noteID)
-				{
-					KeyState &keyState = stateList[relayQueue.begin()->noteID];
-					if(keyState.eventList.size()>relayQueue.begin()->pointCnt||keyState.isOver())
-					{
-						relayRenew(*relayQueue.begin());
-						relayQueue.erase(relayQueue.begin());
-					}
-				}*/
+		
 		}
 
 		void render()

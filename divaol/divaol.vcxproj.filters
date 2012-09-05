@@ -1569,6 +1569,9 @@
     <ClInclude Include="divacore\Mode\DivaRelayUI.h">
       <Filter>源文件\divacore\mode</Filter>
     </ClInclude>
+    <ClInclude Include="divacore\Core\DivaPlayerInfo.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

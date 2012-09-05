@@ -69,7 +69,7 @@ namespace divacore
 		MultiPlay *mOwner;
 			
 		void setOwner(MultiPlay *owner) {mOwner=owner;}
-		virtual void newGame(GPacket *packet) = 0;
+		virtual void newGame(GPacket *packet);
 		virtual void updateInfoFromPacket(GPacket *packet);
 		virtual void update(float dt);
 		virtual void updateTeamInfo();

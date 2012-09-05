@@ -48,6 +48,27 @@ namespace divacore
 				else
 					config.add(key,Point(item[0],item[1]));
 			}
+			else if(value.isArray())
+			{
+				AnyList anyList;
+				for(int i = 0; i < value.size(); i++)
+				{
+					sora::SoraAny tmp;
+					if(value[i].isInt())
+						tmp = value[i].asInt();
+					else if(value[i].isDouble())
+						tmp = value[i].asDouble();
+					else if(value[i].isString())
+						tmp = value[i].asString();
+					else if(value[i].isBool())
+						tmp = value[i].asBool();
+					else
+						DIVA_EXCEPTION_MODULE("array type is not supported","ConfigJsonLoader");
+
+					anyList.push_back(tmp);
+				}
+				config.add(key,anyList);
+			}
 			else
 				DIVA_EXCEPTION_MODULE("item "+key+" can't load","ConfigJsonLoader");
 		}

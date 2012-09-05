@@ -24,7 +24,7 @@ namespace divacore
 		std::string resultFile;
 		std::vector<std::string> hooks;
 
-		sora::SoraResourceHandle moduleFolder,defaultFolder;
+		sora::SoraResourceHandle moduleFolder,defaultFolder,customFolder;
 	public:
 		std::string getName() {return name;}
 		void gameStop();

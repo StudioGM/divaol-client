@@ -13,47 +13,14 @@
 
 namespace divacore
 {
-	class PairGameInfo : public NetGameInfo
-	{
-	public:
-		void newGame(GPacket *packet)
-		{
-			gnet::Item<gnet::List> *list = dynamic_cast<gnet::Item<gnet::List>*>(dynamic_cast<GPacket*>(packet->getItem(3))->getItem(1));
-			mPlayers = PLAYERS(list->size());
-			mTeams = TEAMS((list->size()+1)>>1);
-
-			for(int i = 0; i < mPlayers.size(); i++)
-			{
-				PlayerInfo playerInfo;
-
-				playerInfo.uid = list->getItem(i)->getString();
-				playerInfo.index = i;
-				playerInfo.teamIndex = (i+1)/2;
-				playerInfo.indexInTeam = (i+1)%2;
-
-				mPlayers[i] = playerInfo;
-				mTeams[playerInfo.teamIndex].nowPlayer = 0;
-				mTeams[playerInfo.teamIndex].players.push_back(i);
-
-				if(mConfig.getAsString("uid")==playerInfo.uid)
-				{
-					myPlayerID = playerInfo.index;
-					myTeamID = playerInfo.teamIndex;
-					myPlayerPtr = &mPlayers[myPlayerID];
-					myTeamPtr = &mTeams[myTeamID];
-				}
-			}
-		}
-	};
-
 	class PairNote
 	{
 	public:
-		int noteID,pointCnt;
+		int noteID,pointCnt,noteRank;
 		float time;
 		bool breakCombo,breakNote;
-		PairNote(int noteID, int pointCnt,bool breakCombo, bool breakNote, float time)
-			:noteID(noteID),pointCnt(pointCnt),breakCombo(breakCombo),breakNote(breakNote),time(time)
+		PairNote(int noteID, int pointCnt, int noteRank, bool breakCombo, bool breakNote, float time)
+			:noteID(noteID),pointCnt(pointCnt),breakCombo(breakCombo),breakNote(breakNote),time(time),noteRank(noteRank)
 		{}
 	};
 	class PairPlay : public MultiPlay
@@ -104,11 +71,8 @@ namespace divacore
 		}
 		void gameReset()
 		{
-			mInfo = new PairGameInfo();
-			mInfo->setOwner(this);
-
 			MultiPlay::gameReset();
-			GNET_RECEIVE_PACKET("game#failure",&PairPlay::gnetGetFailure);
+			GNET_RECEIVE_PACKET("game#failureL",&PairPlay::gnetGetFailure);
 			
 			noteBlender = new PairPlay_NoteBlender;
 			HOOK_MANAGER_PTR->insert(noteBlender);
@@ -118,7 +82,7 @@ namespace divacore
 		void gameOver()
 		{
 			MultiPlay::gameOver();
-			GNET_UNRECEIVE_PACKET("game#failure");
+			GNET_UNRECEIVE_PACKET("game#failureL");
 		}
 		void gameStop()
 		{
@@ -135,8 +99,6 @@ namespace divacore
 		{
 			if(note->getID()%2!=getMyPlayerInfo()->indexInTeam)
 			{
-				//if(failure_list.size()&&note->getID()==failure_list[0])
-				//	return false;
 				note->setOwner(false);
 				note->setTailTag("_not_mine");
 			}
@@ -153,7 +115,6 @@ namespace divacore
 		{
 			if(!MultiPlay::checkFailure(event))
 				return false;
-			//sendFailure(event);
 			return true;
 		}
 		void inform(StateEvent& event)
@@ -162,13 +123,14 @@ namespace divacore
 			{
 				SinglePlay::inform(event);
 
+				//only if the note will break note|combo and the rank is worse than 4, we send failure to partner
 				if(event.type==StateEvent::PRESS||event.type==StateEvent::FAILURE)
 					if(event.breakCombo||event.breakNote)
 						sendFailure(event);
 			}
 			else
 			{
-				//≤•∑≈hit“Ù
+				//play the key sound automatically
 				if(event.type==StateEvent::PRESS||event.type==StateEvent::FAILURE)
 				{
 					if(event.rank<=4)
@@ -177,45 +139,40 @@ namespace divacore
 						Core::Ptr->getMusicManager()->playDirect("miss","sound_effect");
 				}
 
+				//show effect
 				if(event.type==StateEvent::PRESS)
-					//show effect
 					pressEffect(event);
 			}
 		}
 
 		void sendFailure(StateEvent &event)
 		{
-			int cnt = stateList[event.note->getID()].eventList.size()-1;
-			NETWORK_SYSTEM_PTR->send("game#failure",
-				"%f%d%d%b%b",CORE_PTR->getRunTime(),event.note->getID(),cnt,1,1);
+			int stateCnt = stateList[event.note->getID()].eventList.size()-1;
+			NETWORK_SYSTEM_PTR->send("game#failureR",
+				"%f%d%d%d%b%b",CORE_PTR->getRunTime(),event.note->getID(),stateCnt, event.rank,event.breakCombo,event.breakNote);
 		}
 
 		void gnetGetFailure(GPacket *packet)
 		{
 			double failedTime;
-			uint32 pID, cnt;
+			int32 noteID, stateCnt, noteRank;
 			bool breakCombo, breakNote;
 	
-			NETWORK_SYSTEM_PTR->read(packet,"%f%d%d%b%b",&failedTime,&pID,&cnt,&breakCombo,&breakNote);
+			NETWORK_SYSTEM_PTR->read(packet,"%f%d%d%d%b%b",&failedTime,&noteID,&stateCnt,&noteRank,&breakCombo,&breakNote);
 			
-			PairNote note(pID,cnt,breakCombo,breakNote,failedTime);
-
-			if(failedTime>CORE_PTR->getRunTime())//stateList.size()<=pID||stateList[pID].isOver()&&stateList[pID].eventList.size()<=cnt)
-			{
+			PairNote note(noteID,stateCnt,noteRank,breakCombo,breakNote,failedTime);
+			
+			// if the failed event is in the future, push it into queue, or play miss sound and force it to fail
+			if(failedTime>CORE_PTR->getRunTime()) {
 				pairQueue.push_back(note);
-				return;
 			} 
 			else
 			{
-				MUSIC_MANAGER_PTR->playDirect("miss","sound_effect");
-				CORE_FLOW_PTR->toFail(pID);
+				if(noteRank>4)
+					MUSIC_MANAGER_PTR->playDirect("miss","sound_effect");
+				if(breakNote)
+					CORE_FLOW_PTR->toFail(noteID);
 			}
-			/*MUSIC_MANAGER_PTR->playDirectWithFile("fail.wav",true);
-			if(breakNote)
-			{
-				if(!CORE_FLOW_PTR->toFail(uid))
-					failure_list.push_back(uid);
-			}*/
 		}
 
 		void update(float dt)
@@ -228,13 +185,11 @@ namespace divacore
 			{
 				if(stateList.size()>pairQueue.begin()->noteID)
 				{
-					//if(keyState.eventList.size()>relayQueue.begin()->pointCnt||keyState.isOver())
-					//{
-					if(pairQueue.begin()->breakNote)
-					{
+					if(pairQueue.begin()->noteRank>4)
 						MUSIC_MANAGER_PTR->playDirect("miss","sound_effect");
+					if(pairQueue.begin()->breakNote)
 						CORE_FLOW_PTR->toFail(pairQueue.begin()->noteID);
-					}
+
 					pairQueue.erase(pairQueue.begin());
 				}
 			}

@@ -497,6 +497,7 @@
     <ClInclude Include="divacore\Core\DivaMusicManager.h" />
     <ClInclude Include="divacore\Core\DivaNote.h" />
     <ClInclude Include="divacore\Core\DivaParticleSystem.h" />
+    <ClInclude Include="divacore\Core\DivaPlayerInfo.h" />
     <ClInclude Include="divacore\Core\DivaRenderSystem.h" />
     <ClInclude Include="divacore\Core\DivaStringUtil.h" />
     <ClInclude Include="divacore\Core\DivaTask.h" />
