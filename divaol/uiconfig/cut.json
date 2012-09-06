@@ -1,0 +1,452 @@
+﻿[
+  {
+    "name": "VOCALOID Charactor/GUMI",
+    "filename": "cut_001.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": 1410,
+    "desY": 74,
+    "width": 586,
+    "height": 1734
+  },
+  {
+    "name": "VOCALOID Charactor/Luka",
+    "filename": "cut_001.png",
+    "srcX": 586,
+    "srcY": 0,
+    "desX": 1378,
+    "desY": 74,
+    "width": 425,
+    "height": 1661
+  },
+  {
+    "name": "VOCALOID Charactor/Miku",
+    "filename": "cut_001.png",
+    "srcX": 1011,
+    "srcY": 0,
+    "desX": 1155,
+    "desY": 88,
+    "width": 950,
+    "height": 1463
+  },
+  {
+    "name": "VOCALOID Charactor/Lily",
+    "filename": "cut_002.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": 1384,
+    "desY": 162,
+    "width": 549,
+    "height": 1414
+  },
+  {
+    "name": "VOCALOID Charactor/RinLen",
+    "filename": "cut_002.png",
+    "srcX": 549,
+    "srcY": 0,
+    "desX": 1215,
+    "desY": 105,
+    "width": 709,
+    "height": 1368
+  },
+  {
+    "name": "OtherCircles/Miku/circle01",
+    "filename": "cut_003.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": -384,
+    "desY": 680,
+    "width": 856,
+    "height": 856
+  },
+  {
+    "name": "OtherCircles/GUMI/circle01",
+    "filename": "cut_003.png",
+    "srcX": 856,
+    "srcY": 0,
+    "desX": -384,
+    "desY": 680,
+    "width": 856,
+    "height": 856
+  },
+  {
+    "name": "OtherCircles/Luka/circle01",
+    "filename": "cut_003.png",
+    "srcX": 0,
+    "srcY": 856,
+    "desX": -384,
+    "desY": 680,
+    "width": 856,
+    "height": 856
+  },
+  {
+    "name": "OtherCircles/RinRenLily/circle01",
+    "filename": "cut_003.png",
+    "srcX": 856,
+    "srcY": 856,
+    "desX": -384,
+    "desY": 680,
+    "width": 856,
+    "height": 856
+  },
+  {
+    "name": "OtherCircles/GUMI/circle04",
+    "filename": "cut_004.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": 1322,
+    "desY": 548,
+    "width": 717,
+    "height": 716
+  },
+  {
+    "name": "OtherCircles/RinRenLily/circle04",
+    "filename": "cut_004.png",
+    "srcX": 717,
+    "srcY": 0,
+    "desX": 1322,
+    "desY": 548,
+    "width": 717,
+    "height": 716
+  },
+  {
+    "name": "OtherCircles/Miku/circle04",
+    "filename": "cut_004.png",
+    "srcX": 0,
+    "srcY": 716,
+    "desX": 1322,
+    "desY": 548,
+    "width": 717,
+    "height": 716
+  },
+  {
+    "name": "OtherCircles/Luka/circle04",
+    "filename": "cut_004.png",
+    "srcX": 717,
+    "srcY": 716,
+    "desX": 1322,
+    "desY": 548,
+    "width": 717,
+    "height": 716
+  },
+  {
+    "name": "OtherCircles/Miku/circle02",
+    "filename": "cut_005.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": 1050,
+    "desY": 609,
+    "width": 626,
+    "height": 626
+  },
+  {
+    "name": "OtherCircles/GUMI/circle02",
+    "filename": "cut_005.png",
+    "srcX": 626,
+    "srcY": 0,
+    "desX": 1050,
+    "desY": 609,
+    "width": 626,
+    "height": 626
+  },
+  {
+    "name": "OtherCircles/RinRenLily/circle02",
+    "filename": "cut_005.png",
+    "srcX": 1252,
+    "srcY": 0,
+    "desX": 1050,
+    "desY": 609,
+    "width": 626,
+    "height": 626
+  },
+  {
+    "name": "OtherCircles/Luka/circle02",
+    "filename": "cut_005.png",
+    "srcX": 0,
+    "srcY": 626,
+    "desX": 1050,
+    "desY": 609,
+    "width": 626,
+    "height": 626
+  },
+  {
+    "name": "LeftUpCircle/GUMI/OuterLine",
+    "filename": "cut_005.png",
+    "srcX": 626,
+    "srcY": 626,
+    "desX": -210,
+    "desY": -87,
+    "width": 856,
+    "height": 582
+  },
+  {
+    "name": "LeftUpCircle/Luka/OuterLine",
+    "filename": "cut_005.png",
+    "srcX": 0,
+    "srcY": 1252,
+    "desX": -210,
+    "desY": -87,
+    "width": 856,
+    "height": 582
+  },
+  {
+    "name": "LeftUpCircle/Miku/OuterLine",
+    "filename": "cut_005.png",
+    "srcX": 856,
+    "srcY": 1252,
+    "desX": -210,
+    "desY": -87,
+    "width": 856,
+    "height": 582
+  },
+  {
+    "name": "LeftUpCircle/RinRenLily/OuterLine",
+    "filename": "cut_006.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": -209,
+    "desY": -86,
+    "width": 854,
+    "height": 581
+  },
+  {
+    "name": "LeftUpCircle/GUMI/BigCricle",
+    "filename": "cut_006.png",
+    "srcX": 854,
+    "srcY": 0,
+    "desX": -156,
+    "desY": -136,
+    "width": 744,
+    "height": 580
+  },
+  {
+    "name": "LeftUpCircle/Luka/BigCircle",
+    "filename": "cut_006.png",
+    "srcX": 0,
+    "srcY": 581,
+    "desX": -155,
+    "desY": -136,
+    "width": 742,
+    "height": 579
+  },
+  {
+    "name": "LeftUpCircle/RinRenLily/BigCircle",
+    "filename": "cut_006.png",
+    "srcX": 742,
+    "srcY": 581,
+    "desX": -155,
+    "desY": -136,
+    "width": 742,
+    "height": 579
+  },
+  {
+    "name": "LeftUpCircle/Miku/BigCircle",
+    "filename": "cut_006.png",
+    "srcX": 0,
+    "srcY": 1160,
+    "desX": -155,
+    "desY": -136,
+    "width": 742,
+    "height": 579
+  },
+  {
+    "name": "LeftUpCircle/GUMI/InnerLine",
+    "filename": "cut_006.png",
+    "srcX": 742,
+    "srcY": 1160,
+    "desX": 142,
+    "desY": -161,
+    "width": 313,
+    "height": 470
+  },
+  {
+    "name": "LeftUpCircle/RinRenLily/InnerLine",
+    "filename": "cut_006.png",
+    "srcX": 1055,
+    "srcY": 1160,
+    "desX": 142,
+    "desY": -161,
+    "width": 313,
+    "height": 470
+  },
+  {
+    "name": "LeftUpCircle/Miku/InnerLine",
+    "filename": "cut_006.png",
+    "srcX": 1368,
+    "srcY": 1160,
+    "desX": 142,
+    "desY": -161,
+    "width": 313,
+    "height": 470
+  },
+  {
+    "name": "LeftUpCircle/Luka/InnerLine",
+    "filename": "cut_006.png",
+    "srcX": 1681,
+    "srcY": 1160,
+    "desX": 142,
+    "desY": -161,
+    "width": 313,
+    "height": 470
+  },
+  {
+    "name": "OtherCircles/RinRenLily/circle03",
+    "filename": "cut_007.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": 723,
+    "desY": 726,
+    "width": 470,
+    "height": 469
+  },
+  {
+    "name": "OtherCircles/GUMI/circle03",
+    "filename": "cut_007.png",
+    "srcX": 470,
+    "srcY": 0,
+    "desX": 723,
+    "desY": 726,
+    "width": 470,
+    "height": 469
+  },
+  {
+    "name": "OtherCircles/Luka/circle03",
+    "filename": "cut_007.png",
+    "srcX": 940,
+    "srcY": 0,
+    "desX": 723,
+    "desY": 726,
+    "width": 470,
+    "height": 469
+  },
+  {
+    "name": "OtherCircles/Miku/circle03",
+    "filename": "cut_007.png",
+    "srcX": 1410,
+    "srcY": 0,
+    "desX": 723,
+    "desY": 726,
+    "width": 470,
+    "height": 469
+  },
+  {
+    "name": "LeftUpCircle/Luka/SmallCircle",
+    "filename": "cut_007.png",
+    "srcX": 0,
+    "srcY": 469,
+    "desX": 66,
+    "desY": -79,
+    "width": 300,
+    "height": 302
+  },
+  {
+    "name": "LeftUpCircle/GUMI/SmallCircle",
+    "filename": "cut_007.png",
+    "srcX": 300,
+    "srcY": 469,
+    "desX": 66,
+    "desY": -79,
+    "width": 300,
+    "height": 302
+  },
+  {
+    "name": "LeftUpCircle/Miku/SmallCircle",
+    "filename": "cut_007.png",
+    "srcX": 600,
+    "srcY": 469,
+    "desX": 66,
+    "desY": -79,
+    "width": 300,
+    "height": 302
+  },
+  {
+    "name": "LeftUpCircle/RinRenLily/SmallCircle",
+    "filename": "cut_007.png",
+    "srcX": 900,
+    "srcY": 469,
+    "desX": 67,
+    "desY": -78,
+    "width": 298,
+    "height": 300
+  },
+  {
+    "name": "DIVA ONLINE",
+    "filename": "cut_007.png",
+    "srcX": 1198,
+    "srcY": 469,
+    "desX": 639,
+    "desY": 166,
+    "width": 642,
+    "height": 185
+  },
+  {
+    "name": "VOCALOID LOGO/Luka",
+    "filename": "cut_007.png",
+    "srcX": 0,
+    "srcY": 771,
+    "desX": 1571,
+    "desY": 871,
+    "width": 242,
+    "height": 141
+  },
+  {
+    "name": "VOCALOID LOGO/Miku",
+    "filename": "cut_007.png",
+    "srcX": 242,
+    "srcY": 771,
+    "desX": 1561,
+    "desY": 871,
+    "width": 262,
+    "height": 139
+  },
+  {
+    "name": "VOCALOID LOGO/Lily",
+    "filename": "cut_007.png",
+    "srcX": 504,
+    "srcY": 771,
+    "desX": 1619,
+    "desY": 863,
+    "width": 192,
+    "height": 120
+  },
+  {
+    "name": "VOCALOID LOGO/RnLen",
+    "filename": "cut_007.png",
+    "srcX": 696,
+    "srcY": 771,
+    "desX": 1483,
+    "desY": 871,
+    "width": 359,
+    "height": 109
+  },
+  {
+    "name": "PressAnyKeyBack",
+    "filename": "cut_007.png",
+    "srcX": 1055,
+    "srcY": 771,
+    "desX": 663,
+    "desY": 852,
+    "width": 610,
+    "height": 93
+  },
+  {
+    "name": "VOCALOID LOGO/GUMI",
+    "filename": "cut_007.png",
+    "srcX": 1665,
+    "srcY": 771,
+    "desX": 1483,
+    "desY": 891,
+    "width": 333,
+    "height": 92
+  },
+  {
+    "name": "PressAnyKey",
+    "filename": "cut_007.png",
+    "srcX": 0,
+    "srcY": 912,
+    "desX": 829,
+    "desY": 897,
+    "width": 273,
+    "height": 37
+  }
+]

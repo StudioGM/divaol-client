@@ -6,6 +6,7 @@ namespace gcn
 	{
 		image = NULL;
 		expandBound = false;
+		text = L"";
 	}
 
 	ContainerEx::~ContainerEx()
@@ -25,6 +26,11 @@ namespace gcn
 	bool ContainerEx::getExpandBound() const
 	{
 		return expandBound;
+	}
+
+	void ContainerEx::setText(const std::wstring& text)
+	{
+		this->text = text;
 	}
 
 	void ContainerEx::load(const std::wstring &filename, const Rectangle& srcRect, bool autoScale)
@@ -61,6 +67,14 @@ namespace gcn
 				((SoraGUIImage*)image)->getSprite()->setScale(double(getWidth()) / srcRect.width, double(getHeight()) / srcRect.height);
 			graphics->drawImage(image, srcRect.x, srcRect.y, 0, 0, srcRect.width, srcRect.height);
 		}
+
+		if (text != L"")
+		{
+			graphics->setFont(getFont());
+			graphics->setColor(Color(255,255,255,getAlpha()));
+			graphics->drawTextW(text, (getWidth() - getFont()->getWidthW(text))/2, (getHeight() - getFont()->getHeight())/2);
+		}
+
 		gcn::Container::draw(graphics);
 	}
 

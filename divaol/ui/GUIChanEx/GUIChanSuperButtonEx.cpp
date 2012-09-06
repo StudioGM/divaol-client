@@ -1,5 +1,7 @@
 #include "GUIChanSuperButtonEx.h"
 
+#include "soraguigraphics.hpp"
+
 namespace gcn
 {
 	void SuperButtonEx::setLook(std::wstring filename, Rectangle normal, Rectangle highlight, Rectangle pressed, Rectangle disabled, int x1 /* = 0 */, int y1 /* = 0 */, int x2 /* = 0 */, int y2 /* = 0 */, int x3 /* = 0 */, int y3 /* = 0 */, int x4 /* = 0 */, int y4 /* = 0 */)
@@ -53,6 +55,14 @@ namespace gcn
 			oy = y3;
 			//image->setTextureRect(pressedRect);
 		}
+
+
+		gcn::Rectangle temp = graphics->getCurrentClipArea();
+		//
+		//graphics->popClipArea();
+		//((SoraGUIGraphics*)graphics)->setNextNoClip();
+		//graphics->pushClipArea(temp);
+
 		graphics->setColor(Color(255,255,255,getAlpha()));
 		graphics->drawImage(image, rect.x, rect.y, ox, oy, rect.width, rect.height);
 

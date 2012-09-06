@@ -201,6 +201,8 @@ namespace gcn
          */
         int getWidth() const;
 
+		bool checkIsEnabled();
+
         /**
          * Sets the height of the widget.
          *
@@ -1012,7 +1014,7 @@ namespace gcn
          * @author Robert Bu(darkfall)
          * @since GuiChan for Hoshizora
 		 */
-		virtual const std::vector<Modifier*>& _getModifiers();
+		virtual const std::list<Modifier*>& _getModifiers();
 		
 		/**
 		 * Add a modifier to the modifier list
@@ -1031,8 +1033,10 @@ namespace gcn
          * @author Robert Bu(darkfall)
          * @since GuiChan for Hoshizora
 		 */
+		virtual void removeModifier();
 		virtual void removeModifier(Modifier* modifier);
-        
+        virtual void removeModifierByName(const std::string& name);
+
         /**
          * Find a modifier by it's name
          * @see addModifer
@@ -1405,8 +1409,8 @@ namespace gcn
          * @author Robert Bu(darkfall)
          * @since GuiChan for Hoshizora
 		 */
-		typedef std::vector<Modifier*> ModifierList;
-		typedef std::vector<Modifier*>::iterator ModifierIterator;
+		typedef std::list<Modifier*> ModifierList;
+		typedef std::list<Modifier*>::iterator ModifierIterator;
 		
 		ModifierList mModifiers;
         

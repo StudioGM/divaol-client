@@ -181,8 +181,8 @@
     <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\ft2build.h" />
     <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\SoraFreetypeFont.h" />
     <ClInclude Include="..\Hoshizor\Plugins\SoraFreetypeFont\SoraFTFontManager.h" />
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\Animation\SoraGUIAnimation.h" />
     <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan.hpp" />
-    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichanLuaWrapper.h" />
     <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichansetup.h" />
     <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichansora.hpp" />
     <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\actionevent.hpp" />
@@ -249,7 +249,6 @@
     <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\textbox.hpp" />
     <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\textfield.hpp" />
     <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\window.hpp" />
-    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\jsongui.h" />
     <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\Modifiers\CloseModifier.h" />
     <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\Modifiers\LabelSliderLinker.h" />
     <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\Modifiers\TimedWidget.h" />
@@ -268,8 +267,6 @@
     <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\ticpp\ticpprc.h" />
     <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\ticpp\tinystr.h" />
     <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\ticpp\tinyxml.h" />
-    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\widgets\ImageButton.h" />
-    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\xmlgui.h" />
     <ClInclude Include="..\Hoshizor\Plugins\SoraHGERenderer\hge\hge.h" />
     <ClInclude Include="..\Hoshizor\Plugins\SoraHGERenderer\hge\hgecolor.h" />
     <ClInclude Include="..\Hoshizor\Plugins\SoraHGERenderer\hge\hge_impl.h" />
@@ -740,6 +737,7 @@
     <ClInclude Include="ui\GUIChanEx\GUIChanSliderEx.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanSuperButtonEx.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanTextBoxEx.h" />
+    <ClInclude Include="ui\GUIChanEx\GUIChanTextFieldEx.h" />
     <ClInclude Include="ui\GUIChanEx\WTextfield.h" />
     <ClInclude Include="ui\network.h" />
     <ClInclude Include="ui\Player\PlayerManager.h" />
@@ -748,8 +746,11 @@
     <ClInclude Include="ui\Timer\DivaTimeCounterImplSora.h" />
     <ClInclude Include="ui\Timer\DivaTimeCounterImplWin32.h" />
     <ClInclude Include="ui\UI\House\HouseGameState.h" />
+    <ClInclude Include="ui\UI\House\HouseMessageBox.h" />
     <ClInclude Include="ui\UI\House\HouseUI.h" />
     <ClInclude Include="ui\UI\House\HouseUIRoomInfoListItem.h" />
+    <ClInclude Include="ui\UI\House\MessageChannelList.h" />
+    <ClInclude Include="ui\UI\House\RoomInfoList.h" />
     <ClInclude Include="ui\UI\Stage\StageGameState.h" />
     <ClInclude Include="ui\UI\Stage\StageUI.h" />
     <ClInclude Include="ui\UI\TitleScreen\TitleScreenExpander.h" />
@@ -774,7 +775,7 @@
     <ClCompile Include="..\Hoshizor\Plugins\SoraFMODSoundSystem\SoraFMODSoundSystem.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraFreetypeFont\SoraFreetypeFont.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraFreetypeFont\SoraFTFontManager.cpp" />
-    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichanLuaWrapper.cpp" />
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\Animation\SoraGUIAnimation.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\actionevent.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\animation.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\basiccontainer.cpp" />
@@ -822,7 +823,6 @@
     <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\textbox.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\textfield.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\window.cpp" />
-    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\jsongui.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\Modifiers\CloseModifier.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\Modifiers\LabelSliderLinker.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\Modifiers\TimedWidget.cpp" />
@@ -838,8 +838,6 @@
     <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\ticpp\tinyxml.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\ticpp\tinyxmlerror.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\ticpp\tinyxmlparser.cpp" />
-    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\widgets\ImageButton.cpp" />
-    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\xmlgui.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraHGERenderer\hge\hgegraphics.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraHGERenderer\hge\hgeinput.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraHGERenderer\hge\hgeresource.cpp" />
@@ -1101,6 +1099,7 @@
     <ClCompile Include="ui\GUIChanEx\GUIChanSliderEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanSuperButtonEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanTextBoxEx.cpp" />
+    <ClCompile Include="ui\GUIChanEx\GUIChanTextFieldEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\WTextfield.cpp" />
     <ClCompile Include="ui\network.cpp" />
     <ClCompile Include="ui\Player\PlayerManager.cpp" />
@@ -1108,8 +1107,11 @@
     <ClCompile Include="ui\structure.cpp" />
     <ClCompile Include="ui\Timer\DivaTimeCounterImplWin32.cpp" />
     <ClCompile Include="ui\UI\House\HouseGameState.cpp" />
+    <ClCompile Include="ui\UI\House\HouseMessageBox.cpp" />
     <ClCompile Include="ui\UI\House\HouseUI.cpp" />
     <ClCompile Include="ui\UI\House\HouseUIRoomInfoListItem.cpp" />
+    <ClCompile Include="ui\UI\House\MessageChannelList.cpp" />
+    <ClCompile Include="ui\UI\House\RoomInfoList.cpp" />
     <ClCompile Include="ui\UI\Stage\StageGameState.cpp" />
     <ClCompile Include="ui\UI\Stage\StageUI.cpp" />
     <ClCompile Include="ui\UI\TitleScreen\TitleScreenExpander.cpp" />

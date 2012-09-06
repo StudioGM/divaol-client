@@ -1,0 +1,389 @@
+{
+  "TestBackground": {
+    "filename": "cut_001.png",
+    "srcX": "0",
+    "srcY": "0",
+    "desX": "0",
+    "desY": "0",
+    "width": "1920",
+    "height": "1080"
+  },
+  "MessageArea/InputArea_BackGround": {
+    "filename": "cut_001.png",
+    "srcX": "0",
+    "srcY": "0",
+    "desX": "0",
+    "desY": "752",
+    "width": "741",
+    "height": "329"
+  },
+  "MessageArea/InputBox": {
+    "filename": "cut_001.png",
+    "srcX": "741",
+    "srcY": "741",
+    "desX": "0",
+    "desY": "1044",
+    "width": "907",
+    "height": "306"
+  },
+  "StatusArea": {
+    "filename": "cut_001.png",
+    "srcX": "0",
+    "srcY": "0",
+    "desX": "-297",
+    "desY": "-91",
+    "width": "1168",
+    "height": "300"
+  },
+  "Login/BackGround": {
+    "filename": "cut_001.png",
+    "srcX": "1168",
+    "srcY": "1168",
+    "desX": "690",
+    "desY": "335",
+    "width": "551",
+    "height": "270"
+  },
+  "ToolButtons/MouseOn/Shop_MouseOn": {
+    "filename": "cut_001.png",
+    "srcX": "1719",
+    "srcY": "1719",
+    "desX": "1488",
+    "desY": "33",
+    "width": "142",
+    "height": "134"
+  },
+  "ToolButtons/MouseOn/Clothes_MouseOn": {
+    "filename": "cut_001.png",
+    "srcX": "1861",
+    "srcY": "1861",
+    "desX": "1640",
+    "desY": "33",
+    "width": "142",
+    "height": "134"
+  },
+  "ToolButtons/MouseOn/Stage_MouseOn": {
+    "filename": "cut_001.png",
+    "srcX": "0",
+    "srcY": "0",
+    "desX": "1412",
+    "desY": "-12",
+    "width": "142",
+    "height": "134"
+  },
+  "ToolButtons/MouseOn/Option_MouseOn": {
+    "filename": "cut_001.png",
+    "srcX": "142",
+    "srcY": "142",
+    "desX": "1716",
+    "desY": "-12",
+    "width": "142",
+    "height": "134"
+  },
+  "ToolButtons/MouseOn/Modify_MouseOn": {
+    "filename": "cut_001.png",
+    "srcX": "284",
+    "srcY": "284",
+    "desX": "1564",
+    "desY": "-12",
+    "width": "142",
+    "height": "134"
+  },
+  "ToolButtons/MouseOn/Exit_MouseOn": {
+    "filename": "cut_001.png",
+    "srcX": "426",
+    "srcY": "426",
+    "desX": "1792",
+    "desY": "33",
+    "width": "128",
+    "height": "134"
+  },
+  "Team/Head2": {
+    "filename": "cut_001.png",
+    "srcX": "554",
+    "srcY": "554",
+    "desX": "1093",
+    "desY": "924",
+    "width": "124",
+    "height": "124"
+  },
+  "Team/Head1": {
+    "filename": "cut_001.png",
+    "srcX": "678",
+    "srcY": "678",
+    "desX": "910",
+    "desY": "924",
+    "width": "124",
+    "height": "124"
+  },
+  "Team/Head4": {
+    "filename": "cut_001.png",
+    "srcX": "802",
+    "srcY": "802",
+    "desX": "1459",
+    "desY": "924",
+    "width": "124",
+    "height": "124"
+  },
+  "Team/Head3": {
+    "filename": "cut_001.png",
+    "srcX": "926",
+    "srcY": "926",
+    "desX": "1276",
+    "desY": "924",
+    "width": "124",
+    "height": "124"
+  },
+  "Team/NoHead": {
+    "filename": "cut_001.png",
+    "srcX": "1050",
+    "srcY": "1050",
+    "desX": "1642",
+    "desY": "924",
+    "width": "124",
+    "height": "124"
+  },
+  "ToolButtons/MouseDown/Stage_MouseDown": {
+    "filename": "cut_001.png",
+    "srcX": "1174",
+    "srcY": "1174",
+    "desX": "1419",
+    "desY": "-4",
+    "width": "128",
+    "height": "118"
+  },
+  "ToolButtons/MouseDown/Option_MouseDown": {
+    "filename": "cut_001.png",
+    "srcX": "1302",
+    "srcY": "1302",
+    "desX": "1723",
+    "desY": "-4",
+    "width": "128",
+    "height": "118"
+  },
+  "ToolButtons/MouseDown/Modify_MouseDown": {
+    "filename": "cut_001.png",
+    "srcX": "1430",
+    "srcY": "1430",
+    "desX": "1571",
+    "desY": "-4",
+    "width": "128",
+    "height": "118"
+  },
+  "ToolButtons/MouseDown/Clothes_MouseDown": {
+    "filename": "cut_001.png",
+    "srcX": "1558",
+    "srcY": "1558",
+    "desX": "1647",
+    "desY": "41",
+    "width": "128",
+    "height": "118"
+  },
+  "ToolButtons/MouseDown/Shop_MouseDown": {
+    "filename": "cut_001.png",
+    "srcX": "1686",
+    "srcY": "1686",
+    "desX": "1495",
+    "desY": "41",
+    "width": "128",
+    "height": "118"
+  },
+  "ToolButtons/MouseDown/Exit_MouseDown": {
+    "filename": "cut_001.png",
+    "srcX": "1814",
+    "srcY": "1814",
+    "desX": "1799",
+    "desY": "41",
+    "width": "121",
+    "height": "118"
+  },
+  "Login/LoginButton_MouseOn": {
+    "filename": "cut_001.png",
+    "srcX": "0",
+    "srcY": "0",
+    "desX": "1070",
+    "desY": "427",
+    "width": "128",
+    "height": "107"
+  },
+  "ToolButtons/Normal/Shop_Normal": {
+    "filename": "cut_001.png",
+    "srcX": "128",
+    "srcY": "128",
+    "desX": "1510",
+    "desY": "58",
+    "width": "98",
+    "height": "84"
+  },
+  "ToolButtons/Normal/Exit_Normal": {
+    "filename": "cut_001.png",
+    "srcX": "226",
+    "srcY": "226",
+    "desX": "1814",
+    "desY": "58",
+    "width": "98",
+    "height": "84"
+  },
+  "ToolButtons/Normal/Modify_Normal": {
+    "filename": "cut_001.png",
+    "srcX": "324",
+    "srcY": "324",
+    "desX": "1586",
+    "desY": "13",
+    "width": "98",
+    "height": "84"
+  },
+  "ToolButtons/Normal/Clothes_Normal": {
+    "filename": "cut_001.png",
+    "srcX": "422",
+    "srcY": "422",
+    "desX": "1662",
+    "desY": "58",
+    "width": "98",
+    "height": "84"
+  },
+  "ToolButtons/Normal/Stage_Normal": {
+    "filename": "cut_001.png",
+    "srcX": "520",
+    "srcY": "520",
+    "desX": "1434",
+    "desY": "13",
+    "width": "98",
+    "height": "84"
+  },
+  "ToolButtons/Normal/Option_Normal": {
+    "filename": "cut_001.png",
+    "srcX": "618",
+    "srcY": "618",
+    "desX": "1738",
+    "desY": "13",
+    "width": "98",
+    "height": "84"
+  },
+  "Login/LoginButton_MouseDown": {
+    "filename": "cut_001.png",
+    "srcX": "716",
+    "srcY": "716",
+    "desX": "1082",
+    "desY": "439",
+    "width": "104",
+    "height": "83"
+  },
+  "Login/LoginButton_Normal": {
+    "filename": "cut_001.png",
+    "srcX": "820",
+    "srcY": "820",
+    "desX": "1086",
+    "desY": "443",
+    "width": "96",
+    "height": "75"
+  },
+  "MessageArea/InputBox": {
+    "filename": "cut_001.png",
+    "srcX": "916",
+    "srcY": "916",
+    "desX": "0",
+    "desY": "1044",
+    "width": "724",
+    "height": "37"
+  },
+  "MessageArea/ScrollBar_Block": {
+    "filename": "cut_001.png",
+    "srcX": "1640",
+    "srcY": "1640",
+    "desX": "5",
+    "desY": "742",
+    "width": "27",
+    "height": "35"
+  },
+  "MessageArea/MessageTo/ToSomeOne": {
+    "filename": "cut_001.png",
+    "srcX": "1667",
+    "srcY": "1667",
+    "desX": "56",
+    "desY": "1016",
+    "width": "183",
+    "height": "30"
+  },
+  "Login/Select Button/Border_MouseOn": {
+    "filename": "cut_001.png",
+    "srcX": "1850",
+    "srcY": "1850",
+    "desX": "807",
+    "desY": "523",
+    "width": "29",
+    "height": "29"
+  },
+  "MessageArea/MessageTo/Channel": {
+    "filename": "cut_001.png",
+    "srcX": "1879",
+    "srcY": "1879",
+    "desX": "0",
+    "desY": "1017",
+    "width": "57",
+    "height": "28"
+  },
+  "Login/textBox_1": {
+    "filename": "cut_001.png",
+    "srcX": "0",
+    "srcY": "0",
+    "desX": "811",
+    "desY": "443",
+    "width": "264",
+    "height": "27"
+  },
+  "Login/textBox_2": {
+    "filename": "cut_001.png",
+    "srcX": "264",
+    "srcY": "264",
+    "desX": "811",
+    "desY": "491",
+    "width": "264",
+    "height": "27"
+  },
+  "Login/Select Button/Border_Normal": {
+    "filename": "cut_001.png",
+    "srcX": "528",
+    "srcY": "528",
+    "desX": "811",
+    "desY": "527",
+    "width": "21",
+    "height": "21"
+  },
+  "Login/Select Button/Point_MouseOn&Checked": {
+    "filename": "cut_001.png",
+    "srcX": "549",
+    "srcY": "549",
+    "desX": "811",
+    "desY": "527",
+    "width": "21",
+    "height": "21"
+  },
+  "MessageArea/ScrollBar_Up": {
+    "filename": "cut_001.png",
+    "srcX": "570",
+    "srcY": "570",
+    "desX": "2",
+    "desY": "729",
+    "width": "33",
+    "height": "18"
+  },
+  "MessageArea/ScrollBar_Down": {
+    "filename": "cut_001.png",
+    "srcX": "603",
+    "srcY": "603",
+    "desX": "2",
+    "desY": "981",
+    "width": "33",
+    "height": "18"
+  },
+  "Login/Select Button/Point_Checked": {
+    "filename": "cut_001.png",
+    "srcX": "636",
+    "srcY": "636",
+    "desX": "815",
+    "desY": "531",
+    "width": "13",
+    "height": "13"
+  }
+}

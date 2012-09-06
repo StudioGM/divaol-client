@@ -205,7 +205,7 @@ namespace diva
 		// ModeTextLabel
 		modeTextLabel = new gcn::LabelEx(L"ÆÕÍ¨");
 		modeTextLabel->setSize(90, 50);
-		modeTextLabel->setForegroundColor(Color(0, 0, 0));
+		modeTextLabel->setForegroundColor(gcn::Color(0, 0, 0));
 		modeTextLabel->setFont(artistFont);
 		top->add(modeTextLabel, 1625 - 50, 670 + 20);
 

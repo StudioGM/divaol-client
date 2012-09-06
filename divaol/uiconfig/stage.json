@@ -1,0 +1,717 @@
+{
+  "RoomInfo/Config": {
+  	"maxItem": 8,
+  	"gap": {
+  		"width": 200,
+  		"height": 30,
+  		"x": 40,
+  		"y": 40,
+  		"itemGap": 8
+  	},
+  	"fontSize": 20,
+  	"fontName": "msyh.ttf",
+  	"colorList": [16711680, 65280, 255, 16711680, 65280, 255, 16711680, 65280]
+  },
+  "RoomList/BackGround": {
+    "filename": "res/stage_001.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": 225,
+    "desY": 158,
+    "width": 1511,
+    "height": 771
+  },
+  "RoomInfo/background": {
+    "filename": "res/stage_001.png",
+    "srcX": 1511,
+    "srcY": 0,
+    "desX": 1657,
+    "desY": 660,
+    "width": 263,
+    "height": 420
+  },
+  "PlayerInfo": {
+    "filename": "res/stage_001.png",
+    "srcX": 0,
+    "srcY": 771,
+    "desX": -297,
+    "desY": -91,
+    "width": 1167,
+    "height": 209
+  },
+  "RoomList/RoomItem_Background": {
+    "filename": "res/stage_001.png",
+    "srcX": 1167,
+    "srcY": 771,
+    "desX": 246,
+    "desY": 184,
+    "width": 470,
+    "height": 197
+  },
+  "RoomList/RoomItem_mouseon": {
+    "filename": "res/stage_001.png",
+    "srcX": 0,
+    "srcY": 980,
+    "desX": 252,
+    "desY": 190,
+    "width": 481,
+    "height": 185
+  },
+  "ToolBar/MouseOn/btn_UD_mouseon": {
+    "filename": "res/stage_001.png",
+    "srcX": 481,
+    "srcY": 980,
+    "desX": 1488,
+    "desY": 33,
+    "width": 142,
+    "height": 134
+  },
+  "ToolBar/MouseOn/btn_settings_mouseon": {
+    "filename": "res/stage_001.png",
+    "srcX": 623,
+    "srcY": 980,
+    "desX": 1640,
+    "desY": 33,
+    "width": 142,
+    "height": 134
+  },
+  "ToolBar/MouseOn/btn_selectmusic_mouseon": {
+    "filename": "res/stage_001.png",
+    "srcX": 765,
+    "srcY": 980,
+    "desX": 1793,
+    "desY": 154,
+    "width": 127,
+    "height": 134
+  },
+  "ToolBar/MouseOn/btn_decorate_mouseon": {
+    "filename": "res/stage_001.png",
+    "srcX": 892,
+    "srcY": 980,
+    "desX": 1564,
+    "desY": 0,
+    "width": 142,
+    "height": 122
+  },
+  "ToolBar/MouseOn/btn_exitstage_mouseon": {
+    "filename": "res/stage_001.png",
+    "srcX": 1034,
+    "srcY": 980,
+    "desX": 1716,
+    "desY": -12,
+    "width": 142,
+    "height": 122
+  },
+  "ToolBar/MouseDown/btn_settings_mousedown": {
+    "filename": "res/stage_001.png",
+    "srcX": 1176,
+    "srcY": 980,
+    "desX": 1647,
+    "desY": 41,
+    "width": 128,
+    "height": 118
+  },
+  "ToolBar/MouseDown/btn_UD_mousedown": {
+    "filename": "res/stage_001.png",
+    "srcX": 1304,
+    "srcY": 980,
+    "desX": 1495,
+    "desY": 41,
+    "width": 128,
+    "height": 118
+  },
+  "ToolBar/MouseDown/btn_selectmusic_mousedown": {
+    "filename": "res/stage_001.png",
+    "srcX": 1432,
+    "srcY": 980,
+    "desX": 1800,
+    "desY": 162,
+    "width": 120,
+    "height": 118
+  },
+  "ToolBar/MouseDown/btn_exitstage_mousedown": {
+    "filename": "res/stage_001.png",
+    "srcX": 1552,
+    "srcY": 980,
+    "desX": 1723,
+    "desY": -4,
+    "width": 128,
+    "height": 114
+  },
+  "ToolBar/MouseDown/btn_decorate_mousedown": {
+    "filename": "res/stage_001.png",
+    "srcX": 1680,
+    "srcY": 980,
+    "desX": 1571,
+    "desY": 0,
+    "width": 128,
+    "height": 114
+  },
+  "itemlist/item_itemback_selected": {
+    "filename": "res/stage_001.png",
+    "srcX": 1808,
+    "srcY": 980,
+    "desX": 685,
+    "desY": 24,
+    "width": 95,
+    "height": 95
+  },
+  "itemlist/item_itemback_normal": {
+    "filename": "res/stage_001.png",
+    "srcX": 1903,
+    "srcY": 980,
+    "desX": 789,
+    "desY": 24,
+    "width": 95,
+    "height": 95
+  },
+  "RoomList/createRoom/btn_openStage_mouseon": {
+    "filename": "res/stage_001.png",
+    "srcX": 0,
+    "srcY": 1165,
+    "desX": 1095,
+    "desY": 823,
+    "width": 194,
+    "height": 87
+  },
+  "ToolBar/Normal/btn_UD_normal": {
+    "filename": "res/stage_001.png",
+    "srcX": 194,
+    "srcY": 1165,
+    "desX": 1510,
+    "desY": 58,
+    "width": 98,
+    "height": 84
+  },
+  "ToolBar/Normal/btn_selectmusic_normal": {
+    "filename": "res/stage_001.png",
+    "srcX": 292,
+    "srcY": 1165,
+    "desX": 1815,
+    "desY": 179,
+    "width": 98,
+    "height": 84
+  },
+  "ToolBar/Normal/btn_exitstage_normal": {
+    "filename": "res/stage_001.png",
+    "srcX": 390,
+    "srcY": 1165,
+    "desX": 1738,
+    "desY": 13,
+    "width": 98,
+    "height": 84
+  },
+  "ToolBar/Normal/btn_decorate_normal": {
+    "filename": "res/stage_001.png",
+    "srcX": 488,
+    "srcY": 1165,
+    "desX": 1586,
+    "desY": 13,
+    "width": 98,
+    "height": 84
+  },
+  "ToolBar/Normal/btn_settings_normal": {
+    "filename": "res/stage_001.png",
+    "srcX": 586,
+    "srcY": 1165,
+    "desX": 1662,
+    "desY": 58,
+    "width": 98,
+    "height": 84
+  },
+  "TeamSelection/Selected/btn_Team5_Selected": {
+    "filename": "res/stage_001.png",
+    "srcX": 684,
+    "srcY": 1165,
+    "desX": 184,
+    "desY": 172,
+    "width": 77,
+    "height": 77
+  },
+  "TeamSelection/Selected/btn_Team6_Selected": {
+    "filename": "res/stage_001.png",
+    "srcX": 761,
+    "srcY": 1165,
+    "desX": 231,
+    "desY": 172,
+    "width": 77,
+    "height": 77
+  },
+  "TeamSelection/Selected/btn_Team7_Selected": {
+    "filename": "res/stage_001.png",
+    "srcX": 838,
+    "srcY": 1165,
+    "desX": 278,
+    "desY": 172,
+    "width": 77,
+    "height": 77
+  },
+  "TeamSelection/Selected/btn_Team1_Selected": {
+    "filename": "res/stage_001.png",
+    "srcX": 915,
+    "srcY": 1165,
+    "desX": -4,
+    "desY": 172,
+    "width": 77,
+    "height": 77
+  },
+  "TeamSelection/Selected/btn_Team3_Selected": {
+    "filename": "res/stage_001.png",
+    "srcX": 992,
+    "srcY": 1165,
+    "desX": 90,
+    "desY": 172,
+    "width": 77,
+    "height": 77
+  },
+  "TeamSelection/Selected/btn_Team4_Selected": {
+    "filename": "res/stage_001.png",
+    "srcX": 1069,
+    "srcY": 1165,
+    "desX": 137,
+    "desY": 172,
+    "width": 77,
+    "height": 77
+  },
+  "TeamSelection/Selected/btn_Team8_Selected": {
+    "filename": "res/stage_001.png",
+    "srcX": 1146,
+    "srcY": 1165,
+    "desX": 325,
+    "desY": 172,
+    "width": 77,
+    "height": 77
+  },
+  "TeamSelection/Selected/btn_Team2_Selected": {
+    "filename": "res/stage_001.png",
+    "srcX": 1223,
+    "srcY": 1165,
+    "desX": 43,
+    "desY": 172,
+    "width": 77,
+    "height": 77
+  },
+  "RoomList/createRoom/btn_openStage_mousedown": {
+    "filename": "res/stage_001.png",
+    "srcX": 1300,
+    "srcY": 1165,
+    "desX": 1103,
+    "desY": 831,
+    "width": 178,
+    "height": 71
+  },
+  "RoomList/createRoom/btn_openStage_normal": {
+    "filename": "res/stage_001.png",
+    "srcX": 1478,
+    "srcY": 1165,
+    "desX": 1103,
+    "desY": 831,
+    "width": 178,
+    "height": 71
+  },
+  "RoomList/search/btn_search_mousedown": {
+    "filename": "res/stage_001.png",
+    "srcX": 1656,
+    "srcY": 1165,
+    "desX": 1643,
+    "desY": 852,
+    "width": 82,
+    "height": 67
+  },
+  "RoomList/search/btn_search_mouseon": {
+    "filename": "res/stage_001.png",
+    "srcX": 1738,
+    "srcY": 1165,
+    "desX": 1643,
+    "desY": 852,
+    "width": 82,
+    "height": 67
+  },
+  "itemlist/btn_item_left": {
+    "filename": "res/stage_001.png",
+    "srcX": 1820,
+    "srcY": 1165,
+    "desX": 660,
+    "desY": 40,
+    "width": 17,
+    "height": 60
+  },
+  "itemlist/btn_item_right": {
+    "filename": "res/stage_001.png",
+    "srcX": 1837,
+    "srcY": 1165,
+    "desX": 1308,
+    "desY": 40,
+    "width": 17,
+    "height": 60
+  },
+  "TeamSelection/Normal/btn_Team2_Normal": {
+    "filename": "res/stage_001.png",
+    "srcX": 1854,
+    "srcY": 1165,
+    "desX": 52,
+    "desY": 181,
+    "width": 59,
+    "height": 59
+  },
+  "TeamSelection/Normal/btn_Team3_Normal": {
+    "filename": "res/stage_001.png",
+    "srcX": 1913,
+    "srcY": 1165,
+    "desX": 99,
+    "desY": 181,
+    "width": 59,
+    "height": 59
+  },
+  "TeamSelection/MouseOn/btn_Team8_mouseon": {
+    "filename": "res/stage_001.png",
+    "srcX": 1972,
+    "srcY": 1165,
+    "desX": 334,
+    "desY": 181,
+    "width": 59,
+    "height": 59
+  },
+  "TeamSelection/Normal/btn_Team1_Normal": {
+    "filename": "res/stage_001.png",
+    "srcX": 0,
+    "srcY": 1252,
+    "desX": 5,
+    "desY": 181,
+    "width": 59,
+    "height": 59
+  },
+  "TeamSelection/Normal/btn_Team6_Normal": {
+    "filename": "res/stage_001.png",
+    "srcX": 59,
+    "srcY": 1252,
+    "desX": 240,
+    "desY": 181,
+    "width": 59,
+    "height": 59
+  },
+  "TeamSelection/Normal/btn_Team7_Normal": {
+    "filename": "res/stage_001.png",
+    "srcX": 118,
+    "srcY": 1252,
+    "desX": 287,
+    "desY": 181,
+    "width": 59,
+    "height": 59
+  },
+  "TeamSelection/Normal/btn_Team8_Normal": {
+    "filename": "res/stage_001.png",
+    "srcX": 177,
+    "srcY": 1252,
+    "desX": 334,
+    "desY": 181,
+    "width": 59,
+    "height": 59
+  },
+  "TeamSelection/Normal/btn_Team5_Normal": {
+    "filename": "res/stage_001.png",
+    "srcX": 236,
+    "srcY": 1252,
+    "desX": 193,
+    "desY": 181,
+    "width": 59,
+    "height": 59
+  },
+  "TeamSelection/MouseOn/btn_Team7_mouseon": {
+    "filename": "res/stage_001.png",
+    "srcX": 295,
+    "srcY": 1252,
+    "desX": 287,
+    "desY": 181,
+    "width": 59,
+    "height": 59
+  },
+  "TeamSelection/MouseOn/btn_Team2_mouseon": {
+    "filename": "res/stage_001.png",
+    "srcX": 354,
+    "srcY": 1252,
+    "desX": 52,
+    "desY": 181,
+    "width": 59,
+    "height": 59
+  },
+  "TeamSelection/MouseOn/btn_Team1_mouseon": {
+    "filename": "res/stage_001.png",
+    "srcX": 413,
+    "srcY": 1252,
+    "desX": 5,
+    "desY": 181,
+    "width": 59,
+    "height": 59
+  },
+  "TeamSelection/Normal/btn_Team4_Normal": {
+    "filename": "res/stage_001.png",
+    "srcX": 472,
+    "srcY": 1252,
+    "desX": 146,
+    "desY": 181,
+    "width": 59,
+    "height": 59
+  },
+  "TeamSelection/MouseOn/btn_Team3_mouseon": {
+    "filename": "res/stage_001.png",
+    "srcX": 531,
+    "srcY": 1252,
+    "desX": 99,
+    "desY": 181,
+    "width": 59,
+    "height": 59
+  },
+  "TeamSelection/MouseOn/btn_Team6_mouseon": {
+    "filename": "res/stage_001.png",
+    "srcX": 590,
+    "srcY": 1252,
+    "desX": 240,
+    "desY": 181,
+    "width": 59,
+    "height": 59
+  },
+  "TeamSelection/MouseOn/btn_Team5_mouseon": {
+    "filename": "res/stage_001.png",
+    "srcX": 649,
+    "srcY": 1252,
+    "desX": 193,
+    "desY": 181,
+    "width": 59,
+    "height": 59
+  },
+  "TeamSelection/MouseOn/btn_Team4_mouseon": {
+    "filename": "res/stage_001.png",
+    "srcX": 708,
+    "srcY": 1252,
+    "desX": 146,
+    "desY": 181,
+    "width": 59,
+    "height": 59
+  },
+  "SongList/songitem_background": {
+    "filename": "res/stage_001.png",
+    "srcX": 767,
+    "srcY": 1252,
+    "desX": 1542,
+    "desY": 278,
+    "width": 373,
+    "height": 53
+  },
+  "RoomList/scrollbar/btn_stagelist_up_mousedown": {
+    "filename": "res/stage_001.png",
+    "srcX": 1140,
+    "srcY": 1252,
+    "desX": 1648,
+    "desY": 225,
+    "width": 65,
+    "height": 53
+  },
+  "RoomList/scrollbar/btn_stagelist_up_mouseon": {
+    "filename": "res/stage_001.png",
+    "srcX": 1205,
+    "srcY": 1252,
+    "desX": 1648,
+    "desY": 226,
+    "width": 65,
+    "height": 52
+  },
+  "RoomList/scrollbar/btn_stagelist_down_mousedown": {
+    "filename": "res/stage_001.png",
+    "srcX": 1270,
+    "srcY": 1252,
+    "desX": 1648,
+    "desY": 765,
+    "width": 65,
+    "height": 52
+  },
+  "RoomList/scrollbar/btn_stagelist_down_mouseon": {
+    "filename": "res/stage_001.png",
+    "srcX": 1335,
+    "srcY": 1252,
+    "desX": 1648,
+    "desY": 765,
+    "width": 65,
+    "height": 52
+  },
+  "RoomInfo/buttons/btn_right_mouseon": {
+    "filename": "res/stage_001.png",
+    "srcX": 1400,
+    "srcY": 1252,
+    "desX": 1773,
+    "desY": 1031,
+    "width": 95,
+    "height": 49
+  },
+  "RoomInfo/buttons/btn_left_mouseon": {
+    "filename": "res/stage_001.png",
+    "srcX": 1495,
+    "srcY": 1252,
+    "desX": 1663,
+    "desY": 1031,
+    "width": 95,
+    "height": 49
+  },
+  "RoomList/GameMode/CoupleMode": {
+    "filename": "res/stage_001.png",
+    "srcX": 1590,
+    "srcY": 1252,
+    "desX": 621,
+    "desY": 206,
+    "width": 56,
+    "height": 40
+  },
+  "SongList/GameMode/CoupleMode": {
+    "filename": "res/stage_001.png",
+    "srcX": 1646,
+    "srcY": 1252,
+    "desX": 1587,
+    "desY": 250,
+    "width": 56,
+    "height": 40
+  },
+  "RoomList/GameMode/RelayMode": {
+    "filename": "res/stage_001.png",
+    "srcX": 1702,
+    "srcY": 1252,
+    "desX": 605,
+    "desY": 206,
+    "width": 82,
+    "height": 39
+  },
+  "SongList/GameMode/RelayMode": {
+    "filename": "res/stage_001.png",
+    "srcX": 1784,
+    "srcY": 1252,
+    "desX": 1571,
+    "desY": 250,
+    "width": 82,
+    "height": 39
+  },
+  "SongList/GameMode/SingleMode": {
+    "filename": "res/stage_001.png",
+    "srcX": 1866,
+    "srcY": 1252,
+    "desX": 1595,
+    "desY": 250,
+    "width": 33,
+    "height": 39
+  },
+  "RoomList/GameMode/SingleMode": {
+    "filename": "res/stage_001.png",
+    "srcX": 1899,
+    "srcY": 1252,
+    "desX": 629,
+    "desY": 206,
+    "width": 33,
+    "height": 39
+  },
+  "RoomList/scrollbar/scrollBlock/block_stagelist_mousedown": {
+    "filename": "res/stage_001.png",
+    "srcX": 1932,
+    "srcY": 1252,
+    "desX": 1660,
+    "desY": 254,
+    "width": 41,
+    "height": 38
+  },
+  "RoomList/scrollbar/scrollBlock/block_stagelist_mouseon": {
+    "filename": "res/stage_001.png",
+    "srcX": 1973,
+    "srcY": 1252,
+    "desX": 1660,
+    "desY": 254,
+    "width": 41,
+    "height": 38
+  },
+  "RoomList/search/textbox_search": {
+    "filename": "res/stage_001.png",
+    "srcX": 0,
+    "srcY": 1311,
+    "desX": 1291,
+    "desY": 869,
+    "width": 366,
+    "height": 33
+  },
+  "RoomList/search/btn_search_normal": {
+    "filename": "res/stage_001.png",
+    "srcX": 366,
+    "srcY": 1311,
+    "desX": 1659,
+    "desY": 869,
+    "width": 50,
+    "height": 33
+  },
+  "RoomInfo/buttons/btn_left_mousedown": {
+    "filename": "res/stage_001.png",
+    "srcX": 416,
+    "srcY": 1311,
+    "desX": 1673,
+    "desY": 1043,
+    "width": 75,
+    "height": 27
+  },
+  "RoomInfo/buttons/btn_right_mousedown": {
+    "filename": "res/stage_001.png",
+    "srcX": 491,
+    "srcY": 1311,
+    "desX": 1783,
+    "desY": 1043,
+    "width": 75,
+    "height": 27
+  },
+  "RoomList/scrollbar/scrollBlock/block_stagelist_normal": {
+    "filename": "res/stage_001.png",
+    "srcX": 566,
+    "srcY": 1311,
+    "desX": 1667,
+    "desY": 261,
+    "width": 27,
+    "height": 24
+  },
+  "RoomInfo/buttons/btn_left": {
+    "filename": "res/stage_001.png",
+    "srcX": 593,
+    "srcY": 1311,
+    "desX": 1677,
+    "desY": 1047,
+    "width": 68,
+    "height": 19
+  },
+  "RoomInfo/buttons/label_pagenum": {
+    "filename": "res/stage_001.png",
+    "srcX": 661,
+    "srcY": 1311,
+    "desX": 1732,
+    "desY": 1047,
+    "width": 68,
+    "height": 19
+  },
+  "RoomInfo/buttons/btn_right": {
+    "filename": "res/stage_001.png",
+    "srcX": 729,
+    "srcY": 1311,
+    "desX": 1787,
+    "desY": 1047,
+    "width": 68,
+    "height": 19
+  },
+  "RoomList/scrollbar/btn_stagelist_up_normal": {
+    "filename": "res/stage_001.png",
+    "srcX": 797,
+    "srcY": 1311,
+    "desX": 1667,
+    "desY": 245,
+    "width": 27,
+    "height": 14
+  },
+  "RoomList/scrollbar/btn_stagelist_down_normal": {
+    "filename": "res/stage_001.png",
+    "srcX": 824,
+    "srcY": 1311,
+    "desX": 1667,
+    "desY": 784,
+    "width": 27,
+    "height": 14
+  }
+}

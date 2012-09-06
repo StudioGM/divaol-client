@@ -20,7 +20,7 @@ namespace gcn
 		std::wstring hSE;
 		std::wstring cSE;
 
-		bool checkIsEnabled();
+
 
 	public:
 		ButtonEx();

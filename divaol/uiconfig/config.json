@@ -1,0 +1,42 @@
+{
+	///////////////////////////////////////////////////////
+	// basic info
+	"windowWidth" : 1200,
+	"windowHeight" : 675,
+	"gameWidth" : 1920,
+	"gameHeight" : 1080,
+	///////////////////////////////////////////////////////
+
+	// ui info
+	"gameModeNames" : ["ÆÕÍ¨", "½ÓÁ¦Èü",  "Ë«´ò"],
+	"listenDelay" : 1.0,
+	"myId" : 0,
+	"myName" : "SonicMisora",
+	"iconFileNames" : ["preview/head.png", "preview/head.png", "preview/head.png", "preview/head.png"],
+
+	///////////////////////////////////////////////////////
+	// Test data
+	"stageGuests":
+	[
+	{
+		"id": 1,
+		"nickname": "SonicMisora",
+		"username": "sonicmisora"
+	},
+	{
+		"id": 2,
+		"nickname": "火海时代",
+		"username": "hyf042"
+	},
+	{
+		"id": 3,
+		"nickname": "CKIsBigGod",
+		"username": "ck042"
+	},
+	{
+		"id": 4,
+		"nickname": "你能不能别这么蛋疼",
+		"username": "gaoji7777"
+	}
+	]
+}

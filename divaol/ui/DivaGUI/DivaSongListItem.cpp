@@ -110,17 +110,17 @@ namespace diva
 		{
 			if (state == 0)
 			{
-				graphics->setColor(Color(255, 255, 255, alpha));
+				graphics->setColor(gcn::Color(255, 255, 255, alpha));
 				graphics->drawImage(image, 0, 656, 0, 0, 571, 139);
 			}
 			else if (state == 1)
 			{
-				graphics->setColor(Color(255, 255, 255, alpha));
+				graphics->setColor(gcn::Color(255, 255, 255, alpha));
 				graphics->drawImage(image, 0, 378, 0, 0, 571, 139);
 			}
 			else if (state == 2)
 			{
-				graphics->setColor(Color(255, 255, 255, alpha));
+				graphics->setColor(gcn::Color(255, 255, 255, alpha));
 				graphics->drawImage(image, 0, 517, 0, 0, 571, 139);
 			}
 		}
@@ -128,7 +128,7 @@ namespace diva
 		if (look == SONG)
 		{
 			std::wstring str;
-			graphics->setColor(Color(255, 255, 255, alpha));
+			graphics->setColor(gcn::Color(255, 255, 255, alpha));
 
 			graphics->setFont(font);
 
@@ -185,7 +185,7 @@ namespace diva
 		}
 		else if (look == RANDOM)
 		{
-			graphics->setColor(Color(255, 255, 255, alpha));
+			graphics->setColor(gcn::Color(255, 255, 255, alpha));
 			graphics->drawImage(image, 0, 795, 37, 35, 455, 52);
 
 			// dif
@@ -198,7 +198,7 @@ namespace diva
 				graphics->setFont(artistFont);
 			else
 				graphics->setFont(font);
-			graphics->setColor(Color(255, 255, 255, alpha)); 
+			graphics->setColor(gcn::Color(255, 255, 255, alpha)); 
 			graphics->drawTextW(L"Artist: " + mapInfo.artists[0], 60, 40);
 		}
 	}

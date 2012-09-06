@@ -1,4 +1,4 @@
-#include "HouseUI.h"
+ï»¿#include "HouseUI.h"
 
 #include <fstream>
 #include "ui/Config/DivaUIConfig.h"
@@ -10,6 +10,8 @@
 #include "ui/DivaNetwork/DivaNetwork.h"
 #include "ui/Player/PlayerManager.h"
 #include "SoraFontManager.h"
+
+
 
 namespace diva
 {
@@ -42,7 +44,7 @@ namespace diva
 			
 
 			// parse json
-			ParseJson(L"room.json", L"stage.json");
+			ParseJson(L"uiconfig/house.json", L"uiconfig/stage.json");
 
 			// back ground
 			roomTop->add(CreateStaticImage(conf, L"TestBackground"));
@@ -80,7 +82,6 @@ namespace diva
 			roomTop->add(messagePanel);
 
 
-
 			//gcn::TextBox * bb = new gcn::TextBox("sdfsdfjjkwefkjndfkjsndfjksdnfkjsnfkjsdnfk");
 			//bb->setSize(100, 100);
 			//roomTop->add(bb, 400, 400);
@@ -115,6 +116,7 @@ namespace diva
 			// login 
 			loginPanel = CreateLoginWindow(conf, L"Login");
 			top->add(loginPanel);
+			//loginPanel->addModifier(new
 
 			//  ----- status panel
 			statusPanel = CreateStatusPanel(conf);
@@ -138,7 +140,7 @@ namespace diva
 
 			//Refresh_hostInfo();
 
-			//LabelEx* lb = new LabelEx(L"¹þ¹þ¹þ¹þ¹þ¹þ");
+			//LabelEx* lb = new LabelEx(L"Â¹Ã¾Â¹Ã¾Â¹Ã¾Â¹Ã¾Â¹Ã¾Â¹Ã¾");
 			//lb->setHeight(lb->getFont()->getHeight());
 			//lb->setWidth(50);
 			//roomTop->add(lb, 0, 0);
@@ -386,6 +388,12 @@ namespace diva
 			ContainerEx* con = CreateStaticImage(conf, prefix + L"/BackGround");
 			int topX = con->getX(), topY = con->getY();
 
+			//tv = conf[L"Login/Config"];
+			//con->setVisible(true);
+			//con->setPosition(tv[L"desX_1"].asInt(), tv[L"desY_1"].asInt());
+			//con->addModifier(new GUIAnimation_Position(gcn::Point(tv[L"desX_2"].asInt(), tv[L"desY_2"].asInt()),
+			//	tv[L"animationTime"].asInt(), GUIAnimation_Float_LinearSin));
+
 			// username text box
 			WTextField* username = CreateInput(conf, prefix + L"/textBox_1");
 			con->add(username, username->getX() - topX, username->getY() - topY);
@@ -405,6 +413,8 @@ namespace diva
 			con->add(lb, lb->getX() - topX, lb->getY() - topY);
 			lb->addMouseListener(new LoginButton_MouseListener());
 			loginButton = lb;
+
+			//loginButton->addModifier(new GUIAnimation_Position(gcn::Point(0, 0), 120, GUIAnimation_Float_Linear, GUIAnimation_Mode::NONE));
 
 			// user login label
 			LabelEx* lb1 = CreateLabel(conf, prefix + L"/Label_1");
@@ -440,9 +450,10 @@ namespace diva
 		{
 			PlayerInfo pf = PlayerManager::Instance()->GetHostInfo();
 			wchar_t temp[200];
-			_swprintf(temp, L"êÇ³Æ£º%s\nID£º%d", pf.nickname.c_str(), pf.id);
+			_swprintf(temp, L"æ˜µç§°ï¼š%s\nIDï¼š%d", pf.nickname.c_str(), pf.id);
 			hostInfoLabel->setText(temp);
 		}
+
 
 		void HouseUI::RefreshStatus()
 		{
@@ -483,7 +494,7 @@ namespace diva
 			LabelEx* lb = new LabelEx(L"");
 			lb->setSize(tv[L"lbWidth"].asInt(), tv[L"lbHeight"].asInt());
 			panel->add(lb, tv[L"lbX"].asInt(), tv[L"lbY"].asInt());
-			statusPanelFont = new gcn::SoraGUIFont(L"msyh.ttf", tv[L"fontSize"].asInt());
+			statusPanelFont = new gcn::SoraGUIFont(L"res/msyh.ttf", tv[L"fontSize"].asInt());
 			lb->setFont(statusPanelFont);
 			hostInfoLabel = lb;
 
@@ -495,9 +506,9 @@ namespace diva
 			using namespace gcn;
 			WJson::Value tv = conf[L"RoomInfo/Config"];
 			ContainerEx* panel = CreateStaticImage(conf, L"RoomInfo/background");
-			playerListFont = new gcn::SoraGUIFont(L"msyh.ttf", tv[L"fontSize"].asInt());
+			playerListFont = new gcn::SoraGUIFont(L"res/msyh.ttf", tv[L"fontSize"].asInt());
 			
-			ListBoxEx* list = new ListBoxEx();
+			RoomInfoList* list = new RoomInfoList();
 			list->setMaxItem(tv[L"maxItem"].asInt());
 			list->setSize(panel->getWidth(), panel->getHeight());
 			list->setGap(gcn::Rectangle(tv[L"gap"][L"x"].asInt(),
@@ -505,7 +516,7 @@ namespace diva
 				tv[L"gap"][L"width"].asInt(),
 				tv[L"gap"][L"height"].asInt()), 
 				tv[L"gap"][L"itemGap"].asInt());
-			//Font* font = new gcn::SoraGUIFont(L"msyh.ttf", 16);
+			//Font* font = new gcn::SoraGUIFont(L"res/msyh.ttf", 16);
 			list->setFont(playerListFont);
 			panel->add(list, 0, 0);
 			sPlayerList = list;
@@ -517,6 +528,13 @@ namespace diva
 			return panel;
 		}
 
+		gcn::SliderEx* HouseUI::CreateMessageSlider(const WJson::Value& conf)
+		{
+			using namespace gcn;
+			//conf[""
+			return new SliderEx();
+		}
+
 		gcn::ContainerEx* HouseUI::CreateMessagePanel(const WJson::Value& conf)
 		{
 			using namespace gcn;
@@ -524,34 +542,74 @@ namespace diva
 
 			ContainerEx* panel = CreateStaticImage(conf, L"MessageArea/InputArea_BackGround");
 
-			// input box
-			ContainerEx* inputBox = CreateStaticImage(conf, L"MessageArea/InputBox");
-			inputBox->setPosition(inputBox->getX() - panel->getX(), inputBox->getY() - panel->getY());
-			panel->add(inputBox);
+			WJson::Value tv;
 
+			// chat box
+			tv = conf[L"MessageArea/TextBox"];
+			HouseMessageBox* chatBox = new HouseMessageBox();
+			chatBox->setMaxLine(tv[L"maxLine"].asInt());
+			chatBox->setWidth(tv[L"width"].asInt());
+			chatBox->setPosition(tv[L"desX"].asInt() - panel->getX(), tv[L"desY"].asInt() - panel->getY());
+			messageAreaFont = new SoraGUIFont(L"res/msyh.ttf", tv[L"fontSize"].asInt());
+			chatBox->setFont(messageAreaFont);
+			chatBox->adjust();
+			chatBox->setText(tv[L"testText"].asString());
+			panel->add(chatBox);
+			messagePanelChatBox = chatBox;
+
+			// message channel
+			tv = conf[L"MessageArea/ChannelList"];
+			MessageChannelList* list = new MessageChannelList();
+			list->setFirstIndex(0);
+			list->setMaxItem(tv[L"items"].size());
+			list->setWidth(tv[L"width"].asInt());
+			list->setHeight(tv[L"height"].asInt() * tv[L"items"].size());
+			list->setGap(gcn::Rectangle(0, 0, list->getWidth(), tv[L"height"].asInt()), 0);
+			list->setPosition(tv[L"desX_2"].asInt() - panel->getX(), tv[L"desY_2"].asInt() - panel->getY());
+			gcn::Rectangle rect(tv[L"srcX"].asInt(), tv[L"srcY"].asInt(), tv[L"width"].asInt(), tv[L"height"].asInt());
+			for (WJson::Value::iterator i = tv[L"items"].begin(); i != tv[L"items"].end(); i++)
+			{
+				list->pushItem(new MessageChannelListItem(tv[L"filename"].asString(), rect, (*i).asString()));
+			}
+			list->setVisible(false);
+			panel->add(list);
+
+			messageChannelList = list;
 
 			// message to
 			ContainerEx* messageToBox = CreateStaticImage(conf, L"MessageArea/MessageTo/ToSomeOne");
 			messageToBox->setPosition(messageToBox->getX() - panel->getX(), messageToBox->getY() - panel->getY());
 			panel->add(messageToBox);
+			messageToSomeOne = messageToBox;
 
 			// channel
 			ContainerEx* channelBox = CreateStaticImage(conf, L"MessageArea/MessageTo/Channel");
 			channelBox->setPosition(channelBox->getX() - panel->getX(), channelBox->getY() - panel->getY());
+			//channelBox->setId("MessagePanel_Channel");
+			//sora::SoraGUI::Instance()->registerGUIResponser(channelBox, this, "MessagePanel_Channel", sora::RESPONSEMOUSE);
+			channelBox->addMouseListener(new LoginButton_MouseListener());
 			panel->add(channelBox);
+			messageChannel = channelBox;
 
-			// chat box
-			WJson::Value tv = conf[L"MessageArea/TextBox"];
-			TextBoxEx* chatBox = new TextBoxEx();
-			chatBox->setMaxLine(tv[L"maxLine"].asInt());
-			chatBox->setWidth(tv[L"width"].asInt());
-			chatBox->setPosition(tv[L"desX"].asInt() - panel->getX(), tv[L"desY"].asInt() - panel->getY());
-			messageAreaFont = new SoraGUIFont(L"msyh.ttf", tv[L"fontSize"].asInt());
-			chatBox->setFont(messageAreaFont);
-			chatBox->adjust();
+			// input box
+			tv = conf[L"MessageArea/InputBox"];
+			TextFieldEx* inputBox = new TextFieldEx();
+			inputBox->setPosition(tv[L"desX"].asInt(), tv[L"desY"].asInt());
+			inputBox->setSize(tv[L"width"].asInt(), tv[L"height"].asInt());
+			inputBox->setImage(tv[L"filename"].asString(), 
+				gcn::Rectangle(tv[L"srcX"].asInt(), tv[L"srcY"].asInt(), tv[L"width"].asInt(), tv[L"height"].asInt()));
+			messageInputFont = new SoraGUIFont(L"res/msyh.ttf", tv[L"fontSize"].asInt());
+			inputBox->setFont(messageInputFont);
+			inputBox->setForegroundColor(tv[L"fontColor"].asUInt());
+			inputBox->setPosition(inputBox->getX() - panel->getX(), inputBox->getY() - panel->getY());
+			inputBox->setId("MessagePanel_InputBox");
+			sora::SoraGUI::Instance()->registerGUIResponser(inputBox, this, "MessagePanel_InputBox", sora::RESPONSEACTION);
+			panel->add(inputBox);
+			messagePanelInputBox = inputBox;
+			
 
-			chatBox->setText(tv[L"testText"].asString());
-			panel->add(chatBox);
+
+
 
 
 			return panel;
@@ -563,15 +621,22 @@ namespace diva
 			Network::Send(L"LOGIN", usernameInput->getText() + L" " + passwordInput->getText());
 		}
 
+
+
+		void HouseUI::SetMessageChannelListInvisible(gcn::Widget* widget)
+		{
+			widget->setVisible(false);
+		}
+
 		void HouseUI::MouseClicked(gcn::MouseEvent& mouseEvent)
 		{
 			//using namespace gcn;
-			if (mouseEvent.getSource() == (gcn::Widget*) loginButton)
+			if (mouseEvent.getSource() == (gcn::Widget*) loginButton && loginButton->checkIsEnabled())
 			{
 				LoginButtonClicked();
 				return;
 			}
-			if (mouseEvent.getSource() == (gcn::Widget*) stageButton)
+			if (mouseEvent.getSource() == (gcn::Widget*) stageButton) //&& stageButton->checkIsEnabled())
 			{
 				//LoginButtonClicked();
 				if (state == STATE_ROOM)
@@ -586,12 +651,79 @@ namespace diva
 				}
 				return;
 			}
-			if (mouseEvent.getSource() == (gcn::Widget*) exitStageButton)
+			if (mouseEvent.getSource() == (gcn::Widget*) exitStageButton && exitStageButton->checkIsEnabled())
 			{
 				setState(STATE_ROOM);
 				return;
 			}
+			if (mouseEvent.getSource() == (gcn::Widget*) messageChannel)
+			{
+				MessagePanelChannelClicked();
+				return;
+			}
 		}
+
+		void HouseUI::MessagePanelChannelListClicked(int index)
+		{
+			WJson::Value tv = conf[L"MessageArea/ChannelList"];
+			if (index != -1)
+				messageChannel->setText(conf[L"MessageArea/ChannelList"][L"items"][index].asString());
+
+			messageChannelList->setPosition(tv[L"desX_2"].asInt() - messagePanel->getX(), tv[L"desY_2"].asInt() - messagePanel->getY());
+			messageChannelList->addModifier(new GUIAnimation_Position(gcn::Point(tv[L"desX_1"].asInt() - messagePanel->getX(),
+				tv[L"desY_1"].asInt() - messagePanel->getY()),
+				tv[L"animationTime"].asInt(), GUIAnimation_Float_LinearCos, NONE, NULL, 
+				sora::Bind(this, &HouseUI::SetMessageChannelListInvisible)));
+			messageChannelList->setAlpha(255);
+			messageChannelList->addModifier(new GUIAnimation_Alpha(0, tv[L"animationTime"].asInt(), GUIAnimation_Float_LinearCos));
+		}
+
+		void HouseUI::MessagePanelChannelClicked()
+		{
+			if (messageChannelList->isVisible())
+			{
+				MessagePanelChannelListClicked(-1);
+				return;
+			}
+			WJson::Value tv = conf[L"MessageArea/ChannelList"];
+			messageChannelList->setVisible(true);
+			messageChannelList->setAlpha(0);
+			messageChannelList->setPosition(tv[L"desX_1"].asInt() - messagePanel->getX(), tv[L"desY_1"].asInt() - messagePanel->getY());
+			messageChannelList->addModifier(new GUIAnimation_Position(gcn::Point(tv[L"desX_2"].asInt() - messagePanel->getX(),
+				tv[L"desY_2"].asInt() - messagePanel->getY()),
+				tv[L"animationTime"].asInt(), GUIAnimation_Float_LinearSin));
+			messageChannelList->addModifier(new GUIAnimation_Alpha(255, tv[L"animationTime"].asInt(), GUIAnimation_Float_LinearSin));
+		}
+
+		void HouseUI::MessagePanelInputBoxEnterPressed()
+		{
+			if (messagePanelInputBox->getText() == L"")
+				return;
+			messagePanelChatBox->addText(PlayerManager::Instance()->GetHostInfo().nickname + L"ï¼š" + messagePanelInputBox->getText());
+			messagePanelInputBox->setText(L"");
+		}
+
+		void HouseUI::action()
+		{
+			if (getID() == "MessagePanel_InputBox")
+			{
+				MessagePanelInputBoxEnterPressed();
+			}
+		}
+
+		void HouseUI::mouseClicked(const gcn::MouseEvent& mouseEvent)
+		{
+			if (getID() == "MessagePanel_Channel")
+			{
+				//MessagePanelChannelClicked();
+			}
+		}
+
+		void HouseUI::RoomLInfoListClicked(int index)
+		{
+			messageToSomeOne->setText(L"To " + PlayerManager::Instance()->GetStageGuests()[index].nickname);
+		}
+
 
 		// ------------------------------------ Event ----------------------------------
 

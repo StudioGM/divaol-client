@@ -12,6 +12,8 @@
 #include "guichan/platform.hpp"
 #include "guichan/modifier.hpp"
 
+#include "Hoshizora.h"
+
 namespace gcn {
     
     /**
@@ -21,16 +23,32 @@ namespace gcn {
      *  to a widget by calling the addModifier function of the widget
      * 
      * @author Robert Bu(darkfall)
+	 * @Animation Extended by CK
      * @since GuiChan for Hoshizora
      */
+
+	using namespace sora;
+
+	enum GUIAnimation_Mode
+	{
+		NONE,
+		PINGPONG,
+		REPEAT
+	};
+
     
     class GCN_CORE_DECLSPEC Animation: public Modifier {
+	protected:
+		Animation *_nextAnimation;
+		SoraFunction<void(Widget*)> _AnimationEnded;
+		GUIAnimation_Mode _animationMode;
+
     public:
         // constant animation message strings
         static std::string MessageStart;
         static std::string MessageEnd;
         
-        Animation(int time);
+        Animation(int time, GUIAnimation_Mode animationMode, Animation *nextAnimation, SoraFunction<void(Widget*)> AnimationEnded);
         
         virtual ~Animation() {}
         
@@ -84,6 +102,7 @@ namespace gcn {
         virtual void onAdd(Widget* widget);
         virtual void onRemove(Widget* widget);
         virtual void onRelease(Widget* widget);
+		virtual void release();
         
         virtual std::string getName() const = 0;
         

@@ -1,0 +1,12 @@
+{
+	"MapDir" : "Map/" ,
+	"MapFiles" : [
+		"Map_1.json",
+		"Map_2.json",
+		"Map_3.json",
+		"Map_4.json",
+		"Map_5.json",
+		"Map_6.json",
+		"Map_7.json"
+	]
+}

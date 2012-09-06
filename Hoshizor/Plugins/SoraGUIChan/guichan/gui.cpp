@@ -6,11 +6,11 @@
  * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
  * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
- * Copyright (c) 2004 - 2008 Olof Naessén and Per Larsson
+ * Copyright (c) 2004 - 2008 Olof Naess¨¦n and Per Larsson
  *
  *
  * Per Larsson a.k.a finalman
- * Olof Naessén a.k.a jansem/yakslem
+ * Olof Naess¨¦n a.k.a jansem/yakslem
  *
  * Visit: http://guichan.sourceforge.net
  *
@@ -315,8 +315,9 @@ namespace gcn
                     mFocusHandler->focusNone();
                 }
                 else
-                {                    
-                    distributeKeyEvent(keyEvent);                    
+                {
+					if (mFocusHandler->getFocused()->checkIsEnabled())
+					    distributeKeyEvent(keyEvent);                    
                 }
 
                 keyEventConsumed = keyEvent.isConsumed();
@@ -729,7 +730,7 @@ namespace gcn
 
             parent = (Widget*)widget->getParent();
 
-            if (widget->isEnabled() || force)
+            if (widget->checkIsEnabled() || force)
             {
                 int widgetX, widgetY;
                 widget->getAbsolutePosition(widgetX, widgetY);

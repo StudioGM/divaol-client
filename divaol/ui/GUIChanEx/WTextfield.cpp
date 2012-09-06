@@ -137,7 +137,7 @@ namespace gcn
 			const Rectangle clipArea = graphics->getCurrentClipArea();
 
 			graphics->setColor(getForegroundColor());
-			graphics->drawLine(x, clipArea.height - 2, x, 1);
+			graphics->drawLine(x + 1, clipArea.height - 2, x + 1, 1);
 		}
 		
 	}

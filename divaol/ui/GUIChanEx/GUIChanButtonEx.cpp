@@ -1,6 +1,8 @@
 #include "ui/GUIChanEx/GUIChanButtonEx.h"
 #include "SoraSoundManager/SoraBGMManager.h"
 
+#include "soraguigraphics.hpp"
+
 namespace gcn
 {
 	ButtonEx::ButtonEx()
@@ -24,14 +26,14 @@ namespace gcn
 	void ButtonEx::setLook(std::wstring filename, Rectangle normal, Rectangle highlight, Rectangle pressed, Rectangle disabled, int ox, int oy)
 	{
 		using namespace sora;
-		
+
 		if (image)
 		{
 			delete image;
 			image = NULL;
 		}
 		image = Image::load(filename);
-		
+
 		normalRect = normal;
 		highlightRect = highlight;
 		pressedRect = pressed;
@@ -54,6 +56,8 @@ namespace gcn
 
 	void ButtonEx::mouseEntered(MouseEvent& mouseEvent)
 	{
+		if (!checkIsEnabled())
+			return;
 		Button::mouseEntered(mouseEvent);
 		if (hSE != L"")
 		{
@@ -63,6 +67,8 @@ namespace gcn
 
 	void ButtonEx::mouseClicked(MouseEvent& mouseEvent)
 	{
+		if (!checkIsEnabled())
+			return;
 		Button::mouseClicked(mouseEvent);
 		if (cSE != L"")
 		{
@@ -70,17 +76,7 @@ namespace gcn
 		}
 	}
 
-	bool ButtonEx::checkIsEnabled()
-	{
-		Widget* now = this;
-		while (now)
-		{
-			if (!now->isEnabled())
-				return false;
-			now = now->getParent();
-		}
-		return true;
-	}
+
 
 	void ButtonEx::draw(Graphics* graphics)
 	{
@@ -111,6 +107,12 @@ namespace gcn
 			rect = pressedRect;
 			//image->setTextureRect(pressedRect);
 		}
+
+		//gcn::Rectangle temp = graphics->getCurrentClipArea();
+		//graphics->popClipArea();
+		//((SoraGUIGraphics*)graphics)->setNextNoClip();
+		//graphics->pushClipArea(temp);
+
 		graphics->setColor(Color(255,255,255,getAlpha()));
 		graphics->drawImage(image, rect.x, rect.y, offx, offy, rect.width, rect.height);
 
@@ -118,7 +120,7 @@ namespace gcn
 		{
 			graphics->setFont(getFont());
 			graphics->setColor(Color(255,255,255,getAlpha()));
-			graphics->drawTextW(text, 20, (getHeight() - getFont()->getHeight())/2);
+			graphics->drawTextW(text, (getWidth() - getFont()->getWidthW(text))/2, (getHeight() - getFont()->getHeight())/2);
 		}
 	}
 }

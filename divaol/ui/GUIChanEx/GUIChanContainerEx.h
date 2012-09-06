@@ -15,6 +15,7 @@ namespace gcn
 		Rectangle srcRect;
 		bool expandBound;
 		bool autoScale;
+		std::wstring text;
 
 	public:
 		ContainerEx();
@@ -24,6 +25,8 @@ namespace gcn
 
 		void setExpandBound(bool value);
 		bool getExpandBound() const;
+
+		void setText(const std::wstring& text);
 
 		Image* getImage();
 

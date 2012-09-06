@@ -84,6 +84,9 @@ namespace gcn
 
 		virtual void highlightItemChanged(int index);
 
+		virtual void mouseWheelMovedUp(MouseEvent& mouseEvent);
+		virtual void mouseWheelMovedDown(MouseEvent& mouseEvent);
+
 		//virtual void mouseWheelMovedUp(MouseEvent& mouseEvent);
 
 		//virtual void mouseWheelMovedDown(MouseEvent& mouseEvent);

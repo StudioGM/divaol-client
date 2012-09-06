@@ -176,7 +176,7 @@ int CALLBACK WinMain(
 	LPSTR lpCmdLine,
 	int nCmdShow
 	) {
-		diva::initialize_config(L"config.json");
+		diva::initialize_config(L"uiconfig/config.json");
 
 		sora::SoraGameAppDef def("config.xml");
 		def.width(config[L"windowWidth"].asInt());

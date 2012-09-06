@@ -226,6 +226,9 @@
     <Filter Include="Plugins\gcnExtend">
       <UniqueIdentifier>{f97c0bd4-044e-4310-b4b5-bad88542ef72}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Plugins\SoraGUIChan\Animation">
+      <UniqueIdentifier>{5a46749b-cadf-43e4-89fa-ad29454658f2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Hoshizor\Sora\Hoshizora.h">
@@ -1938,16 +1941,10 @@
     <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan.hpp">
       <Filter>Plugins\SoraGUIChan</Filter>
     </ClInclude>
-    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichanLuaWrapper.h">
-      <Filter>Plugins\SoraGUIChan</Filter>
-    </ClInclude>
     <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichansetup.h">
       <Filter>Plugins\SoraGUIChan</Filter>
     </ClInclude>
     <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichansora.hpp">
-      <Filter>Plugins\SoraGUIChan</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\jsongui.h">
       <Filter>Plugins\SoraGUIChan</Filter>
     </ClInclude>
     <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\SoraGUI.h">
@@ -1982,12 +1979,6 @@
     </ClInclude>
     <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\SoraGUISoundLoader.h">
       <Filter>Plugins\SoraGUIChan</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\xmlgui.h">
-      <Filter>Plugins\SoraGUIChan</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\widgets\ImageButton.h">
-      <Filter>Plugins\SoraGUIChan\widgets</Filter>
     </ClInclude>
     <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\actionevent.hpp">
       <Filter>Plugins\SoraGUIChan\guichan</Filter>
@@ -2124,9 +2115,6 @@
     <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widget.hpp">
       <Filter>Plugins\SoraGUIChan\guichan</Filter>
     </ClInclude>
-    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgetFactory.hpp">
-      <Filter>Plugins\SoraGUIChan\guichan</Filter>
-    </ClInclude>
     <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgetlistener.hpp">
       <Filter>Plugins\SoraGUIChan\guichan</Filter>
     </ClInclude>
@@ -2255,6 +2243,24 @@
     </ClInclude>
     <ClInclude Include="ui\Config\DivaUIConfig.h">
       <Filter>源文件\ui\DivaConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UI\House\HouseMessageBox.h">
+      <Filter>源文件\ui\UI\House</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\GUIChanEx\GUIChanTextFieldEx.h">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\Animation\SoraGUIAnimation.h">
+      <Filter>Plugins\SoraGUIChan\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgetFactory.hpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UI\House\MessageChannelList.h">
+      <Filter>源文件\ui\UI\House</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UI\House\RoomInfoList.h">
+      <Filter>源文件\ui\UI\House</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3086,12 +3092,6 @@
     <ClCompile Include="ui\structure.cpp">
       <Filter>源文件\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichanLuaWrapper.cpp">
-      <Filter>Plugins\SoraGUIChan</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\jsongui.cpp">
-      <Filter>Plugins\SoraGUIChan</Filter>
-    </ClCompile>
     <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\soraguifont.cpp">
       <Filter>Plugins\SoraGUIChan</Filter>
     </ClCompile>
@@ -3112,12 +3112,6 @@
     </ClCompile>
     <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\SoraGUISoundLoader.cpp">
       <Filter>Plugins\SoraGUIChan</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\xmlgui.cpp">
-      <Filter>Plugins\SoraGUIChan</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\widgets\ImageButton.cpp">
-      <Filter>Plugins\SoraGUIChan\widgets</Filter>
     </ClCompile>
     <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\actionevent.cpp">
       <Filter>Plugins\SoraGUIChan\guichan</Filter>
@@ -3204,9 +3198,6 @@
       <Filter>Plugins\SoraGUIChan\guichan</Filter>
     </ClCompile>
     <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widget.cpp">
-      <Filter>Plugins\SoraGUIChan\guichan</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgetFactory.cpp">
       <Filter>Plugins\SoraGUIChan\guichan</Filter>
     </ClCompile>
     <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\button.cpp">
@@ -3331,6 +3322,24 @@
     </ClCompile>
     <ClCompile Include="ui\Config\DivaUIConfig.cpp">
       <Filter>源文件\ui\DivaConfig</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\House\HouseMessageBox.cpp">
+      <Filter>源文件\ui\UI\House</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\GUIChanEx\GUIChanTextFieldEx.cpp">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\Animation\SoraGUIAnimation.cpp">
+      <Filter>Plugins\SoraGUIChan\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgetFactory.cpp">
+      <Filter>Plugins\SoraGUIChan\guichan</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\House\MessageChannelList.cpp">
+      <Filter>源文件\ui\UI\House</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\House\RoomInfoList.cpp">
+      <Filter>源文件\ui\UI\House</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

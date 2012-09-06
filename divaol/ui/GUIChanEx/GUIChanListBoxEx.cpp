@@ -127,11 +127,11 @@ namespace gcn
 				firstRect.width, 
 				firstRect.height) );
 			if (i!=highlightItemIndex)
-				items[i]->draw(graphics, getFont(), 0, 255);
+				items[i]->draw(graphics, getFont(), 0, getAlpha());
 			else if (i==highlightItemIndex && !isMousePressed)
-				items[i]->draw(graphics, getFont(), 1, 255);
+				items[i]->draw(graphics, getFont(), 1, getAlpha());
 			else
-				items[i]->draw(graphics, getFont(), 2, 255);
+				items[i]->draw(graphics, getFont(), 2, getAlpha());
 			graphics->popClipArea();
 		}
 
@@ -206,7 +206,7 @@ namespace gcn
 
 	void ListBoxEx::mouseClicked(MouseEvent& mouseEvent)
 	{
-		if (highlightItemIndex >= 0 && highlightItemIndex < items.size())
+		if (mouseEvent.getButton() == MouseEvent::LEFT && highlightItemIndex >= 0 && highlightItemIndex < items.size())
 			itemClicked(highlightItemIndex);
 	}
 
@@ -246,5 +246,20 @@ namespace gcn
 		for (int i=0; i<v.size(); i++)
 			items.push_back(v[i]);
 		itemChanged();
+
+	}
+
+	void ListBoxEx::mouseWheelMovedUp(MouseEvent& mouseEvent)
+	{
+		if (getFirstIndex() > 0)
+			setFirstIndex(getFirstIndex() - 1);
+	}
+
+	void ListBoxEx::mouseWheelMovedDown(MouseEvent& mouseEvent)
+	{
+		if (items.size() <= maxItem)
+			return;
+		if (getFirstIndex() < items.size() - maxItem)
+			setFirstIndex(getFirstIndex() + 1);
 	}
 }

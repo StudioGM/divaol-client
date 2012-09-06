@@ -95,7 +95,7 @@ namespace diva
 		// back
 		if (uiImage)
 		{
-			graphics->setColor(Color(255, 255, 255, alpha));
+			graphics->setColor(gcn::Color(255, 255, 255, alpha));
 			graphics->drawImage(uiImage, 1429,38, 0, 0, 462,116);
 		}
 
@@ -112,7 +112,7 @@ namespace diva
 			if (icon)
 			{
 				gcn::Rectangle d(340, 10, 92, 92);
-				graphics->setColor(Color(255, 255, 255, alpha));
+				graphics->setColor(gcn::Color(255, 255, 255, alpha));
 				((gcn::SoraGUIImage*)icon)->getSprite()->setScale(
 					double(d.width) / srcRect.width,
 					double(d.height) / srcRect.height);
@@ -122,7 +122,7 @@ namespace diva
 			// host
 			if (getHost())
 			{
-				graphics->setColor(Color(255, 255, 255, alpha));
+				graphics->setColor(gcn::Color(255, 255, 255, alpha));
 				graphics->drawImage(uiImage, 1365, 38, 420, 10, 36, 24);
 			} 
 			else if (getReady())
@@ -131,7 +131,7 @@ namespace diva
 				UIScreenRoom* ui = UIScreenRoom::Instance();
 				((gcn::SoraGUIImage*)ui->uiImage1)->getSprite()->setScale(1.0, 1.0);
 
-				graphics->setColor(Color(255, 255, 255, alpha));
+				graphics->setColor(gcn::Color(255, 255, 255, alpha));
 				graphics->drawImage(ui->uiImage1, 1222, 412, 1704 - 1385, 10, 54, 40);
 			}
 		}

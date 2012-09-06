@@ -4,7 +4,8 @@
 #include "guichan.hpp"
 #include "guichansetup.h"
 #include "SoraShader.h"
-#include "HouseUIRoomInfoListItem.h"
+
+#include "SoraGUI.h"
 
 #include "ui/GUIChanEx/GUIChanEx.h"
 #include "SoraSoundManager/SoraBGMManager.h"
@@ -12,6 +13,11 @@
 #include "timer/DivaTimeCounterImplSora.h"
 
 #include "ui/GUIChanEx/WTextfield.h"
+#include "Animation/SoraGUIAnimation.h"
+
+#include "HouseMessageBox.h"
+#include "MessageChannelList.h"
+#include "RoomInfoList.h"
 
 #include "SoraLuaObject.h"
 #include <string>
@@ -23,7 +29,8 @@ namespace diva
 	namespace HouseUI
 	{
 
-		class HouseUI
+		class HouseUI : 
+			public sora::SoraGUIResponser
 		{
 		private:
 			enum {STATE_OFFLINE, STATE_LOGINWINDOW, STATE_LOGINING, STATE_LOGINFAILED, STATE_ROOM, STATE_STAGE};
@@ -41,6 +48,7 @@ namespace diva
 			gcn::ContainerEx* CreateStatusPanel(const WJson::Value& conf);
 			gcn::ContainerEx* CreatePlayerListPanel(const WJson::Value& conf);
 			gcn::ContainerEx* CreateMessagePanel(const WJson::Value& conf);
+			gcn::SliderEx* CreateMessageSlider(const WJson::Value& conf);
 
 			void RefreshStatus();
 			void Refresh_sPlayerList();
@@ -74,6 +82,11 @@ namespace diva
 			gcn::SuperButtonEx* decorateButton;
 			gcn::SuperButtonEx* exitStageButton;
 			gcn::ContainerEx* messagePanel;
+			gcn::TextFieldEx* messagePanelInputBox;
+			gcn::TextBoxEx* messagePanelChatBox;
+			gcn::ListBoxEx* messageChannelList;
+			gcn::ContainerEx* messageChannel;
+			gcn::ContainerEx* messageToSomeOne;
 
 			gcn::Container* sPlayerListPanel;
 			gcn::ListBoxEx* sPlayerList;
@@ -88,6 +101,7 @@ namespace diva
 			gcn::Font* playerListFont;
 			gcn::Font* statusPanelFont;
 			gcn::Font* messageAreaFont;
+			gcn::Font* messageInputFont;
 
 			void RecvMsg();
 
@@ -105,6 +119,15 @@ namespace diva
 			// Event
 			void LoginButtonClicked();
 			void MouseClicked(gcn::MouseEvent& mouseEvent);
+			void MessagePanelInputBoxEnterPressed();
+			void MessagePanelChannelClicked();
+			void MessagePanelChannelListClicked(int index);
+			void RoomLInfoListClicked(int index);
+
+			void SetMessageChannelListInvisible(gcn::Widget* widget);
+
+			virtual void action();
+			virtual void mouseClicked(const gcn::MouseEvent& mouseEvent);
 		};
 
 		class LoginButton_MouseListener : public gcn::MouseListener

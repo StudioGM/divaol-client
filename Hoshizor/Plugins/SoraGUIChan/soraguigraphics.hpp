@@ -66,6 +66,10 @@ namespace gcn
         void setGlobalTransparency(float a);
         
         float getGlobalTransparency() const;
+
+		void setNextNoClip(bool v = true);
+
+		bool nextNoClip;
 		
     protected:
         sora::SoraCore* sora;
