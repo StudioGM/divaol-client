@@ -26,7 +26,9 @@ int CALLBACK WinMain(
 
 	try
 	{
-		divacore::standard::Initializer initializer("system",divacore::standard::Initializer::MULTI, true);
+		sora::SoraCore::SetRandomSeed((uint32)time(0));
+
+		divacore::standard::Initializer initializer("system",divacore::standard::Initializer::SINGLE, true);
 		divacore::CorePtr core = initializer.get();
 
 		divacore::Config config;

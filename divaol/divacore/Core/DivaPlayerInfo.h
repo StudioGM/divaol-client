@@ -33,10 +33,13 @@ namespace divacore
 			mUid = config.getAsString("uid");
 			mModule = config.getAsString("module");
 
-			AnyList list = config.getAsList("hooks");
 			mHooks.clear();
-			for(AnyList::iterator ptr = list.begin(); ptr != list.end(); ptr++)
-				mHooks.push_back(AnyCast<std::string>(*ptr));
+			if(config.has("hook"))
+			{
+				AnyList list = config.getAsList("hook");
+				for(AnyList::iterator ptr = list.begin(); ptr != list.end(); ptr++)
+					mHooks.push_back(AnyCast<std::string>(*ptr));
+			}
 		}
 
 		void clear() {

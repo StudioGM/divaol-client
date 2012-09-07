@@ -206,7 +206,7 @@
  flag for shaders in render system
  disable this to get rid of shader
  */
-//#define SORA_USE_SHADER
+#define SORA_USE_SHADER
 
 /*
  use RTTI for SoraEvents and so on,

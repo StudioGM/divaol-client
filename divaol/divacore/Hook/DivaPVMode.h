@@ -22,6 +22,7 @@ namespace divacore
 		PVMode()
 		{
 			setPriority(Hook::HIGH);
+			setType(Hook::MODE);
 		}
 		bool condition()
 		{

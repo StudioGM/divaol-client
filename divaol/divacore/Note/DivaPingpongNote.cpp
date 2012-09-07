@@ -134,12 +134,13 @@ namespace divacore
 	{
 		noteSprite->addEffect(sora::CreateEffectFade(1.0,0,dt));
 		coverSprite->addEffect(sora::CreateEffectFade(1.0,0,dt));
+		mEndTime = dt;
 	}
 	void PingpongNote::onRender()
 	{
 		//render note and arrow
-		Core::Ptr->render(noteSprite,"note"+getTailTag());
-		Core::Ptr->render(coverSprite,"note_arrow"+getTailTag());
+		Core::Ptr->render(noteSprite,"note+"+getTailTag());
+		Core::Ptr->render(coverSprite,"note_cover+"+getTailTag());
 		
 		//render rhythm
 		if(!bPressOver)
@@ -153,7 +154,7 @@ namespace divacore
 			/*Rect texRect = config->getAsRect("pingpong_rhythm_"+NOTE_MAP[twoType[0]]);
 			rhythmSprite->setTextureRect(texRect.x,texRect.y,texRect.w,texRect.h);*/
 			rhythmSprite->setPosition(position.x,position.y);
-			Core::Ptr->render(rhythmSprite,"note_rhythm"+getTailTag());
+			Core::Ptr->render(rhythmSprite,"note_rhythm+"+getTailTag());
 
 			nowTailPosition = position;
 			{
@@ -183,7 +184,7 @@ namespace divacore
 			texRect = config->getAsRect("pingpong_rhythm_"+NOTE_MAP[twoType[1]]);
 			rhythmSprite->setTextureRect(texRect.x,texRect.y,texRect.w,texRect.h);*/
 			rhythmSprite->setPosition(position.x,position.y);
-			Core::Ptr->render(rhythmSprite,"note_rhythm"+getTailTag());
+			Core::Ptr->render(rhythmSprite,"note_rhythm+"+getTailTag());
 		}
 	}
 	void PingpongNote::onUpdate(double dt, double position) 
@@ -202,8 +203,15 @@ namespace divacore
 			rhythmTail = 1-barRate+ratio*barRate;
 			angle = 1+(position-periodGrid)/totalGrid;
 		}
-		if(getState()==END&&!noteSprite->hasEffect())
-			over();
+		if(getState()==END)
+		{
+			mEndTime -= dt;
+			if(mEndTime < 0)
+			{
+				mEndTime = 0;
+				over();
+			}
+		}
 
 		Rect tmpRect = coverRect;
 		tmpRect.y += tmpRect.h, tmpRect.h = 0;

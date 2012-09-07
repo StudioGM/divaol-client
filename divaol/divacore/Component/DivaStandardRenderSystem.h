@@ -45,11 +45,11 @@ namespace divacore
 			preview = white = NULL;
 			bFade = false;
 		}
-		void gameLoad(const std::string &configFile)
+		void gameLoadFromConfig(Config &config)
 		{
 			sora::SoraMutexGuard lock(mutex);
 
-			configloader::loadWithJson(config,configFile);
+			this->config = config;
 
 			gameWidth = config.getAsInt("gameWidth");
 			gameHeight = config.getAsInt("gameHeight");
@@ -62,6 +62,14 @@ namespace divacore
 				double(gameHeight)/preview->getSpriteHeight());
 			white->setScale(double(gameWidth)/white->getSpriteWidth(),
 				double(gameHeight)/white->getSpriteHeight());
+		}
+		void gameLoad(const std::string &configFile)
+		{
+			sora::SoraMutexGuard lock(mutex);
+
+			configloader::loadWithJson(config,configFile);
+
+			gameLoadFromConfig(config);
 		}
 		bool InsideDrawRange(const Point &p)
 		{
@@ -119,7 +127,10 @@ namespace divacore
 				if(mask&RS_RENDER_BACKGROUND)
 					DISPLAY_PTR->render();
 				if(mask&RS_RENDER_NOTE)
+				{
 					CORE_FLOW_PTR->render();
+					HOOK_MANAGER_PTR->render();
+				}
 				if(mask&RS_RENDER_UI)
 				{
 					UI_PAINTER_PTR->render();

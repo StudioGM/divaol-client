@@ -25,6 +25,11 @@ namespace divacore
 		configloader::loadWithJson(config,configFile);
 	}
 
+	void StandardItemFactory::gameLoadFromConfig(Config &config)
+	{
+		this->config = config;
+	}
+
 	void StandardItemFactory::gameReset()
 	{
 		config.clear();
@@ -37,6 +42,8 @@ namespace divacore
 
 	NotePtr StandardItemFactory::createNote(MapNote &noteInfo)
 	{
+		HOOK_MANAGER_PTR->hook(noteInfo);
+
 		NotePtr note = NULL;
 		if(noteInfo.noteType=="normal")
 			note = new NormalNote(noteInfo);

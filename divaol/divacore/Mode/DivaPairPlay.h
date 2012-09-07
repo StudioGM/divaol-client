@@ -46,7 +46,7 @@ namespace divacore
 
 			bool hook(float x, float y, SoraSprite*sprite, const std::string&tag) 
 			{
-				if(tag.find("not_mine")!=std::string::npos)
+				if(tag.find("not_mine+")!=std::string::npos)
 				{
 					uint32 color = sprite->getColor();
 					uint32 alpha = CGETA(color);
@@ -100,7 +100,7 @@ namespace divacore
 			if(note->getID()%2!=getMyPlayerInfo()->indexInTeam)
 			{
 				note->setOwner(false);
-				note->setTailTag("_not_mine");
+				note->setTailTag("not_mine+");
 			}
 			MultiPlay::checkNote(note);
 			return true;

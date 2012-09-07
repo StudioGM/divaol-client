@@ -1,27 +1,28 @@
 /*
- *  DivaAutoplay.h
+ *  DivaAutoMode.h
  *
  *  Created by Hyf042 on 2/3/12.
  *  Copyright 2012 Hyf042. All rights reserved.
  *
  */
 
-#ifndef DIVA_AUTOPLAY
-#define DIVA_AUTOPLAY
+#ifndef DIVA_AUTO_MODE
+#define DIVA_AUTO_MODE
 
 #include "Core/DivaHook.h"
 
 namespace divacore
 {
-	class AutoPlay : public Hook
+	class AutoMode : public Hook
 	{
 		bool open;
 	public:
-		std::string getName() {return "AutoPlay";}
+		std::string getName() {return "AutoMode";}
 
-		AutoPlay()
+		AutoMode()
 		{
 			setPriority(Hook::NORMAL);
+			setType(Hook::MODE);
 			open = true;
 		}
 		bool condition()
@@ -49,7 +50,7 @@ namespace divacore
 		{
 			if(key.key==0&&key.type==KeyEvent::RELEASE)
 				open = !open;
-			if(key.key>=0&&key.key<8)
+			if(key.key>=0&&key.key<NOTE_NUM)
 			{
 				setHookInfo(1);
 				return true;

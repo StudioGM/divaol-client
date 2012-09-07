@@ -11,5 +11,7 @@
 
 #define GRID_PER_BAR 192
 #define SECOND_PER_MINUTE 60
+#define NOTE_NUM 8
+#define INFINITE 0xFFFFFFFF 
 
 #endif

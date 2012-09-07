@@ -38,7 +38,6 @@ namespace divacore
 		CTMode()
 		{
 			setPriority(Hook::TOP);
-			setType(Hook::MODE);
 			setLevel(0);
 		}
 		void setLevel(int level)
@@ -68,13 +67,16 @@ namespace divacore
 			int nowPosition = CORE_PTR->getRunPosition();
 
 			cntPosition += nowPosition-lastPosition;
-			if(cntPosition>=GRID_PER_BAR*2)
+			ct -= COST[level]*cntPosition/GRID_PER_BAR/20;
+			if(ct<0)
+				setLevel(0);
+			/*if(cntPosition>=GRID_PER_BAR*2)
 			{
-				cntPosition -= GRID_PER_BAR*2;
-				ct -= COST[level]*2;
-				if(ct<0)
-					setLevel(0);
-			}
+			cntPosition -= GRID_PER_BAR*2;
+			ct -= COST[level]*2;
+			if(ct<0)
+			setLevel(0);
+			}*/
 
 			lastPosition = nowPosition;
 		}

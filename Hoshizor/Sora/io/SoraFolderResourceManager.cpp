@@ -40,7 +40,8 @@ namespace sora {
 
 	void SoraFolderResourceManager::detachResourcePack(SoraResourceHandle handle) {
 		for(size_t i=0; i<folders.size(); ++i) {
-			if(folders[i].folderHash == handle) {
+			//modify by tempbuffer, here SoraHandle is uint32, so I have to convert it, maybe it will make an error
+			if((SoraResourceHandle)folders[i].folderHash == handle) {
 				folders.erase(folders.begin()+i);
 				break;
 			}

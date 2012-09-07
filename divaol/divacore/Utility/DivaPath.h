@@ -35,7 +35,7 @@ namespace divacore
 				for(float i = 0; i <= D; i+=LINE_INC)
 				{
 					p  = p+p_inc;
-					Core::Ptr->render(p.x,p.y,meta,"line_meta");
+					Core::Ptr->render(p.x,p.y,meta,"line_meta+");
 				}
 			}
 			static void renderCometLine(const Point &p0, const Point &p1, NotePtr note)

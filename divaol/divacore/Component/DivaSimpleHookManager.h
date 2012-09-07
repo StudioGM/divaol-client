@@ -10,9 +10,17 @@
 #define DIVA_SIMPLE_HOOK_MANAGER
 
 #include "Core/DivaHookManager.h"
-#include "Hook/DivaAutoplay.h"
+#include "Hook/DivaAutoMode.h"
 #include "Hook/DivaCTMode.h"
 #include "Hook/DivaPVMode.h"
+#include "Hook/DivaFastMode.h"
+#include "Hook/DivaSlowMode.h"
+#include "Hook/DivaDeathMode.h"
+#include "Hook/DivaRandomSwapMode.h"
+#include "Hook/DivaChaosMode.h"
+#include "Hook/DivaDisappearMode.h"
+#include "Hook/DivaBlackHouseMode.h"
+#include "Hook/DivaNoFailMode.h"
 #include "thread/SoraMutex.h"
 
 namespace divacore
@@ -162,9 +170,20 @@ namespace divacore
 		}
 		virtual bool hook(NotePtr note)
 		{
-			for(int i = 0; i < soundHooks.size(); i++)
-				if(soundHooks[i]->isActive())
-					if(soundHooks[i]->hook(note))
+			for(int i = 0; i < noteHooks.size(); i++)
+				if(noteHooks[i]->isActive())
+					if(noteHooks[i]->hook(note))
+					{
+						mHookInfo = noteHooks[i]->hookInfo();
+						return true;
+					}
+					return false;
+		}
+		virtual bool hook(MapNote &note)
+		{
+			for(int i = 0; i < noteHooks.size(); i++)
+				if(noteHooks[i]->isActive())
+					if(noteHooks[i]->hook(note))
 					{
 						mHookInfo = noteHooks[i]->hookInfo();
 						return true;
@@ -179,8 +198,25 @@ namespace divacore
 				return new PVMode;
 			else if(hookName=="CTMode")
 				return new CTMode;
-			else if(hookName=="AutoPlay")
-				return new AutoPlay;
+			else if(hookName=="AutoMode")
+				return new AutoMode;
+			else if(hookName=="FastMode")
+				return new FastMode;
+			else if(hookName=="SlowMode")
+				return new SlowMode;
+			else if(hookName=="DeathMode")
+				return new DeathMode;
+			else if(hookName=="RandomSwapMode")
+				return new RandomSwapMode;
+			else if(hookName=="ChaosMode")
+				return new ChaosMode;
+			else if(hookName=="DisappearMode")
+				return new DisappearMode;
+			else if(hookName=="BlackHouseMode")
+				return new BlackHouseMode;
+			else if(hookName=="NoFailMode")
+				return new NoFailMode;
+
 			DIVA_EXCEPTION_MODULE("Hook "+hookName+" not found!","SimpleHookManager");
 			return NULL;
 		}

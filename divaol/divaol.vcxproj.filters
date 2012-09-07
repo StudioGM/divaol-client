@@ -151,6 +151,9 @@
     <Filter Include="源文件\divacore\music">
       <UniqueIdentifier>{038ca617-2977-43ce-8ce3-6e8075dec142}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Plugins\Shader">
+      <UniqueIdentifier>{c1bd1992-f29f-44e4-a6da-6d181180c555}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Hoshizor\Sora\Hoshizora.h">
@@ -1416,9 +1419,6 @@
     <ClInclude Include="divacore\Core\DivaUIPainter.h">
       <Filter>源文件\divacore\core</Filter>
     </ClInclude>
-    <ClInclude Include="divacore\Hook\DivaAutoplay.h">
-      <Filter>源文件\divacore\hook</Filter>
-    </ClInclude>
     <ClInclude Include="divacore\Hook\DivaCTMode.h">
       <Filter>源文件\divacore\hook</Filter>
     </ClInclude>
@@ -1571,6 +1571,54 @@
     </ClInclude>
     <ClInclude Include="divacore\Core\DivaPlayerInfo.h">
       <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Hook\DivaAutoMode.h">
+      <Filter>源文件\divacore\hook</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Hook\DivaFastMode.h">
+      <Filter>源文件\divacore\hook</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Hook\DivaSlowMode.h">
+      <Filter>源文件\divacore\hook</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Hook\DivaDeathMode.h">
+      <Filter>源文件\divacore\hook</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Hook\DivaRandomSwapMode.h">
+      <Filter>源文件\divacore\hook</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Hook\DivaChaosMode.h">
+      <Filter>源文件\divacore\hook</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Hook\DivaDisappearMode.h">
+      <Filter>源文件\divacore\hook</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Hook\DivaBlackHouseMode.h">
+      <Filter>源文件\divacore\hook</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraShader\SoraCGD3D9Shader.h">
+      <Filter>Plugins\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraShader\Cg\cg.h">
+      <Filter>Plugins\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraShader\Cg\cgD3D8.h">
+      <Filter>Plugins\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraShader\Cg\cgD3D9.h">
+      <Filter>Plugins\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraShader\Cg\cgD3D10.h">
+      <Filter>Plugins\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraShader\Cg\cgD3D11.h">
+      <Filter>Plugins\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraShader\Cg\cgGL.h">
+      <Filter>Plugins\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Hook\DivaNoFailMode.h">
+      <Filter>源文件\divacore\hook</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2131,6 +2179,9 @@
     </ClCompile>
     <ClCompile Include="divacore\Lib\Base\Timer.cpp">
       <Filter>源文件\divacore\lib\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraShader\SoraCGD3D9Shader.cpp">
+      <Filter>Plugins\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
