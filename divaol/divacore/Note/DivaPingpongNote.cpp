@@ -12,6 +12,7 @@
 
 namespace divacore
 {
+	const float PingpongNote::SCALE = 1.5;
 
 	void PingpongNote::onInitiate() 
 	{
@@ -45,16 +46,17 @@ namespace divacore
 		noteSprite->setTextureRect(texRect.x,texRect.y,texRect.w,texRect.h);
 		noteSprite->setCenter(centerPoint.x,centerPoint.y);
 		noteSprite->setPosition(notePosition.x,notePosition.y);
-		noteSprite->addEffect(sora::CreateEffectScale(config->getAsDouble("pingpong_note_blowup"),1.0,(noteInfo.notePoint[0].time-noteInfo.aheadTime)*config->getAsDouble("pingpong_note_blowTimeRate")));
+		noteSprite->addEffect(sora::CreateEffectScale(config->getAsDouble("pingpong_note_blowup"),SCALE,(noteInfo.notePoint[0].time-noteInfo.aheadTime)*config->getAsDouble("pingpong_note_blowTimeRate")));
 
 		//set base
 		coverRect = config->getAsRect("pingpong_note_cover_"+NOTE_MAP[noteInfo.notePoint[0].type%8]);
 		coverSprite->setTextureRect(coverRect.x,coverRect.y,coverRect.w,coverRect.h);
 		coverSprite->setCenter(centerPoint.x,coverRect.h);
 
-		coverSprite->setPosition(notePosition.x,notePosition.y-centerPoint.y+coverRect.h);
-		coverSprite->addEffect(sora::CreateEffectScale(config->getAsDouble("pingpong_note_blowup"),1.0,(noteInfo.notePoint[0].time-noteInfo.aheadTime)*config->getAsDouble("pingpong_note_blowTimeRate")));
-
+		coverSprite->setPosition(notePosition.x,notePosition.y+(-centerPoint.y+coverRect.h)*SCALE);
+		noteCenterPoint = centerPoint;
+		coverSprite->addEffect(sora::CreateEffectScale(config->getAsDouble("pingpong_note_blowup"),SCALE,(noteInfo.notePoint[0].time-noteInfo.aheadTime)*config->getAsDouble("pingpong_note_blowTimeRate")));
+	
 		//set tail
 		tailPosition = notePosition+Point(Argument::asFloat("tailx",noteInfo.arg),Argument::asFloat("taily",noteInfo.arg)).unit()*config->getAsDouble("pingpong_rhythm_distance")*MAP_INFO->header.speedScale;
 		texRect = config->getAsRect("pingpong_rhythm_"+NOTE_MAP[noteInfo.notePoint[0].type%8]);
@@ -62,12 +64,13 @@ namespace divacore
 		rhythmSprite->setTextureRect(texRect.x,texRect.y,texRect.w,texRect.h);
 		rhythmSprite->setCenter(centerPoint.x,centerPoint.y);
 		rhythmSprite->setPosition(tailPosition.x,tailPosition.y);
+		rhythmSprite->setScale(SCALE,SCALE);
 
 		//set bar meta
 		texRect = config->getAsRect("pingpong_bar_"+iToS(noteInfo.notePoint[0].type%4));
 		centerPoint = config->getAsPoint("pingpong_bar_center");
 		Point size = config->getAsPoint("pingpong_bar_size");
-		barMetaSprite->setScale(size.x/texRect.w,size.y/texRect.h);
+		barMetaSprite->setScale(size.x/texRect.w*SCALE,size.y/texRect.h*SCALE);
 		barMetaSprite->setTextureRect(texRect.x,texRect.y,texRect.w,texRect.h);
 		barMetaSprite->setCenter(centerPoint.x,centerPoint.y);
 
@@ -136,6 +139,17 @@ namespace divacore
 		coverSprite->addEffect(sora::CreateEffectFade(1.0,0,dt));
 		mEndTime = dt;
 	}
+	void PingpongNote::_hitEffect()
+	{
+		noteSprite->addEffect(sora::CreateEffectList(
+			sora::CreateEffectScale(SCALE,SCALE*2,0.2),
+			sora::CreateEffectScale(SCALE*2,SCALE,0.2),
+			sora::ImageEffectOnce));
+		coverSprite->addEffect(sora::CreateEffectList(
+			sora::CreateEffectScale(SCALE,SCALE*2,0.2),
+			sora::CreateEffectScale(SCALE*2,SCALE,0.2),
+			sora::ImageEffectOnce));
+	}
 	void PingpongNote::onRender()
 	{
 		//render note and arrow
@@ -189,6 +203,10 @@ namespace divacore
 	}
 	void PingpongNote::onUpdate(double dt, double position) 
 	{
+		//change the bar color
+		float value = (position-int(position/100)*100)/100;
+		barMetaSprite->setColor(Color::getHSVColor(value,1,1));
+
 		//calculate arrow angle and rhythm position
 		double ratio = position/periodGrid, angle = 0;
 		if(!bPressStart)
@@ -218,6 +236,7 @@ namespace divacore
 		tmpRect = Rect::get(tmpRect,coverRect,ratio);
 		coverSprite->setTextureRect(tmpRect.x,tmpRect.y,tmpRect.w,tmpRect.h);
 		coverSprite->setCenter(coverSprite->getCenterX(),tmpRect.h);
+		coverSprite->setPosition(notePosition.x,notePosition.y+(-noteCenterPoint.y+coverRect.h)*coverSprite->getHScale());
 
 		//the first point fail check
 		if(getState()==HEAD&&noteInfo.notePoint[0].time+EVALUATE_STRATEGY_PTR->getProtectedTime()<CORE_PTR->getRunTime())
@@ -289,6 +308,8 @@ namespace divacore
 			Core::Ptr->getMusicManager()->playDirect("hit","sound_effect");
 
 			cntHit++;
+
+			_hitEffect();
 			
 			//Rect texRect = config->getAsRect("pingpong_note_"+NOTE_MAP[twoType[cntHit%2]]);
 			//noteSprite->setTextureRect(texRect.x,texRect.y,texRect.w,texRect.h);

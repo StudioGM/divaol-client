@@ -1599,26 +1599,11 @@
     <ClInclude Include="..\Hoshizor\Plugins\SoraShader\SoraCGD3D9Shader.h">
       <Filter>Plugins\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="..\Hoshizor\Plugins\SoraShader\Cg\cg.h">
-      <Filter>Plugins\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Hoshizor\Plugins\SoraShader\Cg\cgD3D8.h">
-      <Filter>Plugins\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Hoshizor\Plugins\SoraShader\Cg\cgD3D9.h">
-      <Filter>Plugins\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Hoshizor\Plugins\SoraShader\Cg\cgD3D10.h">
-      <Filter>Plugins\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Hoshizor\Plugins\SoraShader\Cg\cgD3D11.h">
-      <Filter>Plugins\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Hoshizor\Plugins\SoraShader\Cg\cgGL.h">
-      <Filter>Plugins\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="divacore\Hook\DivaNoFailMode.h">
       <Filter>源文件\divacore\hook</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Utility\DivaColor.h">
+      <Filter>源文件\divacore\utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

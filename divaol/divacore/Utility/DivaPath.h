@@ -12,6 +12,7 @@
 #include "Core/DivaCommon.h"
 #include "SoraSprite.h"
 #include "Core/DivaCore.h"
+#include "Utility/DivaColor.h"
 
 namespace divacore
 {

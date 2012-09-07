@@ -9,6 +9,7 @@
 #include "SoraCore.h"
 #include "SoraTextureMap.h"
 #include "core/DivaCore.h"
+#include "SoraShader.h"
 
 namespace divacore
 {

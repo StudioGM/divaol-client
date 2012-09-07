@@ -13,6 +13,7 @@
 #include "Core/DivaConfig.h"
 #include "Utility/DivaConfigLoader.h"
 #include "thread/SoraMutex.h"
+#include "SoraShader.h"
 
 namespace divacore
 {
@@ -56,7 +57,7 @@ namespace divacore
 
 			SAFE_DELETE(coreCanvas);
 			coreCanvas = new sora::SoraBaseCanvas(gameWidth,gameHeight);
-
+			
 			if(preview->getTexture())
 				preview->setScale(double(gameWidth)/preview->getSpriteWidth(),
 				double(gameHeight)/preview->getSpriteHeight());

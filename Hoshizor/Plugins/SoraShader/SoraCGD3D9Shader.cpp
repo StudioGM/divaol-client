@@ -83,6 +83,7 @@ namespace sora {
 		if(error != CG_NO_ERROR) {
 			log_error(std::string("SoraShader: ")+str);
 			if(error == CG_COMPILER_ERROR) {
+				std::string error = cgGetLastListing(context);
 				log_error(std::string("SoraShaderContext: ")+cgGetLastListing(context));
 			}			
 			setError(1);

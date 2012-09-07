@@ -2,5 +2,5 @@
 	"type" : "decoration",
 	"base" : "standard",
 	"hook_reserve" : "true",
-	"hook" : ["AutoMode"]
+	"hook" : []
 }

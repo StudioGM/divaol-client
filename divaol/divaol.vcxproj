@@ -173,12 +173,6 @@
     <ClInclude Include="..\Hoshizor\Plugins\SoraHGERenderer\SoraDXRenderBuffer.h" />
     <ClInclude Include="..\Hoshizor\Plugins\SoraHGERenderer\SoraHGEInput.h" />
     <ClInclude Include="..\Hoshizor\Plugins\SoraHGERenderer\SoraHGERenderer.h" />
-    <ClInclude Include="..\Hoshizor\Plugins\SoraShader\Cg\cg.h" />
-    <ClInclude Include="..\Hoshizor\Plugins\SoraShader\Cg\cgD3D10.h" />
-    <ClInclude Include="..\Hoshizor\Plugins\SoraShader\Cg\cgD3D11.h" />
-    <ClInclude Include="..\Hoshizor\Plugins\SoraShader\Cg\cgD3D8.h" />
-    <ClInclude Include="..\Hoshizor\Plugins\SoraShader\Cg\cgD3D9.h" />
-    <ClInclude Include="..\Hoshizor\Plugins\SoraShader\Cg\cgGL.h" />
     <ClInclude Include="..\Hoshizor\Plugins\SoraShader\SoraCGD3D9Shader.h" />
     <ClInclude Include="..\Hoshizor\Plugins\SoraVlcMoviePlayer\SoraVlcMoviePlayer.h" />
     <ClInclude Include="..\Hoshizor\Sora\app\SoraGameApp.h" />
@@ -563,6 +557,7 @@
     <ClInclude Include="divacore\Timer\DivaTimeCounterImplBass.h" />
     <ClInclude Include="divacore\Timer\DivaTimeCounterImplSora.h" />
     <ClInclude Include="divacore\Timer\DivaTimeCounterImplWin32.h" />
+    <ClInclude Include="divacore\Utility\DivaColor.h" />
     <ClInclude Include="divacore\Utility\DivaConfigLoader.h" />
     <ClInclude Include="divacore\Utility\DivaHDPSystem.h" />
     <ClInclude Include="divacore\Utility\DivaInitialize.h" />
