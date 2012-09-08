@@ -148,6 +148,7 @@ namespace divacore
 		UI_PAINTER_PTR->gameLoad(uiFile);
 		RENDER_SYSTEM_PTR->gameLoadFromConfig(renderConfig);
 		EFFECT_SYSTEM_PTR->gameLoadFromConfig(effectConfig);
+		HOOK_MANAGER_PTR->gameLoad(DEFAULT_INFO_PTR->getAsString("hookConfig"));
 
 		//insert hook
 		std::vector<std::string> customHooks = MY_PLAYER_INFO.hooks();

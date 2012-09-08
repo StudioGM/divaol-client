@@ -13,8 +13,9 @@ namespace sora {
 
 		cgD3D9SetDevice((IDirect3DDevice9*)(SoraCore::Instance()->getVideoDeviceHandle()));
         
-        vertexProfile = cgD3D9GetLatestVertexProfile();
-        fragmentProfile = cgD3D9GetLatestPixelProfile();
+		//I don't know the grammer of 3.0
+        vertexProfile = CG_PROFILE_VS_2_X;
+        fragmentProfile = CG_PROFILE_PS_2_X;
 		cgD3D9GetOptimalOptions(vertexProfile);
 		cgD3D9GetOptimalOptions(fragmentProfile);
 	}
@@ -84,7 +85,7 @@ namespace sora {
 			log_error(std::string("SoraShader: ")+str);
 			if(error == CG_COMPILER_ERROR) {
 				std::string error = cgGetLastListing(context);
-				log_error(std::string("SoraShaderContext: ")+cgGetLastListing(context));
+				log_error(std::string("SoraShaderContext: ")+error);
 			}			
 			setError(1);
 		}

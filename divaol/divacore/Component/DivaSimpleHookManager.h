@@ -37,6 +37,7 @@ namespace divacore
 		HookQueue noteHooks;
 		HookQueue hooks;
 		HOOK_MAP hookMap;
+		Config mConfig;
 		sora::SoraMutex mutex;
 
 	public:
@@ -191,6 +192,15 @@ namespace divacore
 					return false;
 		}
 		int hookInfo() {return mHookInfo;}
+
+		void gameLoad(const std::string configFile)
+		{
+			configloader::loadWithJson(mConfig,configFile);
+		}
+		Config& getConfig()
+		{
+			return mConfig;
+		}
 
 		HookPtr createHook(const std::string &hookName)
 		{
