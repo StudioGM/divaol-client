@@ -18,6 +18,8 @@
 #include "HouseMessageBox.h"
 #include "MessageChannelList.h"
 #include "RoomInfoList.h"
+#include "ThingList.h"
+#include "RoomList.h"
 
 #include "SoraLuaObject.h"
 #include <string>
@@ -33,11 +35,11 @@ namespace diva
 			public sora::SoraGUIResponser
 		{
 		private:
-			enum {STATE_OFFLINE, STATE_LOGINWINDOW, STATE_LOGINING, STATE_LOGINFAILED, STATE_ROOM, STATE_STAGE};
+			enum {STATE_OFFLINE, STATE_LOGINWINDOW, STATE_LOGINING, STATE_LOGINFAILED, STATE_ROOM, STATE_STAGE, STATE_ROOMLIST};
 
 			HouseUI();
 
-			void ParseJson(const std::wstring& filename, const std::wstring& stage);
+			void ParseJson(const std::wstring& filename, const std::wstring& stage, const std::wstring& room);
 
 			gcn::ContainerEx* CreateStaticImage(const WJson::Value& conf, const std::wstring& name);
 			gcn::SuperButtonEx* CreateButton(const WJson::Value& conf, const std::wstring& normal, const std::wstring& on, const std::wstring& down, const std::wstring& disable);
@@ -49,6 +51,10 @@ namespace diva
 			gcn::ContainerEx* CreatePlayerListPanel(const WJson::Value& conf);
 			gcn::ContainerEx* CreateMessagePanel(const WJson::Value& conf);
 			gcn::SliderEx* CreateMessageSlider(const WJson::Value& conf);
+			ThingList* CreateThingList(const WJson::Value& conf);
+			gcn::ContainerEx* CreateTeamList(const WJson::Value& conf);
+			gcn::ContainerEx* CreateRoomListWindow(const WJson::Value conf);
+			RoomListItem* CreateRoomListItem(const WJson::Value conf, const std::wstring& normal, const std::wstring& on, const std::wstring& down);
 
 			void RefreshStatus();
 			void Refresh_sPlayerList();
@@ -58,12 +64,16 @@ namespace diva
 			void StateChange_ROOM_STAGE();
 			void StateChange_STAGE_ROOM();
 			void StateChange_LOGINWINDOW_ROOM();
+			void StateChange_ROOM_ROOMLIST();
+			void StateChange_ROOMLIST_ROOM();
+			void StateChange_ROOMLIST_STAGE();
 
 			int state;
 
 			gcn::Container* top;
 			WJson::Value conf;
 			WJson::Value sconf;
+			WJson::Value rconf;
 
 			// private
 			// --------- Room
@@ -87,9 +97,20 @@ namespace diva
 			gcn::ListBoxEx* messageChannelList;
 			gcn::ContainerEx* messageChannel;
 			gcn::ContainerEx* messageToSomeOne;
+			ThingList* thingList;
+			gcn::ContainerEx* teamList;
+			std::vector<gcn::SuperButtonEx*> teamListButtons;
 
-			gcn::Container* sPlayerListPanel;
+
+
+			gcn::ContainerEx* sPlayerListPanel;
 			gcn::ListBoxEx* sPlayerList;
+
+			// -----RoomList
+			gcn::ContainerEx* roomListPanel;
+			gcn::SuperButtonEx* roomListCloseButton;
+			gcn::SuperButtonEx* roomListOpenButton;
+			
 
 			// --------- Login
 			gcn::ContainerEx* loginPanel;
@@ -102,6 +123,7 @@ namespace diva
 			gcn::Font* statusPanelFont;
 			gcn::Font* messageAreaFont;
 			gcn::Font* messageInputFont;
+			gcn::Font* playerListPagenumFont;
 
 			void RecvMsg();
 
@@ -123,14 +145,21 @@ namespace diva
 			void MessagePanelChannelClicked();
 			void MessagePanelChannelListClicked(int index);
 			void RoomLInfoListClicked(int index);
+			void TeamListClicked(gcn::MouseEvent& mouseEvent);
 
-			void SetMessageChannelListInvisible(gcn::Widget* widget);
+			void SetWidgetInvisible(gcn::Widget* widget);
 
 			virtual void action();
 			virtual void mouseClicked(const gcn::MouseEvent& mouseEvent);
 		};
 
 		class LoginButton_MouseListener : public gcn::MouseListener
+		{
+		public:
+			void mouseClicked(gcn::MouseEvent& mouseEvent);
+		};
+
+		class TeamSelect_MouseListener : public gcn::MouseListener
 		{
 		public:
 			void mouseClicked(gcn::MouseEvent& mouseEvent);

@@ -11,6 +11,7 @@ namespace gcn
 		offx = 0;
 		offy = 0;
 		text = L"";
+		isSelected = false;
 		setFrameSize(0);
 	}
 
@@ -76,7 +77,10 @@ namespace gcn
 		}
 	}
 
-
+	void ButtonEx::setSelected(bool v /* = false */)
+	{
+		isSelected = v;
+	}
 
 	void ButtonEx::draw(Graphics* graphics)
 	{
@@ -91,7 +95,10 @@ namespace gcn
 		else if (!isHasMouse())
 		{
 			//image->setTextureRect(normalRect);
-			rect = normalRect;
+			if (!isSelected)
+				rect = normalRect;
+			else
+				rect = pressedRect;
 			//graphics->drawImage(image, 0, 0);
 			//return;
 		}

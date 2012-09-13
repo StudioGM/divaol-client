@@ -10,7 +10,8 @@
   	},
   	"fontSize": 20,
   	"fontName": "msyh.ttf",
-  	"colorList": [16711680, 65280, 255, 16711680, 65280, 255, 16711680, 65280]
+  	"colorList": [16711680, 65280, 255, 16711680, 65280, 255, 16711680, 65280],
+    "pagenumFontSize": 12
   },
   "RoomList/BackGround": {
     "filename": "res/stage_001.png",
@@ -165,6 +166,10 @@
     "width": 95,
     "height": 95
   },
+  "itemlist/Config": {
+    "itemGap": 9,
+    "items": ["道具1", "道具2", "道具3", "道具4", "道具5", "道具6"]
+  },
   "RoomList/createRoom/btn_openStage_mouseon": {
     "filename": "res/stage_001.png",
     "srcX": 0,
@@ -218,6 +223,9 @@
     "desY": 58,
     "width": 98,
     "height": 84
+  },
+  "TeamSelection/Config" :{
+    "itemCount": 8
   },
   "TeamSelection/Selected/btn_Team5_Selected": {
     "filename": "res/stage_001.png",
@@ -344,6 +352,9 @@
     "desY": 40,
     "width": 17,
     "height": 60
+  },
+  "TeamSelection/Config" :{
+    "itemCount" : 8
   },
   "TeamSelection/Normal/btn_Team2_Normal": {
     "filename": "res/stage_001.png",

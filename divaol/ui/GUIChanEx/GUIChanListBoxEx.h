@@ -32,6 +32,11 @@ namespace gcn
 		std::vector<ListItemEx*> items;
 		Image* image;
 		Rectangle srcRect;
+		bool isHorizontal;
+
+		void changeHighlightItem(int mx, int my, gcn::Rectangle firstRect, int itemGap);
+
+		virtual int getItemState(int index);
 
 	public:
 		ListBoxEx();
@@ -51,12 +56,14 @@ namespace gcn
 		void setFirstIndex(int index);
 		int getFirstIndex() const;
 
+		void setHorizontal(bool v = false);
+
 		int getItemCount() const;
 
 		const std::vector<ListItemEx*>& getItems() const;
 		void setItems(const std::vector<ListItemEx*>& v);
 
-		int getDisplayedItems() const;
+		virtual int getDisplayedItems() const;
 		int getMaxIndex() const;
 
 		void clearItems();
@@ -86,6 +93,9 @@ namespace gcn
 
 		virtual void mouseWheelMovedUp(MouseEvent& mouseEvent);
 		virtual void mouseWheelMovedDown(MouseEvent& mouseEvent);
+
+		virtual void scrollNext();
+		virtual void scrollLast();
 
 		//virtual void mouseWheelMovedUp(MouseEvent& mouseEvent);
 

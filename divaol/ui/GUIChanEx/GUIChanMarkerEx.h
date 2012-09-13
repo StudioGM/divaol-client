@@ -7,7 +7,7 @@
 namespace gcn
 {
 	class MarkerEx :
-		public Button
+		public ButtonEx
 	{
 	private:
 		int offx, offy;

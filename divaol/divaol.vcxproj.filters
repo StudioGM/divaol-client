@@ -2262,6 +2262,15 @@
     <ClInclude Include="ui\UI\House\RoomInfoList.h">
       <Filter>源文件\ui\UI\House</Filter>
     </ClInclude>
+    <ClInclude Include="ui\UI\House\ThingList.h">
+      <Filter>源文件\ui\UI\House</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\GUIChanEx\GUIChanListViewEx.h">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UI\House\RoomList.h">
+      <Filter>源文件\ui\UI\House</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -3339,6 +3348,15 @@
       <Filter>源文件\ui\UI\House</Filter>
     </ClCompile>
     <ClCompile Include="ui\UI\House\RoomInfoList.cpp">
+      <Filter>源文件\ui\UI\House</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\House\ThingList.cpp">
+      <Filter>源文件\ui\UI\House</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\GUIChanEx\GUIChanListViewEx.cpp">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\House\RoomList.cpp">
       <Filter>源文件\ui\UI\House</Filter>
     </ClCompile>
   </ItemGroup>

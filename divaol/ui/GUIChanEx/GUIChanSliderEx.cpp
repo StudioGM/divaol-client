@@ -66,7 +66,7 @@ namespace gcn
 		downButton->setPosition(0, getHeight() - downButton->getHeight());
 	}
 
-	void SliderEx::setLook(ButtonEx* up, ButtonEx* down, MarkerEx* mark)
+	void SliderEx::setLook(ButtonEx* up, ButtonEx* down, ButtonEx* mark)
 	{
 		if (up)
 		{

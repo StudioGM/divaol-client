@@ -55,4 +55,12 @@ namespace Network
 		std::vector<std::wstring> vocaloidUsages;
 	};
 
+	struct RoomInfo
+	{
+		int playerNum;
+		int maxPlayerNum;
+		std::wstring owner;
+		std::wstring stageName;
+		std::vector<std::wstring> selectedSong;
+	};
 }

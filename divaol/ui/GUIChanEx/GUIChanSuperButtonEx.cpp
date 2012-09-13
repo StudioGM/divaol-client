@@ -33,9 +33,18 @@ namespace gcn
 		else if (!isHasMouse())
 		{
 			//image->setTextureRect(normalRect);
-			rect = normalRect;
-			ox = x1;
-			oy = y1;
+			if (!isSelected)
+			{
+				rect = normalRect;
+				ox = x1;
+				oy = y1;
+			}
+			else
+			{
+				rect = pressedRect;
+				ox = x3;
+				oy = y3;
+			}
 			//graphics->drawImage(image, 0, 0);
 			//return;
 		}
@@ -70,7 +79,7 @@ namespace gcn
 		{
 			graphics->setFont(getFont());
 			graphics->setColor(Color(255,255,255,getAlpha()));
-			graphics->drawTextW(text, 20, (getHeight() - getFont()->getHeight())/2);
+			graphics->drawTextW(text, (getWidth() - getFont()->getWidthW(text))/2, (getHeight() - getFont()->getHeight())/2);
 		}
 	}
 }

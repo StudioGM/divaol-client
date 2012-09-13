@@ -11,3 +11,4 @@
 #include "GUIChanSuperButtonEx.h"
 #include "GUIChanTextBoxEx.h"
 #include "GUIChanTextFieldEx.h"
+#include "GUIChanListViewEx.h"

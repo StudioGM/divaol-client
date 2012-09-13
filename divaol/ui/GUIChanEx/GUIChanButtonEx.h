@@ -20,7 +20,7 @@ namespace gcn
 		std::wstring hSE;
 		std::wstring cSE;
 
-
+		bool isSelected;
 
 	public:
 		ButtonEx();
@@ -29,6 +29,7 @@ namespace gcn
 		void setLook(std::wstring filename, Rectangle normal, Rectangle highlight, Rectangle pressed, Rectangle disabled, int ox = 0, int oy = 0);
 		void setText(const std::wstring & text);
 		void setSE(const std::wstring &highlighted, const std::wstring clicked);
+		void setSelected(bool v = false);
 
 		virtual void mouseEntered(MouseEvent& mouseEvent);
 		virtual void mouseClicked(MouseEvent& mouseEvent);

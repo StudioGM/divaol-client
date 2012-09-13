@@ -5,6 +5,7 @@ namespace gcn
 	ListBoxEx::ListBoxEx()
 	{
 		setOpaque(false);
+		setHorizontal(false);
 
 		highlightItemIndex = -1;
 		selectIndex = -1;
@@ -14,6 +15,7 @@ namespace gcn
 		firstRect = Rectangle(0, 0, 100, 100);
 		itemGap = 10;
 		items.clear();
+		isMousePressed = false;
 
 		addMouseListener(this);
 		addKeyListener(this);
@@ -28,6 +30,11 @@ namespace gcn
 		}
 		for (int i=0; i<items.size(); i++)
 			delete items[i];
+	}
+
+	void ListBoxEx::setHorizontal(bool v)
+	{
+		isHorizontal = v;
 	}
 	
 	void ListBoxEx::setMaxItem(int num)
@@ -110,6 +117,14 @@ namespace gcn
 		itemChanged();
 	}
 
+	int ListBoxEx::getItemState(int index)
+	{
+		if (index != highlightItemIndex)
+			return 0;
+		if (!isMousePressed)
+			return 1;
+		return 2;
+	}
 
 	void ListBoxEx::draw(Graphics* graphics)
 	{
@@ -122,16 +137,21 @@ namespace gcn
 		// draw my items
 		for (int i=firstIndex; i<items.size() && i<firstIndex+maxItem; i++)
 		{
-			graphics->pushClipArea( Rectangle(firstRect.x, 
-				firstRect.y + (i - firstIndex) * (itemGap + firstRect.height), 
-				firstRect.width, 
-				firstRect.height) );
-			if (i!=highlightItemIndex)
-				items[i]->draw(graphics, getFont(), 0, getAlpha());
-			else if (i==highlightItemIndex && !isMousePressed)
-				items[i]->draw(graphics, getFont(), 1, getAlpha());
+			if (!isHorizontal)
+			{
+				graphics->pushClipArea( Rectangle(firstRect.x, 
+					firstRect.y + (i - firstIndex) * (itemGap + firstRect.height), 
+					firstRect.width, 
+					firstRect.height) );
+			}
 			else
-				items[i]->draw(graphics, getFont(), 2, getAlpha());
+			{
+				graphics->pushClipArea( Rectangle(firstRect.x + (i - firstIndex) * (itemGap + firstRect.width), 
+					firstRect.y, 
+					firstRect.width, 
+					firstRect.height) );
+			}
+			items[i]->draw(graphics, getFont(), getItemState(i), getAlpha());
 			graphics->popClipArea();
 		}
 
@@ -151,11 +171,11 @@ namespace gcn
 			highlightItemChanged(highlightItemIndex);
 	}
 
-	void ListBoxEx::mouseMoved(MouseEvent& mouseEvent)
+	void ListBoxEx::changeHighlightItem(int mx, int my, gcn::Rectangle firstRect, int itemGap)
 	{
 		int ori = highlightItemIndex;
 
-		int x = mouseEvent.getX(), y = mouseEvent.getY();
+		int x = mx, y = my;
 		y -= firstRect.y;
 		x -= firstRect.x;
 		if (x > firstRect.width || x < 0)
@@ -192,6 +212,54 @@ namespace gcn
 		highlightItemIndex = ind + firstIndex;
 		if (ori != highlightItemIndex)
 			highlightItemChanged(highlightItemIndex);
+	}
+
+	void ListBoxEx::mouseMoved(MouseEvent& mouseEvent)
+	{
+		if (!isHorizontal)
+			changeHighlightItem(mouseEvent.getX(), mouseEvent.getY(), firstRect, itemGap);
+		else
+			changeHighlightItem(mouseEvent.getY(), mouseEvent.getX(), gcn::Rectangle(firstRect.y, firstRect.x, firstRect.height, firstRect.width), itemGap);
+
+		/*int ori = highlightItemIndex;
+
+		int x = mouseEvent.getX(), y = mouseEvent.getY();
+		y -= firstRect.y;
+		x -= firstRect.x;
+		if (x > firstRect.width || x < 0)
+		{
+		highlightItemIndex = -1;
+		if (ori != highlightItemIndex)
+		highlightItemChanged(highlightItemIndex);
+		return;
+		}
+		if (y < 0)
+		{
+		highlightItemIndex = -1;
+		if (ori != highlightItemIndex)
+		highlightItemChanged(highlightItemIndex);
+		return;
+		}
+		int ind = y / (firstRect.height + itemGap);
+		y %= firstRect.height + itemGap;
+		if (y > firstRect.height)
+		{
+		highlightItemIndex = -1;
+		if (ori != highlightItemIndex)
+		highlightItemChanged(highlightItemIndex);
+		return;
+		}
+		if (ind >= getDisplayedItems())
+		{
+		highlightItemIndex = -1;
+		if (ori != highlightItemIndex)
+		highlightItemChanged(highlightItemIndex);
+		return;
+		}
+
+		highlightItemIndex = ind + firstIndex;
+		if (ori != highlightItemIndex)
+		highlightItemChanged(highlightItemIndex);*/
 	}
 
 	void ListBoxEx::mousePressed(MouseEvent& mouseEvent)
@@ -251,15 +319,25 @@ namespace gcn
 
 	void ListBoxEx::mouseWheelMovedUp(MouseEvent& mouseEvent)
 	{
-		if (getFirstIndex() > 0)
-			setFirstIndex(getFirstIndex() - 1);
+		scrollLast();
 	}
 
 	void ListBoxEx::mouseWheelMovedDown(MouseEvent& mouseEvent)
+	{
+		scrollNext();
+	}
+
+	void ListBoxEx::scrollNext()
 	{
 		if (items.size() <= maxItem)
 			return;
 		if (getFirstIndex() < items.size() - maxItem)
 			setFirstIndex(getFirstIndex() + 1);
+	}
+
+	void ListBoxEx::scrollLast()
+	{
+		if (getFirstIndex() > 0)
+			setFirstIndex(getFirstIndex() - 1);
 	}
 }

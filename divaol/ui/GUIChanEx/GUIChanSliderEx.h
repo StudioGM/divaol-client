@@ -17,19 +17,19 @@ namespace gcn
 	private:
 		ButtonEx* upButton;
 		ButtonEx* downButton;
-		MarkerEx* markButton;
+		ButtonEx* markButton;
 		int markStart, markEnd;
 		int markPosition;
 		int markerMinHeight;
 		int total;
 
-		void adjustMarkerHeight();
+		virtual void adjustMarkerHeight();
 
 	public:
 		SliderEx();
 		~SliderEx();
 		
-		void setLook(ButtonEx* up, ButtonEx* down, MarkerEx* mark);
+		void setLook(ButtonEx* up, ButtonEx* down, ButtonEx* mark);
 		void setMarkScale(int start, int end, int total);
 		void setMarkPosition(int v);
 		void setMarkerUp();

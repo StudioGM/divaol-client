@@ -44,7 +44,7 @@ namespace diva
 			
 
 			// parse json
-			ParseJson(L"uiconfig/house.json", L"uiconfig/stage.json");
+			ParseJson(L"uiconfig/house.json", L"uiconfig/stage.json", L"uiconfig/RoomList_PlayerList.json");
 
 			// back ground
 			roomTop->add(CreateStaticImage(conf, L"TestBackground"));
@@ -133,6 +133,18 @@ namespace diva
 			passwordInput->setText(L"123456");
 			
 			roomTop->setEnabled(false);
+
+			//
+
+			roomTop->add(CreateThingList(sconf));
+
+			roomTop->add(CreateTeamList(sconf));
+
+			// ---------------
+
+			roomListPanel = CreateRoomListWindow(rconf);
+			roomListPanel->setVisible(false);
+			top->add(roomListPanel);
 		
 			//LoginButtonClicked();
 			// ------------- Refresh All
@@ -236,6 +248,8 @@ namespace diva
 			exitStageButton->setVisible(true);
 			selectMusicButton->setVisible(true);
 			decorateButton->setVisible(true);
+			thingList->setVisible(true);
+			teamList->setVisible(true);
 
 			// exit button
 			/*exitButton = CreateButton(conf, "ToolButtons/Normal/Exit_Normal", "ToolButtons/MouseOn/Exit_MouseOn", "ToolButtons/MouseDown/Exit_MouseDown", "ToolButtons/Normal/Exit_Normal");
@@ -264,11 +278,60 @@ namespace diva
 			exitStageButton->setVisible(false);
 			selectMusicButton->setVisible(false);
 			decorateButton->setVisible(false);
+			thingList->setVisible(false);
+			teamList->setVisible(false);
 		}
 
 		void HouseUI::StateChange_LOGINWINDOW_ROOM()
 		{
 			state = STATE_ROOM;
+		}
+
+		void HouseUI::StateChange_ROOM_ROOMLIST()
+		{
+			state = STATE_ROOMLIST;
+			
+			roomTop->setEnabled(false);
+			
+			roomListPanel->setVisible(true);
+		}
+
+		void HouseUI::StateChange_ROOMLIST_ROOM()
+		{
+			state = STATE_ROOM;
+
+			roomTop->setEnabled(true);
+
+			roomListPanel->setVisible(false);
+		}
+
+		void HouseUI::StateChange_ROOMLIST_STAGE()
+		{
+			state = STATE_STAGE;
+			sPlayerListPanel->setVisible(true);
+
+			// set all the room buttons to invisible
+			shopButton->setVisible(false);
+			stageButton->setVisible(false);
+			optionButton->setVisible(false);
+			modifyButton->setVisible(false);
+			clothesButton->setVisible(false);
+			exitButton->setVisible(false);
+
+			// set all the stage buttons to visible
+
+			udButton->setVisible(true);
+			settingsButton->setVisible(true);
+			exitStageButton->setVisible(true);
+			selectMusicButton->setVisible(true);
+			decorateButton->setVisible(true);
+			thingList->setVisible(true);
+			teamList->setVisible(true);
+
+			//
+			roomListPanel->setVisible(false);
+			roomTop->setEnabled(true);
+			Refresh_sPlayerList();
 		}
 
 		void HouseUI::setState(int des)
@@ -288,10 +351,24 @@ namespace diva
 				StateChange_LOGINWINDOW_ROOM();
 				return;
 			}
-
+			if (state == STATE_ROOM && des == STATE_ROOMLIST)
+			{
+				StateChange_ROOM_ROOMLIST();
+				return;
+			}
+			if (state == STATE_ROOMLIST && des == STATE_ROOM)
+			{
+				StateChange_ROOMLIST_ROOM();
+				return;
+			}
+			if (state == STATE_ROOMLIST && des == STATE_STAGE)
+			{
+				StateChange_ROOMLIST_STAGE();
+				return;
+			}
 		}
 
-		void HouseUI::ParseJson(const std::wstring& filename, const std::wstring& stage)
+		void HouseUI::ParseJson(const std::wstring& filename, const std::wstring& stage, const std::wstring& room)
 		{
 			//std::ifstream fs(filename);
 			WJson::Reader reader;
@@ -300,6 +377,9 @@ namespace diva
 
 			//std::ifstream fs2(stage);
 			if (!reader.parse(ReadJsonFile(stage), sconf))
+				throw "failed.";
+
+			if (!reader.parse(ReadJsonFile(room), rconf))
 				throw "failed.";
 		}
 
@@ -355,6 +435,28 @@ namespace diva
 				tv4[L"desX"].asInt() - tv1[L"desX"].asInt(), tv4[L"desY"].asInt() - tv1[L"desY"].asInt());
 			b->setSize(tv1[L"width"].asInt(), tv1[L"height"].asInt());
 			b->setPosition(tv1[L"desX"].asInt(), tv1[L"desY"].asInt());
+			
+			return b;
+		}
+
+		RoomListItem* HouseUI::CreateRoomListItem(const WJson::Value conf, const std::wstring& normal, const std::wstring& on, const std::wstring& down)
+		{
+			using namespace gcn;
+			WJson::Value tv1 = conf[normal], tv2 =conf[on], tv3 = conf[down];
+			RoomListItem* b = new RoomListItem();
+			b->setLook(tv1[L"filename"].asString(),
+				gcn::Rectangle(tv1[L"srcX"].asInt(), tv1[L"srcY"].asInt(), tv1[L"width"].asInt(), tv1[L"height"].asInt()),
+				tv2[L"filename"].asString(),
+				gcn::Rectangle(tv2[L"srcX"].asInt(), tv2[L"srcY"].asInt(), tv2[L"width"].asInt(), tv2[L"height"].asInt()),
+				tv2[L"filename"].asString(),
+				gcn::Rectangle(tv3[L"srcX"].asInt(), tv3[L"srcY"].asInt(), tv3[L"width"].asInt(), tv3[L"height"].asInt()));
+			Network::RoomInfo info;
+			info.maxPlayerNum = 10;
+			info.owner = L"次音速豆豆";
+			info.playerNum = 8;
+			info.selectedSong.push_back(L"私の恋を許してくれ");
+			info.stageName = L"超级音速豆豆";
+			b->setInfo(info);
 			return b;
 		}
 
@@ -436,6 +538,109 @@ namespace diva
 			return con;
 		}
 
+		ContainerEx* HouseUI::CreateRoomListWindow(const WJson::Value conf)
+		{
+			using namespace gcn;
+			WJson::Value tv = conf[L"RoomList/Config"];
+
+			ContainerEx* panel = CreateStaticImage(conf, L"RoomList/background");
+
+			//////////////////////////////////////////////////////////////////////////
+			
+			SuperButtonEx* closeButton = CreateButton(conf, L"RoomList/btn_close/btn_close_normal", L"RoomList/btn_close/btn_close_on",
+				L"RoomList/btn_close/btn_close_down", L"RoomList/btn_close/btn_close_normal");
+			closeButton->setPosition(closeButton->getX() - panel->getX(), closeButton->getY() - panel->getY());
+			closeButton->addMouseListener(new LoginButton_MouseListener());
+			panel->add(closeButton);
+			roomListCloseButton = closeButton;
+
+			//////////////////////////////////////////////////////////////////////////
+
+			SuperButtonEx* openButton = CreateButton(conf, L"RoomList/btn_openStage/btn_openStage_normal", L"RoomList/btn_openStage/btn_openStage_on",
+				L"RoomList/btn_openStage/btn_openStage_down", L"RoomList/btn_openStage/btn_openStage_normal");
+			openButton->setPosition(openButton->getX() - panel->getX(), openButton->getY() - panel->getY());
+			openButton->setText(tv[L"openStageText"].asString());
+			openButton->addMouseListener(new LoginButton_MouseListener());
+			panel->add(openButton);
+			roomListOpenButton = openButton;
+			
+			
+			//////////////////////////////////////////////////////////////////////////
+
+			ListViewEx* list = new ListViewEx();
+			list->setGap(gcn::Rectangle(tv[L"firstX"].asInt(), tv[L"firstY"].asInt(), tv[L"firstWidth"].asInt(), tv[L"firstHeight"].asInt()),
+				tv[L"xGap"].asInt(), tv[L"yGap"].asInt());
+			list->setMaxItem(tv[L"xItemCount"].asInt(), tv[L"yItemCount"].asInt());
+			list->setPosition(tv[L"desX"].asInt(), tv[L"desY"].asInt());
+			list->adjustSize();
+			list->setPosition(list->getX() - panel->getX(), list->getY() - panel->getY());
+			RoomListItem::setTextPosition(tv[L"x1"].asInt(), tv[L"y1"].asInt(),
+				tv[L"x2"].asInt(), tv[L"y2"].asInt(),
+				tv[L"x3"].asInt(), tv[L"y3"].asInt(),
+				tv[L"x4"].asInt(), tv[L"y4"].asInt());
+			panel->add(list);
+			for (int i=1; i<=9; i++)
+				list->pushItem(CreateRoomListItem(conf, L"RoomList/RoomItem_normal", L"RoomList/RoomItem_on", L"RoomList/RoomItem_down"));
+
+			//////////////////////////////////////////////////////////////////////////
+
+			tv = conf[L"RoomList/scrollBar/Config"];
+			SliderEx* slider = new SliderEx();
+			//slider->setSize(
+			slider->setSize(tv[L"width"].asInt(), tv[L"height"].asInt());
+			slider->setPosition(tv[L"desX"].asInt(), tv[L"desY"].asInt());
+			slider->setLook(CreateButton(conf, L"RoomList/scrollBar/btn_up_normal", L"RoomList/scrollBar/btn_up_on", L"RoomList/scrollBar/btn_up_down", L"RoomList/scrollBar/btn_up_normal"),
+				CreateButton(conf, L"RoomList/scrollBar/btn_down_normal", L"RoomList/scrollBar/btn_down_on", L"RoomList/scrollBar/btn_down_down", L"RoomList/scrollBar/btn_down_normal"),
+				CreateButton(conf, L"RoomList/scrollBar/slider/slider_normal", L"RoomList/scrollBar/slider/slider_on", L"RoomList/scrollBar/slider/slider_down", L"RoomList/scrollBar/slider/slider_normal"));
+			slider->setMarkScale(0, list->getFullMaxPage(), list->getFullMaxPage() + 1); 
+			slider->setPosition(slider->getX() - panel->getX(), slider->getY() - panel->getY());
+			panel->add(slider);
+
+
+			return panel;
+		}
+
+		ContainerEx* HouseUI::CreateTeamList(const WJson::Value& conf)
+		{
+			using namespace gcn;
+
+			WJson::Value tv = conf[L"TeamSelection/Config"];
+			int itemCount = tv[L"itemCount"].asInt();
+
+			WJson::Value t2 = conf[L"TeamSelection/Normal/btn_Team1_Normal"];
+			WJson::Value t3 = conf[L"TeamSelection/Normal/btn_Team" + s2ws(sora::int_to_str(itemCount)) + (L"_Normal")];
+
+			teamList = new ContainerEx;
+			teamList->setOpaque(false);
+			teamList->setSize(t3[L"desX"].asInt() - t2[L"desX"].asInt() + t3[L"width"].asInt(),
+				t3[L"height"].asInt());
+			teamList->setPosition(t2[L"desX"].asInt(), t2[L"desY"].asInt());
+
+			
+			for (int i = 0; i < itemCount; i++)
+			{
+				SuperButtonEx* b = CreateButton(conf, 
+					L"TeamSelection/Normal/btn_Team" + s2ws(sora::int_to_str(i+1)) + (L"_Normal"),
+					L"TeamSelection/MouseOn/btn_Team" + s2ws(sora::int_to_str(i+1)) + (L"_mouseon"),
+					L"TeamSelection/Selected/btn_Team" + s2ws(sora::int_to_str(i+1)) + (L"_Selected"),
+					L"TeamSelection/Normal/btn_Team" + s2ws(sora::int_to_str(i+1)) + (L"_Normal"));
+				b->setSelected(i == 2);
+				b->setPosition(b->getX() - teamList->getX(), b->getY() - teamList->getY());
+				b->addMouseListener(new TeamSelect_MouseListener());
+				b->userData = (void*)i;
+				teamListButtons.push_back(b);
+				
+				teamList->add(b);
+				//teamList->pushItem(new ThingListItem(t2[L"filename"].asString(),
+				//	gcn::Rectangle(t2[L"srcX"].asInt(), t2[L"srcY"].asInt(), t2[L"width"].asInt(), t2[L"height"].asInt()),
+				//	t3[L"filename"].asString(),
+				//	gcn::Rectangle(t3[L"srcX"].asInt(), t3[L"srcY"].asInt(), t3[L"width"].asInt(), t3[L"height"].asInt())));
+			}
+			teamList->setVisible(false);
+
+			return teamList;
+		}
+
 		void HouseUI::Refresh_sPlayerList()
 		{
 			sPlayerList->clearItems();
@@ -484,6 +689,32 @@ namespace diva
 			}
 		}
 
+		ThingList* HouseUI::CreateThingList(const WJson::Value& conf)
+		{
+			using namespace gcn;
+			WJson::Value tv = conf[L"itemlist/Config"];
+			WJson::Value t2 = conf[L"itemlist/item_itemback_normal"];
+			WJson::Value t3 = conf[L"itemlist/item_itemback_selected"];
+
+			thingList = new ThingList;
+			thingList->setMaxItem(6);
+			thingList->setGap(gcn::Rectangle(0, 0, t2[L"width"].asInt(), t2[L"height"].asInt()), tv[L"itemGap"].asInt());
+			thingList->setSize(tv[L"items"].size() * (t2[L"width"].asInt() + tv[L"itemGap"].asInt()) - tv[L"itemGap"].asInt(), 
+				t2[L"height"].asInt());
+			thingList->setPosition(t3[L"desX"].asInt(), t3[L"desY"].asInt());
+
+			for (WJson::Value::iterator i = tv[L"items"].begin(); i!= tv[L"items"].end(); i++)
+			{
+				thingList->pushItem(new ThingListItem(t2[L"filename"].asString(),
+					gcn::Rectangle(t2[L"srcX"].asInt(), t2[L"srcY"].asInt(), t2[L"width"].asInt(), t2[L"height"].asInt()),
+					t3[L"filename"].asString(),
+					gcn::Rectangle(t3[L"srcX"].asInt(), t3[L"srcY"].asInt(), t3[L"width"].asInt(), t3[L"height"].asInt())));
+			}
+			thingList->setVisible(false);
+			
+			return thingList;
+		}
+
 		gcn::ContainerEx* HouseUI::CreateStatusPanel(const WJson::Value& conf)
 		{
 			using namespace gcn;
@@ -518,8 +749,26 @@ namespace diva
 				tv[L"gap"][L"itemGap"].asInt());
 			//Font* font = new gcn::SoraGUIFont(L"res/msyh.ttf", 16);
 			list->setFont(playerListFont);
+			//list->setHorizontal(true);
 			panel->add(list, 0, 0);
 			sPlayerList = list;
+
+			SuperButtonEx* b1 = CreateButton(conf, L"RoomInfo/buttons/btn_left", 
+				L"RoomInfo/buttons/btn_left_mouseon", L"RoomInfo/buttons/btn_left_mousedown", L"RoomInfo/buttons/btn_left");
+			b1->setPosition(b1->getX() - panel->getX(), b1->getY() - panel->getY());
+			panel->add(b1);
+
+			SuperButtonEx* b2 = CreateButton(conf, L"RoomInfo/buttons/btn_right", 
+				L"RoomInfo/buttons/btn_right_mouseon", L"RoomInfo/buttons/btn_right_mousedown", L"RoomInfo/buttons/btn_right");
+			b2->setPosition(b2->getX() - panel->getX(), b2->getY() - panel->getY());
+			panel->add(b2);
+
+			ContainerEx* pagenum = CreateStaticImage(conf, L"RoomInfo/buttons/label_pagenum");
+			pagenum->setPosition(pagenum->getX() - panel->getX(), pagenum->getY() - panel->getY());
+			panel->add(pagenum);
+			playerListPagenumFont = new SoraGUIFont(L"res/msyh.ttf", tv[L"pagenumFontSize"].asInt());
+			pagenum->setFont(playerListPagenumFont);
+			pagenum->setText(L"1/1");
 
 			//for (int i=1; i<=9; i++)
 			//list->pushItem(new HouseUIRoomInfoListItem("SonicMisora",  (tv[L"colorList"][2]).asInt()));
@@ -623,7 +872,7 @@ namespace diva
 
 
 
-		void HouseUI::SetMessageChannelListInvisible(gcn::Widget* widget)
+		void HouseUI::SetWidgetInvisible(gcn::Widget* widget)
 		{
 			widget->setVisible(false);
 		}
@@ -641,7 +890,7 @@ namespace diva
 				//LoginButtonClicked();
 				if (state == STATE_ROOM)
 				{
-					setState(STATE_STAGE);
+					setState(STATE_ROOMLIST);
 					//RefreshStatus();
 				}
 				else if (state == STATE_STAGE)
@@ -661,6 +910,16 @@ namespace diva
 				MessagePanelChannelClicked();
 				return;
 			}
+			if (mouseEvent.getSource() == (gcn::Widget*) roomListCloseButton)
+			{
+				setState(STATE_ROOM);
+				return;
+			}
+			if (mouseEvent.getSource() == (gcn::Widget*) roomListOpenButton)
+			{
+				setState(STATE_STAGE);
+				return;
+			}
 		}
 
 		void HouseUI::MessagePanelChannelListClicked(int index)
@@ -673,7 +932,7 @@ namespace diva
 			messageChannelList->addModifier(new GUIAnimation_Position(gcn::Point(tv[L"desX_1"].asInt() - messagePanel->getX(),
 				tv[L"desY_1"].asInt() - messagePanel->getY()),
 				tv[L"animationTime"].asInt(), GUIAnimation_Float_LinearCos, NONE, NULL, 
-				sora::Bind(this, &HouseUI::SetMessageChannelListInvisible)));
+				sora::Bind(this, &HouseUI::SetWidgetInvisible)));
 			messageChannelList->setAlpha(255);
 			messageChannelList->addModifier(new GUIAnimation_Alpha(0, tv[L"animationTime"].asInt(), GUIAnimation_Float_LinearCos));
 		}
@@ -724,6 +983,13 @@ namespace diva
 			messageToSomeOne->setText(L"To " + PlayerManager::Instance()->GetStageGuests()[index].nickname);
 		}
 
+		void HouseUI::TeamListClicked(gcn::MouseEvent& mouseEvent)
+		{
+			int t = (int)((ButtonEx*)mouseEvent.getSource())->userData;
+			for (int i=0; i<teamListButtons.size(); i++)
+				teamListButtons[i]->setSelected(t == i);
+		}
+
 
 		// ------------------------------------ Event ----------------------------------
 
@@ -732,6 +998,11 @@ namespace diva
 		void LoginButton_MouseListener::mouseClicked(MouseEvent& mouseEvent)
 		{
 			HouseUI::Instance()->MouseClicked(mouseEvent);
+		}
+
+		void TeamSelect_MouseListener::mouseClicked(gcn::MouseEvent& mouseEvent)
+		{
+			HouseUI::Instance()->TeamListClicked(mouseEvent);
 		}
 	}
 }
