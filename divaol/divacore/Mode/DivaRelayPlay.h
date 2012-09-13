@@ -212,7 +212,7 @@ namespace divacore
 		{
 			if(event.note->isOwner())
 			{
-				SinglePlay::inform(event);
+				MultiPlay::inform(event);
 		
 				relayInfo[nowTurn].push_back(RelayNote(event,event.note->getID(),stateList[event.note->getID()].size()-1,
 					nowTurn,getScore(),getCombo(),CORE_PTR->getRunTime()));

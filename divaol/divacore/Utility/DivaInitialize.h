@@ -82,7 +82,7 @@ namespace divacore
 					core->registerGameMode(new divacore::EditMode);
 					break;
 				case MULTI:
-					core->registerGameMode(new divacore::RelayPlay);
+					core->registerGameMode(new divacore::MultiPlay);
 					break;
 				}
 			}

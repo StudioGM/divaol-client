@@ -63,7 +63,7 @@ namespace divacore
 			SAFE_DELETE(innerCanvas);
 			coreCanvas = new sora::SoraBaseCanvas(gameWidth,gameHeight);
 			innerCanvas = new sora::SoraBaseCanvas(gameWidth,gameHeight);
-
+			
 			if(preview->getTexture())
 				preview->setScale(double(gameWidth)/preview->getSpriteWidth(),
 				double(gameHeight)/preview->getSpriteHeight());

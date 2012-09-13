@@ -126,6 +126,21 @@ namespace divacore
 		{
 			mInfo->setConfig(configFile);
 		}
+		 void Multipinform(StateEvent& event)
+		 {
+			 if(event.note->isOwner())
+			 {
+				 SinglePlay::inform(event);
+
+				 if(event.type==StateEvent::PRESS||event.type==StateEvent::FAILURE)
+				 {
+					 //if(event.breakCombo||event.breakNote)
+					 //	sendFailure(event);
+					 NETWORK_SYSTEM_PTR->send("game#evalR",
+						 "%d%d",event.note->getID(), event.rank);
+				 }
+			 }
+		 }
 		 void MultiPlay::gameLoad(const std::string &configFile) {
 			if(configFile!="")
 				mInfo->setConfig(configFile);
@@ -136,6 +151,8 @@ namespace divacore
 			NETWORK_SYSTEM_PTR->send("auth#setuid","%s",MY_PLAYER_INFO.uid().c_str());
 
 			NETWORK_SYSTEM_PTR->send("stage#join","%s","919");
+
+			//NETWORK_SYSTEM_PTR->send("stage#ready");
 
 			if(getBaseState()==CONNECT)
 			{

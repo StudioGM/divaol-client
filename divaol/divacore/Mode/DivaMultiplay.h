@@ -118,6 +118,8 @@ namespace divacore
 
 		virtual std::string getName() {return "multiPlay";}
 
+		virtual void inform(StateEvent& event);
+		
 		virtual void init() ;
 
 		virtual void gameReset();

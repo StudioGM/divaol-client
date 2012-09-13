@@ -3,6 +3,6 @@
 	"uid" : "2",
 	"module" : "hyf",
 	"hook" : {
-		"_array" : ["AutoMode","BlackHouseMode"]
+		"_array" : ["AutoMode"]
 	}
 }

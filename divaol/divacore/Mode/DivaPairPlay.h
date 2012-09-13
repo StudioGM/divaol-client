@@ -121,7 +121,7 @@ namespace divacore
 		{
 			if(event.note->isOwner())
 			{
-				SinglePlay::inform(event);
+				MultiPlay::inform(event);
 
 				//only if the note will break note|combo and the rank is worse than 4, we send failure to partner
 				if(event.type==StateEvent::PRESS||event.type==StateEvent::FAILURE)
