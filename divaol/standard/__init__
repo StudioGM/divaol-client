@@ -1,0 +1,8 @@
+{
+	"name" : "standard",
+	"note" : "__default__",
+	"ui" : "__default__",
+	"render" : "__default__",
+	"effect" : "__default__",
+	"hook" : ["CTMode"]
+}

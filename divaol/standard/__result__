@@ -1,0 +1,168 @@
+{
+	"header" : {
+		"reserve" : true,
+		"type" : "evalBar",
+		"position" : [287,82],
+		"scorePosition" : [1170,66],
+		"goldPosition" : [1055,104],
+		"expPosition" : [1166,104],
+		"0" : [253,78],
+		"1" : [390,78],
+		"2" : [532,78],
+		"3" : [660,78],
+		"4" : [806,78],
+		"icon0" : {
+			"tex" : "pic/head/head1.png",
+			"texRect" : [0,0,92,92],
+			"position" : [10,26,64,64]
+		},
+		"icon1" : {
+			"tex" : "pic/head/head2.png",
+			"texRect" : [0,0,92,90],
+			"position" : [10,26,64,64]
+		},
+		"icon2" : {
+			"tex" : "pic/head/head3.png",
+			"texRect" : [0,0,92,90],
+			"position" : [10,26,64,64]
+		},
+		"icon3" : {
+			"tex" : "pic/head/head4.png",
+			"texRect" : [0,0,92,90],
+			"position" : [10,26,64,64]
+		},
+		"background" : {
+			"tex" : "pic/Kap.II.png",
+			"texRect" : [0,1049,1339,129],
+			"position" : [0,0,1339,129]
+		},
+		"gold" : {
+			"tex" : "pic/Kap.II.png",
+			"texRect" : [0,1260,35,23],
+			"position" : [982,99,35,23]
+		},
+		"exp" : {
+			"tex" : "pic/Kap.II.png",
+			"texRect" : [0,1284,56,24],
+			"position" : [1074,99,56,24]
+		},
+		"evalNumber" : {
+			"startPoint" : [0,0],
+			"size" : [26,30],
+			"digitNum" : 1,
+			"gap" : 26,
+			"tex" : "pic/numbers.png",
+			"texRect" : [0,308,260,30],
+			"format" : "0123456789",
+			"showStyle" : "middle"
+		},
+		"scoreNumber" : {
+			"startPoint" : [0,0],
+			"size" : [26,30],
+			"digitNum" : 8,
+			"gap" : 26,
+			"tex" : "pic/numbers.png",
+			"texRect" : [0,308,260,30],
+			"format" : "0123456789",
+			"showStyle" : "right"
+		},
+		"littleNumber" : {
+			"startPoint" : [0,0],
+			"size" : [13,15],
+			"digitNum" : 1,
+			"gap" : 26,
+			"tex" : "pic/numbers.png",
+			"texRect" : [0,308,260,30],
+			"format" : "0123456789",
+			"showStyle" : "right"
+		}
+	},
+	"bar" : {
+		"reserve" : true,
+		"type" : "evalBar",
+		"position" : [287,82],
+		"scorePosition" : [1170,15],
+		"goldPosition" : [1055,53],
+		"expPosition" : [1166,53],
+		"0" : [253,27],
+		"1" : [390,27],
+		"2" : [532,27],
+		"3" : [660,27],
+		"4" : [806,27],
+		"icon0" : {
+			"tex" : "pic/head/head1.png",
+			"texRect" : [0,0,92,90],
+			"position" : [10,9,64,64]
+		},
+		"icon1" : {
+			"tex" : "pic/head/head2.png",
+			"texRect" : [0,0,92,90],
+			"position" : [10,9,64,64]
+		},
+		"icon2" : {
+			"tex" : "pic/head/head3.png",
+			"texRect" : [0,0,92,90],
+			"position" : [10,9,64,64]
+		},
+		"icon3" : {
+			"tex" : "pic/head/head4.png",
+			"texRect" : [0,0,92,90],
+			"position" : [10,9,64,64]
+		},
+		"background" : {
+			"tex" : "pic/Kap.II.png",
+			"texRect" : [0,1178,1339,82],
+			"position" : [0,0,1339,82]
+		},
+		"gold" : {
+			"tex" : "pic/Kap.II.png",
+			"texRect" : [0,1260,35,23],
+			"position" : [982,48,35,23]
+		},
+		"exp" : {
+			"tex" : "pic/Kap.II.png",
+			"texRect" : [0,1284,56,24],
+			"position" : [1074,48,56,24]
+		},
+		"evalNumber" : {
+			"startPoint" : [0,0],
+			"size" : [26,30],
+			"digitNum" : 1,
+			"gap" : 26,
+			"tex" : "pic/numbers.png",
+			"texRect" : [0,308,260,30],
+			"format" : "0123456789",
+			"showStyle" : "middle"
+		},
+		"scoreNumber" : {
+			"startPoint" : [0,0],
+			"size" : [26,30],
+			"digitNum" : 8,
+			"gap" : 26,
+			"tex" : "pic/numbers.png",
+			"texRect" : [0,308,260,30],
+			"format" : "0123456789",
+			"showStyle" : "right"
+		},
+		"littleNumber" : {
+			"startPoint" : [0,0],
+			"size" : [13,15],
+			"digitNum" : 1,
+			"gap" : 26,
+			"tex" : "pic/numbers.png",
+			"texRect" : [0,308,260,30],
+			"format" : "0123456789",
+			"showStyle" : "right"
+		}
+	},
+	"back" : {
+		"reserve" : true,
+		"type" : "button",
+		"tex" : "pic/Kap.II.png",
+		"texRect" : [636,1260,167,108],
+		"pressedRect" : [302,1260,167,108],
+		"highlightRect" : [469,1260,167,108],
+		"position" : [1533,951,167,108],
+		"hotRect" : [1553,971,127,68]
+	}	
+}
