@@ -1,10 +1,10 @@
 /*
- *  DivaMultiPlay.cpp
- *
- *  Created by Hyf042 on 8/9/12.
- *  Copyright 2012 Hyf042. All rights reserved.
- *
- */
+*  DivaMultiPlay.cpp
+*
+*  Created by Hyf042 on 8/9/12.
+*  Copyright 2012 Hyf042. All rights reserved.
+*
+*/
 
 #include "DivaMultiPlay.h"
 #include "Component/DivaCommonEvaluateStrategy.h"
@@ -38,7 +38,7 @@ namespace divacore
 				mPlayers[i].combo = gnet::ItemUtility::getUInt(player->getItem(2));
 				mPlayers[i].hp = gnet::ItemUtility::getValue(player->getItem(3));
 			}
-		updateTeamInfo();
+			updateTeamInfo();
 	}
 	void NetGameInfo::updateTeamInfo()
 	{
@@ -82,180 +82,180 @@ namespace divacore
 		}
 	}
 
-		 void MultiPlay::init() 
-		{
-			//debug info
-			mText.setColor(CARGB(255,255,0,0));
-			mText.setFont(sora::SoraFont::LoadFromFile("simhei.ttf", 50));
-		}
-		 void MultiPlay::gameReset() {
-			//注册接收函数
-			GNET_RECEIVE_PACKET("game#membersinfoL",&MultiPlay::gnetMembersInfo);
-			GNET_RECEIVE_PACKET("game#playerupdateL",&MultiPlay::gnetPlayerUpdate);
-			GNET_RECEIVE_PACKET("stage#join_failed",&MultiPlay::gnetJoinFailed);
-			GNET_RECEIVE_PACKET("stage#join_ok",&MultiPlay::gnetJoinOK);
+	void MultiPlay::init() 
+	{
+		//debug info
+		mText.setColor(CARGB(255,255,0,0));
+		mText.setFont(sora::SoraFont::LoadFromFile("simhei.ttf", 50));
+	}
+	void MultiPlay::gameReset() {
+		//注册接收函数
+		GNET_RECEIVE_PACKET("game#membersinfoL",&MultiPlay::gnetMembersInfo);
+		GNET_RECEIVE_PACKET("game#playerupdateL",&MultiPlay::gnetPlayerUpdate);
+		GNET_RECEIVE_PACKET("stage#join_failed",&MultiPlay::gnetJoinFailed);
+		GNET_RECEIVE_PACKET("stage#join_ok",&MultiPlay::gnetJoinOK);
 
-			SinglePlay::gameReset();
-			
-			if(mInfo==0) {
-				mInfo = new NetGameInfo();
-				mInfo->setOwner(this);
+		SinglePlay::gameReset();
+
+		if(mInfo==0) {
+			mInfo = new NetGameInfo();
+			mInfo->setOwner(this);
+		}
+
+		setBaseState(CONNECT);
+	}
+	void MultiPlay::gameStop() {
+		GNET_UNRECEIVE_PACKET("game#membersinfoL");
+		GNET_UNRECEIVE_PACKET("game#playerupdateL");
+		GNET_UNRECEIVE_PACKET("stage#join_failed");
+		GNET_UNRECEIVE_PACKET("stage#join_ok");
+
+		NETWORK_SYSTEM_PTR->disconnect();
+
+		SAFE_DELETE(mInfo);
+	}
+	void MultiPlay::gameOver()
+	{
+		sendInfo();
+	}
+	void MultiPlay::setMyInfo(Config &config)
+	{
+		mInfo->mConfig = config;
+	}
+	void MultiPlay::setMyInfo(const std::string &configFile)
+	{
+		mInfo->setConfig(configFile);
+	}
+	void MultiPlay::inform(StateEvent& event)
+	{
+		if(event.note->isOwner())
+		{
+			SinglePlay::inform(event);
+
+			if(event.type==StateEvent::PRESS||event.type==StateEvent::FAILURE)
+			{
+				//if(event.breakCombo||event.breakNote)
+				//	sendFailure(event);
+				NETWORK_SYSTEM_PTR->send("game#evalR",
+					"%d%d",event.note->getID(), event.rank);
 			}
-			
-			setBaseState(CONNECT);
 		}
-		 void MultiPlay::gameStop() {
-			GNET_UNRECEIVE_PACKET("game#membersinfoL");
-			GNET_UNRECEIVE_PACKET("game#playerupdateL");
-			GNET_UNRECEIVE_PACKET("stage#join_failed");
-			GNET_UNRECEIVE_PACKET("stage#join_ok");
-
-			NETWORK_SYSTEM_PTR->disconnect();
-
-			SAFE_DELETE(mInfo);
-		}
-		 void MultiPlay::gameOver()
-		{
-			sendInfo();
-		}
-		 void MultiPlay::setMyInfo(Config &config)
-		{
-			mInfo->mConfig = config;
-		}
-		 void MultiPlay::setMyInfo(const std::string &configFile)
-		{
+	}
+	void MultiPlay::gameLoad(const std::string &configFile) {
+		if(configFile!="")
 			mInfo->setConfig(configFile);
-		}
-		 void Multipinform(StateEvent& event)
-		 {
-			 if(event.note->isOwner())
-			 {
-				 SinglePlay::inform(event);
 
-				 if(event.type==StateEvent::PRESS||event.type==StateEvent::FAILURE)
-				 {
-					 //if(event.breakCombo||event.breakNote)
-					 //	sendFailure(event);
-					 NETWORK_SYSTEM_PTR->send("game#evalR",
-						 "%d%d",event.note->getID(), event.rank);
-				 }
-			 }
-		 }
-		 void MultiPlay::gameLoad(const std::string &configFile) {
-			if(configFile!="")
-				mInfo->setConfig(configFile);
+		//连接server
+		NETWORK_SYSTEM_PTR->connect();
 
-			//连接server
-			NETWORK_SYSTEM_PTR->connect();
+		NETWORK_SYSTEM_PTR->send("auth#setuid","%s",MY_PLAYER_INFO.uid().c_str());
 
-			NETWORK_SYSTEM_PTR->send("auth#setuid","%s",MY_PLAYER_INFO.uid().c_str());
+		NETWORK_SYSTEM_PTR->send("stage#join","%s","919");
 
-			NETWORK_SYSTEM_PTR->send("stage#join","%s","919");
+		//NETWORK_SYSTEM_PTR->send("stage#ready");
 
-			//NETWORK_SYSTEM_PTR->send("stage#ready");
-
-			if(getBaseState()==CONNECT)
-			{
-				NETWORK_SYSTEM_PTR->waitForNext();
-
-				NETWORK_SYSTEM_PTR->refresh();
-			}
-
-			if(getBaseState()!=GET_INFO)
-			{
-				NETWORK_SYSTEM_PTR->disconnect();
-				return;
-			}
-
-			while(getBaseState()!=READY)
-			{
-				NETWORK_SYSTEM_PTR->waitForNext();
-				
-				NETWORK_SYSTEM_PTR->refresh();
-			}
-
-			//准备完成
-			NETWORK_SYSTEM_PTR->send("game#systemready");
-		}
-
-		 void MultiPlay::gameStart() {
-			//游戏开始
-			setBaseState(PLAY);
-		}
-
-		 void MultiPlay::update(float dt) {
-			//receivePacket();
-			//updateState(dt);
-			if(getBaseState()==PLAY)
-			{
-				//心跳包，发送当前状态
-				DEAL_PER_PERIOD_BEGIN(dt,1.0);
-				sendInfo();
-				DEAL_PER_PERIOD_END();
-
-				mInfo->update(dt);
-			}
-		}
-
-		void MultiPlay::sendInfo()
+		if(getBaseState()==CONNECT)
 		{
-			////与server同步score，hp和combo信息，此信息仅为他人显示用，不参与数据处理
-			NETWORK_SYSTEM_PTR->send("game#heartbeatR",
-				"%f%d%d%f",CORE_PTR->getRunPosition(),getScore(),getCombo(),getHPinRatio());
+			NETWORK_SYSTEM_PTR->waitForNext();
+
+			NETWORK_SYSTEM_PTR->refresh();
 		}
 
-		//获得游戏信息，队伍信息
-		void MultiPlay::gnetMembersInfo(GPacket *packet)
+		if(getBaseState()!=GET_INFO)
 		{
-			mInfo->newGame(packet);
+			NETWORK_SYSTEM_PTR->disconnect();
+			return;
+		}
+
+		while(getBaseState()!=READY)
+		{
+			NETWORK_SYSTEM_PTR->waitForNext();
+
+			NETWORK_SYSTEM_PTR->refresh();
+		}
+
+		//准备完成
+		NETWORK_SYSTEM_PTR->send("game#systemready");
+	}
+
+	void MultiPlay::gameStart() {
+		//游戏开始
+		setBaseState(PLAY);
+	}
+
+	void MultiPlay::update(float dt) {
+		//receivePacket();
+		//updateState(dt);
+		if(getBaseState()==PLAY)
+		{
+			//心跳包，发送当前状态
+			DEAL_PER_PERIOD_BEGIN(dt,1.0);
+			sendInfo();
+			DEAL_PER_PERIOD_END();
+
+			mInfo->update(dt);
+		}
+	}
+
+	void MultiPlay::sendInfo()
+	{
+		////与server同步score，hp和combo信息，此信息仅为他人显示用，不参与数据处理
+		NETWORK_SYSTEM_PTR->send("game#heartbeatR",
+			"%f%d%d%f",CORE_PTR->getRunPosition(),getScore(),getCombo(),getHPinRatio());
+	}
+
+	//获得游戏信息，队伍信息
+	void MultiPlay::gnetMembersInfo(GPacket *packet)
+	{
+		mInfo->newGame(packet);
+
+		for(int i = 0; i < mInfo->mPlayers.size(); i++)
+			mInfo->mPlayers[i].hp = float(ORIGIN_HP)/MAX_HP;
+
+		setBaseState(READY);
+	}
+
+	//心跳包更新游戏信息
+	void MultiPlay::gnetPlayerUpdate(GPacket *packet)
+	{
+		mInfo->updateInfoFromPacket(packet);
+	}
+
+	void MultiPlay::gnetJoinFailed(GPacket *packet)
+	{
+		setBaseState(FAILURE);
+	}
+
+	void MultiPlay::gnetJoinOK(GPacket *packet)
+	{
+		setBaseState(GET_INFO);
+	}
+
+	void MultiPlay::render()
+	{
+		if(getBaseState()==PLAY)
+		{
+#ifdef _DEBUG
+			//显示一些调试信息
+			std::string output = format("%d Players",mInfo->mPlayers.size());
 
 			for(int i = 0; i < mInfo->mPlayers.size(); i++)
-				mInfo->mPlayers[i].hp = float(ORIGIN_HP)/MAX_HP;
+				output += format("player%d score:%d\tcombo:%d\n",i+1,mInfo->mPlayers[i].score,mInfo->mPlayers[i].combo);
 
-			setBaseState(READY);
-		}
-
-		//心跳包更新游戏信息
-		void MultiPlay::gnetPlayerUpdate(GPacket *packet)
-		{
-			mInfo->updateInfoFromPacket(packet);
-		}
-
-		void MultiPlay::gnetJoinFailed(GPacket *packet)
-		{
-			setBaseState(FAILURE);
-		}
-
-		void MultiPlay::gnetJoinOK(GPacket *packet)
-		{
-			setBaseState(GET_INFO);
-		}
-
-		void MultiPlay::render()
-		{
-			if(getBaseState()==PLAY)
-			{
-#ifdef _DEBUG
-				//显示一些调试信息
-				std::string output = format("%d Players",mInfo->mPlayers.size());
-	
-				for(int i = 0; i < mInfo->mPlayers.size(); i++)
-					output += format("player%d score:%d\tcombo:%d\n",i+1,mInfo->mPlayers[i].score,mInfo->mPlayers[i].combo);
-
-				mText.setText(sora::s2ws(output));
-				mText.renderTo(200,200);
+			mText.setText(sora::s2ws(output));
+			mText.renderTo(200,200);
 #endif
-			}
 		}
+	}
 
-		void MultiPlay::preStart()
-		{
-			if(CORE_PTR->getState()!=Core::RESULT)
-				UI_PAINTER_PTR->addWidget("multiPlayer");
-		}
+	void MultiPlay::preStart()
+	{
+		if(CORE_PTR->getState()!=Core::RESULT)
+			UI_PAINTER_PTR->addWidget("multiPlayer");
+	}
 
-		void MultiPlay::preEvaluate()
-		{
-			((CommonEvaluateStrategy*)EVALUATE_STRATEGY_PTR)->addMultiEvalUI();
-		}
+	void MultiPlay::preEvaluate()
+	{
+		((CommonEvaluateStrategy*)EVALUATE_STRATEGY_PTR)->addMultiEvalUI();
+	}
 }
