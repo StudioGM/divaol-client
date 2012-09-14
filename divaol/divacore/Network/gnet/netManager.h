@@ -10,8 +10,8 @@
 #define _GNET_NET_MANAGER_H_
 
 #include "connection.h"
-#include "Base/Thread/Queue.h"
-#include "Base/Timer.h"
+#include "Lib/Base/Thread/Queue.h"
+#include "Lib/Base/Timer.h"
 
 namespace gnet
 {

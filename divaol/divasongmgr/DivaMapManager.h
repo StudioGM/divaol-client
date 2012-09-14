@@ -6,7 +6,7 @@
 #include <list>
 #include <string>
 
-#include "divacore/Lib/Base/Thread/Queue.h"
+#include "Lib/Base/Thread/Queue.h"
 
 namespace divamap
 {
@@ -20,7 +20,25 @@ namespace divamap
 	class DivaMapEventMessage
 	{
 	public:
-		enum DIVAMAPMGREVENT {PrepareSongList, PrepareThumbFile, PrepareAudioPreviewFile, PrepareSongDataFile};
+		enum DIVAMAPMGREVENT {PrepareMapList, PrepareThumbFile, PrepareAudioPreviewFile, PrepareMapDataFile, PrepareCheckMapDataFile, MapEventERROR};
+		
+		DivaMapEventMessage()
+		{
+			eventType = MapEventERROR;
+			error = true;
+			finish = false;
+			downloadProgress = 0;
+		}
+		DivaMapEventMessage(DIVAMAPMGREVENT eventType, int mapID, bool error, bool finish, float downloadProgess)
+		{
+			this->eventType = eventType;
+			this->effectedMapID.push_back(mapID);
+			this->error = error;
+			this->finish = finish;
+			this->downloadProgress = downloadProgess;
+		}
+
+		DIVAMAPMGREVENT eventType;
 		std::vector<int> effectedMapID;
 		bool error, finish;
 		float downloadProgress;
@@ -86,12 +104,18 @@ namespace divamap
 		std::map<int, DivaMap> maps;
 
 		//threadQueue is using for fileDownloadDetection
+		std::map<int, std::map<DivaMapEventMessage::DIVAMAPMGREVENT, bool>> isOperating;
 		Base::ThreadSafe::Queue<DivaMapEventMessage> threadQueue;
 		
 		//listMsgOut is using for output event over
 		std::list<DivaMapEventMessage> *listMsgOut;
 
 		std::vector<DivaMapSelectedItem> selectedMaps;
+
+
+	private:
+		//Multithread download funtions here
+		friend void DownloadDivaMapThumb(LPVOID arg_mapID);
 
 	public:
 		//local song list file management
@@ -114,10 +138,10 @@ namespace divamap
 		bool PrepareDivaMapAudioPreview(int id);
 
 		bool PrepareDivaMapData(int id);
+		bool PrepareCheckLocalMapDataFileLeagal(int id);
 		bool PrepareDivaMapDataFromFile(std::wstring zippedFile);
 
 		//Check file functions
-		bool CheckLocalMapDataFileLeagal(int id);
 		bool CheckLocalThumbFile(int id);
 		bool CheckLocalAudioPreviewFile(int id);
 

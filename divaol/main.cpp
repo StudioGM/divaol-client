@@ -11,6 +11,9 @@
 #pragma comment(linker, "/NODEFAULTLIB:libcmt.lib")
 #pragma comment(linker, "/NODEFAULTLIB:libcmtd.lib")
 
+/////////////////////
+#include "divasongmgr/DivaMapManager.h"
+/////////////////////
 
 #ifdef OS_WIN32
 int CALLBACK WinMain(
@@ -23,6 +26,10 @@ int CALLBACK WinMain(
     int main(int argc, const char** argv) {
         
 #endif
+		///////////////////////////////
+		MAPMGR.PrepareDivaMapThumb(1);
+
+		///////////////////////////////
 
 	try
 	{
