@@ -151,7 +151,6 @@
     <Filter Include="源文件\divacore\music">
       <UniqueIdentifier>{038ca617-2977-43ce-8ce3-6e8075dec142}</UniqueIdentifier>
     </Filter>
-<<<<<<< HEAD
     <Filter Include="源文件\ui">
       <UniqueIdentifier>{a206c460-3923-4162-b733-1acb120946a6}</UniqueIdentifier>
     </Filter>
@@ -229,16 +228,12 @@
     </Filter>
     <Filter Include="Plugins\SoraGUIChan\Animation">
       <UniqueIdentifier>{5a46749b-cadf-43e4-89fa-ad29454658f2}</UniqueIdentifier>
-=======
+    </Filter>
     <Filter Include="Plugins\Shader">
       <UniqueIdentifier>{c1bd1992-f29f-44e4-a6da-6d181180c555}</UniqueIdentifier>
     </Filter>
     <Filter Include="源文件\divasongmgr">
       <UniqueIdentifier>{ba1e8d10-97d5-4d3c-a5b9-8d2f4923cbb3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\divacore\lib\wjson">
-      <UniqueIdentifier>{a663111b-c1fe-422e-91a4-b0c533fe8560}</UniqueIdentifier>
->>>>>>> master
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -2251,6 +2246,7 @@
     </ClInclude>
     <ClInclude Include="ui\UI\House\RoomList.h">
       <Filter>源文件\ui\UI\House</Filter>
+    </ClInclude>
     <ClInclude Include="divacore\Core\DivaPlayerInfo.h">
       <Filter>源文件\divacore\core</Filter>
     </ClInclude>

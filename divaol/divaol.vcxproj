@@ -854,8 +854,6 @@
     <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\ticpp\tinyxml.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\ticpp\tinyxmlerror.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\ticpp\tinyxmlparser.cpp" />
-    <ClCompile Include="..\Hoshizor\Plugins\SoraFreetypeFont\SoraFreetypeFont.cpp" />
-    <ClCompile Include="..\Hoshizor\Plugins\SoraFreetypeFont\SoraFTFontManager.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraHGERenderer\hge\hgegraphics.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraHGERenderer\hge\hgeinput.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraHGERenderer\hge\hgeresource.cpp" />
