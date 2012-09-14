@@ -24,7 +24,7 @@
 #include "DivaUIPainter.h"
 #include "DivaGameModule.h"
 #include "DivaEffectSystem.h"
-#include "Network/DivaNetworkSystem.h"
+//#include "DivaNetworkSystem.h"
 #include "DivaEvaluateStrategy.h"
 #include "DivaEventManager.h"
 #include "DivaParticleSystem.h"
@@ -37,11 +37,12 @@
 #include "DivaCoreState.h"
 #include "app/SoraGameState.h"
 
-#include "network/DivaGNetSystem.h"
+#include "divanetwork/DivaGNetSystem.h"
 
 namespace divacore
 {
 	using namespace sora;
+	using namespace divanet;
 
 	class CoreState;
 	class MapLoader;

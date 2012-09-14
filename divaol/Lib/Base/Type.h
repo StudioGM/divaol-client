@@ -8,6 +8,7 @@
  ****************************************************/
 
 #include <cstdlib>
+#include <cassert>
 #include <string>
 #include "Platform.h"
 
@@ -28,10 +29,10 @@ namespace Base
 	typedef signed long long	int64;
 	typedef unsigned long long	uint64;
 
-	#if defined(BASE_OS_WINDOWS64)
+	#if defined(BASE_OS_WINDOWS_64)
 		typedef signed long long	intPtr;
 		typedef unsigned long long	uintPtr;
-	#elif defined(BASE_OS_WINDOWS32)
+	#elif defined(BASE_OS_WINDOWS_32)
 		typedef signed long			intPtr;
 		typedef unsigned long		uintPtr;
 	#endif
@@ -45,15 +46,22 @@ namespace Base
 	typedef unsigned long long	qword;
 	typedef unsigned int		size;
 	typedef uint8*				binary;
-	
-	#define base_malloc malloc
-	
+
 	/*
 	 * String
 	 */
 	typedef std::string base_string;
 	typedef std::wstring base_wstring;
 	typedef wchar_t wchar;
+
+	/*
+	 * special
+	 */
+
+	#define base_malloc malloc
+	#define base_malloc_withtype(T,SIZE) ((T*)malloc(sizeof(T)*(SIZE)))
+	#define base_free free
+	#define base_assert assert
 }
 
 #endif

@@ -12,6 +12,8 @@
 
 #include "Type.h"
 #include "Exception.h"
+#include "Ptr.h"
+#include "PreDeclare.h"
 #include "String.h"
 
 #include <cstdarg>
@@ -51,9 +53,6 @@ namespace Base
 	#define BASE_REGISTER_CLASS_NAME(_name)\
 		virtual std::string getName() {return #_name;} \
 		static std::string name() {return #_name;}
-
-	#define base_assert assert
-
 }
 
 #endif

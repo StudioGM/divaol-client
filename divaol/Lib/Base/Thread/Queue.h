@@ -46,7 +46,7 @@ namespace Base
 				return mQueue.front();
 			}
 
-			T take() {
+			T take() {	
 				BASE_MUTEX_GUARD(mMutex);
 				base_assert(!mQueue.empty());
 				T front = mQueue.front();

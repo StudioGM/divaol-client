@@ -104,6 +104,12 @@ namespace Base
 			ret *= b;
 			return ret;
 		}
+		operator base_string() {
+			return asAnsi();
+		}
+		operator base_wstring() {
+			return asUnicode();
+		}
 
 		//utility funcs
 		bool isInt() const;

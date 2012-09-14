@@ -136,20 +136,20 @@ namespace divacore
 			if(event.type==StateEvent::PRESS||event.type==StateEvent::FAILURE)
 				cntEval[event.rank-1]++;
 		}
-		void updateEval(Packet &packet)
-		{
-			for(int i = 0; i < evals.size(); i++)
-			{
-				EvalData data;
-				data.score = packet.readInt32();
-				for(int j = 0; j < EVAL_NUM; j++)
-					data.cntEval[j] = packet.readInt32();
-				if(i!=playerID)
-					evalData[i] = data;
-			}
-			updateInfo();
-			//for(int i = 0; i < players.size(); i++)
-		}
+		//void updateEval(Packet &packet)
+		//{
+		//	for(int i = 0; i < evals.size(); i++)
+		//	{
+		//		EvalData data;
+		//		data.score = packet.readInt32();
+		//		for(int j = 0; j < EVAL_NUM; j++)
+		//			data.cntEval[j] = packet.readInt32();
+		//		if(i!=playerID)
+		//			evalData[i] = data;
+		//	}
+		//	updateInfo();
+		//	//for(int i = 0; i < players.size(); i++)
+		//}
 		void updateInfo()
 		{
 			// NETWORK CAUTION

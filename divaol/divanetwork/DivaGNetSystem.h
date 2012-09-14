@@ -11,13 +11,13 @@
 
 #include "thread/SoraMutex.h"
 #include "Core/DivaEventManager.h"
-#include "Network/DivaGNetEventHandler.h"
+#include "divanetwork/DivaGNetEventHandler.h"
 
-namespace divacore
+namespace divanet
 {
 	using namespace sora;
 
-	class GNetworkSystem : public EventHandler, public gnetwork::GNetEventHandler
+	class GNetworkSystem : public divacore::EventHandler, public gnetwork::GNetEventHandler
 	{
 	public:
 		enum{INIT,READY,CONNECTING,DISCONNECTING,WELL};

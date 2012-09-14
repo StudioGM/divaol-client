@@ -620,7 +620,6 @@
     <ClInclude Include="divacore\Component\DivaMapStandardParser.h" />
     <ClInclude Include="divacore\Component\DivaSimpleHookManager.h" />
     <ClInclude Include="divacore\Component\DivaSimpleUIPainter.h" />
-    <ClInclude Include="divacore\Component\DivaSocketNetworkSystem.h" />
     <ClInclude Include="divacore\Component\DivaStandardCoreFlow.h" />
     <ClInclude Include="divacore\Component\DivaStandardDisplay.h" />
     <ClInclude Include="divacore\Component\DivaStandardFactory.h" />
@@ -678,12 +677,6 @@
     <ClInclude Include="divacore\Mode\DivaSinglePlay.h" />
     <ClInclude Include="divacore\MusicManager\DivaBassMusicManager.h" />
     <ClInclude Include="divacore\MusicManager\DivaFmodMusicManager.h" />
-    <ClInclude Include="divacore\Network\DivaGNetEventHandler.h" />
-    <ClInclude Include="divacore\Network\DivaGNetSystem.h" />
-    <ClInclude Include="divacore\Network\DivaGNetTCPSystem.h" />
-    <ClInclude Include="divacore\Network\gnet\connection.h" />
-    <ClInclude Include="divacore\Network\gnet\gnet.h" />
-    <ClInclude Include="divacore\Network\gnet\netManager.h" />
     <ClInclude Include="divacore\Note\DivaLongNote.h" />
     <ClInclude Include="divacore\Note\DivaNormalNote.h" />
     <ClInclude Include="divacore\Note\DivaPingpongNote.h" />
@@ -746,6 +739,13 @@
     <ClInclude Include="ui\UI\TitleScreen\TitleScreenPressAnyKey.h" />
     <ClInclude Include="ui\UI\TitleScreen\TitleScreenUI.h" />
     <ClInclude Include="ui\UI\TitleScreen\TitleScreenWheel.h" />
+    <ClInclude Include="divanetwork\DivaGNetEventHandler.h" />
+    <ClInclude Include="divanetwork\DivaGNetSystem.h" />
+    <ClInclude Include="divanetwork\DivaGNetTCPSystem.h" />
+    <ClInclude Include="divanetwork\DivaNetworkManager.h" />
+    <ClInclude Include="divanetwork\gnet\connection.h" />
+    <ClInclude Include="divanetwork\gnet\gnet.h" />
+    <ClInclude Include="divanetwork\gnet\netManager.h" />
     <ClInclude Include="divasongmgr\DivaMapEncryption.h" />
     <ClInclude Include="divasongmgr\DivaMapManager.h" />
     <ClInclude Include="Lib\Base\Common.h" />
@@ -755,6 +755,8 @@
     <ClInclude Include="Lib\Base\Io\Stream.h" />
     <ClInclude Include="Lib\Base\Logger.h" />
     <ClInclude Include="Lib\Base\Platform.h" />
+    <ClInclude Include="Lib\Base\PreDeclare.h" />
+    <ClInclude Include="Lib\Base\Ptr.h" />
     <ClInclude Include="Lib\Base\Singleton.h" />
     <ClInclude Include="Lib\Base\String.h" />
     <ClInclude Include="Lib\Base\StringConv.h" />
@@ -1062,7 +1064,6 @@
     <ClCompile Include="divacore\Component\DivaMapJsonLoader.cpp" />
     <ClCompile Include="divacore\Component\DivaMapStandardParser.cpp" />
     <ClCompile Include="divacore\Component\DivaSimpleUIPainter.cpp" />
-    <ClCompile Include="divacore\Component\DivaSocketNetworkSystem.cpp" />
     <ClCompile Include="divacore\Component\DivaStandardCoreFlow.cpp" />
     <ClCompile Include="divacore\Component\DivaStandardDisplay.cpp" />
     <ClCompile Include="divacore\Component\DivaStandardFactory.cpp" />
@@ -1078,9 +1079,6 @@
     <ClCompile Include="divacore\Mode\DivaSinglePlay.cpp" />
     <ClCompile Include="divacore\MusicManager\DivaBassMusicManager.cpp" />
     <ClCompile Include="divacore\MusicManager\DivaFmodMusicManager.cpp" />
-    <ClCompile Include="divacore\Network\gnet\connection.cpp" />
-    <ClCompile Include="divacore\Network\gnet\gnet.cpp" />
-    <ClCompile Include="divacore\Network\gnet\netManager.cpp" />
     <ClCompile Include="divacore\Note\DivaLongNote.cpp" />
     <ClCompile Include="divacore\Note\DivaNormalNote.cpp" />
     <ClCompile Include="divacore\Note\DivaPingpongNote.cpp" />
@@ -1088,6 +1086,9 @@
     <ClCompile Include="divacore\Timer\DivaTimeCounterImplWin32.cpp" />
     <ClCompile Include="divacore\Utility\DivaConfigLoader.cpp" />
     <ClCompile Include="divacore\Utility\DivaSimpleUI.cpp" />
+    <ClCompile Include="divanetwork\gnet\connection.cpp" />
+    <ClCompile Include="divanetwork\gnet\gnet.cpp" />
+    <ClCompile Include="divanetwork\gnet\netManager.cpp" />
     <ClCompile Include="divasongmgr\DivaMapEncryption.cpp" />
     <ClCompile Include="divasongmgr\DivaMapManager.cpp" />
     <ClCompile Include="Lib\Base\Io\Stream.cpp" />
