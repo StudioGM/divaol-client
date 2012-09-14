@@ -38,7 +38,7 @@
 
 #include "SoraSpriteManager.h"
 
-#include "WJson/wjson.h"
+#include "Lib/wjson/wjson.h"
 #include "ui/UI/TitleScreen/TitleScreenUI.h"
 
 #include "SoraOGLRenderer/SoraOGLRenderer.h"

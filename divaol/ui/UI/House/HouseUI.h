@@ -9,7 +9,7 @@
 
 #include "ui/GUIChanEx/GUIChanEx.h"
 #include "SoraSoundManager/SoraBGMManager.h"
-#include "WJson/wjson.h"
+#include "Lib/wjson/wjson.h"
 #include "timer/DivaTimeCounterImplSora.h"
 
 #include "ui/GUIChanEx/WTextfield.h"

@@ -9,7 +9,7 @@
 #include "DivaMapJsonLoader.h"
 #include "SoraResourceFile.h"
 #include "Core/DivaDefault.h"
-#include "Base/Io/FileUtility.h"
+#include "Lib/Base/Io/FileUtility.h"
 
 namespace divacore
 {

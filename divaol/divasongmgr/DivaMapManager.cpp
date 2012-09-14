@@ -1,7 +1,8 @@
 #include "DivaMapManager.h"
 
+#include <Process.h>
 #include <string>
-#include "divacore/Lib/wjson/wjson.h"
+#include "Lib/wjson/wjson.h"
 #include "DivaMapEncryption.h"
 
 namespace divamap
@@ -301,16 +302,61 @@ namespace divamap
 
 	}
 
+
+#pragma region MultiThread functions
+
+	void DownloadDivaMapThumb(void* arg_mapID)
+	{
+		int id = *((int*)arg_mapID);
+		Sleep(2000);
+		MessageBoxW(NULL,L"ThreadOver!", L"Thread Test", MB_OK);
+	}
+
+
+#pragma endregion MultiThread functions
+
+
+
+
+
+
+
+
 	void DivaMapManager::PrepareDivaMapListInfo()
 	{
 
 	}
-
 	bool DivaMapManager::PrepareDivaMapThumb(int id)
 	{
-		if(maps.find(id)==maps.end())
-			return false;
+		//if(maps.find(id)==maps.end())
+			//return false;
 
+		//Check if thumb file already exists
+		FILE *thumbFile;
+		Base::String thumbFilePath = Base::String(LocalSongDirectoryW)+L"MAP_"+Base::String::any2string(id)+L"/"+maps[id].header.thumb;
+		if(_wfopen_s(&thumbFile, thumbFilePath.unicode_str(), L"r")!=0)
+		{
+			//File not exists
+			/*
+			pthread_t thisThreadID;
+
+			int error = pthread_create(
+				&thisThreadID,
+				NULL,
+				&DownloadDivaMapThumb,
+				&id
+				);
+
+			if(error!=0)
+				return false;
+				*/
+		}
+		else
+		{
+			fclose(thumbFile);
+			if(listMsgOut!=NULL)
+				listMsgOut->push_back(DivaMapEventMessage(DivaMapEventMessage::PrepareThumbFile, id, false, true, 1));
+		}
 		return true;
 	}
 
@@ -330,20 +376,20 @@ namespace divamap
 		return true;
 	}
 
-	bool DivaMapManager::PrepareDivaMapDataFromFile(std::wstring zippedFile)
-	{
-		return false;
-	}
-
-	//Check file functions
-	//Check file functions
-	bool DivaMapManager::CheckLocalMapDataFileLeagal(int id)
+	bool DivaMapManager::PrepareCheckLocalMapDataFileLeagal(int id)
 	{
 		if(maps.find(id)==maps.end())
 			return false;
 
 		return true;
 	}
+
+	bool DivaMapManager::PrepareDivaMapDataFromFile(std::wstring zippedFile)
+	{
+		return false;
+	}
+
+	//Check file functions
 	bool DivaMapManager::CheckLocalThumbFile(int id)
 	{
 		if(maps.find(id)==maps.end())

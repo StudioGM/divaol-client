@@ -142,12 +142,6 @@
     <Filter Include="源文件\divacore\network\gnet">
       <UniqueIdentifier>{086d7bb0-b5c5-4eef-aa6c-59972f36f1b7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\divacore\lib">
-      <UniqueIdentifier>{5bb28e34-c1e3-46f0-9ce3-2306f488a45f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\divacore\lib\base">
-      <UniqueIdentifier>{af5e0ea1-c69b-4665-80af-ab0e6266c9c6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\divacore\music">
       <UniqueIdentifier>{038ca617-2977-43ce-8ce3-6e8075dec142}</UniqueIdentifier>
     </Filter>
@@ -234,6 +228,15 @@
     </Filter>
     <Filter Include="源文件\divasongmgr">
       <UniqueIdentifier>{ba1e8d10-97d5-4d3c-a5b9-8d2f4923cbb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\lib">
+      <UniqueIdentifier>{5bb28e34-c1e3-46f0-9ce3-2306f488a45f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\lib\base">
+      <UniqueIdentifier>{af5e0ea1-c69b-4665-80af-ab0e6266c9c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\lib\wjson">
+      <UniqueIdentifier>{a663111b-c1fe-422e-91a4-b0c533fe8560}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1590,57 +1593,6 @@
     <ClInclude Include="divacore\State\DivaNetLoader.h">
       <Filter>源文件\divacore\state</Filter>
     </ClInclude>
-    <ClInclude Include="divacore\Lib\Base\Common.h">
-      <Filter>源文件\divacore\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Lib\Base\Exception.h">
-      <Filter>源文件\divacore\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Lib\Base\Io\FileUtility.h">
-      <Filter>源文件\divacore\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Lib\Base\Io\FileUtilityImplWin.h">
-      <Filter>源文件\divacore\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Lib\Base\Io\Stream.h">
-      <Filter>源文件\divacore\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Lib\Base\Logger.h">
-      <Filter>源文件\divacore\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Lib\Base\Platform.h">
-      <Filter>源文件\divacore\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Lib\Base\Singleton.h">
-      <Filter>源文件\divacore\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Lib\Base\String.h">
-      <Filter>源文件\divacore\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Lib\Base\StringConv.h">
-      <Filter>源文件\divacore\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Lib\Base\Thread\Mutex.h">
-      <Filter>源文件\divacore\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Lib\Base\Thread\posix\MutexImpl.h">
-      <Filter>源文件\divacore\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Lib\Base\Thread\Queue.h">
-      <Filter>源文件\divacore\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Lib\Base\Thread\win32\MutexImpl.h">
-      <Filter>源文件\divacore\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Lib\Base\Timer.h">
-      <Filter>源文件\divacore\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Lib\Base\Type.h">
-      <Filter>源文件\divacore\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Lib\Base\Uncopyable.h">
-      <Filter>源文件\divacore\lib\base</Filter>
-    </ClInclude>
     <ClInclude Include="divacore\Mode\DivaPairPlay.h">
       <Filter>源文件\divacore\mode</Filter>
     </ClInclude>
@@ -2289,32 +2241,83 @@
     <ClInclude Include="divasongmgr\DivaMapManager.h">
       <Filter>源文件\divasongmgr</Filter>
     </ClInclude>
-    <ClInclude Include="divacore\Lib\wjson\wautolink.h">
-      <Filter>源文件\divacore\lib\wjson</Filter>
+    <ClInclude Include="Lib\Base\Common.h">
+      <Filter>源文件\lib\base</Filter>
     </ClInclude>
-    <ClInclude Include="divacore\Lib\wjson\wconfig.h">
-      <Filter>源文件\divacore\lib\wjson</Filter>
+    <ClInclude Include="Lib\Base\Exception.h">
+      <Filter>源文件\lib\base</Filter>
     </ClInclude>
-    <ClInclude Include="divacore\Lib\wjson\wfeatures.h">
-      <Filter>源文件\divacore\lib\wjson</Filter>
+    <ClInclude Include="Lib\Base\Logger.h">
+      <Filter>源文件\lib\base</Filter>
     </ClInclude>
-    <ClInclude Include="divacore\Lib\wjson\wforwards.h">
-      <Filter>源文件\divacore\lib\wjson</Filter>
+    <ClInclude Include="Lib\Base\Platform.h">
+      <Filter>源文件\lib\base</Filter>
     </ClInclude>
-    <ClInclude Include="divacore\Lib\wjson\wjson.h">
-      <Filter>源文件\divacore\lib\wjson</Filter>
+    <ClInclude Include="Lib\Base\Singleton.h">
+      <Filter>源文件\lib\base</Filter>
     </ClInclude>
-    <ClInclude Include="divacore\Lib\wjson\wjson_batchallocator.h">
-      <Filter>源文件\divacore\lib\wjson</Filter>
+    <ClInclude Include="Lib\Base\String.h">
+      <Filter>源文件\lib\base</Filter>
     </ClInclude>
-    <ClInclude Include="divacore\Lib\wjson\wreader.h">
-      <Filter>源文件\divacore\lib\wjson</Filter>
+    <ClInclude Include="Lib\Base\StringConv.h">
+      <Filter>源文件\lib\base</Filter>
     </ClInclude>
-    <ClInclude Include="divacore\Lib\wjson\wvalue.h">
-      <Filter>源文件\divacore\lib\wjson</Filter>
+    <ClInclude Include="Lib\Base\Timer.h">
+      <Filter>源文件\lib\base</Filter>
     </ClInclude>
-    <ClInclude Include="divacore\Lib\wjson\wwriter.h">
-      <Filter>源文件\divacore\lib\wjson</Filter>
+    <ClInclude Include="Lib\Base\Type.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Uncopyable.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Io\FileUtility.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Io\FileUtilityImplWin.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Io\Stream.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Thread\Mutex.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Thread\Queue.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Thread\win32\MutexImpl.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Thread\posix\MutexImpl.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\wjson\wautolink.h">
+      <Filter>源文件\lib\wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\wjson\wconfig.h">
+      <Filter>源文件\lib\wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\wjson\wfeatures.h">
+      <Filter>源文件\lib\wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\wjson\wforwards.h">
+      <Filter>源文件\lib\wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\wjson\wjson.h">
+      <Filter>源文件\lib\wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\wjson\wjson_batchallocator.h">
+      <Filter>源文件\lib\wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\wjson\wreader.h">
+      <Filter>源文件\lib\wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\wjson\wvalue.h">
+      <Filter>源文件\lib\wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\wjson\wwriter.h">
+      <Filter>源文件\lib\wjson</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2864,20 +2867,11 @@
     <ClCompile Include="divacore\Mode\DivaMultiPlay.cpp">
       <Filter>源文件\divacore\mode</Filter>
     </ClCompile>
-    <ClCompile Include="divacore\Lib\Base\Io\Stream.cpp">
-      <Filter>源文件\divacore\lib\base</Filter>
-    </ClCompile>
-    <ClCompile Include="divacore\Lib\Base\Logger.cpp">
-      <Filter>源文件\divacore\lib\base</Filter>
-    </ClCompile>
-    <ClCompile Include="divacore\Lib\Base\String.cpp">
-      <Filter>源文件\divacore\lib\base</Filter>
-    </ClCompile>
-    <ClCompile Include="divacore\Lib\Base\Timer.cpp">
-      <Filter>源文件\divacore\lib\base</Filter>
-    </ClCompile>
     <ClCompile Include="..\Hoshizor\Plugins\SoraLua\EnvVarExport.cpp">
       <Filter>Plugins\SoraLua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraShader\SoraCGD3D9Shader.cpp">
+      <Filter>Plugins\Shader</Filter>
     </ClCompile>
     <ClCompile Include="..\Hoshizor\Plugins\SoraLua\pluto.c">
       <Filter>Plugins\SoraLua</Filter>
@@ -3031,15 +3025,6 @@
     </ClCompile>
     <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\print.c">
       <Filter>Plugins\SoraLua\Luaplus</Filter>
-    </ClCompile>
-    <ClCompile Include="divacore\Lib\wjson\wjson_reader.cpp">
-      <Filter>源文件\divacore\lib\Wjson</Filter>
-    </ClCompile>
-    <ClCompile Include="divacore\Lib\wjson\wjson_value.cpp">
-      <Filter>源文件\divacore\lib\Wjson</Filter>
-    </ClCompile>
-    <ClCompile Include="divacore\Lib\wjson\wjson_writer.cpp">
-      <Filter>源文件\divacore\lib\Wjson</Filter>
     </ClCompile>
     <ClCompile Include="ui\DivaGUI\DivaPlayerItem.cpp">
       <Filter>源文件\ui\DivaGUI</Filter>
@@ -3413,6 +3398,27 @@
     <ClCompile Include="divasongmgr\DivaMapManager.cpp">
       <Filter>源文件\divasongmgr</Filter>
     </ClCompile>
+    <ClCompile Include="Lib\Base\Logger.cpp">
+      <Filter>源文件\lib\base</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\Base\String.cpp">
+      <Filter>源文件\lib\base</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\Base\Timer.cpp">
+      <Filter>源文件\lib\base</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\Base\Io\Stream.cpp">
+      <Filter>源文件\lib\base</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\wjson\wjson_reader.cpp">
+      <Filter>源文件\lib\wjson</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\wjson\wjson_value.cpp">
+      <Filter>源文件\lib\wjson</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\wjson\wjson_writer.cpp">
+      <Filter>源文件\lib\wjson</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Hoshizor\Sora\json\json_internalarray.inl">
@@ -3439,9 +3445,6 @@
     <None Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\LuaState.inl">
       <Filter>Plugins\SoraLua\Luaplus</Filter>
     </None>
-    <None Include="divacore\Lib\wjson\wjson_valueiterator.inl">
-      <Filter>源文件\divacore\lib\Wjson</Filter>
-    </None>
     <None Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\Makefile.am">
       <Filter>Plugins\SoraGUIChan\guichan</Filter>
     </None>
@@ -3453,6 +3456,9 @@
     </None>
     <None Include="..\Hoshizor\Plugins\SoraGUIChan\guichan\widgets\Makefile.in">
       <Filter>Plugins\SoraGUIChan\guichan\widgets</Filter>
+    </None>
+    <None Include="Lib\wjson\wjson_valueiterator.inl">
+      <Filter>源文件\lib\wjson</Filter>
     </None>
   </ItemGroup>
 </Project>

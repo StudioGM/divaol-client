@@ -1,7 +1,7 @@
 #ifndef DIVA_UI_CONFIG
 #define DIVA_UI_CONFIG
 
-#include "WJson/wjson.h"
+#include "Lib/wjson/wjson.h"
 #include <string>
 #include <Windows.h>
 

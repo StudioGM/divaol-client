@@ -17,7 +17,7 @@
 #include "ui/DivaGUI/DivaPlayerItem.h"
 #include "ui/DivaGUI/DivaPlayerList.h"
 #include "SoraSoundManager/SoraBGMManager.h"
-#include "WJson/wjson.h"
+#include "Lib/wjson/wjson.h"
 #include "timer/DivaTimeCounterImplSora.h"
 
 #include <map>

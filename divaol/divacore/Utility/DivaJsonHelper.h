@@ -9,7 +9,7 @@
 #define DIVA_JSON_HELPER
 
 #include "json/json.h"
-//#include "wjson/json.h"
+//#include "Lib/wjson/json.h"
 #include "Core/DivaStringUtil.h"
 #include "SoraCore.h"
 
