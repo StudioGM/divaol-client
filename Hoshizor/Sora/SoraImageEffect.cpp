@@ -289,8 +289,8 @@ namespace sora {
 
 	bool SoraImageEffectList::update(float delta) {
 		if(mCurrEffect) {
-			int32 result = mCurrEffect->update(delta);
-			if(result == ImageEffectEnd) {
+			bool result = mCurrEffect->update(delta);
+			if(result) {
 				ImageEffectList::iterator next = std::find(mImageEffects.begin(), mImageEffects.end(), mCurrEffect);
 				if(next != mImageEffects.end()) {
 					if(!mReverse) {

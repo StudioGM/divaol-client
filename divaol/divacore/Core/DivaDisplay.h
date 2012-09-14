@@ -40,6 +40,7 @@ namespace divacore
 		virtual void pause() {}
 		virtual void resume() {}
 
+		virtual void setSpeedScale(float scale) {}
 		virtual void setVideoTime(const std::string &ID, double time) {}
 		virtual float getVideoTime(const std::string &ID) {return 0;}
 		virtual bool getImageSize(const std::string &label, float &width, float &height) = 0;

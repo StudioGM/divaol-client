@@ -276,6 +276,9 @@ namespace divacore
 		pair.second->setScale((width>0)?(width/pair.second->getSpriteWidth()):1.0,(height>0)?(height/pair.second->getSpriteHeight()):1.0);
 		videoPlaying.insert(ID);
 
+		if(CORE_PTR->getSpeedScale()!=Core::NORMAL_SPEED)
+			pair.first->setPlayRate(CORE_PTR->getSpeedScale());
+
 		displayList.push_back(DisplayNode(DisplayNode::VIDEO,pair.second));
 	}
 
@@ -283,8 +286,8 @@ namespace divacore
 	{
 		for(DISPLAY_LIST::iterator ptr = displayList.begin(); ptr != displayList.end(); ptr++)
 		{
-			if(ptr->type()==DisplayNode::VIDEO&&CORE_PTR->getSpeedScale()!=Core::NORMAL_SPEED)
-				continue;
+			//if(ptr->type()==DisplayNode::VIDEO&&CORE_PTR->getSpeedScale()!=Core::NORMAL_SPEED)
+			//	continue;
 			ptr->render();
 		}
 		//if(CORE_PTR->getSpeedScale()==Core::NORMAL_SPEED)
@@ -322,6 +325,11 @@ namespace divacore
 			videoPool[*ptr].first->resume();
 	}
 
+	void StandardDisplay::setSpeedScale(float scale)
+	{
+		for(VIDEOPLAYING::iterator ptr = videoPlaying.begin(); ptr != videoPlaying.end(); ptr++)
+			videoPool[*ptr].first->setPlayRate(scale);
+	}
 	void StandardDisplay::setVideoTime(const std::string &ID, double time)
 	{
 		if(!isExistVideo(ID))

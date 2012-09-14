@@ -13,7 +13,8 @@
 #include "DivaMapInfo.h"
 #include "DivaEventManager.h"
 #include "SoraSprite.h"
-#include "Core/DivaConfig.h"
+#include "DivaConfig.h"
+#include "SoraCanvas.h"
 
 namespace divacore
 {
@@ -36,6 +37,10 @@ namespace divacore
 		virtual void fadeOut(uint32 color) {}
 		virtual void fadeIn(uint32 color) {}
 		virtual bool isFade() {return false;}
+
+		virtual sora::SoraBaseCanvas *getInnerCanvas() {return NULL;}
+		virtual sora::SoraBaseCanvas *getCoreCanvas() {return NULL;}
+
 		virtual int getGameWidth() = 0;
 		virtual int getGameHeight() = 0;
 		virtual int getWindowWidth() = 0;

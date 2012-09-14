@@ -78,6 +78,7 @@ namespace divacore
 		void render();
 		void update(float dt);
 
+		void setSpeedScale(float scale);
 		void setVideoTime(const std::string &ID, double time);
 		float getVideoTime(const std::string &ID);
 	};

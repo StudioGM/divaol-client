@@ -328,6 +328,7 @@
     <ClInclude Include="..\Hoshizor\Plugins\SoraSoundManager\SoraBGMManager.h" />
     <ClInclude Include="..\Hoshizor\Plugins\SoraSoundManager\SoraSoundEffectManager.h" />
     <ClInclude Include="..\Hoshizor\Plugins\SoraSoundManager\SoundManagerLuaExport.h" />
+    <ClInclude Include="..\Hoshizor\Plugins\SoraShader\SoraCGD3D9Shader.h" />
     <ClInclude Include="..\Hoshizor\Plugins\SoraVlcMoviePlayer\SoraVlcMoviePlayer.h" />
     <ClInclude Include="..\Hoshizor\Sora\app\SoraGameApp.h" />
     <ClInclude Include="..\Hoshizor\Sora\app\SoraGameAppDef.h" />
@@ -652,14 +653,23 @@
     <ClInclude Include="divacore\Core\DivaMusicManager.h" />
     <ClInclude Include="divacore\Core\DivaNote.h" />
     <ClInclude Include="divacore\Core\DivaParticleSystem.h" />
+    <ClInclude Include="divacore\Core\DivaPlayerInfo.h" />
     <ClInclude Include="divacore\Core\DivaRenderSystem.h" />
     <ClInclude Include="divacore\Core\DivaStringUtil.h" />
     <ClInclude Include="divacore\Core\DivaTask.h" />
     <ClInclude Include="divacore\Core\DivaTimeCounter.h" />
     <ClInclude Include="divacore\Core\DivaUIPainter.h" />
-    <ClInclude Include="divacore\Hook\DivaAutoplay.h" />
+    <ClInclude Include="divacore\Hook\DivaAutoMode.h" />
+    <ClInclude Include="divacore\Hook\DivaBlackHouseMode.h" />
+    <ClInclude Include="divacore\Hook\DivaChaosMode.h" />
     <ClInclude Include="divacore\Hook\DivaCTMode.h" />
+    <ClInclude Include="divacore\Hook\DivaDeathMode.h" />
+    <ClInclude Include="divacore\Hook\DivaDisappearMode.h" />
+    <ClInclude Include="divacore\Hook\DivaFastMode.h" />
+    <ClInclude Include="divacore\Hook\DivaNoFailMode.h" />
     <ClInclude Include="divacore\Hook\DivaPVMode.h" />
+    <ClInclude Include="divacore\Hook\DivaRandomSwapMode.h" />
+    <ClInclude Include="divacore\Hook\DivaSlowMode.h" />
     <ClInclude Include="divacore\Lib\Base\Common.h" />
     <ClInclude Include="divacore\Lib\Base\Exception.h" />
     <ClInclude Include="divacore\Lib\Base\Io\FileUtility.h" />
@@ -711,6 +721,7 @@
     <ClInclude Include="divacore\Timer\DivaTimeCounterImplBass.h" />
     <ClInclude Include="divacore\Timer\DivaTimeCounterImplSora.h" />
     <ClInclude Include="divacore\Timer\DivaTimeCounterImplWin32.h" />
+    <ClInclude Include="divacore\Utility\DivaColor.h" />
     <ClInclude Include="divacore\Utility\DivaConfigLoader.h" />
     <ClInclude Include="divacore\Utility\DivaHDPSystem.h" />
     <ClInclude Include="divacore\Utility\DivaInitialize.h" />
@@ -761,6 +772,8 @@
     <ClInclude Include="ui\UI\TitleScreen\TitleScreenPressAnyKey.h" />
     <ClInclude Include="ui\UI\TitleScreen\TitleScreenUI.h" />
     <ClInclude Include="ui\UI\TitleScreen\TitleScreenWheel.h" />
+    <ClInclude Include="divasongmgr\DivaMapEncryption.h" />
+    <ClInclude Include="divasongmgr\DivaMapManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Hoshizor\Plugins\gcnExtend\gcnBackgroundContainer.cpp" />
@@ -841,6 +854,8 @@
     <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\ticpp\tinyxml.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\ticpp\tinyxmlerror.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraGUIChan\ticpp\tinyxmlparser.cpp" />
+    <ClCompile Include="..\Hoshizor\Plugins\SoraFreetypeFont\SoraFreetypeFont.cpp" />
+    <ClCompile Include="..\Hoshizor\Plugins\SoraFreetypeFont\SoraFTFontManager.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraHGERenderer\hge\hgegraphics.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraHGERenderer\hge\hgeinput.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraHGERenderer\hge\hgeresource.cpp" />
@@ -902,6 +917,7 @@
     <ClCompile Include="..\Hoshizor\Plugins\SoraLua\spriteWrapper.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraSoundManager\SoraBGMManager.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraSoundManager\SoraSoundEffectManager.cpp" />
+    <ClCompile Include="..\Hoshizor\Plugins\SoraShader\SoraCGD3D9Shader.cpp" />
     <ClCompile Include="..\Hoshizor\Plugins\SoraVlcMoviePlayer\SoraVlcMoviePlayer.cpp" />
     <ClCompile Include="..\Hoshizor\Sora\app\SoraGameApp.cpp" />
     <ClCompile Include="..\Hoshizor\Sora\app\SoraGameAppDef.cpp" />
@@ -1081,6 +1097,8 @@
     <ClCompile Include="divacore\Timer\DivaTimeCounterImplWin32.cpp" />
     <ClCompile Include="divacore\Utility\DivaConfigLoader.cpp" />
     <ClCompile Include="divacore\Utility\DivaSimpleUI.cpp" />
+    <ClCompile Include="divasongmgr\DivaMapEncryption.cpp" />
+    <ClCompile Include="divasongmgr\DivaMapManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ui\Config\DivaUIConfig.cpp" />
     <ClCompile Include="ui\DivaGUI\DivaPlayerItem.cpp" />

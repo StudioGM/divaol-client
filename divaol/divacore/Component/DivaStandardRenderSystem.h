@@ -13,6 +13,7 @@
 #include "Core/DivaConfig.h"
 #include "Utility/DivaConfigLoader.h"
 #include "thread/SoraMutex.h"
+#include "SoraShader.h"
 
 namespace divacore
 {
@@ -20,6 +21,8 @@ namespace divacore
 	{
 		//canvas
 		sora::SoraBaseCanvas *coreCanvas;
+		sora::SoraBaseCanvas *innerCanvas;
+
 		sora::SoraSprite *preview,*white;
 		//info
 		int gameWidth,gameHeight,windowWidth,windowHeight;
@@ -39,11 +42,33 @@ namespace divacore
 
 			fadeTime = config.getAsDouble("fadeTime");
 		}
+		sora::SoraBaseCanvas *getInnerCanvas() {return innerCanvas;}
+		sora::SoraBaseCanvas *getCoreCanvas() {return coreCanvas;}
 		void init()
 		{
-			coreCanvas = NULL;
+			coreCanvas = innerCanvas = NULL;
 			preview = white = NULL;
 			bFade = false;
+		}
+		void gameLoadFromConfig(Config &config)
+		{
+			sora::SoraMutexGuard lock(mutex);
+
+			this->config = config;
+
+			gameWidth = config.getAsInt("gameWidth");
+			gameHeight = config.getAsInt("gameHeight");
+
+			SAFE_DELETE(coreCanvas);
+			SAFE_DELETE(innerCanvas);
+			coreCanvas = new sora::SoraBaseCanvas(gameWidth,gameHeight);
+			innerCanvas = new sora::SoraBaseCanvas(gameWidth,gameHeight);
+			
+			if(preview->getTexture())
+				preview->setScale(double(gameWidth)/preview->getSpriteWidth(),
+				double(gameHeight)/preview->getSpriteHeight());
+			white->setScale(double(gameWidth)/white->getSpriteWidth(),
+				double(gameHeight)/white->getSpriteHeight());
 		}
 		void gameLoad(const std::string &configFile)
 		{
@@ -51,17 +76,7 @@ namespace divacore
 
 			configloader::loadWithJson(config,configFile);
 
-			gameWidth = config.getAsInt("gameWidth");
-			gameHeight = config.getAsInt("gameHeight");
-
-			SAFE_DELETE(coreCanvas);
-			coreCanvas = new sora::SoraBaseCanvas(gameWidth,gameHeight);
-
-			if(preview->getTexture())
-				preview->setScale(double(gameWidth)/preview->getSpriteWidth(),
-				double(gameHeight)/preview->getSpriteHeight());
-			white->setScale(double(gameWidth)/white->getSpriteWidth(),
-				double(gameHeight)/white->getSpriteHeight());
+			gameLoadFromConfig(config);
 		}
 		bool InsideDrawRange(const Point &p)
 		{
@@ -88,6 +103,8 @@ namespace divacore
 			if(coreCanvas==NULL)
 				return NULL;
 			SoraSprite *canvas = coreCanvas->getCanvasSprite();
+			//if(canvas->getFragmentShader())
+			//	canvas->getFragmentShader()->setTexture("test",coreCanvas->getCanvasSprite()->getTexture());
 
 #ifdef OS_WIN32
 			canvas->setScale(width==0?1:(width/double(canvas->getTextureWidth(false))),
@@ -105,10 +122,10 @@ namespace divacore
 				return;
 
 			//render canvas
-			coreCanvas->beginRender();
 
 			if(CORE_PTR->getState()==Core::PREPARE)
 			{
+				coreCanvas->beginRender();
 				if(preview->getTexture())
 					preview->render();
 			}
@@ -116,10 +133,20 @@ namespace divacore
 			{
 //				sora::SoraMutexGuard lock(mutex);
 
+				innerCanvas->beginRender();
+
 				if(mask&RS_RENDER_BACKGROUND)
 					DISPLAY_PTR->render();
 				if(mask&RS_RENDER_NOTE)
+				{
 					CORE_FLOW_PTR->render();
+					HOOK_MANAGER_PTR->render();
+				}
+				innerCanvas->finishRender();
+
+				coreCanvas->beginRender();
+
+				innerCanvas->render();
 				if(mask&RS_RENDER_UI)
 				{
 					UI_PAINTER_PTR->render();
@@ -130,6 +157,8 @@ namespace divacore
 			}
 			else if(CORE_PTR->getState()==Core::RESULT)
 			{
+				coreCanvas->beginRender();
+
 				if(preview->getTexture())
 				{
 					//preview->setScale(double(gameWidth)/preview->getSpriteWidth(),

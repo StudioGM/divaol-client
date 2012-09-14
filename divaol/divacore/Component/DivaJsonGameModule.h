@@ -22,14 +22,19 @@ namespace divacore
 		std::string renderFile;
 		std::string effectFile;
 		std::string resultFile;
+		Config noteConfig;
+		Config renderConfig;
+		Config effectConfig;
 		std::vector<std::string> hooks;
 
-		sora::SoraResourceHandle moduleFolder,defaultFolder;
+		std::vector<sora::SoraResourceHandle> folders;
+		std::vector<std::string> folderPaths;
 	public:
 		std::string getName() {return name;}
 		void gameStop();
 		void init() {}
 		void load(const std::string &path);
+		void loadConfig(const std::string &path);
 		void registerHook();
 		void distribute();
 		void clear();

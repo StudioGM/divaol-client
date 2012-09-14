@@ -33,6 +33,7 @@ namespace divacore
 		int periodGrid,totalGrid;
 		bool bPressStart,bPressOver;
 
+		float mEndTime;
 		float length_drawn;
 		Point lastTailPosition, nowTailPosition;
 
@@ -43,8 +44,11 @@ namespace divacore
 		SoraSprite *barMetaSprite;
 
 		Rect coverRect;
+		Point noteCenterPoint;
+		static const float SCALE;
 
 		void finish(float dt);
+		void _hitEffect();
 	public:
 		PingpongNote(MapNote& noteInfo):Note(noteInfo) {}
 

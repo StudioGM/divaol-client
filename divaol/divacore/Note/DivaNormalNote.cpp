@@ -79,6 +79,7 @@ namespace divacore
 		//arrowSprite->addEffect(sora::CreateEffectFade(1.0,0,config->getAsDouble("normal_note_fadeout")));
 		coverSprite->addEffect(sora::CreateEffectFade(1.0,0,config->getAsDouble("normal_note_fadeout")));
 		rhythmSprite->addEffect(sora::CreateEffectScale(1.0,0,config->getAsDouble("normal_rhythm_lessen")));
+		mEndTime = config->getAsDouble("normal_note_fadeout");
 		
 		//auto click
 		StateEvent event(this,0);
@@ -88,10 +89,10 @@ namespace divacore
 	void NormalNote::onRender()
 	{
 		//render sprites
-		Core::Ptr->render(noteSprite,"note"+getTailTag());
+		Core::Ptr->render(noteSprite,"note+"+getTailTag());
 		//Core::Ptr->render(arrowSprite,         "note_arrow"+getTailTag());
-		Core::Ptr->render(coverSprite,"note_cover"+getTailTag());
-		Core::Ptr->render(rhythmSprite,"note_rhythm"+getTailTag());
+		Core::Ptr->render(coverSprite,"note_cover+"+getTailTag());
+		Core::Ptr->render(rhythmSprite,"note_rhythm+"+getTailTag());
 
 		path::Line::renderCometLine(lastTailPosition,nowTailPosition,this);
 		lastTailPosition = nowTailPosition;
@@ -135,9 +136,14 @@ namespace divacore
 		}
 
 		//check over
-		if(getState()==END&&!noteSprite->hasEffect())
+		if(getState()==END)
 		{
-			over();
+			mEndTime -= dt;
+			if(mEndTime<0)
+			{
+				mEndTime = 0;
+				over();
+			}
 		}
 	}
 	void NormalNote::onPressed(StateEvent& event)

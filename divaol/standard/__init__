@@ -3,5 +3,6 @@
 	"note" : "__default__",
 	"ui" : "__default__",
 	"render" : "__default__",
-	"hook" : ["AutoPlay","CTMode"]
+	"effect" : "__default__",
+	"hook" : ["CTMode"]
 }

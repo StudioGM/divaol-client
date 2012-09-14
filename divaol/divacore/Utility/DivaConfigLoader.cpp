@@ -15,7 +15,29 @@ namespace divacore
 	{
 		void _addWithJson(Config &config, std::string key, Json::Value &value)
 		{
-			if(value.isObject())
+			if(value.isObject()&&value.isMember("_array"))
+			{
+				Json::Value array = value["_array"];
+				AnyList anyList;
+				for(int i = 0; i < array.size(); i++)
+				{
+					sora::SoraAny tmp;
+					if(array[i].isInt())
+						tmp = array[i].asInt();
+					else if(array[i].isDouble())
+						tmp = array[i].asDouble();
+					else if(array[i].isString())
+						tmp = array[i].asString();
+					else if(array[i].isBool())
+						tmp = array[i].asBool();
+					else
+						DIVA_EXCEPTION_MODULE("array type is not supported","ConfigJsonLoader");
+
+					anyList.push_back(tmp);
+				}
+				config.add(key,anyList);
+			}
+			else if(value.isObject())
 			{
 				config.add(key,0);
 				Json::Value::Members members = value.getMemberNames();

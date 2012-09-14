@@ -38,6 +38,7 @@ namespace divacore
 		CTMode()
 		{
 			setPriority(Hook::TOP);
+			setType(Hook::MODE);
 			setLevel(0);
 		}
 		void setLevel(int level)

@@ -151,6 +151,7 @@
     <Filter Include="源文件\divacore\music">
       <UniqueIdentifier>{038ca617-2977-43ce-8ce3-6e8075dec142}</UniqueIdentifier>
     </Filter>
+<<<<<<< HEAD
     <Filter Include="源文件\ui">
       <UniqueIdentifier>{a206c460-3923-4162-b733-1acb120946a6}</UniqueIdentifier>
     </Filter>
@@ -228,6 +229,16 @@
     </Filter>
     <Filter Include="Plugins\SoraGUIChan\Animation">
       <UniqueIdentifier>{5a46749b-cadf-43e4-89fa-ad29454658f2}</UniqueIdentifier>
+=======
+    <Filter Include="Plugins\Shader">
+      <UniqueIdentifier>{c1bd1992-f29f-44e4-a6da-6d181180c555}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\divasongmgr">
+      <UniqueIdentifier>{ba1e8d10-97d5-4d3c-a5b9-8d2f4923cbb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\divacore\lib\wjson">
+      <UniqueIdentifier>{a663111b-c1fe-422e-91a4-b0c533fe8560}</UniqueIdentifier>
+>>>>>>> master
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1494,9 +1505,6 @@
     <ClInclude Include="divacore\Core\DivaUIPainter.h">
       <Filter>源文件\divacore\core</Filter>
     </ClInclude>
-    <ClInclude Include="divacore\Hook\DivaAutoplay.h">
-      <Filter>源文件\divacore\hook</Filter>
-    </ClInclude>
     <ClInclude Include="divacore\Hook\DivaCTMode.h">
       <Filter>源文件\divacore\hook</Filter>
     </ClInclude>
@@ -1802,33 +1810,6 @@
     </ClInclude>
     <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lzio.h">
       <Filter>Plugins\SoraLua\Luaplus</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Lib\wjson\wautolink.h">
-      <Filter>源文件\divacore\lib\Wjson</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Lib\wjson\wconfig.h">
-      <Filter>源文件\divacore\lib\Wjson</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Lib\wjson\wfeatures.h">
-      <Filter>源文件\divacore\lib\Wjson</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Lib\wjson\wforwards.h">
-      <Filter>源文件\divacore\lib\Wjson</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Lib\wjson\wjson.h">
-      <Filter>源文件\divacore\lib\Wjson</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Lib\wjson\wjson_batchallocator.h">
-      <Filter>源文件\divacore\lib\Wjson</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Lib\wjson\wreader.h">
-      <Filter>源文件\divacore\lib\Wjson</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Lib\wjson\wvalue.h">
-      <Filter>源文件\divacore\lib\Wjson</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Lib\wjson\wwriter.h">
-      <Filter>源文件\divacore\lib\Wjson</Filter>
     </ClInclude>
     <ClInclude Include="ui\DivaGUI\DivaPlayerItem.h">
       <Filter>源文件\ui\DivaGUI</Filter>
@@ -2270,6 +2251,74 @@
     </ClInclude>
     <ClInclude Include="ui\UI\House\RoomList.h">
       <Filter>源文件\ui\UI\House</Filter>
+    <ClInclude Include="divacore\Core\DivaPlayerInfo.h">
+      <Filter>源文件\divacore\core</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Hook\DivaAutoMode.h">
+      <Filter>源文件\divacore\hook</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Hook\DivaFastMode.h">
+      <Filter>源文件\divacore\hook</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Hook\DivaSlowMode.h">
+      <Filter>源文件\divacore\hook</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Hook\DivaDeathMode.h">
+      <Filter>源文件\divacore\hook</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Hook\DivaRandomSwapMode.h">
+      <Filter>源文件\divacore\hook</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Hook\DivaChaosMode.h">
+      <Filter>源文件\divacore\hook</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Hook\DivaDisappearMode.h">
+      <Filter>源文件\divacore\hook</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Hook\DivaBlackHouseMode.h">
+      <Filter>源文件\divacore\hook</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Hoshizor\Plugins\SoraShader\SoraCGD3D9Shader.h">
+      <Filter>Plugins\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Hook\DivaNoFailMode.h">
+      <Filter>源文件\divacore\hook</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Utility\DivaColor.h">
+      <Filter>源文件\divacore\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="divasongmgr\DivaMapEncryption.h">
+      <Filter>源文件\divasongmgr</Filter>
+    </ClInclude>
+    <ClInclude Include="divasongmgr\DivaMapManager.h">
+      <Filter>源文件\divasongmgr</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Lib\wjson\wautolink.h">
+      <Filter>源文件\divacore\lib\wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Lib\wjson\wconfig.h">
+      <Filter>源文件\divacore\lib\wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Lib\wjson\wfeatures.h">
+      <Filter>源文件\divacore\lib\wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Lib\wjson\wforwards.h">
+      <Filter>源文件\divacore\lib\wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Lib\wjson\wjson.h">
+      <Filter>源文件\divacore\lib\wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Lib\wjson\wjson_batchallocator.h">
+      <Filter>源文件\divacore\lib\wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Lib\wjson\wreader.h">
+      <Filter>源文件\divacore\lib\wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Lib\wjson\wvalue.h">
+      <Filter>源文件\divacore\lib\wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Lib\wjson\wwriter.h">
+      <Filter>源文件\divacore\lib\wjson</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3358,6 +3407,15 @@
     </ClCompile>
     <ClCompile Include="ui\UI\House\RoomList.cpp">
       <Filter>源文件\ui\UI\House</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Hoshizor\Plugins\SoraShader\SoraCGD3D9Shader.cpp">
+      <Filter>Plugins\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="divasongmgr\DivaMapEncryption.cpp">
+      <Filter>源文件\divasongmgr</Filter>
+    </ClCompile>
+    <ClCompile Include="divasongmgr\DivaMapManager.cpp">
+      <Filter>源文件\divasongmgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

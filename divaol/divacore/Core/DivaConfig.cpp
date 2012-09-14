@@ -51,6 +51,10 @@ namespace divacore
 	{
 		return sora::AnyCast<Point>(get(key));
 	}
+	AnyList Config::getAsList(const std::string &key)
+	{
+		return sora::AnyCast<AnyList>(get(key));
+	}
 
 	typedef Config* ConfigPtr;
 }

@@ -306,11 +306,11 @@ namespace gnet
 		switch(item->getType())
 		{
 		case GNET_TYPE_INT_8:
-			return ((Item<uint8>*)item)->getData();
+			return ((Item<int8>*)item)->getData();
 		case GNET_TYPE_INT_32:
-			return ((Item<uint32>*)item)->getData();
+			return ((Item<int32>*)item)->getData();
 		case GNET_TYPE_INT_64:
-			return ((Item<uint64>*)item)->getData();
+			return ((Item<int64>*)item)->getData();
 		default:
 			return getUInt(item);
 		}

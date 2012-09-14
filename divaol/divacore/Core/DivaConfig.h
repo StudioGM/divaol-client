@@ -32,6 +32,7 @@ namespace divacore
 		void add(const std::string &key, bool value) {items[key] = value;}
 		void add(const std::string &key, Rect value) {items[key] = value;}
 		void add(const std::string &key, Point value) {items[key] = value;}
+		void add(const std::string &key, AnyList value) {items[key] = value;}
 		std::string getAsString(const std::string &key);
 		std::wstring getAsWString(const std::string &key);
 		int getAsInt(const std::string &key);
@@ -39,6 +40,7 @@ namespace divacore
 		bool getAsBool(const std::string &key);
 		Rect getAsRect(const std::string &key);
 		Point getAsPoint(const std::string &key);
+		AnyList getAsList(const std::string &key);
 	};
 
 	typedef Config* ConfigPtr;

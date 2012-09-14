@@ -149,8 +149,10 @@ namespace sora {
 		 mResourceManagers[0] = sorafodlerresoucemanager
 		 just add the pack as a folder
 		 */
-        mResourceManagers[0]->attachResourcePack(mResourceManagers[0]->loadResourcePack(file));
-		return 0;
+		SoraHandle r = mResourceManagers[0]->loadResourcePack(file);
+        mResourceManagers[0]->attachResourcePack(r);
+		//modify by tempbuffer, return handle value
+		return r;
 	}
 	
 	void SoraFileSystem::detachResourcePack(SoraHandle handle) {

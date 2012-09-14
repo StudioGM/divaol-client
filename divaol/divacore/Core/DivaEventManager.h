@@ -11,6 +11,7 @@
 
 #include "DivaCommon.h"
 #include "DivaMapInfo.h"
+#include "DivaConfig.h"
 
 namespace divacore
 {
@@ -151,6 +152,7 @@ namespace divacore
 		virtual void gameOver() {}
 		virtual void gameReady() {}
 		virtual void gameLoad(const std::string &configFile) {}
+		virtual void gameLoadFromConfig(Config &config) {}
 		virtual void init() {}
 		virtual void destroy() {}
 		virtual void update(float dt) {}
