@@ -13,6 +13,8 @@
 
 /////////////////////
 #include "divasongmgr/DivaMapManager.h"
+#include "divanetwork/DivaNetworkManager.h"
+#include "divanetwork/DivaGNetTCPSystem.h"
 /////////////////////
 
 #ifdef OS_WIN32
@@ -28,7 +30,7 @@ int CALLBACK WinMain(
 #endif
 		///////////////////////////////
 		MAPMGR.PrepareDivaMapThumb(1);
-
+		NET_MANAGER.setCoreNet(new divanet::TCPGNetworkSystem);
 		///////////////////////////////
 
 	try
@@ -59,7 +61,7 @@ int CALLBACK WinMain(
 	}
 	catch (divacore::Exception&ev)
 	{
-		divacore::LOGGER->error(ev);
+		LOGGER->error(ev);
 		MessageBox(
 			NULL,
 			sora::s2ws(ev.getContent()).c_str(),

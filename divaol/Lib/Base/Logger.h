@@ -12,6 +12,7 @@
 
 #include "Common.h"
 #include "Singleton.h"
+#include "Io/Stream.h"
 #include <iostream>
 #include <fstream>
 #include <deque>
@@ -37,11 +38,15 @@ namespace Base
 		};
 	public:
 		Logger():
-		  mPrependTime(true),mPrependLevel(true),mPrependNumber(true),mOutpoutToConsole(true) {mOutput.open(DEFAULT_GLOBAL_FILE.asUnicode());}
+		  mPrependTime(true),mPrependLevel(true),mPrependNumber(true),mOutpoutToConsole(true) {}
 		Logger(const String &filename):
-		  mPrependTime(true),mPrependLevel(true),mPrependNumber(true),mOutpoutToConsole(true) {mOutput.open(filename.asUnicode());}
-		
-	    void redirect(const String &filename);
+		  mPrependTime(true),mPrependLevel(true),mPrependNumber(true),mOutpoutToConsole(true) {mOutput = new FileStream(filename,Io_write);}
+		Logger(const StreamPtr &stream):
+		  mPrependTime(true),mPrependLevel(true),mPrependNumber(true),mOutpoutToConsole(true) {mOutput = stream;}
+
+		static Logger& instance() {static Logger logger(DEFAULT_GLOBAL_FILE); return logger;}
+
+	    void redirect(const StreamPtr &stream);
 		void setFeature(LoggerFeature feature, bool flag);
 
 		void log(const String& log, LogLevel=LEVEL_INFO);
@@ -72,7 +77,7 @@ namespace Base
 
 		std::deque<String> mLogQueue;
 
-		std::wofstream mOutput;
+		StreamPtr mOutput;
 
 		bool mPrependTime;
 		bool mPrependLevel;

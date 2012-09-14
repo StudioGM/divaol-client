@@ -11,11 +11,11 @@
 
 #include "thread/SoraMutex.h"
 #include "Core/DivaEventManager.h"
-#include "Network/DivaGNetSystem.h"
+#include "divanetwork/DivaGNetSystem.h"
 #include "gnet/netManager.h"
 #include "Core/DivaStringUtil.h"
 
-namespace divacore
+namespace divanet
 {
 	using gnet::Item;
 	using gnet::Tuple;
@@ -35,19 +35,19 @@ namespace divacore
 			mNetManager.disconnect();
 		}
 		void gameLoad(const std::string &configFile) {
-			Config config;
-			configloader::loadWithJson(config,configFile);
+			divacore::Config config;
+			divacore::configloader::loadWithJson(config,configFile);
 
 			if(config.has("IP"))
 				mHostIP = config.getAsString("IP");
 			if(config.has("PORT"))
-				mPort = iToS(config.getAsInt("PORT"));
+				mPort = divacore::iToS(config.getAsInt("PORT"));
 		}
 		void setHostInfo(const std::string &host, int port) {
 			if(host!="")
 				mHostIP = host;
 			if(port>=0)
-				mPort = iToS(port);
+				mPort = divacore::iToS(port);
 		}
 
 		//virtual bool check() = 0;

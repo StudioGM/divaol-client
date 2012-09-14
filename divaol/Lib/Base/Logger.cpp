@@ -29,10 +29,9 @@ namespace Base
 			return String();
 		}
 	}
-	void Logger::redirect(const String &filename)
+	void Logger::redirect(const StreamPtr &stream)
 	{
-		mOutput.close();
-		mOutput.open(filename.asUnicode());
+		mOutput = stream;
 	}
 	void Logger::setFeature(LoggerFeature feature, bool flag)
 	{
@@ -70,7 +69,11 @@ namespace Base
 		mLogQueue.push_back(msg);
 
 		if(mOutput)
-			mOutput << msg.asUnicode() << std::endl;
+#ifdef BASE_OS_WINDOWS
+			mOutput->writeAny(msg+"\r\n");
+#else
+			mOutput->writeAny(msg+'\n');
+#endif
 		if(mOutpoutToConsole)
 			std::cout << msg.asAnsi() << std::endl;
 	}

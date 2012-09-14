@@ -43,10 +43,10 @@ namespace divacore
 			mText.setText(L"|#FF0000|Game Over");
 		}
 
-		void getEvalInfo(Packet &packet)
+		/*void getEvalInfo(Packet &packet)
 		{
-			((divacore::CommonEvaluateStrategy*)EVALUATE_STRATEGY_PTR)->updateEval(packet);
-		}
+		((divacore::CommonEvaluateStrategy*)EVALUATE_STRATEGY_PTR)->updateEval(packet);
+		}*/
 
 		void onEnter()
 		{

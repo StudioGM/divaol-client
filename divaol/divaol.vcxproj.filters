@@ -121,9 +121,6 @@
     <Filter Include="源文件\divacore\mode">
       <UniqueIdentifier>{e6a2b21b-8e15-4f3a-9c2f-3478c2b832cf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\divacore\network">
-      <UniqueIdentifier>{15043eb1-9433-4f50-b659-b8cca2b7ad66}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\divacore\note">
       <UniqueIdentifier>{98b727db-1a96-4a06-b083-56499833f1f7}</UniqueIdentifier>
     </Filter>
@@ -135,12 +132,6 @@
     </Filter>
     <Filter Include="源文件\divacore\utility">
       <UniqueIdentifier>{791bddf3-4a76-4f9c-ab14-ab2ba16e8905}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\divacore\network\new">
-      <UniqueIdentifier>{c53513bf-362c-4012-a06a-d051fd68cb22}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\divacore\network\gnet">
-      <UniqueIdentifier>{086d7bb0-b5c5-4eef-aa6c-59972f36f1b7}</UniqueIdentifier>
     </Filter>
     <Filter Include="源文件\divacore\music">
       <UniqueIdentifier>{038ca617-2977-43ce-8ce3-6e8075dec142}</UniqueIdentifier>
@@ -159,6 +150,12 @@
     </Filter>
     <Filter Include="源文件\lib\wjson">
       <UniqueIdentifier>{a663111b-c1fe-422e-91a4-b0c533fe8560}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\divanetwork">
+      <UniqueIdentifier>{33550e22-fbe2-4dcb-8fcd-f90d606fe485}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\divanetwork\gnet">
+      <UniqueIdentifier>{895ddc2d-2f0a-4a25-b92f-762fd5be8f98}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1311,9 +1308,6 @@
     <ClInclude Include="divacore\Component\DivaSimpleUIPainter.h">
       <Filter>源文件\divacore\component</Filter>
     </ClInclude>
-    <ClInclude Include="divacore\Component\DivaSocketNetworkSystem.h">
-      <Filter>源文件\divacore\component</Filter>
-    </ClInclude>
     <ClInclude Include="divacore\Component\DivaStandardCoreFlow.h">
       <Filter>源文件\divacore\component</Filter>
     </ClInclude>
@@ -1491,24 +1485,6 @@
     <ClInclude Include="divacore\Timer\DivaTimeCounterImplBass.h">
       <Filter>源文件\divacore\timer</Filter>
     </ClInclude>
-    <ClInclude Include="divacore\Network\gnet\gnet.h">
-      <Filter>源文件\divacore\network\gnet</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Network\gnet\connection.h">
-      <Filter>源文件\divacore\network\gnet</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Network\gnet\netManager.h">
-      <Filter>源文件\divacore\network\gnet</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Network\DivaGNetEventHandler.h">
-      <Filter>源文件\divacore\network\new</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Network\DivaGNetSystem.h">
-      <Filter>源文件\divacore\network\new</Filter>
-    </ClInclude>
-    <ClInclude Include="divacore\Network\DivaGNetTCPSystem.h">
-      <Filter>源文件\divacore\network\new</Filter>
-    </ClInclude>
     <ClInclude Include="divacore\Mode\DivaMultiPlay.h">
       <Filter>源文件\divacore\mode</Filter>
     </ClInclude>
@@ -1566,57 +1542,6 @@
     <ClInclude Include="divasongmgr\DivaMapManager.h">
       <Filter>源文件\divasongmgr</Filter>
     </ClInclude>
-    <ClInclude Include="Lib\Base\Common.h">
-      <Filter>源文件\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\Base\Exception.h">
-      <Filter>源文件\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\Base\Logger.h">
-      <Filter>源文件\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\Base\Platform.h">
-      <Filter>源文件\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\Base\Singleton.h">
-      <Filter>源文件\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\Base\String.h">
-      <Filter>源文件\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\Base\StringConv.h">
-      <Filter>源文件\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\Base\Timer.h">
-      <Filter>源文件\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\Base\Type.h">
-      <Filter>源文件\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\Base\Uncopyable.h">
-      <Filter>源文件\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\Base\Io\FileUtility.h">
-      <Filter>源文件\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\Base\Io\FileUtilityImplWin.h">
-      <Filter>源文件\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\Base\Io\Stream.h">
-      <Filter>源文件\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\Base\Thread\Mutex.h">
-      <Filter>源文件\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\Base\Thread\Queue.h">
-      <Filter>源文件\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\Base\Thread\win32\MutexImpl.h">
-      <Filter>源文件\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\Base\Thread\posix\MutexImpl.h">
-      <Filter>源文件\lib\base</Filter>
-    </ClInclude>
     <ClInclude Include="Lib\wjson\wautolink.h">
       <Filter>源文件\lib\wjson</Filter>
     </ClInclude>
@@ -1643,6 +1568,84 @@
     </ClInclude>
     <ClInclude Include="Lib\wjson\wwriter.h">
       <Filter>源文件\lib\wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Io\FileUtility.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Io\FileUtilityImplWin.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Io\Stream.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Thread\Mutex.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Thread\posix\MutexImpl.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Thread\Queue.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Thread\win32\MutexImpl.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Common.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Exception.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Logger.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Platform.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\PreDeclare.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Ptr.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Singleton.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\String.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\StringConv.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Timer.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Type.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Uncopyable.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divanetwork\DivaGNetEventHandler.h">
+      <Filter>源文件\divanetwork</Filter>
+    </ClInclude>
+    <ClInclude Include="divanetwork\DivaGNetSystem.h">
+      <Filter>源文件\divanetwork</Filter>
+    </ClInclude>
+    <ClInclude Include="divanetwork\DivaGNetTCPSystem.h">
+      <Filter>源文件\divanetwork</Filter>
+    </ClInclude>
+    <ClInclude Include="divanetwork\gnet\connection.h">
+      <Filter>源文件\divanetwork\gnet</Filter>
+    </ClInclude>
+    <ClInclude Include="divanetwork\gnet\gnet.h">
+      <Filter>源文件\divanetwork\gnet</Filter>
+    </ClInclude>
+    <ClInclude Include="divanetwork\gnet\netManager.h">
+      <Filter>源文件\divanetwork\gnet</Filter>
+    </ClInclude>
+    <ClInclude Include="divanetwork\DivaNetworkManager.h">
+      <Filter>源文件\divanetwork</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2111,9 +2114,6 @@
     <ClCompile Include="divacore\Component\DivaSimpleUIPainter.cpp">
       <Filter>源文件\divacore\component</Filter>
     </ClCompile>
-    <ClCompile Include="divacore\Component\DivaSocketNetworkSystem.cpp">
-      <Filter>源文件\divacore\component</Filter>
-    </ClCompile>
     <ClCompile Include="divacore\Component\DivaStandardCoreFlow.cpp">
       <Filter>源文件\divacore\component</Filter>
     </ClCompile>
@@ -2180,15 +2180,6 @@
     <ClCompile Include="..\Hoshizor\Plugins\SoraHGERenderer\hge\hgesystem.cpp">
       <Filter>Plugins\hge</Filter>
     </ClCompile>
-    <ClCompile Include="divacore\Network\gnet\gnet.cpp">
-      <Filter>源文件\divacore\network\gnet</Filter>
-    </ClCompile>
-    <ClCompile Include="divacore\Network\gnet\connection.cpp">
-      <Filter>源文件\divacore\network\gnet</Filter>
-    </ClCompile>
-    <ClCompile Include="divacore\Network\gnet\netManager.cpp">
-      <Filter>源文件\divacore\network\gnet</Filter>
-    </ClCompile>
     <ClCompile Include="divacore\Mode\DivaMultiPlay.cpp">
       <Filter>源文件\divacore\mode</Filter>
     </ClCompile>
@@ -2201,6 +2192,18 @@
     <ClCompile Include="divasongmgr\DivaMapManager.cpp">
       <Filter>源文件\divasongmgr</Filter>
     </ClCompile>
+    <ClCompile Include="Lib\wjson\wjson_reader.cpp">
+      <Filter>源文件\lib\wjson</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\wjson\wjson_value.cpp">
+      <Filter>源文件\lib\wjson</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\wjson\wjson_writer.cpp">
+      <Filter>源文件\lib\wjson</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\Base\Io\Stream.cpp">
+      <Filter>源文件\lib\base</Filter>
+    </ClCompile>
     <ClCompile Include="Lib\Base\Logger.cpp">
       <Filter>源文件\lib\base</Filter>
     </ClCompile>
@@ -2210,17 +2213,14 @@
     <ClCompile Include="Lib\Base\Timer.cpp">
       <Filter>源文件\lib\base</Filter>
     </ClCompile>
-    <ClCompile Include="Lib\Base\Io\Stream.cpp">
-      <Filter>源文件\lib\base</Filter>
+    <ClCompile Include="divanetwork\gnet\connection.cpp">
+      <Filter>源文件\divanetwork\gnet</Filter>
     </ClCompile>
-    <ClCompile Include="Lib\wjson\wjson_reader.cpp">
-      <Filter>源文件\lib\wjson</Filter>
+    <ClCompile Include="divanetwork\gnet\gnet.cpp">
+      <Filter>源文件\divanetwork\gnet</Filter>
     </ClCompile>
-    <ClCompile Include="Lib\wjson\wjson_value.cpp">
-      <Filter>源文件\lib\wjson</Filter>
-    </ClCompile>
-    <ClCompile Include="Lib\wjson\wjson_writer.cpp">
-      <Filter>源文件\lib\wjson</Filter>
+    <ClCompile Include="divanetwork\gnet\netManager.cpp">
+      <Filter>源文件\divanetwork\gnet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

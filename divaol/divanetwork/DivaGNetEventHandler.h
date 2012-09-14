@@ -1,37 +1,40 @@
 /*
- *  DivaNetEvent.h
+ *  DivaGNetEventHandler.h
  *
- *  Created by Hyf042 on 3/4/12.
- *  Copyright 2012 Hyf042. All rights reserved.
+ *  Created by tempbuffer on 8/9/12.
+ *  Copyright 2012 tempbuffer. All rights reserved.
  *
  */
 
-#ifndef DIVA_NET_EVENT
-#define DIVA_NET_EVENT
+#ifndef DIVA_GNET_EVENT
+#define DIVA_GNET_EVENT
 
-#include "DivaNetPacket.h"
+#include "gnet/gnet.h"
 
-namespace divacore
+namespace divanet
 {
-	using namespace sora;
+	typedef gnet::Item<gnet::Tuple> GPacket;
+
 	/*
      *	Event Func, support class member func or global func
 	 */
-	namespace network
+	namespace gnetwork
 	{
+		using namespace gnet;
+
 		class EventFuncImpl
 		{
 		public:
-			virtual void operator()(Packet&) = 0;
+			virtual void operator()(GPacket*) = 0;
 		};
 		template<typename T>
 		class MemberEventFuncImpl : public EventFuncImpl
 		{
 		public:
-			typedef void (T::*MemberFunc)(Packet& arg);
+			typedef void (T::*MemberFunc)(GPacket* arg);
 			MemberEventFuncImpl(MemberFunc func, T* obj):func(func),obj(obj) {}
 
-			void operator()(Packet& arg) {
+			void operator()(GPacket* arg) {
 				(obj->*func)(arg);
 			}
 		private:
@@ -41,10 +44,10 @@ namespace divacore
 		class CEventFuncImpl : public EventFuncImpl
 		{
 		public:
-			typedef void (*CEventFunc)(Packet& arg);
+			typedef void (*CEventFunc)(GPacket* arg);
 			CEventFuncImpl(CEventFunc func): func(func) {}
 
-			void operator()(Packet& arg) {
+			void operator()(GPacket* arg) {
 				if(func)
 					func(arg);
 			}
@@ -58,29 +61,29 @@ namespace divacore
 		public:
 			EventFunc(): func(NULL) {}
 			template<typename T>
-			EventFunc(void (T::*memberFunc)(Packet& arg),T* obj) {setAsMemberFunc(memberFunc,obj);}
-			EventFunc(void (*cFunc)(Packet& arg)) {setAsCFunc(cFunc);}
+			EventFunc(void (T::*memberFunc)(GPacket* arg),T* obj) {setAsMemberFunc(memberFunc,obj);}
+			EventFunc(void (*cFunc)(GPacket* arg)) {setAsCFunc(cFunc);}
 
 			template<typename T>
-			void setAsMemberFunc(void (T::*memberFunc)(Packet& arg),T* obj)
+			void setAsMemberFunc(void (T::*memberFunc)(GPacket* arg),T* obj)
 			{
 				func = new MemberEventFuncImpl<T>(memberFunc, obj);
 				if(!func)
 					DIVA_EXCEPTION_MODULE( "Error creating event member func","DivaEvent");
 			}
-			void setAsCFunc(void (*cFunc)(Packet& arg))
+			void setAsCFunc(void (*cFunc)(GPacket* arg))
 			{
 				func = new CEventFuncImpl(cFunc);
 				if(!func)
 					DIVA_EXCEPTION_MODULE( "Error creating event c func","DivaEvent");
 			}
 
-			void run(Packet& arg)
+			void run(GPacket* arg)
 			{
 				if(isValid())
 					(*func)(arg);
 			}
-			void operator()(Packet& arg) {run(arg);}
+			void operator()(GPacket* arg) {run(arg);}
 
 			bool isValid() {return func!=0;}
 		};
@@ -89,24 +92,24 @@ namespace divacore
 		/*
 		* EventHandler, a interface to derive a event handle class
 		*/
-		class NetEventHandler
+		class GNetEventHandler
 		{
-			typedef std::map<uint32,EventFuncPtr> NET_EVENT_MAP;
+			typedef std::map<std::string,EventFuncPtr> NET_EVENT_MAP;
 			NET_EVENT_MAP netEventMap;
 		public:
-			NetEventHandler() {}
-			~NetEventHandler() {clearEventMap();}
+			GNetEventHandler() {}
+			~GNetEventHandler() {clearEventMap();}
 
-			inline bool isExisted(uint32 id) {return netEventMap.find(id)!=netEventMap.end();}
+			inline bool isExisted(const std::string &id) {return netEventMap.find(id)!=netEventMap.end();}
 
-			void receive(uint32 id, EventFuncPtr eventFunc)
+			void receive(const std::string &id, EventFuncPtr eventFunc)
 			{
 				if(!isExisted(id))
 					netEventMap[id] = eventFunc;
 				else
-					DIVA_EXCEPTION_MODULE("Event "+iToS(id)+" is existed!","EventManager");
+					DIVA_EXCEPTION_MODULE("Event "+id+" is existed!","EventManager");
 			}
-			void unreceive(uint32 id)
+			void unreceive(const std::string &id)
 			{
 				if(isExisted(id))
 				{
@@ -120,15 +123,15 @@ namespace divacore
 					SAFE_DELETE(ptr->second);
 				netEventMap.clear();
 			}
-			void dispatch(uint32 id, Packet &packet) 
+			void dispatch(const std::string &id,  GPacket *packet) 
 			{
 				if(isExisted(id))
 					(*netEventMap[id])(packet);
 			}
 		};
 	}
-	#define RECEIVE_PACKET(id,func) (NETWORK_SYSTEM_PTR->receive(id,new network::EventFunc((func),this)))
-	#define UNRECEIVE_PACKET(id) (NETWORK_SYSTEM_PTR->unreceive(id))
+	#define GNET_RECEIVE_PACKET(id,func) (NETWORK_SYSTEM_PTR->receive(id,new gnetwork::EventFunc((func),this)))
+	#define GNET_UNRECEIVE_PACKET(id) (NETWORK_SYSTEM_PTR->unreceive(id))
 }
 
 #endif

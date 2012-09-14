@@ -32,7 +32,7 @@ namespace Base
 
 			return true;
 		}
-		static binary readRawData(const String& filepath, size_t &size)
+		static void* readRawData(const String& filepath, size_t &size)
 		{
 			FileStream file;
 			if(!file.open(filepath))
@@ -40,9 +40,8 @@ namespace Base
 			size = file.size();
 			file.seek(0,Seek_begin);
 
-			binary data = reinterpret_cast<binary>(base_malloc(sizeof(byte)*(size)));
+			binary data = reinterpret_cast<binary>(base_malloc(sizeof(byte)*size));
 			file.read(data,size);
-
 			return data;
 		}
 	};
