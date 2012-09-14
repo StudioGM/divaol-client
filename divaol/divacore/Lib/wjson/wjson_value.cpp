@@ -1,51 +1,50 @@
-
-#include "common.h"
 #include <iostream>
-#include "value.h"
-#include "writer.h"
+#include "wvalue.h"
+#include "wwriter.h"
 #include <utility>
 #include <stdexcept>
-#include "assert.h"
-#ifdef JSON_USE_CPPTL
+#include <cstring>
+#include <cassert>
+#ifdef WJSON_USE_CPPTL
 # include <cpptl/conststring.h>
 #endif
-#include <stddef.h>    // size_t
-#ifndef JSON_USE_SIMPLE_INTERNAL_ALLOCATOR
-# include "json_batchallocator.h"
-#endif // #ifndef JSON_USE_SIMPLE_INTERNAL_ALLOCATOR
+#include <cstddef>    // size_t
+#ifndef WJSON_USE_SIMPLE_INTERNAL_ALLOCATOR
+# include "wjson_batchallocator.h"
+#endif // #ifndef WJSON_USE_SIMPLE_INTERNAL_ALLOCATOR
 
-#define JSON_ASSERT_UNREACHABLE assert( false )
-#define JSON_ASSERT( condition ) assert( condition );  // @todo <= change this into an exception throw
-#define JSON_ASSERT_MESSAGE( condition, message ) if (!( condition )) throw std::runtime_error( message );
+#define WJSON_ASSERT_UNREACHABLE assert( false )
+#define WJSON_ASSERT( condition ) assert( condition );  // @todo <= change this into an exception throw
+#define WJSON_ASSERT_MESSAGE( condition, message ) if (!( condition )) throw std::runtime_error( message );
 
 namespace WJson {
 
 const Value Value::null;
-const Value::Int Value::minInt = Value::Int( ~(Value::UInt(-1)/2) );
-const Value::Int Value::maxInt = Value::Int( Value::UInt(-1)/2 );
-const Value::UInt Value::maxUInt = Value::UInt(-1);
+const Int Value::minInt = Int( ~(UInt(-1)/2) );
+const Int Value::maxInt = Int( UInt(-1)/2 );
+const UInt Value::maxUInt = UInt(-1);
 
 // A "safe" implementation of strdup. Allow null pointer to be passed. 
 // Also avoid warning on msvc80.
 //
-//inline TCHAR *safeStringDup( const TCHAR *czstring )
+//inline wchar_t *safeStringDup( const wchar_t *czstring )
 //{
 //   if ( czstring )
 //   {
-//      const size_t length = (unsigned int)( strlen(czstring) + 1 );
-//      TCHAR *newString = static_cast<TCHAR *>( malloc( length ) );
+//      const size_t length = (unsigned int)( wcslen(czstring) + 1 );
+//      wchar_t *newString = static_cast<wchar_t *>( malloc( length ) );
 //      memcpy( newString, czstring, length );
 //      return newString;
 //   }
 //   return 0;
 //}
 //
-//inline TCHAR *safeStringDup( const tstring &str )
+//inline wchar_t *safeStringDup( const std::wstring &str )
 //{
 //   if ( !str.empty() )
 //   {
 //      const size_t length = str.length();
-//      TCHAR *newString = static_cast<TCHAR *>( malloc( length + 1 ) );
+//      wchar_t *newString = static_cast<wchar_t *>( malloc( length + 1 ) );
 //      memcpy( newString, str.c_str(), length );
 //      newString[length] = 0;
 //      return newString;
@@ -64,37 +63,38 @@ public:
    {
    }
 
-   virtual TCHAR *makeMemberName( const TCHAR *memberName )
+   virtual wchar_t *makeMemberName( const wchar_t *memberName )
    {
       return duplicateStringValue( memberName );
    }
 
-   virtual void releaseMemberName( TCHAR *memberName )
+   virtual void releaseMemberName( wchar_t *memberName )
    {
       releaseStringValue( memberName );
    }
 
-   virtual TCHAR *duplicateStringValue( const TCHAR *value, 
+   virtual wchar_t *duplicateStringValue( const wchar_t *value, 
                                        unsigned int length = unknown )
    {
       //@todo invesgate this old optimization
       //if ( !value  ||  value[0] == 0 )
       //   return 0;
 
-      if ( length == unknown )	  
-         length = (unsigned int)_tcslen(value);  	  
+      if ( length == unknown )
+         length = (unsigned int)wcslen(value);
+      wchar_t *newString = static_cast<wchar_t *>( malloc( (length + 1) * sizeof(wchar_t) ) );
 
-      TCHAR *newString = new TCHAR[length+1];
-	  _tcscpy(newString,value);
-      //memcpy( newString, value, length );
-      //newString[length] = 0;
+	  wcscpy(newString, value);
+      //memcpy(newString, value, length );
+
+      newString[length] = 0;
       return newString;
    }
 
-   virtual void releaseStringValue( TCHAR *value )
+   virtual void releaseStringValue( wchar_t *value )
    {
       if ( value )
-         delete( value );
+         free( value );
    }
 };
 
@@ -121,12 +121,12 @@ static struct DummyValueAllocatorInitializer {
 // //////////////////////////////////////////////////////////////////
 // //////////////////////////////////////////////////////////////////
 // //////////////////////////////////////////////////////////////////
-#ifdef JSON_VALUE_USE_INTERNAL_MAP
+#ifdef WJSON_VALUE_USE_INTERNAL_MAP
 # include "json_internalarray.inl"
 # include "json_internalmap.inl"
-#endif // JSON_VALUE_USE_INTERNAL_MAP
+#endif // WJSON_VALUE_USE_INTERNAL_MAP
 
-# include "json_valueiterator.inl"
+# include "wjson_valueiterator.inl"
 
 
 // //////////////////////////////////////////////////////////////////
@@ -151,12 +151,12 @@ Value::CommentInfo::~CommentInfo()
 
 
 void 
-Value::CommentInfo::setComment( const TCHAR *text )
+Value::CommentInfo::setComment( const wchar_t *text )
 {
    if ( comment_ )
       valueAllocator()->releaseStringValue( comment_ );
-   JSON_ASSERT( text );
-   JSON_ASSERT_MESSAGE( text[0]=='\0' || text[0]=='/', "Comments must start with /");
+   WJSON_ASSERT( text );
+   WJSON_ASSERT_MESSAGE( text[0]=='\0' || text[0]=='/', "Comments must start with /");
    // It seems that /**/ style comments are acceptable as well.
    comment_ = valueAllocator()->duplicateStringValue( text );
 }
@@ -169,7 +169,7 @@ Value::CommentInfo::setComment( const TCHAR *text )
 // //////////////////////////////////////////////////////////////////
 // //////////////////////////////////////////////////////////////////
 // //////////////////////////////////////////////////////////////////
-# ifndef JSON_VALUE_USE_INTERNAL_MAP
+# ifndef WJSON_VALUE_USE_INTERNAL_MAP
 
 // Notes: index_ indicates if the string was allocated when
 // a string is stored.
@@ -180,7 +180,7 @@ Value::CZString::CZString( int index )
 {
 }
 
-Value::CZString::CZString( const TCHAR *cstr, DuplicationPolicy allocate )
+Value::CZString::CZString( const wchar_t *cstr, DuplicationPolicy allocate )
    : cstr_( allocate == duplicate ? valueAllocator()->makeMemberName(cstr) 
                                   : cstr )
    , index_( allocate )
@@ -199,7 +199,7 @@ Value::CZString::CZString( const CZString &other )
 Value::CZString::~CZString()
 {
    if ( cstr_  &&  index_ == duplicate )
-      valueAllocator()->releaseMemberName( const_cast<TCHAR *>( cstr_ ) );
+      valueAllocator()->releaseMemberName( const_cast<wchar_t *>( cstr_ ) );
 }
 
 void 
@@ -209,7 +209,8 @@ Value::CZString::swap( CZString &other )
    std::swap( index_, other.index_ );
 }
 
-Value::CZString&  Value::CZString::operator =( const CZString &other )
+Value::CZString &
+Value::CZString::operator =( const CZString &other )
 {
    CZString temp( other );
    swap( temp );
@@ -220,7 +221,7 @@ bool
 Value::CZString::operator<( const CZString &other ) const 
 {
    if ( cstr_ )
-      return _tcscmp( cstr_, other.cstr_ ) < 0;
+      return wcscmp( cstr_, other.cstr_ ) < 0;
    return index_ < other.index_;
 }
 
@@ -228,7 +229,7 @@ bool
 Value::CZString::operator==( const CZString &other ) const 
 {
    if ( cstr_ )
-      return _tcscmp( cstr_, other.cstr_ ) == 0;
+      return wcscmp( cstr_, other.cstr_ ) == 0;
    return index_ == other.index_;
 }
 
@@ -240,7 +241,7 @@ Value::CZString::index() const
 }
 
 
-const TCHAR *
+const wchar_t *
 Value::CZString::c_str() const
 {
    return cstr_;
@@ -252,7 +253,7 @@ Value::CZString::isStaticString() const
    return index_ == noDuplication;
 }
 
-#endif // ifndef JSON_VALUE_USE_INTERNAL_MAP
+#endif // ifndef WJSON_VALUE_USE_INTERNAL_MAP
 
 
 // //////////////////////////////////////////////////////////////////
@@ -271,7 +272,7 @@ Value::Value( ValueType type )
    : type_( type )
    , allocated_( 0 )
    , comments_( 0 )
-# ifdef JSON_VALUE_USE_INTERNAL_MAP
+# ifdef WJSON_VALUE_USE_INTERNAL_MAP
    , itemIsUsed_( 0 )
 #endif
 {
@@ -287,9 +288,9 @@ Value::Value( ValueType type )
       value_.real_ = 0.0;
       break;
    case stringValue:
-      value_.string_ = NULL;
+      value_.string_ = 0;
       break;
-#ifndef JSON_VALUE_USE_INTERNAL_MAP
+#ifndef WJSON_VALUE_USE_INTERNAL_MAP
    case arrayValue:
    case objectValue:
       value_.map_ = new ObjectValues();
@@ -306,7 +307,7 @@ Value::Value( ValueType type )
       value_.bool_ = false;
       break;
    default:
-      JSON_ASSERT_UNREACHABLE;
+      WJSON_ASSERT_UNREACHABLE;
    }
 }
 
@@ -314,7 +315,7 @@ Value::Value( ValueType type )
 Value::Value( Int value )
    : type_( intValue )
    , comments_( 0 )
-# ifdef JSON_VALUE_USE_INTERNAL_MAP
+# ifdef WJSON_VALUE_USE_INTERNAL_MAP
    , itemIsUsed_( 0 )
 #endif
 {
@@ -325,7 +326,7 @@ Value::Value( Int value )
 Value::Value( UInt value )
    : type_( uintValue )
    , comments_( 0 )
-# ifdef JSON_VALUE_USE_INTERNAL_MAP
+# ifdef WJSON_VALUE_USE_INTERNAL_MAP
    , itemIsUsed_( 0 )
 #endif
 {
@@ -335,29 +336,44 @@ Value::Value( UInt value )
 Value::Value( double value )
    : type_( realValue )
    , comments_( 0 )
-# ifdef JSON_VALUE_USE_INTERNAL_MAP
+# ifdef WJSON_VALUE_USE_INTERNAL_MAP
    , itemIsUsed_( 0 )
 #endif
 {
    value_.real_ = value;
 }
 
-Value::Value( const TCHAR *value )
+Value::Value( const wchar_t *value )
    : type_( stringValue )
    , allocated_( true )
    , comments_( 0 )
-# ifdef JSON_VALUE_USE_INTERNAL_MAP
+# ifdef WJSON_VALUE_USE_INTERNAL_MAP
    , itemIsUsed_( 0 )
 #endif
 {
    value_.string_ = valueAllocator()->duplicateStringValue( value );
 }
 
-Value::Value( const tstring &value )
+
+Value::Value( const wchar_t *beginValue, 
+              const wchar_t *endValue )
    : type_( stringValue )
    , allocated_( true )
    , comments_( 0 )
-# ifdef JSON_VALUE_USE_INTERNAL_MAP
+# ifdef WJSON_VALUE_USE_INTERNAL_MAP
+   , itemIsUsed_( 0 )
+#endif
+{
+   value_.string_ = valueAllocator()->duplicateStringValue( beginValue, 
+                                                            UInt(endValue - beginValue) );
+}
+
+
+Value::Value( const std::wstring &value )
+   : type_( stringValue )
+   , allocated_( true )
+   , comments_( 0 )
+# ifdef WJSON_VALUE_USE_INTERNAL_MAP
    , itemIsUsed_( 0 )
 #endif
 {
@@ -370,20 +386,20 @@ Value::Value( const StaticString &value )
    : type_( stringValue )
    , allocated_( false )
    , comments_( 0 )
-# ifdef JSON_VALUE_USE_INTERNAL_MAP
+# ifdef WJSON_VALUE_USE_INTERNAL_MAP
    , itemIsUsed_( 0 )
 #endif
 {
-   value_.string_ = const_cast<TCHAR *>( value.c_str() );
+   value_.string_ = const_cast<wchar_t *>( value.c_str() );
 }
 
 
-# ifdef JSON_USE_CPPTL
+# ifdef WJSON_USE_CPPTL
 Value::Value( const CppTL::ConstString &value )
    : type_( stringValue )
    , allocated_( true )
    , comments_( 0 )
-# ifdef JSON_VALUE_USE_INTERNAL_MAP
+# ifdef WJSON_VALUE_USE_INTERNAL_MAP
    , itemIsUsed_( 0 )
 #endif
 {
@@ -394,7 +410,7 @@ Value::Value( const CppTL::ConstString &value )
 Value::Value( bool value )
    : type_( booleanValue )
    , comments_( 0 )
-# ifdef JSON_VALUE_USE_INTERNAL_MAP
+# ifdef WJSON_VALUE_USE_INTERNAL_MAP
    , itemIsUsed_( 0 )
 #endif
 {
@@ -405,7 +421,7 @@ Value::Value( bool value )
 Value::Value( const Value &other )
    : type_( other.type_ )
    , comments_( 0 )
-# ifdef JSON_VALUE_USE_INTERNAL_MAP
+# ifdef WJSON_VALUE_USE_INTERNAL_MAP
    , itemIsUsed_( 0 )
 #endif
 {
@@ -427,7 +443,7 @@ Value::Value( const Value &other )
       else
          value_.string_ = 0;
       break;
-#ifndef JSON_VALUE_USE_INTERNAL_MAP
+#ifndef WJSON_VALUE_USE_INTERNAL_MAP
    case arrayValue:
    case objectValue:
       value_.map_ = new ObjectValues( *other.value_.map_ );
@@ -441,7 +457,7 @@ Value::Value( const Value &other )
       break;
 #endif
    default:
-      JSON_ASSERT_UNREACHABLE;
+      WJSON_ASSERT_UNREACHABLE;
    }
    if ( other.comments_ )
    {
@@ -470,7 +486,7 @@ Value::~Value()
       if ( allocated_ )
          valueAllocator()->releaseStringValue( value_.string_ );
       break;
-#ifndef JSON_VALUE_USE_INTERNAL_MAP
+#ifndef WJSON_VALUE_USE_INTERNAL_MAP
    case arrayValue:
    case objectValue:
       delete value_.map_;
@@ -484,7 +500,7 @@ Value::~Value()
       break;
 #endif
    default:
-      JSON_ASSERT_UNREACHABLE;
+      WJSON_ASSERT_UNREACHABLE;
    }
 
    if ( comments_ )
@@ -542,7 +558,7 @@ Value::compare( const Value &other )
    case objectValue:
       delete value_.map_;
    default:
-      JSON_ASSERT_UNREACHABLE;
+      WJSON_ASSERT_UNREACHABLE;
    }
    */
    return 0;  // unreachable
@@ -570,8 +586,8 @@ Value::operator <( const Value &other ) const
       return ( value_.string_ == 0  &&  other.value_.string_ )
              || ( other.value_.string_  
                   &&  value_.string_  
-                  && _tcscmp( value_.string_, other.value_.string_ ) < 0 );
-#ifndef JSON_VALUE_USE_INTERNAL_MAP
+                  && wcscmp( value_.string_, other.value_.string_ ) < 0 );
+#ifndef WJSON_VALUE_USE_INTERNAL_MAP
    case arrayValue:
    case objectValue:
       {
@@ -587,7 +603,7 @@ Value::operator <( const Value &other ) const
       return value_.map_->compare( *(other.value_.map_) ) < 0;
 #endif
    default:
-      JSON_ASSERT_UNREACHABLE;
+      WJSON_ASSERT_UNREACHABLE;
    }
    return 0;  // unreachable
 }
@@ -636,8 +652,8 @@ Value::operator ==( const Value &other ) const
       return ( value_.string_ == other.value_.string_ )
              || ( other.value_.string_  
                   &&  value_.string_  
-                  && _tcscmp( value_.string_, other.value_.string_ ) == 0 );
-#ifndef JSON_VALUE_USE_INTERNAL_MAP
+                  && wcscmp( value_.string_, other.value_.string_ ) == 0 );
+#ifndef WJSON_VALUE_USE_INTERNAL_MAP
    case arrayValue:
    case objectValue:
       return value_.map_->size() == other.value_.map_->size()
@@ -649,7 +665,7 @@ Value::operator ==( const Value &other ) const
       return value_.map_->compare( *(other.value_.map_) ) == 0;
 #endif
    default:
-      JSON_ASSERT_UNREACHABLE;
+      WJSON_ASSERT_UNREACHABLE;
    }
    return 0;  // unreachable
 }
@@ -660,38 +676,38 @@ Value::operator !=( const Value &other ) const
    return !( *this == other );
 }
 
-const TCHAR *
+const wchar_t *
 Value::asCString() const
 {
-   JSON_ASSERT( type_ == stringValue );
+   WJSON_ASSERT( type_ == stringValue );
    return value_.string_;
 }
 
 
-tstring 
+std::wstring 
 Value::asString() const
 {
    switch ( type_ )
    {
    case nullValue:
-      return _T("");
+      return L"";
    case stringValue:
-      return value_.string_ ? value_.string_ : _T("");
+      return value_.string_ ? value_.string_ : L"";
    case booleanValue:
-      return value_.bool_ ? _T("true") : _T("false");
+      return value_.bool_ ? L"true" : L"false";
    case intValue:
    case uintValue:
    case realValue:
    case arrayValue:
    case objectValue:
-//      JSON_ASSERT_MESSAGE( false, _T("Type is not convertible to string") );
+      WJSON_ASSERT_MESSAGE( false, "Type is not convertible to string" );
    default:
-      JSON_ASSERT_UNREACHABLE;
+      WJSON_ASSERT_UNREACHABLE;
    }
-   return _T(""); // unreachable
+   return L""; // unreachable
 }
 
-# ifdef JSON_USE_CPPTL
+# ifdef WJSON_USE_CPPTL
 CppTL::ConstString 
 Value::asConstString() const
 {
@@ -709,19 +725,19 @@ Value::asInt() const
    case intValue:
       return value_.int_;
    case uintValue:
-//      JSON_ASSERT_MESSAGE( value_.uint_ < (unsigned)maxInt, _T("integer out of signed integer range") );
+      WJSON_ASSERT_MESSAGE( value_.uint_ < (unsigned)maxInt, "integer out of signed integer range" );
       return value_.uint_;
    case realValue:
-     // JSON_ASSERT_MESSAGE( value_.real_ >= minInt  &&  value_.real_ <= maxInt, _T("Real out of signed integer range") );
+      WJSON_ASSERT_MESSAGE( value_.real_ >= minInt  &&  value_.real_ <= maxInt, "Real out of signed integer range" );
       return Int( value_.real_ );
    case booleanValue:
       return value_.bool_ ? 1 : 0;
    case stringValue:
    case arrayValue:
    case objectValue:
-//      JSON_ASSERT_MESSAGE( false, _T("Type is not convertible to int") );
+      WJSON_ASSERT_MESSAGE( false, "Type is not convertible to int" );
    default:
-      JSON_ASSERT_UNREACHABLE;
+      WJSON_ASSERT_UNREACHABLE;
    }
    return 0; // unreachable;
 }
@@ -734,21 +750,21 @@ Value::asUInt() const
    case nullValue:
       return 0;
    case intValue:
-//      JSON_ASSERT_MESSAGE( value_.int_ >= 0, _T("Negative integer can not be converted to unsigned integer") );
+      WJSON_ASSERT_MESSAGE( value_.int_ >= 0, "Negative integer can not be converted to unsigned integer" );
       return value_.int_;
    case uintValue:
       return value_.uint_;
    case realValue:
-     // JSON_ASSERT_MESSAGE( value_.real_ >= 0  &&  value_.real_ <= maxUInt,  _T("Real out of unsigned integer range") );
+      WJSON_ASSERT_MESSAGE( value_.real_ >= 0  &&  value_.real_ <= maxUInt,  "Real out of unsigned integer range" );
       return UInt( value_.real_ );
    case booleanValue:
       return value_.bool_ ? 1 : 0;
    case stringValue:
    case arrayValue:
    case objectValue:
-//      JSON_ASSERT_MESSAGE( false, _T("Type is not convertible to uint") );
+      WJSON_ASSERT_MESSAGE( false, "Type is not convertible to uint" );
    default:
-      JSON_ASSERT_UNREACHABLE;
+      WJSON_ASSERT_UNREACHABLE;
    }
    return 0; // unreachable;
 }
@@ -771,9 +787,9 @@ Value::asDouble() const
    case stringValue:
    case arrayValue:
    case objectValue:
-//      JSON_ASSERT_MESSAGE( false, _T("Type is not convertible to double") );
+      WJSON_ASSERT_MESSAGE( false, "Type is not convertible to double" );
    default:
-      JSON_ASSERT_UNREACHABLE;
+      WJSON_ASSERT_UNREACHABLE;
    }
    return 0; // unreachable;
 }
@@ -798,7 +814,7 @@ Value::asBool() const
    case objectValue:
       return value_.map_->size() != 0;
    default:
-      JSON_ASSERT_UNREACHABLE;
+      WJSON_ASSERT_UNREACHABLE;
    }
    return false; // unreachable;
 }
@@ -849,7 +865,7 @@ Value::isConvertibleTo( ValueType other ) const
       return other == objectValue
              ||  ( other == nullValue  &&  value_.map_->size() == 0 );
    default:
-      JSON_ASSERT_UNREACHABLE;
+      WJSON_ASSERT_UNREACHABLE;
    }
    return false; // unreachable;
 }
@@ -868,7 +884,7 @@ Value::size() const
    case booleanValue:
    case stringValue:
       return 0;
-#ifndef JSON_VALUE_USE_INTERNAL_MAP
+#ifndef WJSON_VALUE_USE_INTERNAL_MAP
    case arrayValue:  // size of the array is highest index + 1
       if ( !value_.map_->empty() )
       {
@@ -886,7 +902,7 @@ Value::size() const
       return Int( value_.map_->size() );
 #endif
    default:
-      JSON_ASSERT_UNREACHABLE;
+      WJSON_ASSERT_UNREACHABLE;
    }
    return 0; // unreachable;
 }
@@ -912,11 +928,11 @@ Value::operator!() const
 void 
 Value::clear()
 {
-   JSON_ASSERT( type_ == nullValue  ||  type_ == arrayValue  || type_ == objectValue );
+   WJSON_ASSERT( type_ == nullValue  ||  type_ == arrayValue  || type_ == objectValue );
 
    switch ( type_ )
    {
-#ifndef JSON_VALUE_USE_INTERNAL_MAP
+#ifndef WJSON_VALUE_USE_INTERNAL_MAP
    case arrayValue:
    case objectValue:
       value_.map_->clear();
@@ -937,10 +953,10 @@ Value::clear()
 void 
 Value::resize( UInt newSize )
 {
-   JSON_ASSERT( type_ == nullValue  ||  type_ == arrayValue );
+   WJSON_ASSERT( type_ == nullValue  ||  type_ == arrayValue );
    if ( type_ == nullValue )
       *this = Value( arrayValue );
-#ifndef JSON_VALUE_USE_INTERNAL_MAP
+#ifndef WJSON_VALUE_USE_INTERNAL_MAP
    UInt oldSize = size();
    if ( newSize == 0 )
       clear();
@@ -961,58 +977,71 @@ Value::resize( UInt newSize )
 Value &
 Value::operator[]( UInt index )
 {
-   JSON_ASSERT( type_ == nullValue  ||  type_ == arrayValue );
+   WJSON_ASSERT( type_ == nullValue  ||  type_ == arrayValue );
    if ( type_ == nullValue )
       *this = Value( arrayValue );
-#ifndef JSON_VALUE_USE_INTERNAL_MAP
+#ifndef WJSON_VALUE_USE_INTERNAL_MAP
    CZString key( index );
    ObjectValues::iterator it = value_.map_->lower_bound( key );
-   if ( it != value_.map_->end()  &&  (*it).first == key )
-      return (*it).second;
+    if ( it != value_.map_->end()  &&  (*it).first == key ) {
+        Value& val = const_cast<Value&>(it->second);
+        val.parent_ = this;
+        return val;
+    }
 
    ObjectValues::value_type defaultValue( key, null );
    it = value_.map_->insert( it, defaultValue );
+    it->second.parent_ = this;
    return (*it).second;
 #else
    return value_.array_->resolveReference( index );
 #endif
 }
 
+    const Value* Value::parent() const {
+        if(parent_)
+            return parent_;
+        return &null;
+    }
 
 const Value &
 Value::operator[]( UInt index ) const
 {
-   JSON_ASSERT( type_ == nullValue  ||  type_ == arrayValue );
+   WJSON_ASSERT( type_ == nullValue  ||  type_ == arrayValue );
    if ( type_ == nullValue )
       return null;
-#ifndef JSON_VALUE_USE_INTERNAL_MAP
+#ifndef WJSON_VALUE_USE_INTERNAL_MAP
    CZString key( index );
    ObjectValues::const_iterator it = value_.map_->find( key );
    if ( it == value_.map_->end() )
       return null;
-   return (*it).second;
+    Value& val = const_cast<Value&>(it->second);
+    val.parent_ = this;
+    return val;
 #else
    Value *value = value_.array_->find( index );
+    if(value)
+        value->parent_ = this;
    return value ? *value : null;
 #endif
 }
 
 
 Value &
-Value::operator[]( const TCHAR *key )
+Value::operator[]( const wchar_t *key )
 {
    return resolveReference( key, false );
 }
 
 
 Value &
-Value::resolveReference( const TCHAR *key, 
+Value::resolveReference( const wchar_t *key, 
                          bool isStatic )
 {
-   JSON_ASSERT( type_ == nullValue  ||  type_ == objectValue );
+   WJSON_ASSERT( type_ == nullValue  ||  type_ == objectValue );
    if ( type_ == nullValue )
       *this = Value( objectValue );
-#ifndef JSON_VALUE_USE_INTERNAL_MAP
+#ifndef WJSON_VALUE_USE_INTERNAL_MAP
    CZString actualKey( key, isStatic ? CZString::noDuplication 
                                      : CZString::duplicateOnCopy );
    ObjectValues::iterator it = value_.map_->lower_bound( actualKey );
@@ -1022,6 +1051,7 @@ Value::resolveReference( const TCHAR *key,
    ObjectValues::value_type defaultValue( actualKey, null );
    it = value_.map_->insert( it, defaultValue );
    Value &value = (*it).second;
+    value.parent_ = this;
    return value;
 #else
    return value_.map_->resolveReference( key, isStatic );
@@ -1033,7 +1063,9 @@ Value
 Value::get( UInt index, 
             const Value &defaultValue ) const
 {
-   const Value *value = &((*this)[index]);
+    Value *value = const_cast<Value*>(&((*this)[index]));
+    if(value)
+        value->parent_ = this;
    return value == &null ? defaultValue : *value;
 }
 
@@ -1047,32 +1079,37 @@ Value::isValidIndex( UInt index ) const
 
 
 const Value &
-Value::operator[]( const TCHAR *key ) const
+Value::operator[]( const wchar_t *key ) const
 {
-   JSON_ASSERT( type_ == nullValue  ||  type_ == objectValue );
+   WJSON_ASSERT( type_ == nullValue  ||  type_ == objectValue );
    if ( type_ == nullValue )
       return null;
-#ifndef JSON_VALUE_USE_INTERNAL_MAP
+#ifndef WJSON_VALUE_USE_INTERNAL_MAP
    CZString actualKey( key, CZString::noDuplication );
    ObjectValues::const_iterator it = value_.map_->find( actualKey );
    if ( it == value_.map_->end() )
       return null;
-   return (*it).second;
+    Value& val = const_cast<Value&>(it->second);
+    val.parent_ = this;
+    return val;
 #else
    const Value *value = value_.map_->find( key );
+    if(value)
+        value->parent_ = this;
    return value ? *value : null;
 #endif
 }
 
+
 Value &
-Value::operator[]( const tstring &key )
+Value::operator[]( const std::wstring &key )
 {
    return (*this)[ key.c_str() ];
 }
 
 
 const Value &
-Value::operator[]( const tstring &key ) const
+Value::operator[]( const std::wstring &key ) const
 {
    return (*this)[ key.c_str() ];
 }
@@ -1084,7 +1121,7 @@ Value::operator[]( const StaticString &key )
 }
 
 
-# ifdef JSON_USE_CPPTL
+# ifdef WJSON_USE_CPPTL
 Value &
 Value::operator[]( const CppTL::ConstString &key )
 {
@@ -1108,28 +1145,30 @@ Value::append( const Value &value )
 
 
 Value 
-Value::get( const TCHAR *key, 
+Value::get( const wchar_t *key, 
             const Value &defaultValue ) const
 {
-   const Value *value = &((*this)[key]);
+    Value *value = const_cast<Value*>(&((*this)[key]));
+    if(value)
+        value->parent_ = this;
    return value == &null ? defaultValue : *value;
 }
 
 
 Value 
-Value::get( const tstring &key,
+Value::get( const std::wstring &key,
             const Value &defaultValue ) const
 {
    return get( key.c_str(), defaultValue );
 }
 
 Value
-Value::removeMember( const TCHAR* key )
+Value::removeMember( const wchar_t* key )
 {
-   JSON_ASSERT( type_ == nullValue  ||  type_ == objectValue );
+   WJSON_ASSERT( type_ == nullValue  ||  type_ == objectValue );
    if ( type_ == nullValue )
       return null;
-#ifndef JSON_VALUE_USE_INTERNAL_MAP
+#ifndef WJSON_VALUE_USE_INTERNAL_MAP
    CZString actualKey( key, CZString::noDuplication );
    ObjectValues::iterator it = value_.map_->find( actualKey );
    if ( it == value_.map_->end() )
@@ -1150,12 +1189,12 @@ Value::removeMember( const TCHAR* key )
 }
 
 Value
-Value::removeMember( const tstring &key )
+Value::removeMember( const std::wstring &key )
 {
    return removeMember( key.c_str() );
 }
 
-# ifdef JSON_USE_CPPTL
+# ifdef WJSON_USE_CPPTL
 Value 
 Value::get( const CppTL::ConstString &key,
             const Value &defaultValue ) const
@@ -1165,7 +1204,7 @@ Value::get( const CppTL::ConstString &key,
 # endif
 
 bool 
-Value::isMember( const TCHAR *key ) const
+Value::isMember( const wchar_t *key ) const
 {
    const Value *value = &((*this)[key]);
    return value != &null;
@@ -1173,13 +1212,13 @@ Value::isMember( const TCHAR *key ) const
 
 
 bool 
-Value::isMember( const tstring &key ) const
+Value::isMember( const std::wstring &key ) const
 {
    return isMember( key.c_str() );
 }
 
 
-# ifdef JSON_USE_CPPTL
+# ifdef WJSON_USE_CPPTL
 bool 
 Value::isMember( const CppTL::ConstString &key ) const
 {
@@ -1190,28 +1229,28 @@ Value::isMember( const CppTL::ConstString &key ) const
 Value::Members 
 Value::getMemberNames() const
 {
-   JSON_ASSERT( type_ == nullValue  ||  type_ == objectValue );
+   WJSON_ASSERT( type_ == nullValue  ||  type_ == objectValue );
    if ( type_ == nullValue )
        return Value::Members();
    Members members;
    members.reserve( value_.map_->size() );
-#ifndef JSON_VALUE_USE_INTERNAL_MAP
+#ifndef WJSON_VALUE_USE_INTERNAL_MAP
    ObjectValues::const_iterator it = value_.map_->begin();
    ObjectValues::const_iterator itEnd = value_.map_->end();
    for ( ; it != itEnd; ++it )
-      members.push_back( tstring( (*it).first.c_str() ) );
+      members.push_back( std::wstring( (*it).first.c_str() ) );
 #else
    ValueInternalMap::IteratorState it;
    ValueInternalMap::IteratorState itEnd;
    value_.map_->makeBeginIterator( it );
    value_.map_->makeEndIterator( itEnd );
    for ( ; !ValueInternalMap::equals( it, itEnd ); ValueInternalMap::increment(it) )
-      members.push_back( tstring( ValueInternalMap::key( it ) ) );
+      members.push_back( std::wstring( ValueInternalMap::key( it ) ) );
 #endif
    return members;
 }
 //
-//# ifdef JSON_USE_CPPTL
+//# ifdef WJSON_USE_CPPTL
 //EnumMemberNames
 //Value::enumMemberNames() const
 //{
@@ -1310,7 +1349,7 @@ Value::isObject() const
 
 
 void 
-Value::setComment( const TCHAR *comment,
+Value::setComment( const wchar_t *comment,
                    CommentPlacement placement )
 {
    if ( !comments_ )
@@ -1320,7 +1359,7 @@ Value::setComment( const TCHAR *comment,
 
 
 void 
-Value::setComment( const tstring &comment,
+Value::setComment( const std::wstring &comment,
                    CommentPlacement placement )
 {
    setComment( comment.c_str(), placement );
@@ -1333,66 +1372,20 @@ Value::hasComment( CommentPlacement placement ) const
    return comments_ != 0  &&  comments_[placement].comment_ != 0;
 }
 
-tstring 
+std::wstring 
 Value::getComment( CommentPlacement placement ) const
 {
    if ( hasComment(placement) )
       return comments_[placement].comment_;
-   return _T("");
+   return L"";
 }
 
 
-tstring 
+std::wstring 
 Value::toStyledString() const
 {
    StyledWriter writer;
    return writer.write( *this );
-}
-
-// add by raoshangrong 2007/9/5
-tstring 
-Value::toFastString() const
-{
-	FastWriter writer;
-	return writer.write( *this );
-}
-
-// add by raoshangrong 2007/9/5
-void Value::getValue(Int& value ) const
-{
-	assert(type_ == intValue);
-	value = asInt();
-}
-void Value::getValue(unsigned short& value ) const
-{
-	assert(type_ == intValue);
-	value = asInt();
-}
-void Value::getValue(UInt& value ) const
-{
-	assert(type_ == uintValue);
-	value = asUInt();
-}
-void Value::getValue(double& value ) const
-{
-	assert(type_ == realValue);
-	value = asDouble();
-}
-//void Value::getValue(TCHAR *&value ) const
-//{
-//	assert(type_ == stringValue);
-//	assert(value == NULL);
-//	value = value_.string_; ///
-//}
-void Value::getValue(tstring &value ) const
-{
-	assert(type_ == stringValue);
-	value = asString();
-}
-void Value::getValue(bool& value) const
-{
-	assert(type_ == booleanValue);
-	value = asBool();
 }
 
 
@@ -1401,7 +1394,7 @@ Value::begin() const
 {
    switch ( type_ )
    {
-#ifdef JSON_VALUE_USE_INTERNAL_MAP
+#ifdef WJSON_VALUE_USE_INTERNAL_MAP
    case arrayValue:
       if ( value_.array_ )
       {
@@ -1436,7 +1429,7 @@ Value::end() const
 {
    switch ( type_ )
    {
-#ifdef JSON_VALUE_USE_INTERNAL_MAP
+#ifdef WJSON_VALUE_USE_INTERNAL_MAP
    case arrayValue:
       if ( value_.array_ )
       {
@@ -1472,7 +1465,7 @@ Value::begin()
 {
    switch ( type_ )
    {
-#ifdef JSON_VALUE_USE_INTERNAL_MAP
+#ifdef WJSON_VALUE_USE_INTERNAL_MAP
    case arrayValue:
       if ( value_.array_ )
       {
@@ -1507,7 +1500,7 @@ Value::end()
 {
    switch ( type_ )
    {
-#ifdef JSON_VALUE_USE_INTERNAL_MAP
+#ifdef WJSON_VALUE_USE_INTERNAL_MAP
    case arrayValue:
       if ( value_.array_ )
       {
@@ -1554,14 +1547,14 @@ PathArgument::PathArgument( Value::UInt index )
 }
 
 
-PathArgument::PathArgument( const TCHAR *key )
+PathArgument::PathArgument( const wchar_t *key )
    : key_( key )
    , kind_( kindKey )
 {
 }
 
 
-PathArgument::PathArgument( const tstring &key )
+PathArgument::PathArgument( const std::wstring &key )
    : key_( key.c_str() )
    , kind_( kindKey )
 {
@@ -1570,7 +1563,7 @@ PathArgument::PathArgument( const tstring &key )
 // class Path
 // //////////////////////////////////////////////////////////////////
 
-Path::Path( const tstring &path,
+Path::Path( const std::wstring &path,
             const PathArgument &a1,
             const PathArgument &a2,
             const PathArgument &a3,
@@ -1588,11 +1581,11 @@ Path::Path( const tstring &path,
 
 
 void 
-Path::makePath( const tstring &path,
+Path::makePath( const std::wstring &path,
                 const InArgs &in )
 {
-   const TCHAR *current = path.c_str();
-   const TCHAR *end = current + path.length();
+   const wchar_t *current = path.c_str();
+   const wchar_t *end = current + path.length();
    InArgs::const_iterator itInArg = in.begin();
    while ( current != end )
    {
@@ -1622,17 +1615,17 @@ Path::makePath( const tstring &path,
       }
       else
       {
-         const TCHAR *beginName = current;
+         const wchar_t *beginName = current;
          while ( current != end  &&  !strchr( "[.", *current ) )
             ++current;
-         args_.push_back( tstring( beginName, current ) );
+         args_.push_back( std::wstring( beginName, current ) );
       }
    }
 }
 
 
 void 
-Path::addPathInArg( const tstring &path, 
+Path::addPathInArg( const std::wstring &path, 
                     const InArgs &in, 
                     InArgs::const_iterator &itInArg, 
                     PathArgument::Kind kind )
@@ -1653,7 +1646,7 @@ Path::addPathInArg( const tstring &path,
 
 
 void 
-Path::invalidPath( const tstring &path, 
+Path::invalidPath( const std::wstring &path, 
                    int location )
 {
    // Error: invalid path.

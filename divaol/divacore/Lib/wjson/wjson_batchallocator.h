@@ -4,7 +4,7 @@
 # include <stdlib.h>
 # include <assert.h>
 
-# ifndef JSONCPP_DOC_EXCLUDE_IMPLEMENTATION
+# ifndef WJSONCPP_DOC_EXCLUDE_IMPLEMENTATION
 
 namespace WJson {
 
@@ -119,7 +119,7 @@ private:
 
 } // namespace WJson
 
-# endif // ifndef JSONCPP_DOC_INCLUDE_IMPLEMENTATION
+# endif // ifndef WJSONCPP_DOC_INCLUDE_IMPLEMENTATION
 
-#endif // JSONCPP_BATCHALLOCATOR_H_INCLUDED
+#endif // WJSONCPP_BATCHALLOCATOR_H_INCLUDED
 

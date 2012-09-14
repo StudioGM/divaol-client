@@ -1,15 +1,23 @@
 #ifndef WJSON_FORWARDS_H_INCLUDED
 # define WJSON_FORWARDS_H_INCLUDED
 
-# include "config.h"
+# include "wconfig.h"
 
 namespace WJson {
 
+   // writer.h
    class FastWriter;
-   class Reader;
    class StyledWriter;
 
+   // reader.h
+   class Reader;
+
+   // features.h
+   class Features;
+
    // value.h
+   typedef int Int;
+   typedef unsigned int UInt;
    class StaticString;
    class Path;
    class PathArgument;
@@ -17,15 +25,15 @@ namespace WJson {
    class ValueIteratorBase;
    class ValueIterator;
    class ValueConstIterator;
-#ifdef JSON_VALUE_USE_INTERNAL_MAP
+#ifdef WJSON_VALUE_USE_INTERNAL_MAP
    class ValueAllocator;
    class ValueMapAllocator;
    class ValueInternalLink;
    class ValueInternalArray;
    class ValueInternalMap;
-#endif // #ifdef JSON_VALUE_USE_INTERNAL_MAP
+#endif // #ifdef WJSON_VALUE_USE_INTERNAL_MAP
 
 } // namespace WJson
 
 
-#endif // JSON_FORWARDS_H_INCLUDED
+#endif // WJSON_FORWARDS_H_INCLUDED

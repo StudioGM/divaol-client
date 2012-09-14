@@ -1,5 +1,5 @@
 // included by json_value.cpp
-// everything is within WJson namespace
+// everything is within Json namespace
 
 
 // //////////////////////////////////////////////////////////////////
@@ -11,13 +11,24 @@
 // //////////////////////////////////////////////////////////////////
 
 ValueIteratorBase::ValueIteratorBase()
+#ifndef WJSON_VALUE_USE_INTERNAL_MAP
+   : current_()
+   , isNull_( true )
 {
 }
+#else
+   : isArray_( true )
+   , isNull_( true )
+{
+   iterator_.array_ = ValueInternalArray::IteratorState();
+}
+#endif
 
 
-#ifndef JSON_VALUE_USE_INTERNAL_MAP
+#ifndef WJSON_VALUE_USE_INTERNAL_MAP
 ValueIteratorBase::ValueIteratorBase( const Value::ObjectValues::iterator &current )
    : current_( current )
+   , isNull_( false )
 {
 }
 #else
@@ -38,7 +49,7 @@ ValueIteratorBase::ValueIteratorBase( const ValueInternalMap::IteratorState &sta
 Value &
 ValueIteratorBase::deref() const
 {
-#ifndef JSON_VALUE_USE_INTERNAL_MAP
+#ifndef WJSON_VALUE_USE_INTERNAL_MAP
    return current_->second;
 #else
    if ( isArray_ )
@@ -51,7 +62,7 @@ ValueIteratorBase::deref() const
 void 
 ValueIteratorBase::increment()
 {
-#ifndef JSON_VALUE_USE_INTERNAL_MAP
+#ifndef WJSON_VALUE_USE_INTERNAL_MAP
    ++current_;
 #else
    if ( isArray_ )
@@ -64,7 +75,7 @@ ValueIteratorBase::increment()
 void 
 ValueIteratorBase::decrement()
 {
-#ifndef JSON_VALUE_USE_INTERNAL_MAP
+#ifndef WJSON_VALUE_USE_INTERNAL_MAP
    --current_;
 #else
    if ( isArray_ )
@@ -77,11 +88,31 @@ ValueIteratorBase::decrement()
 ValueIteratorBase::difference_type 
 ValueIteratorBase::computeDistance( const SelfType &other ) const
 {
-#ifndef JSON_VALUE_USE_INTERNAL_MAP
-# ifdef JSON_USE_CPPTL_SMALLMAP
+#ifndef WJSON_VALUE_USE_INTERNAL_MAP
+# ifdef WJSON_USE_CPPTL_SMALLMAP
    return current_ - other.current_;
 # else
-   return difference_type( std::distance( current_, other.current_ ) );
+   // Iterator for null value are initialized using the default
+   // constructor, which initialize current_ to the default
+   // std::map::iterator. As begin() and end() are two instance 
+   // of the default std::map::iterator, they can not be compared.
+   // To allow this, we handle this comparison specifically.
+   if ( isNull_  &&  other.isNull_ )
+   {
+      return 0;
+   }
+
+
+   // Usage of std::distance is not portable (does not compile with Sun Studio 12 RogueWave STL,
+   // which is the one used by default).
+   // Using a portable hand-made version for non random iterator instead:
+   //   return difference_type( std::distance( current_, other.current_ ) );
+   difference_type myDistance = 0;
+   for ( Value::ObjectValues::iterator it = current_; it != other.current_; ++it )
+   {
+      ++myDistance;
+   }
+   return myDistance;
 # endif
 #else
    if ( isArray_ )
@@ -94,7 +125,11 @@ ValueIteratorBase::computeDistance( const SelfType &other ) const
 bool 
 ValueIteratorBase::isEqual( const SelfType &other ) const
 {
-#ifndef JSON_VALUE_USE_INTERNAL_MAP
+#ifndef WJSON_VALUE_USE_INTERNAL_MAP
+   if ( isNull_ )
+   {
+      return other.isNull_;
+   }
    return current_ == other.current_;
 #else
    if ( isArray_ )
@@ -107,7 +142,7 @@ ValueIteratorBase::isEqual( const SelfType &other ) const
 void 
 ValueIteratorBase::copy( const SelfType &other )
 {
-#ifndef JSON_VALUE_USE_INTERNAL_MAP
+#ifndef WJSON_VALUE_USE_INTERNAL_MAP
    current_ = other.current_;
 #else
    if ( isArray_ )
@@ -120,7 +155,7 @@ ValueIteratorBase::copy( const SelfType &other )
 Value 
 ValueIteratorBase::key() const
 {
-#ifndef JSON_VALUE_USE_INTERNAL_MAP
+#ifndef WJSON_VALUE_USE_INTERNAL_MAP
    const Value::CZString czstring = (*current_).first;
    if ( czstring.c_str() )
    {
@@ -133,7 +168,7 @@ ValueIteratorBase::key() const
    if ( isArray_ )
       return Value( ValueInternalArray::indexOf( iterator_.array_ ) );
    bool isStatic;
-   const TCHAR *memberName = ValueInternalMap::key( iterator_.map_, isStatic );
+   const wchar_t *memberName = ValueInternalMap::key( iterator_.map_, isStatic );
    if ( isStatic )
       return Value( StaticString( memberName ) );
    return Value( memberName );
@@ -141,10 +176,10 @@ ValueIteratorBase::key() const
 }
 
 
-Value::UInt 
+UInt 
 ValueIteratorBase::index() const
 {
-#ifndef JSON_VALUE_USE_INTERNAL_MAP
+#ifndef WJSON_VALUE_USE_INTERNAL_MAP
    const Value::CZString czstring = (*current_).first;
    if ( !czstring.c_str() )
       return czstring.index();
@@ -157,12 +192,12 @@ ValueIteratorBase::index() const
 }
 
 
-const TCHAR *
+const wchar_t *
 ValueIteratorBase::memberName() const
 {
-#ifndef JSON_VALUE_USE_INTERNAL_MAP
-   const TCHAR *name = (*current_).first.c_str();
-   return name ? name : _T("");
+#ifndef WJSON_VALUE_USE_INTERNAL_MAP
+   const wchar_t *name = (*current_).first.c_str();
+   return name ? name : L"";
 #else
    if ( !isArray_ )
       return ValueInternalMap::key( iterator_.map_ );
@@ -184,7 +219,7 @@ ValueConstIterator::ValueConstIterator()
 }
 
 
-#ifndef JSON_VALUE_USE_INTERNAL_MAP
+#ifndef WJSON_VALUE_USE_INTERNAL_MAP
 ValueConstIterator::ValueConstIterator( const Value::ObjectValues::iterator &current )
    : ValueIteratorBase( current )
 {
@@ -222,7 +257,7 @@ ValueIterator::ValueIterator()
 }
 
 
-#ifndef JSON_VALUE_USE_INTERNAL_MAP
+#ifndef WJSON_VALUE_USE_INTERNAL_MAP
 ValueIterator::ValueIterator( const Value::ObjectValues::iterator &current )
    : ValueIteratorBase( current )
 {

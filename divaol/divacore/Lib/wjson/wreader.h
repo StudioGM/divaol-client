@@ -1,8 +1,8 @@
 #ifndef CPPTL_WJSON_READER_H_INCLUDED
 # define CPPTL_WJSON_READER_H_INCLUDED
 
-# include "forwards.h"
-# include "value.h"
+# include "wfeatures.h"
+# include "wvalue.h"
 # include <deque>
 # include <stack>
 # include <string>
@@ -10,47 +10,56 @@
 
 namespace WJson {
 
-   class Value;
-
-   /** \brief Unserialize a <a HREF="http://www.WJson.org">WJson</a> document into a Value.
-    *
+   /** \brief Unserialize a <a HREF="http://www.json.org">JSON</a> document into a Value.
     *
     */
-   class JSON_API Reader
+   class WJSON_API Reader
    {
    public:
-      typedef TCHAR Char;
+      typedef wchar_t Char;
       typedef const Char *Location;
 
+      /** \brief Constructs a Reader allowing all features
+       * for parsing.
+       */
       Reader();
 
-      /** \brief Read a Value from a <a HREF="http://www.WJson.org">WJson</a> document.
+      /** \brief Constructs a Reader allowing the specified feature set
+       * for parsing.
+       */
+      Reader( const Features &features );
+
+      /** \brief Read a Value from a <a HREF="http://www.json.org">JSON</a> document.
        * \param document UTF-8 encoded string containing the document to read.
        * \param root [out] Contains the root value of the document if it was
        *             successfully parsed.
        * \param collectComments \c true to collect comment and allow writing them back during
        *                        serialization, \c false to discard comments.
+       *                        This parameter is ignored if Features::allowComments_
+       *                        is \c false.
        * \return \c true if the document was successfully parsed, \c false if an error occurred.
        */
-      bool parse( const tstring &document, 
+      bool parse( const std::wstring &document, 
                   Value &root,
                   bool collectComments = true );
 
-      /** \brief Read a Value from a <a HREF="http://www.WJson.org">WJson</a> document.
+      /** \brief Read a Value from a <a HREF="http://www.json.org">JSON</a> document.
        * \param document UTF-8 encoded string containing the document to read.
        * \param root [out] Contains the root value of the document if it was
        *             successfully parsed.
        * \param collectComments \c true to collect comment and allow writing them back during
        *                        serialization, \c false to discard comments.
+       *                        This parameter is ignored if Features::allowComments_
+       *                        is \c false.
        * \return \c true if the document was successfully parsed, \c false if an error occurred.
        */
-      bool parse( const TCHAR *beginDoc, const TCHAR *endDoc, 
+      bool parse( const wchar_t *beginDoc, const wchar_t *endDoc, 
                   Value &root,
                   bool collectComments = true );
 
       /// \brief Parse from input stream.
-      /// \see WJson::operator>>(tistream&, WJson::Value&).
-      bool parse( tistream&,
+      /// \see WJson::operator>>(std::wistream&, WJson::Value&).
+      bool parse( std::wistream &is,
                   Value &root,
                   bool collectComments = true );
 
@@ -59,7 +68,7 @@ namespace WJson {
        *         the parsed document. An empty string is returned if no error occurred
        *         during parsing.
        */
-      tstring getFormatedErrorMessages() const;
+      std::wstring getFormatedErrorMessages() const;
 
    private:
       enum TokenType
@@ -92,13 +101,13 @@ namespace WJson {
       {
       public:
          Token token_;
-         tstring message_;
+         std::wstring message_;
          Location extra_;
       };
 
       typedef std::deque<ErrorInfo> Errors;
 
-      bool expectToken( TokenType type, Token &token, const TCHAR *message );
+      bool expectToken( TokenType type, Token &token, const wchar_t *message );
       bool readToken( Token &token );
       void skipSpaces();
       bool match( Location pattern, 
@@ -113,17 +122,21 @@ namespace WJson {
       bool readArray( Token &token );
       bool decodeNumber( Token &token );
       bool decodeString( Token &token );
-      bool decodeString( Token &token, tstring &decoded );
+      bool decodeString( Token &token, std::wstring &decoded );
       bool decodeDouble( Token &token );
+      bool decodeUnicodeCodePoint( Token &token, 
+                                   Location &current, 
+                                   Location end, 
+                                   unsigned int &unicode );
       bool decodeUnicodeEscapeSequence( Token &token, 
                                         Location &current, 
                                         Location end, 
                                         unsigned int &unicode );
-      bool addError( const tstring &message, 
+      bool addError( const std::wstring &message, 
                      Token &token,
                      Location extra = 0 );
       bool recoverFromError( TokenType skipUntilToken );
-      bool addErrorAndRecover( const tstring &message, 
+      bool addErrorAndRecover( const std::wstring &message, 
                                Token &token,
                                TokenType skipUntilToken );
       void skipUntilSpace();
@@ -132,7 +145,7 @@ namespace WJson {
       void getLocationLineAndColumn( Location location,
                                      int &line,
                                      int &column ) const;
-      tstring getLocationLineAndColumn( Location location ) const;
+      std::wstring getLocationLineAndColumn( Location location ) const;
       void addComment( Location begin, 
                        Location end, 
                        CommentPlacement placement );
@@ -141,19 +154,20 @@ namespace WJson {
       typedef std::stack<Value *> Nodes;
       Nodes nodes_;
       Errors errors_;
-      tstring document_;
+      std::wstring document_;
       Location begin_;
       Location end_;
       Location current_;
       Location lastValueEnd_;
       Value *lastValue_;
-      tstring commentsBefore_;
+      std::wstring commentsBefore_;
+      Features features_;
       bool collectComments_;
    };
 
    /** \brief Read from 'sin' into 'root'.
 
-    Always keep comments from the input WJson.
+    Always keep comments from the input JSON.
 
     This can be used to read a file into a particular sub-object.
     For example:
@@ -167,7 +181,7 @@ namespace WJson {
     {
 	"dir": {
 	    "file": {
-		// The input stream WJson would be nested here.
+		// The input stream JSON would be nested here.
 	    }
 	}
     }
@@ -175,8 +189,8 @@ namespace WJson {
     \throw std::exception on parse error.
     \see WJson::operator<<()
    */
-   tistream& operator>>( tistream&, Value& );
+   std::wistream& operator>>( std::wistream&, Value& );
 
 } // namespace WJson
 
-#endif // CPPTL_JSON_READER_H_INCLUDED
+#endif // CPPTL_WJSON_READER_H_INCLUDED

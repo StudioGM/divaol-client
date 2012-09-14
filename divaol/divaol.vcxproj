@@ -532,6 +532,15 @@
     <ClInclude Include="divacore\Lib\Base\Timer.h" />
     <ClInclude Include="divacore\Lib\Base\Type.h" />
     <ClInclude Include="divacore\Lib\Base\Uncopyable.h" />
+    <ClInclude Include="divacore\Lib\wjson\wautolink.h" />
+    <ClInclude Include="divacore\Lib\wjson\wconfig.h" />
+    <ClInclude Include="divacore\Lib\wjson\wfeatures.h" />
+    <ClInclude Include="divacore\Lib\wjson\wforwards.h" />
+    <ClInclude Include="divacore\Lib\wjson\wjson.h" />
+    <ClInclude Include="divacore\Lib\wjson\wjson_batchallocator.h" />
+    <ClInclude Include="divacore\Lib\wjson\wreader.h" />
+    <ClInclude Include="divacore\Lib\wjson\wvalue.h" />
+    <ClInclude Include="divacore\Lib\wjson\wwriter.h" />
     <ClInclude Include="divacore\Mode\DivaEditMode.h" />
     <ClInclude Include="divacore\Mode\DivaMultiPlay.h" />
     <ClInclude Include="divacore\Mode\DivaPairPlay.h" />
@@ -564,6 +573,8 @@
     <ClInclude Include="divacore\Utility\DivaJsonHelper.h" />
     <ClInclude Include="divacore\Utility\DivaPath.h" />
     <ClInclude Include="divacore\Utility\DivaSimpleUI.h" />
+    <ClInclude Include="divasongmgr\DivaMapEncryption.h" />
+    <ClInclude Include="divasongmgr\DivaMapManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Hoshizor\Plugins\SoraFreetypeFont\SoraFreetypeFont.cpp" />
@@ -738,6 +749,9 @@
     <ClCompile Include="divacore\Lib\Base\Logger.cpp" />
     <ClCompile Include="divacore\Lib\Base\String.cpp" />
     <ClCompile Include="divacore\Lib\Base\Timer.cpp" />
+    <ClCompile Include="divacore\Lib\wjson\wjson_reader.cpp" />
+    <ClCompile Include="divacore\Lib\wjson\wjson_value.cpp" />
+    <ClCompile Include="divacore\Lib\wjson\wjson_writer.cpp" />
     <ClCompile Include="divacore\Mode\DivaMultiPlay.cpp" />
     <ClCompile Include="divacore\Mode\DivaSinglePlay.cpp" />
     <ClCompile Include="divacore\MusicManager\DivaBassMusicManager.cpp" />
@@ -752,12 +766,15 @@
     <ClCompile Include="divacore\Timer\DivaTimeCounterImplWin32.cpp" />
     <ClCompile Include="divacore\Utility\DivaConfigLoader.cpp" />
     <ClCompile Include="divacore\Utility\DivaSimpleUI.cpp" />
+    <ClCompile Include="divasongmgr\DivaMapEncryption.cpp" />
+    <ClCompile Include="divasongmgr\DivaMapManager.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Hoshizor\Sora\json\json_internalarray.inl" />
     <None Include="..\Hoshizor\Sora\json\json_internalmap.inl" />
     <None Include="..\Hoshizor\Sora\json\json_valueiterator.inl" />
+    <None Include="divacore\Lib\wjson\wjson_valueiterator.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

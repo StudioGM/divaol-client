@@ -154,6 +154,12 @@
     <Filter Include="Plugins\Shader">
       <UniqueIdentifier>{c1bd1992-f29f-44e4-a6da-6d181180c555}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\divasongmgr">
+      <UniqueIdentifier>{ba1e8d10-97d5-4d3c-a5b9-8d2f4923cbb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\divacore\lib\wjson">
+      <UniqueIdentifier>{a663111b-c1fe-422e-91a4-b0c533fe8560}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Hoshizor\Sora\Hoshizora.h">
@@ -1605,6 +1611,39 @@
     <ClInclude Include="divacore\Utility\DivaColor.h">
       <Filter>源文件\divacore\utility</Filter>
     </ClInclude>
+    <ClInclude Include="divasongmgr\DivaMapEncryption.h">
+      <Filter>源文件\divasongmgr</Filter>
+    </ClInclude>
+    <ClInclude Include="divasongmgr\DivaMapManager.h">
+      <Filter>源文件\divasongmgr</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Lib\wjson\wautolink.h">
+      <Filter>源文件\divacore\lib\wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Lib\wjson\wconfig.h">
+      <Filter>源文件\divacore\lib\wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Lib\wjson\wfeatures.h">
+      <Filter>源文件\divacore\lib\wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Lib\wjson\wforwards.h">
+      <Filter>源文件\divacore\lib\wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Lib\wjson\wjson.h">
+      <Filter>源文件\divacore\lib\wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Lib\wjson\wjson_batchallocator.h">
+      <Filter>源文件\divacore\lib\wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Lib\wjson\wreader.h">
+      <Filter>源文件\divacore\lib\wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Lib\wjson\wvalue.h">
+      <Filter>源文件\divacore\lib\wjson</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Lib\wjson\wwriter.h">
+      <Filter>源文件\divacore\lib\wjson</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -2168,6 +2207,21 @@
     <ClCompile Include="..\Hoshizor\Plugins\SoraShader\SoraCGD3D9Shader.cpp">
       <Filter>Plugins\Shader</Filter>
     </ClCompile>
+    <ClCompile Include="divasongmgr\DivaMapEncryption.cpp">
+      <Filter>源文件\divasongmgr</Filter>
+    </ClCompile>
+    <ClCompile Include="divasongmgr\DivaMapManager.cpp">
+      <Filter>源文件\divasongmgr</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Lib\wjson\wjson_reader.cpp">
+      <Filter>源文件\divacore\lib\wjson</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Lib\wjson\wjson_value.cpp">
+      <Filter>源文件\divacore\lib\wjson</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Lib\wjson\wjson_writer.cpp">
+      <Filter>源文件\divacore\lib\wjson</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Hoshizor\Sora\json\json_internalarray.inl">
@@ -2178,6 +2232,9 @@
     </None>
     <None Include="..\Hoshizor\Sora\json\json_valueiterator.inl">
       <Filter>头文件\json</Filter>
+    </None>
+    <None Include="divacore\Lib\wjson\wjson_valueiterator.inl">
+      <Filter>源文件\divacore\lib\wjson</Filter>
     </None>
   </ItemGroup>
 </Project>
