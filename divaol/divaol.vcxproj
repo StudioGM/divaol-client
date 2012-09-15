@@ -732,6 +732,8 @@
     <ClInclude Include="ui\UI\House\RoomInfoList.h" />
     <ClInclude Include="ui\UI\House\RoomList.h" />
     <ClInclude Include="ui\UI\House\ThingList.h" />
+    <ClInclude Include="ui\UI\Result\ResultBar.h" />
+    <ClInclude Include="ui\UI\Result\ResultUI.h" />
     <ClInclude Include="ui\UI\Stage\StageGameState.h" />
     <ClInclude Include="ui\UI\Stage\StageUI.h" />
     <ClInclude Include="ui\UI\TitleScreen\TitleScreenExpander.h" />

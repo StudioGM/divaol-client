@@ -145,9 +145,6 @@
     <Filter Include="Plugins\SoraLua\Luaplus">
       <UniqueIdentifier>{5a7df037-df9e-402c-b5d3-e9bd4e085b3e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\divacore\lib\Wjson">
-      <UniqueIdentifier>{c01fb7bb-6785-45ed-a5dd-366733d41180}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\ui\DivaConfig">
       <UniqueIdentifier>{d1121bd2-b8fb-4f04-be96-a6b8992d8b38}</UniqueIdentifier>
     </Filter>
@@ -234,6 +231,9 @@
     </Filter>
     <Filter Include="源文件\divanetwork\gnet">
       <UniqueIdentifier>{895ddc2d-2f0a-4a25-b92f-762fd5be8f98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\ui\UI\Result">
+      <UniqueIdentifier>{4c0300ce-dc0d-4379-8b88-aae2c3fa01d1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -2321,6 +2321,12 @@
     </ClInclude>
     <ClInclude Include="divanetwork\DivaNetworkManager.h">
       <Filter>源文件\divanetwork</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UI\Result\ResultBar.h">
+      <Filter>源文件\ui\UI\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UI\Result\ResultUI.h">
+      <Filter>源文件\ui\UI\Result</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
