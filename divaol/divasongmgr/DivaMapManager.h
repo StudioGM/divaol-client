@@ -115,7 +115,7 @@ namespace divamap
 
 	private:
 		//Multithread download funtions here
-		friend void DownloadDivaMapThumb(LPVOID arg_mapID);
+		friend unsigned __stdcall DownloadDivaMapThumb(LPVOID arg_mapID);
 
 	public:
 		//local song list file management

@@ -305,11 +305,14 @@ namespace divamap
 
 #pragma region MultiThread functions
 
-	void DownloadDivaMapThumb(void* arg_mapID)
+	unsigned __stdcall DownloadDivaMapThumb(void* arg_map)
 	{
-		int id = *((int*)arg_mapID);
+		int mapID = (*((DivaMap*)arg_map)).id;
+		std::wstring thumbAddress = (*((DivaMap*)arg_map)).header.thumb;
 		Sleep(2000);
 		MessageBoxW(NULL,L"ThreadOver!", L"Thread Test", MB_OK);
+
+		return 0;
 	}
 
 
@@ -337,19 +340,20 @@ namespace divamap
 		if(_wfopen_s(&thumbFile, thumbFilePath.unicode_str(), L"r")!=0)
 		{
 			//File not exists
-			/*
-			pthread_t thisThreadID;
-
-			int error = pthread_create(
-				&thisThreadID,
+			
+			unsigned int threadAddress;
+			HANDLE hThread = 
+				(HANDLE)_beginthreadex(
 				NULL,
+				0,
 				&DownloadDivaMapThumb,
-				&id
+				&id,
+				0,
+				&threadAddress
 				);
 
-			if(error!=0)
+			if(hThread==NULL)
 				return false;
-				*/
 		}
 		else
 		{
