@@ -85,7 +85,9 @@ namespace divacore
 		void pressEffect(StateEvent &event);
 
 		void preStart();
+
 		void preEvaluate();
+		void afterEvaluate();
 	};
 }
 

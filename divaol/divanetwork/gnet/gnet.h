@@ -275,6 +275,17 @@ namespace gnet
 		int64 getInt();
 		double getValue();
 		std::string getString();
+
+		template<typename T>
+		T* as() {
+			return dynamic_cast<T*>(this);
+		}
+		template<typename T>
+		T* asValue() {
+			Item<TypeID_Traitor<T>::type> *item = dynamic_cast<Item<TypeID_Traitor<T>::type>*>(this);
+			assert(item!=NULL);
+			return item->getValue();
+		}
 	protected:
 		Bytes _getType() {return BinaryUtility::convertToBytes(static_cast<uint32>(getType()));}
 		virtual Bytes _getItem() = 0;
@@ -446,6 +457,9 @@ namespace gnet
 		static double getValue(ItemBase *item);
 		static std::string getString(ItemBase *item);
 	};
+
+	typedef Item<Tuple> TupleItem;
+	typedef Item<List> ListItem;
 }
 
 #endif

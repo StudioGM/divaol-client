@@ -41,9 +41,9 @@ namespace divacore
 
 		sora::SoraCore::Instance()->showMouse(false);
 
-		Task task;
-		task.setAsMemberFunc(&CorePlayState::pause,this);
-		coreFlow->registerEndCallback(task);
+		//Task task;
+		//task.setAsMemberFunc(&CorePlayState::pause,this);
+		//coreFlow->registerEndCallback(task);
 	}
 
 	void CorePlayState::pause(void* args)
