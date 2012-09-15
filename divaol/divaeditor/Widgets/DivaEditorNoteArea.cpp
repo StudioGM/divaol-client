@@ -353,7 +353,7 @@ namespace divaeditor
 		nowMousePos.y = mouseEvent.getY();
 		updateMousePos();
 
-		if(!isDraging && !isSelecting)
+		if(!isDraging && !isSelecting && mouseEvent.getButton()==MouseEvent::LEFT)
 		{
 
 			int nowToSelect = EDITOR_PTR->mapData->findNoteToSelectByPos(ceil(CORE_PTR->getRunPosition()), nowGridSelectX-EDITCONFIG->NoteAreaTailAreaSize,nowGridSelectY-EDITCONFIG->NoteAreaTailAreaSize);
@@ -444,8 +444,8 @@ namespace divaeditor
 		{
 			int noteSelectX = nowGridSelectX-EDITCONFIG->NoteAreaTailAreaSize;
 			int noteSelectY = nowGridSelectY-EDITCONFIG->NoteAreaTailAreaSize;
-			if(noteSelectX > 0 && noteSelectX <= EDITCONFIG->NoteAreaWidth &&
-				noteSelectY > 0 && noteSelectY <= EDITCONFIG->NoteAreaHeight && isMouseOn)
+			if(noteSelectX >= 0 && noteSelectX <= EDITCONFIG->NoteAreaWidth &&
+				noteSelectY >= 0 && noteSelectY <= EDITCONFIG->NoteAreaHeight && isMouseOn)
 			{
 				if(EDITCONFIG->EDITSTATE_NOTESTATE == EditorConfig::NOTESTATE::NORMAL)
 				{

@@ -15,6 +15,7 @@
 #include "divaeditor/Widgets/DivaEditorMusicProgressWidget.h"
 #include "divaeditor/Widgets/DivaEditorNoteArea.h"
 #include "divaeditor/Widgets/DivaEditorResourcePanel.h"
+#include "divaeditor/Widgets/DivaEditorSlider.h"
 
 #include "divaeditor/Widgets/BoarderedContainer.h"
 #include "divaeditor/Widgets/WListBox.h"

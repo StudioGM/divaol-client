@@ -75,7 +75,7 @@ namespace divaeditor
 		int getNowStandardGrid(float nowGrid, int gridToShowPerBeat);
 		int getNearestStandardGrid(float nowGrid, int gridToShowPerBeat);
 
-		int getCrossAStandardBeatPos(float lastPos, float nowPos);
+		int getCrossAStandardBeatPos(float lastPos, float nowPos, int useOffset=-65535);
 
 	public:
 		//File functions
@@ -103,7 +103,7 @@ namespace divaeditor
 		std::wstring InitFromOSUFile(std::wstring path){return L"Function not ready.";}
 		std::wstring InitFromMIDIFile(std::wstring path){return L"Function not ready.";}
 
-		std::wstring ChooseWorkingFile();
+		std::wstring ChooseWorkingFile(bool needToCreateNewDirectory = true);
 		bool SaveFile(bool olFile=true, bool proFile=true, divacore::MapInfo *infoToSave=NULL);
 
 

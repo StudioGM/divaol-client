@@ -975,11 +975,18 @@ namespace divaeditor
 		return encodeToOriginalGrid((round(decodeOriginalGrid(round(nowGrid))/deltaGrid)) * deltaGrid);
 	}
 
-	int DivaEditorMapData::getCrossAStandardBeatPos(float lastPos, float nowPos)
+	int DivaEditorMapData::getCrossAStandardBeatPos(float lastPos, float nowPos, int useOffset)
 	{
 		if(lastPos>=nowPos) return 0;
+
+		//Use this offset
+		int lastOffset = mapOffset;
+		if(useOffset!=-65536)
+			mapOffset = useOffset;
 		int lastPeriod = getPeriodfromGrid(lastPos),nowPeriod = getPeriodfromGrid(nowPos),
 			lastGrid = getGridInPeriod(lastPos),nowGrid = getGridInPeriod(nowPos);
+		if(useOffset!=-65536)
+			mapOffset = lastOffset;
 
 		if(lastPeriod>nowPeriod || (lastPeriod==nowPeriod&&lastGrid>=nowGrid))
 			return 0;
@@ -1500,7 +1507,7 @@ namespace divaeditor
 		//unload the resource
 		EDITUTILITY.unloadResource(resourceInfo);
 		//delete the resource file
-		DeleteFileW((workingDirectory + L"/" + resourceInfo.filePath).c_str());
+		//DeleteFileW((workingDirectory + L"/" + resourceInfo.filePath).c_str());
 
 		//remove the safefilename
 		resourceDescription.erase(resourceDescription.find(resourceInfo.ID));

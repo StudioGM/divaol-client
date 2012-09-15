@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -664,6 +664,7 @@
     <ClInclude Include="divaeditor\Widgets\DivaEditorMusicProgressWidget.h" />
     <ClInclude Include="divaeditor\Widgets\DivaEditorNoteArea.h" />
     <ClInclude Include="divaeditor\Widgets\DivaEditorResourcePanel.h" />
+    <ClInclude Include="divaeditor\Widgets\DivaEditorSlider.h" />
     <ClInclude Include="divaeditor\Widgets\DivaEditorTimelineWidget.h" />
     <ClInclude Include="divaeditor\Widgets\WButton.h" />
     <ClInclude Include="divaeditor\Widgets\WCheckbox.h" />
@@ -957,6 +958,7 @@
     <ClCompile Include="divaeditor\Widgets\DivaEditorMusicProgressWidget.cpp" />
     <ClCompile Include="divaeditor\Widgets\DivaEditorNoteArea.cpp" />
     <ClCompile Include="divaeditor\Widgets\DivaEditorResourcePanel.cpp" />
+    <ClCompile Include="divaeditor\Widgets\DivaEditorSlider.cpp" />
     <ClCompile Include="divaeditor\Widgets\DivaEditorTimelineWidget.cpp" />
     <ClCompile Include="divaeditor\Widgets\WButton.cpp" />
     <ClCompile Include="divaeditor\Widgets\WCheckbox.cpp" />

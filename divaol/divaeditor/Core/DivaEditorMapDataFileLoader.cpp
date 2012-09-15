@@ -84,7 +84,7 @@ namespace divaeditor
 		else
 			return LOCALIZATION->getLocalStr(L"ReadFile_FileNotSupported", path.c_str());
 	}
-	std::wstring DivaEditorMapData::ChooseWorkingFile()
+	std::wstring DivaEditorMapData::ChooseWorkingFile(bool needToCreateNewDirectory)
 	{
 		wchar_t cwd[_MAX_PATH];
 		_wgetcwd(cwd,_MAX_PATH);
@@ -106,8 +106,16 @@ namespace divaeditor
 
 			if(pathPos==-1) return LOCALIZATION->getLocalStr(L"ReadFile_PathError", saveFile.c_str());
 
-			workingDirectory = saveFile.substr(0, dotPos) + L"/";
-			CreateDirectoryW((workingDirectory).c_str(),NULL);
+			if(needToCreateNewDirectory)
+			{
+				workingDirectory = saveFile.substr(0, dotPos) + L"/";
+				CreateDirectoryW((workingDirectory).c_str(),NULL);
+			}
+			else
+			{
+				workingDirectory = saveFile.substr(0, pathPos) + L"/";
+			}
+			
 
 			workingDivaOLFile = saveFile.substr(pathPos+1, dotPos-(pathPos+1)) + L".divaol";
 			workingDivaOLProFile = saveFile.substr(pathPos+1, saveFile.length()-(pathPos+1));

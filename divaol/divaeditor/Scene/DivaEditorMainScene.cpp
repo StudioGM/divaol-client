@@ -33,8 +33,8 @@ namespace divaeditor
 		//timelinePanel->setOpaque(true);
 		//timelinePanel->setAlpha(150);
 		timelinePanel->setId("timelinePanel");
-		timelinePanel->setSize(400,220);
-		timelinePanel->setPosition(800,380);
+		timelinePanel->setSize(400,300);
+		timelinePanel->setPosition(800,300);
 		timelineCategory->add(timelinePanel);
 
 
@@ -104,38 +104,6 @@ namespace divaeditor
 		timelinePanel->add(btn_TimeLine_deleteBPM);
 
 #pragma endregion BPM operation
-		
-#pragma region Offset operation
-
-		gcn::WTextField *txtField_timeline_offSet = new gcn::WTextField();
-		txtField_timeline_offSet->enableNumericMode(true);
-		txtField_timeline_offSet->setId("txtField_timeline_offSet");
-		txtField_timeline_offSet->setSize(100,20);
-		txtField_timeline_offSet->setPosition(txtField_timeline_BPM->getX(),80);
-		sora::SoraGUI::Instance()->registerGUIResponser(txtField_timeline_offSet, this, "txtField_timeline_offSet", sora::RESPONSEACTION);
-		timelinePanel->add(txtField_timeline_offSet);
-
-		gcn::WLabel *label_timeline_offset = new gcn::WLabel(LOCALIZATION->getLocalStr(L"MainScene_label_timeline_offset"));
-		label_timeline_offset->adjustSize();
-		label_timeline_offset->setBackgroundColor(gcn::Color(0,0,0,0));
-		label_timeline_offset->setPosition(txtField_timeline_offSet->getX()-label_timeline_offset->getWidth()-5,
-			txtField_timeline_offSet->getY() + (txtField_timeline_offSet->getHeight()-label_timeline_offset->getHeight())/2);
-		label_timeline_offset->setForegroundColor(gcn::Color(255,255,255,255));
-		timelinePanel->add(label_timeline_offset);
-
-		gcn::WButton *btn_TimeLine_changeOffset = new gcn::WButton();
-		btn_TimeLine_changeOffset->setFrameSize(0);
-		btn_TimeLine_changeOffset->setNormalImage(MainSceneImageFile,gcn::Rectangle(316,363,23,23));
-		btn_TimeLine_changeOffset->setDownImage(MainSceneImageFile,gcn::Rectangle(385,363,23,23));
-		btn_TimeLine_changeOffset->setId("btn_TimeLine_changeOffset");
-		btn_TimeLine_changeOffset->setSize(23,23);
-		btn_TimeLine_changeOffset->setPosition(txtField_timeline_offSet->getX()+txtField_timeline_offSet->getWidth()+5,txtField_timeline_offSet->getY());
-		btn_TimeLine_changeOffset->setForegroundColor(gcn::Color(255,255,255,255));
-		sora::SoraGUI::Instance()->registerGUIResponser(btn_TimeLine_changeOffset, this, "btn_TimeLine_changeOffset", sora::RESPONSEACTION);
-		timelinePanel->add(btn_TimeLine_changeOffset);
-
-
-#pragma endregion Offset operation
 
 #pragma region Stop Operation
 
@@ -143,7 +111,7 @@ namespace divaeditor
 		txtField_timeline_Stop->enableNumericMode(true);
 		txtField_timeline_Stop->setId("txtField_timeline_Stop");
 		txtField_timeline_Stop->setSize(100,20);
-		txtField_timeline_Stop->setPosition(txtField_timeline_BPM->getX(),110);
+		txtField_timeline_Stop->setPosition(txtField_timeline_BPM->getX(),txtField_timeline_BPM->getY()+txtField_timeline_BPM->getHeight()+10);
 		sora::SoraGUI::Instance()->registerGUIResponser(txtField_timeline_Stop, this, "txtField_timeline_Stop", sora::RESPONSEACTION);
 		timelinePanel->add(txtField_timeline_Stop);
 
@@ -196,7 +164,7 @@ namespace divaeditor
 		txtField_timeline_BeatNum->enableNumericMode(true);
 		txtField_timeline_BeatNum->setId("txtField_timeline_BeatNum");
 		txtField_timeline_BeatNum->setSize(100,20);
-		txtField_timeline_BeatNum->setPosition(txtField_timeline_BPM->getX(),140);
+		txtField_timeline_BeatNum->setPosition(txtField_timeline_BPM->getX(),txtField_timeline_Stop->getY()+txtField_timeline_Stop->getHeight()+10);
 		sora::SoraGUI::Instance()->registerGUIResponser(txtField_timeline_BeatNum, this, "txtField_timeline_BeatNum", sora::RESPONSEACTION);
 		timelinePanel->add(txtField_timeline_BeatNum);
 
@@ -239,7 +207,7 @@ namespace divaeditor
 		txtField_timeline_TailSpeed->enableNumericMode(true);
 		txtField_timeline_TailSpeed->setId("txtField_timeline_TailSpeed");
 		txtField_timeline_TailSpeed->setSize(100,20);
-		txtField_timeline_TailSpeed->setPosition(txtField_timeline_BPM->getX(),170);
+		txtField_timeline_TailSpeed->setPosition(txtField_timeline_BPM->getX(),txtField_timeline_BeatNum->getY()+txtField_timeline_BeatNum->getHeight()+10);
 		sora::SoraGUI::Instance()->registerGUIResponser(txtField_timeline_TailSpeed, this, "txtField_timeline_TailSpeed", sora::RESPONSEACTION);
 		timelinePanel->add(txtField_timeline_TailSpeed);
 
@@ -263,6 +231,45 @@ namespace divaeditor
 		timelinePanel->add(btn_TimeLine_changeTailSpeed);
 
 #pragma endregion TailSpeed Operation
+
+#pragma region Offset operation
+
+		gcn::WTextField *txtField_timeline_offSet = new gcn::WTextField();
+		txtField_timeline_offSet->enableNumericMode(true);
+		txtField_timeline_offSet->setId("txtField_timeline_offSet");
+		txtField_timeline_offSet->setSize(100,20);
+		txtField_timeline_offSet->setPosition(txtField_timeline_BPM->getX(),txtField_timeline_TailSpeed->getY()+txtField_timeline_TailSpeed->getHeight()+30);
+		sora::SoraGUI::Instance()->registerGUIResponser(txtField_timeline_offSet, this, "txtField_timeline_offSet", sora::RESPONSEACTION);
+		timelinePanel->add(txtField_timeline_offSet);
+
+		gcn::WLabel *label_timeline_offset = new gcn::WLabel(LOCALIZATION->getLocalStr(L"MainScene_label_timeline_offset"));
+		label_timeline_offset->adjustSize();
+		label_timeline_offset->setBackgroundColor(gcn::Color(0,0,0,0));
+		label_timeline_offset->setPosition(txtField_timeline_offSet->getX()-label_timeline_offset->getWidth()-5,
+			txtField_timeline_offSet->getY() + (txtField_timeline_offSet->getHeight()-label_timeline_offset->getHeight())/2);
+		label_timeline_offset->setForegroundColor(gcn::Color(255,255,255,255));
+		timelinePanel->add(label_timeline_offset);
+
+		gcn::WButton *btn_TimeLine_changeOffset = new gcn::WButton();
+		btn_TimeLine_changeOffset->setFrameSize(0);
+		btn_TimeLine_changeOffset->setNormalImage(MainSceneImageFile,gcn::Rectangle(316,363,23,23));
+		btn_TimeLine_changeOffset->setDownImage(MainSceneImageFile,gcn::Rectangle(385,363,23,23));
+		btn_TimeLine_changeOffset->setId("btn_TimeLine_changeOffset");
+		btn_TimeLine_changeOffset->setSize(23,23);
+		btn_TimeLine_changeOffset->setPosition(txtField_timeline_offSet->getX()+txtField_timeline_offSet->getWidth()+5,txtField_timeline_offSet->getY());
+		btn_TimeLine_changeOffset->setForegroundColor(gcn::Color(255,255,255,255));
+		sora::SoraGUI::Instance()->registerGUIResponser(btn_TimeLine_changeOffset, this, "btn_TimeLine_changeOffset", sora::RESPONSEACTION);
+		timelinePanel->add(btn_TimeLine_changeOffset);
+
+		gcn::DivaEditorSlider *slider_timeline_offset = new gcn::DivaEditorSlider(-192,192);
+		slider_timeline_offset->setId("slider_timeline_offset");
+		slider_timeline_offset->setSize(385,20);
+		slider_timeline_offset->setPosition((timelinePanel->getWidth()-slider_timeline_offset->getWidth())/2,txtField_timeline_offSet->getY()+txtField_timeline_offSet->getHeight()+10);
+		sora::SoraGUI::Instance()->registerGUIResponser(slider_timeline_offset, this, "slider_timeline_offset", sora::RESPONSEACTION);
+		timelinePanel->add(slider_timeline_offset);
+
+
+#pragma endregion Offset operation
 		
 		return timelineCategory;
 	}
@@ -1046,7 +1053,9 @@ namespace divaeditor
 		
 		if(nowState == TIMELINE && CORE_FLOW_PTR->getState() == CoreFlow::RUN)
 		{
-			int beatCrossNum = EDITOR_PTR->mapData->getCrossAStandardBeatPos(rhythm_LastPos,thisPosition);
+			gcn::DivaEditorSlider* slider_timeline_offset = (gcn::DivaEditorSlider*)container_Categories[nowState]->findWidgetById("slider_timeline_offset");
+
+			int beatCrossNum = EDITOR_PTR->mapData->getCrossAStandardBeatPos(rhythm_LastPos,thisPosition,slider_timeline_offset->getValue());
 			if(beatCrossNum)
 				CORE_PTR->getMusicManager()->playDirectWithFile("Data/tick_" + iToS(beatCrossNum) + ".wav",true);
 		}
@@ -1104,6 +1113,8 @@ namespace divaeditor
 
 			gcn::WButton* btn_TimeLine_changeTailSpeed = (gcn::WButton*)container_Categories[nowState]->findWidgetById("btn_TimeLine_changeTailSpeed");
 
+			gcn::DivaEditorSlider* slider_timeline_offset = (gcn::DivaEditorSlider*)container_Categories[nowState]->findWidgetById("slider_timeline_offset");
+
 			if(!(txtField_timeline_BPM->isFocused()||btn_TimeLine_changeBPM->isFocused()||btn_TimeLine_insertBPM->isFocused()||btn_TimeLine_deleteBPM->isFocused()))
 			{
 				txtField_timeline_BPM->setText(dTows(EDITOR_PTR->mapData->getBPM(CORE_PTR->getRunPosition()),3));
@@ -1111,6 +1122,14 @@ namespace divaeditor
 			if(!(txtField_timeline_offSet->isFocused()||btn_TimeLine_changeOffset->isFocused()))
 			{
 				txtField_timeline_offSet->setText(iToWS(EDITOR_PTR->mapData->getOffset()));
+			}
+			if(!(slider_timeline_offset->isFocused()))
+			{
+				slider_timeline_offset->setValue(EDITOR_PTR->mapData->getOffset());
+			}
+			else if(slider_timeline_offset->isFocused())
+			{
+				txtField_timeline_offSet->setText(iToWS(slider_timeline_offset->getValue()));
 			}
 			if(!(txtField_timeline_Stop->isFocused()||btn_TimeLine_changeStop->isFocused()||btn_TimeLine_insertStop->isFocused()||btn_TimeLine_deleteStop->isFocused()))
 			{
@@ -1529,6 +1548,18 @@ namespace divaeditor
 			actionWidget->setFocusable(true);
 		}
 
+		else if(getID() == "slider_timeline_offset")
+		{
+			gcn::DivaEditorSlider* slider_timeline_offset = (gcn::DivaEditorSlider*)actionWidget;
+			EDITCONFIG->addAndDoOperation(new DivaEditorOperation_GridOffset(EDITOR_PTR->mapData->getOffset(),
+				slider_timeline_offset->getValue(),
+				EDITCONFIG->config_moveNoteAsWell
+				));
+
+			actionWidget->setFocusable(false);
+			actionWidget->setFocusable(true);
+		}
+
 		//BeatNum
 		else if(getID() == "txtField_timeline_BeatNum" || getID() == "btn_TimeLine_changeBeatNum")
 		{
@@ -1870,7 +1901,7 @@ namespace divaeditor
 		}
 		else if(getID() == "btn_SaveTo")
 		{
-			if(EDITOR_PTR->mapData->ChooseWorkingFile()==L"OK")
+			if(EDITOR_PTR->mapData->ChooseWorkingFile(false)==L"OK")
 				EDITOR_PTR->mapData->SaveFile();
 		}
 		else if(getID() == "wcheckbox_autosave")
