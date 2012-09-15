@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include <winsock2.h>
 #include <iostream>
 
@@ -193,5 +194,4 @@ int CALLBACK WinMain(
 		app.run("init");
 
 		return 0;
-
 }

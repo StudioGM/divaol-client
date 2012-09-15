@@ -105,11 +105,6 @@ namespace divacore
 		setBaseState(CONNECT);
 	}
 	void MultiPlay::gameStop() {
-		GNET_UNRECEIVE_PACKET("game#membersinfoL");
-		GNET_UNRECEIVE_PACKET("game#playerupdateL");
-		GNET_UNRECEIVE_PACKET("stage#join_failed");
-		GNET_UNRECEIVE_PACKET("stage#join_ok");
-
 		NETWORK_SYSTEM_PTR->disconnect();
 
 		SAFE_DELETE(mInfo);
@@ -117,6 +112,13 @@ namespace divacore
 	void MultiPlay::gameOver()
 	{
 		sendInfo();
+
+		GNET_UNRECEIVE_PACKET("game#membersinfoL");
+		GNET_UNRECEIVE_PACKET("game#playerupdateL");
+		GNET_UNRECEIVE_PACKET("stage#join_failed");
+		GNET_UNRECEIVE_PACKET("stage#join_ok");
+
+		NETWORK_SYSTEM_PTR->send("game#overR");
 	}
 	void MultiPlay::setMyInfo(Config &config)
 	{
@@ -256,6 +258,13 @@ namespace divacore
 
 	void MultiPlay::preEvaluate()
 	{
-		((CommonEvaluateStrategy*)EVALUATE_STRATEGY_PTR)->addMultiEvalUI();
+		EVALUATE_STRATEGY_PTR->getResult().myScore = getScore();
+		EVALUATE_STRATEGY_PTR->getResult().myID = getPlayerID();
+
+		PLAYERS &players = getPlayerInfo();
+
+		for(int i = 0; i < players.size(); i++)
+			EVALUATE_STRATEGY_PTR->getResult().evalData.push_back(EvalData(players[i].uid, players[i].score));
+		//((CommonEvaluateStrategy*)EVALUATE_STRATEGY_PTR)->addMultiEvalUI();
 	}
 }

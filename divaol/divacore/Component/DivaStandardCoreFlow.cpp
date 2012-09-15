@@ -116,7 +116,7 @@ namespace divacore
 			nowTime = MUSIC_MANAGER_PTR->getPosition(MAIN_SOUND_CHANNEL);/*timeCounter.getTime()*/;
 			bool actived = MUSIC_MANAGER_PTR->isPlaying(MAIN_SOUND_CHANNEL);
 
-			if(!actived/*nowTime>=totalTime*/)
+			if(!actived/*nowTime>=totalTime*/||!GAME_MODE_PTR->getAlive())
 			{
 				// flow back 0.5s to have a buffer, otherwise it will cause a thread confliction so that the music will back to 0
 				//MUSIC_MANAGER_PTR->setPosition(MAIN_SOUND_CHANNEL,totalTime-5);
@@ -129,6 +129,7 @@ namespace divacore
 
 				if(state!=PAUSE)
 				{
+					EVALUATE_STRATEGY_PTR->finalEvaluate();
 					core->getMusicManager()->destroy();
 					state = END;
 				}
