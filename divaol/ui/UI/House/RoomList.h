@@ -3,12 +3,28 @@
 #include "ui/GUIChanEx/GUIChanListViewEx.h"
 #include "ui/GUIChanEx/GUIChanListItemEx.h"
 #include "ui/structure.h"
+#include "ui/DivaNetwork/DivaNetwork.h"
 
 namespace diva
 {
 	namespace HouseUI
 	{
 		using namespace gcn;
+
+		class StageListItem : public ListItemEx
+		{
+		private:
+			Image *image;
+			gcn::Rectangle srcRect;
+
+		public:
+			StageListItem(const std::wstring& filename, gcn::Rectangle srcRect);
+			virtual ~StageListItem();
+
+			//void setLook();
+			void setInfo(const PlayerInfo& info);
+			virtual void draw(Graphics* graphics, Font* font, int state, int alpha);
+		};
 
 		class RoomListItem : public ListItemEx
 		{

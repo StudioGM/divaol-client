@@ -1,13 +1,9 @@
 #include <winsock2.h>
-#include <iostream>
 
 #include "SoraCore.h"
 
 #include "SoraWindowInfo.h"
 #include "SoraFont.h"
-
-#include "SoraTimestamp.h"
-#include "SoraConfigUtil.h"
 
 #include "SoraDirectoryIterator.h"
 #include "SoraFileUtility.h"
@@ -16,59 +12,18 @@
 
 #include "app/SoraGameApp.h"
 #include "app/SoraGameState.h"
-#include "SoraMath.h"
 
-#include "SoraFunction.h"
-
-#include "cmd/SoraConsole.h"
-
-#include "SoraTask.h"
-#include "SoraShape.h"
-#include "SoraShader.h"
-
-#include "SoraLogger.h"
 #include "SoraResourceFile.h"
 #include "SoraCanvas.h"
-
-
 #include "guichan.hpp"
 #include "guichansetup.h"
-
-#include "SoraRenderSystem.h"
-
-#include "SoraSpriteManager.h"
-
-#include "Lib/wjson/wjson.h"
-#include "ui/UI/TitleScreen/TitleScreenUI.h"
-
-#include "SoraOGLRenderer/SoraOGLRenderer.h"
-#include "SoraSprite.h"
-
-#include "SoraVertexList.h"
-
-
-#include "util/SoraPointTemplate.h"
 #include "SoraFMODSoundSystem.h"
-
-#include "math/SoraPerlinNoise.h"
-
-#include "debug/SoraGlobalProfiler.h"
-#include "debug/SoraAutoProfile.h"
-#include "SoraShaderParamObject.h"
-
 #include "ui/Config/DivaUIConfig.h"
 #include "ui/UI/House/HouseGameState.h"
 #include "ui/UI/Stage/StageGameState.h"
+#include "ui/UI/Music/MusicGameState.h"
+#include "ui/UI/TitleScreen/TitleScreenUI.h"
 
-class SmallTest : public gcn::MouseListener
-{
-public:
-	virtual void mouseClicked(gcn::MouseEvent& mouseEvent)
-	{
-		mouseEvent.getSource()->setPosition(300, 300);
-		mouseEvent.getSource()->setEnabled(false);
-	}
-};
 
 using namespace diva;
 
@@ -130,7 +85,7 @@ public:
 
 	void onKeyPressed(sora::SoraKeyEvent& keyEvent) {
 		//getGameApp()->setState("house");
-		nextState = "house";
+		nextState = "music";
 	}
 
 	void onMouseDragged(sora::SoraMouseEvent& from, sora::SoraMouseEvent& to) {
@@ -187,7 +142,7 @@ int CALLBACK WinMain(
 		app.addState(new GameInitState, "init");
 		app.addState(new diva::HouseUI::HouseGameState(), "house");
 		app.addState(new diva::StageUI::StageGameState(), "stage");
-
+		app.addState(new diva::MusicUI::MusicGameState(), "music");
 
 
 		app.run("init");

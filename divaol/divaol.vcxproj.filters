@@ -235,6 +235,9 @@
     <Filter Include="源文件\ui\UI\Result">
       <UniqueIdentifier>{4c0300ce-dc0d-4379-8b88-aae2c3fa01d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\ui\UI\Music">
+      <UniqueIdentifier>{bfa85b22-42a1-4692-9a25-a3e76a6e29e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Hoshizor\Sora\Hoshizora.h">
@@ -1734,24 +1737,6 @@
     <ClInclude Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\lzio.h">
       <Filter>Plugins\SoraLua\Luaplus</Filter>
     </ClInclude>
-    <ClInclude Include="ui\DivaGUI\DivaPlayerItem.h">
-      <Filter>源文件\ui\DivaGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\DivaGUI\DivaPlayerList.h">
-      <Filter>源文件\ui\DivaGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\DivaGUI\DivaSelectedListBox.h">
-      <Filter>源文件\ui\DivaGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\DivaGUI\DivaSongInfoContainer.h">
-      <Filter>源文件\ui\DivaGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\DivaGUI\DivaSongList.h">
-      <Filter>源文件\ui\DivaGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\DivaGUI\DivaSongListItem.h">
-      <Filter>源文件\ui\DivaGUI</Filter>
-    </ClInclude>
     <ClInclude Include="ui\DivaNetwork\DivaNetwork.h">
       <Filter>源文件\ui\DivaNetwork</Filter>
     </ClInclude>
@@ -1834,9 +1819,6 @@
       <Filter>源文件\ui\GUIChanEx</Filter>
     </ClInclude>
     <ClInclude Include="ui\network.h">
-      <Filter>源文件\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\roomUI.h">
       <Filter>源文件\ui</Filter>
     </ClInclude>
     <ClInclude Include="ui\structure.h">
@@ -2327,6 +2309,30 @@
     </ClInclude>
     <ClInclude Include="ui\UI\Result\ResultUI.h">
       <Filter>源文件\ui\UI\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UI\Music\MusicUI.h">
+      <Filter>源文件\ui\UI\Music</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UI\Music\MusicGameState.h">
+      <Filter>源文件\ui\UI\Music</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UI\Music\DivaPlayerItem.h">
+      <Filter>源文件\ui\UI\Music</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UI\Music\DivaPlayerList.h">
+      <Filter>源文件\ui\UI\Music</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UI\Music\DivaSelectedListBox.h">
+      <Filter>源文件\ui\UI\Music</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UI\Music\DivaSongInfoContainer.h">
+      <Filter>源文件\ui\UI\Music</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UI\Music\DivaSongList.h">
+      <Filter>源文件\ui\UI\Music</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UI\Music\DivaSongListItem.h">
+      <Filter>源文件\ui\UI\Music</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3023,24 +3029,6 @@
     <ClCompile Include="..\Hoshizor\Plugins\SoraLua\LuaPlus\src\print.c">
       <Filter>Plugins\SoraLua\Luaplus</Filter>
     </ClCompile>
-    <ClCompile Include="ui\DivaGUI\DivaPlayerItem.cpp">
-      <Filter>源文件\ui\DivaGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\DivaGUI\DivaPlayerList.cpp">
-      <Filter>源文件\ui\DivaGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\DivaGUI\DivaSelectedListBox.cpp">
-      <Filter>源文件\ui\DivaGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\DivaGUI\DivaSongInfoCotainer.cpp">
-      <Filter>源文件\ui\DivaGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\DivaGUI\DivaSongList.cpp">
-      <Filter>源文件\ui\DivaGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\DivaGUI\DivaSongListItem.cpp">
-      <Filter>源文件\ui\DivaGUI</Filter>
-    </ClCompile>
     <ClCompile Include="ui\DivaNetwork\DivaNetwork.cpp">
       <Filter>源文件\ui\DivaNetwork</Filter>
     </ClCompile>
@@ -3120,9 +3108,6 @@
       <Filter>源文件\ui\GUIChanEx</Filter>
     </ClCompile>
     <ClCompile Include="ui\network.cpp">
-      <Filter>源文件\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\roomUI.cpp">
       <Filter>源文件\ui</Filter>
     </ClCompile>
     <ClCompile Include="ui\structure.cpp">
@@ -3424,6 +3409,30 @@
     </ClCompile>
     <ClCompile Include="divanetwork\gnet\netManager.cpp">
       <Filter>源文件\divanetwork\gnet</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\Music\MusicUI.cpp">
+      <Filter>源文件\ui\UI\Music</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\Music\MusicGameState.cpp">
+      <Filter>源文件\ui\UI\Music</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\Music\DivaPlayerItem.cpp">
+      <Filter>源文件\ui\UI\Music</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\Music\DivaPlayerList.cpp">
+      <Filter>源文件\ui\UI\Music</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\Music\DivaSelectedListBox.cpp">
+      <Filter>源文件\ui\UI\Music</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\Music\DivaSongInfoCotainer.cpp">
+      <Filter>源文件\ui\UI\Music</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\Music\DivaSongList.cpp">
+      <Filter>源文件\ui\UI\Music</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\Music\DivaSongListItem.cpp">
+      <Filter>源文件\ui\UI\Music</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

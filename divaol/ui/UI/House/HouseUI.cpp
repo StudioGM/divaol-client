@@ -145,6 +145,10 @@ namespace diva
 			roomListPanel = CreateRoomListWindow(rconf);
 			roomListPanel->setVisible(false);
 			top->add(roomListPanel);
+
+			stageList = CreateStageList(rconf);
+			stageList->setVisible(false);
+			roomTop->add(stageList);
 		
 			//LoginButtonClicked();
 			// ------------- Refresh All
@@ -280,6 +284,7 @@ namespace diva
 			decorateButton->setVisible(false);
 			thingList->setVisible(false);
 			teamList->setVisible(false);
+			stageList->setVisible(false);
 		}
 
 		void HouseUI::StateChange_LOGINWINDOW_ROOM()
@@ -327,6 +332,7 @@ namespace diva
 			decorateButton->setVisible(true);
 			thingList->setVisible(true);
 			teamList->setVisible(true);
+			stageList->setVisible(true);
 
 			//
 			roomListPanel->setVisible(false);
@@ -480,6 +486,28 @@ namespace diva
 			return text;
 		}
 
+		gcn::MarkerEx* HouseUI::CreateMarker(const WJson::Value conf, const std::wstring& up1, const std::wstring& up2, const std::wstring &up3, const std::wstring& down1, const std::wstring& down2, const std::wstring &down3, const std::wstring& mid1, const std::wstring& mid2, const std::wstring &mid3)
+		{
+			using namespace gcn;
+			gcn::MarkerEx* marker = new MarkerEx();
+			marker->setLook(conf[up1][L"filename"].asString(),
+				GetRect(conf[up1]), GetRect(conf[up2]), GetRect(conf[up3]),
+				GetRect(conf[down1]), GetRect(conf[down2]), GetRect(conf[down3]),
+				GetRect(conf[mid1]), GetRect(conf[mid2]), GetRect(conf[mid3]));
+			marker->setOffset(
+				0, 0,
+				conf[up2][L"desX"].asInt() - conf[up1][L"desX"].asInt(), conf[up2][L"desY"].asInt() - conf[up1][L"desY"].asInt(),
+				conf[up3][L"desX"].asInt() - conf[up1][L"desX"].asInt(), conf[up3][L"desY"].asInt() - conf[up1][L"desY"].asInt(),
+				0, 0,
+				conf[down2][L"desX"].asInt() - conf[down1][L"desX"].asInt(), conf[down2][L"desY"].asInt() - conf[down1][L"desY"].asInt(),
+				conf[down3][L"desX"].asInt() - conf[down1][L"desX"].asInt(), conf[down3][L"desY"].asInt() - conf[down1][L"desY"].asInt(),
+				0, 0,
+				conf[mid2][L"desX"].asInt() - conf[mid1][L"desX"].asInt(), conf[mid2][L"desY"].asInt() - conf[mid1][L"desY"].asInt(),
+				conf[mid3][L"desX"].asInt() - conf[mid1][L"desX"].asInt(), conf[mid3][L"desY"].asInt() - conf[mid1][L"desY"].asInt());
+			marker->setWidth(conf[up1][L"width"].asInt());
+			return marker;
+		}
+
 
 		gcn::ContainerEx* HouseUI::CreateLoginWindow(const WJson::Value& conf, const std::wstring& prefix)
 		{
@@ -587,12 +615,24 @@ namespace diva
 			tv = conf[L"RoomList/scrollBar/Config"];
 			SliderEx* slider = new SliderEx();
 			//slider->setSize(
+			// marker
+			MarkerEx* marker = CreateMarker(conf, L"RoomList/scrollBar/slider/slider_normal_up",
+				L"RoomList/scrollBar/slider/slider_on_up",
+				L"RoomList/scrollBar/slider/slider_down_up",
+				L"RoomList/scrollBar/slider/slider_normal_down",
+				L"RoomList/scrollBar/slider/slider_on_down",
+				L"RoomList/scrollBar/slider/slider_down_down",
+				L"RoomList/scrollBar/slider/slider_normal_mid",
+				L"RoomList/scrollBar/slider/slider_on_mid",
+				L"RoomList/scrollBar/slider/slider_down_mid");
+
+			//marker->setLook(
 			slider->setSize(tv[L"width"].asInt(), tv[L"height"].asInt());
 			slider->setPosition(tv[L"desX"].asInt(), tv[L"desY"].asInt());
 			slider->setLook(CreateButton(conf, L"RoomList/scrollBar/btn_up_normal", L"RoomList/scrollBar/btn_up_on", L"RoomList/scrollBar/btn_up_down", L"RoomList/scrollBar/btn_up_normal"),
 				CreateButton(conf, L"RoomList/scrollBar/btn_down_normal", L"RoomList/scrollBar/btn_down_on", L"RoomList/scrollBar/btn_down_down", L"RoomList/scrollBar/btn_down_normal"),
-				CreateButton(conf, L"RoomList/scrollBar/slider/slider_normal", L"RoomList/scrollBar/slider/slider_on", L"RoomList/scrollBar/slider/slider_down", L"RoomList/scrollBar/slider/slider_normal"));
-			slider->setMarkScale(0, list->getFullMaxPage(), list->getFullMaxPage() + 1); 
+				marker);
+			slider->setMarkScale(0, list->getFullMaxPage(), list->getItemCount()); 
 			slider->setPosition(slider->getX() - panel->getX(), slider->getY() - panel->getY());
 			panel->add(slider);
 
@@ -775,6 +815,23 @@ namespace diva
 			//list->pushItem(new HouseUIRoomInfoListItem("SMBean",  (tv[L"colorList"][1]).asInt()));
 			
 			return panel;
+		}
+
+		gcn::ListBoxEx* HouseUI::CreateStageList(const WJson::Value& conf)
+		{
+			using namespace gcn;
+			WJson::Value tv = conf[L"PlayerList/Config"], t2 = conf[L"PlayerList/playerItem_back"];
+
+			ListBoxEx* list = new ListBoxEx();
+			list->setMaxItem(tv[L"maxItem"].asInt());
+			list->setGap(gcn::Rectangle(0, 0, tv[L"width"].asInt(), tv[L"height"].asInt()), tv[L"gap"].asInt());
+			list->setWidth(t2[L"width"].asInt());
+			list->adjustMyHeight();
+			list->setPosition(t2[L"desX"].asInt(), t2[L"desY"].asInt());
+			for (int i=1; i<=8; i++)
+				list->pushItem(new StageListItem(t2[L"filename"].asString(), GetRect(t2)));
+
+			return list;
 		}
 
 		gcn::SliderEx* HouseUI::CreateMessageSlider(const WJson::Value& conf)

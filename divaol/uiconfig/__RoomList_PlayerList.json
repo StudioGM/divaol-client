@@ -8,7 +8,7 @@
     "width": 1220,
     "height": 771
   },
-  "RoomList/RoomItem_down": {
+  "RoomList/RoomItem_on": {
     "filename": "res/RoomList_PlayerList_001.png",
     "srcX": 0,
     "srcY": 771,
@@ -26,7 +26,7 @@
     "width": 530,
     "height": 206
   },
-  "RoomList/RoomItem_on": {
+  "RoomList/RoomItem_down": {
     "filename": "res/RoomList_PlayerList_001.png",
     "srcX": 1220,
     "srcY": 206,
@@ -52,6 +52,28 @@
     "desY": 838,
     "width": 366,
     "height": 33
+  },
+  "RoomList/Config": {
+    "openStageText": "公开舞台",
+    "xGap": 7,
+    "yGap": 0,
+    "firstX": 0,
+    "firstY": 0,
+    "firstWidth": 530,
+    "firstHeight": 206,
+    "xItemCount": 2,
+    "yItemCount": 3,
+    "desX": 381,
+    "desY": 183,
+    "x1": 30,
+    "y1": 30,
+    "x2": 10,
+    "y2": 50,
+    "x3": 30,
+    "y3": 80,
+    "x4": 80,
+    "y4": 80
+
   },
   "RoomList/btn_openStage/btn_openStage_down": {
     "filename": "res/RoomList_PlayerList_001.png",
@@ -80,7 +102,7 @@
     "width": 178,
     "height": 71
   },
-  "RoomList/search/btn_search_on": {
+  "RoomList/search/btn_search_down": {
     "filename": "res/RoomList_PlayerList_001.png",
     "srcX": 1220,
     "srcY": 765,
@@ -89,7 +111,7 @@
     "width": 82,
     "height": 67
   },
-  "RoomList/search/btn_search_down": {
+  "RoomList/search/btn_search_on": {
     "filename": "res/RoomList_PlayerList_001.png",
     "srcX": 1220,
     "srcY": 832,
@@ -116,16 +138,16 @@
     "width": 65,
     "height": 53
   },
-  "RoomList/scrollBar/btn_down_down": {
+  "RoomList/scrollBar/btn_up_on": {
     "filename": "res/RoomList_PlayerList_001.png",
     "srcX": 1750,
     "srcY": 53,
     "desX": 1462,
-    "desY": 715,
+    "desY": 226,
     "width": 65,
     "height": 52
   },
-  "RoomList/scrollBar/btn_down_on": {
+  "RoomList/scrollBar/btn_down_down": {
     "filename": "res/RoomList_PlayerList_001.png",
     "srcX": 1750,
     "srcY": 105,
@@ -134,12 +156,12 @@
     "width": 65,
     "height": 52
   },
-  "RoomList/scrollBar/btn_up_on": {
+  "RoomList/scrollBar/btn_down_on": {
     "filename": "res/RoomList_PlayerList_001.png",
     "srcX": 1750,
     "srcY": 157,
     "desX": 1462,
-    "desY": 226,
+    "desY": 715,
     "width": 65,
     "height": 52
   },
@@ -161,59 +183,23 @@
     "width": 44,
     "height": 42
   },
-  "RoomList/scrollBar/slider/slider_on_up": {
+  "RoomList/scrollBar/slider/slider_down": {
     "filename": "res/RoomList_PlayerList_001.png",
     "srcX": 1750,
     "srcY": 284,
     "desX": 1474,
     "desY": 254,
     "width": 41,
-    "height": 13
+    "height": 38
   },
-  "RoomList/scrollBar/slider/slider_on_down": {
+  "RoomList/scrollBar/slider/slider_on": {
     "filename": "res/RoomList_PlayerList_001.png",
     "srcX": 1750,
-    "srcY": 297,
-    "desX": 1474,
-    "desY": 279,
-    "width": 41,
-    "height": 13
-  },
-  "RoomList/scrollBar/slider/slider_down_down": {
-    "filename": "res/RoomList_PlayerList_001.png",
-    "srcX": 1750,
-    "srcY": 310,
-    "desX": 1474,
-    "desY": 279,
-    "width": 41,
-    "height": 13
-  },
-  "RoomList/scrollBar/slider/slider_down_up": {
-    "filename": "res/RoomList_PlayerList_001.png",
-    "srcX": 1750,
-    "srcY": 323,
+    "srcY": 322,
     "desX": 1474,
     "desY": 254,
     "width": 41,
-    "height": 13
-  },
-  "RoomList/scrollBar/slider/slider_on_mid": {
-    "filename": "res/RoomList_PlayerList_001.png",
-    "srcX": 1750,
-    "srcY": 336,
-    "desX": 1474,
-    "desY": 267,
-    "width": 41,
-    "height": 12
-  },
-  "RoomList/scrollBar/slider/slider_down_mid": {
-    "filename": "res/RoomList_PlayerList_001.png",
-    "srcX": 1750,
-    "srcY": 348,
-    "desX": 1474,
-    "desY": 267,
-    "width": 41,
-    "height": 12
+    "height": 38
   },
   "RoomList/btn_close/btn_close_normal": {
     "filename": "res/RoomList_PlayerList_001.png",
@@ -224,10 +210,19 @@
     "width": 35,
     "height": 34
   },
-  "RoomList/scrollBar/btn_up_normal": {
+  "RoomList/scrollBar/slider/slider_normal": {
     "filename": "res/RoomList_PlayerList_001.png",
     "srcX": 1750,
     "srcY": 394,
+    "desX": 1481,
+    "desY": 261,
+    "width": 27,
+    "height": 24
+  },
+  "RoomList/scrollBar/btn_up_normal": {
+    "filename": "res/RoomList_PlayerList_001.png",
+    "srcX": 1750,
+    "srcY": 418,
     "desX": 1481,
     "desY": 245,
     "width": 27,
@@ -236,74 +231,16 @@
   "RoomList/scrollBar/btn_down_normal": {
     "filename": "res/RoomList_PlayerList_001.png",
     "srcX": 1750,
-    "srcY": 408,
+    "srcY": 432,
     "desX": 1481,
     "desY": 734,
     "width": 27,
     "height": 14
   },
-  "RoomList/scrollBar/slider/slider_normal_mid": {
-    "filename": "res/RoomList_PlayerList_001.png",
-    "srcX": 1750,
-    "srcY": 422,
-    "desX": 1481,
-    "desY": 267,
-    "width": 27,
-    "height": 12
-  },
-  "RoomList/scrollBar/slider/slider_normal_up": {
-    "filename": "res/RoomList_PlayerList_001.png",
-    "srcX": 1750,
-    "srcY": 434,
-    "desX": 1481,
-    "desY": 261,
-    "width": 27,
-    "height": 6
-  },
-  "RoomList/scrollBar/slider/slider_normal_down": {
-    "filename": "res/RoomList_PlayerList_001.png",
-    "srcX": 1750,
-    "srcY": 440,
-    "desX": 1481,
-    "desY": 279,
-    "width": 27,
-    "height": 6
-  },
-
-  "RoomList/Config": {
-    "openStageText": "公开舞台",
-    "xGap": 7,
-    "yGap": 0,
-    "firstX": 0,
-    "firstY": 0,
-    "firstWidth": 530,
-    "firstHeight": 206,
-    "xItemCount": 2,
-    "yItemCount": 3,
-    "desX": 381,
-    "desY": 183,
-    "x1": 30,
-    "y1": 30,
-    "x2": 10,
-    "y2": 50,
-    "x3": 30,
-    "y3": 80,
-    "x4": 80,
-    "y4": 80
-
-  },
-
   "RoomList/scrollBar/Config": {
     "width": 27,
     "height": 503,
     "desX": 1481,
     "desY": 245
-  },
-
-  "PlayerList/Config": {
-    "maxItem": 8,
-    "width": 411,
-    "height": 75,
-    "gap": -15
   }
 }

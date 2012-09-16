@@ -4,6 +4,7 @@
 #include "Lib/wjson/wjson.h"
 #include <string>
 #include <Windows.h>
+#include "guichan.hpp"
 
 namespace diva
 {
@@ -12,7 +13,8 @@ namespace diva
 	void initialize_config(const std::wstring& filename);
 
 	std::wstring ReadJsonFile(const std::wstring& filename);
-
+	
+	gcn::Rectangle GetRect(const WJson::Value& v);
 }
 
 namespace gcn

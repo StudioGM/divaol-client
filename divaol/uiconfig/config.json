@@ -8,11 +8,11 @@
 	///////////////////////////////////////////////////////
 
 	// ui info
-	"gameModeNames" : ["ÆÕÍ¨", "½ÓÁ¦Èü",  "Ë«´ò"],
+	"gameModeNames" : ["双人", "接力",  "普通"],
 	"listenDelay" : 1.0,
 	"myId" : 0,
 	"myName" : "SonicMisora",
-	"iconFileNames" : ["preview/head.png", "preview/head.png", "preview/head.png", "preview/head.png"],
+	"iconFileNames" : ["res/test_icon.png", "res/test_icon.png", "res/test_icon.png", "res/test_icon.png"],
 
 	///////////////////////////////////////////////////////
 	// Test data

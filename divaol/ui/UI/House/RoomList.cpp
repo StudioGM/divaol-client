@@ -2,10 +2,32 @@
 
 #include "soraguiimage.hpp"
 
+
 namespace diva
 {
 	namespace HouseUI
 	{
+
+		StageListItem::StageListItem(const std::wstring& filename, gcn::Rectangle srcRect)
+		{
+			image = gcn::SoraGUIImage::load(filename);
+			this->srcRect = srcRect;
+		}
+
+		StageListItem::~StageListItem()
+		{
+			if (image)
+				delete image;
+		}
+
+		void StageListItem::draw(Graphics* graphics, Font* font, int state, int alpha)
+		{
+			graphics->setColor(gcn::Color(255, 255, 255, alpha));
+			graphics->drawImage(image, srcRect.x, srcRect.y, 0, 0, srcRect.width, srcRect.height);
+		}
+
+		//////////////////////////////////////////////////////////////////////////
+
 		int RoomListItem::x1;
 		int RoomListItem::x2;
 		int RoomListItem::x3;

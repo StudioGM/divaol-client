@@ -55,6 +55,10 @@ namespace diva
 			gcn::ContainerEx* CreateTeamList(const WJson::Value& conf);
 			gcn::ContainerEx* CreateRoomListWindow(const WJson::Value conf);
 			RoomListItem* CreateRoomListItem(const WJson::Value conf, const std::wstring& normal, const std::wstring& on, const std::wstring& down);
+			gcn::MarkerEx* CreateMarker(const WJson::Value conf, const std::wstring& up1, const std::wstring& up2, const std::wstring &up3, 
+				 const std::wstring& down1, const std::wstring& down2, const std::wstring &down3,
+				  const std::wstring& mid1, const std::wstring& mid2, const std::wstring &mid3);
+			gcn::ListBoxEx* CreateStageList(const WJson::Value& conf);
 
 			void RefreshStatus();
 			void Refresh_sPlayerList();
@@ -100,7 +104,7 @@ namespace diva
 			ThingList* thingList;
 			gcn::ContainerEx* teamList;
 			std::vector<gcn::SuperButtonEx*> teamListButtons;
-
+			gcn::ListBoxEx* stageList;
 
 
 			gcn::ContainerEx* sPlayerListPanel;

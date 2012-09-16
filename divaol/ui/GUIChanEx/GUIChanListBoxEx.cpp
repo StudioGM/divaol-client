@@ -327,6 +327,11 @@ namespace gcn
 		scrollNext();
 	}
 
+	void ListBoxEx::adjustMyHeight()
+	{
+		setHeight(maxItem * (firstRect.width + itemGap) - itemGap);
+	}
+
 	void ListBoxEx::scrollNext()
 	{
 		if (items.size() <= maxItem)

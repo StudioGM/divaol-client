@@ -37,6 +37,7 @@ namespace diva
 					initialized = true;
 				}
 				sora::SoraCore::Instance()->setFPS(60);
+				houseUI->Enter();
 			}
 
 			void onUpdate(float dt) {   
@@ -61,6 +62,11 @@ namespace diva
 				sprite->render(0, 0);
 
 				sora::SoraGameApp::EndScene();
+			}
+
+			void onLeave()
+			{
+				houseUI->Leave();
 			}
 		};
 

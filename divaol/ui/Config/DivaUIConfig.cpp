@@ -31,7 +31,10 @@ namespace diva
 		return jsonStrToParse;
 	}
 
-
+	gcn::Rectangle GetRect(const WJson::Value& v)
+	{
+		return gcn::Rectangle(v[L"srcX"].asInt(), v[L"srcY"].asInt(), v[L"width"].asInt(), v[L"height"].asInt());
+	}
 
 	
 }
