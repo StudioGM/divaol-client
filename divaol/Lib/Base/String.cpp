@@ -35,11 +35,36 @@ namespace Base
 				ret += mContent[index];
 		return ret;
 	}
+	String String::append(size_t size, const String &token) const {
+		String apd = "";
+		if(size>0)
+		{
+			apd = token;
+			apd *= size;
+		}
+		return *this+apd;
+	}
 	String String::reverse() const
 	{
 		base_wstring ret;
 		for(size_t index = 0; index < mContent.size(); index++)
 			ret.push_back(mContent[size()-index-1]);
+		return ret;
+	}
+	String String::replace(const String &src, const String &dst) const
+	{
+		IndexVar pos = 0;
+		String ret;
+		while(pos<mContent.size())
+		{
+			if(find(src,pos)==pos)
+			{
+				ret += dst;
+				pos += src.size();
+			}
+			else
+				ret += mContent[pos++];
+		}
 		return ret;
 	}
 	Strings String::split(Strings tokens) const
@@ -92,7 +117,7 @@ namespace Base
 		{
 			bool flag = false;
 			for(Strings::iterator ptr = tokens.begin(); ptr != tokens.end(); ptr++)
-				if(rfind(*ptr,size()-right)==size()-right)
+				if(rfind(*ptr,right-1)==right-1)
 				{
 					flag = true;
 					break;

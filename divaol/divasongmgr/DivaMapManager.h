@@ -21,7 +21,16 @@ namespace divamap
 	class DivaMapEventMessage
 	{
 	public:
-		enum DIVAMAPMGREVENT {PrepareMapList, PrepareThumbFile, PrepareAudioPreviewFile, PrepareMapDataFile, PrepareCheckMapDataFile, MapEventERROR};
+		enum DIVAMAPMGREVENT {
+			PrepareMapList, 
+			PrepareThumbFile, 
+			PrepareAudioPreviewFile, 
+			PrepareMapDataFile, 
+			PrepareMapDataFileNoVideo, 
+			UnpackMapDataFile, 
+			PrepareCheckMapDataFile, 
+			MapEventERROR
+		};
 		
 		DivaMapEventMessage()
 		{
@@ -173,13 +182,17 @@ namespace divamap
 		bool PrepareDivaMapThumb(int id);
 		bool PrepareDivaMapAudioPreview(int id);
 
-		bool PrepareDivaMapData(int id);
+		bool PrepareDivaMapData(int id, bool novideo=false);
 		bool PrepareCheckLocalMapDataFileLeagal(int id);
-		bool PrepareDivaMapDataFromFile(std::wstring zippedFile);
+		bool PrepareDivaMapDataFromFile(std::wstring divaolpackFile);
 
 
 		//Get functions
 		std::wstring GetMapName(int id);
+		std::wstring GetMapDirectory(int id);
+		std::wstring GetThumbFilePath(int id);
+		std::wstring GetAudioPreviewFilePath(int id);
+		std::wstring GetDivaOLFilePath(int id, DivaMap::LevelType level);
 		bool isMapIdLeagal(int id);
 		std::map<int, DivaMap>& GetMapList(){return maps;}
 
@@ -195,6 +208,9 @@ namespace divamap
 	};
 
 }
+
+typedef std::map<divamap::DivaMap::LevelType, divamap::DivaMapLevel>::iterator MAPLEVELITERATOR;
+
 #define MAPMGR divamap::DivaMapManager::instance()
 #define MAPS MAPMGR.GetMapList()
 #define SELECTEDMAPS MAPMGR.GetSelectedMaps()

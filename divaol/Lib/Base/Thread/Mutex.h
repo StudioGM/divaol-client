@@ -12,12 +12,6 @@
 
 #include "../Common.h"
 
-#ifdef BASE_OS_WINDOWS
-#include "win32/MutexImpl.h"
-#else
-#include "posix/MutexImpl.h"
-#endif
-
 namespace Base
 {
 	class Mutex : public MutexImpl

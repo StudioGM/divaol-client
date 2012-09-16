@@ -551,8 +551,10 @@
     <ClInclude Include="divasongmgr\DivaMapManager.h" />
     <ClInclude Include="Lib\Base\Common.h" />
     <ClInclude Include="Lib\Base\Exception.h" />
+    <ClInclude Include="Lib\Base\Io\FileUtil.h" />
     <ClInclude Include="Lib\Base\Io\FileUtility.h" />
     <ClInclude Include="Lib\Base\Io\FileUtilityImplWin.h" />
+    <ClInclude Include="Lib\Base\Io\Path.h" />
     <ClInclude Include="Lib\Base\Io\Stream.h" />
     <ClInclude Include="Lib\Base\Logger.h" />
     <ClInclude Include="Lib\Base\Platform.h" />
@@ -561,10 +563,12 @@
     <ClInclude Include="Lib\Base\Singleton.h" />
     <ClInclude Include="Lib\Base\String.h" />
     <ClInclude Include="Lib\Base\StringConv.h" />
+    <ClInclude Include="Lib\Base\Sys\Sys.h" />
+    <ClInclude Include="Lib\Base\Sys\SysUtilApple.h" />
+    <ClInclude Include="Lib\Base\Sys\SysUtilNormal.h" />
+    <ClInclude Include="Lib\Base\Sys\SysUtilWin.h" />
     <ClInclude Include="Lib\Base\Thread\Mutex.h" />
-    <ClInclude Include="Lib\Base\Thread\posix\MutexImpl.h" />
     <ClInclude Include="Lib\Base\Thread\Queue.h" />
-    <ClInclude Include="Lib\Base\Thread\win32\MutexImpl.h" />
     <ClInclude Include="Lib\Base\Timer.h" />
     <ClInclude Include="Lib\Base\Type.h" />
     <ClInclude Include="Lib\Base\Uncopyable.h" />
@@ -772,6 +776,8 @@
     <ClCompile Include="divanetwork\gnet\netManager.cpp" />
     <ClCompile Include="divasongmgr\DivaMapEncryption.cpp" />
     <ClCompile Include="divasongmgr\DivaMapManager.cpp" />
+    <ClCompile Include="Lib\Base\Io\FileUtil.cpp" />
+    <ClCompile Include="Lib\Base\Io\Path.cpp" />
     <ClCompile Include="Lib\Base\Io\Stream.cpp" />
     <ClCompile Include="Lib\Base\Logger.cpp" />
     <ClCompile Include="Lib\Base\String.cpp" />
