@@ -86,6 +86,7 @@ namespace divamap
 		std::vector<std::wstring> lyricists;
 		std::vector<std::wstring> artists;
 		std::vector<std::wstring> vocaloids;
+		int bpm;
 		std::wstring additionalMessage;
 		int playedCount;
 		int songLength;
