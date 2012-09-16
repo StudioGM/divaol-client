@@ -568,6 +568,16 @@
     <ClInclude Include="Lib\Base\Timer.h" />
     <ClInclude Include="Lib\Base\Type.h" />
     <ClInclude Include="Lib\Base\Uncopyable.h" />
+    <ClInclude Include="Lib\curl\curl.h" />
+    <ClInclude Include="Lib\curl\curlbuild.h" />
+    <ClInclude Include="Lib\curl\curlrules.h" />
+    <ClInclude Include="Lib\curl\curlver.h" />
+    <ClInclude Include="Lib\curl\easy.h" />
+    <ClInclude Include="Lib\curl\mprintf.h" />
+    <ClInclude Include="Lib\curl\multi.h" />
+    <ClInclude Include="Lib\curl\stdcheaders.h" />
+    <ClInclude Include="Lib\curl\typecheck-gcc.h" />
+    <ClInclude Include="Lib\curl\types.h" />
     <ClInclude Include="Lib\wjson\wautolink.h" />
     <ClInclude Include="Lib\wjson\wconfig.h" />
     <ClInclude Include="Lib\wjson\wfeatures.h" />
@@ -775,6 +785,10 @@
     <None Include="..\Hoshizor\Sora\json\json_internalarray.inl" />
     <None Include="..\Hoshizor\Sora\json\json_internalmap.inl" />
     <None Include="..\Hoshizor\Sora\json\json_valueiterator.inl" />
+    <None Include="Lib\curl\curlbuild.h.cmake" />
+    <None Include="Lib\curl\curlbuild.h.in" />
+    <None Include="Lib\curl\Makefile.am" />
+    <None Include="Lib\curl\Makefile.in" />
     <None Include="Lib\wjson\wjson_valueiterator.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

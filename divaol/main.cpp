@@ -29,7 +29,30 @@ int CALLBACK WinMain(
         
 #endif
 		///////////////////////////////
+		std::list<divamap::DivaMapEventMessage> listMsgOut;
+		MAPMGR.registerMapEventMessageQueue(&listMsgOut);
 		MAPMGR.PrepareDivaMapThumb(1);
+		bool fini=false;
+		while(true)
+		{
+			MAPMGR.update(0);
+			while(listMsgOut.size()!=0)
+			{
+				divamap::DivaMapEventMessage msg = listMsgOut.front();
+				listMsgOut.pop_front();
+				if(msg.finish)
+				{
+					MessageBoxW(NULL, L"download over", L"download", MB_OK);
+					fini=true;
+				}
+				else
+				{
+					printf("%lf", msg.downloadProgress);
+				}
+			}
+			if(fini)
+				break;
+		}
 		NET_MANAGER.setCoreNet(new divanet::TCPGNetworkSystem);
 		///////////////////////////////
 

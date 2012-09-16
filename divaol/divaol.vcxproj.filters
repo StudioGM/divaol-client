@@ -157,6 +157,9 @@
     <Filter Include="源文件\divanetwork\gnet">
       <UniqueIdentifier>{895ddc2d-2f0a-4a25-b92f-762fd5be8f98}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\lib\curl">
+      <UniqueIdentifier>{c90c8520-cc2f-492c-ad96-15f55444cc35}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Hoshizor\Sora\Hoshizora.h">
@@ -1647,6 +1650,36 @@
     <ClInclude Include="divanetwork\DivaNetworkManager.h">
       <Filter>源文件\divanetwork</Filter>
     </ClInclude>
+    <ClInclude Include="Lib\curl\curl.h">
+      <Filter>源文件\lib\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\curl\curlbuild.h">
+      <Filter>源文件\lib\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\curl\curlrules.h">
+      <Filter>源文件\lib\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\curl\curlver.h">
+      <Filter>源文件\lib\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\curl\easy.h">
+      <Filter>源文件\lib\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\curl\mprintf.h">
+      <Filter>源文件\lib\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\curl\multi.h">
+      <Filter>源文件\lib\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\curl\stdcheaders.h">
+      <Filter>源文件\lib\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\curl\typecheck-gcc.h">
+      <Filter>源文件\lib\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\curl\types.h">
+      <Filter>源文件\lib\curl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -2235,6 +2268,18 @@
     </None>
     <None Include="Lib\wjson\wjson_valueiterator.inl">
       <Filter>源文件\lib\wjson</Filter>
+    </None>
+    <None Include="Lib\curl\curlbuild.h.cmake">
+      <Filter>源文件\lib\curl</Filter>
+    </None>
+    <None Include="Lib\curl\curlbuild.h.in">
+      <Filter>源文件\lib\curl</Filter>
+    </None>
+    <None Include="Lib\curl\Makefile.am">
+      <Filter>源文件\lib\curl</Filter>
+    </None>
+    <None Include="Lib\curl\Makefile.in">
+      <Filter>源文件\lib\curl</Filter>
     </None>
   </ItemGroup>
 </Project>
