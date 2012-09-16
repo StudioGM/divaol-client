@@ -2,8 +2,14 @@
 
 #include <Process.h>
 #include <string>
+#include "Lib/Base/Common.h"
 #include "Lib/wjson/wjson.h"
+#include "ZLIB/zlib.h"
 #include "DivaMapEncryption.h"
+
+#ifdef BASE_OS_WINDOWS
+#pragma comment(lib, "libcurl.lib")
+#endif
 
 namespace divamap
 {
@@ -13,12 +19,24 @@ namespace divamap
 
 	DivaMapManager::DivaMapManager()
 	{
+		
 		listMsgOut = NULL;
 		if(!initFromLocalFile())
 		{
 			lastUpdatedDate = L"1900-09-13 23:59:59";
 			maps.clear();
 		}
+
+		//Init libcurl
+		curl_global_init(CURL_GLOBAL_ALL);
+
+		//For test
+		downloadCategoryServerAddress = L"http://divaol.com/test";
+		PrepareDivaMapListInfo();
+	}
+	DivaMapManager::~DivaMapManager()
+	{
+		curl_global_cleanup();
 	}
 
 	bool DivaMapManager::initFromLocalFile()
@@ -62,10 +80,11 @@ namespace divamap
 					else
 						return false;
 
-					if(headerJValue.isMember(L"name") && headerJValue.isMember(L"thumb")  && headerJValue.isMember(L"audioPreview")  && headerJValue.isMember(L"playedCount")  
+					if(headerJValue.isMember(L"mapType") && headerJValue.isMember(L"name") && headerJValue.isMember(L"thumb")  && headerJValue.isMember(L"audioPreview")  && headerJValue.isMember(L"playedCount")  
 						&& headerJValue.isMember(L"additionalMessage") && headerJValue.isMember(L"noters")  && headerJValue.isMember(L"alias")  && headerJValue.isMember(L"composers")
 						&& headerJValue.isMember(L"lyricists")  && headerJValue.isMember(L"artists") && headerJValue.isMember(L"vocaloids"))
 					{
+						thisMap.header.mapType = (DivaMapHeader::MapType)headerJValue[L"mapType"].asInt();
 						thisMap.header.name = headerJValue[L"name"].asString();
 						thisMap.header.thumb = headerJValue[L"thumb"].asString();
 						thisMap.header.audioPreview = headerJValue[L"audioPreview"].asString();
@@ -201,6 +220,7 @@ namespace divamap
 			#pragma region Header
 			DivaMapHeader& header = mapI->second.header;
 			WJson::Value headerJValue;
+			headerJValue[L"mapType"] = (int)header.mapType;
 			headerJValue[L"name"] = header.name;
 			headerJValue[L"thumb"] = header.thumb;
 			headerJValue[L"audioPreview"] = header.audioPreview;
@@ -299,73 +319,163 @@ namespace divamap
 
 	void DivaMapManager::update(float dt)
 	{
-
+		DivaMapEventMessage thisMessage;
+		while(threadQueue.take(thisMessage))
+		{
+			if(thisMessage.finish)
+				isOperating[thisMessage.effectedMapID][thisMessage.eventType]=false;
+			if(listMsgOut)
+				listMsgOut->push_back(thisMessage);
+		}
 	}
 
 
 #pragma region MultiThread functions
+	
 
-	void DownloadDivaMapThumb(void* arg_mapID)
+	static int DownloadFileProgressCallback(void *p, double dltotal, double dlnow, double ultotal, double ulnow)
 	{
-		int id = *((int*)arg_mapID);
-		Sleep(2000);
-		MessageBoxW(NULL,L"ThreadOver!", L"Thread Test", MB_OK);
+		DivaMapEventMessage *eventMsg = (DivaMapEventMessage*)p;
+		if(abs(dltotal)<1e-6)
+			eventMsg->downloadProgress=0;
+		else
+			eventMsg->downloadProgress = dlnow / dltotal;
+		if(eventMsg->eventType == DivaMapEventMessage::PrepareMapDataFile)
+			MAPMGR.GetMessageQueue().put((*eventMsg));
+		return 0;
+	}
+
+	static size_t
+	WriteFileCallback(void *contents, size_t size, size_t nmemb, void *userp)
+	{
+		DivaMapManagerDownloadQuest *quest = (DivaMapManagerDownloadQuest*)userp;
+
+		FILE *saveFile;
+
+		CreateDirectoryW((Base::String(LocalSongDirectoryW)+L"MAP_"+Base::String::any2string(quest->mapID)+L"/").unicode_str(),NULL);
+		if(_wfopen_s(&saveFile, quest->localFileAddress.unicode_str(), L"ab+")==0)
+		{
+			fwrite(contents, size, nmemb, saveFile);
+			fclose(saveFile);
+		}
+		else
+		{
+			quest->failed=true;
+		}
+
+		return size*nmemb;
+	}
+
+
+
+	unsigned __stdcall DownloadFileAsync(void* arg_quest)
+	{
+		DivaMapManagerDownloadQuest *thisQuest = (DivaMapManagerDownloadQuest*)arg_quest;
+
+		DivaMapEventMessage thisMessage(thisQuest->eventType, thisQuest->mapID, false, false, 0);
+
+		CURL *curl_handle;
+		curl_handle = curl_easy_init();
+		thisQuest->curlHandle = curl_handle;
+		curl_easy_setopt(curl_handle, CURLOPT_URL, thisQuest->sourceAddress.ansi_str());
+		curl_easy_setopt(curl_handle, CURLOPT_PROGRESSFUNCTION, DownloadFileProgressCallback);
+		curl_easy_setopt(curl_handle, CURLOPT_PROGRESSDATA, (void *)&thisMessage);
+		curl_easy_setopt(curl_handle, CURLOPT_NOPROGRESS, false);
+		curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, WriteFileCallback);
+		curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, (void *)thisQuest);
+		curl_easy_setopt(curl_handle, CURLOPT_USERAGENT, "DivaOLMapManager-agent/0.1");
+		curl_easy_setopt(curl_handle, CURLOPT_FOLLOWLOCATION, 1);
+
+		
+		if(curl_easy_perform(curl_handle)==CURLE_OK && !thisQuest->failed)
+		{
+			thisMessage.finish=true;
+			thisMessage.error=false;
+			thisMessage.downloadProgress=1;
+		}
+		else
+		{
+			thisMessage.finish=true;
+			thisMessage.error=true;
+			DeleteFileW(thisQuest->localFileAddress.unicode_str());
+		}
+
+		MAPMGR.GetMessageQueue().put(thisMessage);
+
+		curl_easy_cleanup(curl_handle);
+		Base::DeletePtr(thisQuest);
+
+		return 0;
 	}
 
 
 #pragma endregion MultiThread functions
 
 
-
-
-
-
-
-
 	void DivaMapManager::PrepareDivaMapListInfo()
 	{
-
+		maps[1].id=1;
+		maps[1].header.thumb = L"spotlight.png";
+		maps[1].header.artists.push_back(L"我");
+		maps[1].header.composers.push_back(L"他");
+		maps[1].header.mapType = divamap::DivaMapHeader::Couple;
+		maps[1].header.bpm = 111;
+		maps[1].header.name = L"这首歌没有名字";
+		maps[1].header.playedCount = 12;
+		maps[1].header.alias.push_back(L"其实有名字");
+		maps[1].header.lyricists.push_back(L"你");
+		maps[1].header.noters.push_back(L"彼女");
+		maps[1].header.songLength = 450;
+		maps[1].levels[divamap::DivaMap::Easy].difficualty = 30;
+		maps[1].levels[divamap::DivaMap::Normal].difficualty = 60;
+		maps[1].levels[divamap::DivaMap::Hard].difficualty = 80;
 	}
-	bool DivaMapManager::PrepareDivaMapThumb(int id)
+
+	bool DivaMapManager::PrepareDirectFile(int id, DivaMapEventMessage::DIVAMAPMGREVENT eventType)
 	{
-		//if(maps.find(id)==maps.end())
-			//return false;
+		if(maps.find(id)==maps.end() || isOperating[id][eventType])
+			return false;
 
 		//Check if thumb file already exists
 		FILE *thumbFile;
-		Base::String thumbFilePath = Base::String(LocalSongDirectoryW)+L"MAP_"+Base::String::any2string(id)+L"/"+maps[id].header.thumb;
+		Base::String thumbFilePath = Base::String(LocalSongDirectoryW)+L"MAP_"+Base::String::any2string(id)+L"/"+
+			(eventType==DivaMapEventMessage::PrepareThumbFile?maps[id].header.thumb:maps[id].header.audioPreview);
 		if(_wfopen_s(&thumbFile, thumbFilePath.unicode_str(), L"r")!=0)
 		{
 			//File not exists
-			/*
-			pthread_t thisThreadID;
-
-			int error = pthread_create(
-				&thisThreadID,
+			Base::String thumbAddress = Base::String(downloadCategoryServerAddress) + L"/" + thumbFilePath;
+			DivaMapManagerDownloadQuest *thisQuest = new DivaMapManagerDownloadQuest(thumbAddress,thumbFilePath,id,eventType);
+			unsigned int threadAddress;
+			HANDLE hThread = 
+				(HANDLE)_beginthreadex(
 				NULL,
-				&DownloadDivaMapThumb,
-				&id
+				0,
+				&DownloadFileAsync,
+				thisQuest,
+				0,
+				&threadAddress
 				);
 
-			if(error!=0)
+			if(hThread==NULL)
 				return false;
-				*/
 		}
 		else
 		{
 			fclose(thumbFile);
 			if(listMsgOut!=NULL)
-				listMsgOut->push_back(DivaMapEventMessage(DivaMapEventMessage::PrepareThumbFile, id, false, true, 1));
+				listMsgOut->push_back(DivaMapEventMessage(eventType, id, false, true, 1));
 		}
 		return true;
 	}
 
+	bool DivaMapManager::PrepareDivaMapThumb(int id)
+	{
+		return PrepareDirectFile(id, DivaMapEventMessage::PrepareThumbFile);
+	}
+
 	bool DivaMapManager::PrepareDivaMapAudioPreview(int id)
 	{
-		if(maps.find(id)==maps.end())
-			return false;
-
-		return true;
+		return PrepareDirectFile(id, DivaMapEventMessage::PrepareAudioPreviewFile);
 	}
 
 	bool DivaMapManager::PrepareDivaMapData(int id)
@@ -386,24 +496,11 @@ namespace divamap
 
 	bool DivaMapManager::PrepareDivaMapDataFromFile(std::wstring zippedFile)
 	{
+		
+
 		return false;
 	}
 
-	//Check file functions
-	bool DivaMapManager::CheckLocalThumbFile(int id)
-	{
-		if(maps.find(id)==maps.end())
-			return false;
-
-		return true;
-	}
-	bool DivaMapManager::CheckLocalAudioPreviewFile(int id)
-	{
-		if(maps.find(id)==maps.end())
-			return false;
-
-		return true;
-	}
 
 	//Get functions
 	std::wstring DivaMapManager::GetMapName(int id)
@@ -414,6 +511,13 @@ namespace divamap
 			return maps.find(id)->second.header.name;
 		else
 			return L"";
+	}
+
+	bool DivaMapManager::isMapIdLeagal(int id)
+	{
+		if(maps.find(id)==maps.end())
+			return false;
+		return true;
 	}
 
 	//Select Map functions

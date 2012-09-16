@@ -9,6 +9,7 @@
 
 	// ui info
 	"gameModeNames" : ["双人", "接力",  "普通"],
+	"difNames": ["EASY", "NORMAL", "HARD", "EXTRA", "DIE"],
 	"listenDelay" : 1.0,
 	"myId" : 0,
 	"myName" : "SonicMisora",

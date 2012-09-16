@@ -8,7 +8,7 @@ namespace diva
 
 	using namespace gcn;
 
-	SongInfo::SongInfo(const Network::Map& a, int b, int c)
+	SongInfo::SongInfo(const divamap::DivaMap& a, int b, int c)
 	{
 		mapInfo = a;
 		difIndex = b;
@@ -67,13 +67,13 @@ namespace diva
 	{
 		wchar_t temp[200];
 		if (songInfo[index].type == RANDOM)
-			_swprintf(temp, L"RANDOM -- %s", songInfo[index].mapInfo.difNames[songInfo[index].difIndex].c_str());
+			_swprintf(temp, L"RANDOM -- %s", config[L"difNames"][songInfo[index].difIndex].asCString());
 		else if (songInfo[index].type = SPECIFIC)
-			_swprintf(temp, L"%s -- %s",  songInfo[index].mapInfo.origName.c_str(), songInfo[index].mapInfo.difNames[songInfo[index].difIndex].c_str());
+			_swprintf(temp, L"%s -- %s",  songInfo[index].mapInfo.header.name.c_str(), config[L"difNames"][songInfo[index].difIndex].asCString());
 		items[index]->setText(temp);
 	}
 
-	void DivaSelectedListBox::pushItem(const Network::Map& mapInfo, int difIndex, int type)
+	void DivaSelectedListBox::pushItem(const divamap::DivaMap& mapInfo, int difIndex, int type)
 	{
 		if (songInfo.size() >= maxItem)
 		{
@@ -100,23 +100,24 @@ namespace diva
 		}
 
 		// DISPLAY SONGLIST
-		if (songInfo[index].mapInfo.mapThumbFileName != L"NONE")
-		{
-			ui->thumbImage->load(songInfo[index].mapInfo.mapThumbFileName, gcn::Rectangle(0, 0, 0, 0), true);
-			ui->background->display(songInfo[index].mapInfo.mapThumbFileName, gcn::Rectangle(0, 0, 0, 0), true);
-		}
-		else
+		//@SonicMisora
+		//if (songInfo[index].mapInfo.mapThumbFileName != L"NONE")
+		//{
+		//	ui->thumbImage->load(songInfo[index].mapInfo.mapThumbFileName, gcn::Rectangle(0, 0, 0, 0), true);
+		//	ui->background->display(songInfo[index].mapInfo.mapThumbFileName, gcn::Rectangle(0, 0, 0, 0), true);
+		//}
+		//else
 			ui->thumbImage->load(ui->noimageFileName, ui->noimageRect, true);
 
-		if (songInfo[index].mapInfo.listenFileName != L"NONE" && songInfo[index].mapInfo.listenFileName != L"")
-		{
-			//sora::SoraBGMManager::Instance()->play(sora::s2ws(songInfo[index].mapInfo.listenFileName), false);
-			ui->countStarted = true;
-			ui->listenFileName = songInfo[index].mapInfo.listenFileName;
-			ui->playTimer.reset();
-			ui->playTimer.start();
-		}
-		else
+		//if (songInfo[index].mapInfo.listenFileName != L"NONE" && songInfo[index].mapInfo.listenFileName != L"")
+		//{
+		//	//sora::SoraBGMManager::Instance()->play(sora::s2ws(songInfo[index].mapInfo.listenFileName), false);
+		//	ui->countStarted = true;
+		//	ui->listenFileName = songInfo[index].mapInfo.listenFileName;
+		//	ui->playTimer.reset();
+		//	ui->playTimer.start();
+		//}
+		//else
 		{
 			ui->countStarted = false;
 			sora::SoraBGMManager::Instance()->stop(false);

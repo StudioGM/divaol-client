@@ -59,6 +59,7 @@ namespace diva
 				 const std::wstring& down1, const std::wstring& down2, const std::wstring &down3,
 				  const std::wstring& mid1, const std::wstring& mid2, const std::wstring &mid3);
 			gcn::ListBoxEx* CreateStageList(const WJson::Value& conf);
+			gcn::ContainerEx* CreateSongList(const WJson::Value& conf);
 
 			void RefreshStatus();
 			void Refresh_sPlayerList();

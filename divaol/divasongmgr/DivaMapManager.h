@@ -7,6 +7,7 @@
 #include <string>
 
 #include "Lib/Base/Thread/Queue.h"
+#include "Lib/curl/curl.h"
 
 namespace divamap
 {
@@ -32,21 +33,52 @@ namespace divamap
 		DivaMapEventMessage(DIVAMAPMGREVENT eventType, int mapID, bool error, bool finish, float downloadProgess)
 		{
 			this->eventType = eventType;
-			this->effectedMapID.push_back(mapID);
+			effectedMapID = mapID;
 			this->error = error;
 			this->finish = finish;
 			this->downloadProgress = downloadProgess;
 		}
 
+
 		DIVAMAPMGREVENT eventType;
-		std::vector<int> effectedMapID;
+		int effectedMapID;
 		bool error, finish;
 		float downloadProgress;
 	};
+
+	//Use this as param to quest download
+	class DivaMapManagerDownloadQuest
+	{
+	public:
+		DivaMapManagerDownloadQuest(Base::String sourceAddress, Base::String localFileAddress, int mapID, DivaMapEventMessage::DIVAMAPMGREVENT eventType)
+		{
+			this->sourceAddress = sourceAddress;
+			this->localFileAddress = localFileAddress;
+			this->mapID = mapID;
+			this->eventType = eventType;
+			this->failed = false;
+			curlHandle=NULL;
+		}
+
+		Base::String sourceAddress;
+		Base::String localFileAddress;
+
+		CURL *curlHandle;
+
+		int mapID;
+		DivaMapEventMessage::DIVAMAPMGREVENT eventType;
+
+		bool failed;
+	};
+
+
+
 	class DivaMapHeader
 	{
 	public:
+		enum MapType {Normal, Couple};
 		//map info
+		MapType mapType;
 		std::wstring name;
 		std::vector<std::wstring> noters;
 		std::vector<std::wstring> alias;
@@ -54,8 +86,10 @@ namespace divamap
 		std::vector<std::wstring> lyricists;
 		std::vector<std::wstring> artists;
 		std::vector<std::wstring> vocaloids;
+		int bpm;
 		std::wstring additionalMessage;
 		int playedCount;
+		int songLength;
 		std::wstring thumb;
 		std::wstring audioPreview;
 	};
@@ -96,9 +130,11 @@ namespace divamap
 	class DivaMapManager
 	{
 	private:
-		DivaMapManager();
-
 		std::wstring downloadCategoryServerAddress;
+
+	private:
+		DivaMapManager();
+		~DivaMapManager();
 
 		std::wstring lastUpdatedDate;
 		std::map<int, DivaMap> maps;
@@ -113,10 +149,6 @@ namespace divamap
 		std::vector<DivaMapSelectedItem> selectedMaps;
 
 
-	private:
-		//Multithread download funtions here
-		friend void DownloadDivaMapThumb(LPVOID arg_mapID);
-
 	public:
 		//local song list file management
 		bool initFromLocalFile();
@@ -126,6 +158,10 @@ namespace divamap
 		static DivaMapManager& instance() {static DivaMapManager instance; return instance;}
 
 		void registerMapEventMessageQueue(std::list<DivaMapEventMessage> *listMsg) {listMsgOut = listMsg;}
+		Base::ThreadSafe::Queue<DivaMapEventMessage>& GetMessageQueue() {return threadQueue;}
+
+	private:
+		bool PrepareDirectFile(int id, DivaMapEventMessage::DIVAMAPMGREVENT eventType);
 
 	public:
 		//Update function
@@ -141,12 +177,10 @@ namespace divamap
 		bool PrepareCheckLocalMapDataFileLeagal(int id);
 		bool PrepareDivaMapDataFromFile(std::wstring zippedFile);
 
-		//Check file functions
-		bool CheckLocalThumbFile(int id);
-		bool CheckLocalAudioPreviewFile(int id);
 
 		//Get functions
 		std::wstring GetMapName(int id);
+		bool isMapIdLeagal(int id);
 		std::map<int, DivaMap>& GetMapList(){return maps;}
 
 	public:

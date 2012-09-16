@@ -35,8 +35,8 @@ namespace gcn
 		this->midHightlight = midHightlight;
 		this->midPressed = midPressed;
 		
-		upX1 = upX2 = upX3 = downX1 = downX2 = downX3 = midX1 = midX2 = midX3 = 0;
-		upY1 = upY2 = upY3 = downY1 = downY2 = downY3 = midY1 = midY2 = midY3 = 0;
+		upX1 = upX2 = upX3 = downX1 = downX2 = downX3 = midX1 = midX2 = midX3 = ox;
+		upY1 = upY2 = upY3 = downY1 = downY2 = downY3 = midY1 = midY2 = midY3 = oy;
 	}
 
 	void MarkerEx::setOffset(int upX1,int upY1, int upX2, int upY2, int upX3, int upY3, int downX1, 

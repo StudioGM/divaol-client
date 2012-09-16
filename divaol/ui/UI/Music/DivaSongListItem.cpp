@@ -165,15 +165,12 @@ namespace diva
 
 			// Length and bpm
 			wchar_t temp[30];
-			//@SonicMisora
-			//_swprintf(temp, L"%02d:%02d  BPM %d", mapInfo.length / 60, mapInfo.length % 60, mapInfo.bpm);
+			_swprintf(temp, L"%02d:%02d  BPM %d", mapInfo.header.songLength / 60, mapInfo.header.songLength % 60, mapInfo.header.bpm);
 			str = temp;
 			graphics->drawTextW(str, 30, 67);
 
 			// player
-			//@SonicMisora
-			//if (mapInfo.players == 1)
-			if (true)
+			if (mapInfo.header.mapType == divamap::DivaMapHeader::Normal)
 			{
 				graphics->drawImage(image, 368, 198, 490, 60, 56, 40);
 			}
@@ -183,7 +180,7 @@ namespace diva
 			}
 
 			// dif
-			graphics->drawTextW(mapInfo.header.alias[difIndex], 60, 104);
+			graphics->drawTextW(config[L"difNames"][difIndex].asString(), 60, 104);
 
 			// dif bar
 			graphics->drawImage(image, 0, 847, 185, 85, 

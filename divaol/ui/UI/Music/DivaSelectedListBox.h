@@ -4,6 +4,7 @@
 #include "ui/GUIChanEx/GUIChanButtonEx.h"
 #include "ui/structure.h"
 #include <vector>
+#include "divasongmgr/DivaMapManager.h"
 
 namespace diva
 {
@@ -15,10 +16,10 @@ namespace diva
 
 	struct SongInfo
 	{
-		Network::Map mapInfo;
+		divamap::DivaMap mapInfo;
 		int difIndex;
 		int type;
-		SongInfo(const Network::Map& a, int b, int c);
+		SongInfo(const divamap::DivaMap& a, int b, int c);
 
 		SongInfo();
 	};
@@ -41,7 +42,7 @@ namespace diva
 		DivaSelectedListBox();
 		~DivaSelectedListBox();
 
-		void pushItem(const Network::Map& mapInfo, int difIndex, int type = SPECIFIC);
+		void pushItem(const divamap::DivaMap& mapInfo, int difIndex, int type = SPECIFIC);
 		void removeItem(int index);
 		int getItemCount() const;
 

@@ -41,7 +41,6 @@ namespace diva
 			
 			state = STATE_ROOM;
 
-			
 
 			// parse json
 			ParseJson(L"uiconfig/house.json", L"uiconfig/stage.json", L"uiconfig/RoomList_PlayerList.json");
@@ -77,6 +76,11 @@ namespace diva
 			exitButton = CreateButton(conf, L"ToolButtons/Normal/Exit_Normal", L"ToolButtons/MouseOn/Exit_MouseOn", L"ToolButtons/MouseDown/Exit_MouseDown", L"ToolButtons/Normal/Exit_Normal");
 			roomTop->add(exitButton);
 
+			// select music button
+			selectMusicButton = CreateButton(sconf, L"ToolBar/Normal/btn_selectmusic_normal", L"ToolBar/MouseOn/btn_selectmusic_mouseon", L"ToolBar/MouseDown/btn_selectmusic_mousedown", L"ToolBar/Normal/btn_selectmusic_normal");
+			roomTop->add(selectMusicButton);
+			selectMusicButton->setVisible(true);
+
 			// message area
 			messagePanel = CreateMessagePanel(conf);
 			roomTop->add(messagePanel);
@@ -103,10 +107,7 @@ namespace diva
 			exitStageButton->setVisible(false);
 			exitStageButton->addMouseListener(new LoginButton_MouseListener());
 
-			// select music button
-			selectMusicButton = CreateButton(sconf, L"ToolBar/Normal/btn_selectmusic_normal", L"ToolBar/MouseOn/btn_selectmusic_mouseon", L"ToolBar/MouseDown/btn_selectmusic_mousedown", L"ToolBar/Normal/btn_selectmusic_normal");
-			roomTop->add(selectMusicButton);
-			selectMusicButton->setVisible(false);
+
 
 			// decorate button
 			decorateButton = CreateButton(sconf, L"ToolBar/Normal/btn_decorate_normal", L"ToolBar/MouseOn/btn_decorate_mouseon", L"ToolBar/MouseDown/btn_decorate_mousedown", L"ToolBar/Normal/btn_decorate_normal");
@@ -181,11 +182,13 @@ namespace diva
 		void HouseUI::Enter()
 		{
 			sora::GCN_GLOBAL->getTop()->add(top, 0, 0);
+			top->setVisible(true);
 		}
 		
 		void HouseUI::Leave()
 		{
 			sora::GCN_GLOBAL->getTop()->remove(top);
+			top->setVisible(false);
 		}
 
 		void HouseUI::Render()
@@ -250,7 +253,7 @@ namespace diva
 			udButton->setVisible(true);
 			settingsButton->setVisible(true);
 			exitStageButton->setVisible(true);
-			selectMusicButton->setVisible(true);
+			
 			decorateButton->setVisible(true);
 			thingList->setVisible(true);
 			teamList->setVisible(true);
@@ -280,7 +283,7 @@ namespace diva
 			udButton->setVisible(false);
 			settingsButton->setVisible(false);
 			exitStageButton->setVisible(false);
-			selectMusicButton->setVisible(false);
+			
 			decorateButton->setVisible(false);
 			thingList->setVisible(false);
 			teamList->setVisible(false);
@@ -727,6 +730,12 @@ namespace diva
 				sPlayerListPanel->setVisible(false);
 				loginPanel->setVisible(true);
 			}
+		}
+
+		gcn::ContainerEx* CreateSongList(const WJson::Value& conf)
+		{
+			using namespace gcn;
+
 		}
 
 		ThingList* HouseUI::CreateThingList(const WJson::Value& conf)

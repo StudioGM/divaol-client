@@ -59,10 +59,10 @@ namespace diva
 			graphics->drawTextW(temp, 310, h * 2 - font->getHeight() / 2);
 
 			// noter
-			if (mapInfo.header.noters == L"NONE")
+			if (mapInfo.header.noters.size() == 0)
 				wsprintf(temp, L"Noter 未知");
 			else
-				wsprintf(temp, L"Noter %s", mapInfo.header.noters.c_str());
+				wsprintf(temp, L"Noter %s", mapInfo.header.noters[0].c_str());
 			graphics->drawTextW(temp, 30, h * 3 - font->getHeight() / 2);
 
 			// BPM
@@ -70,18 +70,18 @@ namespace diva
 			graphics->drawTextW(temp, 200, h * 3 - font->getHeight() / 2);
 
 			// VOCOLOID
-			if (mapInfo.vocaloidUsages.size() == 0)
-				sprintf(temp, "使用VOCALOID  未知");
+			if (mapInfo.header.vocaloids.size() == 0)
+				wsprintf(temp, L"使用VOCALOID  未知");
 			else
-				sprintf(temp, "使用VOCALOID  %s", mapInfo.vocaloidUsages[0].c_str());
-			graphics->drawText(temp, 310, h * 3 - font->getHeight() / 2);
+				wsprintf(temp, L"使用VOCALOID  %s", mapInfo.header.vocaloids[0].c_str());
+			graphics->drawTextW(temp, 310, h * 3 - font->getHeight() / 2);
 
-			//LINK
-			if (mapInfo.directLinkURLs.size() == 0)
-				sprintf(temp, "Link  未知");
-			else
-				sprintf(temp, "Link  %s", mapInfo.directLinkURLs[0].c_str());
-			graphics->drawText(temp, 30, h * 4 - font->getHeight() / 2);
+			////LINK
+			//if (mapInfo.directLinkURLs.size() == 0)
+			//	sprintf(temp, "Link  未知");
+			//else
+			//	sprintf(temp, "Link  %s", mapInfo.directLinkURLs[0].c_str());
+			//graphics->drawText(temp, 30, h * 4 - font->getHeight() / 2);
 		}
 	}
 	}

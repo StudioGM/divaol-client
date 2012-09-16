@@ -85,7 +85,7 @@ public:
 
 	void onKeyPressed(sora::SoraKeyEvent& keyEvent) {
 		//getGameApp()->setState("house");
-		nextState = "music";
+		nextState = "house";
 	}
 
 	void onMouseDragged(sora::SoraMouseEvent& from, sora::SoraMouseEvent& to) {

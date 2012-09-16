@@ -23,11 +23,13 @@ namespace diva
 		void MusicUI::Enter()
 		{
 			sora::GCN_GLOBAL->getTop()->add(top, 0, 0);
+			top->setVisible(true);
 		}
 
 		void MusicUI::Leave()
 		{
 			sora::GCN_GLOBAL->getTop()->remove(top);
+			top->setVisible(false);
 		}
 
 
@@ -259,10 +261,7 @@ namespace diva
 
 
 			// ------
-			Network::Map tMap;
-			tMap.difNames.push_back(L"EASY");
-			tMap.difNames.push_back(L"NORMAL");
-			tMap.difNames.push_back(L"HARD");
+			divamap::DivaMap tMap;
 			//
 			
 			songListOrigItems.clear();
@@ -285,8 +284,8 @@ namespace diva
 				{
 					if (artistListItems.find(*j) == artistListItems.end())
 					{
-						tMap.artists.clear();
-						tMap.artists.push_back(*j);
+						tMap.header.artists.clear();
+						tMap.header.artists.push_back(*j);
 						SongListItem* p = new SongListItem(image, tMap, SongListItem::ARTIST, artistFont);
 						artistListItems[*j] = p;
 					}
@@ -476,7 +475,7 @@ namespace diva
 				}
 		
 			// if select double player but first song isn't double player
-			if (gameMode == 2 && selectedListBox->getSong(0).mapInfo.players != 2)
+			if (gameMode == 2 && selectedListBox->getSong(0).mapInfo.header.Couple != divamap::DivaMapHeader::Couple)
 			{
 				startButton->setEnabled(false);
 				return;
@@ -654,7 +653,7 @@ namespace diva
 		{
 			MusicUI* ui = MusicUI::Instance();
 			DivaRoomInfo info = ui->playerList->getRoomInfo();
-			ui->GameStart(ui->selectedListBox->getSong(0).mapInfo.mapId, 
+			ui->GameStart(ui->selectedListBox->getSong(0).mapInfo.id, 
 				ui->selectedListBox->getSong(0).difIndex, ui->gameMode, 0);
 			//if (info.myId == info.hostId)
 			//{
