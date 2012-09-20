@@ -13,11 +13,15 @@
 #include "../Common.h"
 #include "../Uncopyable.h"
 
+#include <Process.h>
 #include <Shlwapi.h>
 #pragma comment(lib,"shlwapi.lib")
 
 namespace Base
 {
+	/*********************************************
+	 * FileUtilImpl
+	 *********************************************/
 	class FileSystemUtilImpl
 	{
 	public:
@@ -123,7 +127,64 @@ namespace Base
 		}
 	};
 
-	// win mutex
+	/*********************************************
+	 * DirectoryImpl
+	 *********************************************/
+	class DirectoryIteratorImpl {
+	public:
+		DirectoryIteratorImpl(const String& path) {
+            String findPath = path + "/*";
+			mPath = path;
+            
+            mFH = FindFirstFileW(findPath.unicode_str(), &mFD);
+            if(mFH == INVALID_HANDLE_VALUE) {
+				DWORD error = GetLastError();
+                if(error != ERROR_NO_MORE_FILES) {
+                    BASE_THROW_EXCEPTION("DirectoryEnum error : "+error);
+                }
+            } else {
+                mCurrent = mFD.cFileName;
+				mIsFolder = (mFD.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)>0;
+
+                if(mCurrent == "." || mCurrent == "..")
+                    next();
+            }
+        }
+        
+        ~DirectoryIteratorImpl() {
+            if(mFH != INVALID_HANDLE_VALUE)
+                FindClose(mFH);
+        }
+        
+        const String& get() const {
+			return mCurrent;
+		}
+        const String& next() {
+            do {
+                if(FindNextFileW(mFH, &mFD) != 0) {
+                    mCurrent = mFD.cFileName;
+					mIsFolder = (mFD.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)>0;
+                } else 
+                    mCurrent.clear();
+            }
+            while(mCurrent == "." || mCurrent == "..");
+            
+            return mCurrent;
+        }
+
+		String path() const {return mPath;}
+		bool isFolder() const {return mIsFolder;}
+        
+    private:
+        HANDLE mFH;
+        WIN32_FIND_DATAW mFD;
+        String mCurrent, mPath;
+		bool mIsFolder;
+    };
+
+	/*********************************************
+	 * MutexImpol
+	 *********************************************/
 	class MutexImpl : public Uncopyable
 	{
 	protected:
@@ -142,6 +203,81 @@ namespace Base
 
 	private:
 		HANDLE mutex;
+	};
+
+	/*********************************************
+	 * ThreadImpl
+	 *********************************************/
+	class ThreadImpl : public Uncopyable
+	{
+	protected:
+		ThreadImpl()
+			:mActive(false),mThreadHandle(0),mThreadID(0) {
+
+		}
+		~ThreadImpl() {
+			clear();
+		}
+		void clear() {
+			if(mThreadHandle == 0)
+				return;
+			if(mActive)
+				exit();
+			mActive = false;
+			mThreadID = 0;
+			CloseHandle(mThreadHandle);
+			mThreadHandle = 0;			
+		}
+		bool start() {
+			if(mActive)
+				return false;
+
+			setActive(true);
+			mThreadHandle = (HANDLE)_beginthreadex(
+				NULL,
+				0,
+				&_ThreadProc,
+				this,
+				0,
+				&mThreadID);
+
+			if(mThreadHandle == INVALID_HANDLE_VALUE || mThreadID == 0) {
+				setActive(false);
+				mThreadID = 0;
+				return false;
+			}
+
+			return true;
+		}
+		inline bool active() const {return mActive;}
+		inline void wait() {
+			WaitForSingleObject(mThreadHandle, INFINITE);
+			setActive(false);
+		}
+		inline void exit() {
+			TerminateThread(mThreadHandle, 0);
+			setActive(false);
+		}
+
+		virtual void callback() = 0;
+	
+	private:
+		void setActive(bool active) {
+			mActive = active;
+		}
+		static uint32 WINAPI _ThreadProc(LPVOID param) {
+			ThreadImpl *impl = static_cast<ThreadImpl*>(param);
+			if(impl) {
+				impl->callback();
+
+				impl->setActive(false);
+			}
+			return 0;
+		}
+	private:
+		volatile bool mActive;
+		HANDLE mThreadHandle;
+		uint32 mThreadID;
 	};
 }
 

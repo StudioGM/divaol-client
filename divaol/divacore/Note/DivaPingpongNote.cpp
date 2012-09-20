@@ -42,7 +42,12 @@ namespace divacore
 		notePosition = Point(noteInfo.notePoint[0].x*config->getAsDouble("grid_width")+config->getAsDouble("deltaX"),noteInfo.notePoint[0].y*config->getAsDouble("grid_height")+config->getAsDouble("deltaY"));
 
 		Rect texRect = config->getAsRect("pingpong_note_"+NOTE_MAP[noteInfo.notePoint[0].type%8]);
-		Point centerPoint = config->getAsPoint("pingpong_note_noteCenter");
+		Point centerPoint;
+		if(config->has("pingpong_note_"+NOTE_MAP[noteInfo.notePoint[0].type%8]+"Center"))
+			centerPoint = config->getAsPoint("pingpong_note_"+NOTE_MAP[noteInfo.notePoint[0].type%8]+"Center");
+		else
+			centerPoint = config->getAsPoint("pingpong_note_noteCenter");
+
 		noteSprite->setTextureRect(texRect.x,texRect.y,texRect.w,texRect.h);
 		noteSprite->setCenter(centerPoint.x,centerPoint.y);
 		noteSprite->setPosition(notePosition.x,notePosition.y);
@@ -51,16 +56,27 @@ namespace divacore
 		//set base
 		coverRect = config->getAsRect("pingpong_note_cover_"+NOTE_MAP[noteInfo.notePoint[0].type%8]);
 		coverSprite->setTextureRect(coverRect.x,coverRect.y,coverRect.w,coverRect.h);
+
+		if(config->has("pingpong_note_cover_"+NOTE_MAP[noteInfo.notePoint[0].type%8]+"Center"))
+			centerPoint = config->getAsPoint("pingpong_note_cover_"+NOTE_MAP[noteInfo.notePoint[0].type%8]+"Center");
+		else
+			centerPoint = config->getAsPoint("pingpong_note_cover_center");
+		
 		coverSprite->setCenter(centerPoint.x,coverRect.h);
 
 		coverSprite->setPosition(notePosition.x,notePosition.y+(-centerPoint.y+coverRect.h)*SCALE);
-		noteCenterPoint = centerPoint;
+		coverCenterPoint = centerPoint;
 		coverSprite->addEffect(sora::CreateEffectScale(config->getAsDouble("pingpong_note_blowup"),SCALE,(noteInfo.notePoint[0].time-noteInfo.aheadTime)*config->getAsDouble("pingpong_note_blowTimeRate")));
 	
 		//set tail
 		tailPosition = notePosition+Point(Argument::asFloat("tailx",noteInfo.arg),Argument::asFloat("taily",noteInfo.arg)).unit()*config->getAsDouble("pingpong_rhythm_distance")*MAP_INFO->header.speedScale;
 		texRect = config->getAsRect("pingpong_rhythm_"+NOTE_MAP[noteInfo.notePoint[0].type%8]);
-		centerPoint = config->getAsPoint("pingpong_rhythm_center");
+
+		if(config->has("pingpong_rhythm_"+NOTE_MAP[noteInfo.notePoint[0].type%8]+"Center"))
+			centerPoint = config->getAsPoint("pingpong_rhythm_"+NOTE_MAP[noteInfo.notePoint[0].type%8]+"Center");
+		else
+			centerPoint = config->getAsPoint("pingpong_rhythm_center");
+		
 		rhythmSprite->setTextureRect(texRect.x,texRect.y,texRect.w,texRect.h);
 		rhythmSprite->setCenter(centerPoint.x,centerPoint.y);
 		rhythmSprite->setPosition(tailPosition.x,tailPosition.y);
@@ -236,8 +252,8 @@ namespace divacore
 		tmpRect = Rect::get(tmpRect,coverRect,ratio);
 		coverSprite->setTextureRect(tmpRect.x,tmpRect.y,tmpRect.w,tmpRect.h);
 		coverSprite->setCenter(coverSprite->getCenterX(),tmpRect.h);
-		coverSprite->setPosition(notePosition.x,notePosition.y+(-noteCenterPoint.y+coverRect.h)*coverSprite->getHScale());
-
+		coverSprite->setPosition(notePosition.x,notePosition.y+(-coverCenterPoint.y+coverRect.h)*coverSprite->getHScale());
+		
 		//the first point fail check
 		if(getState()==HEAD&&noteInfo.notePoint[0].time+EVALUATE_STRATEGY_PTR->getProtectedTime()<CORE_PTR->getRunTime())
 		{

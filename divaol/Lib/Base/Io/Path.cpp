@@ -135,7 +135,16 @@ namespace Base
 				break;
 			index--;
 		}
-		return path(0,index);
+		String filePath = path(0,index);
+		if(filePath.empty())
+			filePath = "./";
+		return filePath;
+	}
+	Path Path::GetFolderPath(const String &path) {
+		if(CheckIsFolder(path))
+			return path;
+		else
+			return GetFilePath(path);
 	}
 	Path Path::CombinePath(const Path &a, const Path &b) {
 		return a.mPath + "/" + b.mPath;
@@ -167,6 +176,13 @@ namespace Base
 	{
 		return GetFilePath(path).str() + GetFileName(path,false) + "." + ext;
 	}
+	Path Path::PickoutFinalSlash(const String &path)
+	{
+		String newPath = Path(path).str();
+		if(!newPath.empty()&&newPath[newPath.size()-1]=='/')
+			newPath = newPath(0,newPath.size()-1);
+		return newPath;
+	}
 	bool Path::CheckAbsolutePath(const Path &path)
 	{
 		return GetPathRoot(path)!="";
@@ -174,5 +190,75 @@ namespace Base
 	bool Path::CheckHasEntension(const Path &path)
 	{
 		return GetExtension(path)!="";
+	}
+	bool Path::CheckIsFolder(const Path &path)
+	{
+		Path newPath = PickoutFinalSlash(path);
+		return FileUtil::IsFolder(newPath);
+	}
+	DirectoryIterator Path::beginEnum()
+	{
+		return DirectoryIterator(folderPath());
+	}
+	std::vector<Path> Path::EnumFolder(const String &folderPath, bool recursion)
+	{
+		std::vector<Path> files;
+		DirectoryIterator ptr = Path(folderPath).beginEnum();
+		while(!ptr.isEnd()) {
+			if(!ptr.isFolder())
+				files.push_back(ptr.fullPath());
+			else if(recursion)
+				EnumFolder(ptr.path(), files, recursion);
+			++ptr;
+		}
+		return files;
+	}
+	std::vector<Path> Path::EnumFolder(const String &folderPath, std::vector<Path> &files, bool recursion)
+	{
+		DirectoryIterator ptr = Path(folderPath).beginEnum();
+		while(!ptr.isEnd()) {
+			if(!ptr.isFolder())
+				files.push_back(ptr.fullPath());
+			else if(recursion)
+				EnumFolder(ptr.path(), files, recursion);
+			++ptr;
+		}
+		return files;
+	}
+
+	DirectoryIterator::DirectoryIterator() {
+		mIsEnd = false;
+	}
+
+	DirectoryIterator::DirectoryIterator(const DirectoryIterator& iter):
+		mFolderPath(iter.mFolderPath),mFile(iter.mFile),mImpl(iter.mImpl),mIsEnd(iter.mIsEnd) {
+	}
+
+	DirectoryIterator::DirectoryIterator(const String& path):
+		mFolderPath(path+"/"), mImpl(new DirectoryIteratorImpl(path)), mIsEnd(false) {
+		mFile = mImpl->get();
+	}
+
+	DirectoryIterator::~DirectoryIterator() {
+	}
+
+	DirectoryIterator& DirectoryIterator::operator =(const DirectoryIterator& rhs) {
+		if(this != &rhs) {
+			mImpl = rhs.mImpl;
+		}
+		return *this;
+	}
+
+
+	DirectoryIterator& DirectoryIterator ::operator++() {
+		if(mImpl) {
+			std::string n = mImpl->next();
+			if(n.empty())
+				mIsEnd = true;
+			else {
+				mFile = mImpl->get();
+			}
+		}
+		return *this;
 	}
 }
