@@ -29,11 +29,11 @@ int CALLBACK WinMain(
         
 #endif
 		///////////////////////////////
-		/*
+		
 		std::list<divamap::DivaMapEventMessage> listMsgOut;
 		MAPMGR.registerMapEventMessageQueue(&listMsgOut);
 		//MAPMGR.PrepareDivaMapData(1, true);
-		//MAPMGR.PrepareDivaMapDataFromFile(L"ODDS&ENDS.divaolpack");
+		MAPMGR.PrepareDivaMapDataFromFile(L"song/MAP_1_noVideo.divaolpack");
 		bool fini=false;
 		while(true)
 		{
@@ -52,10 +52,10 @@ int CALLBACK WinMain(
 					printf("%lf", msg.downloadProgress);
 				}
 			}
-			if(fini)
-				break;
+			//if(fini)
+				//break;
 		}
-		*/
+		
 		NET_MANAGER.setCoreNet(new divanet::TCPGNetworkSystem);
 		///////////////////////////////
 

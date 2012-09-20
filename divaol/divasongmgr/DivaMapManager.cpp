@@ -81,9 +81,20 @@ namespace divamap
 					else
 						return false;
 
-					if(headerJValue.isMember(L"mapType") && headerJValue.isMember(L"name") && headerJValue.isMember(L"thumb")  && headerJValue.isMember(L"audioPreview")  && headerJValue.isMember(L"playedCount")  
-						&& headerJValue.isMember(L"additionalMessage") && headerJValue.isMember(L"noters")  && headerJValue.isMember(L"alias")  && headerJValue.isMember(L"composers")
-						&& headerJValue.isMember(L"lyricists")  && headerJValue.isMember(L"artists") && headerJValue.isMember(L"vocaloids"))
+					if(headerJValue.isMember(L"mapType") && 
+						headerJValue.isMember(L"name") && 
+						headerJValue.isMember(L"thumb")  && 
+						headerJValue.isMember(L"audioPreview")  && 
+						headerJValue.isMember(L"playedCount")  &&
+						headerJValue.isMember(L"additionalMessage") && 
+						headerJValue.isMember(L"noters")  && 
+						headerJValue.isMember(L"alias")  && 
+						headerJValue.isMember(L"composers")  && 
+						headerJValue.isMember(L"lyricists")  && 
+						headerJValue.isMember(L"artists") && 
+						headerJValue.isMember(L"vocaloids") &&
+						headerJValue.isMember(L"songLength") &&
+						headerJValue.isMember(L"bpm"))
 					{
 						thisMap.header.mapType = (DivaMapHeader::MapType)headerJValue[L"mapType"].asInt();
 						thisMap.header.name = headerJValue[L"name"].asString();
@@ -91,6 +102,8 @@ namespace divamap
 						thisMap.header.audioPreview = headerJValue[L"audioPreview"].asString();
 						thisMap.header.playedCount = headerJValue[L"playedCount"].asInt();
 						thisMap.header.additionalMessage = headerJValue[L"additionalMessage"].asString();
+						thisMap.header.songLength = headerJValue[L"songLength"].asInt();
+						thisMap.header.bpm = headerJValue[L"bpm"].asInt();
 
 						WJson::Value notersJValue = headerJValue[L"noters"];
 						WJson::Value aliasJValue = headerJValue[L"alias"];
@@ -98,6 +111,7 @@ namespace divamap
 						WJson::Value lyricistsJValue = headerJValue[L"lyricists"];
 						WJson::Value artistsJValue = headerJValue[L"artists"];
 						WJson::Value vocaloidsJValue = headerJValue[L"vocaloids"];
+						
 
 						if((notersJValue.isArray()||notersJValue.isNull())
 							&&(aliasJValue.isArray()||aliasJValue.isNull())
@@ -227,6 +241,8 @@ namespace divamap
 			headerJValue[L"audioPreview"] = header.audioPreview;
 			headerJValue[L"playedCount"] = header.playedCount;
 			headerJValue[L"additionalMessage"] = header.additionalMessage;
+			headerJValue[L"bpm"] = header.bpm;
+			headerJValue[L"songLength"] = header.songLength;
 
 			WJson::Value notersJValue;
 			for(std::vector<std::wstring>::iterator noterI = header.noters.begin();noterI != header.noters.end();noterI++)
@@ -422,7 +438,9 @@ namespace divamap
 	{
 		///Get Header Json String
 		int strLength;
-		fread(&strLength, sizeof(int),1,zippedFile);
+		if(fread(&strLength, sizeof(int),1,zippedFile)!=1)
+			return L"";
+
 		const int bufferLength = 65536;
 		std::wstring ret;
 		wchar_t strBuffer[bufferLength+1];
@@ -468,6 +486,8 @@ namespace divamap
 				while(!feof(zippedFile))
 				{
 					std::wstring fileJsonStr = readJsonFile(zippedFile);
+					if(fileJsonStr==L"")
+						break;
 
 					WJson::Value fileJsonValue;
 					if(!reader.parse(fileJsonStr,fileJsonValue))
@@ -525,6 +545,8 @@ namespace divamap
 
 			needToClose=false;
 			fclose(zippedFile);
+
+			DeleteFileW(quest->localFileAddress.unicode_str());
 		}
 		else
 			return false;
