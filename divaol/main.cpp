@@ -55,15 +55,14 @@ int CALLBACK WinMain(
 			//if(fini)
 				//break;
 		}
-		
-		NET_MANAGER.setCoreNet(new divanet::TCPGNetworkSystem);
+		NET_MANAGER.setCore(new divanet::TCPGNetworkSystem);
 		///////////////////////////////
 
 	try
 	{
 		sora::SoraCore::SetRandomSeed((uint32)time(0));
 
-		divacore::standard::Initializer initializer("system",divacore::standard::Initializer::MULTI, true);
+		divacore::standard::Initializer initializer("system",divacore::standard::Initializer::SINGLE, true);
 		divacore::CorePtr core = initializer.get();
 
 		divacore::Config config;

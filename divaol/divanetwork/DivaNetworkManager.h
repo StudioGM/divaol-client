@@ -22,12 +22,14 @@ namespace divanet
 	public:
 		enum{AUTH,LOBBY,STAGE,GAME};
 
-		void setCoreNet(NetworkPtr networkSystem) {
-			mCoreNet = networkSystem;
-		}
+		void setCore(NetworkPtr networkSystem) { mCore = networkSystem;}
+		inline NetworkPtr getCore() {return mCore;}
 
-		inline NetworkPtr getCoreNet() {return mCoreNet;}
+		void setAuth(NetworkPtr networkSystem) { mAuth = networkSystem;}
+		inline NetworkPtr getAuth() {return mAuth;}
 
+		void setChat(NetworkPtr networkSystem) { mChat = networkSystem;}
+		inline NetworkPtr getChat() {return mChat;}
 	protected:
 		friend class Base::Singleton<NetworkManager>;
 
@@ -37,7 +39,9 @@ namespace divanet
 	private:
 		uint32 mStatus;
 		bool mIsConnect;
-		NetworkPtr mCoreNet;
+		NetworkPtr mCore;
+		NetworkPtr mAuth;
+		NetworkPtr mChat;
 	};
 
 #define NET_MANAGER (divanet::NetworkManager::instance())
