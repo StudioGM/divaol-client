@@ -25,7 +25,12 @@ namespace divacore
 		notePosition = Point(noteInfo.notePoint[0].x*config->getAsDouble("grid_width")+config->getAsDouble("deltaX"),noteInfo.notePoint[0].y*config->getAsDouble("grid_height")+config->getAsDouble("deltaY"));
 
 		Rect texRect = config->getAsRect("long_note_"+NOTE_MAP[noteInfo.notePoint[0].type%8]);
-		Point centerPoint = config->getAsPoint("long_note_noteCenter");
+		Point centerPoint;
+		if(config->has("long_note_"+NOTE_MAP[noteInfo.notePoint[0].type%8]+"Center"))
+			centerPoint = config->getAsPoint("long_note_"+NOTE_MAP[noteInfo.notePoint[0].type%8]+"Center");
+		else
+			centerPoint = config->getAsPoint("long_note_noteCenter");
+
 		noteSprite->setTextureRect(texRect.x,texRect.y,texRect.w,texRect.h);
 		noteSprite->setCenter(centerPoint.x,centerPoint.y);
 		noteSprite->setPosition(notePosition.x,notePosition.y);
@@ -34,6 +39,11 @@ namespace divacore
 		//set base
 		coverRect = config->getAsRect("long_note_cover_"+NOTE_MAP[noteInfo.notePoint[0].type%8]);
 		coverSprite->setTextureRect(coverRect.x,coverRect.y,coverRect.w,coverRect.h);
+
+		if(config->has("long_note_cover_"+NOTE_MAP[noteInfo.notePoint[0].type%8]+"Center"))
+			centerPoint = config->getAsPoint("long_note_cover_"+NOTE_MAP[noteInfo.notePoint[0].type%8]+"Center");
+		else
+			centerPoint = config->getAsPoint("long_note_cover_center");
 		coverSprite->setCenter(centerPoint.x,coverRect.h);
 
 		coverSprite->setPosition(notePosition.x,notePosition.y-centerPoint.y+coverRect.h);
@@ -42,7 +52,12 @@ namespace divacore
 		//set tail
 		tailPosition = notePosition+Point(Argument::asFloat("tailx",noteInfo.arg),Argument::asFloat("taily",noteInfo.arg)).unit()*config->getAsDouble("long_rhythm_distance")*MAP_INFO->header.speedScale;
 		texRect = config->getAsRect("long_rhythm_"+NOTE_MAP[noteInfo.notePoint[0].type%8]);
-		centerPoint = config->getAsPoint("long_rhythm_center");
+
+		if(config->has("long_rhythm_"+NOTE_MAP[noteInfo.notePoint[0].type%8]+"Center"))
+			centerPoint = config->getAsPoint("long_rhythm_"+NOTE_MAP[noteInfo.notePoint[0].type%8]+"Center");
+		else
+			centerPoint = config->getAsPoint("long_rhythm_center");
+
 		rhythmSprite->setTextureRect(texRect.x,texRect.y,texRect.w,texRect.h);
 		rhythmSprite->setCenter(centerPoint.x,centerPoint.y);
 		rhythmSprite->setPosition(tailPosition.x,tailPosition.y);
@@ -103,12 +118,13 @@ namespace divacore
 	{
 		noteSprite->addEffect(sora::CreateEffectFade(1.0,0,dt));
 		coverSprite->addEffect(sora::CreateEffectFade(1.0,0,dt));
+		mEndTime = dt;
 	}
 	void LongNote::onRender()
 	{
 		//render note
-		Core::Ptr->render(noteSprite,"note"+getTailTag());
-		Core::Ptr->render(coverSprite,"note_arrow"+getTailTag());
+		Core::Ptr->render(noteSprite,"note+"+getTailTag());
+		Core::Ptr->render(coverSprite,"note_cover+"+getTailTag());
 
 		//render bar
 		if(!bPressOver)
@@ -119,7 +135,7 @@ namespace divacore
 		{
 			Point position = path::Bezier::getBezierPoint(tailPosition,notePosition,rhythmHead);
 			rhythmSprite->setPosition(position.x,position.y);
-			Core::Ptr->render(rhythmSprite,"note_rhythm"+getTailTag());
+			Core::Ptr->render(rhythmSprite,"note_rhythm+"+getTailTag());
 
 			nowTailPosition = position;
 			{
@@ -140,7 +156,7 @@ namespace divacore
 		{
 			Point position = path::Bezier::getBezierPoint(tailPosition,notePosition,rhythmTail);
 			rhythmSprite->setPosition(position.x,position.y);
-			Core::Ptr->render(rhythmSprite,"note_rhythm"+getTailTag());
+			Core::Ptr->render(rhythmSprite,"note_rhythm+"+getTailTag());
 		}
 	}
 	void LongNote::onUpdate(double dt, double position) 
@@ -159,8 +175,15 @@ namespace divacore
 			rhythmTail = 1-barRate+ratio*barRate;
 			angle = 1+(position-periodGrid)/totalGrid;
 		}
-		if(getState()==END&&!noteSprite->hasEffect())
-			over();
+		if(getState()==END)
+		{
+			mEndTime -= dt;
+			if(mEndTime< 0)
+			{
+				mEndTime = 0;
+				over();
+			}
+		}
 
 		Rect tmpRect = coverRect;
 		tmpRect.y += tmpRect.h, tmpRect.h = 0;

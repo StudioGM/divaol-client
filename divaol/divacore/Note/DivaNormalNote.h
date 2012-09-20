@@ -29,6 +29,8 @@ namespace divacore
 		Point lastTailPosition, nowTailPosition;
 		Rect coverRect;
 
+		float mEndTime;
+
 		//sprite
 		SoraSprite *noteSprite;
 		SoraSprite *coverSprite;

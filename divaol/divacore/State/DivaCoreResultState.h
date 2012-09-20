@@ -43,21 +43,32 @@ namespace divacore
 			mText.setText(L"|#FF0000|Game Over");
 		}
 
-		void getEvalInfo(Packet &packet)
+		void getEvalInfo(GPacket *packet)
 		{
-			((divacore::CommonEvaluateStrategy*)EVALUATE_STRATEGY_PTR)->updateEval(packet);
+			EvalResult &result = EVALUATE_STRATEGY_PTR->getResult();
+			gnet::Item<gnet::List> *list = packet->getItem(2)->as<gnet::ListItem>();
+
+			for(int i = 0; i < result.evalData.size(); i++)
+			{
+				gnet::Item<gnet::Tuple> *tuple = dynamic_cast<gnet::Item<gnet::Tuple>*>(list->getItem(i));
+				result.evalData[i].score = (tuple->getItem(1))->getInt();
+				gnet::Item<gnet::List> *evals = dynamic_cast<gnet::Item<gnet::List>*>(tuple->getItem(2));
+				for(int j = 0; j < EvaluateStrategy::EVAL_NUM; j++)
+					result.evalData[i].cntEval[j] = evals->getItem(j)->getInt();
+			}
 		}
 
 		void onEnter()
 		{
-			//if(CORE_PTR->getMode()=="multiPlay")
-			//	GNET_RECEIVE_PACKET(network::DIVA_NET_STC_UPDATE_EVAL,&CoreResultState::getEvalInfo);
+			if(CORE_PTR->getMode()=="multiPlay")
+				GNET_RECEIVE_PACKET("game#evalL",&CoreResultState::getEvalInfo);
 
 			uiPainter = (divacore::SimpleUIPainter*)UI_PAINTER_PTR;
 
 			UI_PAINTER_PTR->gameLoad(GAME_MODULE_PTR->getResultFile());
 
-			EVALUATE_STRATEGY_PTR->finalEvaluate(); //必须在gameStart之前，不然会出现某些render进不去
+			//EVALUATE_STRATEGY_PTR->finalEvaluate(); //必须在gameStart之前，不然会出现某些render进不去
+			//((CommonEvaluateStrategy*)EVALUATE_STRATEGY_PTR)->addSingleEvalUI();
 
 			BackButton *button = new BackButton();
 			uiPainter->construct(button,"back");
@@ -73,8 +84,9 @@ namespace divacore
 
 		void onLeave()
 		{
-			//if(CORE_PTR->getMode()=="multiPlay")
-			//	NETWORK_SYSTEM_PTR->unreceive(network::DIVA_NET_STC_UPDATE_EVAL);
+			if(CORE_PTR->getMode()=="multiPlay")
+				GNET_UNRECEIVE_PACKET("game#evalL");
+			
 			UI_PAINTER_PTR->gameStop();
 			core->over();
 		}

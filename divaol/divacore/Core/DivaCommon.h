@@ -17,7 +17,7 @@
 #include "DivaStringUtil.h"
 #include "DivaKey.h"
 #include "DivaLogger.h"
-#include "Base/Common.h"
+#include "Lib/Base/Common.h"
 
 #define SAFE_DELETE(instance)\
 	if(instance)\
@@ -99,6 +99,9 @@ namespace divacore
 		Point position() const {return Point(x,y);}
 		Point size() const {return Point(w,h);}
 		Point center() const {return Point(x+w/2,y+h/2);}
+		static Rect makeRectWidthPoints(float x1, float y1, float x2, float y2) {
+			return Rect(x1,y1,x2-x1,y2-y1);
+		}
 		static Rect get(const Rect &a, const Rect &b, float c)
 		{
 			return Rect(a.position()+(b.position()-a.position())*c,a.size()+(b.size()-a.size())*c);

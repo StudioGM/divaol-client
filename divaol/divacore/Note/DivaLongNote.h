@@ -30,6 +30,7 @@ namespace divacore
 		int periodGrid,totalGrid;
 		bool bPressStart,bPressOver;
 
+		float mEndTime;
 		float length_drawn;
 		Point lastTailPosition, nowTailPosition;
 		Rect coverRect;

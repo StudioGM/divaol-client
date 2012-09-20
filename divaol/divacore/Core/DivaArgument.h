@@ -17,6 +17,7 @@ namespace divacore
 	using namespace sora;
 
 	typedef std::map<std::string, sora::SoraAny> ARGUMENTS;
+	typedef std::vector<sora::SoraAny> AnyList;
 
 	/*
 	 * some support functions to deal with ARGUMENT

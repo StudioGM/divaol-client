@@ -19,14 +19,16 @@ namespace divacore
 	 */
 	class Hook
 	{
+		int type;
 		int info;
 		int priority;
 		bool bActive;
 	public:
+		enum{ACCESS, MODE, ITEM};
 		enum{LOW = 0, FLAT = 0x80, NORMAL = 0xff, HIGH = 0x8000,TOP = 0xffff};
 		enum{STATE = 1,RENDER = 2,INPUT = 4,SOUND = 8,NOTE = 16};
 
-		Hook():priority(NORMAL),bActive(false) {}
+		Hook():priority(NORMAL),type(ACCESS),bActive(false) {}
 		Hook(int priority):priority(priority),bActive(false) {}
 
 		inline bool hasAbility(int ability) {return (getAbility()&ability)==ability;}
@@ -36,7 +38,10 @@ namespace divacore
 		inline int getPriority() {return priority;}
 		inline void setPriority(int priority) {this->priority=priority;}
 		inline void setHookInfo(int info) {this->info = info;}
+		inline void setType(int type) {this->type=type;}
+		inline int getType() {return type;}
 		inline int hookInfo() {return info;}
+		virtual float scoreBonusScale() {return 0;}
 
 		virtual std::string getName() {return "";}
 		virtual int getAbility() = 0;
@@ -49,6 +54,7 @@ namespace divacore
 		virtual bool hook(float x, float y, SoraSprite*sprite, const std::string&tag) {return false;}
 		virtual bool hook(KeyEvent &key) {return false;}
 		virtual bool hook(NotePtr note) {return false;}
+		virtual bool hook(MapNote &note) {return false;}
 		virtual bool hook(const std::string &ID, const std::string &channel, const std::string &tag) {return false;}
 
 		virtual void render() {}

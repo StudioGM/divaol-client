@@ -75,7 +75,7 @@ namespace divacore
 			msg("Notice "+inf);
 		}
 	};
-#define LOGGER Logger::instance()
+#define LOGGER divacore::Logger::instance()
 }
 
 #endif

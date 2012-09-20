@@ -24,10 +24,11 @@
 #include "DivaUIPainter.h"
 #include "DivaGameModule.h"
 #include "DivaEffectSystem.h"
-#include "Network/DivaNetworkSystem.h"
+//#include "DivaNetworkSystem.h"
 #include "DivaEvaluateStrategy.h"
 #include "DivaEventManager.h"
 #include "DivaParticleSystem.h"
+#include "DivaPlayerInfo.h"
 
 #include "DivaConfig.h"
 #include "SoraFSM.h"
@@ -36,11 +37,12 @@
 #include "DivaCoreState.h"
 #include "app/SoraGameState.h"
 
-#include "network/DivaGNetSystem.h"
+#include "divanetwork/DivaGNetSystem.h"
 
 namespace divacore
 {
 	using namespace sora;
+	using namespace divanet;
 
 	class CoreState;
 	class MapLoader;
@@ -76,6 +78,8 @@ namespace divacore
 		float mSpeedScale;
 		//map info
 		MapInfoPtr mapInfo;
+		//player info
+		CorePlayerInfo mPlayerInfo;
 		//the initialize state name
 		std::string initStateTag;
 		//event manager
@@ -149,6 +153,7 @@ namespace divacore
 		void registerNetworkSystem(GNetworkSystemPtr networkSystem);
 		void registerEvaluateStrategy(EvaluateStrategyPtr evaluateStrategy);
 	//protected:
+		inline CorePlayerInfo& myPlayerInfo() {return mPlayerInfo;}
 		inline MapInfoPtr getMapInfo() {return mapInfo;}
 		inline MapLoaderPtr getMapLoader() {return mapLoader;}
 		inline MapParserPtr getMapParser() {return mapParser;}
@@ -230,6 +235,7 @@ namespace divacore
 
 	#define INITIALIZE_DIVA_CORE divacore::Core::instance()
 	#define CORE_PTR (divacore::Core::Ptr)
+	#define MY_PLAYER_INFO (divacore::Core::Ptr->myPlayerInfo())
 	#define MAP_INFO (divacore::Core::Ptr->getMapInfo())
 	#define MAP_LOADER_PTR (divacore::Core::Ptr->getMapLoader())
 	#define MAP_PARSER_PTR (divacore::Core::Ptr->getMapParser())

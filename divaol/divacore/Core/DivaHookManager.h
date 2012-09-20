@@ -30,7 +30,14 @@ namespace divacore
 		virtual bool hook(KeyEvent &key) {return false;}
 		virtual bool hook(const std::string &ID, const std::string &channel, const std::string &tag) {return false;}
 		virtual bool hook(NotePtr note) {return false;}
+		virtual bool hook(MapNote &note) {return false;}
 		virtual int hookInfo() {return 0;}
+
+		virtual void gameLoad(const std::string configFile) {}
+		virtual Config& getConfig() = 0;
+
+		virtual void update(float dt) {}
+		virtual void render() {}
 
 		virtual HookPtr createHook(const std::string &hookName) {return NULL;}
 	};

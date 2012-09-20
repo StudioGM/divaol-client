@@ -167,6 +167,13 @@ namespace divacore
 
 	void SinglePlay::preEvaluate()
 	{
-		((CommonEvaluateStrategy*)EVALUATE_STRATEGY_PTR)->addSingleEvalUI();
+		EVALUATE_STRATEGY_PTR->getResult().myScore = getScore();
+		EVALUATE_STRATEGY_PTR->getResult().myID = 0;
+		EVALUATE_STRATEGY_PTR->getResult().evalData.push_back(EvalData("",getScore(),EVALUATE_STRATEGY_PTR->getResult().myCntEval));
+	}
+
+	void SinglePlay::afterEvaluate()
+	{
+		//((CommonEvaluateStrategy*)EVALUATE_STRATEGY_PTR)->addSingleEvalUI();
 	}
 }

@@ -31,10 +31,10 @@ namespace sora {
         void beginRender(uint32 col=0);
         void finishRender();
         
-        SoraSprite* getCanvasSprite() const;
-        
-        virtual void on3DEnabled(bool flag);
-        
+		SoraSprite* getCanvasSprite() const;
+
+		virtual void on3DEnabled(bool flag);
+
 	private:
 		SoraHandle canvasTarget;
         SoraSprite* pCanvasSprite;

@@ -46,8 +46,14 @@ int CALLBACK WinMain(
 	}
 	catch (divacore::Exception&ev)
 	{
-		divacore::LOGGER->error(ev);
-        sora::SoraCore::Instance()->messageBox(ev.getContent(), ev.getModuleName(), 0);
+		LOGGER->error(ev);
+		MessageBox(
+			NULL,
+			sora::s2ws(ev.getContent()).c_str(),
+			sora::s2ws(ev.getModuleName()).c_str(),
+			MB_ICONERROR | MB_DEFBUTTON2
+			);
+        //sora::SoraCore::Instance()->messageBox(ev.getContent(), ev.getModuleName(), 0);
 	}
 
 	//ExitProcess(0);

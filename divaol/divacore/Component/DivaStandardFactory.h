@@ -17,7 +17,7 @@
 
 namespace divacore
 {
-	const std::string NOTE_MAP[8] = {"circle","rectangle","cross","triangle","right","left","down","up"};
+	const std::string NOTE_MAP[NOTE_NUM] = {"circle","rectangle","cross","triangle","right","left","down","up"};
 	
 	class StandardItemFactory : public ItemFactory
 	{
@@ -25,6 +25,7 @@ namespace divacore
 	public:
 		void init();
 		void gameLoad(const std::string &configFile);
+		void gameLoadFromConfig(Config &config);
 		void gameReset();
 		void gameStop();
 		virtual NotePtr createNote(MapNote&);

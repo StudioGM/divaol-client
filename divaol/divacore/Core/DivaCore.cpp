@@ -395,6 +395,7 @@ namespace divacore
 		assert(musicManager!=NULL);
 		mSpeedScale=scale;
 		musicManager->setSpeedScale(scale);
+		display->setSpeedScale(scale);
 	}
 	void Core::setSong(const std::wstring &path, const std::wstring &mapFileName) {mapLoader->setSong(path,mapFileName);}
 	double Core::getRealTime() {return coreFlow->getRealTime();}

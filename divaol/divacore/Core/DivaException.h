@@ -32,9 +32,9 @@ namespace divacore
 	};
 
 //some utility defines
-#define DIVA_EXCEPTION_MESSAGE(error) throw Exception(error)
-#define DIVA_EXCEPTION_MODULE(error,module) throw Exception(error,module)
-#define DIVA_EXCEPTION_LINE_NUMBER(error,module,line) throw Exception(error,module,line)
+#define DIVA_EXCEPTION_MESSAGE(error) throw divacore::Exception(error)
+#define DIVA_EXCEPTION_MODULE(error,module) throw divacore::Exception(error,module)
+#define DIVA_EXCEPTION_LINE_NUMBER(error,module,line) throw divacore::Exception(error,module,line)
 }
 
 #endif

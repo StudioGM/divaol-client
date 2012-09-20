@@ -23,7 +23,7 @@
 #include "Component/DivaCommonEvaluateStrategy.h"
 #include "Component/DivaHDEffectSystem.h"
 //#include "Component/DivaSocketNetworkSystem.h"
-#include "Network/DivaEnetSystem.h"
+//#include "Network/DivaEnetSystem.h"
 #include "State/DivaNetLoader.h"
 //#include "Network/DivaNetUnsync.h"
 #include "Mode/DivaSinglePlay.h"
@@ -34,7 +34,7 @@
 #include "MusicManager/DivaFmodMusicManager.h"
 //#include "MusicManager/DivaXAudioMusicManager.h"
 #include "MusicManager/DivaBassMusicManager.h"
-#include "Network/DivaGNetTCPSystem.h"
+#include "divanetwork/DivaNetworkManager.h"
 
 
 namespace divacore
@@ -67,7 +67,7 @@ namespace divacore
 				core->registerUIPainter(new divacore::SimpleUIPainter);
 				core->registerGameModule(new divacore::JsonGameModule);
 				//core->registerNetworkSystem(new divacore::EnetSystem);
-				core->registerNetworkSystem(new divacore::TCPGNetworkSystem);
+				core->registerNetworkSystem(NET_MANAGER.getCore());
 				core->registerEvaluateStrategy(new divacore::CommonEvaluateStrategy);
 				core->registerEffectSystem(new divacore::HDEffectSystem);
 			}
@@ -83,7 +83,7 @@ namespace divacore
 					core->registerGameMode(new divacore::EditMode);
 					break;
 				case MULTI:
-					core->registerGameMode(new divacore::PairPlay);
+					core->registerGameMode(new divacore::MultiPlay);
 					break;
 				}
 			}

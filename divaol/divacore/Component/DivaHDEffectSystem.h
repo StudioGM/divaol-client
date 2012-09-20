@@ -44,7 +44,7 @@ namespace divacore
 		}
 		virtual void onRender() 
 		{
-			Core::Ptr->render(image,"effect"+getTag());
+			Core::Ptr->render(image,"+effect"+getTag());
 		}
 		virtual void onConstruct(Config &config, const std::string &head)
 		{
@@ -81,7 +81,7 @@ namespace divacore
 		}
 		virtual void onRender() 
 		{
-			Core::Ptr->render(image,"effect"+getTag());
+			Core::Ptr->render(image,"+effect"+getTag());
 		}
 		virtual void onConstruct(Config &config, const std::string &head)
 		{
@@ -125,7 +125,7 @@ namespace divacore
 		}
 		virtual void onRender() 
 		{
-			Core::Ptr->render(image,"effect"+getTag());
+			Core::Ptr->render(image,"+effect"+getTag());
 		}
 		virtual void onConstruct(Config &config, const std::string &head)
 		{
@@ -162,7 +162,7 @@ namespace divacore
 		}
 		virtual void onRender() 
 		{
-			Core::Ptr->render(image,"effect"+getTag());
+			Core::Ptr->render(image,"+effect"+getTag());
 		}
 		virtual void onConstruct(Config &config, const std::string &head)
 		{
@@ -219,6 +219,10 @@ namespace divacore
 		void gameLoad(const std::string &configFile)
 		{
 			configloader::loadWithJson(config,configFile);
+		}
+		void gameLoadFromConfig(Config &config)
+		{
+			this->config = config;
 		}
 
 		void clear()
