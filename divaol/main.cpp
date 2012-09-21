@@ -33,7 +33,8 @@ int CALLBACK WinMain(
 		std::list<divamap::DivaMapEventMessage> listMsgOut;
 		MAPMGR.registerMapEventMessageQueue(&listMsgOut);
 		//MAPMGR.PrepareDivaMapData(1, true);
-		MAPMGR.PrepareDivaMapDataFromFile(L"song/MAP_1_noVideo.divaolpack");
+		//MAPMGR.PrepareDivaMapDataFromFile(L"song/MAP_1_noVideo.divaolpack");
+		MAPMGR.PrepareDivaMapListInfo();
 		bool fini=false;
 		while(true)
 		{
