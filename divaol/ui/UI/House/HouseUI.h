@@ -20,6 +20,7 @@
 #include "RoomInfoList.h"
 #include "ThingList.h"
 #include "RoomList.h"
+#include "divasongmgr/DivaMapManager.h"
 
 #include "SoraLuaObject.h"
 #include <string>
@@ -106,6 +107,7 @@ namespace diva
 			gcn::ContainerEx* teamList;
 			std::vector<gcn::SuperButtonEx*> teamListButtons;
 			gcn::ListBoxEx* stageList;
+			gcn::ContainerEx* songList;
 
 
 			gcn::ContainerEx* sPlayerListPanel;
@@ -129,6 +131,7 @@ namespace diva
 			gcn::Font* messageAreaFont;
 			gcn::Font* messageInputFont;
 			gcn::Font* playerListPagenumFont;
+			gcn::Font* songListFont;
 
 			void RecvMsg();
 

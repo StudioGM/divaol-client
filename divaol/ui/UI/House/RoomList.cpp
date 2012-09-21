@@ -7,6 +7,35 @@ namespace diva
 {
 	namespace HouseUI
 	{
+		SongListItem::SongListItem(const std::wstring& filename, gcn::Rectangle srcRect)
+		{
+			image = gcn::SoraGUIImage::load(filename);
+			this->srcRect = srcRect;
+
+			str = L"";
+		}
+
+		SongListItem::~SongListItem()
+		{
+			if (image)
+				delete image;
+		}
+
+		void SongListItem::setText(const std::wstring& str)
+		{
+			this->str = str;
+		}
+
+		void SongListItem::draw(Graphics* graphics, Font* font, int state, int alpha)
+		{
+			graphics->setColor(gcn::Color(255, 255, 255, alpha));
+			graphics->drawImage(image, srcRect.x, srcRect.y, 0, 0, srcRect.width, srcRect.height);
+
+			graphics->setFont(font);
+			graphics->drawTextW(str, 20, 15);
+		}
+
+		//////////////////////////////////////////////////////////////////////////
 
 		StageListItem::StageListItem(const std::wstring& filename, gcn::Rectangle srcRect)
 		{

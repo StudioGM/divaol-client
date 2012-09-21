@@ -9,6 +9,7 @@
 namespace diva
 {
 	extern WJson::Value config;
+	extern std::string NextState;
 
 	void initialize_config(const std::wstring& filename);
 

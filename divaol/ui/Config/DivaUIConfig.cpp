@@ -5,11 +5,13 @@
 namespace diva
 {
 	WJson::Value config;
+	std::string NextState;
 
 	void initialize_config(const std::wstring& filename)
 	{
 		//std::ifstream inf(filename);
 		WJson::Reader reader;
+		NextState = "";
 		reader.parse(ReadJsonFile(filename), config);
 	}
 

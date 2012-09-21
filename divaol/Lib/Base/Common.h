@@ -15,6 +15,7 @@
 #include "Ptr.h"
 #include "PreDeclare.h"
 #include "String.h"
+#include "Sys/sys.h"
 
 #include <cstdarg>
 #include <cstdio>

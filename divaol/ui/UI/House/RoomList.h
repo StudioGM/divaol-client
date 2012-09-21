@@ -4,12 +4,29 @@
 #include "ui/GUIChanEx/GUIChanListItemEx.h"
 #include "ui/structure.h"
 #include "ui/DivaNetwork/DivaNetwork.h"
+#include "divasongmgr/DivaMapManager.h"
 
 namespace diva
 {
 	namespace HouseUI
 	{
 		using namespace gcn;
+
+		class SongListItem : public ListItemEx
+		{
+		private:
+			Image *image;
+			gcn::Rectangle srcRect;
+			std::wstring str;
+
+		public:
+			SongListItem(const std::wstring& filename, gcn::Rectangle srcRect);
+			virtual ~SongListItem();
+
+			//void setLook();
+			void setText(const std::wstring& str);
+			virtual void draw(Graphics* graphics, Font* font, int state, int alpha);
+		};
 
 		class StageListItem : public ListItemEx
 		{

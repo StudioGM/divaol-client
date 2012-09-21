@@ -128,6 +128,8 @@ namespace gcn
 
 	void ListBoxEx::draw(Graphics* graphics)
 	{
+
+
 		if (image)
 		{
 			graphics->setColor(Color(255,255,255,getAlpha()));
@@ -329,7 +331,7 @@ namespace gcn
 
 	void ListBoxEx::adjustMyHeight()
 	{
-		setHeight(maxItem * (firstRect.width + itemGap) - itemGap);
+		setHeight(maxItem * (firstRect.height + itemGap) - itemGap);
 	}
 
 	void ListBoxEx::scrollNext()

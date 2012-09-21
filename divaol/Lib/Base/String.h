@@ -16,7 +16,8 @@
 
 #include <vector>
 #include <sstream>
-
+#include <fstream>
+ 
 namespace Base
 {
 	class String;
@@ -32,6 +33,11 @@ namespace Base
 		String(const char *s, bool isUtf8 = false) {
 			mContent = isUtf8?utf82ws(s):s2ws(s);}
 		String(const wchar *s):mContent(s) {}
+		String(const wchar *s, size_t size) {
+			mContent = L"";
+			*this = append(size);
+			memcpy(&mContent[0],s,sizeof(wchar)*size);
+		}
 		String(const base_string &s, bool isUtf8 = false) {
 			mContent = isUtf8?utf82ws(s):s2ws(s);
 		}
@@ -44,8 +50,9 @@ namespace Base
 		String(wchar c) {
 			mContent += c;
 		}
-		template<typename T>
-		String(T value) {*this=any2string(value);}
+		//it will cause some implicit problem
+		//template<typename T>
+		//String(T value) {*this=any2string(value);}
 		~String() {}
 
 		String substr(IndexVar index, IndexVar len) const{
@@ -56,12 +63,14 @@ namespace Base
 		IndexVar find(const String &sub, IndexVar off = 0) const{
 			return mContent.find(sub.mContent,off);
 		}
-		IndexVar rfind(const String &sub, IndexVar off = 0) const{
+		IndexVar rfind(const String &sub, IndexVar off = npos) const{
 			return mContent.rfind(sub.mContent,off);
 		}
 		String lower() const;
 		String upper() const;
+		String append(size_t size, const String &token = L" ") const;
 		String reverse() const;
+		String replace(const String &src, const String &dst) const;
 		Strings split(Strings tokens=Strings()) const;
 		String strip(Strings tokens=Strings()) const;
 
@@ -73,15 +82,24 @@ namespace Base
 		}
 
 		//operator
-		wchar operator[](IndexVar index) {return getWChar(index);}
-		IndexVar operator()(const String& sub, IndexVar off = 0, bool isReverse = false) {
+		friend std::ostream& operator<<(std::ostream &out, const String &data) {
+			out << data.asAnsi();
+			return out;
+		}
+		friend std::wostream& operator<<(std::wostream &out, const String &data) {
+			out << data.asUnicode();
+			return out;
+		}
+
+		wchar operator[](IndexVar index) const {return getWChar(index);}
+		IndexVar operator()(const String& sub, IndexVar off = npos, bool isReverse = false) {
 			if(isReverse)
 				return rfind(sub,off);
 			else
-				return find(sub,off);
+				return find(sub,off==npos?0:off);
 		}
-		char operator()(IndexVar index) {return getChar(index);}
-		String operator()(IndexVar l, IndexVar r) {
+		char operator()(IndexVar index) const {return getChar(index);}
+		String operator()(IndexVar l, IndexVar r) const {
 			return mContent.substr(l,r<0?size()-l:r-l);
 		}
 		String& operator+=(const String& other) {
@@ -90,8 +108,9 @@ namespace Base
 		}
 		String& operator*=(uint32 size) {
 			base_wstring origin = mContent;
-			for(uint32 i = 0; i < size; i++)
+			for(uint32 i = 1; i < size; i++)
 				mContent += origin;
+			return *this;
 		}
 		friend String operator+(const String &a, const String &b) {return a.mContent+b.mContent;}
 		friend bool operator<(const String &a, const String &b) {return a.mContent<b.mContent;}
@@ -99,6 +118,7 @@ namespace Base
 		friend bool operator<=(const String &a, const String &b) {return a.mContent<=b.mContent;}
 		friend bool operator>=(const String &a, const String &b) {return a.mContent>=b.mContent;}
 		friend bool operator==(const String &a, const String &b) {return a.mContent==b.mContent;}
+		friend bool operator!=(const String &a, const String &b) {return a.mContent!=b.mContent;}
 		friend String operator*(const String &a, uint32 b) {
 			String ret = a;
 			ret *= b;
@@ -132,9 +152,13 @@ namespace Base
 		static T string2any(const String &s) {
 			T tmp;
 			std::stringstream ss;
-			ss << s.c_str();
+			ss << s.ansi_str();();
 			ss >> tmp;
 			return tmp;
+		}
+		template<typename T>
+		T toAny() {
+			return string2any<T>(*this);
 		}
 		static String format(const char* fmt, ...);
 

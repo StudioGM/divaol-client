@@ -3,6 +3,7 @@
 #include <Process.h>
 #include <string>
 #include "Lib/Base/Common.h"
+#include "Lib/Base/Io/Path.h"
 #include "Lib/wjson/wjson.h"
 #include "ZLIB/zlib.h"
 #include "DivaMapEncryption.h"
@@ -31,7 +32,7 @@ namespace divamap
 		curl_global_init(CURL_GLOBAL_ALL);
 
 		//For test
-		downloadCategoryServerAddress = L"http://divaol.com/test";
+		downloadCategoryServerAddress = L"http://divaol.b0.upaiyun.com";
 		PrepareDivaMapListInfo();
 	}
 	DivaMapManager::~DivaMapManager()
@@ -324,6 +325,15 @@ namespace divamap
 		{
 			if(thisMessage.finish)
 				isOperating[thisMessage.effectedMapID][thisMessage.eventType]=false;
+
+			if(thisMessage.finish && !thisMessage.error && 
+				thisMessage.eventType==DivaMapEventMessage::PrepareMapDataFile || thisMessage.eventType==DivaMapEventMessage::PrepareMapDataFileNoVideo)
+			{
+				Base::String localFile = Base::Path::CombinePath(Base::String(LocalSongDirectoryW),
+					L"MAP_"+Base::String::any2string(thisMessage.effectedMapID)+ (thisMessage.eventType==DivaMapEventMessage::PrepareMapDataFile?L"":L"_noVideo") + L".divaolpack").str();
+				PrepareDivaMapDataFromFile(localFile);
+			}
+			
 			if(listMsgOut)
 				listMsgOut->push_back(thisMessage);
 		}
@@ -408,6 +418,145 @@ namespace divamap
 		return 0;
 	}
 
+	std::wstring readJsonFile(FILE* zippedFile)
+	{
+		///Get Header Json String
+		int strLength;
+		fread(&strLength, sizeof(int),1,zippedFile);
+		const int bufferLength = 65536;
+		std::wstring ret;
+		wchar_t strBuffer[bufferLength+1];
+		while(strLength>0)
+		{
+			if(strLength>=bufferLength)
+			{
+				fread(strBuffer,sizeof(char),bufferLength,zippedFile);
+				strBuffer[(bufferLength+1)/2]=0;
+				strLength-=bufferLength;
+			}
+			else
+			{
+				fread(strBuffer,sizeof(char),strLength,zippedFile);
+				strBuffer[(strLength+1)/2]=0;
+				strLength-=strLength;
+			}
+			ret += strBuffer;
+		}
+
+		return ret;
+	}
+
+	bool DepackDivaOLPack(DivaMapManagerDownloadQuest *quest, DivaMapEventMessage *eventMsg, FILE*& zippedFile, bool& needToClose)
+	{
+		needToClose=false;
+		if(_wfopen_s(&zippedFile, quest->localFileAddress.unicode_str(), L"rb+")==0)
+		{
+			needToClose=true;
+			std::wstring headStr = readJsonFile(zippedFile);
+
+			//Parse header json string
+			WJson::Reader reader;
+			WJson::Value headRootJsonValue;
+			if(!reader.parse(headStr,headRootJsonValue))
+				return false;
+
+			if(headRootJsonValue.isMember(L"id") && headRootJsonValue.isMember(L"ver"))
+			{
+				eventMsg->effectedMapID = headRootJsonValue[L"id"].asInt();
+				quest->mapID = eventMsg->effectedMapID;
+				std::wstring packVersion = headRootJsonValue[L"ver"].asString();
+				while(!feof(zippedFile))
+				{
+					std::wstring fileJsonStr = readJsonFile(zippedFile);
+
+					WJson::Value fileJsonValue;
+					if(!reader.parse(fileJsonStr,fileJsonValue))
+						return false;
+
+					if(fileJsonValue.isMember(L"filename") && fileJsonValue.isMember(L"sourcelength") && fileJsonValue.isMember(L"length"))
+					{
+						std::wstring thisFileName = fileJsonValue[L"filename"].asString();
+						uLong sourceLength = (uLong)fileJsonValue[L"sourcelength"].asInt();
+						uLong fileLength = (uLong)fileJsonValue[L"length"].asInt();
+
+						Byte *fileByte = (Byte*)malloc(sizeof(char)*fileLength);
+						Byte *sourceByte = (Byte*)malloc(sizeof(char)*sourceLength);
+						if(fileByte==NULL || sourceByte==NULL)
+						{
+							if(fileByte)
+								free(fileByte);
+							if(sourceByte)
+								free(sourceByte);
+							return false;
+						}
+
+						bool someError = false;
+						fread(fileByte, sizeof(char), fileLength, zippedFile);
+						Base::String workingDirectory = Base::String(LocalSongDirectoryW)+L"MAP_"+Base::String::any2string(quest->mapID)+L"/";
+						Base::String unpackedDirectory =  Base::Path::GetFilePath(workingDirectory+thisFileName);
+						
+						FILE *thisFile=NULL;
+						CreateDirectoryW(unpackedDirectory.unicode_str(),NULL);
+						if(_wfopen_s(&thisFile,(workingDirectory+thisFileName).unicode_str(),L"wb+")==0)
+						{
+							uLong uncompressedLength = sourceLength;
+							int uncompressResult = uncompress(sourceByte, &uncompressedLength, fileByte, fileLength);
+							if(uncompressResult==Z_OK && sourceLength == uncompressedLength)
+								fwrite(sourceByte, sizeof(char), sourceLength, thisFile);
+							else
+								someError=true;
+							fclose(thisFile);
+						}
+						else
+							someError=true;
+
+						free(fileByte);
+						free(sourceByte);
+
+						if(someError)
+							return false;
+					}
+					else
+						return false;
+				}
+			}
+			else
+				return false;
+
+			needToClose=false;
+			fclose(zippedFile);
+		}
+		else
+			return false;
+
+		return true;
+	}
+
+	unsigned __stdcall DepackDivaOLPackAsync(void* arg_quest)
+	{
+		DivaMapManagerDownloadQuest *thisQuest = (DivaMapManagerDownloadQuest*)arg_quest;
+		DivaMapEventMessage thisMessage(thisQuest->eventType, thisQuest->mapID, false, false, 0);
+
+		FILE* zippedFile;
+		bool needToClose;
+		if(DepackDivaOLPack(thisQuest,&thisMessage,zippedFile,needToClose))
+		{
+			thisMessage.error=false;
+			thisMessage.finish=true;
+		}
+		else
+		{
+			thisMessage.error=true;
+			thisMessage.finish=true;
+		}
+		if(needToClose)
+			fclose(zippedFile);
+
+		MAPMGR.GetMessageQueue().put(thisMessage);
+		Base::DeletePtr(thisQuest);
+
+		return 0;
+	}
 
 #pragma endregion MultiThread functions
 
@@ -420,7 +569,7 @@ namespace divamap
 		maps[1].header.composers.push_back(L"他");
 		maps[1].header.mapType = divamap::DivaMapHeader::Couple;
 		maps[1].header.bpm = 111;
-		maps[1].header.name = L"这首歌没有名字";
+		maps[1].header.name = L"雪の羽　時の風";
 		maps[1].header.playedCount = 12;
 		maps[1].header.alias.push_back(L"其实有名字");
 		maps[1].header.lyricists.push_back(L"你");
@@ -437,34 +586,78 @@ namespace divamap
 			return false;
 
 		//Check if thumb file already exists
-		FILE *thumbFile;
-		Base::String thumbFilePath = Base::String(LocalSongDirectoryW)+L"MAP_"+Base::String::any2string(id)+L"/"+
-			(eventType==DivaMapEventMessage::PrepareThumbFile?maps[id].header.thumb:maps[id].header.audioPreview);
-		if(_wfopen_s(&thumbFile, thumbFilePath.unicode_str(), L"r")!=0)
+		if(eventType==DivaMapEventMessage::PrepareThumbFile || eventType==DivaMapEventMessage::PrepareAudioPreviewFile)
 		{
-			//File not exists
-			Base::String thumbAddress = Base::String(downloadCategoryServerAddress) + L"/" + thumbFilePath;
-			DivaMapManagerDownloadQuest *thisQuest = new DivaMapManagerDownloadQuest(thumbAddress,thumbFilePath,id,eventType);
-			unsigned int threadAddress;
-			HANDLE hThread = 
-				(HANDLE)_beginthreadex(
-				NULL,
-				0,
-				&DownloadFileAsync,
-				thisQuest,
-				0,
-				&threadAddress
-				);
+			FILE *thumbFile;
+			Base::String thumbFilePath = Base::String(LocalSongDirectoryW)+L"MAP_"+Base::String::any2string(id)+L"/"+
+				(eventType==DivaMapEventMessage::PrepareThumbFile?maps[id].header.thumb:maps[id].header.audioPreview);
+			if(_wfopen_s(&thumbFile, thumbFilePath.unicode_str(), L"r")!=0)
+			{
+				//File not exists
+				Base::String thumbAddress = Base::String(downloadCategoryServerAddress) + L"/" + thumbFilePath;
+				DivaMapManagerDownloadQuest *thisQuest = new DivaMapManagerDownloadQuest(thumbAddress,thumbFilePath,id,eventType);
+				unsigned int threadAddress;
+				HANDLE hThread = 
+					(HANDLE)_beginthreadex(
+					NULL,
+					0,
+					&DownloadFileAsync,
+					thisQuest,
+					0,
+					&threadAddress
+					);
 
-			if(hThread==NULL)
-				return false;
+				if(hThread==NULL)
+					return false;
+			}
+			else
+			{
+				fclose(thumbFile);
+				if(listMsgOut!=NULL)
+					listMsgOut->push_back(DivaMapEventMessage(eventType, id, false, true, 1));
+			}
 		}
-		else
+		else if(eventType==DivaMapEventMessage::PrepareMapDataFile || eventType==DivaMapEventMessage::PrepareMapDataFileNoVideo)
 		{
-			fclose(thumbFile);
-			if(listMsgOut!=NULL)
-				listMsgOut->push_back(DivaMapEventMessage(eventType, id, false, true, 1));
+			//Check local map file exists
+			bool needToDownload = false;
+			for (MAPLEVELITERATOR levelI = maps[id].levels.begin();levelI!=maps[id].levels.end();levelI++)
+			{
+				FILE *divaFile;
+				if(_wfopen_s(&divaFile, GetDivaOLFilePath(id, levelI->first).c_str(), L"r")!=0)
+				{
+					needToDownload=true;
+					break;
+				}
+				else
+					fclose(divaFile);
+			}
+			if(needToDownload)
+			{
+				Base::String localFile = Base::Path::CombinePath(Base::String(LocalSongDirectoryW),
+					L"MAP_"+Base::String::any2string(id)+ (eventType==DivaMapEventMessage::PrepareMapDataFile?L"":L"_noVideo") + L".divaolpack").str();
+				Base::String remoteFile = Base::String(downloadCategoryServerAddress) + L"/" + localFile;
+				DivaMapManagerDownloadQuest *thisQuest = new DivaMapManagerDownloadQuest(remoteFile,localFile,id,eventType);
+				unsigned int threadAddress;
+				HANDLE hThread = 
+					(HANDLE)_beginthreadex(
+					NULL,
+					0,
+					&DownloadFileAsync,
+					thisQuest,
+					0,
+					&threadAddress
+					);
+
+				if(hThread==NULL)
+					return false;
+			}
+			else
+				if(listMsgOut!=NULL)
+					listMsgOut->push_back(DivaMapEventMessage(DivaMapEventMessage::UnpackMapDataFile, id, false, true, 1));
 		}
+
+		
 		return true;
 	}
 
@@ -478,12 +671,12 @@ namespace divamap
 		return PrepareDirectFile(id, DivaMapEventMessage::PrepareAudioPreviewFile);
 	}
 
-	bool DivaMapManager::PrepareDivaMapData(int id)
+	bool DivaMapManager::PrepareDivaMapData(int id, bool novideo)
 	{
-		if(maps.find(id)==maps.end())
-			return false;
-
-		return true;
+		if(!novideo)
+			return PrepareDirectFile(id, DivaMapEventMessage::PrepareMapDataFile);
+		else
+			return PrepareDirectFile(id, DivaMapEventMessage::PrepareMapDataFileNoVideo);
 	}
 
 	bool DivaMapManager::PrepareCheckLocalMapDataFileLeagal(int id)
@@ -494,11 +687,25 @@ namespace divamap
 		return true;
 	}
 
-	bool DivaMapManager::PrepareDivaMapDataFromFile(std::wstring zippedFile)
+	bool DivaMapManager::PrepareDivaMapDataFromFile(std::wstring divaolpackFile)
 	{
-		
+		DivaMapManagerDownloadQuest *thisQuest = new DivaMapManagerDownloadQuest(L"",divaolpackFile,-1,DivaMapEventMessage::UnpackMapDataFile);
 
-		return false;
+		unsigned int threadAddress;
+		HANDLE hThread = 
+			(HANDLE)_beginthreadex(
+			NULL,
+			0,
+			&DepackDivaOLPackAsync,
+			thisQuest,
+			0,
+			&threadAddress
+			);
+
+		if(hThread==NULL)
+			return false;
+		else
+			return true;
 	}
 
 
@@ -509,6 +716,37 @@ namespace divamap
 			return L"Random";
 		else if(maps.find(id)!=maps.end())
 			return maps.find(id)->second.header.name;
+		else
+			return L"";
+	}
+	std::wstring DivaMapManager::GetMapDirectory(int id)
+	{
+		return Base::String(Base::String(LocalSongDirectoryW)+L"MAP_"+Base::String::any2string(id)+L"/").asUnicode();
+	}
+	std::wstring DivaMapManager::GetThumbFilePath(int id)
+	{
+		if(id==0)
+			return L"Random";
+		if(maps.find(id)!=maps.end())
+			return Base::Path::CombinePath(Base::String(GetMapDirectory(id)),Base::String(maps.find(id)->second.header.thumb)).str().asUnicode();
+		else
+			return L"";
+	}
+	std::wstring DivaMapManager::GetAudioPreviewFilePath(int id)
+	{
+		if(id==0)
+			return L"Random";
+		else if(maps.find(id)!=maps.end())
+			return Base::Path::CombinePath(Base::String(GetMapDirectory(id)),Base::String(maps.find(id)->second.header.audioPreview)).str().asUnicode();
+		else
+			return L"";
+	}
+	std::wstring DivaMapManager::GetDivaOLFilePath(int id, DivaMap::LevelType level)
+	{
+		if(id==0)
+			return L"Random";
+		else if(maps.find(id)!=maps.end())
+			return Base::Path::CombinePath(Base::String(GetMapDirectory(id)),Base::String(maps.find(id)->second.levels[level].divaFileName)).str().asUnicode();
 		else
 			return L"";
 	}

@@ -1,3 +1,4 @@
+
 #include <winsock2.h>
 
 #include "SoraCore.h"
@@ -32,7 +33,7 @@ public:
 	GameInitState() {
 		//this->app = app;
 		isInitialized = false;
-		nextState = "";
+		//nextState = "";
 	}
 
 	~GameInitState()
@@ -73,10 +74,10 @@ public:
 	void onUpdate(float dt) {   
 		//DivaCEGUI::Instance()->Update(dt);
 		//room->Update(dt);
-		if (nextState!="")
+		if (NextState!="")
 		{
-			getGameApp()->setState(nextState);
-			nextState = "";
+			getGameApp()->setState(NextState);
+			NextState = "";
 			return;
 		}
 		titleScreen->Update(dt);
@@ -85,7 +86,7 @@ public:
 
 	void onKeyPressed(sora::SoraKeyEvent& keyEvent) {
 		//getGameApp()->setState("house");
-		nextState = "house";
+		NextState = "house";
 	}
 
 	void onMouseDragged(sora::SoraMouseEvent& from, sora::SoraMouseEvent& to) {
@@ -116,7 +117,7 @@ public:
 private:
 
 	sora::SoraBaseCanvas* uiCanvas;
-	std::string nextState;
+	//std::string nextState;
 	TitleScreenUI* titleScreen;
 	bool isInitialized;
 	//sora::SoraGameApp* app;
@@ -149,3 +150,4 @@ int CALLBACK WinMain(
 
 		return 0;
 }
+

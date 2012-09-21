@@ -1,24 +1,20 @@
 /****************************************************
- *  MutexImpl.h
+ *  SysUtilApple.h
  *
- *  Created by tempbuffer on 8/8/12.
+ *  Created by tempbuffer on 9/16/12.
  *  Copyright 2012 tempbuffer. All rights reserved.
  *
- *  MutexImpl for posix
+ *  A bunch of things that are related to apple 
  ****************************************************/
 
-#ifndef _BASE_MUTEX_IMPL
-#define _BASE_MUTEX_IMPL
+#if !defined(_BASE_SYS_UTIL_) && defined(BASE_OS_FAMILY_APPLE)
+#define _BASE_SYS_UTIL_
 
-#include "../../Common.h"
-#include "../../Uncopyable.h"
+#include "../Common.h"
 
-#ifndef BASE_OS_WINDOWS
-
-#include <pthread.h>
-
-namespace sora {
-
+namespace Base
+{
+	// posix mutex
 	class MutexImpl : public Uncopyable
 	{
 	protected:
@@ -40,9 +36,6 @@ namespace sora {
 	private:
 		pthread_mutex_t mutex;
 	};
+}
 
-
-} // namespace sora
-
-#endif
 #endif

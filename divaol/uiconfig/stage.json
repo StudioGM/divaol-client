@@ -509,6 +509,13 @@
     "width": 373,
     "height": 53
   },
+  "SongList/Config": {
+    "gap": -20,
+    "maxItem": 5,
+    "desX": 1542,
+    "desY": 250,
+    "fontSize": 18
+  },
   "RoomList/scrollbar/btn_stagelist_up_mousedown": {
     "filename": "res/stage_001.png",
     "srcX": 1140,

@@ -11,7 +11,7 @@
 #include "ui/Player/PlayerManager.h"
 #include "SoraFontManager.h"
 
-
+#include "HouseGameState.h"
 
 namespace diva
 {
@@ -19,6 +19,9 @@ namespace diva
 	{
 		HouseUI::HouseUI()
 		{
+			for (int i=1; i<=5; i++)
+				MAPMGR.SelectedMap_Add(1, divamap::DivaMap::Normal);
+
 			top = new gcn::Container();
 			top->setSize(config[L"gameWidth"].asInt(), config[L"gameHeight"].asInt());
 			top->setOpaque(false);
@@ -42,6 +45,8 @@ namespace diva
 			state = STATE_ROOM;
 
 
+
+
 			// parse json
 			ParseJson(L"uiconfig/house.json", L"uiconfig/stage.json", L"uiconfig/RoomList_PlayerList.json");
 
@@ -50,6 +55,10 @@ namespace diva
 
 			// --------- room
 			top->add(roomTop, 0, 0);
+
+			songList = CreateSongList(sconf);
+			songList->setVisible(false);
+			roomTop->add(songList);
 
 			// shop button
 			shopButton = CreateButton(conf, L"ToolButtons/Normal/Shop_Normal", L"ToolButtons/MouseOn/Shop_MouseOn", L"ToolButtons/MouseDown/Shop_MouseDown", L"ToolButtons/Normal/Shop_Normal");
@@ -79,6 +88,7 @@ namespace diva
 			// select music button
 			selectMusicButton = CreateButton(sconf, L"ToolBar/Normal/btn_selectmusic_normal", L"ToolBar/MouseOn/btn_selectmusic_mouseon", L"ToolBar/MouseDown/btn_selectmusic_mousedown", L"ToolBar/Normal/btn_selectmusic_normal");
 			roomTop->add(selectMusicButton);
+			selectMusicButton->addMouseListener(new LoginButton_MouseListener());
 			selectMusicButton->setVisible(true);
 
 			// message area
@@ -150,6 +160,8 @@ namespace diva
 			stageList = CreateStageList(rconf);
 			stageList->setVisible(false);
 			roomTop->add(stageList);
+
+
 		
 			//LoginButtonClicked();
 			// ------------- Refresh All
@@ -283,11 +295,11 @@ namespace diva
 			udButton->setVisible(false);
 			settingsButton->setVisible(false);
 			exitStageButton->setVisible(false);
-			
 			decorateButton->setVisible(false);
 			thingList->setVisible(false);
 			teamList->setVisible(false);
 			stageList->setVisible(false);
+			songList->setVisible(false);
 		}
 
 		void HouseUI::StateChange_LOGINWINDOW_ROOM()
@@ -336,6 +348,7 @@ namespace diva
 			thingList->setVisible(true);
 			teamList->setVisible(true);
 			stageList->setVisible(true);
+			songList->setVisible(true);
 
 			//
 			roomListPanel->setVisible(false);
@@ -732,10 +745,44 @@ namespace diva
 			}
 		}
 
-		gcn::ContainerEx* CreateSongList(const WJson::Value& conf)
+		gcn::ContainerEx* HouseUI::CreateSongList(const WJson::Value& conf)
 		{
 			using namespace gcn;
 
+			WJson::Value tv = conf[L"SongList/Config"],
+				t2 = conf[L"SongList/songitem_background"];
+			
+			gcn::ContainerEx* con = new ContainerEx();
+			con->setOpaque(false);
+			con->setPosition(tv[L"desX"].asInt(), tv[L"desY"].asInt());
+
+			gcn::ListBoxEx* list = new ListBoxEx();
+			list->setGap(gcn::Rectangle(0, 0, t2[L"width"].asInt(), t2[L"height"].asInt()), tv[L"gap"].asInt());
+			list->setMaxItem(tv[L"maxItem"].asInt());
+			list->setWidth(t2[L"width"].asInt());
+			list->adjustMyHeight();
+			list->setPosition(t2[L"desX"].asInt() - con->getX(), t2[L"desY"].asInt() - con->getY());
+			songListFont = new SoraGUIFont(L"msyh.ttf", tv[L"fontSize"].asInt());
+			list->setFont(songListFont);
+			con->add(list);
+
+			gcn::ContainerEx* image = CreateStaticImage(conf, L"SongList/GameMode/CoupleMode");
+			image->setPosition(image->getX() - con->getX(), image->getY() - con->getY());
+			con->add(image);
+
+			con->setSize(list->getWidth(), list->getHeight() + list->getY() - image->getY());
+
+			for (vector<divamap::DivaMapSelectedItem>::iterator i = SELECTEDMAPS.begin(); i != SELECTEDMAPS.end(); i++)
+			{
+				divamap::DivaMap& m = MAPS[i->id];
+				SongListItem* item = new SongListItem(t2[L"filename"].asString(), GetRect(t2));
+				item->setText(m.header.name + L"(" + config[L"difNames"][(int)i->level].asString() + L":" +
+					gcn::iToWS(m.levels[i->level].difficualty) + L",BPM:" + gcn::iToWS(m.header.bpm) + L")");
+				list->pushItem(item);
+			}
+
+			return con;
+			
 		}
 
 		ThingList* HouseUI::CreateThingList(const WJson::Value& conf)
@@ -832,6 +879,7 @@ namespace diva
 			WJson::Value tv = conf[L"PlayerList/Config"], t2 = conf[L"PlayerList/playerItem_back"];
 
 			ListBoxEx* list = new ListBoxEx();
+			list->setOpaque(true);
 			list->setMaxItem(tv[L"maxItem"].asInt());
 			list->setGap(gcn::Rectangle(0, 0, tv[L"width"].asInt(), tv[L"height"].asInt()), tv[L"gap"].asInt());
 			list->setWidth(t2[L"width"].asInt());
@@ -984,6 +1032,11 @@ namespace diva
 			if (mouseEvent.getSource() == (gcn::Widget*) roomListOpenButton)
 			{
 				setState(STATE_STAGE);
+				return;
+			}
+			if (mouseEvent.getSource() == (gcn::Widget*) selectMusicButton)
+			{
+				NextState = "music";
 				return;
 			}
 		}

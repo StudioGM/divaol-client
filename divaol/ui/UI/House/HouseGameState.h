@@ -40,7 +40,13 @@ namespace diva
 				houseUI->Enter();
 			}
 
-			void onUpdate(float dt) {   
+			void onUpdate(float dt) {
+				if (NextState!="")
+				{
+					getGameApp()->setState(NextState);
+					NextState = "";
+					return;
+				}
 				houseUI->Update(dt);
 			}
 
