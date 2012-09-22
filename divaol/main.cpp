@@ -29,32 +29,6 @@ int CALLBACK WinMain(
         
 #endif
 		///////////////////////////////
-		//
-		//std::list<divamap::DivaMapEventMessage> listMsgOut;
-		//MAPMGR.registerMapEventMessageQueue(&listMsgOut);
-		////MAPMGR.PrepareDivaMapData(1, true);
-		//MAPMGR.PrepareDivaMapDataFromFile(L"song/MAP_1_noVideo.divaolpack");
-		//bool fini=false;
-		//while(true)
-		//{
-		//	MAPMGR.update(0);
-		//	while(listMsgOut.size()!=0)
-		//	{
-		//		divamap::DivaMapEventMessage msg = listMsgOut.front();
-		//		listMsgOut.pop_front();
-		//		if(msg.finish)
-		//		{
-		//			MessageBoxW(NULL, L"download over", L"download", MB_OK);
-		//			fini=true;
-		//		}
-		//		else
-		//		{
-		//			printf("%lf", msg.downloadProgress);
-		//		}
-		//	}
-		//	//if(fini)
-		//		//break;
-		//}
 		NET_MANAGER.setCore(new divanet::TCPGNetworkSystem);
 		///////////////////////////////
 
