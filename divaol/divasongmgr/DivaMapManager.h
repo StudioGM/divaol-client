@@ -7,6 +7,7 @@
 #include <string>
 
 #include "Lib/Base/Thread/Queue.h"
+#include "Lib/wjson/wjson.h"
 #include "Lib/curl/curl.h"
 
 namespace divamap
@@ -21,6 +22,9 @@ namespace divamap
 	class DivaMapEventMessage
 	{
 	public:
+		char *additionalMessage;
+		int additionalMessageLength;
+
 		enum DIVAMAPMGREVENT {
 			PrepareMapList, 
 			PrepareThumbFile, 
@@ -38,6 +42,8 @@ namespace divamap
 			error = true;
 			finish = false;
 			downloadProgress = 0;
+			additionalMessage = NULL;
+			additionalMessageLength=0;
 		}
 		DivaMapEventMessage(DIVAMAPMGREVENT eventType, int mapID, bool error, bool finish, float downloadProgess)
 		{
@@ -46,6 +52,8 @@ namespace divamap
 			this->error = error;
 			this->finish = finish;
 			this->downloadProgress = downloadProgess;
+			additionalMessage = NULL;
+			additionalMessageLength=0;
 		}
 
 
@@ -97,17 +105,18 @@ namespace divamap
 		std::vector<std::wstring> vocaloids;
 		int bpm;
 		std::wstring additionalMessage;
-		int playedCount;
 		int songLength;
 		std::wstring thumb;
 		std::wstring audioPreview;
+		std::wstring modified;
+		std::wstring created;
 	};
 	class DivaMapLevel
 	{
 	public:
 		std::wstring divaFileName;
 		std::wstring FileMD5Value;
-		int difficualty;
+		int difficulty;
 	};
 	class DivaMap
 	{
@@ -140,6 +149,7 @@ namespace divamap
 	{
 	private:
 		std::wstring downloadCategoryServerAddress;
+		std::wstring mapListQueryAddress;
 
 	private:
 		DivaMapManager();
@@ -160,6 +170,7 @@ namespace divamap
 
 	public:
 		//local song list file management
+		bool initMapFromJsonArray(WJson::Value mapsJValue);
 		bool initFromLocalFile();
 		void saveToLocalFile();
 
@@ -177,7 +188,7 @@ namespace divamap
 		void update(float dt);
 
 		//Prepare Functions
-		void PrepareDivaMapListInfo();
+		bool PrepareDivaMapListInfo();
 
 		bool PrepareDivaMapThumb(int id);
 		bool PrepareDivaMapAudioPreview(int id);

@@ -169,9 +169,6 @@
     <Filter Include="源文件\divaeditor\Scene">
       <UniqueIdentifier>{db761b30-c9b6-432c-80f4-4bc323c29ab4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\divaeditor\WJson">
-      <UniqueIdentifier>{7ed1d548-277c-48ae-9f15-9ec688804667}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\divaeditor\Core">
       <UniqueIdentifier>{591a5f8d-c48b-4db7-ae61-6bcae67d56a6}</UniqueIdentifier>
     </Filter>
