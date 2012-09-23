@@ -20,6 +20,8 @@ namespace Base
 	public:
 		static bool FileExist(const String &path);
 		static bool PathExist(const String &path);
+		static bool IsFile(const String &path);
+		static bool IsFolder(const String &path);
 		static void* ReadRawData(const String& filepath, size_t &size);
 	};
 }

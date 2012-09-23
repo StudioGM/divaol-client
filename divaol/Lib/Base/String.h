@@ -74,7 +74,10 @@ namespace Base
 		Strings split(Strings tokens=Strings()) const;
 		String strip(Strings tokens=Strings()) const;
 
+		void clear() {mContent.clear();}
+		bool empty() const {return mContent.empty();}
 		size_t size() const{return mContent.size();}
+		size_t length() const{return mContent.length();}
 		void resize(size_t size, wchar newChar) {mContent.resize(size,newChar);}
 		wchar getWChar(IndexVar index) const{return mContent[index];}
 		char getChar(IndexVar index) const{
@@ -124,10 +127,10 @@ namespace Base
 			ret *= b;
 			return ret;
 		}
-		operator base_string() {
+		operator base_string() const {
 			return asAnsi();
 		}
-		operator base_wstring() {
+		operator base_wstring() const {
 			return asUnicode();
 		}
 
@@ -152,7 +155,7 @@ namespace Base
 		static T string2any(const String &s) {
 			T tmp;
 			std::stringstream ss;
-			ss << s.ansi_str();();
+			ss << s.ansi_str();
 			ss >> tmp;
 			return tmp;
 		}

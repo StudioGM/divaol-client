@@ -25,7 +25,12 @@ namespace divacore
 		notePosition = Point(noteInfo.notePoint[0].x*config->getAsDouble("grid_width")+config->getAsDouble("deltaX"),noteInfo.notePoint[0].y*config->getAsDouble("grid_height")+config->getAsDouble("deltaY"));
 
 		Rect texRect = config->getAsRect("normal_note_"+NOTE_MAP[noteInfo.notePoint[0].type%8]);
-		Point centerPoint = config->getAsPoint("normal_note_noteCenter");
+		Point centerPoint;
+		if(config->has("normal_note_"+NOTE_MAP[noteInfo.notePoint[0].type%8]+"Center"))
+			centerPoint = config->getAsPoint("normal_note_"+NOTE_MAP[noteInfo.notePoint[0].type%8]+"Center");
+		else
+			centerPoint = config->getAsPoint("normal_note_noteCenter");
+
 		noteSprite->setTextureRect(texRect.x,texRect.y,texRect.w,texRect.h);
 		noteSprite->setCenter(centerPoint.x,centerPoint.y);
 		
@@ -35,6 +40,11 @@ namespace divacore
 		//set base
 		coverRect = config->getAsRect("normal_note_cover_"+NOTE_MAP[noteInfo.notePoint[0].type%8]);
 		coverSprite->setTextureRect(coverRect.x,coverRect.y,coverRect.w,coverRect.h);
+
+		if(config->has("normal_note_cover_"+NOTE_MAP[noteInfo.notePoint[0].type%8]+"Center"))
+			centerPoint = config->getAsPoint("normal_note_cover_"+NOTE_MAP[noteInfo.notePoint[0].type%8]+"Center");
+		else
+			centerPoint = config->getAsPoint("normal_note_cover_center");
 		coverSprite->setCenter(centerPoint.x,coverRect.h);
 
 		coverSprite->setPosition(notePosition.x,notePosition.y-centerPoint.y+coverRect.h);
@@ -51,7 +61,12 @@ namespace divacore
 		//set tail
 		tailPosition = notePosition+Point(Argument::asFloat("tailx",noteInfo.arg),Argument::asFloat("taily",noteInfo.arg)).unit()*config->getAsDouble("normal_rhythm_distance")*MAP_INFO->header.speedScale;
 		texRect = config->getAsRect("normal_rhythm_"+NOTE_MAP[noteInfo.notePoint[0].type%8]);
-		centerPoint = config->getAsPoint("normal_rhythm_center");
+		
+		if(config->has("normal_rhythm_"+NOTE_MAP[noteInfo.notePoint[0].type%8]+"Center"))
+			centerPoint = config->getAsPoint("normal_rhythm_"+NOTE_MAP[noteInfo.notePoint[0].type%8]+"Center");
+		else
+			centerPoint = config->getAsPoint("normal_rhythm_center");
+
 		rhythmSprite->setTextureRect(texRect.x,texRect.y,texRect.w,texRect.h);
 		rhythmSprite->setCenter(centerPoint.x,centerPoint.y);
 		rhythmSprite->setPosition(tailPosition.x,tailPosition.y);

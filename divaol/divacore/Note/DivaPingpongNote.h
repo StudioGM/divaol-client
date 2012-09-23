@@ -44,7 +44,7 @@ namespace divacore
 		SoraSprite *barMetaSprite;
 
 		Rect coverRect;
-		Point noteCenterPoint;
+		Point coverCenterPoint;
 		static const float SCALE;
 
 		void finish(float dt);

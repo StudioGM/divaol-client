@@ -184,7 +184,7 @@ namespace diva
 
 			// dif bar
 			graphics->drawImage(image, 0, 847, 185, 85, 
-				int((double(mapInfo.levels[(divamap::DivaMap::LevelType)difIndex].difficualty) / 100) * 368), 43);
+				int((double(mapInfo.levels[(divamap::DivaMap::LevelType)difIndex].difficulty) / 100) * 368), 43);
 
 		}
 		else if (look == RANDOM)

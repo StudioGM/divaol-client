@@ -130,7 +130,9 @@ namespace divanet
 			}
 		};
 	}
-	#define GNET_RECEIVE_PACKET(id,func) (NETWORK_SYSTEM_PTR->receive(id,new gnetwork::EventFunc((func),this)))
+	#define GNET_RECEIVE_REGISTER(sys,id,func) (sys->receive(id,new divanet::gnetwork::EventFunc((func),this)))
+	#define GNET_RECEIVE_UNREGISTER(sys,id) (sys->unreceive(id))
+	#define GNET_RECEIVE_PACKET(id,func) (NETWORK_SYSTEM_PTR->receive(id,new divanet::gnetwork::EventFunc((func),this)))
 	#define GNET_UNRECEIVE_PACKET(id) (NETWORK_SYSTEM_PTR->unreceive(id))
 }
 

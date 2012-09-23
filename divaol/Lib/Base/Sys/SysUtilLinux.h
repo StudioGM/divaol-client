@@ -1,13 +1,13 @@
 /****************************************************
- *  SysUtilApple.h
+ *  SysUtilLinux.h
  *
  *  Created by tempbuffer on 9/16/12.
  *  Copyright 2012 tempbuffer. All rights reserved.
  *
- *  A bunch of things that are related to apple 
+ *  A bunch of things that are related to normal system(linux) 
  ****************************************************/
 
-#if !defined(_BASE_SYS_UTIL_) && defined(BASE_OS_FAMILY_APPLE)
+#if !defined(_BASE_SYS_UTIL_) && defined(BASE_OS_LINUX)
 #define _BASE_SYS_UTIL_
 
 #include "../Common.h"

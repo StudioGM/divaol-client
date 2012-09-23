@@ -40,8 +40,8 @@ namespace sora {
         
 			thread_handle = CreateThread(NULL, 0, _ThreadProc, (LPVOID)this, 0, (LPDWORD)&thread_id);
 			if(thread_handle == INVALID_HANDLE_VALUE || thread_handle == NULL) {
-			    thread_id = 0;
-			    return 0;
+				thread_id = 0;
+				return 0;
 			}
 			return 1;
 		}

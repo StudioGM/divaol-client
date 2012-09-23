@@ -66,7 +66,7 @@ namespace divacore
 				core->registerUIPainter(new divacore::SimpleUIPainter);
 				core->registerGameModule(new divacore::JsonGameModule);
 				//core->registerNetworkSystem(new divacore::EnetSystem);
-				core->registerNetworkSystem(NET_MANAGER.getCoreNet());
+				core->registerNetworkSystem(NET_MANAGER.getCore());
 				core->registerEvaluateStrategy(new divacore::CommonEvaluateStrategy);
 				core->registerEffectSystem(new divacore::HDEffectSystem);
 			}

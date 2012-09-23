@@ -37,6 +37,18 @@ namespace Base
 
 		return true;
 	}
+	bool FileUtil::IsFile(const String &path) {
+		DWORD result = GetFileAttributesW(path.unicode_str());
+		if(result==0xFFFFFFFF)
+			return false;
+		return (result|FILE_ATTRIBUTE_DIRECTORY)==0;
+	}
+	bool FileUtil::IsFolder(const String &path) {
+		DWORD result = GetFileAttributesW(path.unicode_str());
+		if(result==0xFFFFFFFF)
+			return false;
+		return (result|FILE_ATTRIBUTE_DIRECTORY)>0;
+	}
 	void* FileUtil::ReadRawData(const String& filepath, size_t &size)
 	{
 		FileStream file;

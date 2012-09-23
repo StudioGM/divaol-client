@@ -327,6 +327,8 @@ namespace gnet
 	{
 		if(item->getType()==GNET_TYPE_BINARY)
 			return ((Item<Binary>*)item)->getData();
+		else if(item->getType()==GNET_TYPE_ATOM)
+			return ((Item<Binary>*)item)->getData();
 		else
 			return item->getDescription();
 	}

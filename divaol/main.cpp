@@ -1,4 +1,3 @@
-
 #include <winsock2.h>
 
 #include "SoraCore.h"
@@ -25,7 +24,8 @@
 #include "ui/UI/Music/MusicGameState.h"
 #include "ui/UI/TitleScreen/TitleScreenUI.h"
 
-
+#include "divanetwork/DivaNetworkManager.h"
+#include "divanetwork/DivaGNetTCPSystem.h"
 using namespace diva;
 
 class GameInitState: public sora::SoraGameState, public sora::SoraEventHandler {
@@ -132,6 +132,11 @@ int CALLBACK WinMain(
 	LPSTR lpCmdLine,
 	int nCmdShow
 	) {
+#ifdef DIVA_GNET_OPEN
+		divanet::NetworkManager::instance().init();
+		divanet::NetworkManager::instance().setAuth(new divanet::TCPGNetworkSystem);
+		divanet::NetworkManager::instance().setChat(new divanet::TCPGNetworkSystem);
+#endif
 		diva::initialize_config(L"uiconfig/config.json");
 
 		sora::SoraGameAppDef def("config.xml");
@@ -150,4 +155,3 @@ int CALLBACK WinMain(
 
 		return 0;
 }
-

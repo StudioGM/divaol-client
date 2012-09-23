@@ -25,7 +25,9 @@ namespace diva
 			top = new gcn::Container();
 			top->setSize(config[L"gameWidth"].asInt(), config[L"gameHeight"].asInt());
 			top->setOpaque(false);
-			Enter();
+
+			// why Enter() here? it will cause Enter invoked twice.
+			//Enter();
 
 			roomTop = new gcn::ContainerEx();
 			roomTop->setSize(config[L"gameWidth"].asInt(), config[L"gameHeight"].asInt());
@@ -195,12 +197,24 @@ namespace diva
 		{
 			sora::GCN_GLOBAL->getTop()->add(top, 0, 0);
 			top->setVisible(true);
+
+#ifdef DIVA_GNET_OPEN
+			divanet::NetworkManager::instance().connectAuth();
+			divanet::NetworkManager::instance().connectChat();
+			GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().auth(),"auth#login",&HouseUI::gnet_login);
+			GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().chat(),"chat#receivemsg",&HouseUI::gnet_chatrecv);
+#endif
 		}
 		
 		void HouseUI::Leave()
 		{
 			sora::GCN_GLOBAL->getTop()->remove(top);
 			top->setVisible(false);
+
+#ifdef DIVA_GNET_OPEN
+			GNET_RECEIVE_UNREGISTER(divanet::NetworkManager::instance().auth(),"auth#login");
+			GNET_RECEIVE_UNREGISTER(divanet::NetworkManager::instance().chat(),"chat#receivemsg");
+#endif
 		}
 
 		void HouseUI::Render()
@@ -212,8 +226,44 @@ namespace diva
 			RecvMsg();
 		}
 
+		void HouseUI::gnet_login(divanet::GPacket *packet)
+		{
+#ifdef DIVA_GNET_OPEN
+			if (packet->getItem(2)->getString() == "ok")
+			{
+				PlayerInfo info;
+				int t;
+				wchar_t un[100], nm[100];
+				
+				info.id = Base::String(packet->getItem(4)->getString()).toAny<int>();
+				info.username = Base::String(packet->getItem(3)->getString());
+				info.nickname = Base::String(packet->getItem(3)->getString());
+				PlayerManager::Instance()->SetHostInfo(info);
+				state = STATE_ROOM;
+				loginPanel->setVisible(false);
+				roomTop->setEnabled(true);
+
+				//PlayerManager::Instance()->GetStageGuests().push_back("SonicMisora");
+				PlayerManager::Instance()->SetOnline(true);
+				//RefreshStatus();
+				Refresh_hostInfo();
+
+				divanet::NetworkManager::instance().chat()->send("chat#login","%s%s",packet->getItem(4)->getString().c_str(),packet->getItem(5)->getString().c_str());
+				divanet::NetworkManager::instance().chat()->send("chat#enter","%s","global");
+			}
+#endif
+		}
+
+		void HouseUI::gnet_chatrecv(divanet::GPacket *packet)
+		{
+#ifdef DIVA_GNET_OPEN
+			messagePanelChatBox->addText(Base::s2ws("["+packet->getItem(3)->getString()+"]"+packet->getItem(4)->getString()));
+#endif
+		}
+
 		void HouseUI::RecvMsg()
 		{
+#ifndef DIVA_GNET_OPEN
 			while (!Net::Network::isEmpty())
 			{
 				std::wstring msg, arg;
@@ -237,7 +287,7 @@ namespace diva
 						state = STATE_ROOM;
 						loginPanel->setVisible(false);
 						roomTop->setEnabled(true);
-						
+
 						//PlayerManager::Instance()->GetStageGuests().push_back("SonicMisora");
 						PlayerManager::Instance()->SetOnline(true);
 						//RefreshStatus();
@@ -245,6 +295,7 @@ namespace diva
 					}
 				}
 			}
+#endif
 		}
 
 		void HouseUI::StateChange_ROOM_STAGE()
@@ -777,7 +828,7 @@ namespace diva
 				divamap::DivaMap& m = MAPS[i->id];
 				SongListItem* item = new SongListItem(t2[L"filename"].asString(), GetRect(t2));
 				item->setText(m.header.name + L"(" + config[L"difNames"][(int)i->level].asString() + L":" +
-					gcn::iToWS(m.levels[i->level].difficualty) + L",BPM:" + gcn::iToWS(m.header.bpm) + L")");
+					gcn::iToWS(m.levels[i->level].difficulty) + L",BPM:" + gcn::iToWS(m.header.bpm) + L")");
 				list->pushItem(item);
 			}
 
@@ -981,7 +1032,11 @@ namespace diva
 		void HouseUI::LoginButtonClicked()
 		{
 			using namespace Net;
+#ifdef DIVA_GNET_OPEN
+			divanet::NetworkManager::instance().auth()->send("auth#login","%s%s",Base::ws2s(usernameInput->getText()).c_str(),Base::ws2s(passwordInput->getText()).c_str());
+#else
 			Network::Send(L"LOGIN", usernameInput->getText() + L" " + passwordInput->getText());
+#endif
 		}
 
 
@@ -1077,7 +1132,11 @@ namespace diva
 		{
 			if (messagePanelInputBox->getText() == L"")
 				return;
+#ifdef DIVA_GNET_OPEN
+			divanet::NetworkManager::instance().chat()->send("chat#sendmsg","%s%s","global",Base::ws2s(PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText()).c_str());
+#else
 			messagePanelChatBox->addText(PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
+#endif
 			messagePanelInputBox->setText(L"");
 		}
 

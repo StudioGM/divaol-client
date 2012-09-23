@@ -14,6 +14,7 @@
 #include "divanetwork/DivaGNetSystem.h"
 #include "gnet/netManager.h"
 #include "Core/DivaStringUtil.h"
+#include "utility/DivaConfigLoader.h"
 
 namespace divanet
 {

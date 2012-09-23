@@ -26,6 +26,8 @@
 #include <string>
 #include <vector>
 
+#include "divanetwork/DivaNetworkManager.h"
+
 namespace diva
 {
 
@@ -73,6 +75,10 @@ namespace diva
 			void StateChange_ROOM_ROOMLIST();
 			void StateChange_ROOMLIST_ROOM();
 			void StateChange_ROOMLIST_STAGE();
+
+			//gnet
+			void gnet_login(divanet::GPacket *packet);
+			void gnet_chatrecv(divanet::GPacket *packet);
 
 			int state;
 

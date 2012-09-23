@@ -74,6 +74,7 @@ static std::wstring codePointToUTF8(unsigned int cp)
    
    // based on description from http://en.wikipedia.org/wiki/UTF-8
 
+   /*
    if (cp <= 0x7f) 
    {
       result.resize(1);
@@ -100,6 +101,10 @@ static std::wstring codePointToUTF8(unsigned int cp)
       result[1] = static_cast<wchar_t>(0x80 | (0x3f & (cp >> 12)));
       result[0] = static_cast<wchar_t>(0xF0 | (0x7 & (cp >> 18)));
    }
+   */
+
+   result.resize(1);
+   result[0] = static_cast<wchar_t>(cp);
 
    return result;
 }
