@@ -29,7 +29,7 @@ int CALLBACK WinMain(
         
 #endif
 		///////////////////////////////
-		
+		/*
 		std::list<divamap::DivaMapEventMessage> listMsgOut;
 		MAPMGR.registerMapEventMessageQueue(&listMsgOut);
 		//MAPMGR.PrepareDivaMapData(1, true);
@@ -56,6 +56,7 @@ int CALLBACK WinMain(
 			//if(fini)
 				//break;
 		}
+		*/
 		NET_MANAGER.setCore(new divanet::TCPGNetworkSystem);
 		///////////////////////////////
 
