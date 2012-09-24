@@ -248,7 +248,8 @@ namespace diva
 				//RefreshStatus();
 				Refresh_hostInfo();
 
-				divanet::NetworkManager::instance().chat()->send("chat#login","%s%s",packet->getItem(4)->getString().c_str(),packet->getItem(5)->getString().c_str());
+				gnet::Bytes token = packet->getItem(5)->as<gnet::Item<gnet::Binary>>()->getRaw();
+				divanet::NetworkManager::instance().chat()->send("chat#login","%s%B",packet->getItem(4)->getString().c_str(),token);
 				divanet::NetworkManager::instance().chat()->send("chat#enter","%s","global");
 			}
 #endif
@@ -257,7 +258,10 @@ namespace diva
 		void HouseUI::gnet_chatrecv(divanet::GPacket *packet)
 		{
 #ifdef DIVA_GNET_OPEN
-			messagePanelChatBox->addText(Base::s2ws("["+packet->getItem(3)->getString()+"]"+packet->getItem(4)->getString()));
+			wstring msg;
+			msg += L"["+Base::s2ws(packet->getItem(3)->getString())+L"] ";
+			msg += gnet::ItemUtility::getWString(packet->getItem(4));
+			messagePanelChatBox->addText(msg);
 #endif
 		}
 
@@ -1133,7 +1137,7 @@ namespace diva
 			if (messagePanelInputBox->getText() == L"")
 				return;
 #ifdef DIVA_GNET_OPEN
-			divanet::NetworkManager::instance().chat()->send("chat#sendmsg","%s%s","global",Base::ws2s(PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText()).c_str());
+			divanet::NetworkManager::instance().chat()->send("chat#sendmsg","%s%W","global",PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
 #else
 			messagePanelChatBox->addText(PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
 #endif

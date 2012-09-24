@@ -70,6 +70,10 @@ namespace gnet
 			memcpy(&bytes[0],data.c_str(),data.size());
 			return convertToBytes(data.size())+bytes;
 		}
+		Bytes convertToBytes(const Bytes &data)
+		{
+			return convertToBytes(data.size())+data;
+		}
 		Bytes convertToBytes(double data)
 		{
 			uint64 tmp;
@@ -132,6 +136,15 @@ namespace gnet
 			memcpy(&ret,&tmp,sizeof(double));
 			return ret;
 		}
+		template<>
+		Bytes convertToHost<Bytes>(Bytes &bytes)
+		{
+			Bytes ret;
+			size_t size = convertToHost<size_t>(bytes);
+			for(Bytes::const_iterator ptr = bytes.begin()+sizeof(size_t); ptr != bytes.end(); ptr++)
+				ret.push_back(*ptr);
+			return ret;
+		}
 	};
 
 	std::string ItemBase::getHex()
@@ -192,6 +205,12 @@ namespace gnet
 					break;
 				case 'b':
 					*tuple += (int8)va_arg(ArgPtr,bool);
+					break;
+				case 'B':
+					*tuple += (ItemBase*)new Item<Binary>((Bytes)va_arg(ArgPtr,Bytes),true);
+					break;
+				case 'W':
+				    *tuple += (ItemBase*)new Item<Binary>(ItemUtility::ToBytes((std::wstring)va_arg(ArgPtr,std::wstring)),true);
 					break;
 				}
 			}
@@ -331,5 +350,28 @@ namespace gnet
 			return ((Item<Binary>*)item)->getData();
 		else
 			return item->getDescription();
+	}
+	std::wstring ItemUtility::getWString(ItemBase *item)
+	{
+		if(item->getType()==GNET_TYPE_BINARY)
+			return BytesTo<std::wstring>(((Item<Binary>*)item)->getRaw());
+		else
+			return L"";
+	}
+
+	//special
+	Bytes ItemUtility::ToBytes(const std::wstring &data) {
+		Bytes ret;
+		for(int i = 0; i < data.size(); i++)
+			ret.push_back(byte(data[i]>>8)), ret.push_back(byte(data[i]&0xFFFFFFFF));
+		return ret;
+	}
+	template<>
+	std::wstring ItemUtility::BytesTo<std::wstring>(Bytes &bytes) {
+		std::wstring ret = L"";
+		size_t size = bytes.size()>>1;
+		for(int i = 0; i < size; i++)
+			ret += wchar_t((bytes[i<<1]<<8)+bytes[(i<<1)+1]);
+		return ret;
 	}
 }
