@@ -155,7 +155,7 @@ namespace Base
 		static T string2any(const String &s) {
 			T tmp;
 			std::stringstream ss;
-			ss << s.ansi_str();();
+			ss << s.ansi_str();
 			ss >> tmp;
 			return tmp;
 		}
