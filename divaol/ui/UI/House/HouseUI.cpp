@@ -193,18 +193,17 @@ namespace diva
 			}
 		}
 
-		void HouseUI::Enter()
-		{
-			sora::GCN_GLOBAL->getTop()->add(top, 0, 0);
-			top->setVisible(true);
-
+		void HouseUI::connectServer() {
 #ifdef DIVA_GNET_OPEN
 			try
 			{
 				divanet::NetworkManager::instance().connectAuth();
 				divanet::NetworkManager::instance().connectChat();
+				divanet::NetworkManager::instance().connectScheduler();
+				divanet::NetworkManager::instance().connectCore();
 				GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().auth(),"auth#login",&HouseUI::gnet_login);
 				GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().chat(),"chat#receivemsg",&HouseUI::gnet_chatrecv);
+				GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().scheduler(),"scheduler#response",&HouseUI::gnet_scheduler_response);
 			}
 			catch(const char *ev)
 			{
@@ -212,16 +211,40 @@ namespace diva
 			}
 #endif
 		}
+		void HouseUI::disconnectServer() {
+#ifdef DIVA_GNET_OPEN
+			GNET_RECEIVE_UNREGISTER(divanet::NetworkManager::instance().auth(),"auth#login");
+			GNET_RECEIVE_UNREGISTER(divanet::NetworkManager::instance().chat(),"chat#receivemsg");
+			GNET_RECEIVE_UNREGISTER(divanet::NetworkManager::instance().scheduler(),"scheduler#response");
+#endif
+		}
+		void HouseUI::request_roomList() {
+#ifdef DIVA_GNET_OPEN
+			roomListView->clearItems();
+			divanet::NetworkManager::instance().scheduler()->send("scheduler#roomlist");
+#endif
+		}
+		void HouseUI::open_stage() {
+#ifdef DIVA_GNET_OPEN
+			divanet::NetworkManager::instance().core()->send("auth#setuid","%s",uid.c_str());
+			divanet::NetworkManager::instance().core()->send("stage#create","%d",4);
+#endif
+		}
+
+		void HouseUI::Enter()
+		{
+			sora::GCN_GLOBAL->getTop()->add(top, 0, 0);
+			top->setVisible(true);
+
+			connectServer();
+		}
 		
 		void HouseUI::Leave()
 		{
 			sora::GCN_GLOBAL->getTop()->remove(top);
 			top->setVisible(false);
 
-#ifdef DIVA_GNET_OPEN
-			GNET_RECEIVE_UNREGISTER(divanet::NetworkManager::instance().auth(),"auth#login");
-			GNET_RECEIVE_UNREGISTER(divanet::NetworkManager::instance().chat(),"chat#receivemsg");
-#endif
+			disconnectServer();
 		}
 
 		void HouseUI::Render()
@@ -242,6 +265,7 @@ namespace diva
 				int t;
 				wchar_t un[100], nm[100];
 				
+				uid = packet->getItem(4)->getString();
 				info.id = Base::String(packet->getItem(4)->getString()).toAny<int>();
 				info.username = Base::String(packet->getItem(3)->getString());
 				info.nickname = Base::String(packet->getItem(3)->getString());
@@ -269,6 +293,32 @@ namespace diva
 			msg += L"["+Base::s2ws(packet->getItem(3)->getString())+L"] ";
 			msg += gnet::ItemUtility::getWString(packet->getItem(4));
 			messagePanelChatBox->addText(msg);
+#endif
+		}
+
+		void  HouseUI::gnet_scheduler_response(divanet::GPacket *packet) {
+#ifdef DIVA_GNET_OPEN
+			if(packet->getItem(2)->getString()=="roomlist")
+			{
+				roomListView->clearItems();
+				gnet::Item<gnet::List> *list = packet->getItem(3)->as<gnet::Item<gnet::List>>();
+				for(int i = 0; i < list->size(); i++)
+				{
+					gnet::Item<gnet::Tuple> *item = list->getItem(i)->as<gnet::Item<gnet::Tuple>>();
+					gnet::Item<gnet::List> *roomInfo = item->getItem(3)->as<gnet::Item<gnet::List>>();
+
+					RoomListItem* b = CreateRoomListItem(rconf,L"RoomList/RoomItem_normal", L"RoomList/RoomItem_on", L"RoomList/RoomItem_down");
+					Network::RoomInfo info;
+					info.maxPlayerNum = roomInfo->getItem(0)->getInt();
+					info.owner = Base::s2ws(item->getItem(0)->getString());
+					info.playerNum = roomInfo->getItem(3)->getInt();
+					info.selectedSong.push_back("songID : "+Base::String::any2string(roomInfo->getItem(2)->getInt()));
+					info.stageName = Base::s2ws(item->getItem(0)->getString());
+					b->setInfo(info);
+
+					roomListView->pushItem(b);
+				}
+			}
 #endif
 		}
 
@@ -376,6 +426,8 @@ namespace diva
 			roomTop->setEnabled(false);
 			
 			roomListPanel->setVisible(true);
+
+			request_roomList();
 		}
 
 		void HouseUI::StateChange_ROOMLIST_ROOM()
@@ -389,6 +441,8 @@ namespace diva
 
 		void HouseUI::StateChange_ROOMLIST_STAGE()
 		{
+			open_stage();
+
 			state = STATE_STAGE;
 			sPlayerListPanel->setVisible(true);
 
@@ -687,6 +741,7 @@ namespace diva
 			panel->add(list);
 			for (int i=1; i<=9; i++)
 				list->pushItem(CreateRoomListItem(conf, L"RoomList/RoomItem_normal", L"RoomList/RoomItem_on", L"RoomList/RoomItem_down"));
+			roomListView = list;
 
 			//////////////////////////////////////////////////////////////////////////
 

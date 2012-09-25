@@ -76,9 +76,16 @@ namespace diva
 			void StateChange_ROOMLIST_ROOM();
 			void StateChange_ROOMLIST_STAGE();
 
-			//gnet
+			//-------network---------------------------------------------------
 			void gnet_login(divanet::GPacket *packet);
 			void gnet_chatrecv(divanet::GPacket *packet);
+			void gnet_scheduler_response(divanet::GPacket *packet);
+			void connectServer();
+			void disconnectServer();
+			void request_roomList();
+			void open_stage();
+			std::string uid;
+			//-----------------------------------------------------------------
 
 			int state;
 
@@ -123,7 +130,7 @@ namespace diva
 			gcn::ContainerEx* roomListPanel;
 			gcn::SuperButtonEx* roomListCloseButton;
 			gcn::SuperButtonEx* roomListOpenButton;
-			
+			gcn::ListViewEx* roomListView;
 
 			// --------- Login
 			gcn::ContainerEx* loginPanel;

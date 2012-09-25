@@ -136,6 +136,8 @@ int CALLBACK WinMain(
 		divanet::NetworkManager::instance().init();
 		divanet::NetworkManager::instance().setAuth(new divanet::TCPGNetworkSystem);
 		divanet::NetworkManager::instance().setChat(new divanet::TCPGNetworkSystem);
+		divanet::NetworkManager::instance().setScheduler(new divanet::TCPGNetworkSystem);
+		divanet::NetworkManager::instance().setCore(new divanet::TCPGNetworkSystem);
 #endif
 		diva::initialize_config(L"uiconfig/config.json");
 
