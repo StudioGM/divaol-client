@@ -199,10 +199,17 @@ namespace diva
 			top->setVisible(true);
 
 #ifdef DIVA_GNET_OPEN
-			divanet::NetworkManager::instance().connectAuth();
-			divanet::NetworkManager::instance().connectChat();
-			GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().auth(),"auth#login",&HouseUI::gnet_login);
-			GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().chat(),"chat#receivemsg",&HouseUI::gnet_chatrecv);
+			try
+			{
+				divanet::NetworkManager::instance().connectAuth();
+				divanet::NetworkManager::instance().connectChat();
+				GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().auth(),"auth#login",&HouseUI::gnet_login);
+				GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().chat(),"chat#receivemsg",&HouseUI::gnet_chatrecv);
+			}
+			catch(const char *ev)
+			{
+				LOGGER->log(ev);
+			}
 #endif
 		}
 		
