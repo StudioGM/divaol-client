@@ -88,14 +88,13 @@ namespace divacore
 		mText.setColor(CARGB(255,255,0,0));
 		mText.setFont(sora::SoraFont::LoadFromFile("simhei.ttf", 50));
 	}
-	void MultiPlay::gameReset() {
+
+	void MultiPlay::registerNetworkEvent() {
 		//注册接收函数
 		GNET_RECEIVE_PACKET("game#membersinfoL",&MultiPlay::gnetMembersInfo);
 		GNET_RECEIVE_PACKET("game#playerupdateL",&MultiPlay::gnetPlayerUpdate);
-		GNET_RECEIVE_PACKET("stage#join_failed",&MultiPlay::gnetJoinFailed);
-		GNET_RECEIVE_PACKET("stage#join_ok",&MultiPlay::gnetJoinOK);
-
-		SinglePlay::gameReset();
+		//GNET_RECEIVE_PACKET("stage#join_failed",&MultiPlay::gnetJoinFailed);
+		//GNET_RECEIVE_PACKET("stage#join_ok",&MultiPlay::gnetJoinOK);
 
 		if(mInfo==0) {
 			mInfo = new NetGameInfo();
@@ -103,6 +102,11 @@ namespace divacore
 		}
 
 		setBaseState(CONNECT);
+	}
+
+	void MultiPlay::gameReset() {
+
+		SinglePlay::gameReset();
 	}
 	void MultiPlay::gameStop() {
 		NETWORK_SYSTEM_PTR->disconnect();
@@ -115,8 +119,8 @@ namespace divacore
 
 		GNET_UNRECEIVE_PACKET("game#membersinfoL");
 		GNET_UNRECEIVE_PACKET("game#playerupdateL");
-		GNET_UNRECEIVE_PACKET("stage#join_failed");
-		GNET_UNRECEIVE_PACKET("stage#join_ok");
+		//GNET_UNRECEIVE_PACKET("stage#join_failed");
+		//GNET_UNRECEIVE_PACKET("stage#join_ok");
 
 		NETWORK_SYSTEM_PTR->send("game#overR");
 	}
@@ -148,11 +152,11 @@ namespace divacore
 			mInfo->setConfig(configFile);
 
 		//连接server
-		NETWORK_SYSTEM_PTR->connect();
+		/*NETWORK_SYSTEM_PTR->connect();
 
 		NETWORK_SYSTEM_PTR->send("auth#setuid","%s",MY_PLAYER_INFO.uid().c_str());
 
-		NETWORK_SYSTEM_PTR->send("stage#join","%s","919");
+		NETWORK_SYSTEM_PTR->send("stage#join","%s","919");*/
 
 		//NETWORK_SYSTEM_PTR->send("stage#ready");
 
@@ -163,7 +167,7 @@ namespace divacore
 			NETWORK_SYSTEM_PTR->refresh();
 		}
 
-		if(getBaseState()!=GET_INFO)
+		if(getBaseState()!=GET_INFO&&getBaseState()!=READY)
 		{
 			NETWORK_SYSTEM_PTR->disconnect();
 			return;

@@ -14,7 +14,7 @@
 #include "DivaGNetSystem.h"
 #include "Lib/Base/Ptr.h"
 #include "Lib/Base/Singleton.h"
-#include "SoraCore.h"
+#include "SoraAutoUpdate.h"
 
 namespace divanet
 {

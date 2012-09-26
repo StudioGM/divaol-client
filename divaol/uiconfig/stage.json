@@ -206,6 +206,15 @@
     "width": 98,
     "height": 84
   },
+  "ToolBar/Normal/btn_opengame_normal": {
+    "filename": "res/stage_001.png",
+    "srcX": 390,
+    "srcY": 1165,
+    "desX": 838,
+    "desY": 413,
+    "width": 98,
+    "height": 84
+  },
   "ToolBar/Normal/btn_decorate_normal": {
     "filename": "res/stage_001.png",
     "srcX": 488,

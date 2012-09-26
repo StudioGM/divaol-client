@@ -107,7 +107,8 @@ namespace divacore
 
 		void setBaseState(int state) {sora::SoraMutexGuard lock(mutex);mBaseState=state;}
 		int getBaseState() {sora::SoraMutexGuard lock(mutex);return mBaseState;}
-
+		
+		virtual void registerNetworkEvent();
 		NetGameInfo* getGlobalInfo() {return mInfo;}
 		virtual int getTeamID() {return mInfo->myTeamID;}
 		virtual int getPlayerID() {return mInfo->myPlayerID;}

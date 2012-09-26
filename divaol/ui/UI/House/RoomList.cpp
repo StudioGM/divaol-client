@@ -1,7 +1,7 @@
 #include "RoomList.h"
 
 #include "soraguiimage.hpp"
-
+#include "divanetwork/DivaNetworkManager.h"
 
 namespace diva
 {
@@ -143,6 +143,10 @@ namespace diva
 		{
 		}
 
-
+		void RoomList::itemClicked(int itemIndex)
+		{
+			RoomListItem * item = dynamic_cast<RoomListItem*>(items[itemIndex]);
+			divanet::NetworkManager::instance().core()->send("stage#join","%s",Base::ws2s(item->getInfo().owner).c_str());
+		}
 	}
 }

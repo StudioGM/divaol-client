@@ -26,6 +26,7 @@
 
 #include "divanetwork/DivaNetworkManager.h"
 #include "divanetwork/DivaGNetTCPSystem.h"
+#include "divacore/Utility/DivaInitialize.h"
 using namespace diva;
 
 class GameInitState: public sora::SoraGameState, public sora::SoraEventHandler {
@@ -138,6 +139,17 @@ int CALLBACK WinMain(
 		divanet::NetworkManager::instance().setChat(new divanet::TCPGNetworkSystem);
 		divanet::NetworkManager::instance().setScheduler(new divanet::TCPGNetworkSystem);
 		divanet::NetworkManager::instance().setCore(new divanet::TCPGNetworkSystem);
+
+		sora::SoraCore::SetRandomSeed((uint32)time(0));
+
+		divacore::standard::Initializer initializer("system",divacore::standard::Initializer::MULTI, true);
+		divacore::CorePtr core = initializer.get();
+
+		divacore::Config core_config;
+		divacore::configloader::loadWithJson(core_config,"system/common.json");
+		core->setSong(core_config.getAsWString("song"),core_config.getAsWString("map"));
+
+		core->myPlayerInfo().loadFromFile("system/playerInfo.json");
 #endif
 		diva::initialize_config(L"uiconfig/config.json");
 
@@ -152,6 +164,9 @@ int CALLBACK WinMain(
 		app.addState(new diva::StageUI::StageGameState(), "stage");
 		app.addState(new diva::MusicUI::MusicGameState(), "music");
 
+#ifdef DIVA_GNET_OPEN
+		app.addState(core, "core");
+#endif
 
 		app.run("init");
 

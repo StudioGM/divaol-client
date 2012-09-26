@@ -12,6 +12,8 @@
 #include "SoraFontManager.h"
 
 #include "HouseGameState.h"
+#include "divacore/Core/DivaCore.h"
+#include "divacore/Mode/DivaMultiplay.h"
 
 namespace diva
 {
@@ -119,7 +121,12 @@ namespace diva
 			exitStageButton->setVisible(false);
 			exitStageButton->addMouseListener(new LoginButton_MouseListener());
 
-
+#ifdef DIVA_GNET_OPEN
+			openGameButton = CreateButton(sconf, L"ToolBar/Normal/btn_opengame_normal", L"ToolBar/Normal/btn_opengame_normal", L"ToolBar/Normal/btn_opengame_normal", L"ToolBar/Normal/btn_opengame_normal");
+			roomTop->add(openGameButton);
+			openGameButton->setVisible(false);
+			openGameButton->addMouseListener(new LoginButton_MouseListener());
+#endif
 
 			// decorate button
 			decorateButton = CreateButton(sconf, L"ToolBar/Normal/btn_decorate_normal", L"ToolBar/MouseOn/btn_decorate_mouseon", L"ToolBar/MouseDown/btn_decorate_mousedown", L"ToolBar/Normal/btn_decorate_normal");
@@ -201,6 +208,8 @@ namespace diva
 				divanet::NetworkManager::instance().connectChat();
 				divanet::NetworkManager::instance().connectScheduler();
 				divanet::NetworkManager::instance().connectCore();
+				GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().core(),"stage#start",&HouseUI::gnet_game_start);
+				GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().core(),"stage#join_ok",&HouseUI::gnet_stage_joinok);
 				GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().auth(),"auth#login",&HouseUI::gnet_login);
 				GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().chat(),"chat#receivemsg",&HouseUI::gnet_chatrecv);
 				GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().scheduler(),"scheduler#response",&HouseUI::gnet_scheduler_response);
@@ -213,6 +222,8 @@ namespace diva
 		}
 		void HouseUI::disconnectServer() {
 #ifdef DIVA_GNET_OPEN
+			GNET_RECEIVE_UNREGISTER(divanet::NetworkManager::instance().core(),"stage#start");
+			GNET_RECEIVE_UNREGISTER(divanet::NetworkManager::instance().core(),"stage#join_ok");
 			GNET_RECEIVE_UNREGISTER(divanet::NetworkManager::instance().auth(),"auth#login");
 			GNET_RECEIVE_UNREGISTER(divanet::NetworkManager::instance().chat(),"chat#receivemsg");
 			GNET_RECEIVE_UNREGISTER(divanet::NetworkManager::instance().scheduler(),"scheduler#response");
@@ -226,8 +237,20 @@ namespace diva
 		}
 		void HouseUI::open_stage() {
 #ifdef DIVA_GNET_OPEN
-			divanet::NetworkManager::instance().core()->send("auth#setuid","%s",uid.c_str());
-			divanet::NetworkManager::instance().core()->send("stage#create","%d",4);
+			divanet::NetworkManager::instance().core()->send("stage#create","%d",2);
+			roomId = MY_PLAYER_INFO.uid();
+#endif
+		}
+		void HouseUI::start_game() {
+#ifdef DIVA_GNET_OPEN
+			if(MY_PLAYER_INFO.uid()==roomId)
+				divanet::NetworkManager::instance().core()->send("stage#start");
+			NextState = "core";
+#endif
+		}
+		void HouseUI::leave_stage() {
+#ifdef DIVA_GNET_OPEN
+			divanet::NetworkManager::instance().core()->send("stage#leave");
 #endif
 		}
 
@@ -265,7 +288,7 @@ namespace diva
 				int t;
 				wchar_t un[100], nm[100];
 				
-				uid = packet->getItem(4)->getString();
+				MY_PLAYER_INFO.setUid(packet->getItem(4)->getString());
 				info.id = Base::String(packet->getItem(4)->getString()).toAny<int>();
 				info.username = Base::String(packet->getItem(3)->getString());
 				info.nickname = Base::String(packet->getItem(3)->getString());
@@ -282,6 +305,7 @@ namespace diva
 				gnet::Bytes token = packet->getItem(5)->as<gnet::Item<gnet::Binary>>()->getRaw();
 				divanet::NetworkManager::instance().chat()->send("chat#login","%s%B",packet->getItem(4)->getString().c_str(),token);
 				divanet::NetworkManager::instance().chat()->send("chat#enter","%s","global");
+				divanet::NetworkManager::instance().core()->send("auth#setuid","%s",MY_PLAYER_INFO.uid().c_str());
 			}
 #endif
 		}
@@ -313,12 +337,25 @@ namespace diva
 					info.owner = Base::s2ws(item->getItem(0)->getString());
 					info.playerNum = roomInfo->getItem(3)->getInt();
 					info.selectedSong.push_back("songID : "+Base::String::any2string(roomInfo->getItem(2)->getInt()));
-					info.stageName = Base::s2ws(item->getItem(0)->getString());
+					info.stageName = Base::String::any2string(roomInfo->getItem(3)->getInt())+"/"+Base::String::any2string(roomInfo->getItem(0)->getInt());
 					b->setInfo(info);
 
 					roomListView->pushItem(b);
 				}
 			}
+#endif
+		}
+		void  HouseUI::gnet_stage_joinok(divanet::GPacket *packet) {
+#ifdef DIVA_GNET_OPEN
+			dynamic_cast<divacore::MultiPlay*>(CORE_PTR->getGameMode())->registerNetworkEvent();
+			StateChange_ROOMLIST_STAGE();
+			roomId = packet->getItem(2)->getString();
+#endif
+		}
+
+		void HouseUI::gnet_game_start(divanet::GPacket *packet){
+#ifdef DIVA_GNET_OPEN
+			NextState = "core";
 #endif
 		}
 
@@ -381,6 +418,7 @@ namespace diva
 			decorateButton->setVisible(true);
 			thingList->setVisible(true);
 			teamList->setVisible(true);
+			openGameButton->setVisible(true);
 
 			// exit button
 			/*exitButton = CreateButton(conf, "ToolButtons/Normal/Exit_Normal", "ToolButtons/MouseOn/Exit_MouseOn", "ToolButtons/MouseDown/Exit_MouseDown", "ToolButtons/Normal/Exit_Normal");
@@ -391,6 +429,8 @@ namespace diva
 
 		void HouseUI::StateChange_STAGE_ROOM()
 		{
+			leave_stage();
+
 			state = STATE_ROOM;
 			sPlayerListPanel->setVisible(false);
 
@@ -412,6 +452,7 @@ namespace diva
 			teamList->setVisible(false);
 			stageList->setVisible(false);
 			songList->setVisible(false);
+			openGameButton->setVisible(false);
 		}
 
 		void HouseUI::StateChange_LOGINWINDOW_ROOM()
@@ -441,8 +482,6 @@ namespace diva
 
 		void HouseUI::StateChange_ROOMLIST_STAGE()
 		{
-			open_stage();
-
 			state = STATE_STAGE;
 			sPlayerListPanel->setVisible(true);
 
@@ -465,6 +504,7 @@ namespace diva
 			teamList->setVisible(true);
 			stageList->setVisible(true);
 			songList->setVisible(true);
+			openGameButton->setVisible(true);
 
 			//
 			roomListPanel->setVisible(false);
@@ -501,6 +541,7 @@ namespace diva
 			}
 			if (state == STATE_ROOMLIST && des == STATE_STAGE)
 			{
+				open_stage();
 				StateChange_ROOMLIST_STAGE();
 				return;
 			}
@@ -727,7 +768,7 @@ namespace diva
 			
 			//////////////////////////////////////////////////////////////////////////
 
-			ListViewEx* list = new ListViewEx();
+			RoomList* list = new RoomList();
 			list->setGap(gcn::Rectangle(tv[L"firstX"].asInt(), tv[L"firstY"].asInt(), tv[L"firstWidth"].asInt(), tv[L"firstHeight"].asInt()),
 				tv[L"xGap"].asInt(), tv[L"yGap"].asInt());
 			list->setMaxItem(tv[L"xItemCount"].asInt(), tv[L"yItemCount"].asInt());
@@ -1158,6 +1199,11 @@ namespace diva
 			if (mouseEvent.getSource() == (gcn::Widget*) selectMusicButton)
 			{
 				NextState = "music";
+				return;
+			}
+			if (mouseEvent.getSource() == (gcn::Widget*) openGameButton)
+			{
+				start_game();
 				return;
 			}
 		}

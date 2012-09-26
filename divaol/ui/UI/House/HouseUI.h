@@ -80,11 +80,15 @@ namespace diva
 			void gnet_login(divanet::GPacket *packet);
 			void gnet_chatrecv(divanet::GPacket *packet);
 			void gnet_scheduler_response(divanet::GPacket *packet);
+			void gnet_stage_joinok(divanet::GPacket *packet);
+			void gnet_game_start(divanet::GPacket *packet);
 			void connectServer();
 			void disconnectServer();
 			void request_roomList();
+			void start_game();
 			void open_stage();
-			std::string uid;
+			void leave_stage();
+			std::string roomId;
 			//-----------------------------------------------------------------
 
 			int state;
@@ -110,6 +114,7 @@ namespace diva
 			gcn::SuperButtonEx* selectMusicButton;
 			gcn::SuperButtonEx* decorateButton;
 			gcn::SuperButtonEx* exitStageButton;
+			gcn::SuperButtonEx* openGameButton;
 			gcn::ContainerEx* messagePanel;
 			gcn::TextFieldEx* messagePanelInputBox;
 			gcn::TextBoxEx* messagePanelChatBox;
@@ -130,7 +135,7 @@ namespace diva
 			gcn::ContainerEx* roomListPanel;
 			gcn::SuperButtonEx* roomListCloseButton;
 			gcn::SuperButtonEx* roomListOpenButton;
-			gcn::ListViewEx* roomListView;
+			RoomList* roomListView;
 
 			// --------- Login
 			gcn::ContainerEx* loginPanel;

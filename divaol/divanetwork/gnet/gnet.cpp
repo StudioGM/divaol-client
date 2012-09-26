@@ -348,6 +348,18 @@ namespace gnet
 			return ((Item<Binary>*)item)->getData();
 		else if(item->getType()==GNET_TYPE_ATOM)
 			return ((Item<Binary>*)item)->getData();
+		else if(item->getType()==GNET_TYPE_UINT_8) {
+			std::string ret;
+			ret += (char)((Item<uint8>*)item)->getData();
+			return ret;
+		}
+		else if(item->getType()==GNET_TYPE_LIST) {
+			Item<List> *list = item->as<Item<List>>();
+			std::string ret = "";
+			for(int i = 0; i < list->size(); i++)
+				ret += getString(list->getItem(i));
+			return ret;
+		}
 		else
 			return item->getDescription();
 	}
