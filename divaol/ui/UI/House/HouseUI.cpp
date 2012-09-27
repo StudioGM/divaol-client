@@ -244,8 +244,10 @@ namespace diva
 		void HouseUI::start_game() {
 #ifdef DIVA_GNET_OPEN
 			if(MY_PLAYER_INFO.uid()==roomId)
+			{
 				divanet::NetworkManager::instance().core()->send("stage#start");
-			NextState = "core";
+				NextState = "core";
+			}
 #endif
 		}
 		void HouseUI::leave_stage() {
