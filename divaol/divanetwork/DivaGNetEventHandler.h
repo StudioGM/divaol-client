@@ -106,8 +106,10 @@ namespace divanet
 			{
 				if(!isExisted(id))
 					netEventMap[id] = eventFunc;
-				else
-					DIVA_EXCEPTION_MODULE("Event "+id+" is existed!","EventManager");
+				else {
+					LOGGER->msg("Event "+id+" is existed!","EventManager");
+					return;
+				}
 			}
 			void unreceive(const std::string &id)
 			{

@@ -160,6 +160,9 @@
     <Filter Include="源文件\lib\curl">
       <UniqueIdentifier>{c90c8520-cc2f-492c-ad96-15f55444cc35}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\divanetwork\client">
+      <UniqueIdentifier>{2c357271-e542-4f00-8705-97f7bfd62bc3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Hoshizor\Sora\Hoshizora.h">
@@ -1691,6 +1694,24 @@
     </ClInclude>
     <ClInclude Include="Lib\Base\Uncopyable.h">
       <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divanetwork\DivaNetInfo.h">
+      <Filter>源文件\divanetwork</Filter>
+    </ClInclude>
+    <ClInclude Include="divanetwork\DivaAuthClient.h">
+      <Filter>源文件\divanetwork\client</Filter>
+    </ClInclude>
+    <ClInclude Include="divanetwork\DivaChatClient.h">
+      <Filter>源文件\divanetwork\client</Filter>
+    </ClInclude>
+    <ClInclude Include="divanetwork\DivaClient.h">
+      <Filter>源文件\divanetwork\client</Filter>
+    </ClInclude>
+    <ClInclude Include="divanetwork\DivaStageServer.h">
+      <Filter>源文件\divanetwork\client</Filter>
+    </ClInclude>
+    <ClInclude Include="divanetwork\DivaSchedulerClient.h">
+      <Filter>源文件\divanetwork\client</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
