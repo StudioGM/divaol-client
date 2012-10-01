@@ -29,14 +29,17 @@ int CALLBACK WinMain(
         
 #endif
 		///////////////////////////////
-		NET_MANAGER.setCore(new divanet::TCPGNetworkSystem);
+		AUTH_CLIENT.setNetworkSystem(new divanet::TCPGNetworkSystem);
+		CHAT_CLIENT.setNetworkSystem(new divanet::TCPGNetworkSystem);
+		SCHEDULER_CLIENT.setNetworkSystem(new divanet::TCPGNetworkSystem);
+		STAGE_CLIENT.setNetworkSystem(new divanet::TCPGNetworkSystem);
 		///////////////////////////////
 
 	try
 	{
 		sora::SoraCore::SetRandomSeed((uint32)time(0));
 
-		divacore::standard::Initializer initializer("system",divacore::standard::Initializer::MULTI, true);
+		divacore::standard::Initializer initializer("system",divacore::standard::Initializer::SINGLE, true);
 		divacore::CorePtr core = initializer.get();
 
 		divacore::Config config;
