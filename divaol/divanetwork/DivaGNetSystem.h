@@ -59,6 +59,7 @@ namespace divanet
 	};
 
 	typedef GNetworkSystem* GNetworkSystemPtr;
+	typedef Base::SharedPtr<GNetworkSystem> NetworkPtr;
 }
 
 #endif

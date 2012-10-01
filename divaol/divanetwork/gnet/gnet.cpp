@@ -212,6 +212,9 @@ namespace gnet
 				case 'W':
 				    *tuple += (ItemBase*)new Item<Binary>(ItemUtility::ToBytes((std::wstring)va_arg(ArgPtr,std::wstring)),true);
 					break;
+				case 'S':
+					*tuple += (ItemBase*)new Item<Binary>((std::string)va_arg(ArgPtr,std::string));
+					break;
 				}
 			}
 		}

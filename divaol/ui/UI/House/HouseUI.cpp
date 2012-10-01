@@ -15,6 +15,8 @@
 #include "divacore/Core/DivaCore.h"
 #include "divacore/Mode/DivaMultiplay.h"
 
+#include "divanetwork/DivaAuthClient.h"
+
 namespace diva
 {
 	namespace HouseUI
@@ -200,19 +202,120 @@ namespace diva
 			}
 		}
 
+		void HouseUI::observer_auth(divanet::Notification msg)
+		{
+			if (msg.description()=="ok")
+			{
+				PlayerInfo info;
+				int t;
+				wchar_t un[100], nm[100];
+
+				MY_PLAYER_INFO.setUid(NET_INFO.uid);
+				info.id = Base::String(NET_INFO.uid).toAny<int>();
+				info.username = Base::String(NET_INFO.username);
+				info.nickname = Base::String(NET_INFO.username);
+				PlayerManager::Instance()->SetHostInfo(info);
+				state = STATE_ROOM;
+				loginPanel->setVisible(false);
+				roomTop->setEnabled(true);
+
+				//PlayerManager::Instance()->GetStageGuests().push_back("SonicMisora");
+				PlayerManager::Instance()->SetOnline(true);
+				//RefreshStatus();
+				Refresh_hostInfo();
+
+				CHAT_CLIENT.login();
+				SCHEDULER_CLIENT.login();
+				STAGE_CLIENT.login();
+				//divanet::NetworkManager::instance().core()->send("auth#setuid","%s",MY_PLAYER_INFO.uid().c_str());
+			}
+		}
+
+		void HouseUI::observer_chat(divanet::Notification msg)
+		{
+			divanet::GPacket *packet = static_cast<divanet::GPacket*>(msg.extra());
+			switch(msg.msg()) 
+			{
+			case divanet::ChatClient::NOTIFY_CHAT_AUTH:
+				break;
+			case divanet::ChatClient::NOTIFY_CHAT_JOIN:
+				break;
+			case divanet::ChatClient::NOTIFY_CHAT_MSG:
+				{
+					Base::String msg;
+					msg += L"["+Base::s2ws(packet->getItem(3)->getString())+L"] ";
+					msg += gnet::ItemUtility::getWString(packet->getItem(4));
+					messagePanelChatBox->addText(msg);
+					break;
+				}
+			}
+		}
+
+		void HouseUI::observer_scheduler(divanet::Notification msg)
+		{
+			switch(msg.msg())
+			{
+			case divanet::SchedulerClient::NOTIFY_UPDATE_ROOMLIST:
+				{
+					roomListView->clearItems();
+					const divanet::RoomInfos &infos = SCHEDULER_CLIENT.getRoomList();
+					for(int i = 0; i < infos.size(); i++)
+					{
+						RoomListItem* b = CreateRoomListItem(rconf,L"RoomList/RoomItem_normal", L"RoomList/RoomItem_on", L"RoomList/RoomItem_down");
+						Network::RoomInfo info;
+						info.maxPlayerNum = infos[i].capacity;
+						info.owner = Base::s2ws(infos[i].ownerId);
+						info.playerNum = infos[i].playernum;
+						info.selectedSong.push_back("songID : "+Base::String::any2string(infos[i].sondId));
+						info.stageName = Base::String::any2string(infos[i].playernum)+"/"+Base::String::any2string(infos[i].capacity);
+						b->setInfo(info);
+
+						roomListView->pushItem(b);
+					}
+				}
+				break;
+			}
+		}
+
+		void HouseUI::observer_stage(divanet::Notification msg)
+		{
+			switch(msg.msg())
+			{
+			case divanet::StageClient::NOTIFY_STAGE_JOIN:
+				if(msg.description()=="ok")
+				{
+					dynamic_cast<divacore::MultiPlay*>(CORE_PTR->getGameMode())->registerNetworkEvent();
+					StateChange_ROOMLIST_STAGE();
+					roomId = static_cast<divanet::GPacket*>(msg.extra())->getItem(2)->getString();
+				}
+				break;
+			case divanet::StageClient::NOTIFY_STAGE_LEAVE:
+				break;
+			}
+		}
+
 		void HouseUI::connectServer() {
 #ifdef DIVA_GNET_OPEN
 			try
 			{
-				divanet::NetworkManager::instance().connectAuth();
-				divanet::NetworkManager::instance().connectChat();
-				divanet::NetworkManager::instance().connectScheduler();
-				divanet::NetworkManager::instance().connectCore();
-				GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().core(),"stage#start",&HouseUI::gnet_game_start);
-				GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().core(),"stage#join_ok",&HouseUI::gnet_stage_joinok);
-				GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().auth(),"auth#login",&HouseUI::gnet_login);
-				GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().chat(),"chat#receivemsg",&HouseUI::gnet_chatrecv);
-				GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().scheduler(),"scheduler#response",&HouseUI::gnet_scheduler_response);
+				AUTH_CLIENT.connect();
+				CHAT_CLIENT.connect();
+				SCHEDULER_CLIENT.connect();
+				STAGE_CLIENT.connect();
+				AUTH_CLIENT.attachObserver(divanet::Observer(&HouseUI::observer_auth,this));
+				CHAT_CLIENT.attachObserver(divanet::Observer(&HouseUI::observer_chat,this));
+				SCHEDULER_CLIENT.attachObserver(divanet::Observer(&HouseUI::observer_scheduler,this));
+				STAGE_CLIENT.attachObserver(divanet::Observer(&HouseUI::observer_stage,this));
+
+				//divanet::NetworkManager::instance().connectAuth();
+				//divanet::NetworkManager::instance().connectChat();
+				//divanet::NetworkManager::instance().connectScheduler();
+				//divanet::NetworkManager::instance().connectCore();
+				//GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().core(),"stage#start",&HouseUI::gnet_game_start);
+				//GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().core(),"stage#join_ok",&HouseUI::gnet_stage_joinok);
+				//GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().auth(),"auth#login",&HouseUI::gnet_login);
+				//GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().chat(),"chat#receivemsg",&HouseUI::gnet_chatrecv);
+				//GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().scheduler(),"scheduler#response",&HouseUI::gnet_scheduler_response);
 			}
 			catch(const char *ev)
 			{
@@ -222,37 +325,39 @@ namespace diva
 		}
 		void HouseUI::disconnectServer() {
 #ifdef DIVA_GNET_OPEN
-			GNET_RECEIVE_UNREGISTER(divanet::NetworkManager::instance().core(),"stage#start");
-			GNET_RECEIVE_UNREGISTER(divanet::NetworkManager::instance().core(),"stage#join_ok");
-			GNET_RECEIVE_UNREGISTER(divanet::NetworkManager::instance().auth(),"auth#login");
-			GNET_RECEIVE_UNREGISTER(divanet::NetworkManager::instance().chat(),"chat#receivemsg");
-			GNET_RECEIVE_UNREGISTER(divanet::NetworkManager::instance().scheduler(),"scheduler#response");
+			AUTH_CLIENT.logout();
+
+			//GNET_RECEIVE_UNREGISTER(divanet::NetworkManager::instance().core(),"stage#start");
+			//GNET_RECEIVE_UNREGISTER(divanet::NetworkManager::instance().core(),"stage#join_ok");
+			//GNET_RECEIVE_UNREGISTER(divanet::NetworkManager::instance().auth(),"auth#login");
+			//GNET_RECEIVE_UNREGISTER(divanet::NetworkManager::instance().chat(),"chat#receivemsg");
+			//GNET_RECEIVE_UNREGISTER(divanet::NetworkManager::instance().scheduler(),"scheduler#response");
 #endif
 		}
 		void HouseUI::request_roomList() {
 #ifdef DIVA_GNET_OPEN
 			roomListView->clearItems();
-			divanet::NetworkManager::instance().scheduler()->send("scheduler#roomlist");
+			SCHEDULER_CLIENT.updateRoomList();
+			//divanet::NetworkManager::instance().scheduler()->send("scheduler#roomlist");
 #endif
 		}
 		void HouseUI::open_stage() {
 #ifdef DIVA_GNET_OPEN
-			divanet::NetworkManager::instance().core()->send("stage#create","%d",2);
+			STAGE_CLIENT.create(1);
+			//divanet::NetworkManager::instance().core()->send("stage#create","%d",2);
 			roomId = MY_PLAYER_INFO.uid();
 #endif
 		}
 		void HouseUI::start_game() {
 #ifdef DIVA_GNET_OPEN
-			if(MY_PLAYER_INFO.uid()==roomId)
-			{
-				divanet::NetworkManager::instance().core()->send("stage#start");
+			if(STAGE_CLIENT.start())
 				NextState = "core";
-			}
 #endif
 		}
 		void HouseUI::leave_stage() {
 #ifdef DIVA_GNET_OPEN
-			divanet::NetworkManager::instance().core()->send("stage#leave");
+			STAGE_CLIENT.leave();
+			//divanet::NetworkManager::instance().core()->send("stage#leave");
 #endif
 		}
 
@@ -279,86 +384,6 @@ namespace diva
 		void HouseUI::Update(float dt)
 		{
 			RecvMsg();
-		}
-
-		void HouseUI::gnet_login(divanet::GPacket *packet)
-		{
-#ifdef DIVA_GNET_OPEN
-			if (packet->getItem(2)->getString() == "ok")
-			{
-				PlayerInfo info;
-				int t;
-				wchar_t un[100], nm[100];
-				
-				MY_PLAYER_INFO.setUid(packet->getItem(4)->getString());
-				info.id = Base::String(packet->getItem(4)->getString()).toAny<int>();
-				info.username = Base::String(packet->getItem(3)->getString());
-				info.nickname = Base::String(packet->getItem(3)->getString());
-				PlayerManager::Instance()->SetHostInfo(info);
-				state = STATE_ROOM;
-				loginPanel->setVisible(false);
-				roomTop->setEnabled(true);
-
-				//PlayerManager::Instance()->GetStageGuests().push_back("SonicMisora");
-				PlayerManager::Instance()->SetOnline(true);
-				//RefreshStatus();
-				Refresh_hostInfo();
-
-				gnet::Bytes token = packet->getItem(5)->as<gnet::Item<gnet::Binary>>()->getRaw();
-				divanet::NetworkManager::instance().chat()->send("chat#login","%s%B",packet->getItem(4)->getString().c_str(),token);
-				divanet::NetworkManager::instance().chat()->send("chat#enter","%s","global");
-				divanet::NetworkManager::instance().core()->send("auth#setuid","%s",MY_PLAYER_INFO.uid().c_str());
-			}
-#endif
-		}
-
-		void HouseUI::gnet_chatrecv(divanet::GPacket *packet)
-		{
-#ifdef DIVA_GNET_OPEN
-			wstring msg;
-			msg += L"["+Base::s2ws(packet->getItem(3)->getString())+L"] ";
-			msg += gnet::ItemUtility::getWString(packet->getItem(4));
-			messagePanelChatBox->addText(msg);
-#endif
-		}
-
-		void  HouseUI::gnet_scheduler_response(divanet::GPacket *packet) {
-#ifdef DIVA_GNET_OPEN
-			if(packet->getItem(2)->getString()=="roomlist")
-			{
-				roomListView->clearItems();
-				gnet::Item<gnet::List> *list = packet->getItem(3)->as<gnet::Item<gnet::List>>();
-				for(int i = 0; i < list->size(); i++)
-				{
-					gnet::Item<gnet::Tuple> *item = list->getItem(i)->as<gnet::Item<gnet::Tuple>>();
-					gnet::Item<gnet::List> *roomInfo = item->getItem(3)->as<gnet::Item<gnet::List>>();
-
-					RoomListItem* b = CreateRoomListItem(rconf,L"RoomList/RoomItem_normal", L"RoomList/RoomItem_on", L"RoomList/RoomItem_down");
-					Network::RoomInfo info;
-					info.maxPlayerNum = roomInfo->getItem(0)->getInt();
-					info.owner = Base::s2ws(item->getItem(0)->getString());
-					info.playerNum = roomInfo->getItem(3)->getInt();
-					info.selectedSong.push_back("songID : "+Base::String::any2string(roomInfo->getItem(2)->getInt()));
-					info.stageName = Base::String::any2string(roomInfo->getItem(3)->getInt())+"/"+Base::String::any2string(roomInfo->getItem(0)->getInt());
-					b->setInfo(info);
-
-					roomListView->pushItem(b);
-				}
-			}
-#endif
-		}
-		void  HouseUI::gnet_stage_joinok(divanet::GPacket *packet) {
-#ifdef DIVA_GNET_OPEN
-			dynamic_cast<divacore::MultiPlay*>(CORE_PTR->getGameMode())->registerNetworkEvent();
-			StateChange_ROOMLIST_STAGE();
-			roomId = packet->getItem(2)->getString();
-#endif
-		}
-
-		void HouseUI::gnet_game_start(divanet::GPacket *packet){
-#ifdef DIVA_GNET_OPEN
-			NextState = "core";
-#endif
 		}
 
 		void HouseUI::RecvMsg()
@@ -1142,7 +1167,8 @@ namespace diva
 		{
 			using namespace Net;
 #ifdef DIVA_GNET_OPEN
-			divanet::NetworkManager::instance().auth()->send("auth#login","%s%s",Base::ws2s(usernameInput->getText()).c_str(),Base::ws2s(passwordInput->getText()).c_str());
+			AUTH_CLIENT.login(Base::ws2s(usernameInput->getText()),Base::ws2s(passwordInput->getText()));
+			//divanet::NetworkManager::instance().auth()->send("auth#login","%s%s",Base::ws2s(usernameInput->getText()).c_str(),Base::ws2s(passwordInput->getText()).c_str());
 #else
 			Network::Send(L"LOGIN", usernameInput->getText() + L" " + passwordInput->getText());
 #endif
@@ -1247,7 +1273,9 @@ namespace diva
 			if (messagePanelInputBox->getText() == L"")
 				return;
 #ifdef DIVA_GNET_OPEN
-			divanet::NetworkManager::instance().chat()->send("chat#sendmsg","%s%W","global",PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
+			CHAT_CLIENT.send("global",PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
+			//CHAT_CLIENT.sendTo("691",PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
+			//divanet::NetworkManager::instance().chat()->send("chat#sendmsg","%s%W","global",PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
 #else
 			messagePanelChatBox->addText(PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
 #endif

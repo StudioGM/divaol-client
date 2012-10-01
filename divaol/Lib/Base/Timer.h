@@ -11,7 +11,7 @@
 #define _BASE_TIMER_
 
 #include "Common.h"
-#include "Singleton.h"
+#include "Pattern/Singleton.h"
 
 #include <ctime>
 

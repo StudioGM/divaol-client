@@ -241,6 +241,9 @@
     <Filter Include="源文件\lib\curl">
       <UniqueIdentifier>{c90c8520-cc2f-492c-ad96-15f55444cc35}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\divanetwork\client">
+      <UniqueIdentifier>{78b5151e-4188-4df7-9e93-c75b63dddae0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Hoshizor\Sora\Hoshizora.h">
@@ -2310,10 +2313,31 @@
     <ClInclude Include="Lib\curl\types.h">
       <Filter>源文件\lib\curl</Filter>
     </ClInclude>
+    <ClInclude Include="divanetwork\DivaNetInfo.h">
+      <Filter>源文件\divanetwork</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Any.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Base.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
     <ClInclude Include="Lib\Base\Common.h">
       <Filter>源文件\lib\base</Filter>
     </ClInclude>
     <ClInclude Include="Lib\Base\Exception.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Function\Function.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Function\FunctionBase.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Function\FunctionInclude.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Function\FunctionTemplate.h">
       <Filter>源文件\lib\base</Filter>
     </ClInclude>
     <ClInclude Include="Lib\Base\Io\FileUtil.h">
@@ -2334,13 +2358,28 @@
     <ClInclude Include="Lib\Base\Logger.h">
       <Filter>源文件\lib\base</Filter>
     </ClInclude>
+    <ClInclude Include="Lib\Base\Math.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Pattern\Observer.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Pattern\Singleton.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
     <ClInclude Include="Lib\Base\Platform.h">
       <Filter>源文件\lib\base</Filter>
     </ClInclude>
     <ClInclude Include="Lib\Base\PreDeclare.h">
       <Filter>源文件\lib\base</Filter>
     </ClInclude>
+    <ClInclude Include="Lib\Base\PreDefine.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
     <ClInclude Include="Lib\Base\Ptr.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Random.h">
       <Filter>源文件\lib\base</Filter>
     </ClInclude>
     <ClInclude Include="Lib\Base\Singleton.h">
@@ -2358,6 +2397,9 @@
     <ClInclude Include="Lib\Base\Sys\SysUtilApple.h">
       <Filter>源文件\lib\base</Filter>
     </ClInclude>
+    <ClInclude Include="Lib\Base\Sys\SysUtilLinux.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
     <ClInclude Include="Lib\Base\Sys\SysUtilNormal.h">
       <Filter>源文件\lib\base</Filter>
     </ClInclude>
@@ -2370,14 +2412,35 @@
     <ClInclude Include="Lib\Base\Thread\Queue.h">
       <Filter>源文件\lib\base</Filter>
     </ClInclude>
+    <ClInclude Include="Lib\Base\Thread\Thread.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
     <ClInclude Include="Lib\Base\Timer.h">
       <Filter>源文件\lib\base</Filter>
     </ClInclude>
     <ClInclude Include="Lib\Base\Type.h">
       <Filter>源文件\lib\base</Filter>
     </ClInclude>
+    <ClInclude Include="Lib\Base\TypeTraits.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
     <ClInclude Include="Lib\Base\Uncopyable.h">
       <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divanetwork\DivaAuthClient.h">
+      <Filter>源文件\divanetwork\client</Filter>
+    </ClInclude>
+    <ClInclude Include="divanetwork\DivaClient.h">
+      <Filter>源文件\divanetwork\client</Filter>
+    </ClInclude>
+    <ClInclude Include="divanetwork\DivaChatClient.h">
+      <Filter>源文件\divanetwork\client</Filter>
+    </ClInclude>
+    <ClInclude Include="divanetwork\DivaSchedulerClient.h">
+      <Filter>源文件\divanetwork\client</Filter>
+    </ClInclude>
+    <ClInclude Include="divanetwork\DivaStageServer.h">
+      <Filter>源文件\divanetwork\client</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3443,24 +3506,6 @@
     <ClCompile Include="divanetwork\gnet\netManager.cpp">
       <Filter>源文件\divanetwork\gnet</Filter>
     </ClCompile>
-    <ClCompile Include="Lib\Base\Io\FileUtil.cpp">
-      <Filter>源文件\lib\base</Filter>
-    </ClCompile>
-    <ClCompile Include="Lib\Base\Io\Path.cpp">
-      <Filter>源文件\lib\base</Filter>
-    </ClCompile>
-    <ClCompile Include="Lib\Base\Io\Stream.cpp">
-      <Filter>源文件\lib\base</Filter>
-    </ClCompile>
-    <ClCompile Include="Lib\Base\Logger.cpp">
-      <Filter>源文件\lib\base</Filter>
-    </ClCompile>
-    <ClCompile Include="Lib\Base\String.cpp">
-      <Filter>源文件\lib\base</Filter>
-    </ClCompile>
-    <ClCompile Include="Lib\Base\Timer.cpp">
-      <Filter>源文件\lib\base</Filter>
-    </ClCompile>
     <ClCompile Include="divanetwork\gnet\connection.cpp">
       <Filter>源文件\divanetwork\gnet</Filter>
     </ClCompile>
@@ -3493,6 +3538,30 @@
     </ClCompile>
     <ClCompile Include="ui\UI\Music\DivaSongListItem.cpp">
       <Filter>源文件\ui\UI\Music</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\Base\Io\FileUtil.cpp">
+      <Filter>源文件\lib\base</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\Base\Io\Path.cpp">
+      <Filter>源文件\lib\base</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\Base\Io\Stream.cpp">
+      <Filter>源文件\lib\base</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\Base\Logger.cpp">
+      <Filter>源文件\lib\base</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\Base\Math.cpp">
+      <Filter>源文件\lib\base</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\Base\Random.cpp">
+      <Filter>源文件\lib\base</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\Base\String.cpp">
+      <Filter>源文件\lib\base</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\Base\Timer.cpp">
+      <Filter>源文件\lib\base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
