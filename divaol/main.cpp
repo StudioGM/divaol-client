@@ -39,11 +39,14 @@ int CALLBACK WinMain(
 	int nCmdShow
 	) {
 #ifdef DIVA_GNET_OPEN
+		NET_INFO.getServerInfo();
 		divanet::NetworkManager::instance().init();
-		divanet::NetworkManager::instance().setAuth(new divanet::TCPGNetworkSystem);
-		divanet::NetworkManager::instance().setChat(new divanet::TCPGNetworkSystem);
-		divanet::NetworkManager::instance().setScheduler(new divanet::TCPGNetworkSystem);
-		divanet::NetworkManager::instance().setCore(new divanet::TCPGNetworkSystem);
+		//divanet::NetworkManager::instance().setScheduler(new divanet::TCPGNetworkSystem);
+		//divanet::NetworkManager::instance().setCore(new divanet::TCPGNetworkSystem);
+		AUTH_CLIENT.setNetworkSystem(new divanet::TCPGNetworkSystem);
+		CHAT_CLIENT.setNetworkSystem(new divanet::TCPGNetworkSystem);
+		SCHEDULER_CLIENT.setNetworkSystem(new divanet::TCPGNetworkSystem);
+		STAGE_CLIENT.setNetworkSystem(new divanet::TCPGNetworkSystem);
 
 		sora::SoraCore::SetRandomSeed((uint32)time(0));
 

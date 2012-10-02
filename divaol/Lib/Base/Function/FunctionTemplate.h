@@ -357,7 +357,7 @@ namespace Base {
 
 			template<typename Functor, typename obj>
 			Function(Functor f, obj *object) {
-				assign(Bind(object, f));
+				assign(Base::function_detial::Bind(object, f));
 			}
 
 			self_type& operator=(const self_type &rhs) {

@@ -79,17 +79,17 @@ namespace diva
 			void StateChange_ROOMLIST_STAGE();
 
 			//-------network---------------------------------------------------
-			void gnet_login(divanet::GPacket *packet);
-			void gnet_chatrecv(divanet::GPacket *packet);
-			void gnet_scheduler_response(divanet::GPacket *packet);
-			void gnet_stage_joinok(divanet::GPacket *packet);
-			void gnet_game_start(divanet::GPacket *packet);
 			void connectServer();
 			void disconnectServer();
 			void request_roomList();
 			void start_game();
 			void open_stage();
 			void leave_stage();
+			void observer_auth(divanet::Notification);
+			void observer_chat(divanet::Notification);
+			void observer_scheduler(divanet::Notification);
+			void observer_stage(divanet::Notification);
+			//void gnet_login(divanet::GPacket *packet);
 			std::string roomId;
 			//-----------------------------------------------------------------
 
