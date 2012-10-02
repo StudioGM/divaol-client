@@ -34,12 +34,16 @@ namespace diva
 			virtual void markerPositionChanged(int v);
 		};
 
+		class MusicGameState;
+
 		//////////////////////////////////////////////////////////////////////////
 		class DivaSelectedListBox;
 
 		class MusicUI
 		{
 		public:
+			MusicGameState* musicGameState;
+
 			int gameStartingMapId;
 			int gameStartingMyPos;
 			int gameStartingMode;
@@ -99,6 +103,7 @@ namespace diva
 			enum {NETSTATE_OFFLINE, NETSTATE_ONLINE};
 
 			int netState;
+			void refreshSelectedSongList();
 
 		public:
 			static MusicUI* Instance() {static MusicUI i; return &i;}
@@ -108,6 +113,7 @@ namespace diva
 
 			void Enter();
 			void Leave();
+			void SetFatherState(MusicGameState* state);
 
 			void SongListItemClicked(int index);
 			void SongListHighlightItemChanged(int index);

@@ -21,10 +21,13 @@ namespace diva
 			bool initialized;
 			sora::SoraBaseCanvas* uiCanvas;
 			HouseUI* houseUI;
+			int state;
+			std::string nextState;
 
 			HouseGameState()
 			{
 				initialized = false;
+				state = 0;
 			}
 
 			void onEnter()
@@ -33,21 +36,39 @@ namespace diva
 				{
 					uiCanvas = new sora::SoraBaseCanvas(config[L"gameWidth"].asInt(), config[L"gameHeight"].asInt());
 					houseUI = HouseUI::Instance();
+					houseUI->SetFatherState(this);
+					//HouseUI
 
 					initialized = true;
 				}
 				sora::SoraCore::Instance()->setFPS(60);
+				uiCanvas->getCanvasSprite()->addEffect(sora::CreateEffectFade(0.0, 1.0, 0.3));
 				houseUI->Enter();
 			}
 
 			void onUpdate(float dt) {
-				if (NextState!="")
+				if (state == 1)
+				{
+					if (!uiCanvas->getCanvasSprite()->hasEffect())
+						NextState = nextState, state = 0;
+				}
+				if (NextState!="" && NextState!="house")
 				{
 					getGameApp()->setState(NextState);
 					NextState = "";
 					return;
 				}
 				houseUI->Update(dt);
+				uiCanvas->update(dt);
+			}
+
+			void beginLeave(const std::string& nextState)
+			{
+				if (nextState == "house")
+					return;
+				this->nextState = nextState;
+				uiCanvas->getCanvasSprite()->addEffect(sora::CreateEffectFade(1.0, 0.0, 0.5));
+				state = 1;
 			}
 
 			void onRender() {

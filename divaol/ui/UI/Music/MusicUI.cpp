@@ -1,6 +1,7 @@
 #include "MusicUI.h"
 #include "SoraResourceFile.h"
 #include "ui/Config/DivaUIConfig.h"
+#include "MusicGameState.h"
 
 namespace diva
 {
@@ -24,6 +25,7 @@ namespace diva
 		{
 			sora::GCN_GLOBAL->getTop()->add(top, 0, 0);
 			top->setVisible(true);
+			refreshSelectedSongList();
 		}
 
 		void MusicUI::Leave()
@@ -234,25 +236,14 @@ namespace diva
 			startButton = new gcn::ButtonEx();
 			startButton->setSize(410,169);
 			DivaRoomInfo rinfo = playerList->getRoomInfo(); 
-			if (rinfo.myId == rinfo.hostId)
-			{
-				startButton->setLook(L"res/UI2.png",
-					gcn::Rectangle(979,104,450,206),
-					gcn::Rectangle(979,310,450,206),
-					gcn::Rectangle(979,516,450,206),
-					gcn::Rectangle(979,104,450,206),
-					-19, -20);
-				startButton->setEnabled(false);
-			}
-			else
-			{
-				startButton->setLook(L"res/UI2.png",
-					gcn::Rectangle(1430,207,450,206),
-					gcn::Rectangle(1430,413,450,206),
-					gcn::Rectangle(1430,619,450,206),
-					gcn::Rectangle(1430,207,450,206),
-					-19, -20);
-			}
+			//if (rinfo.myId == rinfo.hostId)
+			startButton->setLook(L"res/UI2.png",
+				gcn::Rectangle(979,104,450,206),
+				gcn::Rectangle(979,310,450,206),
+				gcn::Rectangle(979,516,450,206),
+				gcn::Rectangle(979,104,450,206),
+				-19, -20);
+			startButton->setEnabled(false);
 			startButton->addMouseListener(new PlayButton_MouseListener());
 			top->add(startButton, 1397, 818);
 
@@ -310,6 +301,18 @@ namespace diva
 				delete songInfoFont;
 			if (artistFont)
 				delete artistFont;
+		}
+
+		void MusicUI::refreshSelectedSongList()
+		{
+			selectedListBox->clearItems();
+			for (int i=0; i<SELECTEDMAPS.size(); i++)
+				selectedListBox->pushItem(MAPS[SELECTEDMAPS[i].id], SELECTEDMAPS[i].level);
+		}
+
+		void MusicUI::SetFatherState(MusicGameState* state)
+		{
+			musicGameState = state;
 		}
 
 		void MusicUI::Render()
@@ -653,8 +656,18 @@ namespace diva
 		{
 			MusicUI* ui = MusicUI::Instance();
 			DivaRoomInfo info = ui->playerList->getRoomInfo();
-			ui->GameStart(ui->selectedListBox->getSong(0).mapInfo.id, 
-				ui->selectedListBox->getSong(0).difIndex, ui->gameMode, 0);
+			//NextState = "house";
+			MAPMGR.SelectedMap_Clear();
+			int count = ui->selectedListBox->getItemCount();
+			for (int i=0; i<count; i++)
+			{
+				const SongInfo& t= ui->selectedListBox->getSong(i);
+				MAPMGR.SelectedMap_Add(t.mapInfo.id, (divamap::DivaMap::LevelType)t.difIndex);
+			}
+			ui->musicGameState->beginLeave("house");
+			//ui->GameStart(ui->selectedListBox->getSong(0).mapInfo.id, 
+			//	ui->selectedListBox->getSong(0).difIndex, ui->gameMode, 0);
+
 			//if (info.myId == info.hostId)
 			//{
 			//	ui->GameStartPost(ui->selectedListBox->getSong(0).mapInfo.mapId, 

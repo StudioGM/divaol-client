@@ -5,6 +5,7 @@
 #include <string>
 #include <Windows.h>
 #include "guichan.hpp"
+#include "DivaUIHelper.h"
 
 namespace diva
 {
@@ -16,6 +17,8 @@ namespace diva
 	std::wstring ReadJsonFile(const std::wstring& filename);
 	
 	gcn::Rectangle GetRect(const WJson::Value& v);
+
+
 }
 
 namespace gcn

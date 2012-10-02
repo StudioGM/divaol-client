@@ -21,10 +21,13 @@ namespace diva
 			bool initialized;
 			sora::SoraBaseCanvas* uiCanvas;
 			MusicUI* musicUI;
+			int state;
+			std::string nextState;
 
 			MusicGameState()
 			{
 				initialized = false;
+				state = 0;
 			}
 
 			void onEnter()
@@ -33,11 +36,22 @@ namespace diva
 				{
 					uiCanvas = new sora::SoraBaseCanvas(config[L"gameWidth"].asInt(), config[L"gameHeight"].asInt());
 					musicUI = MusicUI::Instance();
+					musicUI->SetFatherState(this);
 
 					initialized = true;
 				}
 				sora::SoraCore::Instance()->setFPS(60);
+				uiCanvas->getCanvasSprite()->addEffect(sora::CreateEffectFade(0.0, 1.0, 0.5));
 				musicUI->Enter();
+			}
+
+			void beginLeave(const std::string& nextState)
+			{
+				if (nextState == "music")
+					return;
+				this->nextState = nextState;
+				uiCanvas->getCanvasSprite()->addEffect(sora::CreateEffectFade(1.0, 0.0, 0.5));
+				state = 1;
 			}
 
 			void onLeave()
@@ -45,8 +59,21 @@ namespace diva
 				musicUI->Leave();
 			}
 
-			void onUpdate(float dt) {   
+			void onUpdate(float dt) {
+				if (state == 1)
+				{
+					if (!uiCanvas->getCanvasSprite()->hasEffect())
+						NextState = nextState, state = 0;
+				}
+				if (NextState!="" && NextState!= "music")
+				{
+					//uiCanvas->getCanvasSprite()->addEffect(sora::CreateEffectFade(1.0, 0.0, 0.3));
+					getGameApp()->setState(NextState);
+					NextState = "";
+					return;
+				}
 				musicUI->Update(dt);
+				uiCanvas->update(dt);
 			}
 
 			void onRender() {

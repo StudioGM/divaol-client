@@ -44,6 +44,7 @@ namespace diva
 
 		void pushItem(const divamap::DivaMap& mapInfo, int difIndex, int type = SPECIFIC);
 		void removeItem(int index);
+		void clearItems();
 		int getItemCount() const;
 
 		const SongInfo &getSong(int index);

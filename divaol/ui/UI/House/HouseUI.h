@@ -33,6 +33,7 @@ namespace diva
 
 	namespace HouseUI
 	{
+		class HouseGameState;
 
 		class HouseUI : 
 			public sora::SoraGUIResponser
@@ -65,8 +66,9 @@ namespace diva
 			gcn::ContainerEx* CreateSongList(const WJson::Value& conf);
 
 			void RefreshStatus();
-			void Refresh_sPlayerList();
+			void Refresh_sPlayerList(bool netRefresh = true);
 			void Refresh_hostInfo();
+			void Refresh_SongList();
 
 			void setState(int des);
 			void StateChange_ROOM_STAGE();
@@ -92,6 +94,7 @@ namespace diva
 			//-----------------------------------------------------------------
 
 			int state;
+			HouseGameState* houseGameState;
 
 			gcn::Container* top;
 			WJson::Value conf;
@@ -125,7 +128,12 @@ namespace diva
 			gcn::ContainerEx* teamList;
 			std::vector<gcn::SuperButtonEx*> teamListButtons;
 			gcn::ListBoxEx* stageList;
-			gcn::ContainerEx* songList;
+			gcn::ContainerEx* songListPanel;
+			gcn::ListBoxEx* songList;
+			gcn::SuperButtonEx* playerListButton1;
+			gcn::SuperButtonEx* playerListButton2;
+			int playerListNowPage;
+			gcn::ContainerEx* playerListPage;
 
 
 			gcn::ContainerEx* sPlayerListPanel;
@@ -163,6 +171,7 @@ namespace diva
 
 			void Enter();
 			void Leave();
+			void SetFatherState(HouseGameState* state);
 
 			// Event
 			void LoginButtonClicked();

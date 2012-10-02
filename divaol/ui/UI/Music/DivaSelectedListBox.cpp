@@ -87,6 +87,11 @@ namespace diva
 		refreshButtonText(n);
 	}
 
+	void DivaSelectedListBox::clearItems()
+	{
+		songInfo.clear();
+	}
+
 	void DivaSelectedListBox::displayItem(int index)
 	{
 		MusicUI *ui = MusicUI::Instance();

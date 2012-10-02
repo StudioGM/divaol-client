@@ -109,6 +109,11 @@ namespace gcn
 		this->itemGap = itemGap;
 	}
 
+	int ListBoxEx::getMaxItem() const
+	{
+		return maxItem;
+	}
+
 	void ListBoxEx::clearItems()
 	{
 		if (items.size() == 0)

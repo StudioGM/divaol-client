@@ -14,6 +14,9 @@
 #include "HouseGameState.h"
 #include "divacore/Core/DivaCore.h"
 #include "divacore/Mode/DivaMultiplay.h"
+#include "HouseGameState.h"
+
+#define SONICMISORA_MODIFYHYF
 
 namespace diva
 {
@@ -21,7 +24,11 @@ namespace diva
 	{
 		HouseUI::HouseUI()
 		{
-			for (int i=1; i<=5; i++)
+#ifdef SONICMISORA_MODIFYHYF
+			connectServer();
+#endif
+
+			for (int i=1; i<=2; i++)
 				MAPMGR.SelectedMap_Add(1, divamap::DivaMap::Normal);
 
 			top = new gcn::Container();
@@ -46,13 +53,15 @@ namespace diva
 			//	def("CreateLoginWindow", &HouseUI::CreateLoginWindow);
 			//lo.doScript(L"HouseUI.lua");
 			
-			state = STATE_ROOM;
-
+			state = STATE_LOGINWINDOW;
+			
 
 
 
 			// parse json
 			ParseJson(L"uiconfig/house.json", L"uiconfig/stage.json", L"uiconfig/RoomList_PlayerList.json");
+
+			UIHelper::setGlobalFinishTime(conf[L"Time/Config"][L"globalAnimationTime"].asInt());
 
 			// back ground
 			roomTop->add(CreateStaticImage(conf, L"TestBackground"));
@@ -60,9 +69,9 @@ namespace diva
 			// --------- room
 			top->add(roomTop, 0, 0);
 
-			songList = CreateSongList(sconf);
-			songList->setVisible(false);
-			roomTop->add(songList);
+			songListPanel = CreateSongList(sconf);
+			songListPanel->setVisible(true);
+			roomTop->add(songListPanel);
 
 			// shop button
 			shopButton = CreateButton(conf, L"ToolButtons/Normal/Shop_Normal", L"ToolButtons/MouseOn/Shop_MouseOn", L"ToolButtons/MouseDown/Shop_MouseDown", L"ToolButtons/Normal/Shop_Normal");
@@ -145,12 +154,14 @@ namespace diva
 			//Player list
 			sPlayerListPanel = CreatePlayerListPanel(sconf);
 			sPlayerListPanel->setVisible(false);
+			Refresh_sPlayerList();
+			//sPlayerList->setFirstIndex(8);
 			roomTop->add(sPlayerListPanel);
 
 			//sPlayerListPanel->setVisible(false);
 
 			usernameInput->setText(L"sonicmisora");
-			passwordInput->setText(L"123456");
+			passwordInput->setText(L"soniclovemisora");
 			
 			roomTop->setEnabled(false);
 
@@ -260,16 +271,19 @@ namespace diva
 		{
 			sora::GCN_GLOBAL->getTop()->add(top, 0, 0);
 			top->setVisible(true);
-
+			Refresh_SongList();
+#ifndef SONICMISORA_MODIFYHYF
 			connectServer();
+#endif
 		}
 		
 		void HouseUI::Leave()
 		{
 			sora::GCN_GLOBAL->getTop()->remove(top);
 			top->setVisible(false);
-
+#ifndef SONICMISORA_MODIFYHYF
 			disconnectServer();
+#endif
 		}
 
 		void HouseUI::Render()
@@ -295,9 +309,8 @@ namespace diva
 				info.username = Base::String(packet->getItem(3)->getString());
 				info.nickname = Base::String(packet->getItem(3)->getString());
 				PlayerManager::Instance()->SetHostInfo(info);
-				state = STATE_ROOM;
-				loginPanel->setVisible(false);
-				roomTop->setEnabled(true);
+				setState(STATE_ROOM);
+				//state = ;
 
 				//PlayerManager::Instance()->GetStageGuests().push_back("SonicMisora");
 				PlayerManager::Instance()->SetOnline(true);
@@ -398,6 +411,21 @@ namespace diva
 #endif
 		}
 
+		void HouseUI::Refresh_SongList()
+		{
+			WJson::Value t2 = sconf[L"SongList/songitem_background"];
+			songList->clearItems();
+
+			for (vector<divamap::DivaMapSelectedItem>::iterator i = SELECTEDMAPS.begin(); i != SELECTEDMAPS.end(); i++)
+			{
+				divamap::DivaMap& m = MAPS[i->id];
+				SongListItem* item = new SongListItem(t2[L"filename"].asString(), GetRect(t2));
+				item->setText(m.header.name + L"(" + config[L"difNames"][(int)i->level].asString() + L":" +
+					gcn::iToWS(m.levels[i->level].difficulty) + L",BPM:" + gcn::iToWS(m.header.bpm) + L")");
+				songList->pushItem(item);
+			}
+		}
+
 		void HouseUI::StateChange_ROOM_STAGE()
 		{
 			state = STATE_STAGE;
@@ -460,6 +488,8 @@ namespace diva
 		void HouseUI::StateChange_LOGINWINDOW_ROOM()
 		{
 			state = STATE_ROOM;
+			UIHelper::SetUIFade(loginPanel);
+			roomTop->setEnabled(true);
 		}
 
 		void HouseUI::StateChange_ROOM_ROOMLIST()
@@ -468,7 +498,7 @@ namespace diva
 			
 			roomTop->setEnabled(false);
 			
-			roomListPanel->setVisible(true);
+			UIHelper::SetUIFade(roomListPanel, 0, 255, -1, true);
 
 			request_roomList();
 		}
@@ -479,7 +509,7 @@ namespace diva
 
 			roomTop->setEnabled(true);
 
-			roomListPanel->setVisible(false);
+			UIHelper::SetUIFade(roomListPanel);
 		}
 
 		void HouseUI::StateChange_ROOMLIST_STAGE()
@@ -857,14 +887,24 @@ namespace diva
 			return teamList;
 		}
 
-		void HouseUI::Refresh_sPlayerList()
+		void HouseUI::Refresh_sPlayerList(bool netRefresh)
 		{
-			sPlayerList->clearItems();
-			WJson::Value tv = sconf[L"RoomInfo/Config"];
-			std::vector<PlayerInfo>& stageGuests= PlayerManager::Instance()->GetStageGuests();
-			int c = 0;
-			for (std::vector<PlayerInfo>::iterator i = stageGuests.begin(); i!=stageGuests.end(); i++, c++)
-				sPlayerList->pushItem(new HouseUIRoomInfoListItem(i->nickname, tv[L"colorList"][c%(tv[L"maxItem"].asInt())].asUInt()));
+			if (netRefresh)
+			{
+				sPlayerList->clearItems();
+				WJson::Value tv = sconf[L"RoomInfo/Config"];
+				std::vector<PlayerInfo>& stageGuests= PlayerManager::Instance()->GetStageGuests();
+				int c = 0;
+				for (std::vector<PlayerInfo>::iterator i = stageGuests.begin(); i!=stageGuests.end(); i++, c++)
+					sPlayerList->pushItem(new HouseUIRoomInfoListItem(i->nickname, tv[L"colorList"][c%(tv[L"maxItem"].asInt())].asUInt()));
+			}
+			int page = sPlayerList->getItemCount() / sPlayerList->getMaxItem() + 1;
+			if (playerListNowPage >= page)
+				playerListNowPage = page - 1;
+			if (playerListNowPage < 0)
+				playerListNowPage = 0;
+			sPlayerList->setFirstIndex(playerListNowPage * sPlayerList->getMaxItem());
+			playerListPage->setText(iToWS(playerListNowPage + 1) + L"/" + iToWS(page));
 		}
 
 		void HouseUI::Refresh_hostInfo()
@@ -925,21 +965,13 @@ namespace diva
 			songListFont = new SoraGUIFont(L"msyh.ttf", tv[L"fontSize"].asInt());
 			list->setFont(songListFont);
 			con->add(list);
+			songList = list;
 
 			gcn::ContainerEx* image = CreateStaticImage(conf, L"SongList/GameMode/CoupleMode");
 			image->setPosition(image->getX() - con->getX(), image->getY() - con->getY());
 			con->add(image);
 
 			con->setSize(list->getWidth(), list->getHeight() + list->getY() - image->getY());
-
-			for (vector<divamap::DivaMapSelectedItem>::iterator i = SELECTEDMAPS.begin(); i != SELECTEDMAPS.end(); i++)
-			{
-				divamap::DivaMap& m = MAPS[i->id];
-				SongListItem* item = new SongListItem(t2[L"filename"].asString(), GetRect(t2));
-				item->setText(m.header.name + L"(" + config[L"difNames"][(int)i->level].asString() + L":" +
-					gcn::iToWS(m.levels[i->level].difficulty) + L",BPM:" + gcn::iToWS(m.header.bpm) + L")");
-				list->pushItem(item);
-			}
 
 			return con;
 			
@@ -1012,11 +1044,15 @@ namespace diva
 			SuperButtonEx* b1 = CreateButton(conf, L"RoomInfo/buttons/btn_left", 
 				L"RoomInfo/buttons/btn_left_mouseon", L"RoomInfo/buttons/btn_left_mousedown", L"RoomInfo/buttons/btn_left");
 			b1->setPosition(b1->getX() - panel->getX(), b1->getY() - panel->getY());
+			b1->addMouseListener(new LoginButton_MouseListener());
+			playerListButton1 = b1;
 			panel->add(b1);
 
 			SuperButtonEx* b2 = CreateButton(conf, L"RoomInfo/buttons/btn_right", 
 				L"RoomInfo/buttons/btn_right_mouseon", L"RoomInfo/buttons/btn_right_mousedown", L"RoomInfo/buttons/btn_right");
 			b2->setPosition(b2->getX() - panel->getX(), b2->getY() - panel->getY());
+			b2->addMouseListener(new LoginButton_MouseListener());
+			playerListButton2 = b2;
 			panel->add(b2);
 
 			ContainerEx* pagenum = CreateStaticImage(conf, L"RoomInfo/buttons/label_pagenum");
@@ -1025,6 +1061,9 @@ namespace diva
 			playerListPagenumFont = new SoraGUIFont(L"res/msyh.ttf", tv[L"pagenumFontSize"].asInt());
 			pagenum->setFont(playerListPagenumFont);
 			pagenum->setText(L"1/1");
+
+			playerListPage = pagenum;
+			playerListNowPage = 0;
 
 			//for (int i=1; i<=9; i++)
 			//list->pushItem(new HouseUIRoomInfoListItem("SonicMisora",  (tv[L"colorList"][2]).asInt()));
@@ -1039,7 +1078,7 @@ namespace diva
 			WJson::Value tv = conf[L"PlayerList/Config"], t2 = conf[L"PlayerList/playerItem_back"];
 
 			ListBoxEx* list = new ListBoxEx();
-			list->setOpaque(true);
+			list->setOpaque(false);
 			list->setMaxItem(tv[L"maxItem"].asInt());
 			list->setGap(gcn::Rectangle(0, 0, tv[L"width"].asInt(), tv[L"height"].asInt()), tv[L"gap"].asInt());
 			list->setWidth(t2[L"width"].asInt());
@@ -1200,7 +1239,7 @@ namespace diva
 			}
 			if (mouseEvent.getSource() == (gcn::Widget*) selectMusicButton)
 			{
-				NextState = "music";
+				houseGameState->beginLeave("music");
 				return;
 			}
 			if (mouseEvent.getSource() == (gcn::Widget*) openGameButton)
@@ -1208,6 +1247,33 @@ namespace diva
 				start_game();
 				return;
 			}
+			if (mouseEvent.getSource() == (gcn::Widget*) playerListButton1)
+			{
+				int page = sPlayerList->getItemCount() / sPlayerList->getMaxItem() + 1;
+				if (playerListNowPage > 0)
+				{
+					playerListNowPage--;
+					Refresh_sPlayerList(false);
+					//playerListPage->setText(iToWS(playerListNowPage + 1) + L"/" + iToWS(page)); 
+				}
+				return;
+			}
+			if (mouseEvent.getSource() == (gcn::Widget*) playerListButton2)
+			{
+				int page = sPlayerList->getItemCount() / sPlayerList->getMaxItem() + 1;
+				if (playerListNowPage < page - 1)
+				{
+					playerListNowPage++;
+					Refresh_sPlayerList(false);
+					//playerListPage->setText(iToWS(playerListNowPage + 1) + L"/" + iToWS(page)); 
+				}
+				return;
+			}
+		}
+
+		void HouseUI::SetFatherState(HouseGameState* state)
+		{
+			houseGameState = state;
 		}
 
 		void HouseUI::MessagePanelChannelListClicked(int index)
@@ -1219,10 +1285,11 @@ namespace diva
 			messageChannelList->setPosition(tv[L"desX_2"].asInt() - messagePanel->getX(), tv[L"desY_2"].asInt() - messagePanel->getY());
 			messageChannelList->addModifier(new GUIAnimation_Position(gcn::Point(tv[L"desX_1"].asInt() - messagePanel->getX(),
 				tv[L"desY_1"].asInt() - messagePanel->getY()),
-				tv[L"animationTime"].asInt(), GUIAnimation_Float_LinearCos, NONE, NULL, 
-				sora::Bind(this, &HouseUI::SetWidgetInvisible)));
-			messageChannelList->setAlpha(255);
-			messageChannelList->addModifier(new GUIAnimation_Alpha(0, tv[L"animationTime"].asInt(), GUIAnimation_Float_LinearCos));
+				tv[L"animationTime"].asInt(), GUIAnimation_Float_LinearCos)); 
+				//sora::Bind(this, &HouseUI::SetWidgetInvisible)));
+			//messageChannelList->setAlpha(255);
+			//messageChannelList->addModifier(new GUIAnimation_Alpha(0, tv[L"animationTime"].asInt(), GUIAnimation_Float_LinearCos));
+			UIHelper::SetUIFade(messageChannelList, 255, 0,  tv[L"animationTime"].asInt(), false);
 		}
 
 		void HouseUI::MessagePanelChannelClicked()

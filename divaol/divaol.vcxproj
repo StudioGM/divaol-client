@@ -697,6 +697,7 @@
     <ClInclude Include="divacore\Utility\DivaPath.h" />
     <ClInclude Include="divacore\Utility\DivaSimpleUI.h" />
     <ClInclude Include="ui\Config\DivaUIConfig.h" />
+    <ClInclude Include="ui\Config\DivaUIHelper.h" />
     <ClInclude Include="ui\DivaNetwork\DivaNetwork.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanAnimeEx.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanButtonEx.h" />
@@ -738,6 +739,7 @@
     <ClInclude Include="ui\UI\Result\ResultUI.h" />
     <ClInclude Include="ui\UI\Stage\StageGameState.h" />
     <ClInclude Include="ui\UI\Stage\StageUI.h" />
+    <ClInclude Include="ui\UI\TitleScreen\TitleGameState.h" />
     <ClInclude Include="ui\UI\TitleScreen\TitleScreenExpander.h" />
     <ClInclude Include="ui\UI\TitleScreen\TitleScreenMovingShader.h" />
     <ClInclude Include="ui\UI\TitleScreen\TitleScreenPressAnyKey.h" />
@@ -1120,6 +1122,7 @@
     <ClCompile Include="Lib\wjson\wjson_writer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ui\Config\DivaUIConfig.cpp" />
+    <ClCompile Include="ui\Config\DivaUIHelper.cpp" />
     <ClCompile Include="ui\DivaNetwork\DivaNetwork.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanAnimeEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanButtonEx.cpp" />
@@ -1158,6 +1161,7 @@
     <ClCompile Include="ui\UI\Music\MusicUI.cpp" />
     <ClCompile Include="ui\UI\Stage\StageGameState.cpp" />
     <ClCompile Include="ui\UI\Stage\StageUI.cpp" />
+    <ClCompile Include="ui\UI\TitleScreen\TitleGameState.cpp" />
     <ClCompile Include="ui\UI\TitleScreen\TitleScreenExpander.cpp" />
     <ClCompile Include="ui\UI\TitleScreen\TitleScreenMovingShader.cpp" />
     <ClCompile Include="ui\UI\TitleScreen\TitleScreenPressAnyKey.cpp" />

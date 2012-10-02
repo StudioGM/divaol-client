@@ -444,6 +444,10 @@
     "desY_2": 335,
     "desX_1": 690,
     "desY_1": 1080,
-    "animationTime": 100
+    "animationTime": 100,
+    "disTime": 15
+  },
+  "Time/Config": {
+    "globalAnimationTime": 10
   }
 }

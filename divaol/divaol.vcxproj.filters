@@ -2379,6 +2379,12 @@
     <ClInclude Include="Lib\Base\Uncopyable.h">
       <Filter>源文件\lib\base</Filter>
     </ClInclude>
+    <ClInclude Include="ui\UI\TitleScreen\TitleGameState.h">
+      <Filter>源文件\ui\UI\TitleScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\Config\DivaUIHelper.h">
+      <Filter>源文件\ui\DivaConfig</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -3493,6 +3499,12 @@
     </ClCompile>
     <ClCompile Include="ui\UI\Music\DivaSongListItem.cpp">
       <Filter>源文件\ui\UI\Music</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\TitleScreen\TitleGameState.cpp">
+      <Filter>源文件\ui\UI\TitleScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\Config\DivaUIHelper.cpp">
+      <Filter>源文件\ui\DivaConfig</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

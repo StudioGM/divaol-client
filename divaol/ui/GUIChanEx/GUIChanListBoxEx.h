@@ -51,6 +51,7 @@ namespace gcn
 
 		void setGap(Rectangle firstRect, int itemGap);
 		void setMaxItem(int num);
+		int getMaxItem() const;
 
 		void setItemHeight(int height);
 
