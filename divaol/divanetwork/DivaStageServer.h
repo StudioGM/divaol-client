@@ -35,7 +35,7 @@ namespace divanet
 	{
 		enum StageState{OUTSIDE,GETTING_INFO,STAGE,GAME};
 	public:
-		enum NotifyType{NOTIFY_STAGE_JOIN = 0x80,NOTIFY_STAGE_LEAVE,NOTIFY_STAGE_START,NOTIFY_UPDATE_INFO};
+		enum NotifyType{NOTIFY_STAGE_JOIN = 0x80,NOTIFY_STAGE_LEAVE,NOTIFY_STAGE_START,NOTIFY_UPDATE_INFO,NOTIFY_UPDATE_COLOR,NOTIFY_UPDATE_SONG,NOTIFY_UPDATE_MODE,NOTIFY_UPDATE_READY};
 
 		virtual std::string name() const {return "stage";}
 
@@ -44,11 +44,21 @@ namespace divanet
 
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#start",&StageClient::gnet_start);
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#info",&StageClient::gnet_info);
+			GNET_RECEIVE_REGISTER(mNetSys,"stage#draw",&StageClient::gnet_draw);
+			GNET_RECEIVE_REGISTER(mNetSys,"stage#setSong",&StageClient::gnet_setSong);
+			GNET_RECEIVE_REGISTER(mNetSys,"stage#setMode",&StageClient::gnet_setMode);
+			GNET_RECEIVE_REGISTER(mNetSys,"stage#ready",&StageClient::gnet_ready);
+			GNET_RECEIVE_REGISTER(mNetSys,"stage#unready",&StageClient::gnet_unready);
 		}
 
 		void logout() {
 			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#start");
 			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#info");
+			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#draw");
+			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#setSong");
+			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#setMode");
+			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#ready");
+			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#unready");
 		}
 
 		void create(int capacity) {
@@ -69,11 +79,38 @@ namespace divanet
 		}
 
 		void draw(uint32 color) {
+			if(mState==STAGE)
+				mNetSys->send("stage#draw","%d",color);
+		}
 
+		void setSong(uint32 songId) {
+			if(mState==STAGE&&owner())
+				mNetSys->send("stage#setSong","%d",songId);
+		}
+
+		void setMode(std::string mode) {
+			if(mState==STAGE&&owner())
+				mNetSys->send("stage#setMode","%S",mode);
 		}
 
 		void changeSlot(uint32 slot) {
 
+		}
+
+		void ready() {
+			if(mState==STAGE) {
+				int index = _findPlayer(NET_INFO.uid);
+				if(mInfo.waiters[index-1].status==WaiterInfo::UNREADY)
+					mNetSys->send("stage#ready");
+			}
+		}
+
+		void unready() {
+			if(mState==STAGE) {
+				int index = _findPlayer(NET_INFO.uid);
+				if(mInfo.waiters[index-1].status==WaiterInfo::READY)
+					mNetSys->send("stage#unready");
+			}
 		}
 
 		bool start() {
@@ -125,21 +162,21 @@ namespace divanet
 			mInfo.capacity = stageInfo->getItem(1)->getInt();
 			mInfo.songId = stageInfo->getItem(2)->getInt();
 			mInfo.mode = stageInfo->getItem(3)->getString();
-			mInfo.status = stageInfo->getItem(4)->getString()=="STAGE"?StageInfo::STAGE:StageInfo::GAME;
+			mInfo.status = stageInfo->getItem(4)->getString()=="stage"?StageInfo::STAGE:StageInfo::GAME;
 
 			mInfo.waiters.clear();
 			for(int i = 0; i < members->size(); i++) {
 				gnet::Item<gnet::Tuple> *single = members->getItem(i)->as<gnet::Item<gnet::Tuple>>();
 				WaiterInfo waiter;
 				std::string status = single->getItem(1)->getString();
-				if(status=="LEAVE")
+				if(status=="leave")
 					waiter.status = WaiterInfo::LEAVE;
-				else if(status=="UNREADY")
+				else if(status=="unready")
 					waiter.status = WaiterInfo::UNREADY;
-				else if(status=="READY")
+				else if(status=="ready")
 					waiter.status = WaiterInfo::READY;
 				else
-					DIVA_EXCEPTION_MESSAGE("unexpected status");
+					DIVA_EXCEPTION_MODULE("unexpected status","StageServer");
 
 				waiter.color = single->getItem(2)->getInt();
 				waiter.slot = single->getItem(3)->getInt();
@@ -159,6 +196,48 @@ namespace divanet
 			}
 
 			notify("update", NOTIFY_UPDATE_INFO, packet);
+		}
+
+		void gnet_draw(GPacket *packet) {
+			int index = _findPlayer(packet->getItem(2)->getString());
+			mInfo.waiters[index-1].color = packet->getItem(3)->getInt();
+
+			notify("color", NOTIFY_UPDATE_COLOR, packet, index);
+		}
+
+		void gnet_setSong(GPacket *packet) {
+			mInfo.songId = packet->getItem(2)->getInt();
+
+			notify("song", NOTIFY_UPDATE_SONG, packet, mInfo.songId);
+		}
+
+		void gnet_setMode(GPacket *packet) {
+			mInfo.mode = packet->getItem(2)->getString();
+
+			notify(mInfo.mode, NOTIFY_UPDATE_MODE, packet);
+		}
+
+		void gnet_ready(GPacket *packet) {
+			int index = _findPlayer(packet->getItem(2)->getString());
+			mInfo.waiters[index-1].status = WaiterInfo::READY;
+
+			notify("ready", NOTIFY_UPDATE_READY, packet, index);
+		}
+
+		void gnet_unready(GPacket *packet) {
+			int index = _findPlayer(packet->getItem(2)->getString());
+			mInfo.waiters[index-1].status = WaiterInfo::UNREADY;
+
+			notify("unready", NOTIFY_UPDATE_READY, packet, index);
+		}
+
+	private:
+		int32 _findPlayer(const std::string &uid) {
+			for(int i = 0; i < mInfo.waiters.size(); i++)
+				if(mInfo.waiters[i].uid == uid) {
+					return i+1;
+				}
+			DIVA_EXCEPTION_MODULE("player "+uid+" not found","StageServer");
 		}
 
 	protected:

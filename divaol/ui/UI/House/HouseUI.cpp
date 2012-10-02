@@ -289,6 +289,15 @@ namespace diva
 					roomId = static_cast<divanet::GPacket*>(msg.extra())->getItem(2)->getString();
 				}
 				break;
+			case divanet::StageClient::NOTIFY_UPDATE_INFO:
+				STAGE_CLIENT.draw(1);
+				STAGE_CLIENT.setSong(15);
+				STAGE_CLIENT.setMode("normal");
+				STAGE_CLIENT.unready();
+				Sleep(1000);
+				STAGE_CLIENT.refresh();
+				STAGE_CLIENT.ready();
+				break;
 			case divanet::StageClient::NOTIFY_STAGE_LEAVE:
 				break;
 			}

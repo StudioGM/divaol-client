@@ -39,6 +39,7 @@ namespace divanet
 		virtual std::string name() const = 0;
 		virtual void setNetworkSystem(NetworkPtr ptr) {mNetSys = ptr;}
 		NetworkPtr getSys() {return mNetSys;}
+		void refresh() {mNetSys->refresh();}
 		virtual bool connect() {
 			mNetSys->setHostInfo(NET_INFO.server(name()).ip, NET_INFO.server(name()).port);
 			try{
