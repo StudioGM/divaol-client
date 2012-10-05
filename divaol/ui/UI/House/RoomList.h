@@ -34,13 +34,14 @@ namespace diva
 		private:
 			Image *image;
 			gcn::Rectangle srcRect;
+			PlayerInfo info;
 
 		public:
 			StageListItem(const std::wstring& filename, gcn::Rectangle srcRect);
 			virtual ~StageListItem();
 
 			//void setLook();
-			void setInfo(const PlayerInfo& info);
+			void setInfo(const PlayerInfo& info) {this->info=info;}
 			virtual void draw(Graphics* graphics, Font* font, int state, int alpha);
 		};
 

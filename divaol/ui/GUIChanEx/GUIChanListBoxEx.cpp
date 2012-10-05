@@ -310,7 +310,7 @@ namespace gcn
 		return items.size();
 	}
 
-	const std::vector<ListItemEx*>& ListBoxEx::getItems() const
+	std::vector<ListItemEx*>& ListBoxEx::getItems()
 	{
 		return items;
 	}

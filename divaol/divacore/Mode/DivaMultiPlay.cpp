@@ -8,6 +8,7 @@
 
 #include "DivaMultiPlay.h"
 #include "Component/DivaCommonEvaluateStrategy.h"
+#include "divanetwork/DivaNetworkManager.h"
 
 namespace divacore
 {
@@ -109,9 +110,11 @@ namespace divacore
 		SinglePlay::gameReset();
 	}
 	void MultiPlay::gameStop() {
-		NETWORK_SYSTEM_PTR->disconnect();
+		//NETWORK_SYSTEM_PTR->disconnect();
 
 		SAFE_DELETE(mInfo);
+
+		STAGE_CLIENT.back();
 	}
 	void MultiPlay::gameOver()
 	{
@@ -160,7 +163,7 @@ namespace divacore
 
 		//NETWORK_SYSTEM_PTR->send("stage#ready");
 
-		if(getBaseState()==CONNECT)
+		while(getBaseState()==CONNECT)
 		{
 			NETWORK_SYSTEM_PTR->waitForNext();
 

@@ -294,8 +294,10 @@ namespace divacore
 				ptr->second->update(dt);
 		else if(getState()==END)
 		{
-			onLeave();
+			//onLeave();
 			setState(OVER);
+
+			getGameApp()->setState("house");
 		}
 		else
 			RENDER_SYSTEM_PTR->update(dt);

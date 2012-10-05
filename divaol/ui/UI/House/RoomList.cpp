@@ -54,6 +54,7 @@ namespace diva
 		{
 			graphics->setColor(gcn::Color(255, 255, 255, alpha));
 			graphics->drawImage(image, srcRect.x, srcRect.y, 0, 0, srcRect.width, srcRect.height);
+			graphics->drawTextW(Base::String::any2string(info.id), 100, 20);
 		}
 
 		//////////////////////////////////////////////////////////////////////////

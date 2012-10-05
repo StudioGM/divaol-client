@@ -35,7 +35,7 @@ namespace divanet
 	{
 		enum StageState{OUTSIDE,GETTING_INFO,STAGE,GAME};
 	public:
-		enum NotifyType{NOTIFY_STAGE_JOIN = 0x80,NOTIFY_STAGE_LEAVE,NOTIFY_STAGE_START,NOTIFY_UPDATE_INFO,NOTIFY_UPDATE_COLOR,NOTIFY_UPDATE_SONG,NOTIFY_UPDATE_MODE,NOTIFY_UPDATE_READY};
+		enum NotifyType{NOTIFY_STAGE_JOIN_RESPONSE = 0x80,NOTIFY_STAGE_LEAVE_RESPONSE,NOTIFY_STAGE_START,NOTIFY_UPDATE_INFO,NOTIFY_UPDATE_COLOR,NOTIFY_UPDATE_SONG,NOTIFY_UPDATE_MODE,NOTIFY_UPDATE_READY,NOTIFY_STAGE_JOIN,NOTIFY_STAGE_LEAVE};
 
 		virtual std::string name() const {return "stage";}
 
@@ -43,6 +43,8 @@ namespace divanet
 			mNetSys->send("auth#setuid","%S",NET_INFO.uid);
 
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#start",&StageClient::gnet_start);
+			GNET_RECEIVE_REGISTER(mNetSys,"stage#join",&StageClient::gnet_join);
+			GNET_RECEIVE_REGISTER(mNetSys,"stage#leave",&StageClient::gnet_leave);
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#info",&StageClient::gnet_info);
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#draw",&StageClient::gnet_draw);
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#setSong",&StageClient::gnet_setSong);
@@ -53,6 +55,8 @@ namespace divanet
 
 		void logout() {
 			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#start");
+			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#join");
+			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#leave");
 			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#info");
 			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#draw");
 			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#setSong");
@@ -62,18 +66,18 @@ namespace divanet
 		}
 
 		void create(int capacity) {
-			GNET_RECEIVE_REGISTER(mNetSys,"stage#join",&StageClient::gnet_join);
+			GNET_RECEIVE_REGISTER(mNetSys,"stage#join_response",&StageClient::gnet_join_response);
 			mNetSys->send("stage#create","%d",capacity);
 		}
 
 		void join(const std::string &roomId) {
-			GNET_RECEIVE_REGISTER(mNetSys,"stage#join",&StageClient::gnet_join);
+			GNET_RECEIVE_REGISTER(mNetSys,"stage#join_response",&StageClient::gnet_join_response);
 			mNetSys->send("stage#join","%S",roomId);
 		}
 
 		void leave() {
 			if(mState!=OUTSIDE) {
-				GNET_RECEIVE_REGISTER(mNetSys,"stage#leave",&StageClient::gnet_leave);
+				GNET_RECEIVE_REGISTER(mNetSys,"stage#leave_response",&StageClient::gnet_leave_response);
 				mNetSys->send("stage#leave");
 			}
 		}
@@ -98,7 +102,7 @@ namespace divanet
 		}
 
 		void ready() {
-			if(mState==STAGE) {
+			if(mState==STAGE&&!owner()) {
 				int index = _findPlayer(NET_INFO.uid);
 				if(mInfo.waiters[index-1].status==WaiterInfo::UNREADY)
 					mNetSys->send("stage#ready");
@@ -106,7 +110,7 @@ namespace divanet
 		}
 
 		void unready() {
-			if(mState==STAGE) {
+			if(mState==STAGE&&!owner()) {
 				int index = _findPlayer(NET_INFO.uid);
 				if(mInfo.waiters[index-1].status==WaiterInfo::READY)
 					mNetSys->send("stage#unready");
@@ -129,29 +133,39 @@ namespace divanet
 			return mIsOwner;
 		}
 
+		void back() {
+			mNetSys->send("game#back");
+		}
+
+		bool isReady() const {return mIsReady;}
+		bool isMe(int index) const {return index==myIndex;}
+		const WaiterInfo& myInfo() const {return mInfo.waiters[myIndex-1];}
+
 		const StageInfo& info() const {return mInfo;}
 
 	public:
-		void gnet_join(GPacket *packet) {
+		void gnet_join_response(GPacket *packet) {
 			if(packet->getItem(2)->getString()=="ok") {
 				mState = GETTING_INFO;
 				if(packet->getItem(3)->getString()==NET_INFO.uid)
 					mIsOwner = true;
 			}
 
-			notify(packet->getItem(2)->getString(), NOTIFY_STAGE_JOIN, packet);
+			notify(packet->getItem(2)->getString(), NOTIFY_STAGE_JOIN_RESPONSE, packet);
 
-			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#join");
+			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#join_response");
 		}
 
-		void gnet_leave(GPacket *packet) {
-			notify(packet->getItem(2)->getString(), NOTIFY_STAGE_LEAVE, packet);
+		void gnet_leave_response(GPacket *packet) {
+			mState = OUTSIDE;
+			notify(packet->getItem(2)->getString(), NOTIFY_STAGE_LEAVE_RESPONSE, packet);
 
 			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#leave");
 		}
 
 		void gnet_start(GPacket *packet) {
 			notify("start", NOTIFY_STAGE_START, packet);
+			mState = GAME;
 		}
 
 		void gnet_info(GPacket *packet) {
@@ -185,20 +199,28 @@ namespace divanet
 				else
 					waiter.uid = "0";
 
+				if(waiter.uid==NET_INFO.uid) {
+					myIndex = i+1;
+					mIsReady = waiter.status==WaiterInfo::READY;
+				}
+
 				mInfo.waiters.push_back(waiter);
 			}
 
 			if(mState==GETTING_INFO) {
 				mState = STAGE;
 			}
-			else if(mState==STAGE) {
-
+			else if(mState==GAME) {
+				mState = STAGE;
 			}
 
 			notify("update", NOTIFY_UPDATE_INFO, packet);
 		}
 
 		void gnet_draw(GPacket *packet) {
+			if(state()!=STAGE)
+				return;
+
 			int index = _findPlayer(packet->getItem(2)->getString());
 			mInfo.waiters[index-1].color = packet->getItem(3)->getInt();
 
@@ -206,29 +228,73 @@ namespace divanet
 		}
 
 		void gnet_setSong(GPacket *packet) {
+			if(state()!=STAGE)
+				return;
+
 			mInfo.songId = packet->getItem(2)->getInt();
 
 			notify("song", NOTIFY_UPDATE_SONG, packet, mInfo.songId);
 		}
 
 		void gnet_setMode(GPacket *packet) {
+			if(state()!=STAGE)
+				return;
+
 			mInfo.mode = packet->getItem(2)->getString();
 
 			notify(mInfo.mode, NOTIFY_UPDATE_MODE, packet);
 		}
 
 		void gnet_ready(GPacket *packet) {
+			if(state()!=STAGE)
+				return;
+
 			int index = _findPlayer(packet->getItem(2)->getString());
 			mInfo.waiters[index-1].status = WaiterInfo::READY;
+
+			if(isMe(index))
+				mIsReady = true;
 
 			notify("ready", NOTIFY_UPDATE_READY, packet, index);
 		}
 
 		void gnet_unready(GPacket *packet) {
+			if(state()!=STAGE)
+				return;
+
 			int index = _findPlayer(packet->getItem(2)->getString());
 			mInfo.waiters[index-1].status = WaiterInfo::UNREADY;
 
+			if(isMe(index))
+				mIsReady = false;
+
 			notify("unready", NOTIFY_UPDATE_READY, packet, index);
+		}
+
+		void gnet_join(GPacket *packet) {
+			if(state()!=STAGE)
+				return;
+
+			int index = packet->getItem(3)->getInt();
+			mInfo.waiters[index-1].uid = packet->getItem(2)->getString();
+			mInfo.waiters[index-1].color = 0;
+
+			mInfo.waiters[index-1].status = WaiterInfo::UNREADY;
+
+			notify("join", NOTIFY_STAGE_JOIN, packet, index);
+		}
+
+		void gnet_leave(GPacket *packet) {
+			if(state()!=STAGE)
+				return;
+
+			int index = _findPlayer(packet->getItem(2)->getString());
+			mInfo.waiters[index-1].uid = "0";
+			mInfo.waiters[index-1].color = 0;
+
+			mInfo.waiters[index-1].status = WaiterInfo::LEAVE;
+
+			notify("leave", NOTIFY_STAGE_LEAVE, packet, index);
 		}
 
 	private:
@@ -247,7 +313,9 @@ namespace divanet
 		~StageClient() {}
 
 	private:
+		int myIndex;
 		bool mIsOwner;
+		bool mIsReady;
 		StageInfo mInfo;
 		uint32 mState;
 	};
