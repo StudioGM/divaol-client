@@ -454,7 +454,8 @@
     "desX_1": 690,
     "desY_1": 1080,
     "animationTime": 100,
-    "disTime": 15
+    "disTime": 10,
+    "blackAlpha": 127
   },
   "Time/Config": {
     "globalAnimationTime": 10

@@ -34,18 +34,24 @@ namespace diva
 			//for (int i=1; i<=2; i++)
 			//	MAPMGR.SelectedMap_Add(1, divamap::DivaMap::Normal);
 
+			
+
 			top = new gcn::Container();
 			top->setSize(config[L"gameWidth"].asInt(), config[L"gameHeight"].asInt());
 			top->setOpaque(false);
 
+			// initialize window mgr
+			mgr = new WindowMgr(top);
+
 			// why Enter() here? it will cause Enter invoked twice.
 			//Enter();
 
-			roomTop = new gcn::ContainerEx();
+			roomTop = new gcn::WindowEx();
 			roomTop->setSize(config[L"gameWidth"].asInt(), config[L"gameHeight"].asInt());
 			roomTop->setOpaque(false);
-			roomTop->setEnabled(false);
+			//roomTop->setEnabled(false);
 			roomTop->setVisible(true);
+			mgr->OpenWindow(roomTop);
 
 			// lua init
 			//sora::SoraLuaObject lo;
@@ -62,6 +68,16 @@ namespace diva
 
 			// parse json
 			ParseJson(L"uiconfig/house.json", L"uiconfig/stage.json", L"uiconfig/RoomList_PlayerList.json");
+
+			// message Box
+			gcn::MessageBoxEx* mbex = new gcn::MessageBoxEx();
+			{
+				WJson::Reader reader;
+				WJson::Value t;
+				reader.parse(ReadJsonFile(L"uiconfig/house/MessageBox.json"), t);
+				mbex->LoadFromJsonFile(t);
+				mgr->RegisterMessageBox(mbex);
+			}
 
 			UIHelper::setGlobalFinishTime(conf[L"Time/Config"][L"globalAnimationTime"].asInt());
 
@@ -153,7 +169,8 @@ namespace diva
 
 			// login 
 			loginPanel = CreateLoginWindow(conf, L"Login");
-			top->add(loginPanel);
+			mgr->OpenWindow(loginPanel, conf[L"Login/Config"][L"blackAlpha"].asInt());
+			//top->add(loginPanel);
 			//loginPanel->addModifier(new
 
 			//  ----- status panel
@@ -170,7 +187,7 @@ namespace diva
 			//sPlayerListPanel->setVisible(false);
 
 			usernameInput->setText(L"test");
-			passwordInput->setText(L"test");
+			passwordInput->setText(L"wrong");
 			
 			roomTop->setEnabled(false);
 
@@ -190,6 +207,11 @@ namespace diva
 			stageList->setVisible(false);
 			roomTop->add(stageList);
 
+			//////////////////////////////////////////////////////////////////////////
+
+			// ---------------------------  test
+
+			//mgr->GetMB()->Show(L"登录错误啊啊啊啊", L"测试", gcn::MessageBoxEx::TYPE_YESNO); 
 
 		
 			//LoginButtonClicked();
@@ -233,9 +255,9 @@ namespace diva
 				info.username = Base::String(NET_INFO.username);
 				info.nickname = Base::String(NET_INFO.username);
 				PlayerManager::Instance()->SetHostInfo(info);
-				state = STATE_ROOM;
-				loginPanel->setVisible(false);
-				roomTop->setEnabled(true);
+				setState(STATE_ROOM);
+				//loginPanel->setVisible(false);
+				//roomTop->setEnabled(true);
 
 				//PlayerManager::Instance()->GetStageGuests().push_back("SonicMisora");
 				PlayerManager::Instance()->SetOnline(true);
@@ -249,6 +271,10 @@ namespace diva
 				SCHEDULER_CLIENT.login();
 				STAGE_CLIENT.login();
 				//divanet::NetworkManager::instance().core()->send("auth#setuid","%s",MY_PLAYER_INFO.uid().c_str());
+			}
+			else
+			{
+				mgr->GetMB()->Show(L"登录发生意外。请稍后再试。", L"提示");
 			}
 		}
 
@@ -598,8 +624,10 @@ namespace diva
 		void HouseUI::StateChange_LOGINWINDOW_ROOM()
 		{
 			state = STATE_ROOM;
-			UIHelper::SetUIFade(loginPanel);
-			roomTop->setEnabled(true);
+			loginPanel->FadeOut(conf[L"Login/Config"][L"disTime"].asInt());
+			//mgr->CloseTopWindow();
+			//UIHelper::SetUIFade(loginPanel);
+			//roomTop->setEnabled(true);
 		}
 
 		void HouseUI::StateChange_ROOM_ROOMLIST()
@@ -720,6 +748,19 @@ namespace diva
 				throw "failed.";
 		}
 
+		gcn::WindowEx* HouseUI::CreateWindowEx(const WJson::Value& conf, const std::wstring& name)
+		{
+			using namespace gcn;
+			WJson::Value tv;
+			tv = conf[name];
+			WindowEx* con = new WindowEx();
+			con->load(tv[L"filename"].asString(), 
+				gcn::Rectangle(tv[L"srcX"].asInt(), tv[L"srcY"].asInt(), tv[L"width"].asInt(), tv[L"height"].asInt()));
+			con->setSize(tv[L"width"].asInt(), tv[L"height"].asInt());
+			con->setPosition(tv[L"desX"].asInt(), tv[L"desY"].asInt());
+			return con;
+		}
+
 		gcn::ContainerEx* HouseUI::CreateStaticImage(const WJson::Value& conf, const std::wstring& name)
 		{
 			using namespace gcn;
@@ -836,13 +877,13 @@ namespace diva
 		}
 
 
-		gcn::ContainerEx* HouseUI::CreateLoginWindow(const WJson::Value& conf, const std::wstring& prefix)
+		gcn::WindowEx* HouseUI::CreateLoginWindow(const WJson::Value& conf, const std::wstring& prefix)
 		{
 			using namespace gcn;
 			WJson::Value tv;
 			
 			// panel
-			ContainerEx* con = CreateStaticImage(conf, prefix + L"/BackGround");
+			WindowEx* con = CreateWindowEx(conf, prefix + L"/BackGround");
 			int topX = con->getX(), topY = con->getY();
 
 			//tv = conf[L"Login/Config"];

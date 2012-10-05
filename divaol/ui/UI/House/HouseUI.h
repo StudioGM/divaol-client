@@ -45,10 +45,11 @@ namespace diva
 
 			void ParseJson(const std::wstring& filename, const std::wstring& stage, const std::wstring& room);
 
+			gcn::WindowEx* CreateWindowEx(const WJson::Value& conf, const std::wstring& name);
 			gcn::ContainerEx* CreateStaticImage(const WJson::Value& conf, const std::wstring& name);
 			gcn::SuperButtonEx* CreateButton(const WJson::Value& conf, const std::wstring& normal, const std::wstring& on, const std::wstring& down, const std::wstring& disable);
 			//gcn::SuperButtonEx* _CreateButton(const std::wstring& normal, const std::wstring& on, const std::wstring& down, const std::wstring& disable);
-			gcn::ContainerEx* CreateLoginWindow(const WJson::Value& conf, const std::wstring& prefix);
+			gcn::WindowEx* CreateLoginWindow(const WJson::Value& conf, const std::wstring& prefix);
 			gcn::WTextField* CreateInput(const WJson::Value& conf, const std::wstring& name);
 			gcn::LabelEx* CreateLabel(const WJson::Value& conf, const std::wstring& name);
 			gcn::ContainerEx* CreateStatusPanel(const WJson::Value& conf);
@@ -104,6 +105,8 @@ namespace diva
 			WJson::Value sconf;
 			WJson::Value rconf;
 
+			gcn::WindowMgr* mgr;
+
 			// private
 			// --------- Room
 			gcn::SuperButtonEx* shopButton;
@@ -112,7 +115,7 @@ namespace diva
 			gcn::SuperButtonEx* modifyButton;
 			gcn::SuperButtonEx* clothesButton;
 			gcn::SuperButtonEx* exitButton;
-			gcn::ContainerEx* roomTop;
+			gcn::WindowEx* roomTop;
 			gcn::ContainerEx* statusPanel;
 			gcn::LabelEx* hostInfoLabel;
 			gcn::SuperButtonEx* udButton;
@@ -152,7 +155,7 @@ namespace diva
 			RoomList* roomListView;
 
 			// --------- Login
-			gcn::ContainerEx* loginPanel;
+			gcn::WindowEx* loginPanel;
 			gcn::SuperButtonEx* loginButton;
 			gcn::WTextField* usernameInput;
 			gcn::WTextField* passwordInput;

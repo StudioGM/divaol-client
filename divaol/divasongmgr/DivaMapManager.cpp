@@ -40,7 +40,7 @@ namespace divamap
 
 		//For test
 		downloadCategoryServerAddress = L"http://divaol.b0.upaiyun.com";
-		mapListQueryAddress = L"http://10.155.0.105:8139/game/getMapInfo?datetime=";
+		mapListQueryAddress = L"http://59.78.38.5:8139/game/getMapInfo?datetime=";
 		//PrepareDivaMapListInfo();
 	}
 	DivaMapManager::~DivaMapManager()

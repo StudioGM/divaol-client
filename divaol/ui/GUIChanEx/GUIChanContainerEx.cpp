@@ -71,10 +71,11 @@ namespace gcn
 		if (text != L"")
 		{
 			graphics->setFont(getFont());
-			graphics->setColor(Color(255,255,255,getAlpha()));
+			Color tc = getForegroundColor();
+			graphics->setColor(Color(tc.r, tc.g, tc.b, getAlpha()));
 			graphics->drawTextW(text, (getWidth() - getFont()->getWidthW(text))/2, (getHeight() - getFont()->getHeight())/2);
 		}
-
+		
 		gcn::Container::draw(graphics);
 	}
 

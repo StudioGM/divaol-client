@@ -747,6 +747,7 @@
     <ClInclude Include="ui\GUIChanEx\GUIChanContainerEx.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanEx.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanImageDisplayerEx.h" />
+    <ClInclude Include="ui\GUIChanEx\GUIChanJsonHelper.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanLabelEx.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanListBoxEx.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanListItemEx.h" />
@@ -756,7 +757,7 @@
     <ClInclude Include="ui\GUIChanEx\GUIChanSuperButtonEx.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanTextBoxEx.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanTextFieldEx.h" />
-    <ClInclude Include="ui\GUIChanEx\GUIChanWindowMgr.h" />
+    <ClInclude Include="ui\GUIChanEx\GUIChanWindowEx.h" />
     <ClInclude Include="ui\GUIChanEx\WTextfield.h" />
     <ClInclude Include="ui\network.h" />
     <ClInclude Include="ui\Player\PlayerManager.h" />
@@ -1152,6 +1153,7 @@
     <ClCompile Include="ui\GUIChanEx\GUIChanContainerEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanImageDisplayerEx.cpp" />
+    <ClCompile Include="ui\GUIChanEx\GUIChanJsonHelper.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanLabelEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanListBoxEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanListItemEx.cpp" />
@@ -1161,7 +1163,7 @@
     <ClCompile Include="ui\GUIChanEx\GUIChanSuperButtonEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanTextBoxEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanTextFieldEx.cpp" />
-    <ClCompile Include="ui\GUIChanEx\GUIChanWindowMgr.cpp" />
+    <ClCompile Include="ui\GUIChanEx\GUIChanWindowEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\WTextfield.cpp" />
     <ClCompile Include="ui\network.cpp" />
     <ClCompile Include="ui\Player\PlayerManager.cpp" />

@@ -1,6 +1,6 @@
 ﻿{
-  "MessageBox/background": {
-    "filename": "MessageBox_001.png",
+  "background": {
+    "filename": "res/house/MessageBox_001.png",
     "srcX": 0,
     "srcY": 0,
     "desX": 362,
@@ -8,8 +8,8 @@
     "width": 581,
     "height": 336
   },
-  "MessageBox/btn/mousedown": {
-    "filename": "MessageBox_001.png",
+  "btn/mousedown": {
+    "filename": "res/house/MessageBox_001.png",
     "srcX": 0,
     "srcY": 336,
     "desX": 767,
@@ -17,8 +17,8 @@
     "width": 115,
     "height": 55
   },
-  "MessageBox/btn/mouseon": {
-    "filename": "MessageBox_001.png",
+  "btn/mouseon": {
+    "filename": "res/house/MessageBox_001.png",
     "srcX": 0,
     "srcY": 391,
     "desX": 767,
@@ -26,13 +26,27 @@
     "width": 115,
     "height": 55
   },
-  "MessageBox/btn/normal": {
-    "filename": "MessageBox_001.png",
+  "btn/normal": {
+    "filename": "res/house/MessageBox_001.png",
     "srcX": 0,
     "srcY": 446,
     "desX": 775,
     "desY": 434,
     "width": 99,
     "height": 39
+  },
+  "config": {
+    "1_1_x" : 240,
+    "1_1_y" : 240,
+    "2_1_x" : 195,
+    "2_1_y" : 240,
+    "2_2_x" : 305,
+    "2_2_y" : 240,
+    "text_y" : 120,
+    "cap_x" : 60,
+    "cap_y" : 45,
+    "fadeOutTime": 10,
+    "text_color" : 4294967295,
+    "cap_color" : 4294967295
   }
 }
