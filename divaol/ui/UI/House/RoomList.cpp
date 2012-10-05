@@ -2,6 +2,7 @@
 
 #include "soraguiimage.hpp"
 #include "divanetwork/DivaNetworkManager.h"
+#include "HouseUI.h"
 
 namespace diva
 {
@@ -143,10 +144,40 @@ namespace diva
 		{
 		}
 
+		void RoomList::setRoomItemBaseInfo(const std::wstring& f1, gcn::Rectangle r1, const std::wstring& f2, gcn::Rectangle r2, const std::wstring& f3, gcn::Rectangle r3)
+		{
+			this->f1 = f1;
+			this->r1 = r1;
+			this->f2 = f2;
+			this->r2 = r2;
+			this->f3 = f3;
+			this->r3 = r3;
+		}
+		
+		void RoomList::pushRoomItem(const Network::RoomInfo& info)
+		{
+			RoomListItem* b = new RoomListItem();
+			b->setInfo(info);
+			b->setLook(f1, r1, f2, r2, f3, r3);
+			pushItem(b);
+		}
+
 		void RoomList::itemClicked(int itemIndex)
 		{
 			RoomListItem * item = dynamic_cast<RoomListItem*>(items[itemIndex]);
 			STAGE_CLIENT.join(Base::String(item->getInfo().owner));
+		}
+
+		void RoomList::firstPageChanged(int newPage)
+		{
+			HouseUI::Instance()->RoomListFirstPageChanged(newPage);
+		}
+
+		//////////////////////////////////////////////////////////////////////////
+
+		void RoomListSlider::markerPositionChanged(int v)
+		{
+			HouseUI::Instance()->RoomListSliderSlided(v);
 		}
 	}
 }

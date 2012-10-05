@@ -167,7 +167,7 @@ namespace diva
 			
 			roomTop->setEnabled(false);
 
-			//
+			// 
 
 			roomTop->add(CreateThingList(sconf));
 
@@ -272,7 +272,7 @@ namespace diva
 					const divanet::RoomInfos &infos = SCHEDULER_CLIENT.getRoomList();
 					for(int i = 0; i < infos.size(); i++)
 					{
-						RoomListItem* b = CreateRoomListItem(rconf,L"RoomList/RoomItem_normal", L"RoomList/RoomItem_on", L"RoomList/RoomItem_down");
+						RoomListItem* b = SetRoomListItemInfo(rconf,L"RoomList/RoomItem_normal", L"RoomList/RoomItem_on", L"RoomList/RoomItem_down");
 						Network::RoomInfo info;
 						info.maxPlayerNum = infos[i].capacity;
 						info.owner = Base::s2ws(infos[i].ownerId);
@@ -356,8 +356,8 @@ namespace diva
 		}
 		void HouseUI::request_roomList() {
 #ifdef DIVA_GNET_OPEN
-			roomListView->clearItems();
-			SCHEDULER_CLIENT.updateRoomList();
+			//roomListView->clearItems();
+			//SCHEDULER_CLIENT.updateRoomList();
 			//divanet::NetworkManager::instance().scheduler()->send("scheduler#roomlist");
 #endif
 		}
@@ -685,25 +685,21 @@ namespace diva
 			return b;
 		}
 
-		RoomListItem* HouseUI::CreateRoomListItem(const WJson::Value conf, const std::wstring& normal, const std::wstring& on, const std::wstring& down)
+		RoomListItem* HouseUI::SetRoomListItemInfo(const WJson::Value conf, const std::wstring& normal, const std::wstring& on, const std::wstring& down)
 		{
 			using namespace gcn;
 			WJson::Value tv1 = conf[normal], tv2 =conf[on], tv3 = conf[down];
-			RoomListItem* b = new RoomListItem();
-			b->setLook(tv1[L"filename"].asString(),
+			//RoomListItem* b = new RoomListItem();
+			roomListView->setRoomItemBaseInfo(tv1[L"filename"].asString(),
 				gcn::Rectangle(tv1[L"srcX"].asInt(), tv1[L"srcY"].asInt(), tv1[L"width"].asInt(), tv1[L"height"].asInt()),
 				tv2[L"filename"].asString(),
 				gcn::Rectangle(tv2[L"srcX"].asInt(), tv2[L"srcY"].asInt(), tv2[L"width"].asInt(), tv2[L"height"].asInt()),
 				tv2[L"filename"].asString(),
 				gcn::Rectangle(tv3[L"srcX"].asInt(), tv3[L"srcY"].asInt(), tv3[L"width"].asInt(), tv3[L"height"].asInt()));
-			Network::RoomInfo info;
-			info.maxPlayerNum = 10;
-			info.owner = L"次音速豆豆";
-			info.playerNum = 8;
-			info.selectedSong.push_back(L"私の恋を許してくれ");
-			info.stageName = L"超级音速豆豆";
-			b->setInfo(info);
-			return b;
+			
+
+			return NULL;
+			//return b;
 		}
 
 		gcn::WTextField* HouseUI::CreateInput(const WJson::Value& conf, const std::wstring& name)
@@ -767,12 +763,17 @@ namespace diva
 			// username text box
 			WTextField* username = CreateInput(conf, prefix + L"/textBox_1");
 			con->add(username, username->getX() - topX, username->getY() - topY);
-			sora::GCN_GLOBAL->getTop()->focusNext();
+			username->setId("LoginWindow_UsernameInput");
+			sora::SoraGUI::Instance()->registerGUIResponser(username, this, "LoginWindow_UsernameInput", sora::RESPONSEACTION);
+			//sora::GCN_GLOBAL->getTop()->focusNext();
 			usernameInput = username;
 
 			// pass word textbox
 			WTextField* password = CreateInput(conf, prefix + L"/textBox_2");
 			con->add(password, password->getX() - topX, password->getY() - topY);
+			password->setId("LoginWindow_PasswordInput");
+			sora::SoraGUI::Instance()->registerGUIResponser(password, this, "LoginWindow_PasswordInput", sora::RESPONSEACTION);
+			password->setPasswordMode(true);
 			passwordInput = password;
 
 			// login button
@@ -842,19 +843,17 @@ namespace diva
 			list->setPosition(tv[L"desX"].asInt(), tv[L"desY"].asInt());
 			list->adjustSize();
 			list->setPosition(list->getX() - panel->getX(), list->getY() - panel->getY());
+			panel->add(list);
 			RoomListItem::setTextPosition(tv[L"x1"].asInt(), tv[L"y1"].asInt(),
 				tv[L"x2"].asInt(), tv[L"y2"].asInt(),
 				tv[L"x3"].asInt(), tv[L"y3"].asInt(),
 				tv[L"x4"].asInt(), tv[L"y4"].asInt());
-			panel->add(list);
-			for (int i=1; i<=9; i++)
-				list->pushItem(CreateRoomListItem(conf, L"RoomList/RoomItem_normal", L"RoomList/RoomItem_on", L"RoomList/RoomItem_down"));
 			roomListView = list;
 
 			//////////////////////////////////////////////////////////////////////////
 
 			tv = conf[L"RoomList/scrollBar/Config"];
-			SliderEx* slider = new SliderEx();
+			RoomListSlider* slider = new RoomListSlider();
 			//slider->setSize(
 			// marker
 			MarkerEx* marker = CreateMarker(conf, L"RoomList/scrollBar/slider/slider_normal_up",
@@ -876,7 +875,23 @@ namespace diva
 			slider->setMarkScale(0, list->getFullMaxPage(), list->getItemCount()); 
 			slider->setPosition(slider->getX() - panel->getX(), slider->getY() - panel->getY());
 			panel->add(slider);
+			roomListSlider = slider;
 
+			//////////////////////////Set Base RoomItem information///////////////////////////////
+			
+			SetRoomListItemInfo(conf, L"RoomList/RoomItem_normal", L"RoomList/RoomItem_on", L"RoomList/RoomItem_down");
+			for (int i=1; i<=20; i++)
+			{
+				Network::RoomInfo info;
+				info.maxPlayerNum = 10;
+				info.owner = L"拥有者";
+				info.playerNum = i%8 + 1;
+				info.selectedSong.push_back(L"第一首歌");
+				info.stageName = L"这里是舞台" + iToWS(i);
+				roomListView->pushRoomItem(info);
+				//list->pushItem();
+			}
+			Refresh_RoomList(false);
 
 			return panel;
 		}
@@ -956,28 +971,45 @@ namespace diva
 			// Host Info Refresh
 			
 
-			if (state == STATE_ROOM)
-			{
-				roomTop->setEnabled(true);
-				sPlayerListPanel->setVisible(false);
-				loginPanel->setVisible(false);
-			}
-			else if (state == STATE_STAGE)
-			{
-				// visible set
-				roomTop->setEnabled(true);
-				loginPanel->setVisible(false);
-				sPlayerListPanel->setVisible(true);
+			//if (state == STATE_ROOM)
+			//{
+			//	roomTop->setEnabled(true);
+			//	sPlayerListPanel->setVisible(false);
+			//	loginPanel->setVisible(false);
+			//}
+			//else if (state == STATE_STAGE)
+			//{
+			//	// visible set
+			//	roomTop->setEnabled(true);
+			//	loginPanel->setVisible(false);
+			//	sPlayerListPanel->setVisible(true);
 
-				// playerlist refresh
-				Refresh_sPlayerList();
-			}
-			else if (state == STATE_LOGINWINDOW)
-			{
-				roomTop->setEnabled(false);
-				sPlayerListPanel->setVisible(false);
-				loginPanel->setVisible(true);
-			}
+			//	// playerlist refresh
+			//	Refresh_sPlayerList();
+			//}
+			//else if (state == STATE_LOGINWINDOW)
+			//{
+			//	roomTop->setEnabled(false);
+			//	sPlayerListPanel->setVisible(false);
+			//	loginPanel->setVisible(true);
+			//}
+		}
+
+		void HouseUI::Refresh_RoomList(bool updateRoomInfo)
+		{
+			if (updateRoomInfo)
+				request_roomList();
+			roomListSlider->setMarkScale(0, roomListView->getFullMaxPage(), roomListView->getMaxPage());
+		}
+
+		void HouseUI::RoomListSliderSlided(int v)
+		{
+			roomListView->setFirstPage(v);
+		}
+
+		void HouseUI::RoomListFirstPageChanged(int v)
+		{
+			roomListSlider->setMarkPosition(v);
 		}
 
 		gcn::ContainerEx* HouseUI::CreateSongList(const WJson::Value& conf)
@@ -1364,6 +1396,12 @@ namespace diva
 			if (getID() == "MessagePanel_InputBox")
 			{
 				MessagePanelInputBoxEnterPressed();
+				return;
+			}
+			if (getID() == "LoginWindow_UsernameInput" || getID() == "LoginWindow_PasswordInput")
+			{
+				LoginButtonClicked();
+				return;
 			}
 		}
 

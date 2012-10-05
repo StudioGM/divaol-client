@@ -2,6 +2,7 @@
 
 #include "ui/GUIChanEx/GUIChanListViewEx.h"
 #include "ui/GUIChanEx/GUIChanListItemEx.h"
+#include "ui/GUIChanEx/GUIChanSliderEx.h"
 #include "ui/structure.h"
 #include "ui/DivaNetwork/DivaNetwork.h"
 #include "divasongmgr/DivaMapManager.h"
@@ -63,15 +64,28 @@ namespace diva
 			static void setTextPosition(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4);
 		};
 
+		class RoomListSlider : public SliderEx
+		{
+		private:
+
+		public:
+			virtual void markerPositionChanged(int v);
+		};
 
 		class RoomList : public ListViewEx
 		{
 		private:
+			std::wstring f1, f2, f3;
+			gcn::Rectangle r1, r2, r3;
 
 		public:
 			RoomList();
 			~RoomList();
 
+			void setRoomItemBaseInfo(const std::wstring& f1, gcn::Rectangle r1, const std::wstring& f2, gcn::Rectangle r2, const std::wstring& f3, gcn::Rectangle r3);
+			void pushRoomItem(const Network::RoomInfo& info);
+
+			virtual void firstPageChanged(int newPage);
 			virtual void itemClicked(int itemIndex);
 		};
 	}

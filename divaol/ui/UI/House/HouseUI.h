@@ -58,7 +58,7 @@ namespace diva
 			ThingList* CreateThingList(const WJson::Value& conf);
 			gcn::ContainerEx* CreateTeamList(const WJson::Value& conf);
 			gcn::ContainerEx* CreateRoomListWindow(const WJson::Value conf);
-			RoomListItem* CreateRoomListItem(const WJson::Value conf, const std::wstring& normal, const std::wstring& on, const std::wstring& down);
+			RoomListItem* SetRoomListItemInfo(const WJson::Value conf, const std::wstring& normal, const std::wstring& on, const std::wstring& down);
 			gcn::MarkerEx* CreateMarker(const WJson::Value conf, const std::wstring& up1, const std::wstring& up2, const std::wstring &up3, 
 				 const std::wstring& down1, const std::wstring& down2, const std::wstring &down3,
 				  const std::wstring& mid1, const std::wstring& mid2, const std::wstring &mid3);
@@ -69,6 +69,7 @@ namespace diva
 			void Refresh_sPlayerList(bool netRefresh = true);
 			void Refresh_hostInfo();
 			void Refresh_SongList();
+			void Refresh_RoomList(bool updateRoomInfo = true);
 
 			void setState(int des);
 			void StateChange_ROOM_STAGE();
@@ -134,6 +135,7 @@ namespace diva
 			gcn::SuperButtonEx* playerListButton2;
 			int playerListNowPage;
 			gcn::ContainerEx* playerListPage;
+			RoomListSlider* roomListSlider;
 
 
 			gcn::ContainerEx* sPlayerListPanel;
@@ -181,8 +183,9 @@ namespace diva
 			void MessagePanelChannelListClicked(int index);
 			void RoomLInfoListClicked(int index);
 			void TeamListClicked(gcn::MouseEvent& mouseEvent);
-
 			void SetWidgetInvisible(gcn::Widget* widget);
+			void RoomListSliderSlided(int v);
+			void RoomListFirstPageChanged(int v);
 
 			virtual void action();
 			virtual void mouseClicked(const gcn::MouseEvent& mouseEvent);
