@@ -756,6 +756,7 @@
     <ClInclude Include="ui\GUIChanEx\GUIChanSuperButtonEx.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanTextBoxEx.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanTextFieldEx.h" />
+    <ClInclude Include="ui\GUIChanEx\GUIChanWindowMgr.h" />
     <ClInclude Include="ui\GUIChanEx\WTextfield.h" />
     <ClInclude Include="ui\network.h" />
     <ClInclude Include="ui\Player\PlayerManager.h" />
@@ -1160,6 +1161,7 @@
     <ClCompile Include="ui\GUIChanEx\GUIChanSuperButtonEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanTextBoxEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanTextFieldEx.cpp" />
+    <ClCompile Include="ui\GUIChanEx\GUIChanWindowMgr.cpp" />
     <ClCompile Include="ui\GUIChanEx\WTextfield.cpp" />
     <ClCompile Include="ui\network.cpp" />
     <ClCompile Include="ui\Player\PlayerManager.cpp" />

@@ -19,6 +19,7 @@
 #define SONICMISORA_MODIFYHYF
 
 #include "divanetwork/DivaAuthClient.h"
+#include "divasongmgr/DivaMapManager.h"
 
 namespace diva
 {
@@ -30,8 +31,8 @@ namespace diva
 			connectServer();
 #endif
 
-			for (int i=1; i<=2; i++)
-				MAPMGR.SelectedMap_Add(1, divamap::DivaMap::Normal);
+			//for (int i=1; i<=2; i++)
+			//	MAPMGR.SelectedMap_Add(1, divamap::DivaMap::Normal);
 
 			top = new gcn::Container();
 			top->setSize(config[L"gameWidth"].asInt(), config[L"gameHeight"].asInt());
@@ -57,8 +58,7 @@ namespace diva
 			
 			state = STATE_LOGINWINDOW;
 			
-
-
+			
 
 			// parse json
 			ParseJson(L"uiconfig/house.json", L"uiconfig/stage.json", L"uiconfig/RoomList_PlayerList.json");
@@ -105,6 +105,7 @@ namespace diva
 			roomTop->add(selectMusicButton);
 			selectMusicButton->addMouseListener(new LoginButton_MouseListener());
 			selectMusicButton->setVisible(true);
+			selectMusicButton->setEnabled(false);
 
 			// message area
 			messagePanel = CreateMessagePanel(conf);
@@ -240,6 +241,9 @@ namespace diva
 				PlayerManager::Instance()->SetOnline(true);
 				//RefreshStatus();
 				Refresh_hostInfo();
+				// prepare
+				MAPMGR.PrepareDivaMapListInfo();
+
 
 				CHAT_CLIENT.login();
 				SCHEDULER_CLIENT.login();
@@ -322,7 +326,8 @@ namespace diva
 				}
 				break;
 			case divanet::StageClient::NOTIFY_STAGE_START:
-				NextState = "core";
+				//NextState = "core";
+				houseGameState->beginLeave("core");
 				break;
 			case divanet::StageClient::NOTIFY_UPDATE_INFO:
 				STAGE_CLIENT.draw(0);
@@ -398,8 +403,8 @@ namespace diva
 		}
 		void HouseUI::request_roomList() {
 #ifdef DIVA_GNET_OPEN
-			//roomListView->clearItems();
-			//SCHEDULER_CLIENT.updateRoomList();
+			roomListView->clearItems();
+			SCHEDULER_CLIENT.updateRoomList();
 			//divanet::NetworkManager::instance().scheduler()->send("scheduler#roomlist");
 #endif
 		}
@@ -448,6 +453,23 @@ namespace diva
 		void HouseUI::Update(float dt)
 		{
 			RecvMsg();
+
+			MAPQUEUE* q = MAPMGR.GetQueue();
+			while (!q->empty())
+			{
+				const divamap::DivaMapEventMessage &t = (*((*q).begin()));
+				switch (t.eventType)
+				{
+				case divamap::DivaMapEventMessage::PrepareMapList :
+					if (!t.error && t.finish)
+						selectMusicButton->setEnabled(true);
+					else
+						throw "fuck it!";
+					
+					break;
+				}
+				q->pop_front();
+			}
 		}
 
 		void HouseUI::RecvMsg()
@@ -500,6 +522,16 @@ namespace diva
 					gcn::iToWS(m.levels[i->level].difficulty) + L",BPM:" + gcn::iToWS(m.header.bpm) + L")");
 				songList->pushItem(item);
 			}
+
+			if (SELECTEDMAPS.size())
+			{
+				if (MAPS[SELECTEDMAPS[0].id].header.mapType == divamap::DivaMapHeader::Normal)
+					setSongListImage(1);
+				else
+					setSongListImage(2);
+			}
+			else
+				setSongListImage(0);
 		}
 
 		void HouseUI::StateChange_ROOM_STAGE()
@@ -656,6 +688,21 @@ namespace diva
 				StateChange_ROOMLIST_STAGE();
 				return;
 			}
+		}
+
+		void HouseUI::MessageSliderSlided(int v)
+		{
+			messagePanelChatBox->setFirstIndex(v);
+		}
+
+		void HouseUI::MessageBoxFirstIndexChanged(int v)
+		{
+			messageSlider->setMarkPosition(v);
+		}
+
+		void HouseUI::MessageBoxItemChanged()
+		{
+			messageSlider->setMarkScale(0, messagePanelChatBox->getMaxIndex(), messagePanelChatBox->getItemCount());
 		}
 
 		void HouseUI::ParseJson(const std::wstring& filename, const std::wstring& stage, const std::wstring& room)
@@ -1056,6 +1103,29 @@ namespace diva
 			roomListSlider->setMarkPosition(v);
 		}
 
+		void HouseUI::setSongListImage(int v)
+		{
+			if (v == 0)
+			{
+				songListImage->setVisible(false);
+			}
+			else
+			{
+				std::wstring st = L"";
+				if (v == 1)
+					st = L"SongList/GameMode/SingleMode";
+				else if (v == 2)
+					st = L"SongList/GameMode/CoupleMode";
+				else if (v == 3)
+					st = L"SongList/GameMode/RelayMode";
+				songListImage->setVisible(true);
+				WJson::Value t = sconf[st];
+				songListImage->load(t[L"filename"].asString(), GetRect(t));
+				songListImage->setPosition(t[L"desX"].asInt() - songListPanel->getX(), t[L"desY"].asInt() - songListPanel->getY());
+
+			}
+		}
+
 		gcn::ContainerEx* HouseUI::CreateSongList(const WJson::Value& conf)
 		{
 			using namespace gcn;
@@ -1080,9 +1150,11 @@ namespace diva
 
 			gcn::ContainerEx* image = CreateStaticImage(conf, L"SongList/GameMode/CoupleMode");
 			image->setPosition(image->getX() - con->getX(), image->getY() - con->getY());
+			songListImage = image;
 			con->add(image);
 
 			con->setSize(list->getWidth(), list->getHeight() + list->getY() - image->getY());
+			setSongListImage(0);
 
 			return con;
 			
@@ -1201,13 +1273,6 @@ namespace diva
 			return list;
 		}
 
-		gcn::SliderEx* HouseUI::CreateMessageSlider(const WJson::Value& conf)
-		{
-			using namespace gcn;
-			//conf[""
-			return new SliderEx();
-		}
-
 		gcn::ContainerEx* HouseUI::CreateMessagePanel(const WJson::Value& conf)
 		{
 			using namespace gcn;
@@ -1217,6 +1282,7 @@ namespace diva
 
 			WJson::Value tv;
 
+			//////////////////////////////////////////////////////////////////////////
 			// chat box
 			tv = conf[L"MessageArea/TextBox"];
 			HouseMessageBox* chatBox = new HouseMessageBox();
@@ -1226,9 +1292,42 @@ namespace diva
 			messageAreaFont = new SoraGUIFont(L"res/msyh.ttf", tv[L"fontSize"].asInt());
 			chatBox->setFont(messageAreaFont);
 			chatBox->adjust();
-			chatBox->setText(tv[L"testText"].asString());
+			
 			panel->add(chatBox);
 			messagePanelChatBox = chatBox;
+
+			// message slider
+
+			MessageSlider* slider = new MessageSlider();
+			WJson::Reader reader;
+			reader.parse(ReadJsonFile(L"uiconfig/house/ChatSlider.json"), tv);
+			MarkerEx* marker = CreateMarker(tv, L"up",
+				L"up",
+				L"up",
+				L"down",
+				L"down",
+				L"down",
+				L"mid",
+				L"mid",
+				L"mid");
+
+			//marker->setLook(
+			slider->setSize(tv[L"Config"][L"width"].asInt(), tv[L"Config"][L"height"].asInt());
+			slider->setPosition(tv[L"Config"][L"desX"].asInt(), tv[L"Config"][L"desY"].asInt());
+			gcn::ButtonEx* nullButton = new gcn::ButtonEx(), *nullButton2 = new gcn::ButtonEx();
+			nullButton->setSize(1, 0);
+			nullButton2->setSize(1, 0);
+			slider->setLook(nullButton, nullButton2, marker);
+			slider->setMarkScale(0, chatBox->getMaxIndex(), chatBox->getItemCount());
+			//slider->setPosition(slider->getX() - panel->getX(), slider->getY() - panel->getY());
+
+			panel->add(slider);
+			messageSlider = slider;
+
+			tv = conf[L"MessageArea/TextBox"];
+			chatBox->setText(tv[L"testText"].asString());
+
+			//////////////////////////////////////////////////////////////////////////
 
 			// message channel
 			tv = conf[L"MessageArea/ChannelList"];
@@ -1293,6 +1392,7 @@ namespace diva
 			using namespace Net;
 #ifdef DIVA_GNET_OPEN
 			AUTH_CLIENT.login(Base::ws2s(usernameInput->getText()),Base::ws2s(passwordInput->getText()));
+			
 			//divanet::NetworkManager::instance().auth()->send("auth#login","%s%s",Base::ws2s(usernameInput->getText()).c_str(),Base::ws2s(passwordInput->getText()).c_str());
 #else
 			Network::Send(L"LOGIN", usernameInput->getText() + L" " + passwordInput->getText());

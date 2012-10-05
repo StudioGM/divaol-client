@@ -19,6 +19,8 @@ namespace gcn
 
 	void SuperButtonEx::draw(Graphics* graphics)
 	{
+		if (image == NULL)
+			return;
 		Rectangle rect;
 		int ox = 0, oy = 0;
 		if (!checkIsEnabled())

@@ -196,6 +196,7 @@ namespace diva
 	void DivaSongList::firstIndexChanged(int v)
 	{
 		MusicUI::Instance()->slider->setMarkPosition(v);
+		MusicUI::Instance()->refreshSongList();
 	}
 
 	void DivaSongList::itemChanged()

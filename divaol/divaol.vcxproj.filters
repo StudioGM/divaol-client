@@ -2448,6 +2448,9 @@
     <ClInclude Include="divanetwork\DivaStageServer.h">
       <Filter>源文件\divanetwork\client</Filter>
     </ClInclude>
+    <ClInclude Include="ui\GUIChanEx\GUIChanWindowMgr.h">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -3574,6 +3577,9 @@
     </ClCompile>
     <ClCompile Include="Lib\Base\Timer.cpp">
       <Filter>源文件\lib\base</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\GUIChanEx\GUIChanWindowMgr.cpp">
+      <Filter>源文件\ui\GUIChanEx</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

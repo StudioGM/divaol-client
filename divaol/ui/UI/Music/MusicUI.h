@@ -104,6 +104,7 @@ namespace diva
 
 			int netState;
 			void refreshSelectedSongList();
+			void refreshSongList();
 
 		public:
 			static MusicUI* Instance() {static MusicUI i; return &i;}
