@@ -137,6 +137,12 @@ namespace diva
 			roomTop->add(openGameButton);
 			openGameButton->setVisible(false);
 			openGameButton->addMouseListener(new LoginButton_MouseListener());
+
+			readyButton = CreateButton(sconf, L"ToolBar/Normal/btn_opengame_normal", L"ToolBar/Normal/btn_opengame_normal", L"ToolBar/Normal/btn_opengame_normal", L"ToolBar/Normal/btn_opengame_normal");
+			roomTop->add(readyButton);
+			readyButton->setVisible(false);
+			readyButton->addMouseListener(new LoginButton_MouseListener());
+			readyButton->setPosition(readyButton->getX()+200,readyButton->getY());
 #endif
 
 			// decorate button
@@ -162,8 +168,8 @@ namespace diva
 
 			//sPlayerListPanel->setVisible(false);
 
-			usernameInput->setText(L"sonicmisora");
-			passwordInput->setText(L"sdf");
+			usernameInput->setText(L"test");
+			passwordInput->setText(L"test");
 			
 			roomTop->setEnabled(false);
 
@@ -292,24 +298,58 @@ namespace diva
 		{
 			switch(msg.msg())
 			{
-			case divanet::StageClient::NOTIFY_STAGE_JOIN:
+			case divanet::StageClient::NOTIFY_STAGE_JOIN_RESPONSE:
 				if(msg.description()=="ok")
 				{
-					dynamic_cast<divacore::MultiPlay*>(CORE_PTR->getGameMode())->registerNetworkEvent();
 					StateChange_ROOMLIST_STAGE();
 					roomId = static_cast<divanet::GPacket*>(msg.extra())->getItem(2)->getString();
 				}
 				break;
-			case divanet::StageClient::NOTIFY_UPDATE_INFO:
-				STAGE_CLIENT.draw(1);
-				STAGE_CLIENT.setSong(15);
-				STAGE_CLIENT.setMode("normal");
-				STAGE_CLIENT.unready();
-				Sleep(1000);
-				STAGE_CLIENT.refresh();
-				STAGE_CLIENT.ready();
+			case divanet::StageClient::NOTIFY_STAGE_JOIN:
+				{
+					int index = msg.arg();
+					PlayerInfo playerInfo;
+					playerInfo.id = Base::String::string2any<int>(STAGE_CLIENT.info().waiters[index-1].uid);
+					dynamic_cast<StageListItem*>(stageList->getItems()[index-1])->setInfo(playerInfo);
+				}
 				break;
 			case divanet::StageClient::NOTIFY_STAGE_LEAVE:
+				{
+					int index = msg.arg();
+					PlayerInfo playerInfo;
+					playerInfo.id = 0;
+					dynamic_cast<StageListItem*>(stageList->getItems()[index-1])->setInfo(playerInfo);
+				}
+				break;
+			case divanet::StageClient::NOTIFY_STAGE_START:
+				NextState = "core";
+				break;
+			case divanet::StageClient::NOTIFY_UPDATE_INFO:
+				STAGE_CLIENT.draw(0);
+				stageList->clearItems();
+				for(int i = 0; i < STAGE_CLIENT.info().waiters.size(); i++)
+				{
+					//for (int i=1; i<=8; i++)
+					StageListItem *item = new StageListItem(rconf[L"PlayerList/playerItem_back"][L"filename"].asString(), GetRect(rconf[L"PlayerList/playerItem_back"]));
+					PlayerInfo playerInfo;
+					playerInfo.id = Base::String::string2any<int>(STAGE_CLIENT.info().waiters[i].uid);
+					item->setInfo(playerInfo);
+					stageList->pushItem(item);
+				}
+				dynamic_cast<divacore::MultiPlay*>(CORE_PTR->getGameMode())->registerNetworkEvent();
+				break;
+			case divanet::StageClient::NOTIFY_UPDATE_COLOR:
+				{
+					int index = msg.arg();
+					if(STAGE_CLIENT.isMe(index))
+					{
+						int color = STAGE_CLIENT.myInfo().color;
+						for (int i=0; i<teamListButtons.size(); i++)
+							teamListButtons[i]->setSelected(color == i);
+					}
+					break;
+				}
+			case divanet::StageClient::NOTIFY_STAGE_LEAVE_RESPONSE:
 				break;
 			}
 		}
@@ -318,6 +358,7 @@ namespace diva
 #ifdef DIVA_GNET_OPEN
 			try
 			{
+				if(!AUTH_CLIENT.isConnect()) {
 				AUTH_CLIENT.connect();
 				CHAT_CLIENT.connect();
 				SCHEDULER_CLIENT.connect();
@@ -326,6 +367,7 @@ namespace diva
 				CHAT_CLIENT.attachObserver(divanet::Observer(&HouseUI::observer_chat,this));
 				SCHEDULER_CLIENT.attachObserver(divanet::Observer(&HouseUI::observer_scheduler,this));
 				STAGE_CLIENT.attachObserver(divanet::Observer(&HouseUI::observer_stage,this));
+				}
 
 				//divanet::NetworkManager::instance().connectAuth();
 				//divanet::NetworkManager::instance().connectChat();
@@ -363,15 +405,14 @@ namespace diva
 		}
 		void HouseUI::open_stage() {
 #ifdef DIVA_GNET_OPEN
-			STAGE_CLIENT.create(1);
+			STAGE_CLIENT.create(4);
 			//divanet::NetworkManager::instance().core()->send("stage#create","%d",2);
 			roomId = MY_PLAYER_INFO.uid();
 #endif
 		}
 		void HouseUI::start_game() {
 #ifdef DIVA_GNET_OPEN
-			if(STAGE_CLIENT.start())
-				NextState = "core";
+			STAGE_CLIENT.start();
 #endif
 		}
 		void HouseUI::leave_stage() {
@@ -396,7 +437,7 @@ namespace diva
 			sora::GCN_GLOBAL->getTop()->remove(top);
 			top->setVisible(false);
 #ifndef SONICMISORA_MODIFYHYF
-			disconnectServer();
+			//disconnectServer();
 #endif
 		}
 
@@ -484,6 +525,7 @@ namespace diva
 			thingList->setVisible(true);
 			teamList->setVisible(true);
 			openGameButton->setVisible(true);
+			readyButton->setVisible(true);
 
 			// exit button
 			/*exitButton = CreateButton(conf, "ToolButtons/Normal/Exit_Normal", "ToolButtons/MouseOn/Exit_MouseOn", "ToolButtons/MouseDown/Exit_MouseDown", "ToolButtons/Normal/Exit_Normal");
@@ -518,6 +560,7 @@ namespace diva
 			stageList->setVisible(false);
 			//songList->setVisible(false);
 			openGameButton->setVisible(false);
+			readyButton->setVisible(false);
 		}
 
 		void HouseUI::StateChange_LOGINWINDOW_ROOM()
@@ -572,6 +615,7 @@ namespace diva
 			stageList->setVisible(true);
 			songList->setVisible(true);
 			openGameButton->setVisible(true);
+			readyButton->setVisible(true);
 
 			//
 			roomListPanel->setVisible(false);
@@ -1119,8 +1163,8 @@ namespace diva
 			list->setWidth(t2[L"width"].asInt());
 			list->adjustMyHeight();
 			list->setPosition(t2[L"desX"].asInt(), t2[L"desY"].asInt());
-			for (int i=1; i<=8; i++)
-				list->pushItem(new StageListItem(t2[L"filename"].asString(), GetRect(t2)));
+			//for (int i=1; i<=8; i++)
+			//	list->pushItem(new StageListItem(t2[L"filename"].asString(), GetRect(t2)));
 
 			return list;
 		}
@@ -1283,6 +1327,14 @@ namespace diva
 				start_game();
 				return;
 			}
+			if (mouseEvent.getSource() == (gcn::Widget*) readyButton)
+			{
+				if(STAGE_CLIENT.isReady())
+					STAGE_CLIENT.unready();
+				else
+					STAGE_CLIENT.ready();
+				return;
+			}
 			if (mouseEvent.getSource() == (gcn::Widget*) playerListButton1)
 			{
 				int page = sPlayerList->getItemCount() / sPlayerList->getMaxItem() + 1;
@@ -1383,8 +1435,12 @@ namespace diva
 		void HouseUI::TeamListClicked(gcn::MouseEvent& mouseEvent)
 		{
 			int t = (int)((ButtonEx*)mouseEvent.getSource())->userData;
+#ifndef DIVA_GNET_OPEN
 			for (int i=0; i<teamListButtons.size(); i++)
 				teamListButtons[i]->setSelected(t == i);
+#else
+			STAGE_CLIENT.draw(t);
+#endif
 		}
 
 

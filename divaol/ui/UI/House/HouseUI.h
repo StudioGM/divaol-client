@@ -118,6 +118,7 @@ namespace diva
 			gcn::SuperButtonEx* decorateButton;
 			gcn::SuperButtonEx* exitStageButton;
 			gcn::SuperButtonEx* openGameButton;
+			gcn::SuperButtonEx* readyButton;
 			gcn::ContainerEx* messagePanel;
 			gcn::TextFieldEx* messagePanelInputBox;
 			gcn::TextBoxEx* messagePanelChatBox;
