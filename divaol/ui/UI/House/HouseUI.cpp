@@ -319,10 +319,17 @@ namespace diva
 					PlayerInfo playerInfo;
 					playerInfo.id = 0;
 					dynamic_cast<StageListItem*>(stageList->getItems()[index-1])->setInfo(playerInfo);
-				}
+				} 
 				break;
 			case divanet::StageClient::NOTIFY_STAGE_START:
-				NextState = "core";
+				{
+					divacore::MultiPlay *multiplay = NULL;
+					if(STAGE_CLIENT.info().mode=="multiplay")
+						multiplay = new divacore::MultiPlay;
+					CORE_PTR->registerGameMode(multiplay);
+					multiplay->registerNetworkEvent();
+					NextState = "core";
+				}
 				break;
 			case divanet::StageClient::NOTIFY_UPDATE_INFO:
 				STAGE_CLIENT.draw(0);
@@ -336,7 +343,6 @@ namespace diva
 					item->setInfo(playerInfo);
 					stageList->pushItem(item);
 				}
-				dynamic_cast<divacore::MultiPlay*>(CORE_PTR->getGameMode())->registerNetworkEvent();
 				break;
 			case divanet::StageClient::NOTIFY_UPDATE_COLOR:
 				{

@@ -271,7 +271,7 @@ namespace divacore
 		PLAYERS &players = getPlayerInfo();
 
 		for(int i = 0; i < players.size(); i++)
-			EVALUATE_STRATEGY_PTR->getResult().evalData.push_back(EvalData(players[i].uid, players[i].score));
+			EVALUATE_STRATEGY_PTR->getResult().evalData.push_back(EvalData(players[i].uid, players[i].score, i));
 		//((CommonEvaluateStrategy*)EVALUATE_STRATEGY_PTR)->addMultiEvalUI();
 	}
 }

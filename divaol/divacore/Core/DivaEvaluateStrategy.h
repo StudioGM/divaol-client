@@ -43,20 +43,27 @@ namespace divacore
 	{
 	public:
 		std::string uid;
+		int index;
 		int score;
 		int cntEval[EvaluateStrategy::EVAL_NUM];
 		EvalData():uid(""),score(0) {memset(cntEval,0,sizeof(cntEval));}
-		EvalData(const std::string &uid, int score, int cntEval[]) {
+		EvalData(const std::string &uid, int score, int cntEval[], int index = 0) {
+			this->index = index;
 			this->uid = uid;
 			this->score = score;
 			memcpy(this->cntEval,cntEval,sizeof(int)*EvaluateStrategy::EVAL_NUM);
 		}
-		EvalData(const std::string &uid, int score) {
+		EvalData(const std::string &uid, int score, int index = 0) {
+			this->index = index;
 			this->uid = uid;
 			this->score = score;
 			memset(cntEval,0,sizeof(int)*EvaluateStrategy::EVAL_NUM);
 		}
+		friend bool operator<(const EvalData &a, const EvalData &b) {
+			return a.score>b.score;
+		}
 	};
+
 	class EvalResult
 	{
 	public:
