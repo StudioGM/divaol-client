@@ -7,7 +7,9 @@ namespace gcn
 {
 	WindowEx::WindowEx(WindowMgr* mgr)
 	{
+		addMouseListener(this);
 		SetMgr(mgr);
+		SetMovable(false);
 		//this->mgr = mgr;
 	}
 
@@ -32,6 +34,7 @@ namespace gcn
 
 	void WindowEx::FadeIn(int time)
 	{
+		setVisible(true);
 		setAlpha(0);
 		addModifier(new GUIAnimation_Alpha(255, time, GUIAnimation_Float_Linear));
 	}
@@ -51,6 +54,56 @@ namespace gcn
 	void WindowEx::SetMgr(WindowMgr* mgr)
 	{
 		this->mgr = mgr;
+	}
+
+	void WindowEx::SetMovable(bool movable)
+	{
+		mMovable = movable;
+	}
+
+	bool WindowEx::IsMovable() const
+	{
+		return mMovable;
+	}
+
+	void WindowEx::mousePressed(MouseEvent& mouseEvent)
+	{
+		if (mouseEvent.getSource() != this)
+		{
+			return;
+		}
+
+		//if (getParent() != NULL)
+		//{
+		//	getParent()->moveToTop(this);
+		//}
+
+		mDragOffsetX = mouseEvent.getX();
+		mDragOffsetY = mouseEvent.getY();
+
+		//mMoved = mouseEvent.getY() <= (int)mTitleBarHeight;
+		mMoved = true;
+	}
+
+	void WindowEx::mouseReleased(MouseEvent& mouseEvent)
+	{
+		mMoved = false;
+	}
+
+	void WindowEx::mouseDragged(MouseEvent& mouseEvent)
+	{
+		if (mouseEvent.isConsumed() || mouseEvent.getSource() != this)
+		{
+			return;
+		}
+
+		if (IsMovable() && mMoved)
+		{
+			setPosition(mouseEvent.getX() - mDragOffsetX + getX(),
+				mouseEvent.getY() - mDragOffsetY + getY());
+		}
+
+		mouseEvent.consume();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -124,6 +177,7 @@ namespace gcn
 
 	void MessageBoxEx::Show(const std::wstring& text_t, const std::wstring& cap_t, MessageBoxEx::TYPE type)
 	{
+		SetMovable(true);
 		setVisible(true);
 		setPosition((mgr->GetBaseWindowWidth() - getWidth()) / 2, 
 			(mgr->GetBaseWindowHeight() - getHeight()) / 2 );

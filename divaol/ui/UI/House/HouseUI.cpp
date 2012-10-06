@@ -51,6 +51,7 @@ namespace diva
 			roomTop->setOpaque(false);
 			//roomTop->setEnabled(false);
 			roomTop->setVisible(true);
+			roomTop->SetMovable(false);
 			mgr->OpenWindow(roomTop);
 
 			// lua init
@@ -169,7 +170,9 @@ namespace diva
 
 			// login 
 			loginPanel = CreateLoginWindow(conf, L"Login");
+			loginPanel->SetMovable(true);
 			mgr->OpenWindow(loginPanel, conf[L"Login/Config"][L"blackAlpha"].asInt());
+
 			//top->add(loginPanel);
 			//loginPanel->addModifier(new
 
@@ -200,8 +203,9 @@ namespace diva
 			// ---------------
 
 			roomListPanel = CreateRoomListWindow(rconf);
-			roomListPanel->setVisible(false);
-			top->add(roomListPanel);
+			roomListPanel->setVisible(true);
+			roomListPanel->SetMovable(true);
+			//top->add(roomListPanel);
 
 			stageList = CreateStageList(rconf);
 			stageList->setVisible(false);
@@ -634,20 +638,23 @@ namespace diva
 		{
 			state = STATE_ROOMLIST;
 			
-			roomTop->setEnabled(false);
+			//roomTop->setEnabled(false);
+			//UIHelper::SetUIFade(roomListPanel, 0, 255, -1, true);
+			mgr->OpenWindow(roomListPanel, 70);
+			roomListPanel->FadeIn(10);
+			Refresh_RoomList();
 			
-			UIHelper::SetUIFade(roomListPanel, 0, 255, -1, true);
-
-			request_roomList();
+			//request_roomList();
 		}
 
 		void HouseUI::StateChange_ROOMLIST_ROOM()
 		{
 			state = STATE_ROOM;
 
-			roomTop->setEnabled(true);
+			//roomTop->setEnabled(true);
 
-			UIHelper::SetUIFade(roomListPanel);
+			//UIHelper::SetUIFade(roomListPanel);
+			roomListPanel->FadeOut(10);
 		}
 
 		void HouseUI::StateChange_ROOMLIST_STAGE()
@@ -678,8 +685,9 @@ namespace diva
 			readyButton->setVisible(true);
 
 			//
-			roomListPanel->setVisible(false);
-			roomTop->setEnabled(true);
+			//roomListPanel->setVisible(false);
+			//roomTop->setEnabled(true);
+			roomListPanel->FadeOut(10);
 			Refresh_sPlayerList();
 		}
 
@@ -748,7 +756,7 @@ namespace diva
 				throw "failed.";
 		}
 
-		gcn::WindowEx* HouseUI::CreateWindowEx(const WJson::Value& conf, const std::wstring& name)
+		gcn::WindowEx* HouseUI::CreateMyWindow(const WJson::Value& conf, const std::wstring& name)
 		{
 			using namespace gcn;
 			WJson::Value tv;
@@ -883,7 +891,7 @@ namespace diva
 			WJson::Value tv;
 			
 			// panel
-			WindowEx* con = CreateWindowEx(conf, prefix + L"/BackGround");
+			WindowEx* con = CreateMyWindow(conf, prefix + L"/BackGround");
 			int topX = con->getX(), topY = con->getY();
 
 			//tv = conf[L"Login/Config"];
@@ -939,12 +947,12 @@ namespace diva
 			return con;
 		}
 
-		ContainerEx* HouseUI::CreateRoomListWindow(const WJson::Value conf)
+		WindowEx* HouseUI::CreateRoomListWindow(const WJson::Value conf)
 		{
 			using namespace gcn;
 			WJson::Value tv = conf[L"RoomList/Config"];
 
-			ContainerEx* panel = CreateStaticImage(conf, L"RoomList/background");
+			WindowEx* panel = CreateMyWindow(conf, L"RoomList/background");
 
 			//////////////////////////////////////////////////////////////////////////
 			
