@@ -9,6 +9,7 @@
 #include "DivaSongListItem.h"
 #include <string>
 #include <vector>
+#include <map>
 
 namespace diva
 {
@@ -25,6 +26,7 @@ namespace diva
 		public ListBoxEx
 	{
 	private:
+		std::map<int, int> mapHash;
 		std::vector<ButtonEx*> leftButtons;
 		std::vector<ButtonEx*> rightButtons;
 		gcn::Rectangle leftNormal, leftHighlight, leftPressed;
@@ -52,6 +54,8 @@ namespace diva
 		void DifLast(int ind);
 
 		void setDifButtonDisplayed(bool v);
+
+		int getIndexByMapId(int id) const;
 
 		virtual void logic();
 

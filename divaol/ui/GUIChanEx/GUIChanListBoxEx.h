@@ -53,6 +53,8 @@ namespace gcn
 		void setMaxItem(int num);
 		int getMaxItem() const;
 
+		int getHighlightItemIndex() const;
+
 		void setItemHeight(int height);
 
 		void setFirstIndex(int index);

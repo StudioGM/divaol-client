@@ -200,10 +200,20 @@ namespace gcn
 			b[1]->setVisible(true);
 			b[2]->setVisible(true);
 		}
+		else if (type == TYPE_NONE)
+		{
+			b[0]->setVisible(false);
+			b[1]->setVisible(false);
+			b[2]->setVisible(false);
+		}
 
 		assert(mgr);
-		FadeIn(10);
-		mgr->OpenWindow(this);
+		
+		if (mgr->GetTopWindow() != (WindowEx*)this)
+		{
+			FadeIn(10);
+			mgr->OpenWindow(this);
+		}
 	}
 
 	void MessageBoxEx::Clicked(MessageBoxEx::RES btn)

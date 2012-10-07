@@ -73,6 +73,11 @@ namespace gcn
 		return items.size() - firstIndex;
 	}
 
+	int ListBoxEx::getHighlightItemIndex() const
+	{
+		return highlightItemIndex;
+	}
+
 	void ListBoxEx::pushItem(ListItemEx* item)
 	{
 		items.push_back(item);

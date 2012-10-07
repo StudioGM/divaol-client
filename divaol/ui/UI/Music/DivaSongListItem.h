@@ -16,6 +16,8 @@ namespace diva
 		{
 		private:
 
+			std::wstring previewFilename;
+			std::wstring listeningFilename;
 			Image* preview;
 			Image* image;
 			divamap::DivaMap mapInfo;
@@ -32,6 +34,11 @@ namespace diva
 
 			void setPreview(const std::wstring& filename);
 			bool hasPreview() const;
+			const std::wstring& getPreviewFilename() const;
+
+			bool hasListening() const;
+			const std::wstring& getListening() const; 
+			void setListening(const std::wstring& filename);
 
 			void setImage(Image* image);
 			virtual Image* getImage() const;

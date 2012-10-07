@@ -15,6 +15,8 @@ namespace diva
 			image = NULL;
 			difIndex = 0;
 			artistFont = NULL;
+			previewFilename = L"";
+			listeningFilename  = L"";
 		}
 
 		SongListItem::SongListItem(Image* image, const divamap::DivaMap& m, int look, Font* artistFont)
@@ -24,19 +26,9 @@ namespace diva
 			mapInfo = m;
 			difIndex = 0;
 			this->artistFont = artistFont;
-
-			if (look == SONG)
-			{
-				// @SonicMisora
-				//if (mapInfo.mapThumbFileName != L"NONE")
-				//{
-				//	preview = Image::load(mapInfo.mapThumbFileName);
-				//}
-				//else
-					preview = NULL;
-			}
-			else
-				preview = NULL;
+			preview = NULL;
+			previewFilename = L"";
+			listeningFilename  = L"";
 		}
 
 		SongListItem::~SongListItem()
@@ -47,12 +39,35 @@ namespace diva
 			}
 		}
 
+		bool SongListItem::hasListening() const
+		{
+			return listeningFilename != L"";
+		}
+
+		const std::wstring& SongListItem::getListening() const
+		{
+			return listeningFilename;
+		}
+
+		void SongListItem::setListening(const std::wstring& filename)
+		{
+			listeningFilename = filename;
+		}
+
 		void SongListItem::setPreview(const std::wstring& filename)
 		{
 			if (filename != L"NONE")
+			{
 				preview = Image::load(filename);
+				previewFilename = filename;
+			}
 			else
 				preview = NULL;
+		}
+
+		const std::wstring& SongListItem::getPreviewFilename() const
+		{
+			return previewFilename;
 		}
 
 		bool SongListItem::hasPreview() const

@@ -7,6 +7,7 @@
 #include "lib/wjson/wjson.h"
 #include <deque>
 #include <list>
+#undef MessageBoxEx
 
 namespace gcn
 {
@@ -47,8 +48,8 @@ namespace gcn
 	class MessageBoxEx : public WindowEx
 	{
 	public:
-		enum TYPE {TYPE_OK, TYPE_YESNO};
-		enum RES {RES_OK, RES_YES, RES_NO};
+		enum TYPE {TYPE_OK, TYPE_YESNO, TYPE_NONE};
+		enum RES {RES_OK, RES_YES, RES_NO, RES_NONE};
 
 	private:
 		LabelEx* cap;
@@ -81,8 +82,8 @@ namespace gcn
 	class WindowMgr : public sora::SoraAutoUpdate
 	{
 	public:
-		enum MB_Type {TYPE_OK, TYPE_YES_NO};
-		enum MB_Result {RES_OK, RES_YES, RES_NO};
+		//enum MB_Type {TYPE_OK, TYPE_YES_NO, TYPE_NONE};
+		//enum MB_Result {RES_OK, RES_YES, RES_NO, RES_NONE};
 	private:
 		
 		struct WindowInfo

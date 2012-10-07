@@ -312,16 +312,16 @@ namespace diva
 					const divanet::RoomInfos &infos = SCHEDULER_CLIENT.getRoomList();
 					for(int i = 0; i < infos.size(); i++)
 					{
-						RoomListItem* b = SetRoomListItemInfo(rconf,L"RoomList/RoomItem_normal", L"RoomList/RoomItem_on", L"RoomList/RoomItem_down");
+						//RoomListItem* b = SetRoomListItemInfo(rconf,L"RoomList/RoomItem_normal", L"RoomList/RoomItem_on", L"RoomList/RoomItem_down");
 						Network::RoomInfo info;
 						info.maxPlayerNum = infos[i].capacity;
 						info.owner = Base::s2ws(infos[i].ownerId);
 						info.playerNum = infos[i].playernum;
 						info.selectedSong.push_back("songID : "+Base::String::any2string(infos[i].sondId));
 						info.stageName = Base::String::any2string(infos[i].playernum)+"/"+Base::String::any2string(infos[i].capacity);
-						b->setInfo(info);
+						//b->setInfo(info);
 
-						roomListView->pushItem(b);
+						roomListView->pushRoomItem(info);
 					}
 				}
 				break;
@@ -335,9 +335,13 @@ namespace diva
 			case divanet::StageClient::NOTIFY_STAGE_JOIN_RESPONSE:
 				if(msg.description()=="ok")
 				{
-					StateChange_ROOMLIST_STAGE();
+					//StateChange_ROOMLIST_STAGE();
+					mgr->GetMB()->Destroy();
+					setState(STATE_STAGE);
 					roomId = static_cast<divanet::GPacket*>(msg.extra())->getItem(2)->getString();
 				}
+				else
+					mgr->GetMB()->Show(L"开设房间出错，请稍后再试。");
 				break;
 			case divanet::StageClient::NOTIFY_STAGE_JOIN:
 				{
@@ -628,6 +632,8 @@ namespace diva
 		void HouseUI::StateChange_LOGINWINDOW_ROOM()
 		{
 			state = STATE_ROOM;
+			if (mgr->GetTopWindow() != loginPanel)
+				mgr->CloseTopWindow();
 			loginPanel->FadeOut(conf[L"Login/Config"][L"disTime"].asInt());
 			//mgr->CloseTopWindow();
 			//UIHelper::SetUIFade(loginPanel);
@@ -720,7 +726,7 @@ namespace diva
 			}
 			if (state == STATE_ROOMLIST && des == STATE_STAGE)
 			{
-				open_stage();
+				
 				StateChange_ROOMLIST_STAGE();
 				return;
 			}
@@ -1378,6 +1384,11 @@ namespace diva
 
 			//////////////////////////////////////////////////////////////////////////
 
+			// back
+			ContainerEx* back = CreateStaticImage(conf, L"MessageArea/InputBoxBack");
+			back->setPosition(back->getX() - panel->getX(), back->getY() - panel->getY());
+			panel->add(back);
+
 			// message channel
 			tv = conf[L"MessageArea/ChannelList"];
 			MessageChannelList* list = new MessageChannelList();
@@ -1441,7 +1452,7 @@ namespace diva
 			using namespace Net;
 #ifdef DIVA_GNET_OPEN
 			AUTH_CLIENT.login(Base::ws2s(usernameInput->getText()),Base::ws2s(passwordInput->getText()));
-			
+			mgr->GetMB()->Show(L"登录中...", L"提示", gcn::MessageBoxEx::TYPE_NONE); 
 			//divanet::NetworkManager::instance().auth()->send("auth#login","%s%s",Base::ws2s(usernameInput->getText()).c_str(),Base::ws2s(passwordInput->getText()).c_str());
 #else
 			Network::Send(L"LOGIN", usernameInput->getText() + L" " + passwordInput->getText());
@@ -1495,7 +1506,9 @@ namespace diva
 			}
 			if (mouseEvent.getSource() == (gcn::Widget*) roomListOpenButton)
 			{
-				setState(STATE_STAGE);
+				//setState(STATE_STAGE);
+				open_stage();
+				mgr->GetMB()->Show(L"开设房间中...", L"提示", gcn::MessageBoxEx::TYPE_NONE);
 				return;
 			}
 			if (mouseEvent.getSource() == (gcn::Widget*) selectMusicButton)

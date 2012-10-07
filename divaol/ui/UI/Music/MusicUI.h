@@ -48,6 +48,8 @@ namespace diva
 			int gameStartingMyPos;
 			int gameStartingMode;
 			int gameStartingDif;
+			
+			int nextListeningIndex;
 
 			divacore::TimeCounterImpl playTimer;
 			bool countStarted;

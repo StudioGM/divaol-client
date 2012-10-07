@@ -32,6 +32,7 @@ namespace diva
 		{
 			sora::GCN_GLOBAL->getTop()->remove(top);
 			top->setVisible(false);
+			sora::SoraBGMManager::Instance()->stop(false);
 		}
 
 
@@ -409,9 +410,17 @@ namespace diva
 				double tt = playTimer.getTime();
 				if (tt >= config[L"listenDelay"].asDouble())
 				{
-					playTimer.reset();
-					sora::SoraBGMManager::Instance()->play(listenFileName, false);
-					countStarted = false;
+					SongListItem* item = (SongListItem*)songListBox->getItems()[nextListeningIndex];
+					if ( item->hasListening() )
+					{
+						playTimer.reset();
+						sora::SoraBGMManager::Instance()->play(item->getListening(), false);
+						countStarted = false;
+					}
+					else
+					{
+						MAPMGR.PrepareDivaMapAudioPreview(item->getMapInfo().id);
+					}
 				}
 			}
 
@@ -424,12 +433,25 @@ namespace diva
 				{
 				case divamap::DivaMapEventMessage::PrepareThumbFile :
 					if (!t.error && t.finish)
+					{
 						//selectMusicButton->setEnabled(true);
-						((SongListItem*)songListBox->getItems()[t.effectedMapID])->setPreview(MAPMGR.GetThumbFilePath(t.effectedMapID));
+						int index = songListBox->getIndexByMapId(t.effectedMapID);
+						((SongListItem*)songListBox->getItems()[index])->setPreview(MAPMGR.GetThumbFilePath(t.effectedMapID));
+					}
 					else
 						throw "fuck it!";
 
 					break;
+				case divamap::DivaMapEventMessage::PrepareAudioPreviewFile :
+					if (!t.error && t.finish)
+					{
+						int index = songListBox->getIndexByMapId(t.effectedMapID);
+						((SongListItem*)songListBox->getItems()[index])->setListening(MAPMGR.GetAudioPreviewFilePath(t.effectedMapID));
+						if (songListBox->getHighlightItemIndex() == index)
+							sora::SoraBGMManager::Instance()->play(((SongListItem*)songListBox->getItems()[index])->getListening(), false);
+					}
+					else
+						throw "fuck it!";
 				}
 				q->pop_front();
 			}
@@ -587,26 +609,27 @@ namespace diva
 			}
 		
 			// DISPLAY SONGLIST
-			//if (item->getMapInfo().mapThumbFileName != L"NONE")
-			//{
-			//	thumbImage->load(item->getMapInfo().mapThumbFileName, gcn::Rectangle(0, 0, 0, 0), true);
-			//	background->display(item->getMapInfo().mapThumbFileName, gcn::Rectangle(0, 0, 0, 0), true);
-			//}
-			//else
-			//	thumbImage->load(noimageFileName, noimageRect, true);
+			if (item->hasPreview())
+			{
+				thumbImage->load(item->getPreviewFilename(), gcn::Rectangle(0, 0, 0, 0), true);
+				background->display(item->getPreviewFilename(), gcn::Rectangle(0, 0, 0, 0), true);
+			}
+			else
+				thumbImage->load(noimageFileName, noimageRect, true);
 
-			//if (item->getMapInfo().listenFileName != L"NONE" && item->getMapInfo().listenFileName != L"")
-			//{
-			//	countStarted = true;
-			//	listenFileName = item->getMapInfo().listenFileName;
-			//	playTimer.reset();
-			//	playTimer.start();
-			//}
-			//else
-			//{
-			//	sora::SoraBGMManager::Instance()->stop(false);
-			//	countStarted = false;
-			//}
+			if (true)
+			{
+				countStarted = true;
+				//listenFileName = item->getListening();
+				playTimer.reset();
+				playTimer.start();
+				nextListeningIndex = index;
+			}
+			else
+			{
+				sora::SoraBGMManager::Instance()->stop(false);
+				countStarted = false;
+			}
 
 			songInfoContainer->setMap(item->getMapInfo());
 			songInfoContainer->setTextVisible(true);

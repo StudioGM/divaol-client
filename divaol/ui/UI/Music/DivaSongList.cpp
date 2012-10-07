@@ -205,11 +205,23 @@ namespace diva
 		if (t < 0)
 			t = 0;
 		MusicUI::Instance()->slider->setMarkScale(0, t, getItemCount());
+
+		mapHash.clear();
+		for (int i=0; i < items.size(); i++)
+			mapHash[((SongListItem*)items[i])->getMapInfo().id] = i;
 	}
 
 	void DivaSongList::highlightItemChanged(int index)
 	{
 		MusicUI::Instance()->SongListHighlightItemChanged(index);
+	}
+
+	int DivaSongList::getIndexByMapId(int id) const
+	{
+		if (mapHash.find(id) != mapHash.end())
+			return mapHash.at(id);
+		else
+			return -1;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

@@ -681,6 +681,7 @@ namespace divamap
 	{
 		if(maps.find(id)==maps.end() || isOperating[id][eventType])
 			return false;
+		isOperating[id][eventType]=true;
 
 		//Check if thumb file already exists
 		if(eventType==DivaMapEventMessage::PrepareThumbFile || eventType==DivaMapEventMessage::PrepareAudioPreviewFile)
