@@ -298,7 +298,16 @@
     "width": 694,
     "fontSize": 30,
     "maxLine": 7,
-    "testText": "1\n2\n3\n4\n5\n6\n7\n8"
+    "testText": "hey，我不愿意活得像一个问号
+    东张西望找不到自己的跑道
+    现在我为梦想超速在奔跑
+    心在燃烧
+    来吧
+    唱出感觉high出味道
+    oh oh yeah yeah
+    我的舞台
+    我自己建造
+    要让全世界看到"
   },
   "MessageArea/InputArea_BackGround": {
     "filename": "res/room_001.png",
@@ -445,7 +454,8 @@
     "desX_1": 690,
     "desY_1": 1080,
     "animationTime": 100,
-    "disTime": 15
+    "disTime": 10,
+    "blackAlpha": 127
   },
   "Time/Config": {
     "globalAnimationTime": 10

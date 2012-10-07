@@ -6,6 +6,7 @@
 
 #include "soraguiimage.hpp"
 #include "SoraSprite.h"
+#include "divasongmgr/DivaMapManager.h"
 
 namespace diva
 {
@@ -34,6 +35,8 @@ namespace diva
 		lo.doScript(L"uiconfig/TitleScreen.lua");
 
 		style = L"Miku";
+
+		MAPMGR.registerMapEventMessageQueue(new std::list<divamap::DivaMapEventMessage>);
 
 		// --------- Inner Line
 

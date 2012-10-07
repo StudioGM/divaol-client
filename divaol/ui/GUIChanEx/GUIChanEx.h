@@ -12,3 +12,5 @@
 #include "GUIChanTextBoxEx.h"
 #include "GUIChanTextFieldEx.h"
 #include "GUIChanListViewEx.h"
+#include "GUIChanWindowEx.h"
+#include "GUIChanJsonHelper.h"

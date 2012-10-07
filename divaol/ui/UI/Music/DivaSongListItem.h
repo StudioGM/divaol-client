@@ -30,6 +30,9 @@ namespace diva
 			SongListItem(Image* image, const divamap::DivaMap& m, int look = SONG, Font* artistFont = NULL);
 			~SongListItem();
 
+			void setPreview(const std::wstring& filename);
+			bool hasPreview() const;
+
 			void setImage(Image* image);
 			virtual Image* getImage() const;
 

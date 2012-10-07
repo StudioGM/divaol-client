@@ -82,6 +82,10 @@ namespace gcn
 		 *
 		 **/
 		virtual void enableNumericMode(bool flag);
+
+		virtual void setPasswordMode(bool flag);
+
+		virtual void setPasswordChar(wchar_t ch);
 		
 		virtual bool isNumericModeEnabled() const;
 		
@@ -129,7 +133,11 @@ namespace gcn
          */
         std::wstring mText;
 		
+		wchar_t password_char;
+
 		bool mNumericMode;
+
+		bool isPasswordMode;
 
         /**
          * Holds the caret position.

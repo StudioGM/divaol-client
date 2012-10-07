@@ -60,7 +60,7 @@ namespace gcn
 	{
 		if (v < 0 || v > getMaxPage())
 			throw "NULL";
-		int moto = v;
+		int moto = firstPage;
 		firstPage = v;
 		if (firstPage != moto)
 			firstPageChanged(firstPage);

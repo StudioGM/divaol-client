@@ -282,6 +282,7 @@ namespace diva
 					}
 				}
 
+			refreshSongList();
 			//////////////////////////////////////////////////////////////////////////
 			
 			// Sound Initialize
@@ -411,6 +412,40 @@ namespace diva
 					playTimer.reset();
 					sora::SoraBGMManager::Instance()->play(listenFileName, false);
 					countStarted = false;
+				}
+			}
+
+			// recieve
+			MAPQUEUE* q = MAPMGR.GetQueue();
+			while (!q->empty())
+			{
+				const divamap::DivaMapEventMessage &t = (*((*q).begin()));
+				switch (t.eventType)
+				{
+				case divamap::DivaMapEventMessage::PrepareThumbFile :
+					if (!t.error && t.finish)
+						//selectMusicButton->setEnabled(true);
+						((SongListItem*)songListBox->getItems()[t.effectedMapID])->setPreview(MAPMGR.GetThumbFilePath(t.effectedMapID));
+					else
+						throw "fuck it!";
+
+					break;
+				}
+				q->pop_front();
+			}
+		}
+
+		void MusicUI::refreshSongList()
+		{
+			if (state == SONGLIST_ORIG || state == SONGLIST_SPEART)
+			{
+				//songListBox->getItems()[index
+				int totItem = songListBox->getDisplayedItems();
+				for (int i=0; i < totItem; i++)
+				{
+					SongListItem* t = (SongListItem*)songListBox->getItems()[songListBox->getFirstIndex() + i];
+					if (!t->hasPreview())
+						MAPMGR.PrepareDivaMapThumb(t->getMapInfo().id);
 				}
 			}
 		}

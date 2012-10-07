@@ -84,6 +84,8 @@ namespace gcn
 
 	void ButtonEx::draw(Graphics* graphics)
 	{
+		if (image == NULL)
+			return;
 		Rectangle rect;
 		if (!checkIsEnabled())
 		{

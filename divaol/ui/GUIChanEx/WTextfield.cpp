@@ -17,6 +17,10 @@ namespace gcn
 {
 	WTextField::WTextField()
 	{
+		setPasswordMode(false);
+		setPasswordChar(L'*');
+		//isPasswordMode = false;
+		
 		mCaretPosition = 0;
 		mCaretPositionFlashCount=0;
 		mXScroll = 0;
@@ -30,6 +34,9 @@ namespace gcn
 
 	WTextField::WTextField(const std::wstring& text)
 	{
+		setPasswordMode(false);
+		setPasswordChar(L'*');
+
 		mCaretPosition = 0;
 		mCaretPositionFlashCount=0;
 		mXScroll = 0;
@@ -51,6 +58,16 @@ namespace gcn
 		}
 
 		mText = text;
+	}
+
+	void WTextField::setPasswordMode(bool flag)
+	{
+		isPasswordMode = flag;
+	}
+
+	void WTextField::setPasswordChar(wchar_t ch)
+	{
+		password_char = ch;
 	}
 
 	void WTextField::enableNumericMode(bool flag) {
@@ -80,6 +97,15 @@ namespace gcn
 
 	void WTextField::draw(Graphics* graphics)
 	{
+		std::wstring origin_text;
+		if (isPasswordMode)
+		{
+			origin_text = mText;
+			mText.clear();
+			for (int i=0; i<origin_text.length(); i++)
+				mText.push_back(password_char);
+		}
+
 		Color faceColor = getBaseColor();
 		Color highlightColor, shadowColor;
 		int alpha = getBaseColor().a;
@@ -118,9 +144,10 @@ namespace gcn
 		graphics->setColor(getForegroundColor());
 		graphics->setFont(getFont());
 		graphics->drawTextW(mText.c_str(), 3 - mXScroll, 1);
-
 		graphics->popClipArea();
 
+		if (isPasswordMode)
+			mText = origin_text;
 	}
 
 

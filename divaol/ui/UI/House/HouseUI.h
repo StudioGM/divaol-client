@@ -45,20 +45,21 @@ namespace diva
 
 			void ParseJson(const std::wstring& filename, const std::wstring& stage, const std::wstring& room);
 
+			gcn::WindowEx* CreateWindowEx(const WJson::Value& conf, const std::wstring& name);
 			gcn::ContainerEx* CreateStaticImage(const WJson::Value& conf, const std::wstring& name);
 			gcn::SuperButtonEx* CreateButton(const WJson::Value& conf, const std::wstring& normal, const std::wstring& on, const std::wstring& down, const std::wstring& disable);
 			//gcn::SuperButtonEx* _CreateButton(const std::wstring& normal, const std::wstring& on, const std::wstring& down, const std::wstring& disable);
-			gcn::ContainerEx* CreateLoginWindow(const WJson::Value& conf, const std::wstring& prefix);
+			gcn::WindowEx* CreateLoginWindow(const WJson::Value& conf, const std::wstring& prefix);
 			gcn::WTextField* CreateInput(const WJson::Value& conf, const std::wstring& name);
 			gcn::LabelEx* CreateLabel(const WJson::Value& conf, const std::wstring& name);
 			gcn::ContainerEx* CreateStatusPanel(const WJson::Value& conf);
 			gcn::ContainerEx* CreatePlayerListPanel(const WJson::Value& conf);
 			gcn::ContainerEx* CreateMessagePanel(const WJson::Value& conf);
-			gcn::SliderEx* CreateMessageSlider(const WJson::Value& conf);
+			MessageSlider* CreateMessageSlider(const WJson::Value& conf);
 			ThingList* CreateThingList(const WJson::Value& conf);
 			gcn::ContainerEx* CreateTeamList(const WJson::Value& conf);
 			gcn::ContainerEx* CreateRoomListWindow(const WJson::Value conf);
-			RoomListItem* CreateRoomListItem(const WJson::Value conf, const std::wstring& normal, const std::wstring& on, const std::wstring& down);
+			RoomListItem* SetRoomListItemInfo(const WJson::Value conf, const std::wstring& normal, const std::wstring& on, const std::wstring& down);
 			gcn::MarkerEx* CreateMarker(const WJson::Value conf, const std::wstring& up1, const std::wstring& up2, const std::wstring &up3, 
 				 const std::wstring& down1, const std::wstring& down2, const std::wstring &down3,
 				  const std::wstring& mid1, const std::wstring& mid2, const std::wstring &mid3);
@@ -69,6 +70,7 @@ namespace diva
 			void Refresh_sPlayerList(bool netRefresh = true);
 			void Refresh_hostInfo();
 			void Refresh_SongList();
+			void Refresh_RoomList(bool updateRoomInfo = true);
 
 			void setState(int des);
 			void StateChange_ROOM_STAGE();
@@ -77,6 +79,8 @@ namespace diva
 			void StateChange_ROOM_ROOMLIST();
 			void StateChange_ROOMLIST_ROOM();
 			void StateChange_ROOMLIST_STAGE();
+
+			void setSongListImage(int v);
 
 			//-------network---------------------------------------------------
 			void connectServer();
@@ -101,6 +105,8 @@ namespace diva
 			WJson::Value sconf;
 			WJson::Value rconf;
 
+			gcn::WindowMgr* mgr;
+
 			// private
 			// --------- Room
 			gcn::SuperButtonEx* shopButton;
@@ -109,7 +115,7 @@ namespace diva
 			gcn::SuperButtonEx* modifyButton;
 			gcn::SuperButtonEx* clothesButton;
 			gcn::SuperButtonEx* exitButton;
-			gcn::ContainerEx* roomTop;
+			gcn::WindowEx* roomTop;
 			gcn::ContainerEx* statusPanel;
 			gcn::LabelEx* hostInfoLabel;
 			gcn::SuperButtonEx* udButton;
@@ -135,7 +141,9 @@ namespace diva
 			gcn::SuperButtonEx* playerListButton2;
 			int playerListNowPage;
 			gcn::ContainerEx* playerListPage;
-
+			RoomListSlider* roomListSlider;
+			gcn::ContainerEx* songListImage;
+			MessageSlider* messageSlider;
 
 			gcn::ContainerEx* sPlayerListPanel;
 			gcn::ListBoxEx* sPlayerList;
@@ -147,7 +155,7 @@ namespace diva
 			RoomList* roomListView;
 
 			// --------- Login
-			gcn::ContainerEx* loginPanel;
+			gcn::WindowEx* loginPanel;
 			gcn::SuperButtonEx* loginButton;
 			gcn::WTextField* usernameInput;
 			gcn::WTextField* passwordInput;
@@ -182,8 +190,13 @@ namespace diva
 			void MessagePanelChannelListClicked(int index);
 			void RoomLInfoListClicked(int index);
 			void TeamListClicked(gcn::MouseEvent& mouseEvent);
-
 			void SetWidgetInvisible(gcn::Widget* widget);
+			void RoomListSliderSlided(int v);
+			void RoomListFirstPageChanged(int v);
+			void MessageSliderSlided(int v);
+			void MessageBoxFirstIndexChanged(int v);
+			void MessageBoxItemChanged();
+
 
 			virtual void action();
 			virtual void mouseClicked(const gcn::MouseEvent& mouseEvent);
