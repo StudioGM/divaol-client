@@ -38,6 +38,8 @@ namespace gcn
 
         bool IsMovable() const;
 
+		bool isTopWindow() const;
+
 		virtual void mousePressed(MouseEvent& mouseEvent);
 
         virtual void mouseDragged(MouseEvent& mouseEvent);

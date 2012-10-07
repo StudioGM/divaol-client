@@ -81,12 +81,14 @@ namespace diva
 	{
 		sora::GCN_GLOBAL->getTop()->add(top, 0, 0);
 		top->setVisible(true);
+		sora::SoraBGMManager::Instance()->play(config[L"titleMusicFilename"].asString(), false);
 	}
 
 	void TitleScreenUI::Leave()
 	{
 		sora::GCN_GLOBAL->getTop()->remove(top);
 		top->setVisible(false);
+		sora::SoraBGMManager::Instance()->stop(false);
 	}
 
 	TitleScreenWheel* TitleScreenUI::CreateWheel(const std::wstring& name)

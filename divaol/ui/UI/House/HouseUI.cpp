@@ -488,6 +488,7 @@ namespace diva
 			sora::GCN_GLOBAL->getTop()->add(top, 0, 0);
 			top->setVisible(true);
 			Refresh_SongList();
+			sora::SoraBGMManager::Instance()->play(config[L"lobbyMusicFilename"].asString(), false);
 #ifndef SONICMISORA_MODIFYHYF
 			connectServer();
 #endif
@@ -497,6 +498,8 @@ namespace diva
 		{
 			sora::GCN_GLOBAL->getTop()->remove(top);
 			top->setVisible(false);
+			sora::SoraBGMManager::Instance()->stop(false);
+			
 #ifndef SONICMISORA_MODIFYHYF
 			//disconnectServer();
 #endif

@@ -46,7 +46,7 @@ namespace gcn
 
 	void WindowEx::Destroy()
 	{
-		assert(mgr->GetTopWindow() == this);
+		assert(isTopWindow());
 		OnDestroy();
 		mgr->CloseTopWindow();
 	}
@@ -64,6 +64,12 @@ namespace gcn
 	bool WindowEx::IsMovable() const
 	{
 		return mMovable;
+	}
+
+	bool WindowEx::isTopWindow() const
+	{
+		assert(mgr);
+		return mgr->GetTopWindow() == this;
 	}
 
 	void WindowEx::mousePressed(MouseEvent& mouseEvent)
