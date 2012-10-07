@@ -9,6 +9,7 @@
 #include "Lib/Base/Thread/Queue.h"
 #include "Lib/wjson/wjson.h"
 #include "Lib/curl/curl.h"
+#include "SoraAutoUpdate.h"
 
 namespace divamap
 {
@@ -132,7 +133,8 @@ namespace divamap
 		DivaMapHeader header;
 
 	public:
-		std::map<LevelType, DivaMapLevel> levels;
+		typedef std::map<LevelType, DivaMapLevel> Levels;
+		Levels levels;
 	};
 
 
@@ -145,7 +147,7 @@ namespace divamap
 		DivaMap::LevelType level;
 	};
 
-	class DivaMapManager
+	class DivaMapManager : public sora::SoraAutoUpdate
 	{
 	private:
 		std::wstring downloadCategoryServerAddress;
@@ -177,6 +179,7 @@ namespace divamap
 	public:
 		static DivaMapManager& instance() {static DivaMapManager instance; return instance;}
 
+		std::list<DivaMapEventMessage>* GetQueue() const {return listMsgOut;}
 		void registerMapEventMessageQueue(std::list<DivaMapEventMessage> *listMsg) {listMsgOut = listMsg;}
 		Base::ThreadSafe::Queue<DivaMapEventMessage>& GetMessageQueue() {return threadQueue;}
 
@@ -184,6 +187,9 @@ namespace divamap
 		bool PrepareDirectFile(int id, DivaMapEventMessage::DIVAMAPMGREVENT eventType);
 
 	public:
+		// auto update
+		virtual void onUpdate(float dt) {update(dt);}
+
 		//Update function
 		void update(float dt);
 
@@ -225,5 +231,6 @@ typedef std::map<divamap::DivaMap::LevelType, divamap::DivaMapLevel>::iterator M
 #define MAPMGR divamap::DivaMapManager::instance()
 #define MAPS MAPMGR.GetMapList()
 #define SELECTEDMAPS MAPMGR.GetSelectedMaps()
+#define MAPQUEUE std::list<divamap::DivaMapEventMessage>
 
 #endif

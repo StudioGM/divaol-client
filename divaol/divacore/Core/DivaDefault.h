@@ -10,7 +10,7 @@
 #define DIVA_DEFAULT
 
 #include "SoraCore.h"
-#include "DivaConfig.h"
+#include "Core/DivaConfig.h"
 
 namespace divacore
 {

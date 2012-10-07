@@ -30,7 +30,7 @@
 #include "DivaParticleSystem.h"
 #include "DivaPlayerInfo.h"
 
-#include "DivaConfig.h"
+#include "Core/DivaConfig.h"
 #include "SoraFSM.h"
 #include "SoraInputListeners.h"
 #include "SoraCanvas.h"

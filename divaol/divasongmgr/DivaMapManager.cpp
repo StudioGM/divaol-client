@@ -639,21 +639,21 @@ namespace divamap
 	{
 		/*
 		maps[1].id=1;
-		maps[1].header.thumb = L"fuck.png";
-		maps[1].header.name = L"test";
-		maps[1].header.alias.push_back(L"fuck");
-		maps[1].header.artists.push_back(L"CK");
-		maps[1].header.audioPreview = L"fuck.mp3";
-		maps[1].header.bpm = 120;
-		maps[1].header.composers.push_back(L"CK");
-		maps[1].header.lyricists.push_back(L"CK");
-		maps[1].header.mapType = DivaMapHeader::Couple;
-		maps[1].header.noters.push_back(L"CK");
-		maps[1].levels[DivaMap::Easy].divaFileName = L"ODDS&ENDS_Easy.divaol";
-		maps[1].levels[DivaMap::Normal].divaFileName = L"ODDS&ENDS_Normal.divaol";
-		maps[1].levels[DivaMap::Hard].divaFileName = L"ODDS&ENDS_Hard.divaol";
-		maps[1].levels[DivaMap::Extra].divaFileName = L"ODDS&ENDS_Extra.divaol";
-		//maps[1].header.
+
+		maps[1].header.thumb = L"spotlight.png";
+		maps[1].header.artists.push_back(L"我");
+		maps[1].header.composers.push_back(L"他");
+		maps[1].header.mapType = divamap::DivaMapHeader::Couple;
+		maps[1].header.bpm = 111;
+		maps[1].header.name = L"雪の羽　時の風";
+		maps[1].header.playedCount = 12;
+		maps[1].header.alias.push_back(L"其实有名字");
+		maps[1].header.lyricists.push_back(L"你");
+		maps[1].header.noters.push_back(L"彼女");
+		maps[1].header.songLength = 450;
+		maps[1].levels[divamap::DivaMap::Easy].difficualty = 30;
+		maps[1].levels[divamap::DivaMap::Normal].difficualty = 60;
+		maps[1].levels[divamap::DivaMap::Hard].difficualty = 80;
 		*/
 
 		if(isOperating[0][DivaMapEventMessage::PrepareMapList])
@@ -674,6 +674,7 @@ namespace divamap
 
 		if(hThread==NULL)
 			return false;
+
 	}
 
 	bool DivaMapManager::PrepareDirectFile(int id, DivaMapEventMessage::DIVAMAPMGREVENT eventType)

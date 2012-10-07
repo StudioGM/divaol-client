@@ -52,6 +52,7 @@ namespace divacore
 		inline std::string name() {return mName;}
 		inline std::string uid() {return mUid;}
 		inline std::string module() {return mModule;}
+		inline void setUid(std::string &uid) {mUid = uid;} 
 		inline std::vector<std::string> hooks() {return mHooks;}
 	private:
 		std::string mName;
