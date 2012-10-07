@@ -52,10 +52,13 @@ namespace divacore
 			{
 				gnet::Item<gnet::Tuple> *tuple = dynamic_cast<gnet::Item<gnet::Tuple>*>(list->getItem(i));
 				result.evalData[i].score = (tuple->getItem(1))->getInt();
+				result.evalData[i].index = i;
 				gnet::Item<gnet::List> *evals = dynamic_cast<gnet::Item<gnet::List>*>(tuple->getItem(2));
 				for(int j = 0; j < EvaluateStrategy::EVAL_NUM; j++)
 					result.evalData[i].cntEval[j] = evals->getItem(j)->getInt();
 			}
+
+			((CommonEvaluateStrategy*)EVALUATE_STRATEGY_PTR)->updateInfo();
 		}
 
 		void onEnter()
@@ -68,7 +71,7 @@ namespace divacore
 			UI_PAINTER_PTR->gameLoad(GAME_MODULE_PTR->getResultFile());
 
 			//EVALUATE_STRATEGY_PTR->finalEvaluate(); //必须在gameStart之前，不然会出现某些render进不去
-			//((CommonEvaluateStrategy*)EVALUATE_STRATEGY_PTR)->addSingleEvalUI();
+			((CommonEvaluateStrategy*)EVALUATE_STRATEGY_PTR)->addMultiEvalUI();
 
 			BackButton *button = new BackButton();
 			uiPainter->construct(button,"back");
