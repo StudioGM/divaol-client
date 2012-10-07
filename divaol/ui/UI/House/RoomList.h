@@ -31,18 +31,35 @@ namespace diva
 
 		class StageListItem : public ListItemEx
 		{
+		public:
+
+			struct StagePlayerInfo
+			{
+				PlayerInfo playerInfo;
+				int teamIndex;
+				int slot;
+				int status;
+			};
+
+			typedef std::vector<unsigned int> TeamColors;
+
 		private:
+			static TeamColors teamColors;
 			Image *image;
 			gcn::Rectangle srcRect;
-			PlayerInfo info;
+			StagePlayerInfo info;
 
 		public:
+
 			StageListItem(const std::wstring& filename, gcn::Rectangle srcRect);
 			virtual ~StageListItem();
 
 			//void setLook();
-			void setInfo(const PlayerInfo& info) {this->info=info;}
+			void setInfo(const StagePlayerInfo& info) {this->info=info;}
+			void setTeamColor(int colorIndex);
 			virtual void draw(Graphics* graphics, Font* font, int state, int alpha);
+
+			static void setTeamColors(const TeamColors& v);
 		};
 
 		class RoomListItem : public ListItemEx

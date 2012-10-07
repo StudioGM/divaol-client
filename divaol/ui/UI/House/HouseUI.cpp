@@ -348,7 +348,12 @@ namespace diva
 					int index = msg.arg();
 					PlayerInfo playerInfo;
 					playerInfo.id = Base::String::string2any<int>(STAGE_CLIENT.info().waiters[index-1].uid);
-					dynamic_cast<StageListItem*>(stageList->getItems()[index-1])->setInfo(playerInfo);
+					StageListItem::StagePlayerInfo info;
+					info.playerInfo = playerInfo;
+					info.slot = index - 1;
+					info.status = 0;
+					info.teamIndex = 0;
+					dynamic_cast<StageListItem*>(stageList->getItems()[index-1])->setInfo(info);
 					//mgr->GetMB()->Destroy();
 				}
 				break;
@@ -357,7 +362,13 @@ namespace diva
 					int index = msg.arg();
 					PlayerInfo playerInfo;
 					playerInfo.id = 0;
-					dynamic_cast<StageListItem*>(stageList->getItems()[index-1])->setInfo(playerInfo);
+					StageListItem::StagePlayerInfo info;
+					info.playerInfo = playerInfo;
+					info.slot = 0;
+					info.status = 0;
+					info.teamIndex = 0;
+					dynamic_cast<StageListItem*>(stageList->getItems()[index-1])->setInfo(info);
+
 				} 
 				break;
 			case divanet::StageClient::NOTIFY_STAGE_START:
@@ -379,7 +390,12 @@ namespace diva
 					StageListItem *item = new StageListItem(rconf[L"PlayerList/playerItem_back"][L"filename"].asString(), GetRect(rconf[L"PlayerList/playerItem_back"]));
 					PlayerInfo playerInfo;
 					playerInfo.id = Base::String::string2any<int>(STAGE_CLIENT.info().waiters[i].uid);
-					item->setInfo(playerInfo);
+					StageListItem::StagePlayerInfo info;
+					info.playerInfo = playerInfo;
+					info.slot = i;
+					info.status = 0;
+					info.teamIndex = 0;
+					item->setInfo(info);
 					stageList->pushItem(item);
 				}
 				break;
@@ -392,6 +408,7 @@ namespace diva
 						for (int i=0; i<teamListButtons.size(); i++)
 							teamListButtons[i]->setSelected(color == i);
 					}
+					dynamic_cast<StageListItem*>(stageList->getItems()[index-1])->setTeamColor(color);
 					break;
 				}
 			case divanet::StageClient::NOTIFY_STAGE_LEAVE_RESPONSE:
@@ -1323,6 +1340,13 @@ namespace diva
 		{
 			using namespace gcn;
 			WJson::Value tv = conf[L"PlayerList/Config"], t2 = conf[L"PlayerList/playerItem_back"];
+			WJson::Value colors = sconf[L"TeamColors"];
+
+			StageListItem::TeamColors tc;
+			tc.clear();
+			for (WJson::Value::iterator i = colors.begin(); i != colors.end(); i++)
+				tc.push_back((*i).asUInt());
+			StageListItem::setTeamColors(tc);
 
 			ListBoxEx* list = new ListBoxEx();
 			list->setOpaque(false);

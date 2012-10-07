@@ -38,8 +38,11 @@ namespace diva
 
 		//////////////////////////////////////////////////////////////////////////
 
+		StageListItem::TeamColors StageListItem::teamColors;
+
 		StageListItem::StageListItem(const std::wstring& filename, gcn::Rectangle srcRect)
 		{
+			//teamColors.clear();
 			image = gcn::SoraGUIImage::load(filename);
 			this->srcRect = srcRect;
 		}
@@ -54,7 +57,19 @@ namespace diva
 		{
 			graphics->setColor(gcn::Color(255, 255, 255, alpha));
 			graphics->drawImage(image, srcRect.x, srcRect.y, 0, 0, srcRect.width, srcRect.height);
-			graphics->drawTextW(Base::String::any2string(info.id), 100, 20);
+
+			
+			graphics->drawTextW(Base::String::any2string(info.playerInfo.id), 100, 20);
+		}
+
+		void StageListItem::setTeamColors(const StageListItem::TeamColors& v)
+		{
+			teamColors = v;
+		}
+
+		void StageListItem::setTeamColor(int v)
+		{
+			info.teamIndex = v;
 		}
 
 		//////////////////////////////////////////////////////////////////////////
