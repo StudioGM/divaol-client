@@ -14,6 +14,8 @@
 #include "HouseGameState.h"
 #include "divacore/Core/DivaCore.h"
 #include "divacore/Mode/DivaMultiplay.h"
+#include "divacore/Mode/DivaPairPlay.h"
+#include "divacore/Mode/DivaRelayPlay.h"
 #include "HouseGameState.h"
 
 #define SONICMISORA_MODIFYHYF
@@ -276,6 +278,14 @@ namespace diva
 				STAGE_CLIENT.login();
 				//divanet::NetworkManager::instance().core()->send("auth#setuid","%s",MY_PLAYER_INFO.uid().c_str());
 			}
+			else if(msg.description()=="already")
+			{
+				mgr->GetMB()->Show(L"该账号已经登录。", L"提示");
+			}
+			else if(msg.description()=="wrongpasswd")
+			{
+				mgr->GetMB()->Show(L"账号或密码错误。", L"提示");
+			}
 			else
 			{
 				mgr->GetMB()->Show(L"登录发生意外。请稍后再试。", L"提示");
@@ -361,13 +371,18 @@ namespace diva
 				} 
 				break;
 			case divanet::StageClient::NOTIFY_STAGE_START:
+				if(msg.description()=="start")
 				{
 					divacore::MultiPlay *multiplay = NULL;
 					if(STAGE_CLIENT.info().mode=="multiplay")
-						multiplay = new divacore::MultiPlay;
+						multiplay = new divacore::RelayPlay;
 					CORE_PTR->registerGameMode(multiplay);
 					multiplay->registerNetworkEvent();
 					NextState = "core";
+				}
+				else if(msg.description()=="failed")
+				{
+					mgr->GetMB()->Show(L"开始失败，没有准备或非法队伍人数", L"提示", gcn::MessageBoxEx::TYPE_OK); 
 				}
 				break;
 			case divanet::StageClient::NOTIFY_UPDATE_INFO:
@@ -458,6 +473,7 @@ namespace diva
 		void HouseUI::start_game() {
 #ifdef DIVA_GNET_OPEN
 			STAGE_CLIENT.start();
+			mgr->GetMB()->Show(L"开始游戏...", L"提示", gcn::MessageBoxEx::TYPE_NONE); 
 #endif
 		}
 		void HouseUI::leave_stage() {

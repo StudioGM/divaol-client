@@ -126,7 +126,7 @@ namespace divacore
 		void gameStart()
 		{
 			MultiPlay::gameStart();
-			if(getMyPlayerInfo()->indexInTeam==1)
+			if(getMyPlayerInfo()->indexInTeam==0)
 				setRelayState(MYTURN);
 			else
 				setRelayState(WAIT);

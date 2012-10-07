@@ -43,6 +43,8 @@ namespace divanet
 			mNetSys->send("auth#setuid","%S",NET_INFO.uid);
 
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#start",&StageClient::gnet_start);
+			GNET_RECEIVE_REGISTER(mNetSys,"stage#start_failed",&StageClient::gnet_startfailed);
+			GNET_RECEIVE_REGISTER(mNetSys,"stage#start_notify",&StageClient::gnet_startnotify);
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#join",&StageClient::gnet_join);
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#leave",&StageClient::gnet_leave);
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#info",&StageClient::gnet_info);
@@ -55,6 +57,8 @@ namespace divanet
 
 		void logout() {
 			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#start");
+			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#start_failed");
+			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#start_notify");
 			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#join");
 			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#leave");
 			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#info");
@@ -140,6 +144,12 @@ namespace divanet
 		bool isReady() const {return mIsReady;}
 		bool isMe(int index) const {return index==myIndex;}
 		const WaiterInfo& myInfo() const {return mInfo.waiters[myIndex-1];}
+		const WaiterInfo& waiterInfo(const std::string &uid) const {
+			for(Waiters::const_iterator ptr = mInfo.waiters.begin(); ptr != mInfo.waiters.end(); ptr++)
+				if(ptr->uid == uid)
+					return *ptr;
+			return WaiterInfo();
+		}
 
 		const StageInfo& info() const {return mInfo;}
 
@@ -161,6 +171,17 @@ namespace divanet
 			notify(packet->getItem(2)->getString(), NOTIFY_STAGE_LEAVE_RESPONSE, packet);
 
 			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#leave");
+		}
+
+		void gnet_startfailed(GPacket *packet) {
+			notify("failed", NOTIFY_STAGE_START, packet);
+		}
+
+		void gnet_startnotify(GPacket *packet) {
+			notify("notify", NOTIFY_STAGE_START, packet);
+			if(owner()) {
+				mNetSys->send("stage#start_checkout","%b",_checkStart());
+			}
 		}
 
 		void gnet_start(GPacket *packet) {
@@ -304,6 +325,15 @@ namespace divanet
 					return i+1;
 				}
 			DIVA_EXCEPTION_MODULE("player "+uid+" not found","StageServer");
+		}
+
+		bool _checkStart() {
+			if(!owner())
+				return false;
+			for(int i = 0; i < mInfo.waiters.size(); i++)
+				if(mInfo.waiters[i].status==WaiterInfo::UNREADY)
+					return false;
+			return true;
 		}
 
 	protected:
