@@ -104,8 +104,8 @@ namespace diva
 			WJson::Value conf;
 			WJson::Value sconf;
 			WJson::Value rconf;
-
-			gcn::WindowMgr* mgr;
+			
+			
 
 			// private
 			// --------- Room
@@ -171,6 +171,8 @@ namespace diva
 			void RecvMsg();
 
 		public:
+			gcn::WindowMgr* mgr;
+
 			~HouseUI();
 
 			static HouseUI* Instance() {static HouseUI i; return &i;}

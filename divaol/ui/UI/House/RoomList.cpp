@@ -167,6 +167,7 @@ namespace diva
 		{
 			RoomListItem * item = dynamic_cast<RoomListItem*>(items[itemIndex]);
 			STAGE_CLIENT.join(Base::String(item->getInfo().owner));
+			HouseUI::Instance()->mgr->GetMB()->Show(L"加入房间中...", L"提示", gcn::MessageBoxEx::TYPE_NONE);
 		}
 
 		void RoomList::firstPageChanged(int newPage)

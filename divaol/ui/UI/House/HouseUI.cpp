@@ -349,6 +349,7 @@ namespace diva
 					PlayerInfo playerInfo;
 					playerInfo.id = Base::String::string2any<int>(STAGE_CLIENT.info().waiters[index-1].uid);
 					dynamic_cast<StageListItem*>(stageList->getItems()[index-1])->setInfo(playerInfo);
+					//mgr->GetMB()->Destroy();
 				}
 				break;
 			case divanet::StageClient::NOTIFY_STAGE_LEAVE:
