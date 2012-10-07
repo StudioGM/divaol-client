@@ -45,7 +45,7 @@ namespace diva
 
 			void ParseJson(const std::wstring& filename, const std::wstring& stage, const std::wstring& room);
 
-			gcn::WindowEx* CreateWindowEx(const WJson::Value& conf, const std::wstring& name);
+			gcn::WindowEx* CreateMyWindow(const WJson::Value& conf, const std::wstring& name);
 			gcn::ContainerEx* CreateStaticImage(const WJson::Value& conf, const std::wstring& name);
 			gcn::SuperButtonEx* CreateButton(const WJson::Value& conf, const std::wstring& normal, const std::wstring& on, const std::wstring& down, const std::wstring& disable);
 			//gcn::SuperButtonEx* _CreateButton(const std::wstring& normal, const std::wstring& on, const std::wstring& down, const std::wstring& disable);
@@ -58,7 +58,7 @@ namespace diva
 			MessageSlider* CreateMessageSlider(const WJson::Value& conf);
 			ThingList* CreateThingList(const WJson::Value& conf);
 			gcn::ContainerEx* CreateTeamList(const WJson::Value& conf);
-			gcn::ContainerEx* CreateRoomListWindow(const WJson::Value conf);
+			gcn::WindowEx* CreateRoomListWindow(const WJson::Value conf);
 			RoomListItem* SetRoomListItemInfo(const WJson::Value conf, const std::wstring& normal, const std::wstring& on, const std::wstring& down);
 			gcn::MarkerEx* CreateMarker(const WJson::Value conf, const std::wstring& up1, const std::wstring& up2, const std::wstring &up3, 
 				 const std::wstring& down1, const std::wstring& down2, const std::wstring &down3,
@@ -149,7 +149,7 @@ namespace diva
 			gcn::ListBoxEx* sPlayerList;
 
 			// -----RoomList
-			gcn::ContainerEx* roomListPanel;
+			gcn::WindowEx* roomListPanel;
 			gcn::SuperButtonEx* roomListCloseButton;
 			gcn::SuperButtonEx* roomListOpenButton;
 			RoomList* roomListView;

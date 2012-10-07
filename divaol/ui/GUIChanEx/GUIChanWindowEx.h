@@ -12,10 +12,14 @@ namespace gcn
 {
 	class WindowMgr;
 
-	class WindowEx : public ContainerEx
+	class WindowEx : public ContainerEx, public MouseListener
 	{
 	protected:
 		WindowMgr* mgr;
+		int mDragOffsetX;
+        int mDragOffsetY;
+        bool mMoved;
+		bool mMovable;
 
 	public:
 		WindowEx(WindowMgr* mgr = NULL);
@@ -28,6 +32,16 @@ namespace gcn
 		virtual void OnDestroy();
 		void Destroy();
 		void SetMgr(WindowMgr* mgr);
+
+        void SetMovable(bool movable);
+
+        bool IsMovable() const;
+
+		virtual void mousePressed(MouseEvent& mouseEvent);
+
+        virtual void mouseDragged(MouseEvent& mouseEvent);
+
+        virtual void mouseReleased(MouseEvent& mouseEvent);
 	};
 
 	class MessageBoxEx : public WindowEx
