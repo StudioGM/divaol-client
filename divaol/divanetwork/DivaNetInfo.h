@@ -11,7 +11,7 @@
 
 #include "DivaGNetSystem.h"
 #include "Lib/Base/Ptr.h"
-#include "Lib/Base/Singleton.h"
+#include "Lib/Base/Pattern/Singleton.h"
 
 namespace divanet
 {

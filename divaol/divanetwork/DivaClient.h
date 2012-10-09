@@ -55,6 +55,7 @@ namespace divanet
 			return true;
 		}
 		void disconnect() {
+			mIsConnect = false;
 			mNetSys->disconnect();
 			notify("ok",NOTIFY_DISCONNECT);
 		}

@@ -36,7 +36,7 @@ namespace gnet
 		
 		while(true)
 		{
-			if(!netManager->mSendQueue.empty())
+			if(netManager->mSendQueue.task_on())
 			{
 				ItemBase *item = netManager->mSendQueue.take();
 				try
@@ -48,6 +48,7 @@ namespace gnet
 					return 0;
 				}
 				delete item;
+				netManager->mSendQueue.task_done();
 			}
 			else
 				Base::TimeUtil::mSleep(1);

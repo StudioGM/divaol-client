@@ -2382,9 +2382,6 @@
     <ClInclude Include="Lib\Base\Random.h">
       <Filter>源文件\lib\base</Filter>
     </ClInclude>
-    <ClInclude Include="Lib\Base\Singleton.h">
-      <Filter>源文件\lib\base</Filter>
-    </ClInclude>
     <ClInclude Include="Lib\Base\String.h">
       <Filter>源文件\lib\base</Filter>
     </ClInclude>

@@ -248,7 +248,9 @@ namespace divacore
 	{
 		//onLeave(); //first leave
 		for(EVENTHANDLERS::reverse_iterator ptr = components.rbegin(); ptr != components.rend(); ptr++)
-			ptr->second->destroy();
+			//! Fix: need sharedPtr
+			if(ptr->first!="14_networkSystem")
+				ptr->second->destroy();
 	}
 	void Core::onEnter()
 	{

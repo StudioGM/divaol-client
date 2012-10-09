@@ -724,7 +724,6 @@
     <ClInclude Include="Lib\Base\PreDefine.h" />
     <ClInclude Include="Lib\Base\Ptr.h" />
     <ClInclude Include="Lib\Base\Random.h" />
-    <ClInclude Include="Lib\Base\Singleton.h" />
     <ClInclude Include="Lib\Base\String.h" />
     <ClInclude Include="Lib\Base\StringConv.h" />
     <ClInclude Include="Lib\Base\Sys\Sys.h" />
