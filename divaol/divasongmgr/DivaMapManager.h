@@ -211,6 +211,7 @@ namespace divamap
 		std::wstring GetThumbFilePath(int id);
 		std::wstring GetAudioPreviewFilePath(int id);
 		std::wstring GetDivaOLFilePath(int id, DivaMap::LevelType level);
+		bool isMapDownloaded(int id);
 		bool isMapIdLeagal(int id);
 		std::map<int, DivaMap>& GetMapList(){return maps;}
 
