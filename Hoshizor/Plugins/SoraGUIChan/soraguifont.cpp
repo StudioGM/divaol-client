@@ -17,7 +17,9 @@ namespace gcn
 
     SoraGUIFont::~SoraGUIFont()
     {
-        delete mSoraFont;
+		sora->releaseFont(mSoraFont);
+        mSoraFont = NULL;
+		//delete mSoraFont;
     }
 
     sora::SoraFont *SoraGUIFont::getFont() const

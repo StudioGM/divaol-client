@@ -14,7 +14,7 @@
 namespace divanet
 {
 	struct RoomInfo {
-		enum {STAGE,GAME};
+		enum {STAGE,GAME,CHECKOUT};
 
 		std::string ownerId;
 		uint64 CreationTime;
@@ -71,7 +71,7 @@ namespace divanet
 					info.CreationTime = item->getItem(1)->getInt();
 					info.serverId = item->getItem(2)->getInt();
 					info.capacity = roomInfo->getItem(0)->getInt();
-					info.state = roomInfo->getItem(1)->getString()=="stage"?RoomInfo::STAGE:RoomInfo::GAME;
+					info.state = roomInfo->getItem(1)->getString()=="stage"?RoomInfo::STAGE:("game"?RoomInfo::GAME:RoomInfo::CHECKOUT);
 					info.sondId = roomInfo->getItem(2)->getInt();
 					info.playernum = roomInfo->getItem(3)->getInt();
 
@@ -86,12 +86,12 @@ namespace divanet
 				notify("reqeust", NOTIFY_REQUEST_ROOMNUM, packet, num);
 			}
 		} 
-
+SchedulerClient(){}
+		~SchedulerClient() {}
 	protected:
 		friend class Base::Singleton<SchedulerClient>;
 
-		SchedulerClient(){}
-		~SchedulerClient() {}
+		
 
 	private:
 		RoomInfos infos;

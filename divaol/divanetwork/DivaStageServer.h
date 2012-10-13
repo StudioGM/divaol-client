@@ -35,7 +35,7 @@ namespace divanet
 	{
 		enum StageState{OUTSIDE,GETTING_INFO,STAGE,GAME};
 	public:
-		enum NotifyType{NOTIFY_STAGE_JOIN_RESPONSE = 0x80,NOTIFY_STAGE_LEAVE_RESPONSE,NOTIFY_STAGE_START,NOTIFY_UPDATE_INFO,NOTIFY_UPDATE_COLOR,NOTIFY_UPDATE_SONG,NOTIFY_UPDATE_MODE,NOTIFY_UPDATE_READY,NOTIFY_STAGE_JOIN,NOTIFY_STAGE_LEAVE};
+		enum NotifyType{NOTIFY_STAGE_JOIN_RESPONSE = 0x80,NOTIFY_STAGE_LEAVE_RESPONSE,NOTIFY_STAGE_START,NOTIFY_UPDATE_INFO,NOTIFY_UPDATE_COLOR,NOTIFY_UPDATE_SONG,NOTIFY_UPDATE_MODE,NOTIFY_UPDATE_READY,NOTIFY_STAGE_JOIN,NOTIFY_STAGE_LEAVE,NOTIFY_STAGE_CLOSED};
 
 		virtual std::string name() const {return "stage";}
 
@@ -43,6 +43,7 @@ namespace divanet
 			mNetSys->send("auth#setuid","%S",NET_INFO.uid);
 
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#start",&StageClient::gnet_start);
+			GNET_RECEIVE_REGISTER(mNetSys,"stage#closed",&StageClient::gnet_closed);
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#start_failed",&StageClient::gnet_startfailed);
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#start_notify",&StageClient::gnet_startnotify);
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#join",&StageClient::gnet_join);
@@ -56,7 +57,9 @@ namespace divanet
 		}
 
 		void logout() {
+			leave();
 			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#start");
+			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#closed");
 			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#start_failed");
 			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#start_notify");
 			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#join");
@@ -154,11 +157,17 @@ namespace divanet
 		const StageInfo& info() const {return mInfo;}
 
 	public:
+		void gnet_closed(GPacket *packet) {
+			notify("closed",NOTIFY_STAGE_CLOSED,packet);
+		}
+
 		void gnet_join_response(GPacket *packet) {
 			if(packet->getItem(2)->getString()=="ok") {
 				mState = GETTING_INFO;
 				if(packet->getItem(3)->getString()==NET_INFO.uid)
 					mIsOwner = true;
+				else
+					mIsOwner = false;
 			}
 
 			notify(packet->getItem(2)->getString(), NOTIFY_STAGE_JOIN_RESPONSE, packet);
@@ -340,7 +349,7 @@ namespace divanet
 		friend class Base::Singleton<StageClient>;
 
 		StageClient():mState(OUTSIDE),mIsOwner(false) {}
-		~StageClient() {}
+		~StageClient() {logout();}
 
 	private:
 		int myIndex;

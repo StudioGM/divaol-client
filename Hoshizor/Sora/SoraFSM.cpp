@@ -24,7 +24,7 @@ namespace sora {
         FSMStateMap::iterator itState = mStates.begin();
         while(itState != mStates.end()) {
             itState->second->onDestroy();
-            itState->second->mManager = NULL;
+            //itState->second->mManager = NULL;
             ++itState;
         }
     }

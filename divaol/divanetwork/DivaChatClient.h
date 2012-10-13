@@ -134,7 +134,7 @@ namespace divanet
 		friend class Base::Singleton<ChatClient>;
 
 		ChatClient(){}
-		~ChatClient() {}
+		~ChatClient() {logout();}
 
 	private:
 		std::vector<std::string> mRooms;

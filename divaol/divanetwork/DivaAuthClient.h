@@ -65,7 +65,7 @@ namespace divanet
 		friend class Base::Singleton<AuthClient>;
 
 		AuthClient() {}
-		~AuthClient() {}
+		~AuthClient() {logout();}
 
 	private:
 	};

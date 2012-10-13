@@ -250,45 +250,47 @@ namespace diva
 
 		void HouseUI::observer_auth(divanet::Notification msg)
 		{
-			if (msg.description()=="ok")
-			{
-				PlayerInfo info;
-				int t;
-				wchar_t un[100], nm[100];
+			if(msg.msg()==divanet::AuthClient::NOTIFY_AUTH_REPLAY) {
+				if (msg.description()=="ok")
+				{
+					PlayerInfo info;
+					int t;
+					wchar_t un[100], nm[100];
 
-				MY_PLAYER_INFO.setUid(NET_INFO.uid);
-				info.id = Base::String(NET_INFO.uid).toAny<int>();
-				info.username = Base::String(NET_INFO.username);
-				info.nickname = Base::String(NET_INFO.username);
-				PlayerManager::Instance()->SetHostInfo(info);
-				setState(STATE_ROOM);
-				//loginPanel->setVisible(false);
-				//roomTop->setEnabled(true);
+					MY_PLAYER_INFO.setUid(NET_INFO.uid);
+					info.id = Base::String(NET_INFO.uid).toAny<int>();
+					info.username = Base::String(NET_INFO.username);
+					info.nickname = Base::String(NET_INFO.username);
+					PlayerManager::Instance()->SetHostInfo(info);
+					setState(STATE_ROOM);
+					//loginPanel->setVisible(false);
+					//roomTop->setEnabled(true);
 
-				//PlayerManager::Instance()->GetStageGuests().push_back("SonicMisora");
-				PlayerManager::Instance()->SetOnline(true);
-				//RefreshStatus();
-				Refresh_hostInfo();
-				// prepare
-				MAPMGR.PrepareDivaMapListInfo();
+					//PlayerManager::Instance()->GetStageGuests().push_back("SonicMisora");
+					PlayerManager::Instance()->SetOnline(true);
+					//RefreshStatus();
+					Refresh_hostInfo();
+					// prepare
+					//MAPMGR.PrepareDivaMapListInfo();
 
 
-				CHAT_CLIENT.login();
-				SCHEDULER_CLIENT.login();
-				STAGE_CLIENT.login();
-				//divanet::NetworkManager::instance().core()->send("auth#setuid","%s",MY_PLAYER_INFO.uid().c_str());
-			}
-			else if(msg.description()=="already")
-			{
-				mgr->GetMB()->Show(L"该账号已经登录。", L"提示");
-			}
-			else if(msg.description()=="wrongpasswd")
-			{
-				mgr->GetMB()->Show(L"账号或密码错误。", L"提示");
-			}
-			else
-			{
-				mgr->GetMB()->Show(L"登录发生意外。请稍后再试。", L"提示");
+					CHAT_CLIENT.login();
+					SCHEDULER_CLIENT.login();
+					STAGE_CLIENT.login();
+					//divanet::NetworkManager::instance().core()->send("auth#setuid","%s",MY_PLAYER_INFO.uid().c_str());
+				}
+				else if(msg.description()=="already")
+				{
+					mgr->GetMB()->Show(L"该账号已经登录。", L"提示");
+				}
+				else if(msg.description()=="wrongpasswd")
+				{
+					mgr->GetMB()->Show(L"账号或密码错误。", L"提示");
+				}
+				else
+				{
+					mgr->GetMB()->Show(L"登录发生意外。请稍后再试。", L"提示");
+				}
 			}
 		}
 
@@ -322,16 +324,18 @@ namespace diva
 					const divanet::RoomInfos &infos = SCHEDULER_CLIENT.getRoomList();
 					for(int i = 0; i < infos.size(); i++)
 					{
-						//RoomListItem* b = SetRoomListItemInfo(rconf,L"RoomList/RoomItem_normal", L"RoomList/RoomItem_on", L"RoomList/RoomItem_down");
-						Network::RoomInfo info;
-						info.maxPlayerNum = infos[i].capacity;
-						info.owner = Base::s2ws(infos[i].ownerId);
-						info.playerNum = infos[i].playernum;
-						info.selectedSong.push_back("songID : "+Base::String::any2string(infos[i].sondId));
-						info.stageName = Base::String::any2string(infos[i].playernum)+"/"+Base::String::any2string(infos[i].capacity);
-						//b->setInfo(info);
+						if(infos[i].state==divanet::RoomInfo::STAGE) {
+							//RoomListItem* b = SetRoomListItemInfo(rconf,L"RoomList/RoomItem_normal", L"RoomList/RoomItem_on", L"RoomList/RoomItem_down");
+							Network::RoomInfo info;
+							info.maxPlayerNum = infos[i].capacity;
+							info.owner = Base::s2ws(infos[i].ownerId);
+							info.playerNum = infos[i].playernum;
+							info.selectedSong.push_back("songID : "+Base::String::any2string(infos[i].sondId));
+							info.stageName = Base::String::any2string(infos[i].playernum)+"/"+Base::String::any2string(infos[i].capacity);
+							//b->setInfo(info);
 
-						roomListView->pushRoomItem(info);
+							roomListView->pushRoomItem(info);
+						}
 					}
 				}
 				break;
@@ -342,6 +346,12 @@ namespace diva
 		{
 			switch(msg.msg())
 			{
+			case divanet::StageClient::NOTIFY_STAGE_CLOSED:
+				if(state==STATE_STAGE) {
+					setState(STATE_ROOM);
+					mgr->GetMB()->Show(L"房主离开舞台。");
+				}
+				break;
 			case divanet::StageClient::NOTIFY_STAGE_JOIN_RESPONSE:
 				if(msg.description()=="ok")
 				{
@@ -351,7 +361,7 @@ namespace diva
 					roomId = static_cast<divanet::GPacket*>(msg.extra())->getItem(2)->getString();
 				}
 				else
-					mgr->GetMB()->Show(L"开设房间出错，请稍后再试。");
+					mgr->GetMB()->Show(L"加入房间出错，请稍后再试。");
 				break;
 			case divanet::StageClient::NOTIFY_STAGE_JOIN:
 				{
@@ -384,12 +394,18 @@ namespace diva
 			case divanet::StageClient::NOTIFY_STAGE_START:
 				if(msg.description()=="start")
 				{
+					if(mgr->GetMB()->isTopWindow())
+						mgr->GetMB()->Destroy();
 					divacore::MultiPlay *multiplay = NULL;
 					if(STAGE_CLIENT.info().mode=="multiplay")
 						multiplay = new divacore::RelayPlay;
 					CORE_PTR->registerGameMode(multiplay);
 					multiplay->registerNetworkEvent();
 					NextState = "core";
+				}
+				else if(msg.description()=="notify")
+				{
+					mgr->GetMB()->Show(L"准备开始游戏...", L"提示", gcn::MessageBoxEx::TYPE_NONE); 
 				}
 				else if(msg.description()=="failed")
 				{
@@ -475,7 +491,6 @@ namespace diva
 		}
 		void HouseUI::request_roomList() {
 #ifdef DIVA_GNET_OPEN
-			roomListView->clearItems();
 			SCHEDULER_CLIENT.updateRoomList();
 			//divanet::NetworkManager::instance().scheduler()->send("scheduler#roomlist");
 #endif
@@ -489,8 +504,8 @@ namespace diva
 		}
 		void HouseUI::start_game() {
 #ifdef DIVA_GNET_OPEN
-			STAGE_CLIENT.start();
-			mgr->GetMB()->Show(L"开始游戏...", L"提示", gcn::MessageBoxEx::TYPE_NONE); 
+			if(STAGE_CLIENT.start())
+				mgr->GetMB()->Show(L"准备开始游戏...", L"提示", gcn::MessageBoxEx::TYPE_NONE); 
 #endif
 		}
 		void HouseUI::leave_stage() {
@@ -545,6 +560,14 @@ namespace diva
 					break;
 				}
 				q->pop_front();
+			}
+
+			if(state==STATE_ROOMLIST) {
+				BASE_PER_PERIOD_BEGIN(dt,1.0);
+				
+				Refresh_RoomList(true);
+
+				BASE_PER_PERIOD_END();
 			}
 		}
 
@@ -690,6 +713,8 @@ namespace diva
 			//UIHelper::SetUIFade(roomListPanel, 0, 255, -1, true);
 			mgr->OpenWindow(roomListPanel, 70);
 			roomListPanel->FadeIn(10);
+
+			roomListView->clearItems();
 			Refresh_RoomList();
 			
 			//request_roomList();
