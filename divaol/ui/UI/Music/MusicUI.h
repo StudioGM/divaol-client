@@ -75,7 +75,7 @@ namespace diva
 			gcn::ButtonEx* modeLeftButton;
 			gcn::ButtonEx* modeRightButton;
 			gcn::LabelEx* modeTextLabel;
-			gcn::ButtonEx* startButton;
+			gcn::SuperButtonEx* startButton;
 			DivaPlayerList* playerList;
 			gcn::ContainerEx* songListLogo;
 

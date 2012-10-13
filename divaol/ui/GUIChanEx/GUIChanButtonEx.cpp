@@ -13,6 +13,8 @@ namespace gcn
 		text = L"";
 		isSelected = false;
 		setFrameSize(0);
+		setBaseColor(Color(255, 255, 255));
+		setForegroundColor(Color(255, 255, 255));
 	}
 
 	ButtonEx::~ButtonEx()
@@ -122,13 +124,15 @@ namespace gcn
 		//((SoraGUIGraphics*)graphics)->setNextNoClip();
 		//graphics->pushClipArea(temp);
 
-		graphics->setColor(Color(255,255,255,getAlpha()));
+		Color color = getBaseColor();
+		graphics->setColor(Color(color.r, color.g, color.b, getAlpha()));
 		graphics->drawImage(image, rect.x, rect.y, offx, offy, rect.width, rect.height);
 
 		if (text != L"")
 		{
 			graphics->setFont(getFont());
-			graphics->setColor(Color(255,255,255,getAlpha()));
+			color = getForegroundColor();
+			graphics->setColor(Color(color.r, color.g, color.b, getAlpha()));
 			graphics->drawTextW(text, (getWidth() - getFont()->getWidthW(text))/2, (getHeight() - getFont()->getHeight())/2);
 		}
 	}

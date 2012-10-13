@@ -1,4 +1,18 @@
 ﻿{
+  "PlayerList/ReadyIcon": {
+    "filename": "res/UI1.png",
+    "srcX": 1222,
+    "srcY": 412,
+    "width": 54,
+    "height": 40
+  },
+  "PlayerList/HostIcon": {
+    "filename": "res/UI2.png",
+    "srcX": 1365,
+    "srcY": 38,
+    "width": 36,
+    "height": 24
+  },
   "RoomList/background": {
     "filename": "res/RoomList_PlayerList_001.png",
     "srcX": 0,

@@ -16,6 +16,11 @@ namespace diva
 			setColor(color);
 		}
 
+		const std::wstring& HouseUIRoomInfoListItem::getText() const
+		{
+			return text;
+		}
+
 		void HouseUIRoomInfoListItem::setText(const std::wstring& text)
 		{
 			this->text = text;

@@ -39,6 +39,10 @@ namespace diva
 		//////////////////////////////////////////////////////////////////////////
 
 		StageListItem::TeamColors StageListItem::teamColors;
+		Image* StageListItem::readyImage = NULL;
+		Image* StageListItem::hostImage = NULL;
+		gcn::Rectangle StageListItem::readyRect;
+		gcn::Rectangle StageListItem::hostRect;
 
 		StageListItem::StageListItem(const std::wstring& filename, gcn::Rectangle srcRect)
 		{
@@ -53,13 +57,42 @@ namespace diva
 				delete image;
 		}
 
+		void StageListItem::setIcons(const std::wstring& rFile, const gcn::Rectangle& rRect, const std::wstring& hFile, const gcn::Rectangle& hRect)
+		{
+			readyImage = gcn::SoraGUIImage::load(rFile);
+			readyRect = rRect;
+
+			hostImage = gcn::SoraGUIImage::load(hFile);
+			hostRect = hRect;
+		}
+
+		const StageListItem::StagePlayerInfo& StageListItem::getInfo() const
+		{
+			return info;
+		}
+
 		void StageListItem::draw(Graphics* graphics, Font* font, int state, int alpha)
 		{
-			graphics->setColor(gcn::Color(255, 255, 255, alpha));
+			if (info.playerInfo.id == 0)
+				return;
+
+			graphics->setColor(teamColors[info.teamIndex] + (alpha << 24));
 			graphics->drawImage(image, srcRect.x, srcRect.y, 0, 0, srcRect.width, srcRect.height);
 
+			// ---- Draw text
+			graphics->setFont(font);
+			//graphics->setColor(((~teamColors[info.teamIndex]) & 0xFFFFFF) + (alpha << 24));
+			graphics->setColor(0);
+			graphics->drawTextW(Base::String::any2string(info.playerInfo.id), 112, 17);
+			graphics->setColor(0xFFFFFFFF);
+			graphics->drawTextW(Base::String::any2string(info.playerInfo.id), 110, 15);
 			
-			graphics->drawTextW(Base::String::any2string(info.playerInfo.id), 100, 20);
+			// ---- Draw Icon
+			graphics->setColor(gcn::Color(255, 255, 255, alpha));
+			if (info.slot == 1)
+				graphics->drawImage(hostImage, hostRect.x, hostRect.y, 60, 15, hostRect.width, hostRect.height);
+			else if (info.status)
+				graphics->drawImage(readyImage, readyRect.x, readyRect.y, 54, 12, readyRect.width, readyRect.height);
 		}
 
 		void StageListItem::setTeamColors(const StageListItem::TeamColors& v)

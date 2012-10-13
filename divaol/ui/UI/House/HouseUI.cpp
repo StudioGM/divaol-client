@@ -35,7 +35,8 @@ namespace diva
 
 			//for (int i=1; i<=2; i++)
 			//	MAPMGR.SelectedMap_Add(1, divamap::DivaMap::Normal);
-
+			
+			msgSendId = -1;
 			
 
 			top = new gcn::Container();
@@ -117,7 +118,9 @@ namespace diva
 
 			// exit button
 			exitButton = CreateButton(conf, L"ToolButtons/Normal/Exit_Normal", L"ToolButtons/MouseOn/Exit_MouseOn", L"ToolButtons/MouseDown/Exit_MouseDown", L"ToolButtons/Normal/Exit_Normal");
+			exitButton->addMouseListener(new LoginButton_MouseListener());
 			roomTop->add(exitButton);
+			
 
 			// select music button
 			selectMusicButton = CreateButton(sconf, L"ToolBar/Normal/btn_selectmusic_normal", L"ToolBar/MouseOn/btn_selectmusic_mouseon", L"ToolBar/MouseDown/btn_selectmusic_mousedown", L"ToolBar/Normal/btn_selectmusic_normal");
@@ -153,16 +156,33 @@ namespace diva
 			exitStageButton->addMouseListener(new LoginButton_MouseListener());
 
 #ifdef DIVA_GNET_OPEN
-			openGameButton = CreateButton(sconf, L"ToolBar/Normal/btn_opengame_normal", L"ToolBar/Normal/btn_opengame_normal", L"ToolBar/Normal/btn_opengame_normal", L"ToolBar/Normal/btn_opengame_normal");
-			roomTop->add(openGameButton);
+			openGameButton = new ButtonEx();
+			openGameButton->setSize(410,169);
+			//DivaRoomInfo rinfo = playerList->getRoomInfo(); 
+			//if (rinfo.myId == rinfo.hostId)
+			openGameButton->setLook(L"res/UI2.png",
+				gcn::Rectangle(979,104,450,206),
+				gcn::Rectangle(979,310,450,206),
+				gcn::Rectangle(979,516,450,206),
+				gcn::Rectangle(979,104,450,206),
+				-19, -20);
+			roomTop->add(openGameButton, 1200, 870);
 			openGameButton->setVisible(false);
 			openGameButton->addMouseListener(new LoginButton_MouseListener());
 
-			readyButton = CreateButton(sconf, L"ToolBar/Normal/btn_opengame_normal", L"ToolBar/Normal/btn_opengame_normal", L"ToolBar/Normal/btn_opengame_normal", L"ToolBar/Normal/btn_opengame_normal");
-			roomTop->add(readyButton);
+			//readyButton = CreateButton(sconf, L"ToolBar/Normal/btn_opengame_normal", L"ToolBar/Normal/btn_opengame_normal", L"ToolBar/Normal/btn_opengame_normal", L"ToolBar/Normal/btn_opengame_normal");
+			readyButton = new ButtonEx();
+			readyButton->setSize(410,169);
+			readyButton->setLook(L"res/UI2.png",
+				gcn::Rectangle(1431,207,450,206),
+				gcn::Rectangle(1430,414,450,206),
+				gcn::Rectangle(1430,619,450,206),
+				gcn::Rectangle(1431,207,450,206),
+				-19, -20);
+			roomTop->add(readyButton, 1200, 870);
 			readyButton->setVisible(false);
 			readyButton->addMouseListener(new LoginButton_MouseListener());
-			readyButton->setPosition(readyButton->getX()+200,readyButton->getY());
+			//readyButton->setPosition(readyButton->getX()+200,readyButton->getY());
 #endif
 
 			// decorate button
@@ -185,14 +205,14 @@ namespace diva
 			//Player list
 			sPlayerListPanel = CreatePlayerListPanel(sconf);
 			sPlayerListPanel->setVisible(false);
-			Refresh_sPlayerList();
+			//Refresh_sPlayerList();
 			//sPlayerList->setFirstIndex(8);
 			roomTop->add(sPlayerListPanel);
 
 			//sPlayerListPanel->setVisible(false);
 
 			usernameInput->setText(L"test");
-			passwordInput->setText(L"wrong");
+			passwordInput->setText(L"test");
 			
 			roomTop->setEnabled(false);
 
@@ -213,6 +233,7 @@ namespace diva
 			stageList->setVisible(false);
 			roomTop->add(stageList);
 
+			MessageChannelChange(CHANNEL_WORLD);
 			//////////////////////////////////////////////////////////////////////////
 
 			// ---------------------------  test
@@ -271,7 +292,7 @@ namespace diva
 					//RefreshStatus();
 					Refresh_hostInfo();
 					// prepare
-					//MAPMGR.PrepareDivaMapListInfo();
+					MAPMGR.PrepareDivaMapListInfo();
 
 
 					CHAT_CLIENT.login();
@@ -306,9 +327,14 @@ namespace diva
 			case divanet::ChatClient::NOTIFY_CHAT_MSG:
 				{
 					Base::String msg;
-					msg += L"["+Base::s2ws(packet->getItem(3)->getString())+L"] ";
-					msg += gnet::ItemUtility::getWString(packet->getItem(4));
-					messagePanelChatBox->addText(msg);
+					//msg += L"["+Base::s2ws(packet->getItem(3)->getString())+L"] ";
+					msg = gnet::ItemUtility::getWString(packet->getItem(4));
+					gcn::Color color;
+					if (msg[1] == L'W')
+						color = gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"world"]);
+					else if (msg[1] == L'P')
+						color = gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"private"]);
+					messagePanelChatBox->addText(msg(3, -1), color);
 					break;
 				}
 			}
@@ -370,11 +396,30 @@ namespace diva
 					playerInfo.id = Base::String::string2any<int>(STAGE_CLIENT.info().waiters[index-1].uid);
 					StageListItem::StagePlayerInfo info;
 					info.playerInfo = playerInfo;
-					info.slot = index - 1;
+					info.slot = index;
 					info.status = 0;
 					info.teamIndex = 0;
 					dynamic_cast<StageListItem*>(stageList->getItems()[index-1])->setInfo(info);
 					//mgr->GetMB()->Destroy();
+					Refresh_sPlayerList();
+				}
+				break;
+			case divanet::StageClient::NOTIFY_UPDATE_READY:
+				{
+					int index = msg.arg();
+					StageListItem* item = dynamic_cast<StageListItem*>(stageList->getItems()[index-1]);
+					if(msg.description()=="ready")
+					{
+						StageListItem::StagePlayerInfo info = item->getInfo();
+						info.status = 1;
+						item->setInfo(info);
+					}
+					else
+					{
+						StageListItem::StagePlayerInfo info = item->getInfo();
+						info.status = 0;
+						item->setInfo(info);
+					}
 				}
 				break;
 			case divanet::StageClient::NOTIFY_STAGE_LEAVE:
@@ -389,6 +434,7 @@ namespace diva
 					info.teamIndex = 0;
 					dynamic_cast<StageListItem*>(stageList->getItems()[index-1])->setInfo(info);
 
+					Refresh_sPlayerList();
 				} 
 				break;
 			case divanet::StageClient::NOTIFY_STAGE_START:
@@ -412,6 +458,7 @@ namespace diva
 					mgr->GetMB()->Show(L"开始失败，没有准备或非法队伍人数", L"提示", gcn::MessageBoxEx::TYPE_OK); 
 				}
 				break;
+
 			case divanet::StageClient::NOTIFY_UPDATE_INFO:
 				STAGE_CLIENT.draw(0);
 				stageList->clearItems();
@@ -423,12 +470,17 @@ namespace diva
 					playerInfo.id = Base::String::string2any<int>(STAGE_CLIENT.info().waiters[i].uid);
 					StageListItem::StagePlayerInfo info;
 					info.playerInfo = playerInfo;
-					info.slot = i;
+					info.slot = i + 1;
 					info.status = 0;
 					info.teamIndex = 0;
 					item->setInfo(info);
 					stageList->pushItem(item);
+
+
 				}
+
+				Refresh_sPlayerList();
+				
 				break;
 			case divanet::StageClient::NOTIFY_UPDATE_COLOR:
 				{
@@ -439,9 +491,12 @@ namespace diva
 						for (int i=0; i<teamListButtons.size(); i++)
 							teamListButtons[i]->setSelected(color == i);
 					}
-					//dynamic_cast<StageListItem*>(stageList->getItems()[index-1])->setTeamColor(color);
+					int color = (STAGE_CLIENT.info().waiters[index-1]).color;
+					((StageListItem*)(stageList->getItems()[index - 1]))->setTeamColor(color);
 					break;
 				}
+
+				Refresh_sPlayerList();
 			case divanet::StageClient::NOTIFY_STAGE_LEAVE_RESPONSE:
 				break;
 			}
@@ -754,8 +809,10 @@ namespace diva
 			teamList->setVisible(true);
 			stageList->setVisible(true);
 			songList->setVisible(true);
-			openGameButton->setVisible(true);
-			readyButton->setVisible(true);
+			if (STAGE_CLIENT.owner())
+				openGameButton->setVisible(true);
+			else
+				readyButton->setVisible(true);
 
 			//
 			//roomListPanel->setVisible(false);
@@ -997,6 +1054,7 @@ namespace diva
 			con->add(lb, lb->getX() - topX, lb->getY() - topY);
 			lb->addMouseListener(new LoginButton_MouseListener());
 			loginButton = lb;
+			//lb->setBaseColor(gcn::Color(255, 0, 0));
 
 			//loginButton->addModifier(new GUIAnimation_Position(gcn::Point(0, 0), 120, GUIAnimation_Float_Linear, GUIAnimation_Mode::NONE));
 
@@ -1152,15 +1210,24 @@ namespace diva
 
 		void HouseUI::Refresh_sPlayerList(bool netRefresh)
 		{
-			if (netRefresh)
+			//if (netRefresh)
+			//{
+			//	sPlayerList->clearItems();
+			//	WJson::Value tv = sconf[L"RoomInfo/Config"];
+			//	std::vector<PlayerInfo>& stageGuests= PlayerManager::Instance()->GetStageGuests();
+			//	int c = 0;
+			//	for (std::vector<PlayerInfo>::iterator i = stageGuests.begin(); i!=stageGuests.end(); i++, c++)
+			//		sPlayerList->pushItem(new HouseUIRoomInfoListItem(i->nickname, tv[L"colorList"][c%(tv[L"maxItem"].asInt())].asUInt()));
+			//}
+			sPlayerList->clearItems();
+			for (int i=0; i<stageList->getItemCount(); i++)
 			{
-				sPlayerList->clearItems();
-				WJson::Value tv = sconf[L"RoomInfo/Config"];
-				std::vector<PlayerInfo>& stageGuests= PlayerManager::Instance()->GetStageGuests();
-				int c = 0;
-				for (std::vector<PlayerInfo>::iterator i = stageGuests.begin(); i!=stageGuests.end(); i++, c++)
-					sPlayerList->pushItem(new HouseUIRoomInfoListItem(i->nickname, tv[L"colorList"][c%(tv[L"maxItem"].asInt())].asUInt()));
+				if (((StageListItem*)(stageList->getItems()[i]))->getInfo().playerInfo.id != 0)
+					sPlayerList->pushItem(new HouseUIRoomInfoListItem(iToWS(((StageListItem*)(stageList->getItems()[i]))->getInfo().playerInfo.id),
+						0xFFFFFFFF));
 			}
+
+
 			int page = sPlayerList->getItemCount() / sPlayerList->getMaxItem() + 1;
 			if (playerListNowPage >= page)
 				playerListNowPage = page - 1;
@@ -1168,6 +1235,26 @@ namespace diva
 				playerListNowPage = 0;
 			sPlayerList->setFirstIndex(playerListNowPage * sPlayerList->getMaxItem());
 			playerListPage->setText(iToWS(playerListNowPage + 1) + L"/" + iToWS(page));
+		}
+
+		void HouseUI::MessageChannelChange(int ch, int id /* = -1 */)
+		{
+			msgChannelState = ch;
+			if (ch == CHANNEL_WORLD)
+			{
+				messageChannel->setText(conf[L"MessageChannels"][L"world"].asString());
+				messageToSomeOne->setText(L"");
+			}
+			else if (ch == CHANNEL_PRIVATE)
+			{
+				messageChannel->setText(conf[L"MessageChannels"][L"private"].asString());
+				if (id != -1)
+					msgSendId = id;
+				if (msgSendId != -1)
+					messageToSomeOne->setText(L"To " + iToWS(msgSendId));
+				else
+					messageToSomeOne->setText(L"尚未选择");
+			}
 		}
 
 		void HouseUI::Refresh_hostInfo()
@@ -1386,7 +1473,10 @@ namespace diva
 			StageListItem::TeamColors tc;
 			tc.clear();
 			for (WJson::Value::iterator i = colors.begin(); i != colors.end(); i++)
-				tc.push_back((*i).asUInt());
+			{
+				int zero = 0;
+				tc.push_back((*i)[2].asUInt() + ((*i)[1].asUInt() << 8) + ((*i)[zero].asUInt() << 16));
+			}
 			StageListItem::setTeamColors(tc);
 
 			ListBoxEx* list = new ListBoxEx();
@@ -1396,8 +1486,11 @@ namespace diva
 			list->setWidth(t2[L"width"].asInt());
 			list->adjustMyHeight();
 			list->setPosition(t2[L"desX"].asInt(), t2[L"desY"].asInt());
-			//for (int i=1; i<=8; i++)
-			//	list->pushItem(new StageListItem(t2[L"filename"].asString(), GetRect(t2)));
+			list->setFont(messageInputFont);
+
+			tv = conf[L"PlayerList/ReadyIcon"];
+			t2 = conf[L"PlayerList/HostIcon"];
+			StageListItem::setIcons(tv[L"filename"].asString(), gcn::Helper::GetRect(tv), t2[L"filename"].asString(), gcn::Helper::GetRect(t2));
 
 			return list;
 		}
@@ -1487,10 +1580,12 @@ namespace diva
 			messageToBox->setPosition(messageToBox->getX() - panel->getX(), messageToBox->getY() - panel->getY());
 			panel->add(messageToBox);
 			messageToSomeOne = messageToBox;
+			messageToBox->setForegroundColor(gcn::Color(255, 255, 255));
 
 			// channel
 			ContainerEx* channelBox = CreateStaticImage(conf, L"MessageArea/MessageTo/Channel");
 			channelBox->setPosition(channelBox->getX() - panel->getX(), channelBox->getY() - panel->getY());
+			channelBox->setForegroundColor(gcn::Color(255, 255, 255));
 			//channelBox->setId("MessagePanel_Channel");
 			//sora::SoraGUI::Instance()->registerGUIResponser(channelBox, this, "MessagePanel_Channel", sora::RESPONSEMOUSE);
 			channelBox->addMouseListener(new LoginButton_MouseListener());
@@ -1625,6 +1720,11 @@ namespace diva
 				}
 				return;
 			}
+			if (mouseEvent.getSource() == (gcn::Widget*) exitButton)
+			{
+				//sora::SoraCore::Instance()->shutDown();
+				exit(0);
+			}
 		}
 
 		void HouseUI::SetFatherState(HouseGameState* state)
@@ -1636,8 +1736,13 @@ namespace diva
 		{
 			WJson::Value tv = conf[L"MessageArea/ChannelList"];
 			if (index != -1)
-				messageChannel->setText(conf[L"MessageArea/ChannelList"][L"items"][index].asString());
-
+			{
+				//messageChannel->setText(conf[L"MessageArea/ChannelList"][L"items"][index].asString());
+				if (index == 0)
+					MessageChannelChange(CHANNEL_WORLD);
+				else if (index == 2)
+					MessageChannelChange(CHANNEL_PRIVATE);
+			}
 			messageChannelList->setPosition(tv[L"desX_2"].asInt() - messagePanel->getX(), tv[L"desY_2"].asInt() - messagePanel->getY());
 			messageChannelList->addModifier(new GUIAnimation_Position(gcn::Point(tv[L"desX_1"].asInt() - messagePanel->getX(),
 				tv[L"desY_1"].asInt() - messagePanel->getY()),
@@ -1670,13 +1775,21 @@ namespace diva
 			if (messagePanelInputBox->getText() == L"")
 				return;
 #ifdef DIVA_GNET_OPEN
-			CHAT_CLIENT.send("global",PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
-			//CHAT_CLIENT.sendTo("691",PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
+			if (msgChannelState == CHANNEL_WORLD)
+				CHAT_CLIENT.send("global", L"#W#[世界] " + PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
+			else if (msgChannelState == CHANNEL_PRIVATE)
+			{
+				if (msgSendId != -1)
+					CHAT_CLIENT.sendTo(Base::String::any2string<int>(msgSendId), L"#P#[私聊] " + PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
+				else
+					messagePanelChatBox->addText(L"[提示] 请先选择您要私聊的对象", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+			}//CHAT_CLIENT.sendTo("691",PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
 			//divanet::NetworkManager::instance().chat()->send("chat#sendmsg","%s%W","global",PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
 #else
 			messagePanelChatBox->addText(PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
 #endif
 			messagePanelInputBox->setText(L"");
+
 		}
 
 		void HouseUI::action()
@@ -1703,7 +1816,9 @@ namespace diva
 
 		void HouseUI::RoomLInfoListClicked(int index)
 		{
-			messageToSomeOne->setText(L"To " + PlayerManager::Instance()->GetStageGuests()[index].nickname);
+			MessageChannelChange(CHANNEL_PRIVATE, 
+				Base::String::string2any<int>(dynamic_cast<HouseUIRoomInfoListItem*>(sPlayerList->getItems()[index])->getText()) );
+			//messageToSomeOne->setText(L"To " + PlayerManager::Instance()->GetStageGuests()[index].nickname);
 		}
 
 		void HouseUI::TeamListClicked(gcn::MouseEvent& mouseEvent)

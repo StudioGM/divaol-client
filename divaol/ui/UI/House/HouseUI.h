@@ -95,8 +95,15 @@ namespace diva
 			void observer_stage(divanet::Notification);
 			//void gnet_login(divanet::GPacket *packet);
 			std::string roomId;
+
+			enum {CHANNEL_WORLD, CHANNEL_PRIVATE};
+			int msgChannelState;
+			int msgSendId;
 			//-----------------------------------------------------------------
 
+			void MessageChannelChange(int ch, int id = -1);
+
+			//////////////////////////////////////////////////////////////////////////
 			int state;
 			HouseGameState* houseGameState;
 
@@ -123,8 +130,8 @@ namespace diva
 			gcn::SuperButtonEx* selectMusicButton;
 			gcn::SuperButtonEx* decorateButton;
 			gcn::SuperButtonEx* exitStageButton;
-			gcn::SuperButtonEx* openGameButton;
-			gcn::SuperButtonEx* readyButton;
+			gcn::ButtonEx* openGameButton;
+			gcn::ButtonEx* readyButton;
 			gcn::ContainerEx* messagePanel;
 			gcn::TextFieldEx* messagePanelInputBox;
 			gcn::TextBoxEx* messagePanelChatBox;

@@ -21,7 +21,7 @@ namespace diva
 		top = new gcn::Container();
 		top->setSize(config[L"gameWidth"].asInt(), config[L"gameHeight"].asInt());
 		top->setOpaque(false);
-		Enter();
+		//Enter();
 
 		// lua init
 		sora::SoraLuaObject lo;

@@ -22,6 +22,8 @@ namespace diva
 		SongInfo(const divamap::DivaMap& a, int b, int c);
 
 		SongInfo();
+		divamap::DivaMap::LevelType getLevel() const;
+		int getDifIndex(divamap::DivaMap::LevelType l) const;
 	};
 
 	class DivaSelectedListBox :

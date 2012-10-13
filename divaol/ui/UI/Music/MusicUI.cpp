@@ -40,7 +40,7 @@ namespace diva
 		MusicUI::MusicUI()
 		{
 			// initialize net
-
+			WJson::Value tv;
 			//initNet();
 
 			//////////////////////////////////////////////////////////////////////////
@@ -234,20 +234,27 @@ namespace diva
 			top->add(playerList, 1385, 179);
 
 			// StartButton
-			startButton = new gcn::ButtonEx();
-			startButton->setSize(410,169);
-			DivaRoomInfo rinfo = playerList->getRoomInfo(); 
-			//if (rinfo.myId == rinfo.hostId)
-			startButton->setLook(L"res/UI2.png",
-				gcn::Rectangle(979,104,450,206),
-				gcn::Rectangle(979,310,450,206),
-				gcn::Rectangle(979,516,450,206),
-				gcn::Rectangle(979,104,450,206),
-				-19, -20);
-			startButton->setEnabled(false);
-			startButton->addMouseListener(new PlayButton_MouseListener());
-			top->add(startButton, 1397, 818);
+			{
+				gcn::Helper::ReadJsonFromFile(L"uiconfig/music/btn_select.json", tv);
 
+				startButton = gcn::Helper::CreateButton(tv);
+				startButton->addMouseListener(new PlayButton_MouseListener());
+				top->add(startButton);
+
+				//startButton = new gcn::ButtonEx();
+				//startButton->setSize(410,169);
+				//DivaRoomInfo rinfo = playerList->getRoomInfo(); 
+				////if (rinfo.myId == rinfo.hostId)
+				//startButton->setLook(L"res/UI2.png",
+				//	gcn::Rectangle(979,104,450,206),
+				//	gcn::Rectangle(979,310,450,206),
+				//	gcn::Rectangle(979,516,450,206),
+				//	gcn::Rectangle(979,104,450,206),
+				//	-19, -20);
+				//startButton->setEnabled(false);
+				//startButton->addMouseListener(new PlayButton_MouseListener());
+				//top->add(startButton, 1397, 818);
+			}
 
 			//////////////////////////////////////////////////////////////////////////
 
@@ -309,7 +316,7 @@ namespace diva
 		{
 			selectedListBox->clearItems();
 			for (int i=0; i<SELECTEDMAPS.size(); i++)
-				selectedListBox->pushItem(MAPS[SELECTEDMAPS[i].id], SELECTEDMAPS[i].level);
+				selectedListBox->pushItem(MAPS[SELECTEDMAPS[i].id], MAPS[SELECTEDMAPS[i].id].getDifIndex(SELECTEDMAPS[i].level));
 		}
 
 		void MusicUI::SetFatherState(MusicGameState* state)
@@ -505,7 +512,7 @@ namespace diva
 			{
 				int t = sora::SoraCore::Instance()->RandomInt(1, songListBox->getItemCount() - 1);
 				SongListItem* item = (SongListItem*)songListBox->getItems()[t];
-				selectedListBox->pushItem(item->getMapInfo(), ((SongListItem*)songListBox->getItems()[0])->getDifIndex(), DivaSelectedListBox::RANDOM); 
+				selectedListBox->pushItem(item->getMapInfo(), ((SongListItem*)songListBox->getItems()[0])->getDifIndex(), DivaSelectedListBox::SPECIFIC); 
 				AdjustStartButton();
 			}
 			else
@@ -720,7 +727,7 @@ namespace diva
 			for (int i=0; i<count; i++)
 			{
 				const SongInfo& t= ui->selectedListBox->getSong(i);
-				MAPMGR.SelectedMap_Add(t.mapInfo.id, (divamap::DivaMap::LevelType)t.difIndex);
+				MAPMGR.SelectedMap_Add(t.mapInfo.id, t.getLevel());
 			}
 			ui->musicGameState->beginLeave("house");
 			//ui->GameStart(ui->selectedListBox->getSong(0).mapInfo.id, 

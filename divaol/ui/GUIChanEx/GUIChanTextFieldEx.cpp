@@ -10,6 +10,12 @@
 
 namespace gcn
 {
+
+	TextFieldEx::TextFieldEx()
+	{
+		setBaseColor(Color(255, 255, 255));
+	}
+
 	void TextFieldEx::setImage(const std::wstring& filename, const gcn::Rectangle& srcRect)
 	{
 		image = Image::load(filename);
@@ -19,6 +25,7 @@ namespace gcn
 	void TextFieldEx::draw(Graphics* graphics)
 	{
 		// back ground
+		graphics->setColor(getBaseColor());
 		graphics->drawImage(image, srcRect.x, srcRect.y, 0, 0, srcRect.width, srcRect.height);
 
 		// content

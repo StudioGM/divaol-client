@@ -1,4 +1,8 @@
 {
+  "MessageChannels": {
+    "world" : "世界",
+    "private" : "私聊"
+  },
   "StatusPanel/Config": {
   	"fontSize": 30,
   	"fontName": "res/msyh.ttf",
@@ -268,6 +272,12 @@
     "desY": 443,
     "width": 96,
     "height": 75
+  },
+  "MessageArea/TextColors": {
+    "world" : [255, 255, 255],
+    "private" : [0, 255, 0],
+    "system" : [255, 255, 0],
+    "hint": [0, 0, 255]
   },
   "MessageArea/InputBox": {
     "filename": "res/room_001.png",

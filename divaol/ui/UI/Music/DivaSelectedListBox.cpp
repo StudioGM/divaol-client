@@ -19,6 +19,17 @@ namespace diva
 	{
 	}
 
+	divamap::DivaMap::LevelType SongInfo::getLevel() const
+	{
+		int j = difIndex;
+		divamap::DivaMap::Levels::const_iterator i = mapInfo.levels.cbegin();
+		while (j)
+			i++;
+		return i->first;
+	}
+
+
+
 	DivaSelectedListBox::DivaSelectedListBox()
 	{
 		setOpaque(false);
@@ -69,7 +80,7 @@ namespace diva
 		if (songInfo[index].type == RANDOM)
 			_swprintf(temp, L"RANDOM -- %s", config[L"difNames"][songInfo[index].difIndex].asCString());
 		else if (songInfo[index].type = SPECIFIC)
-			_swprintf(temp, L"%s -- %s",  songInfo[index].mapInfo.header.name.c_str(), config[L"difNames"][songInfo[index].difIndex].asCString());
+			_swprintf(temp, L"%s -- %s",  songInfo[index].mapInfo.header.name.c_str(), config[L"difNames"][songInfo[index].getLevel()].asCString());
 		items[index]->setText(temp);
 	}
 
@@ -157,6 +168,8 @@ namespace diva
 		for (int i = 0; i < n; i++)
 			refreshButtonText(i);
 	}
+
+
 
 	//////////////////////////////////////////////////////////////////////////
 

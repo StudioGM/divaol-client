@@ -9,10 +9,12 @@ namespace gcn
 	{
 	protected:
 		std::wstring text;
+		Color color;
 	public:
 		TextBoxItemEx();
-		TextBoxItemEx(const std::wstring& str);
+		TextBoxItemEx(const std::wstring& str, const Color& color);
 
+		void setColor(const Color& color);
 		void setText(const std::wstring& str);
 		void draw(Graphics* graphics, Font* font, int state, int alpha);
 	};
@@ -30,7 +32,10 @@ namespace gcn
 		void adjust();
 		void setMaxLine(int v);
 		void setText(const std::wstring& str);
+		void setText(const std::wstring& str, const Color& color);
 		void addText(const std::wstring& str);
+		void addText(const std::wstring& str, const Color& color);
+
 		void clearText();
 	};
 }

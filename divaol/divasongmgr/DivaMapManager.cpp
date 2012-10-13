@@ -40,7 +40,7 @@ namespace divamap
 
 		//For test
 		downloadCategoryServerAddress = L"http://divaol.b0.upaiyun.com";
-		mapListQueryAddress = L"http://59.78.38.5:8139/game/getMapInfo?datetime=";
+		mapListQueryAddress = L"http://openxpn.org/game/getMapInfo?datetime=";
 		//PrepareDivaMapListInfo();
 	}
 	DivaMapManager::~DivaMapManager()
@@ -373,6 +373,15 @@ namespace divamap
 		if(eventMsg->eventType == DivaMapEventMessage::PrepareMapDataFile)
 			MAPMGR.GetMessageQueue().put((*eventMsg));
 		return 0;
+	}
+
+	int DivaMap::getDifIndex(divamap::DivaMap::LevelType l) const
+	{
+		divamap::DivaMap::Levels::const_iterator i = levels.cbegin();
+		int ret = 0;
+		while (i->first != l)
+			i++, ret++;
+		return ret;
 	}
 
 	static size_t

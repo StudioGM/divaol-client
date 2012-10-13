@@ -74,7 +74,8 @@ namespace gcn
 		//((SoraGUIGraphics*)graphics)->setNextNoClip();
 		//graphics->pushClipArea(temp);
 
-		graphics->setColor(Color(255,255,255,getAlpha()));
+		Color color = getBaseColor();
+		graphics->setColor(Color(color.r, color.g, color.b, getAlpha()));
 		graphics->drawImage(image, rect.x, rect.y, ox, oy, rect.width, rect.height);
 
 		if (text != L"")

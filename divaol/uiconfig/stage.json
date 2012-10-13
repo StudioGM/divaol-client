@@ -1,5 +1,13 @@
 {
-  "TeamColors" : [16711680, 65280, 255, 16711680, 65280, 255, 16711680, 65280],
+  "TeamColors" : [
+    [245, 23, 12],
+    [252, 180, 16],
+    [255, 229, 16],
+    [159, 218, 89],
+    [82, 233, 224],
+    [73, 196, 253],
+    [185, 85, 245],
+    [241, 71, 139]],
   "RoomInfo/Config": {
   	"maxItem": 8,
   	"gap": {
@@ -13,6 +21,20 @@
   	"fontName": "msyh.ttf",
   	"colorList": [16711680, 65280, 255, 16711680, 65280, 255, 16711680, 65280],
     "pagenumFontSize": 12
+  },
+  "PlayerList/ReadyIcon": {
+    "filename": "res/UI1.png",
+    "srcX": 1222,
+    "srcY": 412,
+    "width": 54,
+    "height": 40
+  },
+  "PlayerList/HostIcon": {
+    "filename": "res/UI2.png",
+    "srcX": 1365,
+    "srcY": 38,
+    "width": 36,
+    "height": 24
   },
   "RoomList/BackGround": {
     "filename": "res/stage_001.png",

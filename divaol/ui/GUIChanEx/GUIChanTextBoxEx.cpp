@@ -5,11 +5,13 @@ namespace gcn
 	TextBoxItemEx::TextBoxItemEx()
 	{
 		setText(L"");
+		setColor(Color(255, 255, 255));
 	}
 
-	TextBoxItemEx::TextBoxItemEx(const std::wstring& str)
+	TextBoxItemEx::TextBoxItemEx(const std::wstring& str, const Color& color)
 	{
 		setText(str);
+		setColor(color);
 	}
 
 	void TextBoxItemEx::setText(const std::wstring& str)
@@ -20,7 +22,13 @@ namespace gcn
 	void TextBoxItemEx::draw(Graphics* graphics, Font* font, int state, int alpha)
 	{
 		graphics->setFont(font);
+		graphics->setColor(color);
 		graphics->drawTextW(text, 0, 0);
+	}
+
+	void TextBoxItemEx::setColor(const Color& color)
+	{
+		this->color = color;
 	}
 
 	////////////////////////////////////
@@ -28,6 +36,7 @@ namespace gcn
 	TextBoxEx::TextBoxEx()
 	{
 		//setGap(gcn::Rectangle(0, 0, getWidth(), getHeight()), 0);
+		setForegroundColor(Color(255, 255, 255));
 		adjust();
 	}
 
@@ -49,11 +58,16 @@ namespace gcn
 
 	void TextBoxEx::setText(const std::wstring& str)
 	{
-		clearText();
-		addText(str);
+		setText(str, getForegroundColor());
 	}
 
-	void TextBoxEx::addText(const std::wstring& str)
+	void TextBoxEx::setText(const std::wstring& str, const Color& color)
+	{
+		clearText();
+		addText(str, color);
+	}
+
+	void TextBoxEx::addText(const std::wstring& str, const Color& color)
 	{
 		std::wstring temp;
 		Font* font = getFont();
@@ -79,10 +93,15 @@ namespace gcn
 				p++;
 			}
 			if (font->getWidthW(temp) <= w)
-				pushItem(new TextBoxItemEx(temp));
+				pushItem(new TextBoxItemEx(temp, color));
 		}
 
 		setFirstIndex(getMaxIndex());
+	}
+
+	void TextBoxEx::addText(const std::wstring& str)
+	{
+		addText(str, getForegroundColor());
 	}
 
 	void TextBoxEx::clearText()

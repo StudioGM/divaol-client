@@ -14,6 +14,7 @@ namespace gcn
 		gcn::Rectangle srcRect;
 
 	public:
+		TextFieldEx();
 		void setImage(const std::wstring& filename, const gcn::Rectangle& srcRect);
 		virtual void draw(Graphics* graphics);
 	};

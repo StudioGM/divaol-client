@@ -132,6 +132,7 @@ namespace divamap
 		int id;
 		DivaMapHeader header;
 
+		int getDifIndex(LevelType l) const;
 	public:
 		typedef std::map<LevelType, DivaMapLevel> Levels;
 		Levels levels;

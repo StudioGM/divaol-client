@@ -45,6 +45,11 @@ namespace diva
 
 		private:
 			static TeamColors teamColors;
+			static Image* readyImage;
+			static Image* hostImage;
+			static gcn::Rectangle readyRect;
+			static gcn::Rectangle hostRect;
+
 			Image *image;
 			gcn::Rectangle srcRect;
 			StagePlayerInfo info;
@@ -56,10 +61,13 @@ namespace diva
 
 			//void setLook();
 			void setInfo(const StagePlayerInfo& info) {this->info=info;}
+			const StagePlayerInfo& getInfo() const;
 			void setTeamColor(int colorIndex);
 			virtual void draw(Graphics* graphics, Font* font, int state, int alpha);
 
 			static void setTeamColors(const TeamColors& v);
+			static void setIcons(const std::wstring& rFile, const gcn::Rectangle& rRect, 
+				const std::wstring& hFile, const gcn::Rectangle& hRect);
 		};
 
 		class RoomListItem : public ListItemEx

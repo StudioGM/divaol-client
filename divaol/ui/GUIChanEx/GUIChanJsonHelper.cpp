@@ -27,9 +27,58 @@ namespace gcn
 			return b;
 		}
 
+		SuperButtonEx* CreateButton(const WJson::Value& conf)
+		{
+			std::wstring on = L"on", down = L"down", normal = L"normal", disable = L"disable";
+			if (!conf.isMember(on))
+				on = normal;
+			if (!conf.isMember(down))
+				down = normal;
+			if (!conf.isMember(disable))
+				disable = normal;
+			return CreateButton(conf, normal, on, down, disable);
+		}
+
 		Rectangle GetRect(const WJson::Value& v)
 		{
 			return gcn::Rectangle(v[L"srcX"].asInt(), v[L"srcY"].asInt(), v[L"width"].asInt(), v[L"height"].asInt());
+		}
+
+		void ReadJsonFromFile(const std::wstring& filename, WJson::Value& v)
+		{
+			std::wstring jsonStrToParse;
+
+			FILE* readFile;
+			if(_wfopen_s(&readFile, filename.c_str(),L"rt, ccs=UTF-8")!=0)
+				throw "fuck!";
+			//return LOCALIZATION->getLocalStr(L"ReadFile_OpenFileError", path.c_str());
+
+			wchar_t buffer[1000];
+			while(fgetws(buffer,sizeof(buffer),readFile))
+				jsonStrToParse += std::wstring(buffer);
+
+			fclose(readFile);
+
+			WJson::Reader reader;
+			reader.parse(jsonStrToParse, v);
+
+			//return jsonStrToParse;
+		}
+
+		Color GetColor(const WJson::Value& v)
+		{
+			if (v.isArray())
+			{
+				int zero = 0;
+				if (v.size() == 3)
+					return Color(v[zero].asInt(), v[1].asInt(), v[2].asInt());
+				else
+					return Color(v[1].asInt(), v[2].asInt(), v[3].asInt(), v[zero].asInt());
+			}
+			if (v.isMember(L"a"))
+				return Color(v[L"r"].asInt(), v[L"g"].asInt(), v[L"b"].asInt(), v[L"a"].asInt());
+			else
+				return Color(v[L"r"].asInt(), v[L"g"].asInt(), v[L"b"].asInt());
 		}
 	}
 }
