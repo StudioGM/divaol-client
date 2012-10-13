@@ -423,7 +423,7 @@ namespace diva
 						for (int i=0; i<teamListButtons.size(); i++)
 							teamListButtons[i]->setSelected(color == i);
 					}
-					dynamic_cast<StageListItem*>(stageList->getItems()[index-1])->setTeamColor(color);
+					//dynamic_cast<StageListItem*>(stageList->getItems()[index-1])->setTeamColor(color);
 					break;
 				}
 			case divanet::StageClient::NOTIFY_STAGE_LEAVE_RESPONSE:
