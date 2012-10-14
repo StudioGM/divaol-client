@@ -50,7 +50,7 @@ namespace divanet
 	public:
 		bool login;
 		std::string username;
-		std::string nickname;
+		Base::String nickname;
 		std::string uid;
 		gnet::Bytes token;
 		ServiceInfos info;
