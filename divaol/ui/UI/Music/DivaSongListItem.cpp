@@ -17,6 +17,9 @@ namespace diva
 			artistFont = NULL;
 			previewFilename = L"";
 			listeningFilename  = L"";
+			
+			setDownloadFinished(false);
+			setProgress(0);
 		}
 
 		SongListItem::SongListItem(Image* image, const divamap::DivaMap& m, int look, Font* artistFont)
@@ -29,6 +32,9 @@ namespace diva
 			preview = NULL;
 			previewFilename = L"";
 			listeningFilename  = L"";
+
+			setDownloadFinished(false);
+			setProgress(0);
 		}
 
 		SongListItem::~SongListItem()
@@ -93,6 +99,26 @@ namespace diva
 		int SongListItem::getDifIndex() const
 		{
 			return difIndex;
+		}
+
+		double SongListItem::getProgress() const
+		{
+			return prog;
+		}
+
+		void SongListItem::setProgress(double p)
+		{
+			prog = p;
+		}
+
+		void SongListItem::setDownloadFinished(bool b)
+		{
+			downloadFinished = b;
+		}
+
+		bool SongListItem::getDownloadFinished() const
+		{
+			return downloadFinished;
 		}
 
 		void SongListItem::nextDif()
@@ -220,7 +246,7 @@ namespace diva
 				// dif bar
 				
 				graphics->drawImage(image, 0, 847, 185, 85, 
-					int((double(i->second.difficulty) / 100) * 368), 43);
+					int((prog / 100) * 368), 43);
 
 				// preview loading
 				if (!preview)

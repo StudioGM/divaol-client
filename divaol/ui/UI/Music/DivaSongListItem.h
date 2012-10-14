@@ -15,6 +15,8 @@ namespace diva
 		class SongListItem : public ListItemEx
 		{
 		private:
+			double prog;
+			bool downloadFinished;
 
 			std::wstring previewFilename;
 			std::wstring listeningFilename;
@@ -42,6 +44,12 @@ namespace diva
 
 			void setImage(Image* image);
 			virtual Image* getImage() const;
+
+			void setProgress(double p);
+			double getProgress() const;
+
+			void setDownloadFinished(bool b);
+			bool getDownloadFinished() const;
 
 			int getLook() const;
 

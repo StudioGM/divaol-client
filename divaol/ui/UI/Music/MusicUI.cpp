@@ -241,19 +241,6 @@ namespace diva
 				startButton->addMouseListener(new PlayButton_MouseListener());
 				top->add(startButton);
 
-				//startButton = new gcn::ButtonEx();
-				//startButton->setSize(410,169);
-				//DivaRoomInfo rinfo = playerList->getRoomInfo(); 
-				////if (rinfo.myId == rinfo.hostId)
-				//startButton->setLook(L"res/UI2.png",
-				//	gcn::Rectangle(979,104,450,206),
-				//	gcn::Rectangle(979,310,450,206),
-				//	gcn::Rectangle(979,516,450,206),
-				//	gcn::Rectangle(979,104,450,206),
-				//	-19, -20);
-				//startButton->setEnabled(false);
-				//startButton->addMouseListener(new PlayButton_MouseListener());
-				//top->add(startButton, 1397, 818);
 			}
 
 			//////////////////////////////////////////////////////////////////////////
