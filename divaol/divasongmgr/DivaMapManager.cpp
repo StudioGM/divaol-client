@@ -349,9 +349,11 @@ namespace divamap
 						else
 							saveToLocalFile();
 					}
-						
 				}
 			}
+
+			if(thisMessage.eventType==DivaMapEventMessage::PrepareMapDataFile || thisMessage.eventType==DivaMapEventMessage::PrepareMapDataFileNoVideo)
+				mapDownloadPercent[thisMessage.effectedMapID] = thisMessage.downloadProgress;
 				
 			
 			if(listMsgOut)
@@ -686,17 +688,42 @@ namespace divamap
 
 	}
 
+	float DivaMapManager::GetMapDownloadProgress(int id)
+	{
+		if(!isMapIdLeagal(id))
+			return 0;
+		else if(isOperating[id][DivaMapEventMessage::PrepareMapDataFile] || isOperating[id][DivaMapEventMessage::PrepareMapDataFileNoVideo])
+			return mapDownloadPercent[id]*0.8f;
+		else if(isOperating[id][DivaMapEventMessage::UnpackMapDataFile])
+			return 0.8f;
+		else
+		{
+			if(isMapDownloaded(id))
+				return 1;
+			else
+				return 0;
+		}
+	}
+
 	bool DivaMapManager::isMapDownloaded(int id)
 	{
-		for (MAPLEVELITERATOR levelI = maps[id].levels.begin();levelI!=maps[id].levels.end();levelI++)
-		{
-			FILE *divaFile;
-			if(_wfopen_s(&divaFile, GetDivaOLFilePath(id, levelI->first).c_str(), L"r")!=0)
+		if(!isMapIdLeagal(id))
+			return false;
+		if(isOperating[id][DivaMapEventMessage::PrepareMapDataFile] || isOperating[id][DivaMapEventMessage::PrepareMapDataFileNoVideo]
+			|| isOperating[id][DivaMapEventMessage::UnpackMapDataFile])
 				return false;
-			else
-				fclose(divaFile);
+		else
+		{
+			for (MAPLEVELITERATOR levelI = maps[id].levels.begin();levelI!=maps[id].levels.end();levelI++)
+			{
+				FILE *divaFile;
+				if(_wfopen_s(&divaFile, GetDivaOLFilePath(id, levelI->first).c_str(), L"r")!=0)
+					return false;
+				else
+					fclose(divaFile);
+			}
+			return true;
 		}
-		return true;
 	}
 
 	bool DivaMapManager::PrepareDirectFile(int id, DivaMapEventMessage::DIVAMAPMGREVENT eventType)
@@ -742,6 +769,7 @@ namespace divamap
 			//Check local map file exists
 			if(!isMapDownloaded(id))
 			{
+				mapDownloadPercent[id] = 0;
 				Base::String localFile = Base::Path::CombinePath(Base::String(LocalSongDirectoryW),
 					L"MAP_"+Base::String::any2string(id)+ (eventType==DivaMapEventMessage::PrepareMapDataFile?L"":L"_noVideo") + L".divaolpack").str();
 				Base::String remoteFile = Base::String(downloadCategoryServerAddress) + L"/" + localFile;

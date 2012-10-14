@@ -169,7 +169,7 @@ namespace divamap
 		std::list<DivaMapEventMessage> *listMsgOut;
 
 		std::vector<DivaMapSelectedItem> selectedMaps;
-
+		std::map<int,float> mapDownloadPercent;
 
 	public:
 		//local song list file management
@@ -211,6 +211,7 @@ namespace divamap
 		std::wstring GetThumbFilePath(int id);
 		std::wstring GetAudioPreviewFilePath(int id);
 		std::wstring GetDivaOLFilePath(int id, DivaMap::LevelType level);
+		float GetMapDownloadProgress(int id);
 		bool isMapDownloaded(int id);
 		bool isMapIdLeagal(int id);
 		std::map<int, DivaMap>& GetMapList(){return maps;}
