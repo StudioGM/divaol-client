@@ -688,6 +688,15 @@ namespace divamap
 
 	}
 
+	DivaMap::LevelType DivaMap::getLevel(int index) const
+	{
+		int j = index;
+		divamap::DivaMap::Levels::const_iterator i = levels.cbegin();
+		while (j)
+			i++;
+		return i->first;
+	}
+
 	float DivaMapManager::GetMapDownloadProgress(int id)
 	{
 		if(!isMapIdLeagal(id))

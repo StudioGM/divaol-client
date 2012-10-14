@@ -26,6 +26,7 @@ namespace diva
 			sora::GCN_GLOBAL->getTop()->add(top, 0, 0);
 			top->setVisible(true);
 			refreshSelectedSongList();
+			refreshSongList();
 		}
 
 		void MusicUI::Leave()
@@ -446,6 +447,37 @@ namespace diva
 					}
 					else
 						throw "fuck it!";
+					break;
+				case divamap::DivaMapEventMessage::PrepareMapDataFile :
+					if (t.error)
+						throw "fuck";
+					if (t.finish)
+					{
+						int index = songListBox->getIndexByMapId(t.effectedMapID);
+						//((SongListItem*)songListBox->getItem(index))->setDownloadFinished(true);
+						((SongListItem*)songListBox->getItem(index))->setDownloadProgress(MAPMGR.GetMapDownloadProgress(t.effectedMapID));
+					}
+					else
+					{
+						int index = songListBox->getIndexByMapId(t.effectedMapID);
+						((SongListItem*)songListBox->getItem(index))->setDownloadProgress(MAPMGR.GetMapDownloadProgress(t.effectedMapID));
+					}
+					break;
+				case divamap::DivaMapEventMessage::UnpackMapDataFile :
+					if (t.error)
+						throw "fuck";
+					if (t.finish)
+					{
+						int index = songListBox->getIndexByMapId(t.effectedMapID);
+						((SongListItem*)songListBox->getItem(index))->setDownloadFinished(true);
+						((SongListItem*)songListBox->getItem(index))->setDownloadProgress(1.0);
+					}
+					else
+					{
+						int index = songListBox->getIndexByMapId(t.effectedMapID);
+						((SongListItem*)songListBox->getItem(index))->setDownloadProgress(MAPMGR.GetMapDownloadProgress(t.effectedMapID));
+					}
+					break;
 				}
 				q->pop_front();
 			}
@@ -462,6 +494,15 @@ namespace diva
 					SongListItem* t = (SongListItem*)songListBox->getItems()[songListBox->getFirstIndex() + i];
 					if (!t->hasPreview())
 						MAPMGR.PrepareDivaMapThumb(t->getMapInfo().id);
+					if (MAPMGR.isMapDownloaded(t->getMapInfo().id))
+					{
+						t->setDownloadFinished(true);
+						t->setDownloadProgress(1.0);
+					}
+					else
+					{
+						t->setDownloadProgress(MAPMGR.GetMapDownloadProgress(t->getMapInfo().id));
+					}
 				}
 			}
 		}
@@ -489,6 +530,7 @@ namespace diva
 
 				songListBox->setDifButtonDisplayed(true);
 				state = SONGLIST_SPEART;
+				refreshSongList();
 				return;
 			}
 
@@ -499,19 +541,27 @@ namespace diva
 			{
 				int t = sora::SoraCore::Instance()->RandomInt(1, songListBox->getItemCount() - 1);
 				SongListItem* item = (SongListItem*)songListBox->getItems()[t];
-				selectedListBox->pushItem(item->getMapInfo(), ((SongListItem*)songListBox->getItems()[0])->getDifIndex(), DivaSelectedListBox::SPECIFIC); 
+				//selectedListBox->pushItem(item->getMapInfo(), ((SongListItem*)songListBox->getItems()[0])->getDifIndex(), DivaSelectedListBox::SPECIFIC);
 				AdjustStartButton();
 			}
 			else
 			{
 				SongListItem* item = (SongListItem*)songListBox->getItems()[index];
-				selectedListBox->pushItem(item->getMapInfo(), item->getDifIndex(), DivaSelectedListBox::SPECIFIC);
+				if (item->getDownloadFinished())
+					selectedListBox->pushItem(item->getMapInfo(), item->getDifIndex(), DivaSelectedListBox::SPECIFIC);
+				else
+				{
+					MAPMGR.PrepareDivaMapData(item->getMapInfo().id);
+				}
 				AdjustStartButton();
 			}
 		}
 
 		void MusicUI::AdjustStartButton()
 		{
+			startButton->setEnabled(true);
+			return;
+
 			// if no song
 			if (selectedListBox->getItemCount() == 0)
 			{
@@ -680,6 +730,7 @@ namespace diva
 			MusicUI::Instance()->state = MusicUI::SONGLIST_ORIG;
 			MusicUI::Instance()->songListBox->setDifButtonDisplayed(true);
 			MusicUI::Instance()->songListBox->setItems(MusicUI::Instance()->songListOrigItems);
+			MusicUI::Instance()->refreshSongList();
 		}
 
 		void GameModeSelectLeft_MouseListener::mouseClicked(MouseEvent& mouseEvent)

@@ -19,7 +19,7 @@ namespace diva
 			listeningFilename  = L"";
 			
 			setDownloadFinished(false);
-			setProgress(0);
+			setDownloadProgress(0);
 		}
 
 		SongListItem::SongListItem(Image* image, const divamap::DivaMap& m, int look, Font* artistFont)
@@ -34,7 +34,7 @@ namespace diva
 			listeningFilename  = L"";
 
 			setDownloadFinished(false);
-			setProgress(0);
+			setDownloadProgress(0);
 		}
 
 		SongListItem::~SongListItem()
@@ -101,12 +101,12 @@ namespace diva
 			return difIndex;
 		}
 
-		double SongListItem::getProgress() const
+		double SongListItem::getDownloadProgress() const
 		{
 			return prog;
 		}
 
-		void SongListItem::setProgress(double p)
+		void SongListItem::setDownloadProgress(double p)
 		{
 			prog = p;
 		}
@@ -170,14 +170,19 @@ namespace diva
 
 			if (image)
 			{
+				gcn::Color color;
+				if (getDownloadFinished() || look == RANDOM)
+					color = gcn::Color(255, 255, 255, alpha);
+				else
+					color = gcn::Color(80, 80, 80, alpha);
 				if (state == 0)
 				{
-					graphics->setColor(gcn::Color(255, 255, 255, alpha));
+					graphics->setColor(color);
 					graphics->drawImage(image, 0, 656, 0, 0, 571, 139);
 				}
 				else if (state == 1)
 				{
-					graphics->setColor(gcn::Color(255, 255, 255, alpha));
+					graphics->setColor(color);
 					graphics->drawImage(image, 0, 378, 0, 0, 571, 139);
 				}
 				else if (state == 2)
@@ -223,7 +228,7 @@ namespace diva
 
 				// Length and bpm
 				wchar_t temp[30];
-				_swprintf(temp, L"%02d:%02d  BPM %d", mapInfo.header.songLength / 60, mapInfo.header.songLength % 60, mapInfo.header.bpm);
+				_swprintf(temp, L"%02d:%02d  BPM %d  дя╤х:%d", mapInfo.header.songLength / 60, mapInfo.header.songLength % 60, mapInfo.header.bpm, mapInfo.levels[mapInfo.getLevel(difIndex)].difficulty);
 				str = temp;
 				graphics->drawTextW(str, 30, 67);
 
@@ -243,10 +248,10 @@ namespace diva
 					i++;
 				graphics->drawTextW(config[L"difNames"][(int)i->first].asString(), 60, 104);
 
-				// dif bar
-				
-				graphics->drawImage(image, 0, 847, 185, 85, 
-					int((prog / 100) * 368), 43);
+				// download bar
+				if (!getDownloadFinished())
+					graphics->drawImage(image, 0, 847, 185, 85, 
+						int((prog / 1.0) * 368), 43);
 
 				// preview loading
 				if (!preview)

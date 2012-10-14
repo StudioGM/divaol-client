@@ -65,6 +65,7 @@ namespace gcn
 		int getItemCount() const;
 
 		std::vector<ListItemEx*>& getItems();
+		ListItemEx* getItem(int index) const;
 		void setItems(const std::vector<ListItemEx*>& v);
 
 		virtual int getDisplayedItems() const;

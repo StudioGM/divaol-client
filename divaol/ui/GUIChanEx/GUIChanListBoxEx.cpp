@@ -32,6 +32,11 @@ namespace gcn
 			delete items[i];
 	}
 
+	ListItemEx* ListBoxEx::getItem(int index) const
+	{
+		return items[index];
+	}
+
 	void ListBoxEx::setHorizontal(bool v)
 	{
 		isHorizontal = v;

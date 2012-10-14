@@ -45,8 +45,8 @@ namespace diva
 			void setImage(Image* image);
 			virtual Image* getImage() const;
 
-			void setProgress(double p);
-			double getProgress() const;
+			void setDownloadProgress(double p);
+			double getDownloadProgress() const;
 
 			void setDownloadFinished(bool b);
 			bool getDownloadFinished() const;
