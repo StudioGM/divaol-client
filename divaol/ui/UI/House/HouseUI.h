@@ -101,7 +101,7 @@ namespace diva
 			int msgSendId;
 			//-----------------------------------------------------------------
 
-			void MessageChannelChange(int ch, int id = -1);
+			void MessageChannelChange(int ch, int id = -1, const std::wstring &text = L"unknown");
 
 			//////////////////////////////////////////////////////////////////////////
 			int state;

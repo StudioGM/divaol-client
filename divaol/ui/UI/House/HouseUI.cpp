@@ -281,7 +281,7 @@ namespace diva
 					MY_PLAYER_INFO.setUid(NET_INFO.uid);
 					info.id = Base::String(NET_INFO.uid).toAny<int>();
 					info.username = Base::String(NET_INFO.username);
-					info.nickname = Base::String(NET_INFO.username);
+					info.nickname = Base::String(NET_INFO.nickname);
 					PlayerManager::Instance()->SetHostInfo(info);
 					setState(STATE_ROOM);
 					//loginPanel->setVisible(false);
@@ -307,6 +307,10 @@ namespace diva
 				else if(msg.description()=="wrongpasswd")
 				{
 					mgr->GetMB()->Show(L"账号或密码错误。", L"提示");
+				}
+				else if(msg.description()=="unactived")
+				{
+					mgr->GetMB()->Show(L"账号尚未激活。",L"提示");
 				}
 				else
 				{
@@ -394,6 +398,7 @@ namespace diva
 					int index = msg.arg();
 					PlayerInfo playerInfo;
 					playerInfo.id = Base::String::string2any<int>(STAGE_CLIENT.info().waiters[index-1].uid);
+					playerInfo.nickname = STAGE_CLIENT.info().waiters[index-1].nickname;
 					StageListItem::StagePlayerInfo info;
 					info.playerInfo = playerInfo;
 					info.slot = index;
@@ -468,6 +473,7 @@ namespace diva
 					StageListItem *item = new StageListItem(rconf[L"PlayerList/playerItem_back"][L"filename"].asString(), GetRect(rconf[L"PlayerList/playerItem_back"]));
 					PlayerInfo playerInfo;
 					playerInfo.id = Base::String::string2any<int>(STAGE_CLIENT.info().waiters[i].uid);
+					playerInfo.nickname = STAGE_CLIENT.info().waiters[i].nickname;
 					StageListItem::StagePlayerInfo info;
 					info.playerInfo = playerInfo;
 					info.slot = i + 1;
@@ -1223,8 +1229,9 @@ namespace diva
 			for (int i=0; i<stageList->getItemCount(); i++)
 			{
 				if (((StageListItem*)(stageList->getItems()[i]))->getInfo().playerInfo.id != 0)
-					sPlayerList->pushItem(new HouseUIRoomInfoListItem(iToWS(((StageListItem*)(stageList->getItems()[i]))->getInfo().playerInfo.id),
-						0xFFFFFFFF));
+					sPlayerList->pushItem(new HouseUIRoomInfoListItem(((StageListItem*)(stageList->getItems()[i]))->getInfo().playerInfo.nickname,
+																		Base::String::any2string<int>(((StageListItem*)(stageList->getItems()[i]))->getInfo().playerInfo.id),
+																		0xFFFFFFFF));
 			}
 
 
@@ -1237,7 +1244,7 @@ namespace diva
 			playerListPage->setText(iToWS(playerListNowPage + 1) + L"/" + iToWS(page));
 		}
 
-		void HouseUI::MessageChannelChange(int ch, int id /* = -1 */)
+		void HouseUI::MessageChannelChange(int ch, int id /* = -1 */, const std::wstring &text)
 		{
 			msgChannelState = ch;
 			if (ch == CHANNEL_WORLD)
@@ -1251,7 +1258,7 @@ namespace diva
 				if (id != -1)
 					msgSendId = id;
 				if (msgSendId != -1)
-					messageToSomeOne->setText(L"To " + iToWS(msgSendId));
+					messageToSomeOne->setText(L"To " + text);
 				else
 					messageToSomeOne->setText(L"尚未选择");
 			}
@@ -1817,7 +1824,7 @@ namespace diva
 		void HouseUI::RoomLInfoListClicked(int index)
 		{
 			MessageChannelChange(CHANNEL_PRIVATE, 
-				Base::String::string2any<int>(dynamic_cast<HouseUIRoomInfoListItem*>(sPlayerList->getItems()[index])->getText()) );
+				Base::String::string2any<int>(dynamic_cast<HouseUIRoomInfoListItem*>(sPlayerList->getItems()[index])->getUid()), dynamic_cast<HouseUIRoomInfoListItem*>(sPlayerList->getItems()[index])->getText());
 			//messageToSomeOne->setText(L"To " + PlayerManager::Instance()->GetStageGuests()[index].nickname);
 		}
 

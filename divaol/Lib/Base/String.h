@@ -164,6 +164,9 @@ namespace Base
 			return string2any<T>(*this);
 		}
 		static String format(const char* fmt, ...);
+		static String unEscape(String origin) {
+			return Base::unEscape(origin);
+		}
 
 	private:
 		base_wstring mContent;

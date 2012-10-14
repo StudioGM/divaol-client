@@ -83,9 +83,9 @@ namespace diva
 			graphics->setFont(font);
 			//graphics->setColor(((~teamColors[info.teamIndex]) & 0xFFFFFF) + (alpha << 24));
 			graphics->setColor(0);
-			graphics->drawTextW(Base::String::any2string(info.playerInfo.id), 112, 17);
+			graphics->drawTextW(info.playerInfo.nickname, 112, 17);
 			graphics->setColor(0xFFFFFFFF);
-			graphics->drawTextW(Base::String::any2string(info.playerInfo.id), 110, 15);
+			graphics->drawTextW(info.playerInfo.nickname, 110, 15);
 			
 			// ---- Draw Icon
 			graphics->setColor(gcn::Color(255, 255, 255, alpha));

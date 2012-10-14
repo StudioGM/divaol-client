@@ -16,6 +16,7 @@ namespace divanet
 	struct WaiterInfo {
 		enum State{LEAVE,READY,UNREADY};
 		std::string uid;
+		Base::String nickname;
 		uint32 status;
 		uint32 color;
 		uint32 slot;
@@ -213,7 +214,8 @@ namespace divanet
 				gnet::Item<gnet::Tuple> *single = members->getItem(i)->as<gnet::Item<gnet::Tuple>>();
 				WaiterInfo waiter;
 				std::string status = single->getItem(1)->getString();
-				if(status=="leave")
+				waiter.nickname = Base::String::unEscape(single->getItem(4)->getString());
+ 				if(status=="leave")
 					waiter.status = WaiterInfo::LEAVE;
 				else if(status=="unready")
 					waiter.status = WaiterInfo::UNREADY;
@@ -305,9 +307,10 @@ namespace divanet
 			if(state()!=STAGE)
 				return;
 
-			int index = packet->getItem(3)->getInt();
+			int index = packet->getItem(4)->getInt();
 			mInfo.waiters[index-1].uid = packet->getItem(2)->getString();
 			mInfo.waiters[index-1].color = 0;
+			mInfo.waiters[index-1].nickname = packet->getItem(3)->getString();
 
 			mInfo.waiters[index-1].status = WaiterInfo::UNREADY;
 

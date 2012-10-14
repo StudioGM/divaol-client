@@ -10,8 +10,9 @@ namespace diva
 			this->color = color;
 		}
 
-		HouseUIRoomInfoListItem::HouseUIRoomInfoListItem(const std::wstring& text, UINT color)
+		HouseUIRoomInfoListItem::HouseUIRoomInfoListItem(const std::wstring& text, const std::string &uid, UINT color)
 		{
+			setUid(uid);
 			setText(text);
 			setColor(color);
 		}

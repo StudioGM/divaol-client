@@ -47,10 +47,10 @@ namespace divanet
 				NET_INFO.login = true;
 				NET_INFO.uid = packet->getItem(4)->getString();
 				NET_INFO.token = packet->getItem(5)->as<gnet::Item<gnet::Binary>>()->getRaw();
-				NET_INFO.username =  Base::String(packet->getItem(3)->getString());
-				NET_INFO.nickname = NET_INFO.username;
+ 				NET_INFO.username =  Base::String(packet->getItem(3)->getString());
+				NET_INFO.nickname = Base::String::unEscape(Base::String(packet->getItem(6)->getString()));
 			}
-
+			   
 			notify(packet->getItem(2)->getString(), NOTIFY_AUTH_REPLAY, packet);
 
 			GNET_RECEIVE_UNREGISTER(mNetSys,"auth#login");
