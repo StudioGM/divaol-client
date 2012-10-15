@@ -10,7 +10,8 @@
 #define DIVA_STAGE_CLIENT
 
 #include "DivaClient.h"
-
+#include "divasongmgr/DivaMapManager.h"
+ 
 namespace divanet
 {
 	struct WaiterInfo {
@@ -21,21 +22,28 @@ namespace divanet
 		uint32 color;
 		uint32 slot;
 	};
+	struct SongInfo {
+		int songId;
+		int level;
+		SongInfo():songId(0),level(0){}
+		SongInfo(int songId, int level):songId(songId),level(level) {}
+	};
+	typedef std::vector<SongInfo> SongList;
 	typedef std::vector<WaiterInfo> Waiters;
 	struct StageInfo {
 		enum State{STAGE,GAME};
 		uint32 capacity;
 		std::string owner;
 		std::string mode;
-		uint32 songId;
+		SongList songId;
 		uint32 status;
 		Waiters waiters;
 	};
 
 	class StageClient : public Client, public Base::Singleton<StageClient>
 	{
-		enum StageState{OUTSIDE,GETTING_INFO,STAGE,GAME};
 	public:
+		enum StageState{OUTSIDE,GETTING_INFO,STAGE,GAME};
 		enum NotifyType{NOTIFY_STAGE_JOIN_RESPONSE = 0x80,NOTIFY_STAGE_LEAVE_RESPONSE,NOTIFY_STAGE_START,NOTIFY_UPDATE_INFO,NOTIFY_UPDATE_COLOR,NOTIFY_UPDATE_SONG,NOTIFY_UPDATE_MODE,NOTIFY_UPDATE_READY,NOTIFY_STAGE_JOIN,NOTIFY_STAGE_LEAVE,NOTIFY_STAGE_CLOSED};
 
 		virtual std::string name() const {return "stage";}
@@ -95,9 +103,17 @@ namespace divanet
 				mNetSys->send("stage#draw","%d",color);
 		}
 
-		void setSong(uint32 songId) {
-			if(mState==STAGE&&owner())
-				mNetSys->send("stage#setSong","%d",songId);
+		void setSong(const SongList &songList) {
+			if(mState==STAGE&&owner()) {
+				divanet::GPacket *packet = new divanet::GPacket;
+				divanet::ItemList *list = new divanet::ItemList;
+				packet->appendAhead<gnet::Atom>(gnet::Atom("setSong"));
+				packet->appendAhead<gnet::Atom>(gnet::Atom("stage"));
+				packet->appendItem(list);
+				for(int i = 0; i < songList.size(); i++)
+					list->appendItem(gnet::ItemUtility::formatTuple("%d%d",songList[i].songId,songList[i].level));
+				mNetSys->send(packet);
+			}
 		}
 
 		void setMode(std::string mode) {
@@ -155,6 +171,22 @@ namespace divanet
 			return WaiterInfo();
 		}
 
+		void refreshMusic() {
+			if(state()==STAGE) {
+				if(owner()) {
+					SongList songList;
+					for(int i = 0; i < MAPMGR.GetSelectedMaps().size(); i++)
+						songList.push_back(SongInfo(MAPMGR.GetSelectedMaps()[0].id, MAPMGR.GetSelectedMaps()[0].level));
+					setSong(songList);
+				}
+				else {
+					MAPMGR.SelectedMap_Clear();
+					for(int i = 0; i < mInfo.songId.size(); i++)
+						MAPMGR.SelectedMap_Add(mInfo.songId[i].songId, static_cast<divamap::DivaMap::LevelType>(mInfo.songId[i].level));
+				}
+			}
+		}
+
 		const StageInfo& info() const {return mInfo;}
 
 	public:
@@ -190,7 +222,9 @@ namespace divanet
 		void gnet_startnotify(GPacket *packet) {
 			notify("notify", NOTIFY_STAGE_START, packet);
 			if(owner()) {
-				mNetSys->send("stage#start_checkout","%b",_checkStart());
+				Base::String info;
+				bool rt = _checkStart(info);
+				mNetSys->send("stage#start_checkout","%b%S",rt,info.asAnsi());
 			}
 		}
 
@@ -205,7 +239,7 @@ namespace divanet
 
 			mInfo.owner = stageInfo->getItem(0)->getString();
 			mInfo.capacity = stageInfo->getItem(1)->getInt();
-			mInfo.songId = stageInfo->getItem(2)->getInt();
+			_gnet_parse_songList(stageInfo->getItem(2)->as<divanet::ItemList>());
 			mInfo.mode = stageInfo->getItem(3)->getString();
 			mInfo.status = stageInfo->getItem(4)->getString()=="stage"?StageInfo::STAGE:StageInfo::GAME;
 
@@ -263,9 +297,9 @@ namespace divanet
 			if(state()!=STAGE)
 				return;
 
-			mInfo.songId = packet->getItem(2)->getInt();
+			_gnet_parse_songList(packet->getItem(2)->as<divanet::ItemList>());
 
-			notify("song", NOTIFY_UPDATE_SONG, packet, mInfo.songId);
+			notify("song", NOTIFY_UPDATE_SONG, packet);
 		}
 
 		void gnet_setMode(GPacket *packet) {
@@ -331,6 +365,14 @@ namespace divanet
 		}
 
 	private:
+		void _gnet_parse_songList(divanet::ItemList *list) {
+			mInfo.songId.clear();
+			for(int i = 0; i < list->size(); i++)
+			{
+				divanet::GPacket *songItem = list->getItem(i)->as<divanet::GPacket>();
+				mInfo.songId.push_back(SongInfo(songItem->getItem(0)->getInt(), songItem->getItem(1)->getInt()));
+			}
+		}
 		int32 _findPlayer(const std::string &uid) {
 			for(int i = 0; i < mInfo.waiters.size(); i++)
 				if(mInfo.waiters[i].uid == uid) {
@@ -339,12 +381,19 @@ namespace divanet
 			DIVA_EXCEPTION_MODULE("player "+uid+" not found","StageServer");
 		}
 
-		bool _checkStart() {
+		bool _checkStart(Base::String &info) {
 			if(!owner())
 				return false;
+			if(mInfo.songId.size()==0) {
+				info = "noselect";
+				return false;
+			}
 			for(int i = 0; i < mInfo.waiters.size(); i++)
-				if(mInfo.waiters[i].status==WaiterInfo::UNREADY)
+				if(mInfo.waiters[i].status==WaiterInfo::UNREADY) {
+					info = "unready";
 					return false;
+				}
+			info = "ok";
 			return true;
 		}
 

@@ -13,6 +13,8 @@
 
 namespace divamap
 {
+	#define LocalSongDirectoryW L"song/"
+
 	class DivaMapEventMessage;
 	class DivaMapLevel;
 	class DivaMapHeader;

@@ -14,6 +14,7 @@
 namespace divanet
 {
 	typedef gnet::Item<gnet::Tuple> GPacket;
+	typedef gnet::Item<gnet::List> ItemList;
 
 	/*
      *	Event Func, support class member func or global func

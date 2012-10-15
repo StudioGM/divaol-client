@@ -28,7 +28,7 @@ namespace Base
 		operator String() const {return mPath;}
 
 		const String& str() const {return mPath;}
-		String fileName() const {return GetFileName(mPath);}
+		String fileName(bool hasExt = true) const {return GetFileName(mPath, hasExt);}
 		Path filePath() const {return GetFilePath(mPath);}
 		Path folderPath() const {return GetFolderPath(mPath);}
 		String extension() const {return GetExtension(mPath);}
@@ -36,6 +36,8 @@ namespace Base
 		Path fullPath() const {return GetFullPath(mPath);}
 		bool isAbsolute() const {return CheckAbsolutePath(mPath);}
 		bool hasExtension() const {return CheckHasEntension(mPath);}
+		Path firstComponent() const {return mPath(0, mPath("/"));}
+		Path removeFirstComponent() const {return mPath(mPath("/")+1,-1);}
 		Path& changeExtension(const String &ext) {
 			*this = ChangeExtension(*this,ext); 
 			return *this;

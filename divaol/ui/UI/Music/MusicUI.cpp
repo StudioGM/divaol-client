@@ -2,6 +2,7 @@
 #include "SoraResourceFile.h"
 #include "ui/Config/DivaUIConfig.h"
 #include "MusicGameState.h"
+#include "divanetwork/DivaNetworkManager.h"
 
 namespace diva
 {
@@ -767,6 +768,7 @@ namespace diva
 				const SongInfo& t= ui->selectedListBox->getSong(i);
 				MAPMGR.SelectedMap_Add(t.mapInfo.id, t.getLevel());
 			}
+			STAGE_CLIENT.refreshMusic();
 			ui->musicGameState->beginLeave("house");
 			//ui->GameStart(ui->selectedListBox->getSong(0).mapInfo.id, 
 			//	ui->selectedListBox->getSong(0).difIndex, ui->gameMode, 0);

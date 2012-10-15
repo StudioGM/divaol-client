@@ -95,7 +95,7 @@ namespace Base
 		}
 
 		wchar operator[](IndexVar index) const {return getWChar(index);}
-		IndexVar operator()(const String& sub, IndexVar off = npos, bool isReverse = false) {
+		IndexVar operator()(const String& sub, IndexVar off = npos, bool isReverse = false) const {
 			if(isReverse)
 				return rfind(sub,off);
 			else

@@ -447,9 +447,14 @@ namespace diva
 				{
 					if(mgr->GetMB()->isTopWindow())
 						mgr->GetMB()->Destroy();
+					
+					Base::Path songPath = MAPMGR.GetDivaOLFilePath(STAGE_CLIENT.info().songId[0].songId, static_cast<divamap::DivaMap::LevelType>(STAGE_CLIENT.info().songId[0].level)); 
+					CORE_PTR->setSong(songPath.filePath().str(), songPath.fileName());
+					
+					CORE_PTR->setInitState("net_load");
 					divacore::MultiPlay *multiplay = NULL;
 					if(STAGE_CLIENT.info().mode=="multiplay")
-						multiplay = new divacore::RelayPlay;
+						multiplay = new divacore::MultiPlay;
 					CORE_PTR->registerGameMode(multiplay);
 					multiplay->registerNetworkEvent();
 					NextState = "core";
@@ -460,12 +465,15 @@ namespace diva
 				}
 				else if(msg.description()=="failed")
 				{
-					mgr->GetMB()->Show(L"开始失败，没有准备或非法队伍人数", L"提示", gcn::MessageBoxEx::TYPE_OK); 
+					Base::String info = ((divanet::GPacket*)msg.extra())->getItem(2)->getString();
+					if(info=="noselect")
+						mgr->GetMB()->Show(L"开始失败，没有选择歌曲", L"提示", gcn::MessageBoxEx::TYPE_OK); 
+					else
+						mgr->GetMB()->Show(L"开始失败，没有准备或非法队伍人数", L"提示", gcn::MessageBoxEx::TYPE_OK); 
 				}
 				break;
 
 			case divanet::StageClient::NOTIFY_UPDATE_INFO:
-				STAGE_CLIENT.draw(0);
 				stageList->clearItems();
 				for(int i = 0; i < STAGE_CLIENT.info().waiters.size(); i++)
 				{
@@ -477,16 +485,26 @@ namespace diva
 					StageListItem::StagePlayerInfo info;
 					info.playerInfo = playerInfo;
 					info.slot = i + 1;
-					info.status = 0;
+					info.status = STAGE_CLIENT.info().waiters[i].status == divanet::WaiterInfo::READY;
 					info.teamIndex = 0;
 					item->setInfo(info);
+					item->setTeamColor(STAGE_CLIENT.info().waiters[i].color);
 					stageList->pushItem(item);
 
 
 				}
 
+				{
+				int color = STAGE_CLIENT.myInfo().color;
+				for (int i=0; i<teamListButtons.size(); i++)
+					teamListButtons[i]->setSelected(color == i);
+				}
+
 				Refresh_sPlayerList();
 				
+				STAGE_CLIENT.refreshMusic();
+				Refresh_SongList();
+
 				break;
 			case divanet::StageClient::NOTIFY_UPDATE_COLOR:
 				{
@@ -503,6 +521,13 @@ namespace diva
 				}
 
 				Refresh_sPlayerList();
+			case divanet::StageClient::NOTIFY_UPDATE_SONG:
+				if(!STAGE_CLIENT.owner()) 
+				{
+					STAGE_CLIENT.refreshMusic();
+					Refresh_SongList();
+				}
+				break;
 			case divanet::StageClient::NOTIFY_STAGE_LEAVE_RESPONSE:
 				break;
 			}
@@ -558,7 +583,7 @@ namespace diva
 		}
 		void HouseUI::open_stage() {
 #ifdef DIVA_GNET_OPEN
-			STAGE_CLIENT.create(4);
+			STAGE_CLIENT.create(8);
 			//divanet::NetworkManager::instance().core()->send("stage#create","%d",2);
 			roomId = MY_PLAYER_INFO.uid();
 #endif

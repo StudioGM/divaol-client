@@ -19,8 +19,6 @@
 
 namespace divamap
 {
-
-#define LocalSongDirectoryW L"song/"
 #define MAXSelectedMapCount 5
 
 #define FILEBUF_LEN 1000
