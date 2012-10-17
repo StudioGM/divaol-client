@@ -229,6 +229,8 @@ namespace gcn
 			FadeOut(fadeOutTime);
 		else
 			Destroy();
+		if(mCallBack)
+			mCallBack();
 	}
 
 	MessageBoxEx::RES MessageBoxEx::GetResult() const

@@ -54,6 +54,8 @@ namespace divanet
 		std::string uid;
 		gnet::Bytes token;
 		ServiceInfos info;
+		static const int TIME_OUT = 10;
+		static const int TICK_TIME = 1;
 	};
 
 #define NET_INFO (divanet::NetInfo::instance())

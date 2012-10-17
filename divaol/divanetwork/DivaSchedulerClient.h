@@ -53,6 +53,14 @@ namespace divanet
 			return infos;
 		}
 
+		void onUpdate(float dt) {
+
+			Client::onUpdate(dt);
+			if(state()==STATE_BREAK) {
+
+			}
+		}
+
 	public:
 		void gnet_response(GPacket *packet) {
 			std::string type = packet->getItem(2)->getString();

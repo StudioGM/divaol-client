@@ -38,6 +38,10 @@ namespace divanet
 			mNetSys->send("auth#request","%S",uid);
 		}
 
+		void onUpdate(float dt) {
+			Client::onUpdate(dt);
+		}
+
 	public:
 		//gnet callback
 		void gnet_login(GPacket *packet) {

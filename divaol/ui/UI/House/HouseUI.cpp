@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include "ui/Config/DivaUIConfig.h"
+
 #include "luaclass.h"
 
 #include "soraguiimage.hpp"
@@ -29,9 +30,7 @@ namespace diva
 	{
 		HouseUI::HouseUI()
 		{
-#ifdef SONICMISORA_MODIFYHYF
-			connectServer();
-#endif
+			attachObserver();
 
 			//for (int i=1; i<=2; i++)
 			//	MAPMGR.SelectedMap_Add(1, divamap::DivaMap::Normal);
@@ -255,6 +254,8 @@ namespace diva
 
 		HouseUI::~HouseUI()
 		{
+			detachObserver();
+
 			if (playerListFont)
 			{
 				delete playerListFont;
@@ -299,6 +300,8 @@ namespace diva
 					SCHEDULER_CLIENT.login();
 					STAGE_CLIENT.login();
 					//divanet::NetworkManager::instance().core()->send("auth#setuid","%s",MY_PLAYER_INFO.uid().c_str());
+					messagePanelChatBox->addText(("[系统] 欢迎您, "+NET_INFO.nickname).unicode_str(), gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"system"]));
+
 				}
 				else if(msg.description()=="already")
 				{
@@ -316,6 +319,23 @@ namespace diva
 				{
 					mgr->GetMB()->Show(L"登录发生意外。请稍后再试。", L"提示");
 				}
+
+				if(msg.description()!="ok")
+				{
+					LOGGER->log("中断连接%s", msg.description().c_str());
+					disconnectServer();
+				}
+			}
+			else if(msg.msg()==divanet::AuthClient::NOTIFY_CONNECT) {
+				if(msg.description()=="ok")
+					messagePanelChatBox->addText(L"[提示] 认证服务器连接成功", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+				else
+					messagePanelChatBox->addText(L"[提示] 认证服务器连接失败", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+			}
+			else if(msg.msg()==divanet::AuthClient::NOTIFY_TIMEOUT) {
+				mgr->GetMB()->RegisterCallback(MessageBoxEx::Callback(&HouseUI::cb_connect_break, this));
+				mgr->GetMB()->Show(L"网络连接中断。",L"提示");
+				disconnectServer();
 			}
 		}
 
@@ -341,6 +361,15 @@ namespace diva
 					messagePanelChatBox->addText(msg(3, -1), color);
 					break;
 				}
+			case divanet::ChatClient::NOTIFY_CONNECT:
+				if(msg.description()=="ok")
+					messagePanelChatBox->addText(L"[提示] 聊天服务器连接成功", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+				else
+					messagePanelChatBox->addText(L"[提示] 聊天服务器连接失败", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+				break;
+			case divanet::ChatClient::NOTIFY_TIMEOUT:
+				messagePanelChatBox->addText(L"[提示] 聊天服务器断开连接..", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+				break;
 			}
 		}
 
@@ -368,6 +397,15 @@ namespace diva
 						}
 					}
 				}
+				break;
+			case divanet::SchedulerClient::NOTIFY_CONNECT:
+				if(msg.description()=="ok")
+					messagePanelChatBox->addText(L"[提示] 舞台服务器连接成功", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+				else
+					messagePanelChatBox->addText(L"[提示] 舞台服务器连接失败", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+				break;
+			case divanet::SchedulerClient::NOTIFY_TIMEOUT:
+				messagePanelChatBox->addText(L"[提示] 舞台服务器断开连接..", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 				break;
 			}
 		}
@@ -527,52 +565,65 @@ namespace diva
 					STAGE_CLIENT.refreshMusic();
 					Refresh_SongList();
 				}
+				messagePanelChatBox->addText(L"[提示] 房主更改了歌曲列表", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 				break;
 			case divanet::StageClient::NOTIFY_STAGE_LEAVE_RESPONSE:
+				break;
+			case divanet::StageClient::NOTIFY_CONNECT:
+				if(msg.description()=="ok")
+					messagePanelChatBox->addText(L"[提示] 游戏服务器连接成功", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+				else
+					messagePanelChatBox->addText(L"[提示] 游戏服务器连接失败", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+				break;
+			case divanet::StageClient::NOTIFY_TIMEOUT:
+				messagePanelChatBox->addText(L"[提示] 游戏服务器断开连接..", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 				break;
 			}
 		}
 
-		void HouseUI::connectServer() {
+		void HouseUI::attachObserver() {
+			AUTH_CLIENT.attachObserver(divanet::Observer(&HouseUI::observer_auth,this));
+			CHAT_CLIENT.attachObserver(divanet::Observer(&HouseUI::observer_chat,this));
+			SCHEDULER_CLIENT.attachObserver(divanet::Observer(&HouseUI::observer_scheduler,this));
+			STAGE_CLIENT.attachObserver(divanet::Observer(&HouseUI::observer_stage,this));
+		}
+
+		void HouseUI::detachObserver() {
+			AUTH_CLIENT.clearObserver();
+			CHAT_CLIENT.clearObserver();
+			SCHEDULER_CLIENT.clearObserver();
+			STAGE_CLIENT.clearObserver();
+		}
+
+		bool HouseUI::connectServer() {
 #ifdef DIVA_GNET_OPEN
 			try
 			{
 				if(!AUTH_CLIENT.isConnect()) {
-				AUTH_CLIENT.connect();
-				CHAT_CLIENT.connect();
-				SCHEDULER_CLIENT.connect();
-				STAGE_CLIENT.connect();
-				AUTH_CLIENT.attachObserver(divanet::Observer(&HouseUI::observer_auth,this));
-				CHAT_CLIENT.attachObserver(divanet::Observer(&HouseUI::observer_chat,this));
-				SCHEDULER_CLIENT.attachObserver(divanet::Observer(&HouseUI::observer_scheduler,this));
-				STAGE_CLIENT.attachObserver(divanet::Observer(&HouseUI::observer_stage,this));
+					if(!AUTH_CLIENT.connect())
+						return false;
+					if(!CHAT_CLIENT.connect())
+						return false;
+					if(!SCHEDULER_CLIENT.connect())
+						return false;
+					if(!STAGE_CLIENT.connect())
+						return false;
 				}
-
-				//divanet::NetworkManager::instance().connectAuth();
-				//divanet::NetworkManager::instance().connectChat();
-				//divanet::NetworkManager::instance().connectScheduler();
-				//divanet::NetworkManager::instance().connectCore();
-				//GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().core(),"stage#start",&HouseUI::gnet_game_start);
-				//GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().core(),"stage#join_ok",&HouseUI::gnet_stage_joinok);
-				//GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().auth(),"auth#login",&HouseUI::gnet_login);
-				//GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().chat(),"chat#receivemsg",&HouseUI::gnet_chatrecv);
-				//GNET_RECEIVE_REGISTER(divanet::NetworkManager::instance().scheduler(),"scheduler#response",&HouseUI::gnet_scheduler_response);
+				return true;
 			}
 			catch(const char *ev)
 			{
 				LOGGER->log(ev);
 			}
+			return false;
 #endif
 		}
 		void HouseUI::disconnectServer() {
 #ifdef DIVA_GNET_OPEN
-			AUTH_CLIENT.logout();
-
-			//GNET_RECEIVE_UNREGISTER(divanet::NetworkManager::instance().core(),"stage#start");
-			//GNET_RECEIVE_UNREGISTER(divanet::NetworkManager::instance().core(),"stage#join_ok");
-			//GNET_RECEIVE_UNREGISTER(divanet::NetworkManager::instance().auth(),"auth#login");
-			//GNET_RECEIVE_UNREGISTER(divanet::NetworkManager::instance().chat(),"chat#receivemsg");
-			//GNET_RECEIVE_UNREGISTER(divanet::NetworkManager::instance().scheduler(),"scheduler#response");
+			AUTH_CLIENT.disconnect();
+			CHAT_CLIENT.disconnect();
+			SCHEDULER_CLIENT.disconnect();
+			STAGE_CLIENT.disconnect();
 #endif
 		}
 		void HouseUI::request_roomList() {
@@ -580,6 +631,10 @@ namespace diva
 			SCHEDULER_CLIENT.updateRoomList();
 			//divanet::NetworkManager::instance().scheduler()->send("scheduler#roomlist");
 #endif
+		}
+		void HouseUI::cb_connect_break() {
+			mgr->GetMB()->RegisterCallback();
+			exit(0);
 		}
 		void HouseUI::open_stage() {
 #ifdef DIVA_GNET_OPEN
@@ -607,9 +662,6 @@ namespace diva
 			top->setVisible(true);
 			Refresh_SongList();
 			sora::SoraBGMManager::Instance()->play(config[L"lobbyMusicFilename"].asString(), false);
-#ifndef SONICMISORA_MODIFYHYF
-			connectServer();
-#endif
 		}
 		
 		void HouseUI::Leave()
@@ -1652,6 +1704,12 @@ namespace diva
 		{
 			using namespace Net;
 #ifdef DIVA_GNET_OPEN
+			if(!connectServer())
+			{
+				mgr->GetMB()->Show(L"无法连接服务器", L"错误", gcn::MessageBoxEx::TYPE_OK);
+				disconnectServer();
+				return;
+			}
 			AUTH_CLIENT.login(Base::ws2s(usernameInput->getText()),Base::ws2s(passwordInput->getText()));
 			mgr->GetMB()->Show(L"登录中...", L"提示", gcn::MessageBoxEx::TYPE_NONE); 
 			//divanet::NetworkManager::instance().auth()->send("auth#login","%s%s",Base::ws2s(usernameInput->getText()).c_str(),Base::ws2s(passwordInput->getText()).c_str());

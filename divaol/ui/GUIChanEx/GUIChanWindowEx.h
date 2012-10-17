@@ -4,6 +4,7 @@
 #include "GUIChanLabelEx.h"
 #include "GUIChanSuperButtonEx.h"
 #include "SoraAutoUpdate.h"
+#include "Lib/Base/Base.h"
 #include "lib/wjson/wjson.h"
 #include <deque>
 #include <list>
@@ -52,13 +53,14 @@ namespace gcn
 	public:
 		enum TYPE {TYPE_OK, TYPE_YESNO, TYPE_NONE};
 		enum RES {RES_OK, RES_YES, RES_NO, RES_NONE};
-
+		typedef Base::Function<void()> Callback;
 	private:
 		LabelEx* cap;
 		LabelEx* text;
 		SuperButtonEx* b[3];
 		RES lastRes;
 		int fadeOutTime;
+		Callback mCallBack;
 		
 		class ButtonClick : public MouseListener
 		{
@@ -76,6 +78,7 @@ namespace gcn
 
 		void LoadFromJsonFile(WJson::Value conf);
 		void Show(const std::wstring& text, const std::wstring& cap = L"", TYPE type = TYPE_OK);
+		void RegisterCallback(const Callback &callback = Callback()) {mCallBack = callback;}
 		void Clicked(RES btn);
 
 		RES GetResult() const;

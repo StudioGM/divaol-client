@@ -23,14 +23,15 @@ namespace divanet
 	class Client : public Base::ObserverHandler, public SoraAutoUpdate
 	{
 	public:
-		enum {DISCONNECT,UNAUTH,AUTH};
-		enum {NOTIFY_CONNECT,NOTIFY_DISCONNECT};
+		enum {STATE_DISCONNECT,STATE_CONNECT,STATE_BREAK};
+		enum {NOTIFY_CONNECT,NOTIFY_DISCONNECT,NOTIFY_TIMEOUT};
 
 		bool isLogin() const {return mIsLogin;}
 		bool isConnect() const {return mIsConnect;}
 		uint32 state() const {return mState;}
 
-		Client():mIsConnect(false) {}
+		Client():mIsConnect(false),mState(STATE_DISCONNECT) {
+		}
 		virtual ~Client() {
 			if(isConnect())
 				disconnect();
@@ -41,36 +42,75 @@ namespace divanet
 		NetworkPtr getSys() {return mNetSys;}
 		void refresh() {mNetSys->refresh();}
 		virtual bool connect() {
+			if(isConnect())
+				return true;
 			mNetSys->setHostInfo(NET_INFO.server(name()).ip, NET_INFO.server(name()).port);
 			try{
 				mNetSys->connect();
 				mIsConnect = true;
 				notify("ok",NOTIFY_CONNECT);
+
+				GNET_RECEIVE_REGISTER(mNetSys,"tick#response", &Client::_gnet_tick);
+				mWaitTickTime = NetInfo::TIME_OUT;
+				mNextTickTime = 0;
 			}
 			catch(...)
 			{
 				notify("failed",NOTIFY_CONNECT);
 				return false;
 			}
+
+			mState = STATE_CONNECT;
+			onConnect();
 			return true;
 		}
 		void disconnect() {
+			mState = STATE_DISCONNECT;
 			mIsConnect = false;
 			mNetSys->disconnect();
 			notify("ok",NOTIFY_DISCONNECT);
+
+			GNET_RECEIVE_UNREGISTER(mNetSys,"tick#response");
 		}
 
+		virtual void onBreak() {}
+		virtual void onConnect() {}
 		virtual void onUpdate(float dt) {
-			if(isConnect())
+			if(isConnect()) {
 				mNetSys->update(dt);
+
+				mNextTickTime -= dt;
+				if(mNextTickTime<=0)
+				{
+					mNextTickTime = NetInfo::TICK_TIME;
+					LOGGER->log((name()+" send tick at "+Base::TimeUtil::getFormatTime()).ansi_str());
+					mNetSys->tick();
+				}
+
+				mWaitTickTime -= dt;
+				if(mWaitTickTime<=0) {
+					mWaitTickTime = 0;
+					notify("timeout",NOTIFY_TIMEOUT);
+					disconnect();
+
+					mState = STATE_BREAK;
+					onBreak();
+				}
+			}
 		}
 
 	protected:
+		void _gnet_tick(divanet::GPacket *packet) {
+			LOGGER->log((name()+" tick at "+Base::TimeUtil::getFormatTime()).ansi_str());
+			mWaitTickTime = NetInfo::TIME_OUT;
+		}
 		void _setLogin(bool login) {
 			mIsLogin = login;
 		}
 
 	protected:
+		float mNextTickTime;
+		float mWaitTickTime;
 		bool mIsConnect;
 		bool mIsLogin;
 		uint32 mState;

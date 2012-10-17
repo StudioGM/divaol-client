@@ -83,12 +83,15 @@ namespace diva
 			void setSongListImage(int v);
 
 			//-------network---------------------------------------------------
-			void connectServer();
+			bool connectServer();
 			void disconnectServer();
 			void request_roomList();
 			void start_game();
 			void open_stage();
 			void leave_stage();
+			void cb_connect_break();
+			void attachObserver();
+			void detachObserver();
 			void observer_auth(divanet::Notification);
 			void observer_chat(divanet::Notification);
 			void observer_scheduler(divanet::Notification);
