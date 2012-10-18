@@ -364,8 +364,10 @@ namespace diva
 			case divanet::ChatClient::NOTIFY_CONNECT:
 				if(msg.description()=="ok")
 					messagePanelChatBox->addText(L"[提示] 聊天服务器连接成功", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
-				else
+				else if(msg.description()=="failed")
 					messagePanelChatBox->addText(L"[提示] 聊天服务器连接失败", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+				else if(msg.description()=="reconnect")
+					messagePanelChatBox->addText(L"[提示] 尝试重新连接聊天服务器...", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 				break;
 			case divanet::ChatClient::NOTIFY_TIMEOUT:
 				messagePanelChatBox->addText(L"[提示] 聊天服务器断开连接..", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
@@ -401,8 +403,10 @@ namespace diva
 			case divanet::SchedulerClient::NOTIFY_CONNECT:
 				if(msg.description()=="ok")
 					messagePanelChatBox->addText(L"[提示] 舞台服务器连接成功", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
-				else
+				else if(msg.description()=="failed")
 					messagePanelChatBox->addText(L"[提示] 舞台服务器连接失败", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+				else if(msg.description()=="reconnect")
+					messagePanelChatBox->addText(L"[提示] 尝试重新连接舞台服务器...", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 				break;
 			case divanet::SchedulerClient::NOTIFY_TIMEOUT:
 				messagePanelChatBox->addText(L"[提示] 舞台服务器断开连接..", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
@@ -572,8 +576,10 @@ namespace diva
 			case divanet::StageClient::NOTIFY_CONNECT:
 				if(msg.description()=="ok")
 					messagePanelChatBox->addText(L"[提示] 游戏服务器连接成功", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
-				else
+				else if(msg.description()=="failed")
 					messagePanelChatBox->addText(L"[提示] 游戏服务器连接失败", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+				else if(msg.description()=="reconnect")
+					messagePanelChatBox->addText(L"[提示] 尝试重新连接游戏服务器...", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 				break;
 			case divanet::StageClient::NOTIFY_TIMEOUT:
 				messagePanelChatBox->addText(L"[提示] 游戏服务器断开连接..", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));

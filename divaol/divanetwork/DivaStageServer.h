@@ -189,6 +189,16 @@ namespace divanet
 
 		const StageInfo& info() const {return mInfo;}
 
+		void onUpdate(float dt) {
+			Client::onUpdate(dt);
+			if(state()==STATE_BREAK) {
+				BASE_PER_PERIOD_BEGIN(dt, NET_INFO.RECONNECT_TIME);
+				reconnect(Task(&StageClient::_reconnect,this));
+				notify("reconnect", NOTIFY_CONNECT);
+				BASE_PER_PERIOD_END();
+			}
+		}
+
 	public:
 		void gnet_closed(GPacket *packet) {
 			notify("closed",NOTIFY_STAGE_CLOSED,packet);
@@ -395,6 +405,11 @@ namespace divanet
 				}
 			info = "ok";
 			return true;
+		}
+
+		void _reconnect() {
+			if(connect_thread())
+				login();
 		}
 
 	protected:

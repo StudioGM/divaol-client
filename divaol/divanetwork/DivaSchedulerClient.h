@@ -57,7 +57,10 @@ namespace divanet
 
 			Client::onUpdate(dt);
 			if(state()==STATE_BREAK) {
-
+				BASE_PER_PERIOD_BEGIN(dt, NET_INFO.RECONNECT_TIME);
+				reconnect(Task(&SchedulerClient::_reconnect,this));
+				notify("reconnect", NOTIFY_CONNECT);
+				BASE_PER_PERIOD_END();
 			}
 		}
 
@@ -94,9 +97,14 @@ namespace divanet
 				notify("reqeust", NOTIFY_REQUEST_ROOMNUM, packet, num);
 			}
 		} 
-SchedulerClient(){}
-		~SchedulerClient() {}
+
+	private:
+		void _reconnect() {
+			connect_thread();
+		}
 	protected:
+		SchedulerClient(){}
+		~SchedulerClient() {}
 		friend class Base::Singleton<SchedulerClient>;
 
 		

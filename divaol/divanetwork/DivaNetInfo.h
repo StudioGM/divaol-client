@@ -56,6 +56,7 @@ namespace divanet
 		ServiceInfos info;
 		static const int TIME_OUT = 10;
 		static const int TICK_TIME = 1;
+		static const int RECONNECT_TIME = 10;
 	};
 
 #define NET_INFO (divanet::NetInfo::instance())

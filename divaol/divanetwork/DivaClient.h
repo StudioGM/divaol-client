@@ -19,19 +19,20 @@ namespace divanet
 {
 	using Base::Observer;
 	using Base::Notification;
-	typedef Base::Thread<void()> Task;
+	typedef Base::Thread<void()> ThreadTask;
+	typedef Base::Function<void()> Task;
 
 	class Client : public Base::ObserverHandler, public SoraAutoUpdate
 	{
 	public:
-		enum {STATE_DISCONNECT,STATE_CONNECT,STATE_BREAK};
+		enum {STATE_DISCONNECT,STATE_CONNECT,STATE_BREAK,STATE_CONNECTING};
 		enum {NOTIFY_CONNECT,NOTIFY_DISCONNECT,NOTIFY_TIMEOUT};
 
 		bool isLogin() const {return mIsLogin;}
 		bool isConnect() const {return mIsConnect;}
 		uint32 state() const {return mState;}
 
-		Client():mIsConnect(false),mState(STATE_DISCONNECT),mTickTast(Base::MakeFunction(&Client::tick_thread, this)) {
+		Client():mIsConnect(false),mState(STATE_DISCONNECT),mTickTask(Base::MakeFunction(&Client::tick_thread, this)) {
 		}
 		virtual ~Client() {
 			if(isConnect())
@@ -57,7 +58,7 @@ namespace divanet
 
 				mIsConnect = true;
 
-				mTickTast.start();
+				mTickTask.start();
 			}
 			catch(...)
 			{
@@ -70,7 +71,9 @@ namespace divanet
 			return true;
 		}
 		void disconnect() {
-			mTickTast.stop();
+			if(!isConnect())
+				return;
+			mTickTask.stop();
 
 			mState = STATE_DISCONNECT;
 			mIsConnect = false;
@@ -104,11 +107,11 @@ namespace divanet
 				}
 			}
 		}
-		void tick_thread() {
-			while(isConnect()) {
-				mNetSys->tick();
-				Base::TimeUtil::mSleep(NET_INFO.TICK_TIME*1000);
-			}
+		void reconnect(const Task &task) {
+			if(isConnect()||state()==STATE_CONNECTING)
+				return;
+			mConnectTask.set(task);
+			mConnectTask.start();
 		}
 
 	protected:
@@ -118,9 +121,25 @@ namespace divanet
 		void _setLogin(bool login) {
 			mIsLogin = login;
 		}
+		void tick_thread() {
+			while(isConnect()) {
+				mNetSys->tick();
+				Base::TimeUtil::mSleep(NET_INFO.TICK_TIME*1000);
+			}
+		}
+		bool connect_thread() {
+			int originState = state();
+			mState = STATE_CONNECTING;
+			if(!isConnect())
+				if(connect())
+					return true;
+			mState = originState;
+			return false;
+		}
 
 	protected:
-		Task mTickTast;
+		ThreadTask mTickTask;
+		ThreadTask mConnectTask;
 		float mNextTickTime;
 		float mWaitTickTime;
 		bool mIsConnect;
