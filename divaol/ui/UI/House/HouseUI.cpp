@@ -1700,10 +1700,7 @@ namespace diva
 			return panel;
 		}
 
-		void HouseUI::LoginButtonClicked()
-		{
-			using namespace Net;
-#ifdef DIVA_GNET_OPEN
+		void HouseUI::login() {
 			if(!connectServer())
 			{
 				mgr->GetMB()->Show(L"无法连接服务器", L"错误", gcn::MessageBoxEx::TYPE_OK);
@@ -1711,6 +1708,24 @@ namespace diva
 				return;
 			}
 			AUTH_CLIENT.login(Base::ws2s(usernameInput->getText()),Base::ws2s(passwordInput->getText()));
+		}
+
+		void HouseUI::LoginButtonClicked()
+		{
+			using namespace Net;
+#ifdef DIVA_GNET_OPEN
+			if(!mAsyncTask)
+			{
+				mAsyncTask.set(Base::Function<void()>(&HouseUI::login,this));
+				mAsyncTask();
+			}
+			/*if(!connectServer())
+			{
+			mgr->GetMB()->Show(L"无法连接服务器", L"错误", gcn::MessageBoxEx::TYPE_OK);
+			disconnectServer();
+			return;
+			}
+			AUTH_CLIENT.login(Base::ws2s(usernameInput->getText()),Base::ws2s(passwordInput->getText()));*/
 			mgr->GetMB()->Show(L"登录中...", L"提示", gcn::MessageBoxEx::TYPE_NONE); 
 			//divanet::NetworkManager::instance().auth()->send("auth#login","%s%s",Base::ws2s(usernameInput->getText()).c_str(),Base::ws2s(passwordInput->getText()).c_str());
 #else

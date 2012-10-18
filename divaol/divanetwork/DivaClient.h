@@ -19,6 +19,7 @@ namespace divanet
 {
 	using Base::Observer;
 	using Base::Notification;
+	typedef Base::Thread<void()> Task;
 
 	class Client : public Base::ObserverHandler, public SoraAutoUpdate
 	{
@@ -30,7 +31,7 @@ namespace divanet
 		bool isConnect() const {return mIsConnect;}
 		uint32 state() const {return mState;}
 
-		Client():mIsConnect(false),mState(STATE_DISCONNECT) {
+		Client():mIsConnect(false),mState(STATE_DISCONNECT),mTickTast(Base::MakeFunction(&Client::tick_thread, this)) {
 		}
 		virtual ~Client() {
 			if(isConnect())
@@ -47,12 +48,16 @@ namespace divanet
 			mNetSys->setHostInfo(NET_INFO.server(name()).ip, NET_INFO.server(name()).port);
 			try{
 				mNetSys->connect();
-				mIsConnect = true;
+				
 				notify("ok",NOTIFY_CONNECT);
 
 				GNET_RECEIVE_REGISTER(mNetSys,"tick#response", &Client::_gnet_tick);
 				mWaitTickTime = NetInfo::TIME_OUT;
 				mNextTickTime = 0;
+
+				mIsConnect = true;
+
+				mTickTast.start();
 			}
 			catch(...)
 			{
@@ -65,6 +70,8 @@ namespace divanet
 			return true;
 		}
 		void disconnect() {
+			mTickTast.stop();
+
 			mState = STATE_DISCONNECT;
 			mIsConnect = false;
 			mNetSys->disconnect();
@@ -83,8 +90,7 @@ namespace divanet
 				if(mNextTickTime<=0)
 				{
 					mNextTickTime = NetInfo::TICK_TIME;
-					LOGGER->log((name()+" send tick at "+Base::TimeUtil::getFormatTime()).ansi_str());
-					mNetSys->tick();
+					//mNetSys->tick();
 				}
 
 				mWaitTickTime -= dt;
@@ -98,10 +104,15 @@ namespace divanet
 				}
 			}
 		}
+		void tick_thread() {
+			while(isConnect()) {
+				mNetSys->tick();
+				Base::TimeUtil::mSleep(NET_INFO.TICK_TIME*1000);
+			}
+		}
 
 	protected:
 		void _gnet_tick(divanet::GPacket *packet) {
-			LOGGER->log((name()+" tick at "+Base::TimeUtil::getFormatTime()).ansi_str());
 			mWaitTickTime = NetInfo::TIME_OUT;
 		}
 		void _setLogin(bool login) {
@@ -109,6 +120,7 @@ namespace divanet
 		}
 
 	protected:
+		Task mTickTast;
 		float mNextTickTime;
 		float mWaitTickTime;
 		bool mIsConnect;

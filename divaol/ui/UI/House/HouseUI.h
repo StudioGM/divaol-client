@@ -90,6 +90,7 @@ namespace diva
 			void open_stage();
 			void leave_stage();
 			void cb_connect_break();
+			void login();
 			void attachObserver();
 			void detachObserver();
 			void observer_auth(divanet::Notification);
@@ -109,6 +110,7 @@ namespace diva
 			//////////////////////////////////////////////////////////////////////////
 			int state;
 			HouseGameState* houseGameState;
+			Base::Thread<void()> mAsyncTask;
 
 			gcn::Container* top;
 			WJson::Value conf;
