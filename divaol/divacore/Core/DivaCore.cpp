@@ -370,6 +370,10 @@ namespace divacore
 	{
 		setState(Core::END);
 	}
+	void Core::exitGame()
+	{
+		CORE_FLOW_PTR->over();
+	}
 	void Core::flowOver()
 	{
 		for(EVENTHANDLERS::iterator ptr = components.begin(); ptr != components.end(); ptr++)

@@ -491,6 +491,11 @@ namespace diva
 						mgr->GetMB()->Destroy();
 					
 					Base::Path songPath = MAPMGR.GetDivaOLFilePath(STAGE_CLIENT.info().songId[0].songId, static_cast<divamap::DivaMap::LevelType>(STAGE_CLIENT.info().songId[0].level)); 
+					if(!MAPMGR.isMapLeagal(STAGE_CLIENT.info().songId[0].songId, static_cast<divamap::DivaMap::LevelType>(STAGE_CLIENT.info().songId[0].level)))
+					{
+						mgr->GetMB()->Show(L"您的视听文件未通过CK大大验证！", L"提示", gcn::MessageBoxEx::TYPE_OK); 
+						STAGE_CLIENT.back();
+					}
 					CORE_PTR->setSong(songPath.filePath().str(), songPath.fileName());
 					
 					CORE_PTR->setInitState("net_load");

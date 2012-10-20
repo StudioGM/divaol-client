@@ -190,6 +190,10 @@ namespace divacore
 			//StandardEditUtility::instance().refreshAll();
 			CORE_PTR->setSpeedScale();
 		}
+		else if(event.getKey()==SORA_KEY_ESCAPE)
+		{
+			CORE_PTR->exitGame();
+		}
 #endif
 		/*else if(event.getKey()==SORA_KEY_D)
 		{

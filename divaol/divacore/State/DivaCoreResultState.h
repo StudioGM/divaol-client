@@ -45,12 +45,14 @@ namespace divacore
 
 		void getEvalInfo(GPacket *packet)
 		{
+			LOGGER->log((packet->getString()).c_str());
 			EvalResult &result = EVALUATE_STRATEGY_PTR->getResult();
 			gnet::Item<gnet::List> *list = packet->getItem(2)->as<gnet::ListItem>();
 
 			for(int i = 0; i < result.evalData.size(); i++)
 			{
 				gnet::Item<gnet::Tuple> *tuple = dynamic_cast<gnet::Item<gnet::Tuple>*>(list->getItem(i));
+				result.evalData[i].status = tuple->getItem(0)->getString();
 				result.evalData[i].score = (tuple->getItem(1))->getInt();
 				result.evalData[i].index = i;
 				gnet::Item<gnet::List> *evals = dynamic_cast<gnet::Item<gnet::List>*>(tuple->getItem(2));

@@ -84,7 +84,7 @@ namespace divacore
 
 		virtual void gameReset();
 		virtual void gameStop();
-		virtual void over() {state = END;}
+		virtual void over();
 		virtual void clear();
 		virtual void ready();
 		virtual void start();
