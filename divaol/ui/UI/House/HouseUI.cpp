@@ -702,7 +702,12 @@ namespace diva
 						selectMusicButton->setEnabled(true);
 					else
 						throw "fuck it!";
-					
+					break;
+				case divamap::DivaMapEventMessage::UnpackMapDataFile :
+					if (t.error)
+						messagePanelChatBox->addText(L"[提示] 您的歌曲【" + MAPS[t.effectedMapID].header.name + L"】下载发生错误。", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+					if (t.finish)
+						messagePanelChatBox->addText(L"[提示] 您的歌曲【" + MAPS[t.effectedMapID].header.name + L"】已经下载完成。", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 					break;
 				}
 				q->pop_front();
@@ -1800,7 +1805,17 @@ namespace diva
 			}
 			if (mouseEvent.getSource() == (gcn::Widget*) openGameButton)
 			{
-				start_game();
+				if (!songList->getItemCount())
+				{	
+					mgr->GetMB()->Show(L"至少选择一首歌以开始游戏。");
+					return;
+				}
+				if (!MAPMGR.isMapLeagal(SELECTEDMAPS[0].id, SELECTEDMAPS[0].level))
+				{
+					mgr->GetMB()->Show(L"该歌曲未下载或尚未下载完成，无法开始游戏。");
+					return;
+				}
+				start_game();	
 				return;
 			}
 			if (mouseEvent.getSource() == (gcn::Widget*) readyButton)
@@ -1809,8 +1824,17 @@ namespace diva
 					STAGE_CLIENT.unready();
 				else
 				{
+					if (!songList->getItemCount())
+					{
+						mgr->GetMB()->Show(L"房主至少选择一首歌才能够准备。");
+						return;
+					}
+					if (!MAPMGR.isMapLeagal(SELECTEDMAPS[0].id, SELECTEDMAPS[0].level))
+					{
+						mgr->GetMB()->Show(L"该歌曲未下载或尚未下载完成，无法准备。");
+						return;
+					}
 					STAGE_CLIENT.ready();
-
 				}
 				return;
 			}
