@@ -705,7 +705,10 @@ namespace diva
 					break;
 				case divamap::DivaMapEventMessage::UnpackMapDataFile :
 					if (t.error)
+					{
 						messagePanelChatBox->addText(L"[提示] 您的歌曲【" + MAPS[t.effectedMapID].header.name + L"】下载发生错误。", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+						break;
+					}
 					if (t.finish)
 						messagePanelChatBox->addText(L"[提示] 您的歌曲【" + MAPS[t.effectedMapID].header.name + L"】已经下载完成。", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 					break;
