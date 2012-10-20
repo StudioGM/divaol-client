@@ -84,14 +84,14 @@ namespace diva
 		items[index]->setText(temp);
 	}
 
-	void DivaSelectedListBox::pushItem(const divamap::DivaMap& mapInfo, int difIndex, int type)
+	void DivaSelectedListBox::pushItem(const divamap::DivaMap& mapInfo, divamap::DivaMap::LevelType level, int type)
 	{
 		if (songInfo.size() >= maxItem)
 		{
 			throw "items man!";
 			return;
 		}
-		songInfo.push_back(SongInfo(mapInfo, difIndex, type));
+		songInfo.push_back(SongInfo(mapInfo, mapInfo.getDifIndex(level), type));
 		int n = songInfo.size() - 1;
 		deleteButtons[n]->setVisible(true);
 		items[n]->setEnabled(true);

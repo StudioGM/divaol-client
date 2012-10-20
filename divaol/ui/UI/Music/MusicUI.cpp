@@ -24,16 +24,16 @@ namespace diva
 
 		void MusicUI::Enter()
 		{
-			sora::GCN_GLOBAL->getTop()->add(top, 0, 0);
-			top->setVisible(true);
+			sora::GCN_GLOBAL->getTop()->add(trueTop, 0, 0);
+			//top->setVisible(true);
 			refreshSelectedSongList();
 			refreshSongList();
 		}
 
 		void MusicUI::Leave()
 		{
-			sora::GCN_GLOBAL->getTop()->remove(top);
-			top->setVisible(false);
+			sora::GCN_GLOBAL->getTop()->remove(trueTop);
+			//top->setVisible(false);
 			sora::SoraBGMManager::Instance()->stop(false);
 		}
 
@@ -46,10 +46,25 @@ namespace diva
 			//initNet();
 
 			//////////////////////////////////////////////////////////////////////////
-
-			top = new gcn::Container();
-			top->setSize(1920, 1080);
+			trueTop = new gcn::Container();
+			trueTop->setSize(config[L"gameWidth"].asInt(), config[L"gameHeight"].asInt());
+			trueTop->setOpaque(false);
+			mgr = new WindowMgr(trueTop);
+			
+			top = new gcn::WindowEx();
+			top->setSize(config[L"gameWidth"].asInt(), config[L"gameHeight"].asInt());
 			top->setOpaque(false);
+			//top->SetMovable(true);
+			mgr->OpenWindow(top);
+
+			gcn::MessageBoxEx* mbex = new gcn::MessageBoxEx();
+			{
+				WJson::Value t;
+				gcn::Helper::ReadJsonFromFile(L"uiconfig/house/MessageBox.json", t);
+				mbex->LoadFromJsonFile(t);
+				mgr->RegisterMessageBox(mbex);
+			}
+			
 			
 			countStarted = false;
 
@@ -250,6 +265,11 @@ namespace diva
 
 			// ------
 			divamap::DivaMap tMap;
+			tMap.levels[tMap.Easy];
+			tMap.levels[tMap.Normal];
+			tMap.levels[tMap.Hard];
+			tMap.levels[tMap.Extra];
+			tMap.levels[tMap.Die];
 			//
 			
 			songListOrigItems.clear();
@@ -305,7 +325,7 @@ namespace diva
 		{
 			selectedListBox->clearItems();
 			for (int i=0; i<SELECTEDMAPS.size(); i++)
-				selectedListBox->pushItem(MAPS[SELECTEDMAPS[i].id], MAPS[SELECTEDMAPS[i].id].getDifIndex(SELECTEDMAPS[i].level));
+				selectedListBox->pushItem(MAPS[SELECTEDMAPS[i].id], SELECTEDMAPS[i].level);
 		}
 
 		void MusicUI::SetFatherState(MusicGameState* state)
@@ -428,6 +448,11 @@ namespace diva
 				switch (t.eventType)
 				{
 				case divamap::DivaMapEventMessage::PrepareThumbFile :
+					if (t.error)
+					{
+						mgr->GetMB()->Show(L"下载缩略图文件出错。歌曲名：" + MAPS[t.effectedMapID].header.name);
+						return;
+					}
 					if (!t.error && t.finish)
 					{
 						//selectMusicButton->setEnabled(true);
@@ -439,6 +464,11 @@ namespace diva
 
 					break;
 				case divamap::DivaMapEventMessage::PrepareAudioPreviewFile :
+					if (t.error)
+					{
+						mgr->GetMB()->Show(L"下载试听文件出错。歌曲名：" + MAPS[t.effectedMapID].header.name);
+						return;
+					}
 					if (!t.error && t.finish)
 					{
 						int index = songListBox->getIndexByMapId(t.effectedMapID);
@@ -451,7 +481,10 @@ namespace diva
 					break;
 				case divamap::DivaMapEventMessage::PrepareMapDataFile :
 					if (t.error)
-						throw "fuck";
+					{
+						mgr->GetMB()->Show(L"下载歌曲文件出错。歌曲名：" + MAPS[t.effectedMapID].header.name);
+						return;
+					}
 					if (t.finish)
 					{
 						int index = songListBox->getIndexByMapId(t.effectedMapID);
@@ -466,7 +499,10 @@ namespace diva
 					break;
 				case divamap::DivaMapEventMessage::UnpackMapDataFile :
 					if (t.error)
-						throw "fuck";
+					{
+						mgr->GetMB()->Show(L"解压歌曲文件出错。歌曲名：" + MAPS[t.effectedMapID].header.name);
+						return;
+					}
 					if (t.finish)
 					{
 						int index = songListBox->getIndexByMapId(t.effectedMapID);
@@ -508,6 +544,26 @@ namespace diva
 			}
 		}
 
+		int MusicUI::GetRandomSong(divamap::DivaMap::LevelType level)
+		{
+			if (state == SONGLIST_ART)
+				throw "haha";
+
+			std::vector<int> tv;
+
+			for (int i = 1; i < songListBox->getItemCount(); i++)
+			{
+				const divamap::DivaMap::Levels& t = ((SongListItem*)(songListBox->getItem(i)))->getMapInfo().levels;
+				if (t.find(level) != t.end() && MAPMGR.isMapLeagal(((SongListItem*)(songListBox->getItem(i)))->getMapInfo().id, level))
+					tv.push_back(i);
+			}
+
+			if (tv.size() == 0)
+				return -1;
+			
+			return tv[sora::SoraCore::Instance()->RandomInt(0, tv.size() - 1)];
+		}
+
 		void MusicUI::SongListItemClicked(int index)
 		{
 			if (state == SONGLIST_ART)
@@ -540,16 +596,21 @@ namespace diva
 		
 			if (index == 0)
 			{
-				int t = sora::SoraCore::Instance()->RandomInt(1, songListBox->getItemCount() - 1);
+				int t = GetRandomSong((divamap::DivaMap::LevelType)((SongListItem*)songListBox->getItem(0))->getDifIndex());
+				if (t == -1)
+				{
+					mgr->GetMB()->Show(L"没有已下载的当前难度的歌曲");
+					return;
+				}
 				SongListItem* item = (SongListItem*)songListBox->getItems()[t];
-				//selectedListBox->pushItem(item->getMapInfo(), ((SongListItem*)songListBox->getItems()[0])->getDifIndex(), DivaSelectedListBox::SPECIFIC);
+				selectedListBox->pushItem(item->getMapInfo(), (divamap::DivaMap::LevelType)((SongListItem*)songListBox->getItems()[0])->getDifIndex(), DivaSelectedListBox::SPECIFIC);
 				AdjustStartButton();
 			}
 			else
 			{
 				SongListItem* item = (SongListItem*)songListBox->getItems()[index];
 				if (item->getDownloadFinished())
-					selectedListBox->pushItem(item->getMapInfo(), item->getDifIndex(), DivaSelectedListBox::SPECIFIC);
+					selectedListBox->pushItem(item->getMapInfo(), item->getMapInfo().getLevel(item->getDifIndex()), DivaSelectedListBox::SPECIFIC);
 				else
 				{
 					MAPMGR.PrepareDivaMapData(item->getMapInfo().id);

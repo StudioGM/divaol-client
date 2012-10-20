@@ -698,10 +698,18 @@ namespace diva
 				switch (t.eventType)
 				{
 				case divamap::DivaMapEventMessage::PrepareMapList :
-					if (!t.error && t.finish)
+					if (t.error)
+					{
+						messagePanelChatBox->addText(L"[提示] 与歌曲列表服务器连接发生错误。", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+						//throw "fuck it!";
+						break;
+					}
+					if (t.finish)
+					{
+						messagePanelChatBox->addText(L"[提示] 与歌曲列表服务器连接成功，歌曲列表已更新。", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 						selectMusicButton->setEnabled(true);
-					else
-						throw "fuck it!";
+						break;
+					}
 					break;
 				case divamap::DivaMapEventMessage::UnpackMapDataFile :
 					if (t.error)

@@ -44,7 +44,7 @@ namespace diva
 		DivaSelectedListBox();
 		~DivaSelectedListBox();
 
-		void pushItem(const divamap::DivaMap& mapInfo, int difIndex, int type = SPECIFIC);
+		void pushItem(const divamap::DivaMap& mapInfo, divamap::DivaMap::LevelType level, int type = SPECIFIC);
 		void removeItem(int index);
 		void clearItems();
 		int getItemCount() const;

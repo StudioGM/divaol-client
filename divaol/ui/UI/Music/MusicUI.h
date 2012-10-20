@@ -57,7 +57,9 @@ namespace diva
 
 			std::vector<ListItemEx*> songListOrigItems;
 			std::map<std::wstring, ListItemEx*> artistListItems;
-			gcn::Container* top;
+			gcn::WindowEx* top;
+			gcn::Container* trueTop;
+			gcn::WindowMgr* mgr;
 
 			gcn::ImageDisplayerEx* background;
 			gcn::ContainerEx* backPanel;
@@ -120,6 +122,8 @@ namespace diva
 
 			void SongListItemClicked(int index);
 			void SongListHighlightItemChanged(int index);
+
+			int GetRandomSong(divamap::DivaMap::LevelType level);
 
 			// Event
 			void LoginButton_Clicked();
