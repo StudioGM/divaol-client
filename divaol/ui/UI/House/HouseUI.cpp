@@ -568,6 +568,8 @@ namespace diva
 				{
 					STAGE_CLIENT.refreshMusic();
 					Refresh_SongList();
+					if(STAGE_CLIENT.isReady())
+						STAGE_CLIENT.unready();
 				}
 				messagePanelChatBox->addText(L"[提示] 房主更改了歌曲列表", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 				break;
@@ -1806,7 +1808,10 @@ namespace diva
 				if(STAGE_CLIENT.isReady())
 					STAGE_CLIENT.unready();
 				else
+				{
 					STAGE_CLIENT.ready();
+
+				}
 				return;
 			}
 			if (mouseEvent.getSource() == (gcn::Widget*) playerListButton1)
