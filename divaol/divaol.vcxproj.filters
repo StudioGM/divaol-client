@@ -244,6 +244,9 @@
     <Filter Include="源文件\divanetwork\client">
       <UniqueIdentifier>{78b5151e-4188-4df7-9e93-c75b63dddae0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\lib\MD5">
+      <UniqueIdentifier>{ed232cfb-1519-4317-b452-83e6afb57a4f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Hoshizor\Sora\Hoshizora.h">
@@ -2451,6 +2454,9 @@
     <ClInclude Include="ui\GUIChanEx\GUIChanJsonHelper.h">
       <Filter>源文件\ui\GUIChanEx</Filter>
     </ClInclude>
+    <ClInclude Include="Lib\MD5\md52.h">
+      <Filter>源文件\lib\MD5</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -3583,6 +3589,9 @@
     </ClCompile>
     <ClCompile Include="ui\UI\House\HouseMessageBox.cpp">
       <Filter>源文件\ui\UI\House</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\MD5\md52.cpp">
+      <Filter>源文件\lib\MD5</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

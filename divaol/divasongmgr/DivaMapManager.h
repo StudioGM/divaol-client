@@ -204,7 +204,6 @@ namespace divamap
 		bool PrepareDivaMapAudioPreview(int id);
 
 		bool PrepareDivaMapData(int id, bool novideo=false);
-		bool PrepareCheckLocalMapDataFileLeagal(int id);
 		bool PrepareDivaMapDataFromFile(std::wstring divaolpackFile);
 
 
@@ -217,6 +216,8 @@ namespace divamap
 		float GetMapDownloadProgress(int id);
 		bool isMapDownloaded(int id);
 		bool isMapIdLeagal(int id);
+		bool isMapLevelExist(int id, DivaMap::LevelType level);
+		bool isMapLeagal(int id, DivaMap::LevelType level);
 		std::map<int, DivaMap>& GetMapList(){return maps;}
 
 	public:
@@ -233,6 +234,7 @@ namespace divamap
 }
 
 typedef std::map<divamap::DivaMap::LevelType, divamap::DivaMapLevel>::iterator MAPLEVELITERATOR;
+typedef std::map<int, divamap::DivaMap>::iterator MAPITERATOR;
 
 #define MAPMGR divamap::DivaMapManager::instance()
 #define MAPS MAPMGR.GetMapList()

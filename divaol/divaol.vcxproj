@@ -738,6 +738,7 @@
     <ClInclude Include="Lib\Base\Type.h" />
     <ClInclude Include="Lib\Base\TypeTraits.h" />
     <ClInclude Include="Lib\Base\Uncopyable.h" />
+    <ClInclude Include="Lib\MD5\md52.h" />
     <ClInclude Include="ui\Config\DivaUIConfig.h" />
     <ClInclude Include="ui\Config\DivaUIHelper.h" />
     <ClInclude Include="ui\DivaNetwork\DivaNetwork.h" />
@@ -1140,6 +1141,7 @@
     <ClCompile Include="Lib\Base\Random.cpp" />
     <ClCompile Include="Lib\Base\String.cpp" />
     <ClCompile Include="Lib\Base\Timer.cpp" />
+    <ClCompile Include="Lib\MD5\md52.cpp" />
     <ClCompile Include="Lib\wjson\wjson_reader.cpp" />
     <ClCompile Include="Lib\wjson\wjson_value.cpp" />
     <ClCompile Include="Lib\wjson\wjson_writer.cpp" />

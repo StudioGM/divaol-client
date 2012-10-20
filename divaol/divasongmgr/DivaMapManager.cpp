@@ -10,6 +10,7 @@
 #include "Lib/Base/Io/Path.h"
 #include "Lib/Base/Io/FileUtility.h"
 #include "Lib/wjson/wjson.h"
+#include "Lib/MD5/md52.h"
 #include "ZLIB/zlib.h"
 #include "DivaMapEncryption.h"
 
@@ -803,17 +804,14 @@ namespace divamap
 		
 		return true;
 	}
-
 	bool DivaMapManager::PrepareDivaMapThumb(int id)
 	{
 		return PrepareDirectFile(id, DivaMapEventMessage::PrepareThumbFile);
 	}
-
 	bool DivaMapManager::PrepareDivaMapAudioPreview(int id)
 	{
 		return PrepareDirectFile(id, DivaMapEventMessage::PrepareAudioPreviewFile);
 	}
-
 	bool DivaMapManager::PrepareDivaMapData(int id, bool novideo)
 	{
 		if(!novideo)
@@ -821,15 +819,6 @@ namespace divamap
 		else
 			return PrepareDirectFile(id, DivaMapEventMessage::PrepareMapDataFileNoVideo);
 	}
-
-	bool DivaMapManager::PrepareCheckLocalMapDataFileLeagal(int id)
-	{
-		if(maps.find(id)==maps.end())
-			return false;
-
-		return true;
-	}
-
 	bool DivaMapManager::PrepareDivaMapDataFromFile(std::wstring divaolpackFile)
 	{
 		DivaMapManagerDownloadQuest *thisQuest = new DivaMapManagerDownloadQuest(L"",divaolpackFile,-1,DivaMapEventMessage::UnpackMapDataFile);
@@ -888,7 +877,7 @@ namespace divamap
 	{
 		if(id==0)
 			return L"Random";
-		else if(maps.find(id)!=maps.end())
+		else if(isMapLevelExist(id, level))
 			return Base::Path::CombinePath(Base::String(GetMapDirectory(id)),Base::String(maps.find(id)->second.levels[level].divaFileName)).str().asUnicode();
 		else
 			return L"";
@@ -898,6 +887,37 @@ namespace divamap
 	{
 		if(maps.find(id)==maps.end())
 			return false;
+		return true;
+	}
+	bool DivaMapManager::isMapLevelExist(int id, DivaMap::LevelType level)
+	{
+		if(!isMapIdLeagal(id))
+			return false;
+		else
+		{
+			MAPITERATOR mapI = maps.find(id);
+			if(mapI->second.levels.find(level) == mapI->second.levels.end())
+				return false;
+		}
+		return true;
+	}
+
+	bool DivaMapManager::isMapLeagal(int id, DivaMap::LevelType level)
+	{
+		if(!isMapLevelExist(id, level))
+			return false;
+		else if(isOperating[id][DivaMapEventMessage::PrepareMapDataFile] || isOperating[id][DivaMapEventMessage::PrepareMapDataFileNoVideo])
+			return false;
+		else if(isOperating[id][DivaMapEventMessage::UnpackMapDataFile])
+			return false;
+		else
+		{
+			std::wstring filename = GetDivaOLFilePath(id, level);
+			MD52 md5(filename);
+			Base::String md5str(md5.toString());
+			if(md5str != Base::String(maps[id].levels[level].FileMD5Value))
+				return false;
+		}
 		return true;
 	}
 
