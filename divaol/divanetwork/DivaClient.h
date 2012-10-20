@@ -30,9 +30,9 @@ namespace divanet
 
 		bool isLogin() const {return mIsLogin;}
 		bool isConnect() const {return mIsConnect;}
-		uint32 state() const {return mState;}
+		uint32 state() const {return mClientState;}
 
-		Client():mIsConnect(false),mState(STATE_DISCONNECT),mTickTask(Base::MakeFunction(&Client::tick_thread, this)) {
+		Client():mIsConnect(false),mClientState(STATE_DISCONNECT),mTickTask(Base::MakeFunction(&Client::tick_thread, this)) {
 		}
 		virtual ~Client() {
 			if(isConnect())
@@ -66,7 +66,7 @@ namespace divanet
 				return false;
 			}
 
-			mState = STATE_CONNECT;
+			mClientState = STATE_CONNECT;
 			onConnect();
 			return true;
 		}
@@ -75,7 +75,7 @@ namespace divanet
 				return;
 			mTickTask.stop();
 
-			mState = STATE_DISCONNECT;
+			mClientState = STATE_DISCONNECT;
 			mIsConnect = false;
 			mNetSys->disconnect();
 			notify("ok",NOTIFY_DISCONNECT);
@@ -102,7 +102,7 @@ namespace divanet
 					notify("timeout",NOTIFY_TIMEOUT);
 					disconnect();
 
-					mState = STATE_BREAK;
+					mClientState = STATE_BREAK;
 					onBreak();
 				}
 			}
@@ -129,11 +129,11 @@ namespace divanet
 		}
 		bool connect_thread() {
 			int originState = state();
-			mState = STATE_CONNECTING;
+			mClientState = STATE_CONNECTING;
 			if(!isConnect())
 				if(connect())
 					return true;
-			mState = originState;
+			mClientState = originState;
 			return false;
 		}
 
@@ -144,7 +144,7 @@ namespace divanet
 		float mWaitTickTime;
 		bool mIsConnect;
 		bool mIsLogin;
-		uint32 mState;
+		uint32 mClientState;
 		NetworkPtr mNetSys;
 	};
 }

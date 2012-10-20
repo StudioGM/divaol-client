@@ -153,6 +153,26 @@ namespace divamap
 
 	class DivaMapManager : public sora::SoraAutoUpdate
 	{
+	public:
+		enum GameMode {
+			PVMode = 0, 
+			CTMode = 1,
+			AutoMode = 2,
+			FastMode = 3,
+			SlowMode = 4,
+			DeathMode = 5,
+			RandomSwapMode = 6,
+			ChaosMode = 7,
+			DisappearMode = 8,
+			BlackHouseMode = 9,
+			NoFailMode = 10
+		};
+
+		long long int selectedMode;
+		std::map<int, std::string> GameModeStr;
+		std::map<int, std::map<int, bool>> ModeConflict;
+
+
 	private:
 		std::wstring downloadCategoryServerAddress;
 		std::wstring mapListQueryAddress;
@@ -172,6 +192,8 @@ namespace divamap
 		std::list<DivaMapEventMessage> *listMsgOut;
 
 		std::vector<DivaMapSelectedItem> selectedMaps;
+		
+
 		std::map<int,float> mapDownloadPercent;
 
 	public:
@@ -229,6 +251,16 @@ namespace divamap
 		void SelectedMap_Clear();
 
 		std::vector<DivaMapSelectedItem>& GetSelectedMaps(){return selectedMaps;}
+
+
+		//Select Mode functions
+		void SelectedMode_Set(long long int mode);
+		void SelectedMode_ToggleMode(GameMode mode, bool select);
+
+		std::vector<GameMode> GetSelectedMode();
+		long long int GetSelectedModeInt();
+		std::vector<std::string> GetSelectedModeStr();
+		bool IsModeSelected(GameMode mode);
 	};
 
 }
