@@ -142,7 +142,7 @@ namespace divanet
 		}
 
 		bool start() {
-			if(state()==STAGE&&owner()) {
+			if(mState==STAGE&&owner()) {
 				mNetSys->send("stage#start");
 				return true;
 			}
@@ -172,7 +172,7 @@ namespace divanet
 		}
 
 		void refreshMusic() {
-			if(state()==STAGE) {
+			if(mState==STAGE) {
 				if(owner()) {
 					SongList songList;
 					for(int i = 0; i < MAPMGR.GetSelectedMaps().size(); i++)
@@ -191,7 +191,7 @@ namespace divanet
 
 		void onUpdate(float dt) {
 			Client::onUpdate(dt);
-			if(state()==STATE_BREAK) {
+			if(Client::state()==STATE_BREAK) {
 				BASE_PER_PERIOD_BEGIN(dt, NET_INFO.RECONNECT_TIME);
 				reconnect(Task(&StageClient::_reconnect,this));
 				notify("reconnect", NOTIFY_CONNECT);
