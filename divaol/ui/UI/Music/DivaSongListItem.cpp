@@ -243,10 +243,7 @@ namespace diva
 				}
 
 				// dif
-				divamap::DivaMap::Levels::iterator i = mapInfo.levels.begin();
-				for (int k = 0; k < difIndex; k++)
-					i++;
-				graphics->drawTextW(config[L"difNames"][(int)i->first].asString(), 60, 104);
+				graphics->drawTextW(config[L"difNames"][mapInfo.getLevel(difIndex)].asString(), 60, 104);
 
 				// download bar
 				if (!getDownloadFinished())
@@ -266,7 +263,7 @@ namespace diva
 
 				// dif
 				graphics->setFont(font);
-				graphics->drawTextW(L"¼òµ¥", 60, 104);
+				graphics->drawTextW(config[L"difNames"][difIndex].asString(), 60, 104);
 			}
 			else if (look == ARTIST)
 			{
