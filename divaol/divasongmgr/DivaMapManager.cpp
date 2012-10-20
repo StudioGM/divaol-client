@@ -26,7 +26,19 @@ namespace divamap
 
 	DivaMapManager::DivaMapManager()
 	{
-		
+		selectedMode=0;
+		GameModeStr[0] = "PVMode";
+		GameModeStr[1] = "CTMode";
+		GameModeStr[2] = "AutoMode";
+		GameModeStr[3] = "FastMode";
+		GameModeStr[4] = "SlowMode";
+		GameModeStr[5] = "DeathMode";
+		GameModeStr[6] = "RandomSwapMode";
+		GameModeStr[7] = "ChaosMode";
+		GameModeStr[8] = "DisappearMode";
+		GameModeStr[9] = "BlackHouseMode";
+		GameModeStr[10] = "NoFailMode";
+
 		listMsgOut = NULL;
 		if(!initFromLocalFile())
 		{
@@ -946,4 +958,48 @@ namespace divamap
 		if(indexL!=indexR&&indexL>=0&&indexL<selectedMaps.size() && indexR>=0&&indexR<selectedMaps.size())
 			std::swap(selectedMaps[indexL],selectedMaps[indexR]);
 	}
+
+
+	//Selected Mode functions
+	void DivaMapManager::SelectedMode_Set(long long int mode)
+	{
+		selectedMode = mode;
+	}
+	void DivaMapManager::SelectedMode_ToggleMode(DivaMapManager::GameMode mode, bool select)
+	{
+		if(!select)
+			selectedMode -= selectedMode | (((long long int)1) << (long long int)mode);
+		else
+		{
+			for (std::map<int, bool>::iterator i=ModeConflict[mode].begin();i!=ModeConflict[mode].end();i++)
+				if(i->second)
+					SelectedMode_ToggleMode((GameMode)i->first, false);
+			selectedMode |= (((long long int)1) << (long long int)mode);
+		}
+	}
+	std::vector<DivaMapManager::GameMode> DivaMapManager::GetSelectedMode()
+	{
+		std::vector<DivaMapManager::GameMode> ret;
+		for (std::map<int, std::string>::iterator i=GameModeStr.begin();i!=GameModeStr.end();i++)
+			if(IsModeSelected((GameMode)i->first))
+				ret.push_back((GameMode)i->first);
+		return ret;
+	}
+	long long int DivaMapManager::GetSelectedModeInt()
+	{
+		return selectedMode;
+	}
+	std::vector<std::string> DivaMapManager::GetSelectedModeStr()
+	{
+		std::vector<std::string> ret;
+		for (std::map<int, std::string>::iterator i=GameModeStr.begin();i!=GameModeStr.end();i++)
+			if(IsModeSelected((GameMode)i->first))
+				ret.push_back(i->second);
+		return ret;
+	}
+	bool DivaMapManager::IsModeSelected(GameMode mode)
+	{
+		return ((selectedMode & (1<<(long long int)mode)) >> (1<<(long long int)mode));
+	}
+
 }
