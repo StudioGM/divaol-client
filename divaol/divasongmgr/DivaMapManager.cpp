@@ -445,6 +445,8 @@ namespace divamap
 
 		DivaMapEventMessage thisMessage(thisQuest->eventType, thisQuest->mapID, false, false, 0);
 
+		DeleteFileW(thisQuest->localFileAddress.unicode_str());
+
 		CURL *curl_handle;
 		curl_handle = curl_easy_init();
 		thisQuest->curlHandle = curl_handle;
