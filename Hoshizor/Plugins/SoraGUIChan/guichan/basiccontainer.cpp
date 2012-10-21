@@ -228,6 +228,13 @@ namespace gcn
 
     void BasicContainer::add(Widget* widget)
     {
+		WidgetListIterator iter;
+		for (iter = mWidgets.begin(); iter != mWidgets.end(); iter++)
+		{
+			if (*iter == widget)
+				return;
+		}
+
         mWidgets.push_back(widget);
 
         if (mInternalFocusHandler == NULL)

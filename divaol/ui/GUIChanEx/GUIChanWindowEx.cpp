@@ -326,7 +326,16 @@ namespace gcn
 		}
 		bool lastEnable = GetTopWindow()->isEnabled(), lastVisible = GetTopWindow()->isVisible();
 		GetTopWindow()->setEnabled(false);
-		top->add(window);
+		
 		windows.push_back(WindowInfo(window, lastEnable, lastVisible, con, autoDelete));
+		for (std::list<WindowEx*>::iterator i = dWindowList.begin(); i != dWindowList.end(); i++)
+		{
+			if ((*i) == window)
+			{
+				dWindowList.erase(i);
+				return;
+			}
+		}
+		top->add(window);
 	}
 }

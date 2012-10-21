@@ -11,6 +11,7 @@
 #include "app/SoraGameApp.h"
 #include "Utility/DivaConfigLoader.h"
 #include "task/SoraTaskManager.h"
+#include "divanetwork/DivaNetworkManager.h"
 //#include "Mode/DivaRelayPlay.h"
 
 namespace divacore

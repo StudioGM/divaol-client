@@ -234,6 +234,7 @@ namespace gcn
     {
         while (!mInput->isMouseQueueEmpty())
          {
+
              MouseInput mouseInput = mInput->dequeueMouseInput();
 
              // Save the current mouse state. It will be needed if modal focus

@@ -44,7 +44,7 @@ namespace divanet
 	{
 	public:
 		enum StageState{OUTSIDE,GETTING_INFO,STAGE,GAME};
-		enum NotifyType{NOTIFY_STAGE_JOIN_RESPONSE = 0x80,NOTIFY_STAGE_LEAVE_RESPONSE,NOTIFY_STAGE_START,NOTIFY_UPDATE_INFO,NOTIFY_UPDATE_COLOR,NOTIFY_UPDATE_SONG,NOTIFY_UPDATE_MODE,NOTIFY_UPDATE_READY,NOTIFY_STAGE_JOIN,NOTIFY_STAGE_LEAVE,NOTIFY_STAGE_CLOSED};
+		enum NotifyType{NOTIFY_STAGE_JOIN_RESPONSE = 0x80,NOTIFY_STAGE_LEAVE_RESPONSE,NOTIFY_STAGE_START,NOTIFY_UPDATE_INFO,NOTIFY_UPDATE_COLOR,NOTIFY_UPDATE_SONG,NOTIFY_UPDATE_MODE,NOTIFY_UPDATE_READY,NOTIFY_STAGE_JOIN,NOTIFY_STAGE_LEAVE,NOTIFY_STAGE_CLOSED,NOTIFY_STAGE_RETURN};
 
 		virtual std::string name() const {return "stage";}
 
@@ -187,6 +187,11 @@ namespace divanet
 			}
 		}
 
+		void returnToStage(const std::string &info) {
+			if(info == "start_failed")
+				notify(info, NOTIFY_STAGE_RETURN);
+		}
+
 		const StageInfo& info() const {return mInfo;}
 
 		void onUpdate(float dt) {
@@ -227,6 +232,7 @@ namespace divanet
 
 		void gnet_startfailed(GPacket *packet) {
 			notify("failed", NOTIFY_STAGE_START, packet);
+			mState = STAGE;
 		}
 
 		void gnet_startnotify(GPacket *packet) {
@@ -240,7 +246,7 @@ namespace divanet
 
 		void gnet_start(GPacket *packet) {
 			notify("start", NOTIFY_STAGE_START, packet);
-			mState = GAME;
+			//mState = GAME;
 		}
 
 		void gnet_info(GPacket *packet) {

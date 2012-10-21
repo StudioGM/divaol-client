@@ -428,7 +428,8 @@ namespace diva
 				if(msg.description()=="ok")
 				{
 					//StateChange_ROOMLIST_STAGE();
-					mgr->GetMB()->Destroy();
+					if(mgr->GetMB()->isTopWindow())
+						mgr->GetMB()->Destroy();
 					setState(STATE_STAGE);
 					roomId = static_cast<divanet::GPacket*>(msg.extra())->getItem(2)->getString();
 				}
@@ -488,14 +489,17 @@ namespace diva
 				if(msg.description()=="start")
 				{
 					if(mgr->GetMB()->isTopWindow())
-						mgr->GetMB()->Destroy();
-					
+						mgr->CloseTopWindow();
+
 					Base::Path songPath = MAPMGR.GetDivaOLFilePath(STAGE_CLIENT.info().songId[0].songId, static_cast<divamap::DivaMap::LevelType>(STAGE_CLIENT.info().songId[0].level)); 
-					if(!MAPMGR.isMapLeagal(STAGE_CLIENT.info().songId[0].songId, static_cast<divamap::DivaMap::LevelType>(STAGE_CLIENT.info().songId[0].level)))
+					if(!MAPMGR.isMapLeagal(STAGE_CLIENT.info().songId[0].songId, static_cast<divamap::DivaMap::LevelType>(STAGE_CLIENT.info().songId[0].level))||!STAGE_CLIENT.owner())
 					{
 						mgr->GetMB()->Show(L"您的视听文件未通过CK大大验证！", L"提示", gcn::MessageBoxEx::TYPE_OK); 
 						STAGE_CLIENT.back();
+						return;
 					}
+					
+			
 					CORE_PTR->setSong(songPath.filePath().str(), songPath.fileName());
 					
 					CORE_PTR->setInitState("net_load");
@@ -590,6 +594,12 @@ namespace diva
 				break;
 			case divanet::StageClient::NOTIFY_TIMEOUT:
 				messagePanelChatBox->addText(L"[提示] 游戏服务器断开连接..", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+				break;
+			case divanet::StageClient::NOTIFY_STAGE_RETURN:
+				//if(mgr->GetMB()->isTopWindow())
+				//	mgr->CloseTopWindow();
+				//mgr->GetMB()->Show(L"开始游戏失败", L"提示", gcn::MessageBoxEx::TYPE_OK);
+				messagePanelChatBox->addText(L"[警告] 开始游戏失败!", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"warning"]));
 				break;
 			}
 		}

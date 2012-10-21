@@ -94,6 +94,7 @@ namespace divacore
 		//注册接收函数
 		GNET_RECEIVE_PACKET("game#membersinfoL",&MultiPlay::gnetMembersInfo);
 		GNET_RECEIVE_PACKET("game#playerupdateL",&MultiPlay::gnetPlayerUpdate);
+		GNET_RECEIVE_PACKET("game#start_failed",&MultiPlay::gnetStartFailed);
 		//GNET_RECEIVE_PACKET("stage#join_failed",&MultiPlay::gnetJoinFailed);
 		//GNET_RECEIVE_PACKET("stage#join_ok",&MultiPlay::gnetJoinOK);
 
@@ -122,6 +123,7 @@ namespace divacore
 
 		GNET_UNRECEIVE_PACKET("game#membersinfoL");
 		GNET_UNRECEIVE_PACKET("game#playerupdateL");
+		GNET_UNRECEIVE_PACKET("game#start_failed");
 		//GNET_UNRECEIVE_PACKET("stage#join_failed");
 		//GNET_UNRECEIVE_PACKET("stage#join_ok");
 
@@ -172,15 +174,20 @@ namespace divacore
 
 		if(getBaseState()!=GET_INFO&&getBaseState()!=READY)
 		{
-			NETWORK_SYSTEM_PTR->disconnect();
-			return;
+			setBaseState(FAILED);
+			//NETWORK_SYSTEM_setBaseState(FAILED);	return;
 		}
 
-		while(getBaseState()!=READY)
+		while(getBaseState()!=READY&&getBaseState()!=FAILED)
 		{
 			NETWORK_SYSTEM_PTR->waitForNext();
 
 			NETWORK_SYSTEM_PTR->refresh();
+		}
+
+		if(getBaseState()==FAILED)
+		{
+			return;
 		}
 
 		//准备完成
@@ -238,6 +245,11 @@ namespace divacore
 	void MultiPlay::gnetJoinOK(GPacket *packet)
 	{
 		setBaseState(GET_INFO);
+	}
+
+	void MultiPlay::gnetStartFailed(GPacket *packet)
+	{
+		setBaseState(FAILED);
 	}
 
 	void MultiPlay::render()

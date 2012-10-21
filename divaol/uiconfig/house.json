@@ -277,7 +277,8 @@
     "world" : [255, 255, 255],
     "private" : [0, 255, 0],
     "system" : [255, 255, 0],
-    "hint": [0, 0, 255]
+    "hint": [0, 0, 255],
+	"warning": [255, 0, 0]
   },
   "MessageArea/InputBox": {
     "filename": "res/room_001.png",
@@ -318,16 +319,7 @@
     "width": 694,
     "fontSize": 30,
     "maxLine": 7,
-    "testText": "hey，我不愿意活得像一个问号
-    东张西望找不到自己的跑道
-    现在我为梦想超速在奔跑
-    心在燃烧
-    来吧
-    唱出感觉high出味道
-    oh oh yeah yeah
-    我的舞台
-    我自己建造
-    要让全世界看到"
+    "testText": ""
   },
   "MessageArea/InputArea_BackGround": {
     "filename": "res/room_001.png",

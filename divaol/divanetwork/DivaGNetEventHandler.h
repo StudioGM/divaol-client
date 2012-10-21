@@ -105,12 +105,13 @@ namespace divanet
 
 			void receive(const std::string &id, EventFuncPtr eventFunc)
 			{
-				if(!isExisted(id))
-					netEventMap[id] = eventFunc;
-				else {
-					LOGGER->msg("Event "+id+" is existed!","EventManager");
-					return;
-				}
+				//if(!isExisted(id))
+				//	LOGGER->msg("Event "+id+" is existed!","EventManager");
+				netEventMap[id] = eventFunc;
+				//else {
+				//	LOGGER->msg("Event "+id+" is existed!","EventManager");
+				//	return;
+				//}
 			}
 			void unreceive(const std::string &id)
 			{
