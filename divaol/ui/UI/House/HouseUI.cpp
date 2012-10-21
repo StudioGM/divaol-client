@@ -217,6 +217,15 @@ namespace diva
 
 			// 
 
+			modeButton = Helper::CreateButton(sconf[L"DefaultButton"]);
+			modeButton->setPosition(sconf[L"ModeButton"][L"desX"].asInt(), sconf[L"ModeButton"][L"desY"].asInt());
+			modeButton->setVisible(false);
+			modeButton->setText(sconf[L"ModeButton"][L"text"].asString());
+			modeButton->addMouseListener(new LoginButton_MouseListener());
+			roomTop->add(modeButton);
+
+			modeWindow = CreateModeWindow(sconf);
+
 			roomTop->add(CreateThingList(sconf));
 
 			roomTop->add(CreateTeamList(sconf));
@@ -236,6 +245,8 @@ namespace diva
 			//////////////////////////////////////////////////////////////////////////
 
 			// ---------------------------  test
+
+
 
 			//mgr->GetMB()->Show(L"登录错误啊啊啊啊", L"测试", gcn::MessageBoxEx::TYPE_YESNO); 
 
@@ -867,6 +878,7 @@ namespace diva
 			teamList->setVisible(false);
 			stageList->setVisible(false);
 			//songList->setVisible(false);
+			modeButton->setVisible(false);
 			openGameButton->setVisible(false);
 			readyButton->setVisible(false);
 		}
@@ -930,7 +942,8 @@ namespace diva
 			thingList->setVisible(true);
 			teamList->setVisible(true);
 			stageList->setVisible(true);
-			songList->setVisible(true);
+			//songList->setVisible(true);
+			modeButton->setVisible(true);
 			if (STAGE_CLIENT.owner())
 				openGameButton->setVisible(true);
 			else
@@ -1518,6 +1531,40 @@ namespace diva
 			return thingList;
 		}
 
+		gcn::WindowEx* HouseUI::CreateModeWindow(const WJson::Value& conf)
+		{
+			using namespace gcn;
+			WindowEx* win = Helper::CreateWindow(conf[L"DefaultWindowBack"]);
+			win->SetMovable(true);
+
+			WJson::Value tv = conf[L"ModeWindow"];
+			int modeNum = tv[L"num"].asInt();
+			int per = tv[L"itemPerRow"].asInt();
+
+			modeButtonList.clear();
+			for (int i = 0; i < modeNum; i++)
+			{
+				SuperButtonEx* b = Helper::CreateButton(conf[L"DefaultButton"]);
+				b->setText(tv[L"names"][i].asString());
+				b->setPosition(tv[L"beginX"].asInt() + (i % per) * tv[L"gapX"].asInt(), tv[L"beginY"].asInt() + (i / per) * tv[L"gapY"].asInt());
+				b->userData = (void*)i;
+				b->addMouseListener(new Mode_MouseListener());
+				win->add(b);
+				modeButtonList.push_back(b);
+			}
+
+			modeConfirmButton = Helper::CreateButton(conf[L"DefaultButton"]);
+			modeConfirmButton->setText(tv[L"confirmName"].asString());
+			modeConfirmButton->setPosition(tv[L"confirmX"].asInt(), tv[L"confirmY"].asInt());
+			modeConfirmButton->addMouseListener(new LoginButton_MouseListener());
+			win->add(modeConfirmButton);
+
+			// caption
+			win->add(Helper::CreateLabel(tv[L"Caption"]));
+
+			return win;
+		}
+
 		gcn::ContainerEx* HouseUI::CreateStatusPanel(const WJson::Value& conf)
 		{
 			using namespace gcn;
@@ -1891,6 +1938,18 @@ namespace diva
 				//sora::SoraCore::Instance()->shutDown();
 				exit(0);
 			}
+			if (mouseEvent.getSource() == (gcn::Widget*) modeButton)
+			{
+				mgr->OpenWindow(modeWindow);
+				modeWindow->FadeIn(10);
+				return;
+			}
+			if (mouseEvent.getSource() == (gcn::Widget*) modeConfirmButton)
+			{
+				//mgr->OpenWindow(modeWindow);
+				modeWindow->FadeOut(10);
+				return;
+			}
 		}
 
 		void HouseUI::SetFatherState(HouseGameState* state)
@@ -1998,6 +2057,14 @@ namespace diva
 #endif
 		}
 
+		void HouseUI::ModeButtonClicked(int index)
+		{
+			bool b = modeButtonList[index]->getSelected();
+			MAPMGR.SelectedMode_ToggleMode((divamap::DivaMapManager::GameMode)index, !b);
+			for (int i = 0; i < 11; i++)
+				modeButtonList[i]->setSelected(MAPMGR.IsModeSelected((divamap::DivaMapManager::GameMode)i));
+		}
+
 
 		// ------------------------------------ Event ----------------------------------
 
@@ -2011,6 +2078,11 @@ namespace diva
 		void TeamSelect_MouseListener::mouseClicked(gcn::MouseEvent& mouseEvent)
 		{
 			HouseUI::Instance()->TeamListClicked(mouseEvent);
+		}
+
+		void Mode_MouseListener::mouseClicked(gcn::MouseEvent& mouseEvent)
+		{
+			HouseUI::Instance()->ModeButtonClicked( (int)((SuperButtonEx*)(mouseEvent.getSource()))->userData );
 		}
 	}
 }

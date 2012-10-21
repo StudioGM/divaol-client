@@ -65,6 +65,7 @@ namespace diva
 				  const std::wstring& mid1, const std::wstring& mid2, const std::wstring &mid3);
 			gcn::ListBoxEx* CreateStageList(const WJson::Value& conf);
 			gcn::ContainerEx* CreateSongList(const WJson::Value& conf);
+			gcn::WindowEx* CreateModeWindow(const WJson::Value& conf);
 
 			void RefreshStatus();
 			void Refresh_sPlayerList(bool netRefresh = true);
@@ -156,6 +157,10 @@ namespace diva
 			RoomListSlider* roomListSlider;
 			gcn::ContainerEx* songListImage;
 			MessageSlider* messageSlider;
+			gcn::ButtonEx* modeConfirmButton;
+			gcn::ButtonEx* modeButton;
+			gcn::WindowEx* modeWindow;
+			std::vector<SuperButtonEx*> modeButtonList;
 
 			gcn::ContainerEx* sPlayerListPanel;
 			gcn::ListBoxEx* sPlayerList;
@@ -214,6 +219,7 @@ namespace diva
 
 			virtual void action();
 			virtual void mouseClicked(const gcn::MouseEvent& mouseEvent);
+			void ModeButtonClicked(int index);
 		};
 
 		class LoginButton_MouseListener : public gcn::MouseListener
@@ -223,6 +229,12 @@ namespace diva
 		};
 
 		class TeamSelect_MouseListener : public gcn::MouseListener
+		{
+		public:
+			void mouseClicked(gcn::MouseEvent& mouseEvent);
+		};
+
+		class Mode_MouseListener : public gcn::MouseListener
 		{
 		public:
 			void mouseClicked(gcn::MouseEvent& mouseEvent);

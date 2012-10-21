@@ -30,6 +30,7 @@ namespace gcn
 		void setText(const std::wstring & text);
 		void setSE(const std::wstring &highlighted, const std::wstring clicked);
 		void setSelected(bool v = false);
+		bool getSelected() const;
 
 		virtual void mouseEntered(MouseEvent& mouseEvent);
 		virtual void mouseClicked(MouseEvent& mouseEvent);

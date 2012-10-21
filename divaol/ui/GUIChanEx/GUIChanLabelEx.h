@@ -19,6 +19,7 @@ namespace gcn
 		
 		std::wstring getText() const;
 		void setText(const std::wstring& v);
+		void adjustLabelSize();
 
 		void virtual draw(Graphics* graphics);
 	};

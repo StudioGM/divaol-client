@@ -2,6 +2,8 @@
 
 #include "GUIChanEx.h"
 
+#undef CreateWindow
+
 namespace gcn
 {
 	namespace Helper
@@ -37,6 +39,17 @@ namespace gcn
 			if (!conf.isMember(disable))
 				disable = normal;
 			return CreateButton(conf, normal, on, down, disable);
+		}
+
+		LabelEx* CreateLabel(const WJson::Value& conf)
+		{
+			LabelEx* label = new LabelEx();
+			label->setPosition(conf[L"desX"].asInt(), conf[L"desY"].asInt());
+			label->setText(conf[L"text"].asString());
+			label->adjustLabelSize();
+			if (conf.isMember(L"textColor"))
+				label->setForegroundColor(GetColor(conf[L"textColor"]));
+			return label;
 		}
 
 		Rectangle GetRect(const WJson::Value& v)
@@ -79,6 +92,28 @@ namespace gcn
 				return Color(v[L"r"].asInt(), v[L"g"].asInt(), v[L"b"].asInt(), v[L"a"].asInt());
 			else
 				return Color(v[L"r"].asInt(), v[L"g"].asInt(), v[L"b"].asInt());
+		}
+
+		ContainerEx* CreateStaticImage(const WJson::Value& conf)
+		{
+			using namespace gcn;
+			ContainerEx* con = new ContainerEx();
+			con->load(conf[L"filename"].asString(), 
+				gcn::Rectangle(conf[L"srcX"].asInt(), conf[L"srcY"].asInt(), conf[L"width"].asInt(), conf[L"height"].asInt()));
+			con->setSize(conf[L"width"].asInt(), conf[L"height"].asInt());
+			con->setPosition(conf[L"desX"].asInt(), conf[L"desY"].asInt());
+			return con;
+		}
+
+		WindowEx* CreateWindow(const WJson::Value& conf)
+		{
+			using namespace gcn;
+			WindowEx* con = new WindowEx();
+			con->load(conf[L"filename"].asString(), 
+				gcn::Rectangle(conf[L"srcX"].asInt(), conf[L"srcY"].asInt(), conf[L"width"].asInt(), conf[L"height"].asInt()));
+			con->setSize(conf[L"width"].asInt(), conf[L"height"].asInt());
+			con->setPosition(conf[L"desX"].asInt(), conf[L"desY"].asInt());
+			return con;
 		}
 	}
 }
