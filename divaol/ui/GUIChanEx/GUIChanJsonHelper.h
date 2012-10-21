@@ -2,6 +2,8 @@
 
 #include "lib/wjson/wjson.h"
 
+#undef CreateWindow
+
 namespace gcn
 {
 	class SuperButtonEx;
@@ -21,11 +23,11 @@ namespace gcn
 
 		SuperButtonEx* CreateButton(const WJson::Value& conf);
 
-		ContainerEx* CreateStaticImage(const WJson::Value& conf, const std::wstring& name);
+		ContainerEx* CreateStaticImage(const WJson::Value& conf);
 
-		WindowEx* CreateWindowEx(const WJson::Value& conf, const std::wstring& name);
+		WindowEx* CreateWindow(const WJson::Value& conf);
 
-		LabelEx* CreateLabel(const WJson::Value& conf, const std::wstring& name);
+		LabelEx* CreateLabel(const WJson::Value& conf);
 
 		WTextField* CreateInput(const WJson::Value& conf, const std::wstring& name);
 

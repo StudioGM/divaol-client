@@ -79,6 +79,11 @@ namespace gcn
 		}
 	}
 
+	bool ButtonEx::getSelected() const
+	{
+		return isSelected;
+	}
+
 	void ButtonEx::setSelected(bool v /* = false */)
 	{
 		isSelected = v;

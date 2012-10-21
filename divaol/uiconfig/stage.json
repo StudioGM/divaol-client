@@ -763,5 +763,77 @@
     "desY": 784,
     "width": 27,
     "height": 14
+  },
+  "DefaultButton": {
+    "down": {
+      "filename": "res/house/MessageBox_001.png",
+      "srcX": 0,
+      "srcY": 336,
+      "desX": 767,
+      "desY": 426,
+      "width": 115,
+      "height": 55
+    },
+    "on": {
+      "filename": "res/house/MessageBox_001.png",
+      "srcX": 0,
+      "srcY": 391,
+      "desX": 767,
+      "desY": 426,
+      "width": 115,
+      "height": 55
+    },
+    "normal": {
+      "filename": "res/house/MessageBox_001.png",
+      "srcX": 0,
+      "srcY": 446,
+      "desX": 775,
+      "desY": 434,
+      "width": 99,
+      "height": 39
+    }
+  },
+  "DefaultWindowBack": {
+    "filename": "res/house/MessageBox_001.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": 362,
+    "desY": 193,
+    "width": 581,
+    "height": 336
+  },
+  "ModeWindow": {
+    "Caption": {
+      "desX" : 60,
+      "desY" : 45,
+      "text" : "模式选择",
+      "textColor" : [255, 255, 255]
+    },
+    "num" : 11,
+    "names" : [
+      "鉴赏", 
+      "CTMode" ,
+      "Auto君" ,
+      "加速" ,
+      "减速" ,
+      "死亡" ,
+      "随机置换" ,
+      "混沌" ,
+      "渐隐" ,
+      "黑屋" ,
+      "尝试"],
+    "confirmName" : "确定",
+    "beginX" : 60,
+    "beginY" : 90,
+    "gapX": 110, 
+    "gapY": 50,
+    "itemPerRow": 4,
+    "confirmX" : 240,
+    "confirmY" : 240
+  },
+  "ModeButton": {
+    "desX" : 700,
+    "desY" : 400,
+    "text" : "模式选择"
   }
 }

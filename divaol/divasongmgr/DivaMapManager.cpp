@@ -970,7 +970,7 @@ namespace divamap
 	void DivaMapManager::SelectedMode_ToggleMode(DivaMapManager::GameMode mode, bool select)
 	{
 		if(!select)
-			selectedMode -= selectedMode | (((long long int)1) << (long long int)mode);
+			selectedMode -= selectedMode & (((long long int)1) << (long long int)mode);
 		else
 		{
 			for (std::map<int, bool>::iterator i=ModeConflict[mode].begin();i!=ModeConflict[mode].end();i++)
@@ -1001,7 +1001,7 @@ namespace divamap
 	}
 	bool DivaMapManager::IsModeSelected(GameMode mode)
 	{
-		return ((selectedMode & (1<<(long long int)mode)) >> (1<<(long long int)mode));
+		return (selectedMode >> (long long int)mode) & 1;
 	}
 
 }

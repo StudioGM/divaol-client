@@ -22,12 +22,20 @@ namespace gcn
 		return text;
 	}
 
+	void LabelEx::adjustLabelSize()
+	{
+		setWidth(getFont()->getWidthW(text) + 2);
+		setHeight(getFont()->getHeight() + 2);
+	}
+
 	void LabelEx::draw(Graphics* graphics)
 	{
 		if (text != L"")
 		{
+			Color c = getForegroundColor();
 			graphics->setFont(getFont());
-			graphics->setColor(getForegroundColor());
+			graphics->setColor(Color(c.r, c.g, c.b, getAlpha()));
+			//graphics->setColor(getForegroundColor());
 			graphics->drawTextW(text, 0, (getHeight() - getFont()->getHeight())/2);
 		}
 	}
