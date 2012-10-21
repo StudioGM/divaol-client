@@ -499,6 +499,8 @@ namespace divamap
 
 		if(curl_easy_perform(curl_handle)==CURLE_OK && !thisMessage.error)
 			thisMessage.downloadProgress=1;
+		else
+			thisMessage.error = true;
 
 		thisMessage.finish=true;
 

@@ -204,6 +204,7 @@ namespace divacore
 		 void pause();
 		 void resume();
 		 void over();
+		 void exitGame();
 		 void ready();
 		 void flowOver();
 		 void render(sora::SoraSprite *sprite, const std::string &tag = "");
