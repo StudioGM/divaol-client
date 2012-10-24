@@ -53,6 +53,10 @@ namespace Base
 				}
 		}
 
+		void clearObserver() {
+			mObservers.clear();
+		}
+
 		void notify(std::string description, uint32 msg, void *extra = 0, dword arg = 0) {
 			Notification nf(description,msg,this,extra,arg);
 			for(Observers::iterator ptr = mObservers.begin(); ptr != mObservers.end(); ptr++)

@@ -160,6 +160,15 @@ namespace Base
 		mTime = TimeVal(time*TimeUtil::resolution());
 		_refresh();
 	}
+
+	#define BASE_WAIT_FOR(Signal, Time)\
+	{\
+		double startTime = Base::GlobalTimeStamp::instance().elapsedInSecond();\
+		while(true) {\
+			if(Signal||Base::GlobalTimeStamp::instance().elapsedInSecond()-startTime>Time)\
+				break;\
+		}\
+	}
 }
 
 #endif

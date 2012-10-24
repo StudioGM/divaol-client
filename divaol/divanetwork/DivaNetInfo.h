@@ -11,7 +11,7 @@
 
 #include "DivaGNetSystem.h"
 #include "Lib/Base/Ptr.h"
-#include "Lib/Base/Singleton.h"
+#include "Lib/Base/Pattern/Singleton.h"
 
 namespace divanet
 {
@@ -50,10 +50,13 @@ namespace divanet
 	public:
 		bool login;
 		std::string username;
-		std::string nickname;
+		Base::String nickname;
 		std::string uid;
 		gnet::Bytes token;
 		ServiceInfos info;
+		static const int TIME_OUT = 10;
+		static const int TICK_TIME = 1;
+		static const int RECONNECT_TIME = 10;
 	};
 
 #define NET_INFO (divanet::NetInfo::instance())

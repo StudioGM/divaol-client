@@ -14,7 +14,7 @@
 #include "DivaNetInfo.h"
 #include "DivaGNetSystem.h"
 #include "Lib/Base/Ptr.h"
-#include "Lib/Base/Singleton.h"
+#include "Lib/Base/Pattern/Singleton.h"
 #include "SoraAutoUpdate.h"
 #include "DivaAuthClient.h"
 #include "DivaChatClient.h"

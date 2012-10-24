@@ -10,6 +10,7 @@
 #include "Lib/Base/Io/Path.h"
 #include "Lib/Base/Io/FileUtility.h"
 #include "Lib/wjson/wjson.h"
+#include "Lib/MD5/md52.h"
 #include "ZLIB/zlib.h"
 #include "DivaMapEncryption.h"
 
@@ -19,15 +20,25 @@
 
 namespace divamap
 {
-
-#define LocalSongDirectoryW L"song/"
 #define MAXSelectedMapCount 5
 
 #define FILEBUF_LEN 1000
 
 	DivaMapManager::DivaMapManager()
 	{
-		
+		selectedMode=0;
+		GameModeStr[0] = "PVMode";
+		GameModeStr[1] = "CTMode";
+		GameModeStr[2] = "AutoMode";
+		GameModeStr[3] = "FastMode";
+		GameModeStr[4] = "SlowMode";
+		GameModeStr[5] = "DeathMode";
+		GameModeStr[6] = "RandomSwapMode";
+		GameModeStr[7] = "ChaosMode";
+		GameModeStr[8] = "DisappearMode";
+		GameModeStr[9] = "BlackHouseMode";
+		GameModeStr[10] = "NoFailMode";
+
 		listMsgOut = NULL;
 		if(!initFromLocalFile())
 		{
@@ -40,7 +51,7 @@ namespace divamap
 
 		//For test
 		downloadCategoryServerAddress = L"http://divaol.b0.upaiyun.com";
-		mapListQueryAddress = L"http://59.78.38.5:8139/game/getMapInfo?datetime=";
+		mapListQueryAddress = L"http://openxpn.org/game/getMapInfo?datetime=";
 		//PrepareDivaMapListInfo();
 	}
 	DivaMapManager::~DivaMapManager()
@@ -349,9 +360,11 @@ namespace divamap
 						else
 							saveToLocalFile();
 					}
-						
 				}
 			}
+
+			if(thisMessage.eventType==DivaMapEventMessage::PrepareMapDataFile || thisMessage.eventType==DivaMapEventMessage::PrepareMapDataFileNoVideo)
+				mapDownloadPercent[thisMessage.effectedMapID] = thisMessage.downloadProgress;
 				
 			
 			if(listMsgOut)
@@ -373,6 +386,15 @@ namespace divamap
 		if(eventMsg->eventType == DivaMapEventMessage::PrepareMapDataFile)
 			MAPMGR.GetMessageQueue().put((*eventMsg));
 		return 0;
+	}
+
+	int DivaMap::getDifIndex(divamap::DivaMap::LevelType l) const
+	{
+		divamap::DivaMap::Levels::const_iterator i = levels.cbegin();
+		int ret = 0;
+		while (i->first != l)
+			i++, ret++;
+		return ret;
 	}
 
 	static size_t
@@ -422,6 +444,8 @@ namespace divamap
 		DivaMapManagerDownloadQuest *thisQuest = (DivaMapManagerDownloadQuest*)arg_quest;
 
 		DivaMapEventMessage thisMessage(thisQuest->eventType, thisQuest->mapID, false, false, 0);
+
+		DeleteFileW(thisQuest->localFileAddress.unicode_str());
 
 		CURL *curl_handle;
 		curl_handle = curl_easy_init();
@@ -475,6 +499,8 @@ namespace divamap
 
 		if(curl_easy_perform(curl_handle)==CURLE_OK && !thisMessage.error)
 			thisMessage.downloadProgress=1;
+		else
+			thisMessage.error = true;
 
 		thisMessage.finish=true;
 
@@ -677,10 +703,58 @@ namespace divamap
 
 	}
 
+	DivaMap::LevelType DivaMap::getLevel(int index) const
+	{
+		int j = index;
+		divamap::DivaMap::Levels::const_iterator i = levels.cbegin();
+		while (j)
+			i++;
+		return i->first;
+	}
+
+	float DivaMapManager::GetMapDownloadProgress(int id)
+	{
+		if(!isMapIdLeagal(id))
+			return 0;
+		else if(isOperating[id][DivaMapEventMessage::PrepareMapDataFile] || isOperating[id][DivaMapEventMessage::PrepareMapDataFileNoVideo])
+			return mapDownloadPercent[id]*0.8f;
+		else if(isOperating[id][DivaMapEventMessage::UnpackMapDataFile])
+			return 0.8f;
+		else
+		{
+			if(isMapDownloaded(id))
+				return 1;
+			else
+				return 0;
+		}
+	}
+
+	bool DivaMapManager::isMapDownloaded(int id)
+	{
+		if(!isMapIdLeagal(id))
+			return false;
+		if(isOperating[id][DivaMapEventMessage::PrepareMapDataFile] || isOperating[id][DivaMapEventMessage::PrepareMapDataFileNoVideo]
+			|| isOperating[id][DivaMapEventMessage::UnpackMapDataFile])
+				return false;
+		else
+		{
+			for (MAPLEVELITERATOR levelI = maps[id].levels.begin();levelI!=maps[id].levels.end();levelI++)
+			{
+				FILE *divaFile;
+				if(_wfopen_s(&divaFile, GetDivaOLFilePath(id, levelI->first).c_str(), L"r")!=0)
+					return false;
+				else
+					fclose(divaFile);
+			}
+			return true;
+		}
+	}
+
 	bool DivaMapManager::PrepareDirectFile(int id, DivaMapEventMessage::DIVAMAPMGREVENT eventType)
 	{
 		if(maps.find(id)==maps.end() || isOperating[id][eventType])
 			return false;
+		isOperating[id][eventType]=true;
 
 		//Check if thumb file already exists
 		if(eventType==DivaMapEventMessage::PrepareThumbFile || eventType==DivaMapEventMessage::PrepareAudioPreviewFile)
@@ -717,20 +791,9 @@ namespace divamap
 		else if(eventType==DivaMapEventMessage::PrepareMapDataFile || eventType==DivaMapEventMessage::PrepareMapDataFileNoVideo)
 		{
 			//Check local map file exists
-			bool needToDownload = false;
-			for (MAPLEVELITERATOR levelI = maps[id].levels.begin();levelI!=maps[id].levels.end();levelI++)
+			if(!isMapDownloaded(id))
 			{
-				FILE *divaFile;
-				if(_wfopen_s(&divaFile, GetDivaOLFilePath(id, levelI->first).c_str(), L"r")!=0)
-				{
-					needToDownload=true;
-					break;
-				}
-				else
-					fclose(divaFile);
-			}
-			if(needToDownload)
-			{
+				mapDownloadPercent[id] = 0;
 				Base::String localFile = Base::Path::CombinePath(Base::String(LocalSongDirectoryW),
 					L"MAP_"+Base::String::any2string(id)+ (eventType==DivaMapEventMessage::PrepareMapDataFile?L"":L"_noVideo") + L".divaolpack").str();
 				Base::String remoteFile = Base::String(downloadCategoryServerAddress) + L"/" + localFile;
@@ -757,17 +820,14 @@ namespace divamap
 		
 		return true;
 	}
-
 	bool DivaMapManager::PrepareDivaMapThumb(int id)
 	{
 		return PrepareDirectFile(id, DivaMapEventMessage::PrepareThumbFile);
 	}
-
 	bool DivaMapManager::PrepareDivaMapAudioPreview(int id)
 	{
 		return PrepareDirectFile(id, DivaMapEventMessage::PrepareAudioPreviewFile);
 	}
-
 	bool DivaMapManager::PrepareDivaMapData(int id, bool novideo)
 	{
 		if(!novideo)
@@ -775,15 +835,6 @@ namespace divamap
 		else
 			return PrepareDirectFile(id, DivaMapEventMessage::PrepareMapDataFileNoVideo);
 	}
-
-	bool DivaMapManager::PrepareCheckLocalMapDataFileLeagal(int id)
-	{
-		if(maps.find(id)==maps.end())
-			return false;
-
-		return true;
-	}
-
 	bool DivaMapManager::PrepareDivaMapDataFromFile(std::wstring divaolpackFile)
 	{
 		DivaMapManagerDownloadQuest *thisQuest = new DivaMapManagerDownloadQuest(L"",divaolpackFile,-1,DivaMapEventMessage::UnpackMapDataFile);
@@ -842,7 +893,7 @@ namespace divamap
 	{
 		if(id==0)
 			return L"Random";
-		else if(maps.find(id)!=maps.end())
+		else if(isMapLevelExist(id, level))
 			return Base::Path::CombinePath(Base::String(GetMapDirectory(id)),Base::String(maps.find(id)->second.levels[level].divaFileName)).str().asUnicode();
 		else
 			return L"";
@@ -852,6 +903,37 @@ namespace divamap
 	{
 		if(maps.find(id)==maps.end())
 			return false;
+		return true;
+	}
+	bool DivaMapManager::isMapLevelExist(int id, DivaMap::LevelType level)
+	{
+		if(!isMapIdLeagal(id))
+			return false;
+		else
+		{
+			MAPITERATOR mapI = maps.find(id);
+			if(mapI->second.levels.find(level) == mapI->second.levels.end())
+				return false;
+		}
+		return true;
+	}
+
+	bool DivaMapManager::isMapLeagal(int id, DivaMap::LevelType level)
+	{
+		if(!isMapLevelExist(id, level))
+			return false;
+		else if(isOperating[id][DivaMapEventMessage::PrepareMapDataFile] || isOperating[id][DivaMapEventMessage::PrepareMapDataFileNoVideo])
+			return false;
+		else if(isOperating[id][DivaMapEventMessage::UnpackMapDataFile])
+			return false;
+		else
+		{
+			std::wstring filename = GetDivaOLFilePath(id, level);
+			MD52 md5(filename);
+			Base::String md5str(md5.toString());
+			if(md5str != Base::String(maps[id].levels[level].FileMD5Value))
+				return false;
+		}
 		return true;
 	}
 
@@ -880,4 +962,48 @@ namespace divamap
 		if(indexL!=indexR&&indexL>=0&&indexL<selectedMaps.size() && indexR>=0&&indexR<selectedMaps.size())
 			std::swap(selectedMaps[indexL],selectedMaps[indexR]);
 	}
+
+
+	//Selected Mode functions
+	void DivaMapManager::SelectedMode_Set(long long int mode)
+	{
+		selectedMode = mode;
+	}
+	void DivaMapManager::SelectedMode_ToggleMode(DivaMapManager::GameMode mode, bool select)
+	{
+		if(!select)
+			selectedMode -= selectedMode & (((long long int)1) << (long long int)mode);
+		else
+		{
+			for (std::map<int, bool>::iterator i=ModeConflict[mode].begin();i!=ModeConflict[mode].end();i++)
+				if(i->second)
+					SelectedMode_ToggleMode((GameMode)i->first, false);
+			selectedMode |= (((long long int)1) << (long long int)mode);
+		}
+	}
+	std::vector<DivaMapManager::GameMode> DivaMapManager::GetSelectedMode()
+	{
+		std::vector<DivaMapManager::GameMode> ret;
+		for (std::map<int, std::string>::iterator i=GameModeStr.begin();i!=GameModeStr.end();i++)
+			if(IsModeSelected((GameMode)i->first))
+				ret.push_back((GameMode)i->first);
+		return ret;
+	}
+	long long int DivaMapManager::GetSelectedModeInt()
+	{
+		return selectedMode;
+	}
+	std::vector<std::string> DivaMapManager::GetSelectedModeStr()
+	{
+		std::vector<std::string> ret;
+		for (std::map<int, std::string>::iterator i=GameModeStr.begin();i!=GameModeStr.end();i++)
+			if(IsModeSelected((GameMode)i->first))
+				ret.push_back(i->second);
+		return ret;
+	}
+	bool DivaMapManager::IsModeSelected(GameMode mode)
+	{
+		return (selectedMode >> (long long int)mode) & 1;
+	}
+
 }

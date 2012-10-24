@@ -54,6 +54,14 @@ namespace Base
 			ThreadImpl::start();
 		}
 
+		inline void stop() {
+			ThreadImpl::exit();
+		}
+
+		inline void wait() {
+			ThreadImpl::wait();
+		}
+
 		func_type& func() {
 			return mFunc;
 		}

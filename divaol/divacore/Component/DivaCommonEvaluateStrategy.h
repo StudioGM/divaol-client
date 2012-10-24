@@ -164,7 +164,8 @@ namespace divacore
 		{
 			// NETWORK CAUTION
 			divacore::SimpleUIPainter * uiPainter = (divacore::SimpleUIPainter*)UI_PAINTER_PTR;
-
+			
+			evals.clear();
 			mRank = mResult.evalData;
 			sort(mRank.begin(),mRank.end());
 			for(int i = 0; i < mRank.size(); i++) {

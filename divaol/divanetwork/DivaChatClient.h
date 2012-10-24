@@ -66,6 +66,16 @@ namespace divanet
 			leave(room);
 		}
 
+		void onUpdate(float dt) {
+			Client::onUpdate(dt);
+			if(state()==STATE_BREAK) {
+				BASE_PER_PERIOD_BEGIN(dt, NET_INFO.RECONNECT_TIME);
+				reconnect(Task(&ChatClient::_reconnect,this));
+				notify("reconnect", NOTIFY_CONNECT);
+				BASE_PER_PERIOD_END();
+			}
+		}
+
 	public:
 		//gnet callback
 		void gnet_login(GPacket *packet) {
@@ -130,11 +140,16 @@ namespace divanet
 			mNetSys->send("chat#create","%S",room);
 		}
 
+		void _reconnect() {
+			if(connect_thread())
+				login();
+		}
+
 	protected:
 		friend class Base::Singleton<ChatClient>;
 
 		ChatClient(){}
-		~ChatClient() {}
+		~ChatClient() {logout();}
 
 	private:
 		std::vector<std::string> mRooms;

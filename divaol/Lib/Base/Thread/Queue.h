@@ -64,6 +64,21 @@ namespace Base
 				return true;
 			}
 
+			bool task_on()
+			{
+				mMutex.lock();
+				if(mQueue.empty()) {
+					mMutex.unlock();
+					return false;
+				}
+				return true;
+			}
+
+			void task_done()
+			{
+				mMutex.unlock();
+			}
+
 			size_t size() {
 				BASE_MUTEX_GUARD(mMutex);
 				return mQueue.size();

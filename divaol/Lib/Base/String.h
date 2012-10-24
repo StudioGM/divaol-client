@@ -95,7 +95,7 @@ namespace Base
 		}
 
 		wchar operator[](IndexVar index) const {return getWChar(index);}
-		IndexVar operator()(const String& sub, IndexVar off = npos, bool isReverse = false) {
+		IndexVar operator()(const String& sub, IndexVar off = npos, bool isReverse = false) const {
 			if(isReverse)
 				return rfind(sub,off);
 			else
@@ -164,6 +164,9 @@ namespace Base
 			return string2any<T>(*this);
 		}
 		static String format(const char* fmt, ...);
+		static String unEscape(String origin) {
+			return Base::unEscape(origin);
+		}
 
 	private:
 		base_wstring mContent;

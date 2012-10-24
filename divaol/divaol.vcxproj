@@ -603,6 +603,7 @@
     <ClInclude Include="Lib\curl\stdcheaders.h" />
     <ClInclude Include="Lib\curl\typecheck-gcc.h" />
     <ClInclude Include="Lib\curl\types.h" />
+    <ClInclude Include="Lib\MD5\md52.h" />
     <ClInclude Include="Lib\wjson\wautolink.h" />
     <ClInclude Include="Lib\wjson\wconfig.h" />
     <ClInclude Include="Lib\wjson\wfeatures.h" />
@@ -805,6 +806,7 @@
     <ClCompile Include="Lib\Base\Random.cpp" />
     <ClCompile Include="Lib\Base\String.cpp" />
     <ClCompile Include="Lib\Base\Timer.cpp" />
+    <ClCompile Include="Lib\MD5\md52.cpp" />
     <ClCompile Include="Lib\wjson\wjson_reader.cpp" />
     <ClCompile Include="Lib\wjson\wjson_value.cpp" />
     <ClCompile Include="Lib\wjson\wjson_writer.cpp" />

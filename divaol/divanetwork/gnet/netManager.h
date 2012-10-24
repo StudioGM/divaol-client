@@ -30,8 +30,10 @@ namespace gnet
 			mSendThreadHandle = CreateThread(NULL, 0, _SendThread, (LPVOID)this, 0, 0);
 		}
 		void disconnect() {
-			CloseHandle(mRecvThreadHandle);
-			CloseHandle(mSendThreadHandle);
+			TerminateThread(mRecvThreadHandle, 0);
+			//wait for remain message to sendout
+			BASE_WAIT_FOR(mSendQueue.empty(),5.0);
+			TerminateThread(mSendThreadHandle, 0);
 
 			clear(true, true);
 

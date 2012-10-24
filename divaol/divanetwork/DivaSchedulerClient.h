@@ -14,7 +14,7 @@
 namespace divanet
 {
 	struct RoomInfo {
-		enum {STAGE,GAME};
+		enum {STAGE,GAME,CHECKOUT};
 
 		std::string ownerId;
 		uint64 CreationTime;
@@ -53,6 +53,17 @@ namespace divanet
 			return infos;
 		}
 
+		void onUpdate(float dt) {
+
+			Client::onUpdate(dt);
+			if(state()==STATE_BREAK) {
+				BASE_PER_PERIOD_BEGIN(dt, NET_INFO.RECONNECT_TIME);
+				reconnect(Task(&SchedulerClient::_reconnect,this));
+				notify("reconnect", NOTIFY_CONNECT);
+				BASE_PER_PERIOD_END();
+			}
+		}
+
 	public:
 		void gnet_response(GPacket *packet) {
 			std::string type = packet->getItem(2)->getString();
@@ -71,7 +82,7 @@ namespace divanet
 					info.CreationTime = item->getItem(1)->getInt();
 					info.serverId = item->getItem(2)->getInt();
 					info.capacity = roomInfo->getItem(0)->getInt();
-					info.state = roomInfo->getItem(1)->getString()=="stage"?RoomInfo::STAGE:RoomInfo::GAME;
+					info.state = roomInfo->getItem(1)->getString()=="stage"?RoomInfo::STAGE:("game"?RoomInfo::GAME:RoomInfo::CHECKOUT);
 					info.sondId = roomInfo->getItem(2)->getInt();
 					info.playernum = roomInfo->getItem(3)->getInt();
 
@@ -87,11 +98,16 @@ namespace divanet
 			}
 		} 
 
+	private:
+		void _reconnect() {
+			connect_thread();
+		}
 	protected:
-		friend class Base::Singleton<SchedulerClient>;
-
 		SchedulerClient(){}
 		~SchedulerClient() {}
+		friend class Base::Singleton<SchedulerClient>;
+
+		
 
 	private:
 		RoomInfos infos;
