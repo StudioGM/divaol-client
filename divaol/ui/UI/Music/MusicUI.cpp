@@ -430,6 +430,7 @@ namespace diva
 					if ( item->hasListening() )
 					{
 						playTimer.reset();
+						sora::SoraBGMManager::Instance()->stop(false);
 						sora::SoraBGMManager::Instance()->play(item->getListening(), false);
 						countStarted = false;
 					}
@@ -692,7 +693,7 @@ namespace diva
 		{
 			if (index == -1)
 			{
-				sora::SoraBGMManager::Instance()->stop(false);
+				//sora::SoraBGMManager::Instance()->stop(false);
 				countStarted = false;
 				return;
 			}
@@ -700,7 +701,7 @@ namespace diva
 			{
 				thumbImage->load(noimageFileName, noimageRect, true);
 				songInfoContainer->setTextVisible(false);
-				sora::SoraBGMManager::Instance()->stop(false);
+				//sora::SoraBGMManager::Instance()->stop(false);
 				countStarted = false;
 				return;
 			}
@@ -709,7 +710,7 @@ namespace diva
 			{
 				thumbImage->load(randomFileName, randomRect, true);
 				songInfoContainer->setTextVisible(false);
-				sora::SoraBGMManager::Instance()->stop(false);
+				//sora::SoraBGMManager::Instance()->stop(false);
 				countStarted = false;
 				return;
 			}
