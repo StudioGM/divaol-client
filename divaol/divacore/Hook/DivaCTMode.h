@@ -15,7 +15,7 @@ namespace divacore
 {
 	const int MAX_LEVEL = 7;
 	const float RATE[MAX_LEVEL] = {1,1.5,2,2.5,3,3.5,4};
-	const float SpeedUp[MAX_LEVEL] = {1,2,3,4,5,6,7};
+	const float SpeedUp[MAX_LEVEL] = {1,1,2,4,5,6,7};
 	const float Duration[MAX_LEVEL] = {10,10,10,10,10,10,10};
 	const float CostValueWithTime[MAX_LEVEL][2] = {{0,GRID_PER_BAR},
 									{100,GRID_PER_BAR},
