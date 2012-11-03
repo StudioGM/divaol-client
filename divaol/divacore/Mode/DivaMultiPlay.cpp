@@ -127,7 +127,7 @@ namespace divacore
 		//GNET_UNRECEIVE_PACKET("stage#join_failed");
 		//GNET_UNRECEIVE_PACKET("stage#join_ok");
 
-		NETWORK_SYSTEM_PTR->send("game#overR");
+		NETWORK_SYSTEM_PTR->send("game#overR","%b",CORE_FLOW_PTR->isSongOver());
 	}
 	void MultiPlay::setMyInfo(Config &config)
 	{

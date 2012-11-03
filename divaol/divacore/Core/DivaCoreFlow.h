@@ -57,6 +57,7 @@ namespace divacore
 		virtual uint8 getState() {return 0;}
 		virtual double getBPM() {return 0;}
 		virtual std::string getMainSound() = 0;
+		virtual bool isSongOver() {return false;}
 		virtual void onKeyPressed(KeyEvent& event) {}
 		virtual void onKeyReleased(KeyEvent& event) {}
 		//registerEvent

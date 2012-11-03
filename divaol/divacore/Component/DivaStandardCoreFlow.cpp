@@ -46,6 +46,7 @@ namespace divacore
 		timeCounter.reset();
 		mainSound = "";
 		mIsFinish = true;
+		mIsSongOver = false;
 
 		state = INIT;
 	}
@@ -130,6 +131,7 @@ namespace divacore
 				//endTask
 
 				mIsFinish = true;
+				mIsSongOver = nowTime>=totalTime;
 
 				endTask.start();
 

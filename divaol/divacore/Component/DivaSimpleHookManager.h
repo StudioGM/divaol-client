@@ -71,6 +71,17 @@ namespace divacore
 
 		virtual void insert(HookPtr hook)
 		{
+			if(hook->getName()!="")
+			{
+				if(hookMap.find(hook->getName())==hookMap.end())
+					hookMap[hook->getName()] = hook;
+				else
+				{
+					LOGGER->notice("Hook "+hook->getName()+" already exists");
+					return;
+				}
+			}
+
 			if(hook->hasAbility(Hook::RENDER))
 				renderHooks += hook;
 			if(hook->hasAbility(Hook::STATE))
@@ -85,14 +96,6 @@ namespace divacore
 			mutex.lock();
 			hooks += hook;
 			mutex.unlock();
-
-			if(hook->getName()!="")
-			{
-				if(hookMap.find(hook->getName())==hookMap.end())
-					hookMap[hook->getName()] = hook;
-				else
-					DIVA_EXCEPTION_MODULE("Hook "+hook->getName()+" already exists","SimpleHookManager");
-			}
 		}
 		virtual void del(HookPtr hook)
 		{

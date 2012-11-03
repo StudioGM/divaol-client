@@ -194,6 +194,9 @@ namespace gnet
 				case 'd':
 					*tuple += (int32)va_arg(ArgPtr,int32);
 					break;
+				case 'D':
+					*tuple += (int64)va_arg(ArgPtr,int64);
+					break;
 				case 's':
 					*tuple += (Binary)va_arg(ArgPtr,char*);
 					break;

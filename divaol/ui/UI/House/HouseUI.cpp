@@ -561,6 +561,7 @@ namespace diva
 				for (int i=0; i<teamListButtons.size(); i++)
 					teamListButtons[i]->setSelected(color == i);
 				}
+				MAPMGR.SelectedMode_Set(STAGE_CLIENT.info().hooks);
 
 				Refresh_sPlayerList();
 				
@@ -592,6 +593,10 @@ namespace diva
 						STAGE_CLIENT.unready();
 				}
 				messagePanelChatBox->addText(L"[提示] 房主更改了歌曲列表", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+				break;
+			case divanet::StageClient::NOTIFY_UPDATE_HOOK:
+				MAPMGR.SelectedMode_Set(STAGE_CLIENT.info().hooks);
+				messagePanelChatBox->addText(L"[提示] 房主更改了游戏模式", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 				break;
 			case divanet::StageClient::NOTIFY_STAGE_LEAVE_RESPONSE:
 				break;
@@ -1948,6 +1953,7 @@ namespace diva
 			{
 				//mgr->OpenWindow(modeWindow);
 				modeWindow->FadeOut(10);
+				STAGE_CLIENT.setHooks(MAPMGR.GetSelectedModeInt());
 				return;
 			}
 		}

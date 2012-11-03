@@ -33,6 +33,7 @@ namespace divanet
 	struct StageInfo {
 		enum State{STAGE,GAME};
 		uint32 capacity;
+		int64 hooks;
 		std::string owner;
 		std::string mode;
 		SongList songId;
@@ -44,7 +45,19 @@ namespace divanet
 	{
 	public:
 		enum StageState{OUTSIDE,GETTING_INFO,STAGE,GAME};
-		enum NotifyType{NOTIFY_STAGE_JOIN_RESPONSE = 0x80,NOTIFY_STAGE_LEAVE_RESPONSE,NOTIFY_STAGE_START,NOTIFY_UPDATE_INFO,NOTIFY_UPDATE_COLOR,NOTIFY_UPDATE_SONG,NOTIFY_UPDATE_MODE,NOTIFY_UPDATE_READY,NOTIFY_STAGE_JOIN,NOTIFY_STAGE_LEAVE,NOTIFY_STAGE_CLOSED,NOTIFY_STAGE_RETURN};
+		enum NotifyType{NOTIFY_STAGE_JOIN_RESPONSE = 0x80,
+						NOTIFY_STAGE_LEAVE_RESPONSE,
+						NOTIFY_STAGE_START,
+						NOTIFY_UPDATE_INFO,
+						NOTIFY_UPDATE_COLOR,
+						NOTIFY_UPDATE_SONG,
+						NOTIFY_UPDATE_MODE,
+						NOTIFY_UPDATE_HOOK,
+						NOTIFY_UPDATE_READY,
+						NOTIFY_STAGE_JOIN,
+						NOTIFY_STAGE_LEAVE,
+						NOTIFY_STAGE_CLOSED,
+						NOTIFY_STAGE_RETURN};
 
 		virtual std::string name() const {return "stage";}
 
@@ -61,6 +74,7 @@ namespace divanet
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#draw",&StageClient::gnet_draw);
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#setSong",&StageClient::gnet_setSong);
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#setMode",&StageClient::gnet_setMode);
+			GNET_RECEIVE_REGISTER(mNetSys,"stage#setHooks",&StageClient::gnet_setHooks);
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#ready",&StageClient::gnet_ready);
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#unready",&StageClient::gnet_unready);
 		}
@@ -119,6 +133,11 @@ namespace divanet
 		void setMode(std::string mode) {
 			if(mState==STAGE&&owner())
 				mNetSys->send("stage#setMode","%S",mode);
+		}
+
+		void setHooks(int64 hooks) {
+			if(mState==STAGE&&owner())
+				mNetSys->send("stage#setHooks","%d",hooks);
 		}
 
 		void changeSlot(uint32 slot) {
@@ -258,6 +277,7 @@ namespace divanet
 			_gnet_parse_songList(stageInfo->getItem(2)->as<divanet::ItemList>());
 			mInfo.mode = stageInfo->getItem(3)->getString();
 			mInfo.status = stageInfo->getItem(4)->getString()=="stage"?StageInfo::STAGE:StageInfo::GAME;
+			mInfo.hooks = stageInfo->getItem(5)->getInt();
 
 			mInfo.waiters.clear();
 			for(int i = 0; i < members->size(); i++) {
@@ -325,6 +345,15 @@ namespace divanet
 			mInfo.mode = packet->getItem(2)->getString();
 
 			notify(mInfo.mode, NOTIFY_UPDATE_MODE, packet);
+		}
+
+		void gnet_setHooks(GPacket *packet) {
+			if(state()!=STAGE)
+				return;
+
+			mInfo.hooks = packet->getItem(2)->getInt();
+
+			notify("updateHooks", NOTIFY_UPDATE_HOOK, packet);
 		}
 
 		void gnet_ready(GPacket *packet) {

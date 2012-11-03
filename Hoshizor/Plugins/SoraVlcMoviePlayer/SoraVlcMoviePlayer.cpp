@@ -12,6 +12,7 @@
 #include "SoraLogger.h"
 #include "SoraTexture.h"
 #include "Core/DivaStringUtil.h"
+#include "Lib/Base/Base.h"
 
 namespace sora {
     
@@ -139,10 +140,17 @@ namespace sora {
 
         if(media) { libvlc_media_release(media); }
 
-		mFilePath = filePath;
+		mFilePath = (Base::Path::GetApplicationPath()+filePath.getw()).asUnicode();
 
-		media = libvlc_media_new_path(vlcInstance, divacore::GBKToUTF8(filePath).c_str());
+		std::string utf8path = Base::String(mFilePath.getw()).replace('/','\\').asUTF8();
+
+		media = libvlc_media_new_path(vlcInstance, utf8path.c_str());
 		
+		if(!media) {
+			log_error("SoraVlcMoviePlayer: Error creating vlc media file");
+			return false;
+		}
+
 		if(mp) {
 			libvlc_media_player_release(mp);
 		}
