@@ -1,7 +1,7 @@
 {
 	"windowWidth" : 1280,
 	"windowHeight" : 720,
-	"song" : "song/千本桜",
-	"map" : "千本桜_Hard.divaol",
+	"song" : "song/MAP_1",
+	"map" : "ODDS&ENDS_Easy.divaol",
 	"fadeTime" : 0.5
 }
