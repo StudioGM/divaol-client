@@ -42,6 +42,7 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir)../Hoshizor/Plugins/fmod/;$(ProjectDir)../Hoshizor/Plugins/SoraBox2dPhysics;$(ProjectDir)../Hoshizor/Plugins\SoraVlcMoviePlayer\win32\include;$(ProjectDir)../Hoshizor/Plugins/SoraLua/LuaPlus/src;$(ProjectDir)../Hoshizor./Plugins/SoraLua;$(ProjectDir)../Hoshizor/Plugins/libvlc/win32/include;$(ProjectDir)../Hoshizor/Plugins/cg;$(ProjectDir)/../Hoshizor/Plugins/SoraShader;$(ProjectDir)/../Hoshizor/Plugins/SoraGUIChan;$(ProjectDir)/../Hoshizor/Plugins/SoraFreetypeFont/;$(DXSDK_DIR)/include;$(ProjectDir)/../Hoshizor/Plugins;$(ProjectDir)/../Hoshizor/Sora;$(ProjectDir)/divacore/;$(ProjectDir)/;$(ProjectDir)/divacore/Lib;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)../Hoshizor/Plugins\SoraVlcMoviePlayer/win32/lib;$(ProjectDir)../Hoshizor/Plugins/fmod/;$(ProjectDir)../Hoshizor/Plugins/SoraOGLRenderer;$(ProjectDir)../Hoshizor/Plugins/SoraGifSprite;$(ProjectDir)../Hoshizor/Plugins/SoraFreetypeFont;$(ProjectDir)../Hoshizor/Plugins/SoraAudiereSoundSystem;$(ProjectDir)../Hoshizor/Plugins/SoraHttpFile;$(ProjectDir)../Hoshizor/Plugins/SoraThread;$(ProjectDir)../Hoshizor/Plugins/SoraLua;$(ProjectDir)../Hoshizor/Plugins/libvlc/win32/lib;$(ProjectDir)/../Hoshizor/Plugins/cg;$(DXSDK_DIR)/Lib/x86;$(ProjectDir)/bin;$(LibraryPath)</LibraryPath>
+    <EmbedManifest>false</EmbedManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -660,37 +661,57 @@
     <ClInclude Include="divaeditor\Widgets\WListBox.h" />
     <ClInclude Include="divaeditor\Widgets\WListModel.h" />
     <ClInclude Include="divaeditor\Widgets\WTextfield.h" />
+    <ClInclude Include="divanetwork\DivaAuthClient.h" />
+    <ClInclude Include="divanetwork\DivaChatClient.h" />
+    <ClInclude Include="divanetwork\DivaClient.h" />
     <ClInclude Include="divanetwork\DivaGNetEventHandler.h" />
     <ClInclude Include="divanetwork\DivaGNetSystem.h" />
     <ClInclude Include="divanetwork\DivaGNetTCPSystem.h" />
+    <ClInclude Include="divanetwork\DivaNetInfo.h" />
     <ClInclude Include="divanetwork\DivaNetworkManager.h" />
+    <ClInclude Include="divanetwork\DivaSchedulerClient.h" />
+    <ClInclude Include="divanetwork\DivaStageServer.h" />
     <ClInclude Include="divanetwork\gnet\connection.h" />
     <ClInclude Include="divanetwork\gnet\gnet.h" />
     <ClInclude Include="divanetwork\gnet\netManager.h" />
     <ClInclude Include="divasongmgr\DivaMapEncryption.h" />
     <ClInclude Include="divasongmgr\DivaMapManager.h" />
+    <ClInclude Include="Lib\Base\Any.h" />
+    <ClInclude Include="Lib\Base\Base.h" />
     <ClInclude Include="Lib\Base\Common.h" />
     <ClInclude Include="Lib\Base\Exception.h" />
+    <ClInclude Include="Lib\Base\Function\Function.h" />
+    <ClInclude Include="Lib\Base\Function\FunctionBase.h" />
+    <ClInclude Include="Lib\Base\Function\FunctionInclude.h" />
+    <ClInclude Include="Lib\Base\Function\FunctionTemplate.h" />
     <ClInclude Include="Lib\Base\Io\FileUtil.h" />
     <ClInclude Include="Lib\Base\Io\FileUtility.h" />
     <ClInclude Include="Lib\Base\Io\FileUtilityImplWin.h" />
     <ClInclude Include="Lib\Base\Io\Path.h" />
     <ClInclude Include="Lib\Base\Io\Stream.h" />
     <ClInclude Include="Lib\Base\Logger.h" />
+    <ClInclude Include="Lib\Base\Math.h" />
+    <ClInclude Include="Lib\Base\Pattern\Observer.h" />
+    <ClInclude Include="Lib\Base\Pattern\Singleton.h" />
     <ClInclude Include="Lib\Base\Platform.h" />
     <ClInclude Include="Lib\Base\PreDeclare.h" />
+    <ClInclude Include="Lib\Base\PreDefine.h" />
     <ClInclude Include="Lib\Base\Ptr.h" />
+    <ClInclude Include="Lib\Base\Random.h" />
     <ClInclude Include="Lib\Base\Singleton.h" />
     <ClInclude Include="Lib\Base\String.h" />
     <ClInclude Include="Lib\Base\StringConv.h" />
     <ClInclude Include="Lib\Base\Sys\Sys.h" />
     <ClInclude Include="Lib\Base\Sys\SysUtilApple.h" />
+    <ClInclude Include="Lib\Base\Sys\SysUtilLinux.h" />
     <ClInclude Include="Lib\Base\Sys\SysUtilNormal.h" />
     <ClInclude Include="Lib\Base\Sys\SysUtilWin.h" />
     <ClInclude Include="Lib\Base\Thread\Mutex.h" />
     <ClInclude Include="Lib\Base\Thread\Queue.h" />
+    <ClInclude Include="Lib\Base\Thread\Thread.h" />
     <ClInclude Include="Lib\Base\Timer.h" />
     <ClInclude Include="Lib\Base\Type.h" />
+    <ClInclude Include="Lib\Base\TypeTraits.h" />
     <ClInclude Include="Lib\Base\Uncopyable.h" />
     <ClInclude Include="Lib\curl\curl.h" />
     <ClInclude Include="Lib\curl\curlbuild.h" />
@@ -702,6 +723,7 @@
     <ClInclude Include="Lib\curl\stdcheaders.h" />
     <ClInclude Include="Lib\curl\typecheck-gcc.h" />
     <ClInclude Include="Lib\curl\types.h" />
+    <ClInclude Include="Lib\MD5\md52.h" />
     <ClInclude Include="Lib\wjson\wautolink.h" />
     <ClInclude Include="Lib\wjson\wconfig.h" />
     <ClInclude Include="Lib\wjson\wfeatures.h" />
@@ -976,8 +998,11 @@
     <ClCompile Include="Lib\Base\Io\Path.cpp" />
     <ClCompile Include="Lib\Base\Io\Stream.cpp" />
     <ClCompile Include="Lib\Base\Logger.cpp" />
+    <ClCompile Include="Lib\Base\Math.cpp" />
+    <ClCompile Include="Lib\Base\Random.cpp" />
     <ClCompile Include="Lib\Base\String.cpp" />
     <ClCompile Include="Lib\Base\Timer.cpp" />
+    <ClCompile Include="Lib\MD5\md52.cpp" />
     <ClCompile Include="Lib\wjson\wjson_reader.cpp" />
     <ClCompile Include="Lib\wjson\wjson_value.cpp" />
     <ClCompile Include="Lib\wjson\wjson_writer.cpp" />

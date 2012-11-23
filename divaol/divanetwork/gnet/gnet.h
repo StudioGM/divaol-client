@@ -31,7 +31,7 @@ namespace gnet
 	typedef unsigned long long qword;
 	typedef signed char int8;
 	typedef signed int int32;
-	typedef signed long long int64; 
+	typedef signed long long int64;
 	typedef std::vector<byte> Bytes;
 	const int TYPE_LENGTH = 4;
 
@@ -82,6 +82,7 @@ namespace gnet
 		Bytes convertToBytes(uint8 data);
 		Bytes convertToBytes(int8 data);
 		Bytes convertToBytes(const Binary &data);
+		Bytes convertToBytes(const Bytes& data);
 		Bytes convertToBytes(double data);
 
 		// convertToHost series
@@ -103,6 +104,8 @@ namespace gnet
 		std::string convertToHost<Binary>(Bytes &bytes);
 		template<>
 		double convertToHost<double>(Bytes &bytes);
+		template<>
+		Bytes convertToHost<Bytes>(Bytes &bytes);
 	};
 
 	using BinaryUtility::operator+;
@@ -281,10 +284,10 @@ namespace gnet
 			return dynamic_cast<T*>(this);
 		}
 		template<typename T>
-		T* asValue() {
+		T asData() {
 			Item<TypeID_Traitor<T>::type> *item = dynamic_cast<Item<TypeID_Traitor<T>::type>*>(this);
 			assert(item!=NULL);
-			return item->getValue();
+			return item->getData();
 		}
 	protected:
 		Bytes _getType() {return BinaryUtility::convertToBytes(static_cast<uint32>(getType()));}
@@ -321,15 +324,33 @@ namespace gnet
 	template<>
 	class Item<Binary> : public ItemBase
 	{
-		std::string mData;
+		Bytes mData;
+		//std::string mData;
 	public:
 		Item():mData() {}
-		Item(const std::string &data):mData(data) {}
-		Item(Bytes &bytes) {mData = BinaryUtility::convertToHost<Binary>(bytes);}
+		Item(const std::string &data) {
+			for(int i = 0; i < data.size(); i++)
+				mData.push_back(data[i]);
+		}
+		Item(Bytes &bytes, bool origin = false) {
+			if(origin)
+				mData = bytes;
+			else
+				mData = BinaryUtility::convertToHost<Bytes>(bytes);
+		}
 
-		std::string getDescription() {return "\""+mData+"\"";}
+		std::string getDescription() {return "\""+getData()+"\"";}
 
-		std::string getData() {return mData;}
+		std::string getData() {
+			std::string ret;
+			for(int i = 0; i < mData.size(); i++)
+				ret += mData[i];
+			return ret;
+		}
+		Bytes getRaw() {
+			return mData;
+		}
+
 		ItemType getType() {return GNET_TYPE_BINARY;}
 	protected:
 		Bytes _getItem() {
@@ -406,6 +427,7 @@ namespace gnet
 		ItemBase* operator[](size_t index) {return getItem(index);}
 		template <typename T>
 		Item<Tuple>& operator+=(T data) {append<T>(data); return *this;}
+		Item<Tuple>& operator+=(ItemBase* ptr) {appendItem(ptr); return *this;}
 		Item<Tuple>& operator--(int) {removeLast(); return *this;}
 
 	protected:
@@ -456,6 +478,14 @@ namespace gnet
 		static int64 getInt(ItemBase *item);
 		static double getValue(ItemBase *item);
 		static std::string getString(ItemBase *item);
+		static std::wstring getWString(ItemBase *item);
+
+		//convertor at local space, no network info
+		static Bytes ToBytes(const std::wstring &data);
+		template<typename T>
+		static T BytesTo(Bytes &bytes);
+		template<>
+		static std::wstring BytesTo<std::wstring>(Bytes &bytes);
 	};
 
 	typedef Item<Tuple> TupleItem;

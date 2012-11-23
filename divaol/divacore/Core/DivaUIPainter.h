@@ -10,7 +10,7 @@
 #define DIVA_UI_PAINTER
 
 #include "DivaCommon.h"
-#include "DivaConfig.h"
+#include "Core/DivaConfig.h"
 #include "DivaEventManager.h"
 
 namespace divacore

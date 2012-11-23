@@ -47,6 +47,7 @@ namespace divanet
 		virtual bool isConnected() = 0;
 		virtual void update(float) {}
 		virtual void refresh() { update(0); }
+		virtual void tick() = 0;
 		//virtual bool has() = 0;
 		virtual std::string toID(const std::string &group, const std::string &type) { return group+"#"+type; }
 		virtual void toGandT(const std::string& id, std::string &group, std::string &type) {
@@ -59,6 +60,7 @@ namespace divanet
 	};
 
 	typedef GNetworkSystem* GNetworkSystemPtr;
+	typedef Base::SharedPtr<GNetworkSystem> NetworkPtr;
 }
 
 #endif

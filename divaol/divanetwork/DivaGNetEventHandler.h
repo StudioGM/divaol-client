@@ -14,6 +14,7 @@
 namespace divanet
 {
 	typedef gnet::Item<gnet::Tuple> GPacket;
+	typedef gnet::Item<gnet::List> ItemList;
 
 	/*
      *	Event Func, support class member func or global func
@@ -104,10 +105,13 @@ namespace divanet
 
 			void receive(const std::string &id, EventFuncPtr eventFunc)
 			{
-				if(!isExisted(id))
-					netEventMap[id] = eventFunc;
-				else
-					DIVA_EXCEPTION_MODULE("Event "+id+" is existed!","EventManager");
+				//if(!isExisted(id))
+				//	LOGGER->msg("Event "+id+" is existed!","EventManager");
+				netEventMap[id] = eventFunc;
+				//else {
+				//	LOGGER->msg("Event "+id+" is existed!","EventManager");
+				//	return;
+				//}
 			}
 			void unreceive(const std::string &id)
 			{

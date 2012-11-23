@@ -13,6 +13,7 @@
 #include "Core/DivaMapLoader.h"
 #include "Core/DivaTask.h"
 #include "mode/DivaMultiplay.h"
+#include "divanetwork/DivaNetworkManager.h"
 //#include "SoraFMODSoundSystem/SoraFMODSoundSystem.h"
 //#include "SoraAudiereSoundSystem/SoraAudiereSoundSystem.h"
 
@@ -31,7 +32,7 @@ namespace divacore
 		Task task,readyCallback;
 
 		bool bUnsync,bAutoPlay,bEmpty; //multithread or not
-		enum{DELAY,READY,START,GAME_RUN,FAILURE,FINISH};
+		enum{DELAY,READY,START,GAME_RUN,FAILURE,FAILED,FINISH};
 
 		int state; //delay a frame to render the preview image
 	public:
@@ -121,6 +122,13 @@ namespace divacore
 				text += L"Failed";
 				mText.setText(text);
 			}
+			else if(state==FAILED)
+			{
+				STAGE_CLIENT.returnToStage("start_failed");
+				core->flowOver();
+				core->over();
+				state = FAILURE;
+			}
 			else
 			{
 				if(!RENDER_SYSTEM_PTR->isFade())
@@ -152,7 +160,10 @@ namespace divacore
 				LOGGER->msg("Wait for start...","NetworkSystem");
 
 				if(((divacore::MultiPlay*)GAME_MODE_PTR)->getBaseState()!=divacore::MultiPlay::READY)
+				{
+					state = FAILED;
 					return;
+				}
 
 				NETWORK_SYSTEM_PTR->waitForNext();
 				NETWORK_SYSTEM_PTR->refresh();

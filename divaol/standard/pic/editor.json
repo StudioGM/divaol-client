@@ -1,0 +1,522 @@
+﻿[
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\Show\\选中背景.png",
+    "filename": "editor_001.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": 0,
+    "desY": 0,
+    "width": 138,
+    "height": 145
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\Show\\WAVE.png",
+    "filename": "editor_001.png",
+    "srcX": 138,
+    "srcY": 0,
+    "desX": 0,
+    "desY": 0,
+    "width": 128,
+    "height": 128
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\Show\\VEDIO.png",
+    "filename": "editor_001.png",
+    "srcX": 266,
+    "srcY": 0,
+    "desX": 0,
+    "desY": 0,
+    "width": 128,
+    "height": 128
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\Show\\IMAGE.png",
+    "filename": "editor_001.png",
+    "srcX": 0,
+    "srcY": 145,
+    "desX": 0,
+    "desY": 0,
+    "width": 128,
+    "height": 128
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\toolbox\\工具栏\\转化为方向.png",
+    "filename": "editor_001.png",
+    "srcX": 128,
+    "srcY": 145,
+    "desX": 0,
+    "desY": 0,
+    "width": 45,
+    "height": 45
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\toolbox\\工具栏 按下\\垂直翻转.png",
+    "filename": "editor_001.png",
+    "srcX": 173,
+    "srcY": 145,
+    "desX": 0,
+    "desY": 0,
+    "width": 45,
+    "height": 45
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\toolbox\\工具栏 按下\\水平对置.png",
+    "filename": "editor_001.png",
+    "srcX": 218,
+    "srcY": 145,
+    "desX": 0,
+    "desY": 0,
+    "width": 45,
+    "height": 45
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\toolbox\\工具栏\\转化为字母.png",
+    "filename": "editor_001.png",
+    "srcX": 263,
+    "srcY": 145,
+    "desX": 0,
+    "desY": 0,
+    "width": 45,
+    "height": 45
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\toolbox\\工具栏\\水平对置.png",
+    "filename": "editor_001.png",
+    "srcX": 308,
+    "srcY": 145,
+    "desX": 0,
+    "desY": 0,
+    "width": 45,
+    "height": 45
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\toolbox\\工具栏\\水平翻转.png",
+    "filename": "editor_001.png",
+    "srcX": 353,
+    "srcY": 145,
+    "desX": 0,
+    "desY": 0,
+    "width": 45,
+    "height": 45
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\toolbox\\工具栏\\转为一种.png",
+    "filename": "editor_001.png",
+    "srcX": 398,
+    "srcY": 145,
+    "desX": 0,
+    "desY": 0,
+    "width": 45,
+    "height": 45
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\toolbox\\工具栏\\垂直翻转.png",
+    "filename": "editor_001.png",
+    "srcX": 443,
+    "srcY": 145,
+    "desX": 0,
+    "desY": 0,
+    "width": 45,
+    "height": 45
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\toolbox\\工具栏\\转化为两个单键.png",
+    "filename": "editor_001.png",
+    "srcX": 0,
+    "srcY": 273,
+    "desX": 0,
+    "desY": 0,
+    "width": 45,
+    "height": 45
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\toolbox\\工具栏\\转为二种.png",
+    "filename": "editor_001.png",
+    "srcX": 45,
+    "srcY": 273,
+    "desX": 0,
+    "desY": 0,
+    "width": 45,
+    "height": 45
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\toolbox\\工具栏 按下\\转化为方向.png",
+    "filename": "editor_001.png",
+    "srcX": 90,
+    "srcY": 273,
+    "desX": 0,
+    "desY": 0,
+    "width": 45,
+    "height": 45
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\Playbtn\\播放控制\\faster.png",
+    "filename": "editor_001.png",
+    "srcX": 135,
+    "srcY": 273,
+    "desX": 0,
+    "desY": 0,
+    "width": 45,
+    "height": 45
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\Playbtn\\播放控制\\pause.png",
+    "filename": "editor_001.png",
+    "srcX": 180,
+    "srcY": 273,
+    "desX": 0,
+    "desY": 0,
+    "width": 45,
+    "height": 45
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\Playbtn\\播放控制\\play.png",
+    "filename": "editor_001.png",
+    "srcX": 225,
+    "srcY": 273,
+    "desX": 0,
+    "desY": 0,
+    "width": 45,
+    "height": 45
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\toolbox\\工具栏 按下\\转为一种.png",
+    "filename": "editor_001.png",
+    "srcX": 270,
+    "srcY": 273,
+    "desX": 0,
+    "desY": 0,
+    "width": 45,
+    "height": 45
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\toolbox\\工具栏 按下\\转化为字母.png",
+    "filename": "editor_001.png",
+    "srcX": 315,
+    "srcY": 273,
+    "desX": 0,
+    "desY": 0,
+    "width": 45,
+    "height": 45
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\toolbox\\工具栏 按下\\转化为两个单键.png",
+    "filename": "editor_001.png",
+    "srcX": 360,
+    "srcY": 273,
+    "desX": 0,
+    "desY": 0,
+    "width": 45,
+    "height": 45
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\toolbox\\工具栏 按下\\转为二种.png",
+    "filename": "editor_001.png",
+    "srcX": 405,
+    "srcY": 273,
+    "desX": 0,
+    "desY": 0,
+    "width": 45,
+    "height": 45
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\Playbtn\\播放控制\\slower.png",
+    "filename": "editor_001.png",
+    "srcX": 450,
+    "srcY": 273,
+    "desX": 0,
+    "desY": 0,
+    "width": 45,
+    "height": 45
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\Playbtn\\播放控制 按下\\slower_down.png",
+    "filename": "editor_001.png",
+    "srcX": 0,
+    "srcY": 318,
+    "desX": 0,
+    "desY": 0,
+    "width": 45,
+    "height": 45
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\Playbtn\\播放控制 按下\\stop_down.png",
+    "filename": "editor_001.png",
+    "srcX": 45,
+    "srcY": 318,
+    "desX": 0,
+    "desY": 0,
+    "width": 45,
+    "height": 45
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\toolbox\\工具栏 按下\\水平翻转.png",
+    "filename": "editor_001.png",
+    "srcX": 90,
+    "srcY": 318,
+    "desX": 0,
+    "desY": 0,
+    "width": 45,
+    "height": 45
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\Playbtn\\播放控制 按下\\play_down.png",
+    "filename": "editor_001.png",
+    "srcX": 135,
+    "srcY": 318,
+    "desX": 0,
+    "desY": 0,
+    "width": 45,
+    "height": 45
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\Playbtn\\播放控制\\stop.png",
+    "filename": "editor_001.png",
+    "srcX": 180,
+    "srcY": 318,
+    "desX": 0,
+    "desY": 0,
+    "width": 45,
+    "height": 45
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\Playbtn\\播放控制 按下\\faster_down.png",
+    "filename": "editor_001.png",
+    "srcX": 225,
+    "srcY": 318,
+    "desX": 0,
+    "desY": 0,
+    "width": 45,
+    "height": 45
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\Playbtn\\播放控制 按下\\pause_down.png",
+    "filename": "editor_001.png",
+    "srcX": 270,
+    "srcY": 318,
+    "desX": 0,
+    "desY": 0,
+    "width": 45,
+    "height": 45
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\Category\\category.png",
+    "filename": "editor_001.png",
+    "srcX": 315,
+    "srcY": 318,
+    "desX": 0,
+    "desY": 0,
+    "width": 125,
+    "height": 40
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\Category\\category_down.png",
+    "filename": "editor_001.png",
+    "srcX": 0,
+    "srcY": 363,
+    "desX": 0,
+    "desY": 0,
+    "width": 125,
+    "height": 40
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\progress\\tick.png",
+    "filename": "editor_001.png",
+    "srcX": 125,
+    "srcY": 363,
+    "desX": 0,
+    "desY": 0,
+    "width": 7,
+    "height": 35
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\标尺\\间距增加 拷貝.png",
+    "filename": "editor_001.png",
+    "srcX": 132,
+    "srcY": 363,
+    "desX": 0,
+    "desY": 0,
+    "width": 23,
+    "height": 23
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\标尺\\间距减少 拷貝.png",
+    "filename": "editor_001.png",
+    "srcX": 155,
+    "srcY": 363,
+    "desX": 0,
+    "desY": 0,
+    "width": 23,
+    "height": 23
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\标尺\\间距增加.png",
+    "filename": "editor_001.png",
+    "srcX": 178,
+    "srcY": 363,
+    "desX": 0,
+    "desY": 0,
+    "width": 23,
+    "height": 23
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\标尺\\间距减少.png",
+    "filename": "editor_001.png",
+    "srcX": 201,
+    "srcY": 363,
+    "desX": 0,
+    "desY": 0,
+    "width": 23,
+    "height": 23
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\标尺\\缩小 拷貝.png",
+    "filename": "editor_001.png",
+    "srcX": 224,
+    "srcY": 363,
+    "desX": 0,
+    "desY": 0,
+    "width": 23,
+    "height": 23
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\标尺\\放大.png",
+    "filename": "editor_001.png",
+    "srcX": 247,
+    "srcY": 363,
+    "desX": 0,
+    "desY": 0,
+    "width": 23,
+    "height": 23
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\标尺\\放大 拷貝.png",
+    "filename": "editor_001.png",
+    "srcX": 270,
+    "srcY": 363,
+    "desX": 0,
+    "desY": 0,
+    "width": 23,
+    "height": 23
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\标尺\\缩小.png",
+    "filename": "editor_001.png",
+    "srcX": 293,
+    "srcY": 363,
+    "desX": 0,
+    "desY": 0,
+    "width": 23,
+    "height": 23
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\timeline\\属性\\设置.png",
+    "filename": "editor_001.png",
+    "srcX": 316,
+    "srcY": 363,
+    "desX": 0,
+    "desY": 0,
+    "width": 23,
+    "height": 23
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\timeline\\属性\\插入.png",
+    "filename": "editor_001.png",
+    "srcX": 339,
+    "srcY": 363,
+    "desX": 0,
+    "desY": 0,
+    "width": 23,
+    "height": 23
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\timeline\\属性\\删除.png",
+    "filename": "editor_001.png",
+    "srcX": 362,
+    "srcY": 363,
+    "desX": 0,
+    "desY": 0,
+    "width": 23,
+    "height": 23
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\timeline\\属性 按下\\设置.png",
+    "filename": "editor_001.png",
+    "srcX": 385,
+    "srcY": 363,
+    "desX": 0,
+    "desY": 0,
+    "width": 23,
+    "height": 23
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\timeline\\属性 按下\\插入.png",
+    "filename": "editor_001.png",
+    "srcX": 408,
+    "srcY": 363,
+    "desX": 0,
+    "desY": 0,
+    "width": 23,
+    "height": 23
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\timeline\\属性 按下\\删除.png",
+    "filename": "editor_001.png",
+    "srcX": 431,
+    "srcY": 363,
+    "desX": 0,
+    "desY": 0,
+    "width": 23,
+    "height": 23
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\Category\\save_down.png",
+    "filename": "editor_001.png",
+    "srcX": 0,
+    "srcY": 403,
+    "desX": 0,
+    "desY": 0,
+    "width": 97,
+    "height": 22
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\Category\\save.png",
+    "filename": "editor_001.png",
+    "srcX": 97,
+    "srcY": 403,
+    "desX": 0,
+    "desY": 0,
+    "width": 97,
+    "height": 22
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\顶部\\off.png",
+    "filename": "editor_001.png",
+    "srcX": 194,
+    "srcY": 403,
+    "desX": 0,
+    "desY": 0,
+    "width": 10,
+    "height": 10
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\顶部\\on.png",
+    "filename": "editor_001.png",
+    "srcX": 204,
+    "srcY": 403,
+    "desX": 0,
+    "desY": 0,
+    "width": 10,
+    "height": 10
+  },
+  {
+    "name": "C:\\Users\\Administrator\\Desktop\\编辑器_forOutput.psd_Output\\progress\\bar.png",
+    "filename": "editor_001.png",
+    "srcX": 214,
+    "srcY": 403,
+    "desX": 0,
+    "desY": 0,
+    "width": 277,
+    "height": 9
+  }
+]

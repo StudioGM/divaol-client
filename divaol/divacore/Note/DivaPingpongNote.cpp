@@ -253,7 +253,8 @@ namespace divacore
 		coverSprite->setTextureRect(tmpRect.x,tmpRect.y,tmpRect.w,tmpRect.h);
 		coverSprite->setCenter(coverSprite->getCenterX(),tmpRect.h);
 		coverSprite->setPosition(notePosition.x,notePosition.y+(-coverCenterPoint.y+coverRect.h)*coverSprite->getHScale());
-		
+		// bug: it will display a normal size(not 1.5x) once it hits, it's a so stranger bug, haven't fix yet.
+
 		//the first point fail check
 		if(getState()==HEAD&&noteInfo.notePoint[0].time+EVALUATE_STRATEGY_PTR->getProtectedTime()<CORE_PTR->getRunTime())
 		{

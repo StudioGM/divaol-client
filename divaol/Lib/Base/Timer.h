@@ -11,7 +11,7 @@
 #define _BASE_TIMER_
 
 #include "Common.h"
-#include "Singleton.h"
+#include "Pattern/Singleton.h"
 
 #include <ctime>
 
@@ -159,6 +159,15 @@ namespace Base
 		pause();
 		mTime = TimeVal(time*TimeUtil::resolution());
 		_refresh();
+	}
+
+	#define BASE_WAIT_FOR(Signal, Time)\
+	{\
+		double startTime = Base::GlobalTimeStamp::instance().elapsedInSecond();\
+		while(true) {\
+			if(Signal||Base::GlobalTimeStamp::instance().elapsedInSecond()-startTime>Time)\
+				break;\
+		}\
 	}
 }
 

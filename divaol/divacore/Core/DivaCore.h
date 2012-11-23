@@ -30,7 +30,7 @@
 #include "DivaParticleSystem.h"
 #include "DivaPlayerInfo.h"
 
-#include "DivaConfig.h"
+#include "Core/DivaConfig.h"
 #include "SoraFSM.h"
 #include "SoraInputListeners.h"
 #include "SoraCanvas.h"
@@ -204,6 +204,7 @@ namespace divacore
 		 void pause();
 		 void resume();
 		 void over();
+		 void exitGame();
 		 void ready();
 		 void flowOver();
 		 void render(sora::SoraSprite *sprite, const std::string &tag = "");

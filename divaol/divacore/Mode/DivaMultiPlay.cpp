@@ -8,6 +8,7 @@
 
 #include "DivaMultiPlay.h"
 #include "Component/DivaCommonEvaluateStrategy.h"
+#include "divanetwork/DivaNetworkManager.h"
 
 namespace divacore
 {
@@ -88,14 +89,14 @@ namespace divacore
 		mText.setColor(CARGB(255,255,0,0));
 		mText.setFont(sora::SoraFont::LoadFromFile("simhei.ttf", 50));
 	}
-	void MultiPlay::gameReset() {
+
+	void MultiPlay::registerNetworkEvent() {
 		//注册接收函数
 		GNET_RECEIVE_PACKET("game#membersinfoL",&MultiPlay::gnetMembersInfo);
 		GNET_RECEIVE_PACKET("game#playerupdateL",&MultiPlay::gnetPlayerUpdate);
-		GNET_RECEIVE_PACKET("stage#join_failed",&MultiPlay::gnetJoinFailed);
-		GNET_RECEIVE_PACKET("stage#join_ok",&MultiPlay::gnetJoinOK);
-
-		SinglePlay::gameReset();
+		GNET_RECEIVE_PACKET("game#start_failed",&MultiPlay::gnetStartFailed);
+		//GNET_RECEIVE_PACKET("stage#join_failed",&MultiPlay::gnetJoinFailed);
+		//GNET_RECEIVE_PACKET("stage#join_ok",&MultiPlay::gnetJoinOK);
 
 		if(mInfo==0) {
 			mInfo = new NetGameInfo();
@@ -104,10 +105,17 @@ namespace divacore
 
 		setBaseState(CONNECT);
 	}
+
+	void MultiPlay::gameReset() {
+
+		SinglePlay::gameReset();
+	}
 	void MultiPlay::gameStop() {
-		NETWORK_SYSTEM_PTR->disconnect();
+		//NETWORK_SYSTEM_PTR->disconnect();
 
 		SAFE_DELETE(mInfo);
+
+		STAGE_CLIENT.back();
 	}
 	void MultiPlay::gameOver()
 	{
@@ -115,8 +123,9 @@ namespace divacore
 
 		GNET_UNRECEIVE_PACKET("game#membersinfoL");
 		GNET_UNRECEIVE_PACKET("game#playerupdateL");
-		GNET_UNRECEIVE_PACKET("stage#join_failed");
-		GNET_UNRECEIVE_PACKET("stage#join_ok");
+		GNET_UNRECEIVE_PACKET("game#start_failed");
+		//GNET_UNRECEIVE_PACKET("stage#join_failed");
+		//GNET_UNRECEIVE_PACKET("stage#join_ok");
 
 		NETWORK_SYSTEM_PTR->send("game#overR");
 	}
@@ -148,32 +157,37 @@ namespace divacore
 			mInfo->setConfig(configFile);
 
 		//连接server
-		NETWORK_SYSTEM_PTR->connect();
+		/*NETWORK_SYSTEM_PTR->connect();
 
 		NETWORK_SYSTEM_PTR->send("auth#setuid","%s",MY_PLAYER_INFO.uid().c_str());
 
-		NETWORK_SYSTEM_PTR->send("stage#join","%s","919");
+		NETWORK_SYSTEM_PTR->send("stage#join","%s","919");*/
 
 		//NETWORK_SYSTEM_PTR->send("stage#ready");
 
-		if(getBaseState()==CONNECT)
+		while(getBaseState()==CONNECT)
 		{
 			NETWORK_SYSTEM_PTR->waitForNext();
 
 			NETWORK_SYSTEM_PTR->refresh();
 		}
 
-		if(getBaseState()!=GET_INFO)
+		if(getBaseState()!=GET_INFO&&getBaseState()!=READY)
 		{
-			NETWORK_SYSTEM_PTR->disconnect();
+			setBaseState(FAILED);
+			//NETWORK_SYSTEM_setBaseState(FAILED);	return;
+		}
+
+		while(getBaseState()!=READY&&getBaseState()!=FAILED)
+		{
+			NETWORK_SYSTEM_PTR->waitForNext();
+
+			NETWORK_SYSTEM_PTR->refresh();
+		}
+
+		if(getBaseState()==FAILED)
+		{
 			return;
-		}
-
-		while(getBaseState()!=READY)
-		{
-			NETWORK_SYSTEM_PTR->waitForNext();
-
-			NETWORK_SYSTEM_PTR->refresh();
 		}
 
 		//准备完成
@@ -233,6 +247,11 @@ namespace divacore
 		setBaseState(GET_INFO);
 	}
 
+	void MultiPlay::gnetStartFailed(GPacket *packet)
+	{
+		setBaseState(FAILED);
+	}
+
 	void MultiPlay::render()
 	{
 		if(getBaseState()==PLAY)
@@ -264,7 +283,7 @@ namespace divacore
 		PLAYERS &players = getPlayerInfo();
 
 		for(int i = 0; i < players.size(); i++)
-			EVALUATE_STRATEGY_PTR->getResult().evalData.push_back(EvalData(players[i].uid, players[i].score));
+			EVALUATE_STRATEGY_PTR->getResult().evalData.push_back(EvalData(players[i].uid, players[i].score, i));
 		//((CommonEvaluateStrategy*)EVALUATE_STRATEGY_PTR)->addMultiEvalUI();
 	}
 }

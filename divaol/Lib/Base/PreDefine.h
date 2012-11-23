@@ -102,6 +102,18 @@ namespace Base
 	#define BASE_ENUM_M(n, m, d) BASE_COMMA_IF(n) m(n, d)
 	#define BASE_ENUM_N(n, m, d) BASE_REPEAT_N_2(n, BASE_ENUM_M, m, d)
 	#define BASE_ENUM_PARAMS(n, d) BASE_REPEAT_N(n, BASE_FUNCTION_MERGE_PARAM, d)
+
+	#define BASE_PER_PERIOD_BEGIN(dt,time)\
+	{\
+	static float __secondPeriod__ = time;\
+	__secondPeriod__ -= dt;\
+	if(__secondPeriod__<=0)\
+	{\
+	__secondPeriod__ += time;
+
+	#define BASE_PER_PERIOD_END()\
+	}\
+	}
 }
 
 #endif

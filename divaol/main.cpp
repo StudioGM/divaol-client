@@ -27,6 +27,13 @@ int CALLBACK WinMain(
 
 	try
 	{
+		///////////////////////////////
+		AUTH_CLIENT.setNetworkSystem(new divanet::TCPGNetworkSystem);
+		CHAT_CLIENT.setNetworkSystem(new divanet::TCPGNetworkSystem);
+		SCHEDULER_CLIENT.setNetworkSystem(new divanet::TCPGNetworkSystem);
+		STAGE_CLIENT.setNetworkSystem(new divanet::TCPGNetworkSystem);
+		///////////////////////////////
+
 		divacore::Config config;
 		divacore::configloader::loadWithJson(config,"system/common.json");
 

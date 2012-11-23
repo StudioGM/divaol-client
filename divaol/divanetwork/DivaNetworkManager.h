@@ -6,42 +6,62 @@
  *
  */
 
+#define DIVA_GNET_OPEN
+
 #ifndef DIVA_NETWORK_MANAGER
 #define DIVA_NETWORK_MANAGER
 
+#include "DivaNetInfo.h"
 #include "DivaGNetSystem.h"
 #include "Lib/Base/Ptr.h"
-#include "Lib/Base/Singleton.h"
+#include "Lib/Base/Pattern/Singleton.h"
+#include "SoraAutoUpdate.h"
+#include "DivaAuthClient.h"
+#include "DivaChatClient.h"
+#include "DivaSchedulerClient.h"
+#include "DivaStageServer.h"
 
 namespace divanet
 {
-	typedef Base::SharedPtr<GNetworkSystem> NetworkPtr;
 
-	class NetworkManager : public Base::Singleton<NetworkManager>
+	class NetworkManager : public Base::Singleton<NetworkManager>, public sora::SoraAutoUpdate
 	{
 	public:
-		enum{AUTH,LOBBY,STAGE,GAME};
+		inline NetworkPtr core() {return mCore;}
+		void setCore(NetworkPtr ptr) {mCore = ptr;}
 
-		void setCore(NetworkPtr networkSystem) { mCore = networkSystem;}
-		inline NetworkPtr getCore() {return mCore;}
+		void connectCore() {
+			mCore->setHostInfo(info["core"].ip,info["core"].port);
+			mCore->connect();
+		}
 
-		void setAuth(NetworkPtr networkSystem) { mAuth = networkSystem;}
-		inline NetworkPtr getAuth() {return mAuth;}
+		virtual void init() {
+			getServiceInfo();
+		}
 
-		void setChat(NetworkPtr networkSystem) { mChat = networkSystem;}
-		inline NetworkPtr getChat() {return mChat;}
+		virtual void getServiceInfo() {
+			info["core"] = ServiceInfo("58.215.170.145",9899);
+		}
+
+		void onUpdate(float dt) {
+			if(mCore&&mCore->isConnected()) {
+				mCore->update(dt);
+			}
+		}
+
 	protected:
 		friend class Base::Singleton<NetworkManager>;
 
-		NetworkManager():mStatus(AUTH),mIsConnect(false) {}
+		NetworkManager() {}
 		~NetworkManager() {}
 
 	private:
 		uint32 mStatus;
 		bool mIsConnect;
+		ServiceInfos info;
+
 		NetworkPtr mCore;
-		NetworkPtr mAuth;
-		NetworkPtr mChat;
+		NetworkPtr mScheduler;
 	};
 
 #define NET_MANAGER (divanet::NetworkManager::instance())

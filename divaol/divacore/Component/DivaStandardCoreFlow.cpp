@@ -8,7 +8,7 @@
 
 #include "DivaStandardCoreFlow.h"
 //#include "SoraSoundManager/SoraSoundEffectManager.h"
-//#include "SoraSoundManager/SoraBGMManager.h"
+//#include "Plugins/SoraSoundManager/SoraBGMManager.h"
 
 namespace divacore
 {
@@ -78,6 +78,12 @@ namespace divacore
 
 		mIsFinish = false;
 	}
+	void StandardCoreFlow::over()
+	{
+		EVALUATE_STRATEGY_PTR->finalEvaluate();
+		core->getMusicManager()->destroy();
+		state = END;
+	}
 	void StandardCoreFlow::destroy()
 	{
 		LOGGER->msg("Game Finish","CoreFlow");
@@ -116,7 +122,7 @@ namespace divacore
 			nowTime = MUSIC_MANAGER_PTR->getPosition(MAIN_SOUND_CHANNEL);/*timeCounter.getTime()*/;
 			bool actived = MUSIC_MANAGER_PTR->isPlaying(MAIN_SOUND_CHANNEL);
 
-			if(!actived/*nowTime>=totalTime*/||!GAME_MODE_PTR->getAlive())
+			if(!actived/*nowTime>=totalTime*//*||!GAME_MODE_PTR->getAlive()*/)
 			{
 				// flow back 0.5s to have a buffer, otherwise it will cause a thread confliction so that the music will back to 0
 				//MUSIC_MANAGER_PTR->setPosition(MAIN_SOUND_CHANNEL,totalTime-5);

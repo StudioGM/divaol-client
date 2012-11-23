@@ -9,9 +9,12 @@
 #include "Lib/Base/Thread/Queue.h"
 #include "Lib/wjson/wjson.h"
 #include "Lib/curl/curl.h"
+#include "SoraAutoUpdate.h"
 
 namespace divamap
 {
+	#define LocalSongDirectoryW L"song/"
+
 	class DivaMapEventMessage;
 	class DivaMapLevel;
 	class DivaMapHeader;
@@ -131,8 +134,11 @@ namespace divamap
 		int id;
 		DivaMapHeader header;
 
+		LevelType getLevel(int index) const;
+		int getDifIndex(LevelType l) const;
 	public:
-		std::map<LevelType, DivaMapLevel> levels;
+		typedef std::map<LevelType, DivaMapLevel> Levels;
+		Levels levels;
 	};
 
 
@@ -145,8 +151,28 @@ namespace divamap
 		DivaMap::LevelType level;
 	};
 
-	class DivaMapManager
+	class DivaMapManager : public sora::SoraAutoUpdate
 	{
+	public:
+		enum GameMode {
+			PVMode = 0, 
+			CTMode = 1,
+			AutoMode = 2,
+			FastMode = 3,
+			SlowMode = 4,
+			DeathMode = 5,
+			RandomSwapMode = 6,
+			ChaosMode = 7,
+			DisappearMode = 8,
+			BlackHouseMode = 9,
+			NoFailMode = 10
+		};
+
+		long long int selectedMode;
+		std::map<int, std::string> GameModeStr;
+		std::map<int, std::map<int, bool>> ModeConflict;
+
+
 	private:
 		std::wstring downloadCategoryServerAddress;
 		std::wstring mapListQueryAddress;
@@ -166,7 +192,9 @@ namespace divamap
 		std::list<DivaMapEventMessage> *listMsgOut;
 
 		std::vector<DivaMapSelectedItem> selectedMaps;
+		
 
+		std::map<int,float> mapDownloadPercent;
 
 	public:
 		//local song list file management
@@ -177,6 +205,7 @@ namespace divamap
 	public:
 		static DivaMapManager& instance() {static DivaMapManager instance; return instance;}
 
+		std::list<DivaMapEventMessage>* GetQueue() const {return listMsgOut;}
 		void registerMapEventMessageQueue(std::list<DivaMapEventMessage> *listMsg) {listMsgOut = listMsg;}
 		Base::ThreadSafe::Queue<DivaMapEventMessage>& GetMessageQueue() {return threadQueue;}
 
@@ -184,6 +213,9 @@ namespace divamap
 		bool PrepareDirectFile(int id, DivaMapEventMessage::DIVAMAPMGREVENT eventType);
 
 	public:
+		// auto update
+		virtual void onUpdate(float dt) {update(dt);}
+
 		//Update function
 		void update(float dt);
 
@@ -194,7 +226,6 @@ namespace divamap
 		bool PrepareDivaMapAudioPreview(int id);
 
 		bool PrepareDivaMapData(int id, bool novideo=false);
-		bool PrepareCheckLocalMapDataFileLeagal(int id);
 		bool PrepareDivaMapDataFromFile(std::wstring divaolpackFile);
 
 
@@ -204,7 +235,11 @@ namespace divamap
 		std::wstring GetThumbFilePath(int id);
 		std::wstring GetAudioPreviewFilePath(int id);
 		std::wstring GetDivaOLFilePath(int id, DivaMap::LevelType level);
+		float GetMapDownloadProgress(int id);
+		bool isMapDownloaded(int id);
 		bool isMapIdLeagal(int id);
+		bool isMapLevelExist(int id, DivaMap::LevelType level);
+		bool isMapLeagal(int id, DivaMap::LevelType level);
 		std::map<int, DivaMap>& GetMapList(){return maps;}
 
 	public:
@@ -216,14 +251,26 @@ namespace divamap
 		void SelectedMap_Clear();
 
 		std::vector<DivaMapSelectedItem>& GetSelectedMaps(){return selectedMaps;}
+
+
+		//Select Mode functions
+		void SelectedMode_Set(long long int mode);
+		void SelectedMode_ToggleMode(GameMode mode, bool select);
+
+		std::vector<GameMode> GetSelectedMode();
+		long long int GetSelectedModeInt();
+		std::vector<std::string> GetSelectedModeStr();
+		bool IsModeSelected(GameMode mode);
 	};
 
 }
 
 typedef std::map<divamap::DivaMap::LevelType, divamap::DivaMapLevel>::iterator MAPLEVELITERATOR;
+typedef std::map<int, divamap::DivaMap>::iterator MAPITERATOR;
 
 #define MAPMGR divamap::DivaMapManager::instance()
 #define MAPS MAPMGR.GetMapList()
 #define SELECTEDMAPS MAPMGR.GetSelectedMaps()
+#define MAPQUEUE std::list<divamap::DivaMapEventMessage>
 
 #endif

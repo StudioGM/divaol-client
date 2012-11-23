@@ -251,12 +251,16 @@ namespace Base
 		}
 		inline bool active() const {return mActive;}
 		inline void wait() {
-			WaitForSingleObject(mThreadHandle, INFINITE);
-			setActive(false);
+			if(active()) {
+				WaitForSingleObject(mThreadHandle, INFINITE);
+				setActive(false);
+			}
 		}
 		inline void exit() {
-			TerminateThread(mThreadHandle, 0);
-			setActive(false);
+			if(active()) {
+				TerminateThread(mThreadHandle, 0);
+				setActive(false);
+			}
 		}
 
 		virtual void callback() = 0;

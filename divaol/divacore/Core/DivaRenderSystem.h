@@ -11,7 +11,6 @@
 
 #include "DivaCommon.h"
 #include "DivaMapInfo.h"
-#include "DivaConfig.h"
 #include "DivaEventManager.h"
 #include "SoraSprite.h"
 #include "DivaConfig.h"

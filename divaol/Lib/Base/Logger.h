@@ -11,7 +11,7 @@
 #define _BASE_LOGGER_
 
 #include "Common.h"
-#include "Singleton.h"
+#include "Pattern/Singleton.h"
 #include "Io/Stream.h"
 #include <iostream>
 #include <fstream>
