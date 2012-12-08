@@ -20,6 +20,7 @@
 #include "SoraSoundManager/SoraBGMManager.h"
 #include "Lib/wjson/wjson.h"
 #include "timer/DivaTimeCounterImplSora.h"
+#include "RankingList.h"
 
 #include <map>
 
@@ -80,6 +81,7 @@ namespace diva
 			gcn::SuperButtonEx* startButton;
 			DivaPlayerList* playerList;
 			gcn::ContainerEx* songListLogo;
+			RankingList* rankingList;
 
 			std::wstring noimageFileName;
 			gcn::Rectangle noimageRect;

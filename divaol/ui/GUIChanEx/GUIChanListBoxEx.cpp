@@ -132,6 +132,11 @@ namespace gcn
 		itemChanged();
 	}
 
+	void ListBoxEx::adjustMyWidth()
+	{
+		setWidth(firstRect.width + firstRect.x);
+	}
+
 	int ListBoxEx::getItemState(int index)
 	{
 		if (index != highlightItemIndex)

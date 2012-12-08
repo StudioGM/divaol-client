@@ -755,6 +755,7 @@
     <ClInclude Include="ui\GUIChanEx\GUIChanListItemEx.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanListViewEx.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanMarkerEx.h" />
+    <ClInclude Include="ui\GUIChanEx\GUIChanPointEx.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanSliderEx.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanSuperButtonEx.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanTextBoxEx.h" />
@@ -782,6 +783,7 @@
     <ClInclude Include="ui\UI\Music\DivaSongListItem.h" />
     <ClInclude Include="ui\UI\Music\MusicGameState.h" />
     <ClInclude Include="ui\UI\Music\MusicUI.h" />
+    <ClInclude Include="ui\UI\Music\RankingList.h" />
     <ClInclude Include="ui\UI\Result\ResultBar.h" />
     <ClInclude Include="ui\UI\Result\ResultUI.h" />
     <ClInclude Include="ui\UI\Stage\StageGameState.h" />
@@ -1162,6 +1164,7 @@
     <ClCompile Include="ui\GUIChanEx\GUIChanListItemEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanListViewEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanMarkerEx.cpp" />
+    <ClCompile Include="ui\GUIChanEx\GUIChanPointEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanSliderEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanSuperButtonEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanTextBoxEx.cpp" />
@@ -1188,6 +1191,7 @@
     <ClCompile Include="ui\UI\Music\DivaSongListItem.cpp" />
     <ClCompile Include="ui\UI\Music\MusicGameState.cpp" />
     <ClCompile Include="ui\UI\Music\MusicUI.cpp" />
+    <ClCompile Include="ui\UI\Music\RankingList.cpp" />
     <ClCompile Include="ui\UI\Stage\StageGameState.cpp" />
     <ClCompile Include="ui\UI\Stage\StageUI.cpp" />
     <ClCompile Include="ui\UI\TitleScreen\TitleGameState.cpp" />

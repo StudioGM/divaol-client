@@ -2457,6 +2457,12 @@
     <ClInclude Include="Lib\MD5\md52.h">
       <Filter>源文件\lib\MD5</Filter>
     </ClInclude>
+    <ClInclude Include="ui\UI\Music\RankingList.h">
+      <Filter>源文件\ui\UI\Music</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\GUIChanEx\GUIChanPointEx.h">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -3592,6 +3598,12 @@
     </ClCompile>
     <ClCompile Include="Lib\MD5\md52.cpp">
       <Filter>源文件\lib\MD5</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\Music\RankingList.cpp">
+      <Filter>源文件\ui\UI\Music</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\GUIChanEx\GUIChanPointEx.cpp">
+      <Filter>源文件\ui\GUIChanEx</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

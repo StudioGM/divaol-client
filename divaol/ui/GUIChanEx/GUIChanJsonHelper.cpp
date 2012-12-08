@@ -41,6 +41,16 @@ namespace gcn
 			return CreateButton(conf, normal, on, down, disable);
 		}
 
+		PointEx GetPoint(const WJson::Value& conf)
+		{
+			if (conf.isArray())
+			{
+				int z = 0;
+				return PointEx(conf[z].asInt(), conf[1].asInt());
+			}
+			return PointEx(conf[L"x"].asInt(), conf[L"y"].asInt());
+		}
+
 		LabelEx* CreateLabel(const WJson::Value& conf)
 		{
 			LabelEx* label = new LabelEx();
@@ -54,6 +64,10 @@ namespace gcn
 
 		Rectangle GetRect(const WJson::Value& v)
 		{
+			if (v.isArray())
+			{
+				return gcn::Rectangle(v[WJson::Value::UInt(0)].asInt(), v[1].asInt(), v[2].asInt(), v[3].asInt());
+			}
 			return gcn::Rectangle(v[L"srcX"].asInt(), v[L"srcY"].asInt(), v[L"width"].asInt(), v[L"height"].asInt());
 		}
 

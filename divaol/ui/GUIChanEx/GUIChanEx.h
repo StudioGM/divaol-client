@@ -14,3 +14,4 @@
 #include "GUIChanListViewEx.h"
 #include "GUIChanWindowEx.h"
 #include "GUIChanJsonHelper.h"
+#include "GUIChanPointEx.h"

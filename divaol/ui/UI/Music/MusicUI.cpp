@@ -214,6 +214,7 @@ namespace diva
 			selectedListBox = new DivaSelectedListBox();
 			top->add(selectedListBox, 693 + 19, 710 - 19);
 
+			int offx = -670, offy = 235;
 
 			// ModeLeftButton
 			modeLeftButton = new gcn::ButtonEx();
@@ -224,7 +225,7 @@ namespace diva
 				-14, -10);
 			modeLeftButton->addMouseListener(new GameModeSelectLeft_MouseListener());
 			modeLeftButton->setSize(36, 25);
-			top->add(modeLeftButton, 1539 - 50, 690 + 20);
+			top->add(modeLeftButton, 1539 + offx, 690 + offy);
 
 			// ModeRightButton
 			modeRightButton = new gcn::ButtonEx();
@@ -235,20 +236,20 @@ namespace diva
 				-14, -10);
 			modeRightButton->addMouseListener(new GameModeSelectRight_MouseListener());
 			modeRightButton->setSize(36, 25);
-			top->add(modeRightButton, 1745 - 50, 690 + 20);
+			top->add(modeRightButton, 1745 + offx, 690 + offy);
 
 			// ModeTextLabel
-			modeTextLabel = new gcn::LabelEx(L"ÆÕÍ¨");
+			modeTextLabel = new gcn::LabelEx(modeNames[gameMode]);
 			modeTextLabel->setSize(90, 50);
 			modeTextLabel->setForegroundColor(gcn::Color(0, 0, 0));
 			modeTextLabel->setFont(artistFont);
-			top->add(modeTextLabel, 1625 - 50, 670 + 20);
+			top->add(modeTextLabel, 1625 + offx, 670 + offy);
 
 			// PlayerList
-			playerList = new DivaPlayerList();
-			playerList->setFont(artistFont);
-			playerList->init();
-			top->add(playerList, 1385, 179);
+			//playerList = new DivaPlayerList();
+			//playerList->setFont(artistFont);
+			//playerList->init();
+			//top->add(playerList, 1385, 179);
 
 			// StartButton
 			{
@@ -258,6 +259,24 @@ namespace diva
 				startButton->addMouseListener(new PlayButton_MouseListener());
 				top->add(startButton);
 
+			}
+
+			// Ranking List
+			{
+				gcn::Helper::ReadJsonFromFile(L"uiconfig/music/list_ranking.json", tv);
+				rankingList = Helper::CreateList<RankingList>(tv);
+				for (int i=0; i<5; i++)
+				{
+					RankingListItem* item = new RankingListItem();
+					RankingListItem::LoadBack(tv[L"itemBackImage"][L"filename"].asString(), Helper::GetRect(tv[L"itemBackImage"][L"srcRect"]));
+					RankingListItem::LoadFromJson(tv[L"positions"]);
+					item->SetRanking(i+1);
+					item->SetInfo(100 + i * 50, 50 + i * 10, L"SonicMisora");
+					rankingList->pushItem(item);
+					if (i == 4)
+						item->SetColor(0x00FFFF);
+				}
+				top->add(rankingList);
 			}
 
 			//////////////////////////////////////////////////////////////////////////
@@ -821,7 +840,6 @@ namespace diva
 		void PlayButton_MouseListener::mouseClicked(MouseEvent& mouseEvent)
 		{
 			MusicUI* ui = MusicUI::Instance();
-			DivaRoomInfo info = ui->playerList->getRoomInfo();
 			//NextState = "house";
 			MAPMGR.SelectedMap_Clear();
 			int count = ui->selectedListBox->getItemCount();

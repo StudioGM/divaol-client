@@ -8,7 +8,7 @@
 	///////////////////////////////////////////////////////
 
 	// ui info
-	"gameModeNames" : ["双人", "接力",  "普通"],
+	"gameModeNames" : ["普通", "接力"],
 	"difNames": ["EASY", "NORMAL", "HARD", "EXTRA", "DIE"],
 	"listenDelay" : 1.0,
 	"myId" : 0,
