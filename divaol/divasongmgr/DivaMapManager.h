@@ -34,6 +34,8 @@ namespace divamap
 			PrepareAudioPreviewFile, 
 			PrepareMapDataFile, 
 			PrepareMapDataFileNoVideo, 
+			PrepareRecordByRank,
+			PrepareRecordByUser,
 			UnpackMapDataFile, 
 			PrepareCheckMapDataFile, 
 			MapEventERROR
@@ -41,6 +43,7 @@ namespace divamap
 		
 		DivaMapEventMessage()
 		{
+			effectedMapLevel = 0;
 			eventType = MapEventERROR;
 			error = true;
 			finish = false;
@@ -52,6 +55,18 @@ namespace divamap
 		{
 			this->eventType = eventType;
 			effectedMapID = mapID;
+			effectedMapLevel = 0;
+			this->error = error;
+			this->finish = finish;
+			this->downloadProgress = downloadProgess;
+			additionalMessage = NULL;
+			additionalMessageLength=0;
+		}
+		DivaMapEventMessage(DIVAMAPMGREVENT eventType, int mapID, int level, bool error, bool finish, float downloadProgess)
+		{
+			this->eventType = eventType;
+			effectedMapID = mapID;
+			effectedMapLevel = level;
 			this->error = error;
 			this->finish = finish;
 			this->downloadProgress = downloadProgess;
@@ -62,6 +77,7 @@ namespace divamap
 
 		DIVAMAPMGREVENT eventType;
 		int effectedMapID;
+		int effectedMapLevel;
 		bool error, finish;
 		float downloadProgress;
 	};
@@ -75,6 +91,18 @@ namespace divamap
 			this->sourceAddress = sourceAddress;
 			this->localFileAddress = localFileAddress;
 			this->mapID = mapID;
+			levelID = 0;
+			this->eventType = eventType;
+			this->failed = false;
+			curlHandle=NULL;
+		}
+
+		DivaMapManagerDownloadQuest(Base::String sourceAddress, Base::String localFileAddress, int mapID, int levelID, DivaMapEventMessage::DIVAMAPMGREVENT eventType)
+		{
+			this->sourceAddress = sourceAddress;
+			this->localFileAddress = localFileAddress;
+			this->mapID = mapID;
+			this->levelID = levelID;
 			this->eventType = eventType;
 			this->failed = false;
 			curlHandle=NULL;
@@ -85,7 +113,7 @@ namespace divamap
 
 		CURL *curlHandle;
 
-		int mapID;
+		int mapID,levelID;
 		DivaMapEventMessage::DIVAMAPMGREVENT eventType;
 
 		bool failed;
@@ -174,8 +202,12 @@ namespace divamap
 
 
 	private:
-		std::wstring downloadCategoryServerAddress;
-		std::wstring mapListQueryAddress;
+		std::wstring downloadCategoryQueryAddress;
+		std::wstring gameInfoQueryAddress;
+		std::wstring GetQueryAddress_DownloadCategory();
+		std::wstring GetQueryAddress_MapListUpdateByTime(std::wstring basedTime);
+		std::wstring GetQueryAddress_RecordByRank(int mapID, int difficulty, int startRank, int endRank);
+		std::wstring GetQueryAddress_RecordByUser(int mapID, int difficulty, int userID);
 
 	private:
 		DivaMapManager();
@@ -185,7 +217,7 @@ namespace divamap
 		std::map<int, DivaMap> maps;
 
 		//threadQueue is using for fileDownloadDetection
-		std::map<int, std::map<DivaMapEventMessage::DIVAMAPMGREVENT, bool>> isOperating;
+		std::map<int, std::map<int, std::map<DivaMapEventMessage::DIVAMAPMGREVENT, bool>>> isOperating;
 		Base::ThreadSafe::Queue<DivaMapEventMessage> threadQueue;
 		
 		//listMsgOut is using for output event over
@@ -227,6 +259,9 @@ namespace divamap
 
 		bool PrepareDivaMapData(int id, bool novideo=false);
 		bool PrepareDivaMapDataFromFile(std::wstring divaolpackFile);
+
+		bool PrepareRecordByRank(int mapID, int difficulty, int startRank, int endRank);
+		bool PrepareRecordByUser(int mapID, int difficulty, int userID);
 
 
 		//Get functions

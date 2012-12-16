@@ -50,10 +50,34 @@ namespace divamap
 		curl_global_init(CURL_GLOBAL_ALL);
 
 		//For test
-		downloadCategoryServerAddress = L"http://divaol.b0.upaiyun.com";
-		mapListQueryAddress = L"http://openxpn.org/game/getMapInfo?datetime=";
+		downloadCategoryQueryAddress = L"http://divaol.b0.upaiyun.com";
+		gameInfoQueryAddress = L"http://openxpn.org/game/";
 		//PrepareDivaMapListInfo();
 	}
+
+	std::wstring DivaMapManager::GetQueryAddress_DownloadCategory()
+	{
+		return downloadCategoryQueryAddress;
+	}
+	std::wstring DivaMapManager::GetQueryAddress_MapListUpdateByTime(std::wstring basedTime)
+	{
+		return gameInfoQueryAddress + L"getMapInfo?datetime=" + basedTime;
+	}
+	std::wstring DivaMapManager::GetQueryAddress_RecordByRank(int mapID, int difficulty, int startRank, int endRank)
+	{
+		return gameInfoQueryAddress + L"GetRankOfLevel?map_id=" + Base::String::any2string(mapID).unicode_str()
+													+ L"difficulty=" + Base::String::any2string(difficulty).unicode_str()
+													+ L"start_rank=" + Base::String::any2string(startRank).unicode_str()
+													+ L"end_rank=" + Base::String::any2string(endRank).unicode_str();
+	}
+	std::wstring DivaMapManager::GetQueryAddress_RecordByUser(int mapID, int difficulty, int userID)
+	{
+		return gameInfoQueryAddress + L"GetRankOfUser?map_id=" + Base::String::any2string(mapID).unicode_str()
+													+ L"difficulty=" + Base::String::any2string(difficulty).unicode_str()
+													+ L"gid=" + Base::String::any2string(userID).unicode_str();
+	}
+
+
 	DivaMapManager::~DivaMapManager()
 	{
 		curl_global_cleanup();
@@ -329,7 +353,7 @@ namespace divamap
 		while(threadQueue.take(thisMessage))
 		{
 			if(thisMessage.finish)
-				isOperating[thisMessage.effectedMapID][thisMessage.eventType]=false;
+				isOperating[thisMessage.effectedMapID][thisMessage.effectedMapLevel][thisMessage.eventType]=false;
 
 			if(thisMessage.finish && !thisMessage.error)
 			{
@@ -419,7 +443,7 @@ namespace divamap
 	}
 
 	static size_t
-	GetMapListDataCallback(void *contents, size_t size, size_t nmemb, void *userp)
+	GetHTTPQueryDataCallback(void *contents, size_t size, size_t nmemb, void *userp)
 	{
 		DivaMapEventMessage *quest = (DivaMapEventMessage*)userp;
 
@@ -481,17 +505,17 @@ namespace divamap
 		return 0;
 	}
 
-	unsigned __stdcall DownloadSongListAsync(void *arg_quest)
+	unsigned __stdcall HTTPQueryAsync(void *arg_quest)
 	{
 		DivaMapManagerDownloadQuest *thisQuest = (DivaMapManagerDownloadQuest*)arg_quest;
 
-		DivaMapEventMessage thisMessage(thisQuest->eventType, thisQuest->mapID, false, false, 0);
+		DivaMapEventMessage thisMessage(thisQuest->eventType, thisQuest->mapID, thisQuest->levelID, false, false, 0);
 
 		CURL *curl_handle;
 		curl_handle = curl_easy_init();
 		thisQuest->curlHandle = curl_handle;
 		curl_easy_setopt(curl_handle, CURLOPT_URL, thisQuest->sourceAddress.ansi_str());
-		curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, GetMapListDataCallback);
+		curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, GetHTTPQueryDataCallback);
 		curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, (void *)&thisMessage);
 		curl_easy_setopt(curl_handle, CURLOPT_USERAGENT, "DivaOLMapManager-agent/0.1");
 		curl_easy_setopt(curl_handle, CURLOPT_FOLLOWLOCATION, 1);
@@ -663,36 +687,18 @@ namespace divamap
 
 	bool DivaMapManager::PrepareDivaMapListInfo()
 	{
-		/*
-		maps[1].id=1;
 
-		maps[1].header.thumb = L"spotlight.png";
-		maps[1].header.artists.push_back(L"我");
-		maps[1].header.composers.push_back(L"他");
-		maps[1].header.mapType = divamap::DivaMapHeader::Couple;
-		maps[1].header.bpm = 111;
-		maps[1].header.name = L"雪の羽　時の風";
-		maps[1].header.playedCount = 12;
-		maps[1].header.alias.push_back(L"其实有名字");
-		maps[1].header.lyricists.push_back(L"你");
-		maps[1].header.noters.push_back(L"彼女");
-		maps[1].header.songLength = 450;
-		maps[1].levels[divamap::DivaMap::Easy].difficualty = 30;
-		maps[1].levels[divamap::DivaMap::Normal].difficualty = 60;
-		maps[1].levels[divamap::DivaMap::Hard].difficualty = 80;
-		*/
-
-		if(isOperating[0][DivaMapEventMessage::PrepareMapList])
+		if(isOperating[0][0][DivaMapEventMessage::PrepareMapList])
 			return false;
 
-		Base::String queryAddress = mapListQueryAddress + lastUpdatedDate;
+		Base::String queryAddress = GetQueryAddress_MapListUpdateByTime(lastUpdatedDate);
 		DivaMapManagerDownloadQuest *thisQuest = new DivaMapManagerDownloadQuest(queryAddress,L"",0,DivaMapEventMessage::PrepareMapList);
 		unsigned int threadAddress;
 		HANDLE hThread = 
 			(HANDLE)_beginthreadex(
 			NULL,
 			0,
-			&DownloadSongListAsync,
+			&HTTPQueryAsync,
 			thisQuest,
 			0,
 			&threadAddress
@@ -701,6 +707,53 @@ namespace divamap
 		if(hThread==NULL)
 			return false;
 
+	}
+
+	bool DivaMapManager::PrepareRecordByRank(int mapID, int level, int startRank, int endRank)
+	{
+		if(!isMapLevelExist(mapID, (DivaMap::LevelType)level))
+			return false;
+		if(isOperating[mapID][level][DivaMapEventMessage::PrepareRecordByRank])
+			return false;
+
+		Base::String queryAddress = GetQueryAddress_RecordByRank(mapID, level, startRank, endRank);
+		DivaMapManagerDownloadQuest *thisQuest = new DivaMapManagerDownloadQuest(queryAddress,L"",mapID,level,DivaMapEventMessage::PrepareRecordByRank);
+		unsigned int threadAddress;
+		HANDLE hThread = 
+			(HANDLE)_beginthreadex(
+			NULL,
+			0,
+			&HTTPQueryAsync,
+			thisQuest,
+			0,
+			&threadAddress
+			);
+
+		if(hThread==NULL)
+			return false;
+
+	}
+	bool DivaMapManager::PrepareRecordByUser(int mapID, int level, int userID)
+	{
+		if(!isMapLevelExist(mapID, (DivaMap::LevelType)level))
+			return false;
+		if(isOperating[mapID][level][DivaMapEventMessage::PrepareRecordByUser])
+			return false;
+		Base::String queryAddress = GetQueryAddress_RecordByUser(mapID, level, userID);
+		DivaMapManagerDownloadQuest *thisQuest = new DivaMapManagerDownloadQuest(queryAddress,L"",mapID,level,DivaMapEventMessage::PrepareRecordByUser);
+		unsigned int threadAddress;
+		HANDLE hThread = 
+			(HANDLE)_beginthreadex(
+			NULL,
+			0,
+			&HTTPQueryAsync,
+			thisQuest,
+			0,
+			&threadAddress
+			);
+
+		if(hThread==NULL)
+			return false;
 	}
 
 	DivaMap::LevelType DivaMap::getLevel(int index) const
@@ -716,9 +769,9 @@ namespace divamap
 	{
 		if(!isMapIdLeagal(id))
 			return 0;
-		else if(isOperating[id][DivaMapEventMessage::PrepareMapDataFile] || isOperating[id][DivaMapEventMessage::PrepareMapDataFileNoVideo])
+		else if(isOperating[id][0][DivaMapEventMessage::PrepareMapDataFile] || isOperating[id][0][DivaMapEventMessage::PrepareMapDataFileNoVideo])
 			return mapDownloadPercent[id]*0.8f;
-		else if(isOperating[id][DivaMapEventMessage::UnpackMapDataFile])
+		else if(isOperating[id][0][DivaMapEventMessage::UnpackMapDataFile])
 			return 0.8f;
 		else
 		{
@@ -733,8 +786,8 @@ namespace divamap
 	{
 		if(!isMapIdLeagal(id))
 			return false;
-		if(isOperating[id][DivaMapEventMessage::PrepareMapDataFile] || isOperating[id][DivaMapEventMessage::PrepareMapDataFileNoVideo]
-			|| isOperating[id][DivaMapEventMessage::UnpackMapDataFile])
+		if(isOperating[id][0][DivaMapEventMessage::PrepareMapDataFile] || isOperating[id][0][DivaMapEventMessage::PrepareMapDataFileNoVideo]
+			|| isOperating[id][0][DivaMapEventMessage::UnpackMapDataFile])
 				return false;
 		else
 		{
@@ -752,9 +805,9 @@ namespace divamap
 
 	bool DivaMapManager::PrepareDirectFile(int id, DivaMapEventMessage::DIVAMAPMGREVENT eventType)
 	{
-		if(maps.find(id)==maps.end() || isOperating[id][eventType])
+		if(maps.find(id)==maps.end() || isOperating[id][0][eventType])
 			return false;
-		isOperating[id][eventType]=true;
+		isOperating[id][0][eventType]=true;
 
 		//Check if thumb file already exists
 		if(eventType==DivaMapEventMessage::PrepareThumbFile || eventType==DivaMapEventMessage::PrepareAudioPreviewFile)
@@ -765,7 +818,7 @@ namespace divamap
 			if(_wfopen_s(&thumbFile, thumbFilePath.unicode_str(), L"r")!=0)
 			{
 				//File not exists
-				Base::String thumbAddress = Base::String(downloadCategoryServerAddress) + L"/" + thumbFilePath;
+				Base::String thumbAddress = Base::String(GetQueryAddress_DownloadCategory()) + L"/" + thumbFilePath;
 				DivaMapManagerDownloadQuest *thisQuest = new DivaMapManagerDownloadQuest(thumbAddress,thumbFilePath,id,eventType);
 				unsigned int threadAddress;
 				HANDLE hThread = 
@@ -796,7 +849,7 @@ namespace divamap
 				mapDownloadPercent[id] = 0;
 				Base::String localFile = Base::Path::CombinePath(Base::String(LocalSongDirectoryW),
 					L"MAP_"+Base::String::any2string(id)+ (eventType==DivaMapEventMessage::PrepareMapDataFile?L"":L"_noVideo") + L".divaolpack").str();
-				Base::String remoteFile = Base::String(downloadCategoryServerAddress) + L"/" + localFile;
+				Base::String remoteFile = Base::String(GetQueryAddress_DownloadCategory()) + L"/" + localFile;
 				DivaMapManagerDownloadQuest *thisQuest = new DivaMapManagerDownloadQuest(remoteFile,localFile,id,eventType);
 				unsigned int threadAddress;
 				HANDLE hThread = 
@@ -922,9 +975,9 @@ namespace divamap
 	{
 		if(!isMapLevelExist(id, level))
 			return false;
-		else if(isOperating[id][DivaMapEventMessage::PrepareMapDataFile] || isOperating[id][DivaMapEventMessage::PrepareMapDataFileNoVideo])
+		else if(isOperating[id][0][DivaMapEventMessage::PrepareMapDataFile] || isOperating[id][0][DivaMapEventMessage::PrepareMapDataFileNoVideo])
 			return false;
-		else if(isOperating[id][DivaMapEventMessage::UnpackMapDataFile])
+		else if(isOperating[id][0][DivaMapEventMessage::UnpackMapDataFile])
 			return false;
 		else
 		{
