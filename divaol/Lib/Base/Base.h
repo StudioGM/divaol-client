@@ -19,5 +19,6 @@
 #include "Thread/Queue.h"
 #include "Thread/Thread.h"
 #include "Function/Function.h"
+#include "Codec/Codec.h"
 
 #endif

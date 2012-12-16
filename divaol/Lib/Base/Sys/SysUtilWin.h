@@ -283,6 +283,16 @@ namespace Base
 		HANDLE mThreadHandle;
 		uint32 mThreadID;
 	};
+
+	namespace Net
+	{
+		class NetUtilityImpl : public Uncopyable
+		{
+		public:
+			static dword htonl(dword v);
+			static dword ntohl(dword v);
+		};
+	}
 }
 
 #endif
