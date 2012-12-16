@@ -140,7 +140,7 @@ namespace sora {
 
         if(media) { libvlc_media_release(media); }
 
-		mFilePath = (Base::Path::GetApplicationPath()+filePath.getw()).asUnicode();
+		mFilePath = (Base::Path::GetApplicationPath().str()+filePath.getw()).asUnicode();
 
 		std::string utf8path = Base::String(mFilePath.getw()).replace('/','\\').asUTF8();
 

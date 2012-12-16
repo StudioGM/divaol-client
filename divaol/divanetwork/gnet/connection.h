@@ -29,6 +29,7 @@ namespace gnet
 		virtual void connect(const std::string &host, const std::string &port) = 0;
 		inline ItemBase* recv() { return _recvItem();}
 		inline void send(ItemBase *item) { return _sendBytes(item->getItem()); }
+		inline void sendEncodedWithRFA(ItemBase *item) { return _sendBytes(item->getRFAItem());}
 
 	protected:
 		virtual ItemBase* _recvItem();
