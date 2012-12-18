@@ -220,9 +220,6 @@
     <Filter Include="源文件\lib">
       <UniqueIdentifier>{5bb28e34-c1e3-46f0-9ce3-2306f488a45f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\lib\base">
-      <UniqueIdentifier>{af5e0ea1-c69b-4665-80af-ab0e6266c9c6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\lib\wjson">
       <UniqueIdentifier>{a663111b-c1fe-422e-91a4-b0c533fe8560}</UniqueIdentifier>
     </Filter>
@@ -246,6 +243,9 @@
     </Filter>
     <Filter Include="源文件\lib\MD5">
       <UniqueIdentifier>{ed232cfb-1519-4317-b452-83e6afb57a4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\lib\base">
+      <UniqueIdentifier>{f8d32c05-2f3e-4e05-9c2c-cd01184073e7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -2319,10 +2319,49 @@
     <ClInclude Include="divanetwork\DivaNetInfo.h">
       <Filter>源文件\divanetwork</Filter>
     </ClInclude>
+    <ClInclude Include="ui\UI\TitleScreen\TitleGameState.h">
+      <Filter>源文件\ui\UI\TitleScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\Config\DivaUIHelper.h">
+      <Filter>源文件\ui\DivaConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="divanetwork\DivaAuthClient.h">
+      <Filter>源文件\divanetwork\client</Filter>
+    </ClInclude>
+    <ClInclude Include="divanetwork\DivaClient.h">
+      <Filter>源文件\divanetwork\client</Filter>
+    </ClInclude>
+    <ClInclude Include="divanetwork\DivaChatClient.h">
+      <Filter>源文件\divanetwork\client</Filter>
+    </ClInclude>
+    <ClInclude Include="divanetwork\DivaSchedulerClient.h">
+      <Filter>源文件\divanetwork\client</Filter>
+    </ClInclude>
+    <ClInclude Include="divanetwork\DivaStageServer.h">
+      <Filter>源文件\divanetwork\client</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\GUIChanEx\GUIChanWindowEx.h">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\GUIChanEx\GUIChanJsonHelper.h">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\MD5\md52.h">
+      <Filter>源文件\lib\MD5</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UI\Music\RankingList.h">
+      <Filter>源文件\ui\UI\Music</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\GUIChanEx\GUIChanPointEx.h">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClInclude>
     <ClInclude Include="Lib\Base\Any.h">
       <Filter>源文件\lib\base</Filter>
     </ClInclude>
     <ClInclude Include="Lib\Base\Base.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Codec\Codec.h">
       <Filter>源文件\lib\base</Filter>
     </ClInclude>
     <ClInclude Include="Lib\Base\Common.h">
@@ -2364,6 +2403,9 @@
     <ClInclude Include="Lib\Base\Math.h">
       <Filter>源文件\lib\base</Filter>
     </ClInclude>
+    <ClInclude Include="Lib\Base\Net\Net.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
     <ClInclude Include="Lib\Base\Pattern\Observer.h">
       <Filter>源文件\lib\base</Filter>
     </ClInclude>
@@ -2383,6 +2425,9 @@
       <Filter>源文件\lib\base</Filter>
     </ClInclude>
     <ClInclude Include="Lib\Base\Random.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Raw.h">
       <Filter>源文件\lib\base</Filter>
     </ClInclude>
     <ClInclude Include="Lib\Base\String.h">
@@ -2426,42 +2471,6 @@
     </ClInclude>
     <ClInclude Include="Lib\Base\Uncopyable.h">
       <Filter>源文件\lib\base</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UI\TitleScreen\TitleGameState.h">
-      <Filter>源文件\ui\UI\TitleScreen</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\Config\DivaUIHelper.h">
-      <Filter>源文件\ui\DivaConfig</Filter>
-    </ClInclude>
-    <ClInclude Include="divanetwork\DivaAuthClient.h">
-      <Filter>源文件\divanetwork\client</Filter>
-    </ClInclude>
-    <ClInclude Include="divanetwork\DivaClient.h">
-      <Filter>源文件\divanetwork\client</Filter>
-    </ClInclude>
-    <ClInclude Include="divanetwork\DivaChatClient.h">
-      <Filter>源文件\divanetwork\client</Filter>
-    </ClInclude>
-    <ClInclude Include="divanetwork\DivaSchedulerClient.h">
-      <Filter>源文件\divanetwork\client</Filter>
-    </ClInclude>
-    <ClInclude Include="divanetwork\DivaStageServer.h">
-      <Filter>源文件\divanetwork\client</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\GUIChanEx\GUIChanWindowEx.h">
-      <Filter>源文件\ui\GUIChanEx</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\GUIChanEx\GUIChanJsonHelper.h">
-      <Filter>源文件\ui\GUIChanEx</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\MD5\md52.h">
-      <Filter>源文件\lib\MD5</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UI\Music\RankingList.h">
-      <Filter>源文件\ui\UI\Music</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\GUIChanEx\GUIChanPointEx.h">
-      <Filter>源文件\ui\GUIChanEx</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3563,6 +3572,24 @@
     <ClCompile Include="ui\Config\DivaUIHelper.cpp">
       <Filter>源文件\ui\DivaConfig</Filter>
     </ClCompile>
+    <ClCompile Include="ui\GUIChanEx\GUIChanWindowEx.cpp">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\GUIChanEx\GUIChanJsonHelper.cpp">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\House\HouseMessageBox.cpp">
+      <Filter>源文件\ui\UI\House</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\MD5\md52.cpp">
+      <Filter>源文件\lib\MD5</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\Music\RankingList.cpp">
+      <Filter>源文件\ui\UI\Music</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\GUIChanEx\GUIChanPointEx.cpp">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClCompile>
     <ClCompile Include="Lib\Base\Io\FileUtil.cpp">
       <Filter>源文件\lib\base</Filter>
     </ClCompile>
@@ -3584,26 +3611,11 @@
     <ClCompile Include="Lib\Base\String.cpp">
       <Filter>源文件\lib\base</Filter>
     </ClCompile>
-    <ClCompile Include="Lib\Base\Timer.cpp">
+    <ClCompile Include="Lib\Base\Sys\SysUtilWin.cpp">
       <Filter>源文件\lib\base</Filter>
     </ClCompile>
-    <ClCompile Include="ui\GUIChanEx\GUIChanWindowEx.cpp">
-      <Filter>源文件\ui\GUIChanEx</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\GUIChanEx\GUIChanJsonHelper.cpp">
-      <Filter>源文件\ui\GUIChanEx</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UI\House\HouseMessageBox.cpp">
-      <Filter>源文件\ui\UI\House</Filter>
-    </ClCompile>
-    <ClCompile Include="Lib\MD5\md52.cpp">
-      <Filter>源文件\lib\MD5</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UI\Music\RankingList.cpp">
-      <Filter>源文件\ui\UI\Music</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\GUIChanEx\GUIChanPointEx.cpp">
-      <Filter>源文件\ui\GUIChanEx</Filter>
+    <ClCompile Include="Lib\Base\Timer.cpp">
+      <Filter>源文件\lib\base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

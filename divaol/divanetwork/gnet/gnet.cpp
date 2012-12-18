@@ -354,7 +354,7 @@ namespace gnet
 			return ((Item<Binary>*)item)->getData();
 		else if(item->getType()==GNET_TYPE_ATOM)
 			return ((Item<Binary>*)item)->getData();
-		else if(item->getType()==GNET_TYPE_UINT_8) {
+		else if(item->getType()==GNET_TYPE_UINT_8||item->getType()==GNET_TYPE_INT_8) {
 			std::string ret;
 			ret += (char)((Item<uint8>*)item)->getData();
 			return ret;

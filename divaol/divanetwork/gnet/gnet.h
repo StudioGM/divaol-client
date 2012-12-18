@@ -276,10 +276,10 @@ namespace gnet
 		Bytes getItem() {
 			return _getType()+_getItem();
 		}
-		Bytes getRFAItem()
+		Bytes getRFAItem(Base::Codec::Codec &codec)
 		{
 			Bytes type = BinaryUtility::convertToBytes(GNET_TYPE_RFA);
-			return Base::Codec::RFA::instance().encode(getItem()).get();
+			return type+codec.encode(getItem()).get();
 		}
 		uint64 getUInt();
 		int64 getInt();

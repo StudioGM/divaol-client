@@ -66,8 +66,88 @@ namespace gnet
 					item->appendItem(recv());
 				return item;
 			}
-		case GNET_TYPE_DOUBLE:
-			return new Item<double>(_recvBytes(sizeof(double)));
+		case GNET_TYPE_RFA:
+			{
+				Base::Raw header = _recvBytes(8);
+				uint32 length = sendRFA.decodeLength(header);
+				uint32 recvLength = (length+3)/4*4;
+				Base::Raw body = _recvBytes(recvLength);
+				Base::Raw content = sendRFA.decode(header+body);
+				content.seek(0);
+				return _parseItem(content);
+			}
+		default:
+			return 0;
+		}
+	}
+
+	ItemBase* Connection::_parseItem(Base::Raw &data)
+	{
+		Base::Raw buffer = data.take(sizeof(uint32));
+		uint32 typeID = BinaryUtility::convertToHost<size_t>(buffer.raw());
+		size_t size = 0;
+
+		switch(typeID)
+		{
+		case GNET_TYPE_INT_8:
+			buffer = data.take(sizeof(int8));
+			return new Item<int8>(buffer.raw());
+		case GNET_TYPE_UINT_8:
+			buffer = data.take(sizeof(uint8));
+			return new Item<int8>(buffer.raw());
+		case GNET_TYPE_INT_32:
+			buffer = data.take(sizeof(int32));
+			return new Item<int8>(buffer.raw());
+		case GNET_TYPE_UINT_32:
+			buffer = data.take(sizeof(uint32));
+			return new Item<int8>(buffer.raw());
+		case GNET_TYPE_INT_64:
+			buffer = data.take(sizeof(int64));
+			return new Item<int8>(buffer.raw());
+		case GNET_TYPE_UINT_64:
+			buffer = data.take(sizeof(uint64));
+			return new Item<int8>(buffer.raw());
+		case GNET_TYPE_BINARY:
+			{
+				Bytes tmpBytes = data.take(sizeof(size_t)).raw();
+				size = BinaryUtility::convertToHost<size_t>(tmpBytes);
+				tmpBytes = tmpBytes+data.take(size).raw();
+				return new Item<Binary>(tmpBytes);
+			}
+		case GNET_TYPE_ATOM:
+			{
+				Bytes tmpBytes = data.take(sizeof(size_t)).raw();
+				size = BinaryUtility::convertToHost<size_t>(tmpBytes);
+				tmpBytes = tmpBytes+data.take(size).raw();
+				return new Item<Atom>(tmpBytes);
+			}
+		case GNET_TYPE_TUPLE:
+			{
+				buffer = data.take(sizeof(size_t));
+				size = BinaryUtility::convertToHost<size_t>(buffer.raw());
+				Item<Tuple> *item = new Item<Tuple>();
+				for(size_t index = 0; index < size; index++)
+					item->appendItem(_parseItem(data));
+				return item;
+			}
+		case GNET_TYPE_LIST:
+			{
+				buffer = data.take(sizeof(size_t));
+				size = BinaryUtility::convertToHost<size_t>(buffer.raw());
+				Item<List> *item = new Item<List>();
+				for(size_t index = 0; index < size; index++)
+					item->appendItem(_parseItem(data));
+				return item;
+			}
+		case GNET_TYPE_RFA:
+			{
+				Base::Raw header = data.take(8);
+				uint32 length = sendRFA.decodeLength(header);
+				uint32 recvLength = (length+3)/4*4;
+				Base::Raw body = data.take(recvLength);
+				Base::Raw content = sendRFA.decode(header+body);
+				return _parseItem(content);
+			}
 		default:
 			return 0;
 		}

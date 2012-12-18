@@ -706,6 +706,7 @@
     <ClInclude Include="divanetwork\DivaStageServer.h" />
     <ClInclude Include="Lib\Base\Any.h" />
     <ClInclude Include="Lib\Base\Base.h" />
+    <ClInclude Include="Lib\Base\Codec\Codec.h" />
     <ClInclude Include="Lib\Base\Common.h" />
     <ClInclude Include="Lib\Base\Exception.h" />
     <ClInclude Include="Lib\Base\Function\Function.h" />
@@ -719,6 +720,7 @@
     <ClInclude Include="Lib\Base\Io\Stream.h" />
     <ClInclude Include="Lib\Base\Logger.h" />
     <ClInclude Include="Lib\Base\Math.h" />
+    <ClInclude Include="Lib\Base\Net\Net.h" />
     <ClInclude Include="Lib\Base\Pattern\Observer.h" />
     <ClInclude Include="Lib\Base\Pattern\Singleton.h" />
     <ClInclude Include="Lib\Base\Platform.h" />
@@ -726,6 +728,7 @@
     <ClInclude Include="Lib\Base\PreDefine.h" />
     <ClInclude Include="Lib\Base\Ptr.h" />
     <ClInclude Include="Lib\Base\Random.h" />
+    <ClInclude Include="Lib\Base\Raw.h" />
     <ClInclude Include="Lib\Base\String.h" />
     <ClInclude Include="Lib\Base\StringConv.h" />
     <ClInclude Include="Lib\Base\Sys\Sys.h" />
@@ -1144,6 +1147,7 @@
     <ClCompile Include="Lib\Base\Math.cpp" />
     <ClCompile Include="Lib\Base\Random.cpp" />
     <ClCompile Include="Lib\Base\String.cpp" />
+    <ClCompile Include="Lib\Base\Sys\SysUtilWin.cpp" />
     <ClCompile Include="Lib\Base\Timer.cpp" />
     <ClCompile Include="Lib\MD5\md52.cpp" />
     <ClCompile Include="Lib\wjson\wjson_reader.cpp" />

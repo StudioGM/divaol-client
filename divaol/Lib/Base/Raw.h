@@ -21,34 +21,35 @@ namespace Base
 	{
 		typedef vector<byte> Binary;
 		Binary data;
+		uint32 pos;
 	public:
-		Raw() {}
+		Raw():pos(0) {}
 		template<typename T>
-		Raw(const T &source) {
+		Raw(const T &source):pos(0) {
 			data = Binary(sizeof(source));
 			memcpy(&data[0], &source, data.size());
 		}
 		template<typename T>
-		Raw(const vector<T> &source) {
+		Raw(const vector<T> &source):pos(0) {
 			data = Binary(sizeof(T)*source.size());
 			memcpy(&data[0], &source[0], data.size());
 		}
 		template<>
-		Raw(const base_string &source)
+		Raw(const base_string &source):pos(0)
 		{
 			data = Binary(source.size());
 			if(source.size()>0)
 				memcpy(&data[0], &source[0], data.size());
 		}
 		template<>
-		Raw(const String &source)
+		Raw(const String &source):pos(0)
 		{
 			data = Binary(source.size()*sizeof(wchar));
 			if(source.size()>0)
 				memcpy(&data[0], &source.asUnicode()[0], data.size());
 		}
 		template<typename T>
-		Raw(const T &source, uint8 size) {
+		Raw(const T &source, uint8 size):pos(0) {
 			data = Binary(size);
 			if(size>0)
 				memcpy(&data[0], &source, data.size());
@@ -56,6 +57,7 @@ namespace Base
 
 		// base func
 		const Binary& get() const {return data;}
+		Binary& raw() {return data;}
 		uint32 size() const {return data.size();}
 		bool empty() const {return size()==0;}
 		void extend(uint32 size, byte value = 0) {
@@ -98,13 +100,41 @@ namespace Base
 			return data[index];
 		}
 		template<typename T>
-		T getAny(int32 index) const {
+		T getAny(int32 index = 0) const {
 			Raw any;
 			T ret;
 			for(int i = 0; i < sizeof(T); i++)
 				any.append((index+i)>=size()?0:at(index+i));
 			memcpy(&ret, &any[0], sizeof(T));
 			return ret;
+		}
+		Raw sub(int32 l, int32 r) const {
+			Raw c;
+			l = clamp(l), r = clamp(r);
+			int32 index = l;
+			while(index != r)
+			{
+				c.append(at(index));
+				index = (index+1)==size()?0:(index+1);
+			}
+			return c;
+		}
+
+		// flow func
+		uint32 seek(uint32 pos) {
+			if (pos <= size())
+				this->pos = pos;
+			return this->pos;
+		}
+		uint32 getPos() {
+			return this->pos;
+		}
+		Raw take(uint32 size) {
+			if(this->size()-pos < size)
+				BASE_THROW_EXCEPTION("Data not enough");
+			uint32 tmp = pos;
+			pos += size;
+			return sub(tmp,tmp+size);
 		}
 
 		// operation
@@ -130,15 +160,7 @@ namespace Base
 			return pick(index);
 		}
 		Raw operator()(int32 l, int32 r) const {
-			Raw c;
-			l = clamp(l), r = clamp(r);
-			int32 index = l;
-			while(index != r)
-			{
-				c.append(at(index));
-				index = (index+1)==size()?0:(index+1);
-			}
-			return c;
+			return sub(l,r);
 		}
 	};
 }
