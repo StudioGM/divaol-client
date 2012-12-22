@@ -94,19 +94,19 @@ namespace gnet
 			return new Item<int8>(buffer.raw());
 		case GNET_TYPE_UINT_8:
 			buffer = data.take(sizeof(uint8));
-			return new Item<int8>(buffer.raw());
+			return new Item<uint8>(buffer.raw());
 		case GNET_TYPE_INT_32:
 			buffer = data.take(sizeof(int32));
-			return new Item<int8>(buffer.raw());
+			return new Item<int32>(buffer.raw());
 		case GNET_TYPE_UINT_32:
 			buffer = data.take(sizeof(uint32));
-			return new Item<int8>(buffer.raw());
+			return new Item<uint32>(buffer.raw());
 		case GNET_TYPE_INT_64:
 			buffer = data.take(sizeof(int64));
-			return new Item<int8>(buffer.raw());
+			return new Item<int64>(buffer.raw());
 		case GNET_TYPE_UINT_64:
 			buffer = data.take(sizeof(uint64));
-			return new Item<int8>(buffer.raw());
+			return new Item<uint64>(buffer.raw());
 		case GNET_TYPE_BINARY:
 			{
 				Bytes tmpBytes = data.take(sizeof(size_t)).raw();
