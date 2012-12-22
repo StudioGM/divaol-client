@@ -152,9 +152,9 @@ namespace divacore
 		
 				core->getCoreFlow()->ready();
 
-				NETWORK_SYSTEM_PTR->gameLoad("netConfig.json");
+				//NETWORK_SYSTEM_PTR->gameLoad("system/netConfig.json");
 				
-				GAME_MODE_PTR->gameLoad("netConfig.json");
+				GAME_MODE_PTR->gameLoad("");
 
 				LOGGER->msg("Wait for start...","NetworkSystem");
 

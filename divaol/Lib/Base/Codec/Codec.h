@@ -47,7 +47,7 @@ namespace Base
 				return (seed+MAGIC_NUMBER)*seed&MOD;
 			}
 			Raw encode(const Raw &src) {
-				setSeed(uint32(42));
+				setSeed(uint32(TimeUtil::currentTime()));
 
 				Raw ret;
 				dword secretKey = rand();
