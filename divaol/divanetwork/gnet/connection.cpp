@@ -66,6 +66,8 @@ namespace gnet
 					item->appendItem(recv());
 				return item;
 			}
+		case GNET_TYPE_DOUBLE:
+			return new Item<double>(_recvBytes(sizeof(double)));
 		case GNET_TYPE_RFA:
 			{
 				Base::Raw header = _recvBytes(8);
@@ -138,6 +140,11 @@ namespace gnet
 				for(size_t index = 0; index < size; index++)
 					item->appendItem(_parseItem(data));
 				return item;
+			}
+		case GNET_TYPE_DOUBLE:
+			{
+				buffer = data.take(sizeof(double));
+				return new Item<double>(buffer.raw());
 			}
 		case GNET_TYPE_RFA:
 			{
