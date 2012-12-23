@@ -88,7 +88,7 @@ namespace divacore
 				static int count = 0;
 				count = (count+1)%40;
 				SoraWString text = L"|#FF0000|";
-				if(((MultiPlay*)GAME_MODE_PTR)->getBaseState()==MultiPlay::CONNECT)
+				if(((MultiPlay*)GAME_MODE_PTR)->getBaseState()==MultiPlay::CONNECTING)
 					text += L"Connect";
 				else if(((MultiPlay*)GAME_MODE_PTR)->getBaseState()==MultiPlay::FAILURE)
 					text += L"Failed";
@@ -164,12 +164,15 @@ namespace divacore
 					return;
 				}
 
-				NETWORK_SYSTEM_PTR->waitForNext();
-				NETWORK_SYSTEM_PTR->refresh();
+				while(state != GAME_RUN && ((divacore::MultiPlay*)GAME_MODE_PTR)->getBaseState()!=divacore::MultiPlay::FAILED)
+				{
+					NETWORK_SYSTEM_PTR->waitForNext();
+					NETWORK_SYSTEM_PTR->refresh();
+				}
 
 				if(state!=GAME_RUN)
 				{
-					state = FAILURE;
+					state = FAILED;
 					return;
 				}
 

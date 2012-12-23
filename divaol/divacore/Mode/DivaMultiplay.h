@@ -101,7 +101,7 @@ namespace divacore
 		 PLAY表示游戏进行
 		 FAILURE表示连接失败等待中
 		 FULL表示服务器已满*/
-		enum{CONNECT,GET_INFO,READY,PLAY,FAILED,FAILURE,FULL,OVER};
+		enum{CONNECTING,GET_INFO,READY,PLAY,FAILED,FAILURE,FULL,OVER};
 
 		MultiPlay():mInfo(0) {}
 

@@ -389,7 +389,7 @@ namespace divanet
 			int index = packet->getItem(4)->getInt();
 			mInfo.waiters[index-1].uid = packet->getItem(2)->getString();
 			mInfo.waiters[index-1].color = 0;
-			mInfo.waiters[index-1].nickname = packet->getItem(3)->getString();
+			mInfo.waiters[index-1].nickname = Base::String::unEscape(packet->getItem(3)->getString());
 
 			mInfo.waiters[index-1].status = WaiterInfo::UNREADY;
 

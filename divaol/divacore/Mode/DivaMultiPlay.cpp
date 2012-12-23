@@ -103,7 +103,7 @@ namespace divacore
 			mInfo->setOwner(this);
 		}
 
-		setBaseState(CONNECT);
+		setBaseState(CONNECTING);
 	}
 
 	void MultiPlay::gameReset() {
@@ -165,30 +165,36 @@ namespace divacore
 
 		//NETWORK_SYSTEM_PTR->send("stage#ready");
 
-		while(getBaseState()==CONNECT)
+		while(getBaseState() != READY && getBaseState() != FAILED)
 		{
 			NETWORK_SYSTEM_PTR->waitForNext();
 
 			NETWORK_SYSTEM_PTR->refresh();
 		}
+		//while(getBaseState()==CONNECTING)
+		//{
+		//	NETWORK_SYSTEM_PTR->waitForNext();
 
-		if(getBaseState()!=GET_INFO&&getBaseState()!=READY)
-		{
-			setBaseState(FAILED);
-			//NETWORK_SYSTEM_setBaseState(FAILED);	return;
-		}
+		//	NETWORK_SYSTEM_PTR->refresh();
+		//}
 
-		while(getBaseState()!=READY&&getBaseState()!=FAILED)
-		{
-			NETWORK_SYSTEM_PTR->waitForNext();
+		//if(getBaseState()!=GET_INFO&&getBaseState()!=READY)
+		//{
+		//	setBaseState(FAILED);
+		//	//NETWORK_SYSTEM_setBaseState(FAILED);	return;
+		//}
 
-			NETWORK_SYSTEM_PTR->refresh();
-		}
+		//while(getBaseState()!=READY&&getBaseState()!=FAILED)
+		//{
+		//	NETWORK_SYSTEM_PTR->waitForNext();
 
-		if(getBaseState()==FAILED)
-		{
-			return;
-		}
+		//	NETWORK_SYSTEM_PTR->refresh();
+		//}
+
+		//if(getBaseState()==FAILED)
+		//{
+		//	return;
+		//}
 
 		//准备完成
 		NETWORK_SYSTEM_PTR->send("game#systemready");
@@ -237,6 +243,7 @@ namespace divacore
 		mInfo->updateInfoFromPacket(packet);
 	}
 
+	// abandon
 	void MultiPlay::gnetJoinFailed(GPacket *packet)
 	{
 		setBaseState(FAILURE);
