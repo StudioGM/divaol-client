@@ -52,10 +52,10 @@ namespace divacore
 			for(int i = 0; i < result.evalData.size(); i++)
 			{
 				gnet::Item<gnet::Tuple> *tuple = dynamic_cast<gnet::Item<gnet::Tuple>*>(list->getItem(i));
-				result.evalData[i].status = tuple->getItem(0)->getString();
-				result.evalData[i].score = (tuple->getItem(1))->getInt();
+				result.evalData[i].status = tuple->getItem(1)->getString();
+				result.evalData[i].score = (tuple->getItem(2))->getInt();
 				result.evalData[i].index = i;
-				gnet::Item<gnet::List> *evals = dynamic_cast<gnet::Item<gnet::List>*>(tuple->getItem(2));
+				gnet::Item<gnet::List> *evals = dynamic_cast<gnet::Item<gnet::List>*>(tuple->getItem(3));
 				for(int j = 0; j < EvaluateStrategy::EVAL_NUM; j++)
 					result.evalData[i].cntEval[j] = evals->getItem(j)->getInt();
 			}

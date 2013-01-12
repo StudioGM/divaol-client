@@ -322,6 +322,10 @@ namespace diva
 				{
 					mgr->GetMB()->Show(L"账号或密码错误。", L"提示");
 				}
+				else if(msg.description()=="timeout")
+				{
+					mgr->GetMB()->Show(L"登陆超时，请重试。", L"提示");
+				}
 				else if(msg.description()=="unactived")
 				{
 					mgr->GetMB()->Show(L"账号尚未激活。",L"提示");
