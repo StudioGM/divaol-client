@@ -66,15 +66,15 @@ namespace divamap
 	std::wstring DivaMapManager::GetQueryAddress_RecordByRank(int mapID, int level, int startRank, int endRank)
 	{
 		return gameInfoQueryAddress + L"GetRankOfLevel?map_id=" + Base::String::any2string(mapID).unicode_str()
-													+ L"level=" + Base::String::any2string(level).unicode_str()
-													+ L"start_rank=" + Base::String::any2string(startRank).unicode_str()
-													+ L"end_rank=" + Base::String::any2string(endRank).unicode_str();
+													+ L"&level=" + Base::String::any2string(level).unicode_str()
+													+ L"&start_rank=" + Base::String::any2string(startRank).unicode_str()
+													+ L"&end_rank=" + Base::String::any2string(endRank).unicode_str();
 	}
 	std::wstring DivaMapManager::GetQueryAddress_RecordByUser(int mapID, int level, int userID)
 	{
 		return gameInfoQueryAddress + L"GetRankOfUser?map_id=" + Base::String::any2string(mapID).unicode_str()
-													+ L"level=" + Base::String::any2string(level).unicode_str()
-													+ L"gid=" + Base::String::any2string(userID).unicode_str();
+													+ L"&level=" + Base::String::any2string(level).unicode_str()
+													+ L"&gid=" + Base::String::any2string(userID).unicode_str();
 	}
 
 
