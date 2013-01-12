@@ -18,10 +18,16 @@ namespace diva
 			SetRanking(1);
 			SetInfo(0, 0, L"none");
 			SetColor(0xFFFFFFFF);
+			isNull = false;
 		}
 
 		RankingListItem::~RankingListItem()
 		{
+		}
+
+		void RankingListItem::SetNull(int v)
+		{
+			isNull = v;
 		}
 
 		void RankingListItem::SetColor(int color)
@@ -37,12 +43,27 @@ namespace diva
 				graphics->drawImage(image, rect.x, rect.y, 0, 0, rect.width, rect.height);
 			}
 
-			graphics->setColor(gcn::Color(255, 255, 255, alpha));
-			graphics->setFont(font);
-			graphics->drawTextW(L"Score:" + Base::String::any2string<int>(score), scoreP.x, scoreP.y);
-			graphics->drawTextW(Base::String::any2string<int>(ranking), rankingP.x, rankingP.y);
-			graphics->drawTextW(L"Combo:" + Base::String::any2string<int>(combo), comboP.x, comboP.y);
-			graphics->drawTextW(L"By:" + playerName, playerP.x, playerP.y);
+			if (isNull == 0)
+			{
+				graphics->setColor(gcn::Color(255, 255, 255, alpha));
+				graphics->setFont(font);
+				graphics->drawTextW(L"Score:" + Base::String::any2string<int>(score), scoreP.x, scoreP.y);
+				graphics->drawTextW(Base::String::any2string<int>(ranking), rankingP.x, rankingP.y);
+				graphics->drawTextW(L"Combo:" + Base::String::any2string<int>(combo), comboP.x, comboP.y);
+				graphics->drawTextW(L"By:" + playerName, playerP.x, playerP.y);
+			}
+			else if (isNull == 1)
+			{
+				graphics->setColor(gcn::Color(255, 255, 255, alpha));
+				graphics->setFont(font);
+				graphics->drawTextW(L"暂无记录", playerP.x, playerP.y);
+			}
+			else
+			{
+				graphics->setColor(gcn::Color(255, 255, 255, alpha));
+				graphics->setFont(font);
+				graphics->drawTextW(L"尚没有你的排名", playerP.x, playerP.y);
+			}
 		}
 
 		void RankingListItem::SetInfo(const int& score, const int& combo, const std::wstring& playerName)

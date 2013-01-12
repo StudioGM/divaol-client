@@ -5,6 +5,7 @@
 #include "ui/structure.h"
 #include <vector>
 #include "divasongmgr/DivaMapManager.h"
+#include "DivaSongListItem.h"
 
 namespace diva
 {
@@ -19,7 +20,8 @@ namespace diva
 		divamap::DivaMap mapInfo;
 		int difIndex;
 		int type;
-		SongInfo(const divamap::DivaMap& a, int b, int c);
+		SongListItem* item;
+		SongInfo(const divamap::DivaMap& a, int b, int c, SongListItem* item);
 
 		SongInfo();
 		divamap::DivaMap::LevelType getLevel() const;
@@ -44,7 +46,7 @@ namespace diva
 		DivaSelectedListBox();
 		~DivaSelectedListBox();
 
-		void pushItem(const divamap::DivaMap& mapInfo, divamap::DivaMap::LevelType level, int type = SPECIFIC);
+		void pushItem(const divamap::DivaMap& mapInfo, divamap::DivaMap::LevelType level, SongListItem* item, int type = SPECIFIC);
 		void removeItem(int index);
 		void clearItems();
 		int getItemCount() const;

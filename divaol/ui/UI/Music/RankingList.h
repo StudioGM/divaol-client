@@ -18,6 +18,7 @@ namespace diva
 			int combo;
 			std::wstring playerName;
 			int backColor;
+			int isNull;
 			
 			static Image* image;
 			static gcn::Rectangle rect;
@@ -26,6 +27,7 @@ namespace diva
 		public:
 			RankingListItem();
 			~RankingListItem();
+			void SetNull(int v);
 			void SetInfo(const int& score, const int& combo, const std::wstring& playerName);
 			void SetRanking(int ranking);
 			void SetColor(int color);

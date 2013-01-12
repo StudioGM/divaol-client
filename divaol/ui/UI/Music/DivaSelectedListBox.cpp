@@ -8,11 +8,12 @@ namespace diva
 
 	using namespace gcn;
 
-	SongInfo::SongInfo(const divamap::DivaMap& a, int b, int c)
+	SongInfo::SongInfo(const divamap::DivaMap& a, int b, int c, SongListItem* item)
 	{
 		mapInfo = a;
 		difIndex = b;
 		type = c;
+		this->item = item;
 	}
 
 	SongInfo::SongInfo()
@@ -78,14 +79,14 @@ namespace diva
 		items[index]->setText(temp);
 	}
 
-	void DivaSelectedListBox::pushItem(const divamap::DivaMap& mapInfo, divamap::DivaMap::LevelType level, int type)
+	void DivaSelectedListBox::pushItem(const divamap::DivaMap& mapInfo, divamap::DivaMap::LevelType level, SongListItem* item, int type)
 	{
 		if (songInfo.size() >= maxItem)
 		{
 			throw "items man!";
 			return;
 		}
-		songInfo.push_back(SongInfo(mapInfo, mapInfo.getDifIndex(level), type));
+		songInfo.push_back(SongInfo(mapInfo, mapInfo.getDifIndex(level), type, item));
 		int n = songInfo.size() - 1;
 		deleteButtons[n]->setVisible(true);
 		items[n]->setEnabled(true);
@@ -111,23 +112,25 @@ namespace diva
 
 		// DISPLAY SONGLIST
 		//@SonicMisora
-		//if (songInfo[index].mapInfo.mapThumbFileName != L"NONE")
-		//{
-		//	ui->thumbImage->load(songInfo[index].mapInfo.mapThumbFileName, gcn::Rectangle(0, 0, 0, 0), true);
-		//	ui->background->display(songInfo[index].mapInfo.mapThumbFileName, gcn::Rectangle(0, 0, 0, 0), true);
-		//}
-		//else
+		if (songInfo[index].item->hasPreview())
+		{
+			//ui->thumbImage->load(songInfo[index].mapInfo.mapThumbFileName, gcn::Rectangle(0, 0, 0, 0), true);
+			//ui->background->display(songInfo[index].mapInfo.mapThumbFileName, gcn::Rectangle(0, 0, 0, 0), true);
+			ui->thumbImage->load(songInfo[index].item->getPreviewFilename(), gcn::Rectangle(0, 0, 0, 0), true);
+			ui->background->display(songInfo[index].item->getPreviewFilename(), gcn::Rectangle(0, 0, 0, 0), true);
+		}
+		else
 			ui->thumbImage->load(ui->noimageFileName, ui->noimageRect, true);
 
-		//if (songInfo[index].mapInfo.listenFileName != L"NONE" && songInfo[index].mapInfo.listenFileName != L"")
-		//{
-		//	//sora::SoraBGMManager::Instance()->play(sora::s2ws(songInfo[index].mapInfo.listenFileName), false);
-		//	ui->countStarted = true;
-		//	ui->listenFileName = songInfo[index].mapInfo.listenFileName;
-		//	ui->playTimer.reset();
-		//	ui->playTimer.start();
-		//}
-		//else
+		if (songInfo[index].item->hasListening())
+		{
+			//sora::SoraBGMManager::Instance()->play(sora::s2ws(songInfo[index].mapInfo.listenFileName), false);
+			ui->countStarted = true;
+			ui->nextListeningIndex = ui->songListBox->getIndexByMapId(songInfo[index].mapInfo.id);
+			ui->playTimer.reset();
+			ui->playTimer.start();
+		}
+		else
 		{
 			ui->countStarted = false;
 			sora::SoraBGMManager::Instance()->stop(false);
@@ -184,8 +187,8 @@ namespace diva
 	{
 		if (!mouseEvent.getSource()->isEnabled())
 			return;
-		sora::SoraBGMManager::Instance()->stop(false);
-		MusicUI::Instance()->countStarted = false;
+		//sora::SoraBGMManager::Instance()->stop(false);
+		//MusicUI::Instance()->countStarted = false;
 	}
 
 	}

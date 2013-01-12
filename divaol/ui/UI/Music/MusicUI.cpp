@@ -346,7 +346,12 @@ namespace diva
 		{
 			selectedListBox->clearItems();
 			for (int i=0; i<SELECTEDMAPS.size(); i++)
-				selectedListBox->pushItem(MAPS[SELECTEDMAPS[i].id], SELECTEDMAPS[i].level);
+			{
+				int index = songListBox->getIndexByMapId(SELECTEDMAPS[i].id);
+				if (index == -1)
+					throw "Fatal Error! Cann't find this Map!";
+				selectedListBox->pushItem(MAPS[SELECTEDMAPS[i].id], SELECTEDMAPS[i].level, (SongListItem*)songListBox->getItem(index));
+			}
 		}
 
 		void MusicUI::SetFatherState(MusicGameState* state)
@@ -477,15 +482,22 @@ namespace diva
 					}
 					if (!t.error && t.finish)
 					{
-						WJson::Value tv = config[L"rankTop"];
-						int l = tv[L"ranks"].size();
+						WJson::Reader reader;
+						WJson::Value tv;
+						reader.parse( s2ws(std::string(t.additionalMessage)), tv);
+						if (!tv.isMember(L"error"))
+							break;
+						int l = tv[L"rank"].size();
 						for (int i = 0; i<l; i++)
 						{
-							WJson::Value t = tv[L"ranks"][i];
+							WJson::Value t = tv[L"rank"][i];
 							((RankingListItem*)rankingList->getItem(i))->SetInfo(t[L"score"].asInt(),
 								10,
 								t[L"name"].asString());
+							((RankingListItem*)rankingList->getItem(i))->SetNull(0);
 						}
+						for (int i = l; i < rankingList->getItemCount() -1; i++)
+							((RankingListItem*)rankingList->getItem(i))->SetNull(1);
 						//std::string fuck = t.additionalMessage;
 					}
 					break;
@@ -498,11 +510,23 @@ namespace diva
 					}
 					if (!t.error && t.finish)
 					{
-						WJson::Value tv = config[L"rankUser"];
-						((RankingListItem*)rankingList->getItem(rankingList->getMaxItem() - 1))->SetInfo(tv[L"score"].asInt(),
-							10,
-							tv[L"name"].asString());
-						((RankingListItem*)rankingList->getItem(rankingList->getMaxItem() - 1))->SetRanking(tv[L"rank"].asInt());
+						WJson::Reader reader;
+						WJson::Value tv;
+						reader.parse(s2ws(std::string(t.additionalMessage)), tv);
+						//if (tv[L"error"] != "E_")
+						if (!tv.isMember(L"error"))
+							break;
+						if (tv[L"error"].asString() == L"E_OK")
+						{
+							((RankingListItem*)rankingList->getItem(rankingList->getMaxItem() - 1))->SetInfo(tv[L"score"].asInt(),
+								10,
+								tv[L"name"].asString());
+							((RankingListItem*)rankingList->getItem(rankingList->getMaxItem() - 1))->SetRanking(tv[L"rank"].asInt());
+						}
+						else
+						{
+							((RankingListItem*)rankingList->getItem(rankingList->getMaxItem() - 1))->SetNull(2);
+						}
 					}
 					break;
 				case divamap::DivaMapEventMessage::PrepareThumbFile :
@@ -661,14 +685,14 @@ namespace diva
 					return;
 				}
 				SongListItem* item = (SongListItem*)songListBox->getItems()[t];
-				selectedListBox->pushItem(item->getMapInfo(), (divamap::DivaMap::LevelType)((SongListItem*)songListBox->getItems()[0])->getDifIndex(), DivaSelectedListBox::SPECIFIC);
+				selectedListBox->pushItem(item->getMapInfo(), (divamap::DivaMap::LevelType)((SongListItem*)songListBox->getItems()[0])->getDifIndex(), item, DivaSelectedListBox::SPECIFIC);
 				AdjustStartButton();
 			}
 			else
 			{
 				SongListItem* item = (SongListItem*)songListBox->getItems()[index];
 				if (item->getDownloadFinished())
-					selectedListBox->pushItem(item->getMapInfo(), item->getMapInfo().getLevel(item->getDifIndex()), DivaSelectedListBox::SPECIFIC);
+					selectedListBox->pushItem(item->getMapInfo(), item->getMapInfo().getLevel(item->getDifIndex()), item, DivaSelectedListBox::SPECIFIC);
 				else
 				{
 					MAPMGR.PrepareDivaMapData(item->getMapInfo().id);
