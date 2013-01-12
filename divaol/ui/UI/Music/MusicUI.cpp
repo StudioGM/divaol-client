@@ -823,7 +823,7 @@ namespace diva
 			songInfoContainer->setTextVisible(true);
 
 			MAPMGR.PrepareRecordByRank(item->getMapInfo().id, item->getMapInfo().getLevel(item->getDifIndex()), 1, 4);
-			MAPMGR.PrepareRecordByUser(item->getMapInfo().id, item->getMapInfo().getLevel(item->getDifIndex()), Base::String::string2any<int>(divanet::NetInfo::instancePtr()->uid));
+			MAPMGR.PrepareRecordByUser(item->getMapInfo().id, item->getMapInfo().getLevel(item->getDifIndex()), Base::String(divanet::NetInfo::instancePtr()->username).unicode_str());
 		}
 
 		void MusicUI::GameStartPost(int mapId, int dif, int gameMode)

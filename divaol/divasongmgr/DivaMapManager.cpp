@@ -70,7 +70,7 @@ namespace divamap
 													+ L"&start_rank=" + Base::String::any2string(startRank).unicode_str()
 													+ L"&end_rank=" + Base::String::any2string(endRank).unicode_str();
 	}
-	std::wstring DivaMapManager::GetQueryAddress_RecordByUser(int mapID, int level, int userID)
+	std::wstring DivaMapManager::GetQueryAddress_RecordByUser(int mapID, int level, std::wstring userID)
 	{
 		return gameInfoQueryAddress + L"GetRankOfUser?map_id=" + Base::String::any2string(mapID).unicode_str()
 													+ L"&level=" + Base::String::any2string(level).unicode_str()
@@ -733,7 +733,7 @@ namespace divamap
 			return false;
 
 	}
-	bool DivaMapManager::PrepareRecordByUser(int mapID, int level, int userID)
+	bool DivaMapManager::PrepareRecordByUser(int mapID, int level, std::wstring userID)
 	{
 		if(!isMapLevelExist(mapID, (DivaMap::LevelType)level))
 			return false;

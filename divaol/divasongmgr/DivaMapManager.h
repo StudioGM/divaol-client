@@ -207,7 +207,7 @@ namespace divamap
 		std::wstring GetQueryAddress_DownloadCategory();
 		std::wstring GetQueryAddress_MapListUpdateByTime(std::wstring basedTime);
 		std::wstring GetQueryAddress_RecordByRank(int mapID, int difficulty, int startRank, int endRank);
-		std::wstring GetQueryAddress_RecordByUser(int mapID, int difficulty, int userID);
+		std::wstring GetQueryAddress_RecordByUser(int mapID, int difficulty, std::wstring userID);
 
 	private:
 		DivaMapManager();
@@ -261,7 +261,7 @@ namespace divamap
 		bool PrepareDivaMapDataFromFile(std::wstring divaolpackFile);
 
 		bool PrepareRecordByRank(int mapID, int difficulty, int startRank, int endRank);
-		bool PrepareRecordByUser(int mapID, int difficulty, int userID);
+		bool PrepareRecordByUser(int mapID, int difficulty, std::wstring userID);
 
 
 		//Get functions
