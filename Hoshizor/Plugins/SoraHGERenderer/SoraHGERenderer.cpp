@@ -44,6 +44,7 @@ namespace sora{
 
 	SoraHGERenderer::~SoraHGERenderer() {
 	//	shutdown();
+		
 	}
 
 	void SoraHGERenderer::flush() {

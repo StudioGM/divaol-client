@@ -21,14 +21,8 @@ namespace diva
 
 	divamap::DivaMap::LevelType SongInfo::getLevel() const
 	{
-		int j = difIndex;
-		divamap::DivaMap::Levels::const_iterator i = mapInfo.levels.cbegin();
-		while (j)
-			i++;
-		return i->first;
+		return mapInfo.getLevel(difIndex);
 	}
-
-
 
 	DivaSelectedListBox::DivaSelectedListBox()
 	{

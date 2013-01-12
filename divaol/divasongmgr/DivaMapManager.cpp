@@ -761,7 +761,7 @@ namespace divamap
 		int j = index;
 		divamap::DivaMap::Levels::const_iterator i = levels.cbegin();
 		while (j)
-			i++;
+			i++, j--;
 		return i->first;
 	}
 

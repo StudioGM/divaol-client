@@ -3,6 +3,8 @@
 #include "ui/Config/DivaUIConfig.h"
 #include "MusicGameState.h"
 #include "divanetwork/DivaNetworkManager.h"
+#include "divanetwork/DivaNetInfo.h"
+#include "lib/Base/String.h"
 
 namespace diva
 {
@@ -467,6 +469,42 @@ namespace diva
 				const divamap::DivaMapEventMessage &t = (*((*q).begin()));
 				switch (t.eventType)
 				{
+				case divamap::DivaMapEventMessage::PrepareRecordByRank:
+					if (t.error)
+					{
+						//mgr->GetMB()->Show(L"下载缩略图文件出错。歌曲名：" + MAPS[t.effectedMapID].header.name);
+						break;
+					}
+					if (!t.error && t.finish)
+					{
+						WJson::Value tv = config[L"rankTop"];
+						int l = tv[L"ranks"].size();
+						for (int i = 0; i<l; i++)
+						{
+							WJson::Value t = tv[L"ranks"][i];
+							((RankingListItem*)rankingList->getItem(i))->SetInfo(t[L"score"].asInt(),
+								10,
+								t[L"name"].asString());
+						}
+						//std::string fuck = t.additionalMessage;
+					}
+					break;
+				case divamap::DivaMapEventMessage::PrepareRecordByUser:
+					if (t.error)
+					{
+						//mgr->GetMB()->Show(L"下载缩略图文件出错。歌曲名：" + MAPS[t.effectedMapID].header.name);
+						//q->pop_front();
+						break;
+					}
+					if (!t.error && t.finish)
+					{
+						WJson::Value tv = config[L"rankUser"];
+						((RankingListItem*)rankingList->getItem(rankingList->getMaxItem() - 1))->SetInfo(tv[L"score"].asInt(),
+							10,
+							tv[L"name"].asString());
+						((RankingListItem*)rankingList->getItem(rankingList->getMaxItem() - 1))->SetRanking(tv[L"rank"].asInt());
+					}
+					break;
 				case divamap::DivaMapEventMessage::PrepareThumbFile :
 					if (t.error)
 					{
@@ -487,7 +525,7 @@ namespace diva
 					if (t.error)
 					{
 						mgr->GetMB()->Show(L"下载试听文件出错。歌曲名：" + MAPS[t.effectedMapID].header.name);
-						return;
+						break;
 					}
 					if (!t.error && t.finish)
 					{
@@ -503,7 +541,7 @@ namespace diva
 					if (t.error)
 					{
 						mgr->GetMB()->Show(L"下载歌曲文件出错。歌曲名：" + MAPS[t.effectedMapID].header.name);
-						return;
+						break;
 					}
 					if (t.finish)
 					{
@@ -521,7 +559,7 @@ namespace diva
 					if (t.error)
 					{
 						mgr->GetMB()->Show(L"解压歌曲文件出错。歌曲名：" + MAPS[t.effectedMapID].header.name);
-						return;
+						break;
 					}
 					if (t.finish)
 					{
@@ -759,6 +797,9 @@ namespace diva
 
 			songInfoContainer->setMap(item->getMapInfo());
 			songInfoContainer->setTextVisible(true);
+
+			MAPMGR.PrepareRecordByRank(item->getMapInfo().id, item->getMapInfo().getLevel(item->getDifIndex()), 1, 4);
+			MAPMGR.PrepareRecordByUser(item->getMapInfo().id, item->getMapInfo().getLevel(item->getDifIndex()), Base::String::string2any<int>(divanet::NetInfo::instancePtr()->uid));
 		}
 
 		void MusicUI::GameStartPost(int mapId, int dif, int gameMode)

@@ -71,5 +71,22 @@
 		"nickname": "你能不能别这么蛋疼",
 		"username": "gaoji7777"
 	}
-	]
+	],
+	"rankUser":
+	{
+		"error": "E_OK",
+		"rank": 10,
+		"score": 10000,
+		"name": "fuckthis"
+	},
+	"rankTop":
+	{
+		"error": "E_OK",
+		"ranks": [
+			{"rank": 1, "score": 50000, "name": "fuck1"},
+			{"rank": 2, "score": 40000, "name": "fuck2"},
+			{"rank": 3, "score": 30000, "name": "fuck3"},
+			{"rank": 4, "score": 20000, "name": "fuck4"}
+		]
+	},
 }
