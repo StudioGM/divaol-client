@@ -522,6 +522,7 @@ namespace diva
 								10,
 								tv[L"name"].asString());
 							((RankingListItem*)rankingList->getItem(rankingList->getMaxItem() - 1))->SetRanking(tv[L"rank"].asInt());
+							((RankingListItem*)rankingList->getItem(rankingList->getMaxItem() - 1))->SetNull(0);
 						}
 						else
 						{
