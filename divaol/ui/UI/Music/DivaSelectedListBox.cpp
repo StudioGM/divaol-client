@@ -95,7 +95,9 @@ namespace diva
 
 	void DivaSelectedListBox::clearItems()
 	{
-		songInfo.clear();
+		int n = songInfo.size();
+		for (int i = n -1; i>=0; i--)
+			removeItem(i);
 	}
 
 	void DivaSelectedListBox::displayItem(int index)
