@@ -51,13 +51,15 @@ namespace divanet
 						NOTIFY_UPDATE_INFO,
 						NOTIFY_UPDATE_COLOR,
 						NOTIFY_UPDATE_SONG,
+						NOTIFY_REFRESH_SONG_UI,
 						NOTIFY_UPDATE_MODE,
 						NOTIFY_UPDATE_HOOK,
 						NOTIFY_UPDATE_READY,
 						NOTIFY_STAGE_JOIN,
 						NOTIFY_STAGE_LEAVE,
 						NOTIFY_STAGE_CLOSED,
-						NOTIFY_STAGE_RETURN};
+						NOTIFY_STAGE_RETURN,
+						NOTIFY_GAME_OVER};
 
 		virtual std::string name() const {return "stage";}
 
@@ -197,7 +199,7 @@ namespace divanet
 				if(owner()) {
 					SongList songList;
 					for(int i = 0; i < MAPMGR.GetSelectedMaps().size(); i++)
-						songList.push_back(SongInfo(MAPMGR.GetSelectedMaps()[0].id, MAPMGR.GetSelectedMaps()[0].level));
+						songList.push_back(SongInfo(MAPMGR.GetSelectedMaps()[i].id, MAPMGR.GetSelectedMaps()[i].level));
 					setSong(songList);
 				}
 				else {
@@ -335,9 +337,13 @@ namespace divanet
 			if(state()!=STAGE)
 				return;
 
-			_gnet_parse_songList(packet->getItem(2)->as<divanet::ItemList>());
+			divanet::SongList newSong = _gnet_parse_songList(packet->getItem(2)->as<divanet::ItemList>());
 
-			notify("song", NOTIFY_UPDATE_SONG, packet);
+			if(!compare(newSong, mInfo.songId))
+			{
+				mInfo.songId = newSong;
+				notify("song", NOTIFY_UPDATE_SONG, packet);
+			}
 		}
 
 		void gnet_setMode(GPacket *packet) {
@@ -413,20 +419,39 @@ namespace divanet
 
 		void gnet_game_over(GPacket *packet)
 		{
+			if(mState==GAME) {
+				mState = STAGE;
+			}
+
 			if (owner())
 			{
-				
+				if(mInfo.songId.size()>0)
+				{
+					// remove the first song(just play)
+					mInfo.songId.erase(mInfo.songId.begin());
+					// update map manager
+					MAPMGR.SelectedMap_Clear();
+					for(int i = 0; i < mInfo.songId.size(); i++)
+						MAPMGR.SelectedMap_Add(mInfo.songId[i].songId, static_cast<divamap::DivaMap::LevelType>(mInfo.songId[i].level));
+					// notify ui
+					notify("song", NOTIFY_REFRESH_SONG_UI, NULL);
+					// send msg to server
+					setSong(mInfo.songId);
+				}
 			}
+			notify("song", NOTIFY_GAME_OVER, packet);
 		}
 
 	private:
-		void _gnet_parse_songList(divanet::ItemList *list) {
-			mInfo.songId.clear();
+		divanet::SongList _gnet_parse_songList(divanet::ItemList *list) {
+			divanet::SongList newSong;
 			for(int i = 0; i < list->size(); i++)
 			{
 				divanet::GPacket *songItem = list->getItem(i)->as<divanet::GPacket>();
-				mInfo.songId.push_back(SongInfo(songItem->getItem(0)->getInt(), songItem->getItem(1)->getInt()));
+				newSong.push_back(SongInfo(songItem->getItem(0)->getInt(), songItem->getItem(1)->getInt()));
 			}
+
+			return newSong;
 		}
 		int32 _findPlayer(const std::string &uid) {
 			for(int i = 0; i < mInfo.waiters.size(); i++)
@@ -455,6 +480,16 @@ namespace divanet
 		void _reconnect() {
 			if(connect_thread())
 				login();
+		}
+
+		bool compare(const SongList &a, const SongList &b)
+		{
+			if(a.size()!=b.size())
+				return false;
+			for(int i = 0; i < a.size(); i++)
+				if(a[i].level!=b[i].level||a[i].songId!=b[i].songId)
+					return false;
+			return true;
 		}
 
 	protected:

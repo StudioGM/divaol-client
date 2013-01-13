@@ -600,6 +600,10 @@ namespace diva
 				}
 				messagePanelChatBox->addText(L"[提示] 房主更改了歌曲列表", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 				break;
+			case divanet::StageClient::NOTIFY_REFRESH_SONG_UI:
+				Refresh_SongList();
+				messagePanelChatBox->addText(L"[提示] 歌曲列表刷新", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));				
+				break;
 			case divanet::StageClient::NOTIFY_UPDATE_HOOK:
 				MAPMGR.SelectedMode_Set(STAGE_CLIENT.info().hooks);
 				messagePanelChatBox->addText(L"[提示] 房主更改了游戏模式", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
@@ -610,12 +614,12 @@ namespace diva
 				if(msg.description()=="ok")
 					messagePanelChatBox->addText(L"[提示] 游戏服务器连接成功", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 				else if(msg.description()=="failed")
-					messagePanelChatBox->addText(L"[提示] 游戏服务器连接失败", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+					messagePanelChatBox->addText(L"[警告] 游戏服务器连接失败", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"warning"]));
 				else if(msg.description()=="reconnect")
 					messagePanelChatBox->addText(L"[提示] 尝试重新连接游戏服务器...", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 				break;
 			case divanet::StageClient::NOTIFY_TIMEOUT:
-				messagePanelChatBox->addText(L"[提示] 游戏服务器断开连接..", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+				messagePanelChatBox->addText(L"[警告] 游戏服务器断开连接..", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"warning"]));
 				// 返回主舞台
 				setState(STATE_ROOM);
 				break;
@@ -624,6 +628,9 @@ namespace diva
 				//	mgr->CloseTopWindow();
 				//mgr->GetMB()->Show(L"开始游戏失败", L"提示", gcn::MessageBoxEx::TYPE_OK);
 				messagePanelChatBox->addText(L"[警告] 开始游戏失败!", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"warning"]));
+				break;
+			case divanet::StageClient::NOTIFY_GAME_OVER:
+				messagePanelChatBox->addText(L"[提示] 游戏结束!", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 				break;
 			}
 		}
