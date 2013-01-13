@@ -77,6 +77,7 @@ namespace divanet
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#setHooks",&StageClient::gnet_setHooks);
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#ready",&StageClient::gnet_ready);
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#unready",&StageClient::gnet_unready);
+			GNET_RECEIVE_REGISTER(mNetSys,"stage#game_over",&StageClient::gnet_game_over);
 		}
 
 		void logout() {
@@ -93,6 +94,7 @@ namespace divanet
 			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#setMode");
 			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#ready");
 			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#unready");
+			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#game_over");
 		}
 
 		void create(int capacity) {
@@ -407,6 +409,14 @@ namespace divanet
 			mInfo.waiters[index-1].status = WaiterInfo::LEAVE;
 
 			notify("leave", NOTIFY_STAGE_LEAVE, packet, index);
+		}
+
+		void gnet_game_over(GPacket *packet)
+		{
+			if (owner())
+			{
+				
+			}
 		}
 
 	private:

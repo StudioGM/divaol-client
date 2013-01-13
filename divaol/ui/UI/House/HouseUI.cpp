@@ -572,6 +572,8 @@ namespace diva
 				STAGE_CLIENT.refreshMusic();
 				Refresh_SongList();
 
+				messagePanelChatBox->addText(L"[提示] 更新房间信息", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+
 				break;
 			case divanet::StageClient::NOTIFY_UPDATE_COLOR:
 				{

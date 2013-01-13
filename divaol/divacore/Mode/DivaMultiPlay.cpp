@@ -147,8 +147,9 @@ namespace divacore
 			{
 				//if(event.breakCombo||event.breakNote)
 				//	sendFailure(event);
-				NETWORK_SYSTEM_PTR->send("game#evalR",
-					"%d%d",event.note->getID(), event.rank);
+				if (getAlive())
+					NETWORK_SYSTEM_PTR->send("game#evalR",
+						"%d%d",event.note->getID(), event.rank);
 			}
 		}
 	}
