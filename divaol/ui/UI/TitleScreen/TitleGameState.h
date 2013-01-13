@@ -69,9 +69,10 @@ namespace diva
 
 		void beginLeave(const std::string& nextState)
 		{
-			if (nextState == "init")
+			if (nextState == "init" || state == 1)
 				return;
 			this->nextState = nextState;
+			titleScreen->BeginLeave();
 			uiCanvas->getCanvasSprite()->addEffect(sora::CreateEffectFade(1.0, 0.0, 0.5));
 			state = 1;
 		}

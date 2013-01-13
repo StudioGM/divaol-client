@@ -28,6 +28,8 @@ namespace diva
 		{
 			sora::GCN_GLOBAL->getTop()->add(trueTop, 0, 0);
 			//top->setVisible(true);
+			trueTop->setVisible(true);
+			trueTop->setEnabled(true);
 			refreshSelectedSongList();
 			refreshSongList();
 		}
@@ -35,8 +37,13 @@ namespace diva
 		void MusicUI::Leave()
 		{
 			sora::GCN_GLOBAL->getTop()->remove(trueTop);
-			//top->setVisible(false);
+			trueTop->setVisible(false);
 			sora::SoraBGMManager::Instance()->stop(false);
+		}
+
+		void MusicUI::BeginLeave()
+		{
+			trueTop->setEnabled(false);
 		}
 
 

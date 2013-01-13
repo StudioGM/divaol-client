@@ -118,6 +118,7 @@ namespace diva
 			void Render();
 			void Update(float delta);
 
+			void BeginLeave();
 			void Enter();
 			void Leave();
 			void SetFatherState(MusicGameState* state);
