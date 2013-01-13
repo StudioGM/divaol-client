@@ -199,6 +199,7 @@ namespace diva
 
 			void Enter();
 			void Leave();
+			void BeginLeave();
 			void SetFatherState(HouseGameState* state);
 
 			// Event
@@ -220,6 +221,8 @@ namespace diva
 			virtual void action();
 			virtual void mouseClicked(const gcn::MouseEvent& mouseEvent);
 			void ModeButtonClicked(int index);
+
+			
 		};
 
 		class LoginButton_MouseListener : public gcn::MouseListener

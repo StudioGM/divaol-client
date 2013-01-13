@@ -57,5 +57,6 @@ namespace diva
 
 		void Enter();
 		void Leave();
+		void BeginLeave();
 	};
 }

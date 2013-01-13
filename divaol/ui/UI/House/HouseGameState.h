@@ -64,9 +64,10 @@ namespace diva
 
 			void beginLeave(const std::string& nextState)
 			{
-				if (nextState == "house")
+				if (nextState == "house" || state == 1)
 					return;
 				this->nextState = nextState;
+				houseUI->BeginLeave();
 				uiCanvas->getCanvasSprite()->addEffect(sora::CreateEffectFade(1.0, 0.0, 0.5));
 				state = 1;
 			}

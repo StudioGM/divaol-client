@@ -832,8 +832,8 @@
     "confirmY" : 240
   },
   "ModeButton": {
-    "desX" : 700,
-    "desY" : 400,
+    "desX" : 1480,
+    "desY" : 820,
     "text" : "模式选择"
   }
 }

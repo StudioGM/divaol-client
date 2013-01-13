@@ -703,6 +703,7 @@ namespace diva
 		{
 			sora::GCN_GLOBAL->getTop()->add(top, 0, 0);
 			top->setVisible(true);
+			top->setEnabled(true);
 			Refresh_SongList();
 			sora::SoraBGMManager::Instance()->play(config[L"lobbyMusicFilename"].asString(), false);
 		}
@@ -1077,6 +1078,11 @@ namespace diva
 		//	top->add(b);
 		//	return b;
 		//}
+
+		void HouseUI::BeginLeave()
+		{
+			top->setEnabled(false);
+		}
 
 		gcn::SuperButtonEx* HouseUI::CreateButton(const WJson::Value& conf, const std::wstring& normal, const std::wstring& on,
 			const std::wstring& down, const std::wstring& disable)
