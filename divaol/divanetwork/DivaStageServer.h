@@ -265,7 +265,7 @@ namespace divanet
 
 		void gnet_start(GPacket *packet) {
 			notify("start", NOTIFY_STAGE_START, packet);
-			//mState = GAME;
+			mState = GAME;
 		}
 
 		void gnet_info(GPacket *packet) {

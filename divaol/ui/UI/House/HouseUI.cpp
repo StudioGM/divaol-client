@@ -614,6 +614,8 @@ namespace diva
 				break;
 			case divanet::StageClient::NOTIFY_TIMEOUT:
 				messagePanelChatBox->addText(L"[提示] 游戏服务器断开连接..", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+				// 返回主舞台
+				setState(STATE_ROOM);
 				break;
 			case divanet::StageClient::NOTIFY_STAGE_RETURN:
 				//if(mgr->GetMB()->isTopWindow())
