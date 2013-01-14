@@ -728,7 +728,7 @@ namespace diva
 			if (tv.size() == 0)
 				return -1;
 			
-			return tv[sora::SoraCore::Instance()->RandomInt(0, tv.size() - 1)];
+			return tv[Base::Random::RandomInt(0, tv.size())];
 		}
 
 		void MusicUI::SongListItemClicked(int index)
