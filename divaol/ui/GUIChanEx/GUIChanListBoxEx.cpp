@@ -6,7 +6,9 @@ namespace gcn
 	{
 		setOpaque(false);
 		setHorizontal(false);
+		setSelectMode(false);
 
+		selectedItemIndex = -1;
 		highlightItemIndex = -1;
 		selectIndex = -1;
 		maxItem = 5;
@@ -59,6 +61,11 @@ namespace gcn
 			firstIndexChanged(firstIndex);
 	}
 
+	void ListBoxEx::setSelectMode(bool v)
+	{
+		isSelectMode = v;
+	}
+
 	int ListBoxEx::getMaxIndex() const
 	{
 		if (items.size() <= maxItem)
@@ -98,6 +105,19 @@ namespace gcn
 	void ListBoxEx::removeItem(int index)
 	{
 		items.erase(items.begin() + index);
+		if (selectedItemIndex != -1)
+		{
+			if (selectedItemIndex == index)
+				clearSelect();
+			else
+			{
+				if (selectedItemIndex > index)
+					selectedItemIndex --;
+				if (selectedItemIndex >= items.size())
+					clearSelect();
+			}
+		}
+		
 		itemChanged();
 	}
 
@@ -137,10 +157,22 @@ namespace gcn
 		setWidth(firstRect.width + firstRect.x);
 	}
 
+	void ListBoxEx::clearSelect()
+	{
+		selectedItemIndex = -1;
+	}
+
+	int ListBoxEx::getSelectedIndex() const
+	{
+		return selectedItemIndex;
+	}
+
 	int ListBoxEx::getItemState(int index)
 	{
-		if (index != highlightItemIndex)
+		if (index != highlightItemIndex && index != selectedItemIndex)
 			return 0;
+		if (index == selectedItemIndex)
+			return 2;
 		if (!isMousePressed)
 			return 1;
 		return 2;
@@ -242,46 +274,6 @@ namespace gcn
 			changeHighlightItem(mouseEvent.getX(), mouseEvent.getY(), firstRect, itemGap);
 		else
 			changeHighlightItem(mouseEvent.getY(), mouseEvent.getX(), gcn::Rectangle(firstRect.y, firstRect.x, firstRect.height, firstRect.width), itemGap);
-
-		/*int ori = highlightItemIndex;
-
-		int x = mouseEvent.getX(), y = mouseEvent.getY();
-		y -= firstRect.y;
-		x -= firstRect.x;
-		if (x > firstRect.width || x < 0)
-		{
-		highlightItemIndex = -1;
-		if (ori != highlightItemIndex)
-		highlightItemChanged(highlightItemIndex);
-		return;
-		}
-		if (y < 0)
-		{
-		highlightItemIndex = -1;
-		if (ori != highlightItemIndex)
-		highlightItemChanged(highlightItemIndex);
-		return;
-		}
-		int ind = y / (firstRect.height + itemGap);
-		y %= firstRect.height + itemGap;
-		if (y > firstRect.height)
-		{
-		highlightItemIndex = -1;
-		if (ori != highlightItemIndex)
-		highlightItemChanged(highlightItemIndex);
-		return;
-		}
-		if (ind >= getDisplayedItems())
-		{
-		highlightItemIndex = -1;
-		if (ori != highlightItemIndex)
-		highlightItemChanged(highlightItemIndex);
-		return;
-		}
-
-		highlightItemIndex = ind + firstIndex;
-		if (ori != highlightItemIndex)
-		highlightItemChanged(highlightItemIndex);*/
 	}
 
 	void ListBoxEx::mousePressed(MouseEvent& mouseEvent)
@@ -297,7 +289,19 @@ namespace gcn
 	void ListBoxEx::mouseClicked(MouseEvent& mouseEvent)
 	{
 		if (mouseEvent.getButton() == MouseEvent::LEFT && highlightItemIndex >= 0 && highlightItemIndex < items.size())
+		{
+			if (isSelectMode)
+			{
+				int lastIndex = selectedItemIndex;
+				selectedItemIndex = highlightItemIndex;
+				itemClickedSelectedMode(highlightItemIndex, lastIndex);
+			}
 			itemClicked(highlightItemIndex);
+		}
+	}
+
+	void ListBoxEx::itemClickedSelectedMode(int itemIndex, int lastSelectedIndex)
+	{
 	}
 
 	void ListBoxEx::itemClicked(int itemIndex)
@@ -335,6 +339,7 @@ namespace gcn
 		items.clear();
 		for (int i=0; i<v.size(); i++)
 			items.push_back(v[i]);
+		clearSelect();
 		itemChanged();
 
 	}

@@ -73,6 +73,15 @@ namespace gcn
     {
     }
 
+	Color::Color(int color, int alpha)
+		:r( (color >> 16) & 0xFF),
+        g( (color >> 8) & 0xFF),
+        b( (color) & 0xFF),
+		a(	alpha & 0xFF )
+	{
+
+	}
+
     Color Color::operator+(const Color& color) const
     {
         Color result(r + color.r, 

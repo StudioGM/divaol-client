@@ -468,7 +468,7 @@ namespace divamap
 		DivaMapManagerDownloadQuest *thisQuest = (DivaMapManagerDownloadQuest*)arg_quest;
 
 		DivaMapEventMessage thisMessage(thisQuest->eventType, thisQuest->mapID, false, false, 0);
-
+		thisMessage.extraPTR = thisQuest->extraPTR;
 		DeleteFileW(thisQuest->localFileAddress.unicode_str());
 
 		CURL *curl_handle;
@@ -510,7 +510,7 @@ namespace divamap
 		DivaMapManagerDownloadQuest *thisQuest = (DivaMapManagerDownloadQuest*)arg_quest;
 
 		DivaMapEventMessage thisMessage(thisQuest->eventType, thisQuest->mapID, thisQuest->levelID, false, false, 0);
-
+		thisMessage.extraPTR = thisQuest->extraPTR;
 		CURL *curl_handle;
 		curl_handle = curl_easy_init();
 		thisQuest->curlHandle = curl_handle;
@@ -709,7 +709,7 @@ namespace divamap
 
 	}
 
-	bool DivaMapManager::PrepareRecordByRank(int mapID, int level, int startRank, int endRank)
+	bool DivaMapManager::PrepareRecordByRank(int mapID, int level, int startRank, int endRank, void* extraPTR)
 	{
 		if(!isMapLevelExist(mapID, (DivaMap::LevelType)level))
 			return false;
@@ -718,6 +718,7 @@ namespace divamap
 
 		Base::String queryAddress = GetQueryAddress_RecordByRank(mapID, level, startRank, endRank);
 		DivaMapManagerDownloadQuest *thisQuest = new DivaMapManagerDownloadQuest(queryAddress,L"",mapID,level,DivaMapEventMessage::PrepareRecordByRank);
+		thisQuest->extraPTR = extraPTR;
 		unsigned int threadAddress;
 		HANDLE hThread = 
 			(HANDLE)_beginthreadex(

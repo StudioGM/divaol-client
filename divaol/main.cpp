@@ -48,6 +48,7 @@ int CALLBACK WinMain(
 		SCHEDULER_CLIENT.setNetworkSystem(new divanet::TCPGNetworkSystem);
 		STAGE_CLIENT.setNetworkSystem(new divanet::TCPGNetworkSystem);
 
+		Base::Random::SetRandomSeed((uint32)time(0));
 		sora::SoraCore::SetRandomSeed((uint32)time(0));
 
 		divacore::standard::Initializer initializer("system",divacore::standard::Initializer::SINGLE, true);

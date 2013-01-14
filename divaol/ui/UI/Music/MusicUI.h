@@ -83,6 +83,10 @@ namespace diva
 			gcn::ContainerEx* songListLogo;
 			RankingList* rankingList;
 
+			gcn::ButtonEx* rankPageLeftBtn;
+			gcn::ButtonEx* rankPageRightBtn;
+			gcn::LabelEx* rankPageText;
+
 			std::wstring noimageFileName;
 			gcn::Rectangle noimageRect;
 			std::wstring randomFileName;
@@ -91,6 +95,8 @@ namespace diva
 			std::vector<std::wstring> modeNames;
 			int maxMode;
 			int gameMode;
+			int rankPage;
+			int maxRankPage;
 
 			Image* uiImage1, *uiImage2;
 
@@ -111,6 +117,8 @@ namespace diva
 			int netState;
 			void refreshSelectedSongList();
 			void refreshSongList();
+			void refreshRankingList(bool topRank = true, bool myRank = true);
+			void PlayListeningPreview(int index);
 
 		public:
 			static MusicUI* Instance() {static MusicUI i; return &i;}
@@ -123,8 +131,10 @@ namespace diva
 			void Leave();
 			void SetFatherState(MusicGameState* state);
 
+			void refreshRankPageText();
 			void SongListItemClicked(int index);
 			void SongListHighlightItemChanged(int index);
+			void SongListItemDoubleClicked(int index);
 
 			int GetRandomSong(divamap::DivaMap::LevelType level);
 
@@ -181,6 +191,20 @@ namespace diva
 
 		class PlayButton_MouseListener
 			:public gcn::MouseListener
+		{
+		public:
+			virtual void mouseClicked(MouseEvent& mouseEvent);
+		};
+
+		class RankPageLeft_MouseListener
+			: public gcn::MouseListener
+		{
+		public:
+			virtual void mouseClicked(MouseEvent& mouseEvent);
+		};
+
+		class RankPageRight_MouseListener
+			: public gcn::MouseListener
 		{
 		public:
 			virtual void mouseClicked(MouseEvent& mouseEvent);

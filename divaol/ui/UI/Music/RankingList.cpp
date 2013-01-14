@@ -17,7 +17,7 @@ namespace diva
 		{
 			SetRanking(1);
 			SetInfo(0, 0, L"none");
-			SetColor(0xFFFFFFFF);
+			SetColor(0xFFFFFF, 0xFFFFFF);
 			isNull = false;
 		}
 
@@ -30,22 +30,23 @@ namespace diva
 			isNull = v;
 		}
 
-		void RankingListItem::SetColor(int color)
+		void RankingListItem::SetColor(int backColor, int fontColor)
 		{
-			this->backColor = color;
+			this->backColor = backColor;
+			this->fontColor = fontColor;
 		}
 
 		void RankingListItem::draw(Graphics* graphics, Font* font, int state, int alpha)
 		{
 			if (image)
 			{
-				graphics->setColor(backColor);
+				graphics->setColor(gcn::Color(backColor, alpha));
 				graphics->drawImage(image, rect.x, rect.y, 0, 0, rect.width, rect.height);
 			}
 
 			if (isNull == 0)
 			{
-				graphics->setColor(gcn::Color(255, 255, 255, alpha));
+				graphics->setColor(gcn::Color(fontColor, alpha));
 				graphics->setFont(font);
 				graphics->drawTextW(L"Score:" + Base::String::any2string<int>(score), scoreP.x, scoreP.y);
 				graphics->drawTextW(Base::String::any2string<int>(ranking), rankingP.x, rankingP.y);
@@ -54,13 +55,13 @@ namespace diva
 			}
 			else if (isNull == 1)
 			{
-				graphics->setColor(gcn::Color(255, 255, 255, alpha));
+				graphics->setColor(gcn::Color(fontColor, alpha));
 				graphics->setFont(font);
 				graphics->drawTextW(L"暂无记录", playerP.x, playerP.y);
 			}
 			else
 			{
-				graphics->setColor(gcn::Color(255, 255, 255, alpha));
+				graphics->setColor(gcn::Color(fontColor, alpha));
 				graphics->setFont(font);
 				graphics->drawTextW(L"尚没有你的排名", playerP.x, playerP.y);
 			}
