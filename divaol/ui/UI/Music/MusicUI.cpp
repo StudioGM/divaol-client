@@ -99,6 +99,7 @@ namespace diva
 
 			// SongListBox
 			songListBox = new DivaSongList();
+			songListBox->setSelectMode(true);
 			songListBox->setMaxItem(6);
 			songListBox->setSize(609, 873);
 			songListBox->setGap(gcn::Rectangle(53, 107, 571, 139), -15);
@@ -283,7 +284,9 @@ namespace diva
 					item->SetInfo(100 + i * 50, 50 + i * 10, L"SonicMisora");
 					rankingList->pushItem(item);
 					if (i == 4)
-						item->SetColor(0x00FFFF);
+						item->SetColor(0x00FFFF, 0xFF0000);
+					else
+						item->SetColor(0xFFFFFF, 0xFFFFFF);
 				}
 				top->add(rankingList);
 			}
@@ -448,6 +451,38 @@ namespace diva
 			// CodeEnd
 		}
 
+		void MusicUI::PlayListeningPreview(int index)
+		{
+			SongListItem* item = (SongListItem*)songListBox->getItems()[index];
+			if ( item->hasListening() )
+			{
+				playTimer.reset();
+				sora::SoraBGMManager::Instance()->stop(false);
+				sora::SoraBGMManager::Instance()->play(item->getListening(), false);
+				countStarted = false;
+			}
+			else
+			{
+				MAPMGR.PrepareDivaMapAudioPreview(item->getMapInfo().id);
+			}
+		}
+
+		void MusicUI::refreshRankingList(bool topRank, bool myRank)
+		{
+			SongListItem* item = (SongListItem*)songListBox->getItem(songListBox->getSelectedIndex());
+
+			if (topRank)
+			{
+				MAPMGR.PrepareRecordByRank(item->getMapInfo().id, item->getMapInfo().getLevel(item->getDifIndex()), 1, 4);
+			}
+
+			if (myRank)
+			{
+				MAPMGR.PrepareRecordByUser(item->getMapInfo().id, item->getMapInfo().getLevel(item->getDifIndex()),
+					Base::String(divanet::NetInfo::instancePtr()->username).unicode_str());
+			}
+		}
+
 		void MusicUI::Update(float delta)
 		{
 			// NetUpdate
@@ -459,18 +494,7 @@ namespace diva
 				double tt = playTimer.getTime();
 				if (tt >= config[L"listenDelay"].asDouble())
 				{
-					SongListItem* item = (SongListItem*)songListBox->getItems()[nextListeningIndex];
-					if ( item->hasListening() )
-					{
-						playTimer.reset();
-						sora::SoraBGMManager::Instance()->stop(false);
-						sora::SoraBGMManager::Instance()->play(item->getListening(), false);
-						countStarted = false;
-					}
-					else
-					{
-						MAPMGR.PrepareDivaMapAudioPreview(item->getMapInfo().id);
-					}
+					PlayListeningPreview(nextListeningIndex);
 				}
 			}
 
@@ -492,6 +516,7 @@ namespace diva
 						WJson::Reader reader;
 						WJson::Value tv;
 						reader.parse( s2ws(std::string(t.additionalMessage)), tv);
+						
 						if (!tv.isMember(L"error"))
 							break;
 						int l = tv[L"rank"].size();
@@ -656,6 +681,49 @@ namespace diva
 
 		void MusicUI::SongListItemClicked(int index)
 		{
+			if (index == -1)
+			{
+				//sora::SoraBGMManager::Instance()->stop(false);
+				countStarted = false;
+				return;
+			}
+			if (state == SONGLIST_ART)
+			{
+				thumbImage->load(noimageFileName, noimageRect, true);
+				songInfoContainer->setTextVisible(false);
+				//sora::SoraBGMManager::Instance()->stop(false);
+				countStarted = false;
+				return;
+			}
+			SongListItem* item = (SongListItem*)songListBox->getItems()[index];
+			if (item->getLook() == SongListItem::RANDOM)
+			{
+				thumbImage->load(randomFileName, randomRect, true);
+				songInfoContainer->setTextVisible(false);
+				//sora::SoraBGMManager::Instance()->stop(false);
+				countStarted = false;
+				return;
+			}
+		
+			// DISPLAY SONGLIST
+			if (item->hasPreview())
+			{
+				thumbImage->load(item->getPreviewFilename(), gcn::Rectangle(0, 0, 0, 0), true);
+				background->display(item->getPreviewFilename(), gcn::Rectangle(0, 0, 0, 0), true);
+			}
+			else
+				thumbImage->load(noimageFileName, noimageRect, true);
+
+			PlayListeningPreview(index);
+
+			songInfoContainer->setMap(item->getMapInfo());
+			songInfoContainer->setTextVisible(true);
+
+			refreshRankingList();
+		}
+
+		void MusicUI::SongListItemDoubleClicked(int index)
+		{
 			if (state == SONGLIST_ART)
 			{
 				std::wstring des = ((SongListItem*)songListBox->getItems()[index])->getMapInfo().header.artists[0];
@@ -780,58 +848,7 @@ namespace diva
 
 		void MusicUI::SongListHighlightItemChanged(int index)
 		{
-			if (index == -1)
-			{
-				//sora::SoraBGMManager::Instance()->stop(false);
-				countStarted = false;
-				return;
-			}
-			if (state == SONGLIST_ART)
-			{
-				thumbImage->load(noimageFileName, noimageRect, true);
-				songInfoContainer->setTextVisible(false);
-				//sora::SoraBGMManager::Instance()->stop(false);
-				countStarted = false;
-				return;
-			}
-			SongListItem* item = (SongListItem*)songListBox->getItems()[index];
-			if (item->getLook() == SongListItem::RANDOM)
-			{
-				thumbImage->load(randomFileName, randomRect, true);
-				songInfoContainer->setTextVisible(false);
-				//sora::SoraBGMManager::Instance()->stop(false);
-				countStarted = false;
-				return;
-			}
-		
-			// DISPLAY SONGLIST
-			if (item->hasPreview())
-			{
-				thumbImage->load(item->getPreviewFilename(), gcn::Rectangle(0, 0, 0, 0), true);
-				background->display(item->getPreviewFilename(), gcn::Rectangle(0, 0, 0, 0), true);
-			}
-			else
-				thumbImage->load(noimageFileName, noimageRect, true);
-
-			if (true)
-			{
-				countStarted = true;
-				//listenFileName = item->getListening();
-				playTimer.reset();
-				playTimer.start();
-				nextListeningIndex = index;
-			}
-			else
-			{
-				sora::SoraBGMManager::Instance()->stop(false);
-				countStarted = false;
-			}
-
-			songInfoContainer->setMap(item->getMapInfo());
-			songInfoContainer->setTextVisible(true);
-
-			MAPMGR.PrepareRecordByRank(item->getMapInfo().id, item->getMapInfo().getLevel(item->getDifIndex()), 1, 4);
-			MAPMGR.PrepareRecordByUser(item->getMapInfo().id, item->getMapInfo().getLevel(item->getDifIndex()), Base::String(divanet::NetInfo::instancePtr()->username).unicode_str());
+			
 		}
 
 		void MusicUI::GameStartPost(int mapId, int dif, int gameMode)

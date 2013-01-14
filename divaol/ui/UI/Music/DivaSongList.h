@@ -59,7 +59,9 @@ namespace diva
 
 		virtual void logic();
 
-		virtual void itemClicked(int itemIndex);
+		
+
+		virtual void itemClickedSelectedMode(int itemIndex, int lastSelectedIndex);
 
 		virtual void itemChanged();
 

@@ -111,6 +111,8 @@ namespace diva
 			int netState;
 			void refreshSelectedSongList();
 			void refreshSongList();
+			void refreshRankingList(bool topRank = true, bool myRank = true);
+			void PlayListeningPreview(int index);
 
 		public:
 			static MusicUI* Instance() {static MusicUI i; return &i;}
@@ -125,6 +127,7 @@ namespace diva
 
 			void SongListItemClicked(int index);
 			void SongListHighlightItemChanged(int index);
+			void SongListItemDoubleClicked(int index);
 
 			int GetRandomSong(divamap::DivaMap::LevelType level);
 

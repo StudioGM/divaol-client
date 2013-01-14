@@ -166,11 +166,15 @@ namespace diva
 	void DivaSongList::DifNext(int ind)
 	{
 		((SongListItem*)items[firstIndex + ind])->nextDif();
+		if (selectedItemIndex == ind)
+			MusicUI::Instance()->refreshRankingList(true, true);
 	}
 
 	void DivaSongList::DifLast(int ind)
 	{
 		((SongListItem*)items[firstIndex + ind])->lastDif();
+		if (selectedItemIndex == ind)
+			MusicUI::Instance()->refreshRankingList(true, true);
 	}
 
 	void DivaSongList::mouseWheelMovedUp(MouseEvent& mouseEvent)
@@ -187,10 +191,13 @@ namespace diva
 			setFirstIndex(getFirstIndex() + 1);
 	}
 
-	void DivaSongList::itemClicked(int itemIndex)
+	void DivaSongList::itemClickedSelectedMode(int itemIndex, int lastSelectedIndex)
 	{
 		MusicUI* ui = MusicUI::Instance();
-		ui->SongListItemClicked(itemIndex);
+		if (lastSelectedIndex == selectedItemIndex)
+			ui->SongListItemDoubleClicked(itemIndex);
+		else
+			ui->SongListItemClicked(itemIndex);
 	}
 
 	void DivaSongList::firstIndexChanged(int v)
@@ -198,6 +205,8 @@ namespace diva
 		MusicUI::Instance()->slider->setMarkPosition(v);
 		MusicUI::Instance()->refreshSongList();
 	}
+
+	
 
 	void DivaSongList::itemChanged()
 	{

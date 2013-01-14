@@ -26,6 +26,7 @@ namespace gcn
 		int maxItem;
 		int selectIndex;
 		int highlightItemIndex;
+		int selectedItemIndex;
 		Rectangle firstRect;
 		int itemGap;
 		int itemHeight;
@@ -33,6 +34,7 @@ namespace gcn
 		Image* image;
 		Rectangle srcRect;
 		bool isHorizontal;
+		bool isSelectMode;
 
 		void changeHighlightItem(int mx, int my, gcn::Rectangle firstRect, int itemGap);
 
@@ -49,6 +51,9 @@ namespace gcn
 		void pushItem(ListItemEx* item);
 		void insertItem(ListItemEx* item, int index);
 		void removeItem(int index);
+
+		void setSelectMode(bool v);
+		void clearSelect();
 
 		void setGap(Rectangle firstRect, int itemGap);
 		void setMaxItem(int num);
@@ -74,6 +79,8 @@ namespace gcn
 
 		void clearItems();
 
+		int getSelectedIndex() const;
+
 
 		virtual void draw(Graphics* graphics);
 
@@ -90,6 +97,8 @@ namespace gcn
 		virtual void mouseClicked(MouseEvent& mouseEvent);
 
 		virtual void itemClicked(int itemIndex);
+
+		virtual void itemClickedSelectedMode(int itemIndex, int lastSelectedIndex);
 
 		virtual void itemChanged();
 
