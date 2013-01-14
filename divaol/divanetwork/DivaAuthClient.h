@@ -16,12 +16,13 @@ namespace divanet
 	class AuthClient : public Client, public Base::Singleton<AuthClient>
 	{
 	public:
-		enum NotifyType{NOTIFY_AUTH_REPLAY=0x80,NOTIFY_AUTH_REQUEST};
+		enum NotifyType{NOTIFY_AUTH_REPLAY=0x80,NOTIFY_AUTH_REQUEST,NOTIFY_AUTH_KICK};
 
 		virtual std::string name() const {return "auth";}
 
 		void login(const std::string &username, const std::string &password) {
 			GNET_RECEIVE_REGISTER(mNetSys,"auth#login",&AuthClient::gnet_login);
+			GNET_RECEIVE_REGISTER(mNetSys,"auth#kick",&AuthClient::gnet_kick);
 			mNetSys->send("auth#login","%S%S",username,password);
 		}
 
@@ -58,11 +59,16 @@ namespace divanet
 			notify(packet->getItem(2)->getString(), NOTIFY_AUTH_REPLAY, packet);
 
 			GNET_RECEIVE_UNREGISTER(mNetSys,"auth#login");
+			GNET_RECEIVE_UNREGISTER(mNetSys,"auth#kick");
 		}
 
 		void gnet_response(GPacket *packet) {
 			notify(packet->getItem(2)->getString(), NOTIFY_AUTH_REQUEST, packet);
 			GNET_RECEIVE_UNREGISTER(mNetSys,"auth#response");
+		}
+
+		void gnet_kick(GPacket *packet) {
+			notify("system", NOTIFY_AUTH_KICK, packet);
 		}
 
 	protected:
