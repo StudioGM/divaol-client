@@ -54,7 +54,7 @@ namespace divanet
 		}
 
 		void send(const std::string &room, const Base::String &content) {
-			mNetSys->send("chat#sendmsg","%S%W",room,content.asUnicode());
+			mNetSys->send("chat#sendmsg","%S%S",room,content.asUTF8());
 		}
 
 		void sendTo(const std::string &uid, const Base::String &content) {
