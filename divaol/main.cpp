@@ -64,6 +64,7 @@ int CALLBACK WinMain(
 		sora::SoraGameAppDef def("config.xml");
 		def.width(config[L"windowWidth"].asInt());
 		def.height(config[L"windowHeight"].asInt());
+		def.WindowMode = config[L"windowMode"].asBool();
 		sora::SoraGameApp app(def);
 
 		sora::SoraCore::Instance()->registerSoundSystem(new sora::SoraFMODSoundSystem());

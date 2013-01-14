@@ -1,10 +1,11 @@
 {
 	///////////////////////////////////////////////////////
 	// basic info
-	"windowWidth" : 1280,
-	"windowHeight" : 720,
+	"windowWidth" : 1920,
+	"windowHeight" : 1080,
 	"gameWidth" : 1920,
 	"gameHeight" : 1080,
+	"windowMode" : false,
 	///////////////////////////////////////////////////////
 
 	// ui info
