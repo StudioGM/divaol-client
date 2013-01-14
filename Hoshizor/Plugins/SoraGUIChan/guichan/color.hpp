@@ -76,6 +76,8 @@ namespace gcn
          */
         Color(int color);
 
+		Color(int color, int alpha);
+
         /**
          * Constructor. The default alpha value is 255.
          *

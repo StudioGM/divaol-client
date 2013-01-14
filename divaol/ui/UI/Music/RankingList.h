@@ -18,6 +18,7 @@ namespace diva
 			int combo;
 			std::wstring playerName;
 			int backColor;
+			int fontColor;
 			int isNull;
 			
 			static Image* image;
@@ -30,7 +31,7 @@ namespace diva
 			void SetNull(int v);
 			void SetInfo(const int& score, const int& combo, const std::wstring& playerName);
 			void SetRanking(int ranking);
-			void SetColor(int color);
+			void SetColor(int backColor, int fontColor);
 			int GetRanking() const;
 			virtual void draw(Graphics* graphics, Font* font, int state, int alpha);
 
