@@ -53,6 +53,7 @@ namespace diva
 			// initialize net
 			WJson::Value tv;
 			//initNet();
+			maxRankPage = 4;
 
 			//////////////////////////////////////////////////////////////////////////
 			trueTop = new gcn::Container();
@@ -232,10 +233,10 @@ namespace diva
 				gcn::Rectangle(111, 204, 64, 51),
 				gcn::Rectangle(111, 262, 64, 51),
 				gcn::Rectangle(111, 326, 64, 51),
-				-14, -10);
+				0, 0);
 			modeLeftButton->addMouseListener(new GameModeSelectLeft_MouseListener());
 			modeLeftButton->setSize(36, 25);
-			top->add(modeLeftButton, 1539 + offx, 690 + offy);
+			top->add(modeLeftButton, 1525 + offx, 680 + offy);
 
 			// ModeRightButton
 			modeRightButton = new gcn::ButtonEx();
@@ -243,10 +244,10 @@ namespace diva
 				gcn::Rectangle(235, 204, 64, 51),
 				gcn::Rectangle(235, 262, 64, 51),
 				gcn::Rectangle(235, 326, 64, 51),
-				-14, -10);
+				0, 0);
 			modeRightButton->addMouseListener(new GameModeSelectRight_MouseListener());
 			modeRightButton->setSize(36, 25);
-			top->add(modeRightButton, 1745 + offx, 690 + offy);
+			top->add(modeRightButton, 1731 + offx, 680 + offy);
 
 			// ModeTextLabel
 			modeTextLabel = new gcn::LabelEx(modeNames[gameMode]);
@@ -254,6 +255,35 @@ namespace diva
 			modeTextLabel->setForegroundColor(gcn::Color(0, 0, 0));
 			modeTextLabel->setFont(artistFont);
 			top->add(modeTextLabel, 1625 + offx, 670 + offy);
+
+			// RankPageLeftButton
+			rankPageLeftBtn = new gcn::ButtonEx();
+			rankPageLeftBtn->setLook(L"res/UI1.png", gcn::Rectangle(111, 326, 64, 51),
+				gcn::Rectangle(111, 204, 64, 51),
+				gcn::Rectangle(111, 262, 64, 51),
+				gcn::Rectangle(111, 326, 64, 51),
+				0, 0);
+			rankPageLeftBtn->addMouseListener(new RankPageLeft_MouseListener());
+			rankPageLeftBtn->setSize(36, 25);
+			top->add(rankPageLeftBtn, 1460, 726);
+
+			// RankPageRightButton
+			rankPageRightBtn = new gcn::ButtonEx();
+			rankPageRightBtn->setLook(L"res/UI1.png", gcn::Rectangle(235, 326, 64, 51),
+				gcn::Rectangle(235, 204, 64, 51),
+				gcn::Rectangle(235, 262, 64, 51),
+				gcn::Rectangle(235, 326, 64, 51),
+				0, 0);
+			rankPageRightBtn->addMouseListener(new RankPageRight_MouseListener());
+			rankPageRightBtn->setSize(36, 25);
+			top->add(rankPageRightBtn, 1660, 726);
+
+			// RankPageTextLabel
+			rankPageText = new gcn::LabelEx(L"1~4");
+			rankPageText->setSize(90, 50);
+			rankPageText->setForegroundColor(gcn::Color(0, 0, 0));
+			rankPageText->setFont(artistFont);
+			top->add(rankPageText, 1560, 726);
 
 			// PlayerList
 			//playerList = new DivaPlayerList();
@@ -466,14 +496,18 @@ namespace diva
 				MAPMGR.PrepareDivaMapAudioPreview(item->getMapInfo().id);
 			}
 		}
-
+		
 		void MusicUI::refreshRankingList(bool topRank, bool myRank)
 		{
+			if (songListBox->getSelectedIndex() == -1)
+				return;
 			SongListItem* item = (SongListItem*)songListBox->getItem(songListBox->getSelectedIndex());
 
 			if (topRank)
 			{
-				MAPMGR.PrepareRecordByRank(item->getMapInfo().id, item->getMapInfo().getLevel(item->getDifIndex()), 1, 4);
+				int be = rankPage * 4 + 1;
+				int en = be + 3;
+				MAPMGR.PrepareRecordByRank(item->getMapInfo().id, item->getMapInfo().getLevel(item->getDifIndex()), be, en, (void*)rankPage);
 			}
 
 			if (myRank)
@@ -516,7 +550,14 @@ namespace diva
 						WJson::Reader reader;
 						WJson::Value tv;
 						reader.parse( s2ws(std::string(t.additionalMessage)), tv);
-						
+
+						SongListItem *item = (SongListItem*) songListBox->getItem(songListBox->getSelectedIndex());
+						if (t.effectedMapID !=  item->getMapInfo().id)
+							break;
+						if (t.effectedMapLevel != item->getMapInfo().getLevel(item->getDifIndex()))
+							break;
+						if (rankPage != (int)t.extraPTR)
+							break;
 						if (!tv.isMember(L"error"))
 							break;
 						int l = tv[L"rank"].size();
@@ -546,6 +587,17 @@ namespace diva
 						WJson::Value tv;
 						reader.parse(s2ws(std::string(t.additionalMessage)), tv);
 						//if (tv[L"error"] != "E_")
+
+						SongListItem *item = (SongListItem*) songListBox->getItem(songListBox->getSelectedIndex());
+						if (t.effectedMapID !=  item->getMapInfo().id)
+							break;
+						if (t.effectedMapLevel != item->getMapInfo().getLevel(item->getDifIndex()))
+							break;
+						if (rankPage != (int)t.extraPTR)
+							break;
+						if (!tv.isMember(L"error"))
+							break;
+
 						if (!tv.isMember(L"error"))
 							break;
 						if (tv[L"error"].asString() == L"E_OK")
@@ -719,6 +771,8 @@ namespace diva
 			songInfoContainer->setMap(item->getMapInfo());
 			songInfoContainer->setTextVisible(true);
 
+			rankPage = 0;
+			refreshRankPageText();
 			refreshRankingList();
 		}
 
@@ -875,6 +929,13 @@ namespace diva
 
 		}
 
+		void MusicUI::refreshRankPageText()
+		{
+			int be = rankPage * 4 + 1;
+			int en = be + 3;
+			rankPageText->setText(iToWS(be) + L"~" + iToWS(en));
+		}
+
 		// DivaSlider
 
 		void DivaSongSlider::markerPositionChanged(int v)
@@ -926,6 +987,29 @@ namespace diva
 			ui->modeTextLabel->setText(ui->modeNames[ui->gameMode]);
 			MusicUI::Instance()->AdjustStartButton();
 		}
+
+		void RankPageLeft_MouseListener::mouseClicked(MouseEvent& mouseEvent)
+		{
+			MusicUI* ui = MusicUI::Instance();
+			if (ui->rankPage > 0)
+			{
+				ui->rankPage --;
+				ui->refreshRankPageText();
+				ui->refreshRankingList(true, false);
+			}
+		}
+
+		void RankPageRight_MouseListener::mouseClicked(MouseEvent& mouseEvent)
+		{
+			MusicUI* ui = MusicUI::Instance();
+			if (ui->rankPage < ui->maxRankPage)
+			{
+				ui->rankPage ++;
+				ui->refreshRankPageText();
+				ui->refreshRankingList(true, false);
+			}
+		}
+
 
 		void PlayButton_MouseListener::mouseClicked(MouseEvent& mouseEvent)
 		{
