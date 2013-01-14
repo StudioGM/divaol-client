@@ -371,7 +371,7 @@ namespace diva
 				{
 					Base::String msg;
 					//msg += L"["+Base::s2ws(packet->getItem(3)->getString())+L"] ";
-					msg = gnet::ItemUtility::getWString(packet->getItem(4));
+					msg = Base::String(gnet::ItemUtility::getString(packet->getItem(4)),true);
 					gcn::Color color;
 					if (msg[1] == L'W')
 						color = gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"world"]);
