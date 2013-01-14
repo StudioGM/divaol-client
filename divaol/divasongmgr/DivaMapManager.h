@@ -27,6 +27,7 @@ namespace divamap
 	public:
 		char *additionalMessage;
 		int additionalMessageLength;
+		void *extraPTR;
 
 		enum DIVAMAPMGREVENT {
 			PrepareMapList, 
@@ -49,6 +50,7 @@ namespace divamap
 			finish = false;
 			downloadProgress = 0;
 			additionalMessage = NULL;
+			extraPTR = NULL;
 			additionalMessageLength=0;
 		}
 		DivaMapEventMessage(DIVAMAPMGREVENT eventType, int mapID, bool error, bool finish, float downloadProgess)
@@ -60,6 +62,7 @@ namespace divamap
 			this->finish = finish;
 			this->downloadProgress = downloadProgess;
 			additionalMessage = NULL;
+			extraPTR = NULL;
 			additionalMessageLength=0;
 		}
 		DivaMapEventMessage(DIVAMAPMGREVENT eventType, int mapID, int level, bool error, bool finish, float downloadProgess)
@@ -71,6 +74,7 @@ namespace divamap
 			this->finish = finish;
 			this->downloadProgress = downloadProgess;
 			additionalMessage = NULL;
+			extraPTR = NULL;
 			additionalMessageLength=0;
 		}
 
@@ -95,6 +99,8 @@ namespace divamap
 			this->eventType = eventType;
 			this->failed = false;
 			curlHandle=NULL;
+			extraPTR=NULL;
+			
 		}
 
 		DivaMapManagerDownloadQuest(Base::String sourceAddress, Base::String localFileAddress, int mapID, int levelID, DivaMapEventMessage::DIVAMAPMGREVENT eventType)
@@ -106,6 +112,7 @@ namespace divamap
 			this->eventType = eventType;
 			this->failed = false;
 			curlHandle=NULL;
+			extraPTR=NULL;
 		}
 
 		Base::String sourceAddress;
@@ -117,6 +124,7 @@ namespace divamap
 		DivaMapEventMessage::DIVAMAPMGREVENT eventType;
 
 		bool failed;
+		void *extraPTR;
 	};
 
 
@@ -260,7 +268,7 @@ namespace divamap
 		bool PrepareDivaMapData(int id, bool novideo=false);
 		bool PrepareDivaMapDataFromFile(std::wstring divaolpackFile);
 
-		bool PrepareRecordByRank(int mapID, int difficulty, int startRank, int endRank);
+		bool PrepareRecordByRank(int mapID, int difficulty, int startRank, int endRank, void* extraPTR=NULL);
 		bool PrepareRecordByUser(int mapID, int difficulty, std::wstring userID);
 
 
