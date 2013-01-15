@@ -31,6 +31,8 @@ namespace gcn
 			
 			list->setMaxItem(conf[L"maxItem"].asInt());
 			list->setGap(Helper::GetRect(conf[L"firstRect"]), conf[L"itemGap"].asInt());
+			if (conf.isMember(L"horizontal"))
+				list->setHorizontal(conf[L"horizontal"].asBool());
 			if (conf.isMember(L"backImage"))
 				list->loadImage(conf[L"backImage"][L"filename"].asString(), Helper::GetRect(conf[L"backImage"][L"srcRect"]));
 			if (conf.isMember(L"desRect"))

@@ -1,7 +1,8 @@
 {
   "MessageChannels": {
     "world" : "世界",
-    "private" : "私聊"
+    "private" : "私聊",
+    "stage": "舞台"
   },
   "StatusPanel/Config": {
   	"fontSize": 30,
@@ -310,7 +311,7 @@
     "desY_1": 1017,
     "desX_2": 0,
     "desY_2": 933,
-    "items": ["世界","组队","私聊"],
+    "items": ["世界","舞台","私聊"],
     "animationTime": 15
   },
   "MessageArea/TextBox": {
