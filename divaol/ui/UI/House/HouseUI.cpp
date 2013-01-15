@@ -585,8 +585,6 @@ namespace diva
 					item->setInfo(info);
 					item->setTeamColor(STAGE_CLIENT.info().waiters[i].color);
 					stageList->pushItem(item);
-
-
 				}
 
 				{
@@ -595,6 +593,7 @@ namespace diva
 					teamListButtons[i]->setSelected(color == i);
 				}
 				MAPMGR.SelectedMode_Set(STAGE_CLIENT.info().hooks);
+				ModeButtonRefresh();
 
 				Refresh_sPlayerList();
 				
@@ -635,6 +634,7 @@ namespace diva
 				break;
 			case divanet::StageClient::NOTIFY_UPDATE_HOOK:
 				MAPMGR.SelectedMode_Set(STAGE_CLIENT.info().hooks);
+				ModeButtonRefresh();
 				messagePanelChatBox->addText(L"[提示] 房主更改了游戏模式", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 				break;
 			case divanet::StageClient::NOTIFY_STAGE_LEAVE_RESPONSE:
@@ -2132,6 +2132,11 @@ namespace diva
 		{
 			bool b = modeButtonList[index]->getSelected();
 			MAPMGR.SelectedMode_ToggleMode((divamap::DivaMapManager::GameMode)index, !b);
+			ModeButtonRefresh();
+		}
+
+		void HouseUI::ModeButtonRefresh()
+		{
 			for (int i = 0; i < 11; i++)
 				modeButtonList[i]->setSelected(MAPMGR.IsModeSelected((divamap::DivaMapManager::GameMode)i));
 		}
@@ -2142,16 +2147,8 @@ namespace diva
 			{
 				if(mgr->GetMB()->isTopWindow())
 					mgr->CloseTopWindow();
-				if(MAPMGR.GetSelectedMaps().size()==0)
-					return;
 
 				Base::Path songPath = MAPMGR.GetDivaOLFilePath(MAPMGR.GetSelectedMaps()[0].id, static_cast<divamap::DivaMap::LevelType>(MAPMGR.GetSelectedMaps()[0].level)); 
-				if(!MAPMGR.isMapLeagal(MAPMGR.GetSelectedMaps()[0].id, static_cast<divamap::DivaMap::LevelType>(MAPMGR.GetSelectedMaps()[0].level)))
-				{
-					houseUI->mgr->GetMB()->Show(L"您的视听文件未通过CK大大验证！", L"提示", gcn::MessageBoxEx::TYPE_OK); 
-					return;
-				}
-					
 			
 				CORE_PTR->setSong(songPath.filePath().str(), songPath.fileName());
 

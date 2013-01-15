@@ -226,7 +226,7 @@ namespace diva
 			virtual void action();
 			virtual void mouseClicked(const gcn::MouseEvent& mouseEvent);
 			void ModeButtonClicked(int index);
-
+			void ModeButtonRefresh();
 			
 		};
 

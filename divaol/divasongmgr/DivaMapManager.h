@@ -221,6 +221,8 @@ namespace divamap
 		DivaMapManager();
 		~DivaMapManager();
 
+		void registerConflict();
+
 		std::wstring lastUpdatedDate;
 		std::map<int, DivaMap> maps;
 

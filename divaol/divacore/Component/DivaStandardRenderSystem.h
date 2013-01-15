@@ -159,7 +159,7 @@ namespace divacore
 			{
 				coreCanvas->beginRender();
 
-				if(preview->getTexture())
+				if(preview && preview->getTexture())
 				{
 					//preview->setScale(double(gameWidth)/preview->getSpriteWidth(),
 					//	double(gameHeight)/preview->getSpriteHeight());
@@ -215,7 +215,9 @@ namespace divacore
 			//coreCanvas = NULL;
 			coreCanvas = new sora::SoraBaseCanvas(windowWidth,windowHeight);
 
-			preview = sora::SoraCore::Ptr->createSprite(MAP_LOADER_PTR->getSongPath()+L"/preview.png");
+			if(MAPMGR.GetSelectedMaps().size()>0) {
+				preview = sora::SoraCore::Ptr->createSprite(MAPMGR.GetThumbFilePath(MAPMGR.GetSelectedMaps()[0].id));
+			}
 			white = sora::SoraCore::Ptr->createSprite("Data/white.png");
 			if(!white->getTexture())
 				DIVA_EXCEPTION_MODULE("Do not found white.png!","RenderSystem");

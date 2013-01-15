@@ -97,7 +97,6 @@ namespace diva
 				houseUI->Leave();
 			}
 
-			void onKeyPressed(sora::SoraKeyEvent& keyEvent);
 		};
 
 	}
