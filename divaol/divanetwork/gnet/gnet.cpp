@@ -373,6 +373,20 @@ namespace gnet
 	{
 		if(item->getType()==GNET_TYPE_BINARY)
 			return BytesTo<std::wstring>(((Item<Binary>*)item)->getRaw());
+		else if(item->getType()==GNET_TYPE_ATOM)
+			return Base::String(((Item<Binary>*)item)->getData());
+		else if(item->getType()==GNET_TYPE_UINT_8||item->getType()==GNET_TYPE_INT_8) {
+			std::string ret;
+			ret += (char)((Item<uint8>*)item)->getData();
+			return Base::String(ret);
+		}
+		else if(item->getType()==GNET_TYPE_LIST) {
+			Item<List> *list = item->as<Item<List>>();
+			std::wstring ret = L"";
+			for(int i = 0; i < list->size(); i++)
+				ret += getWString(list->getItem(i));
+			return ret;
+		}
 		else
 			return L"";
 	}

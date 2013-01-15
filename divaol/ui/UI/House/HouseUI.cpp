@@ -375,6 +375,10 @@ namespace diva
 				mgr->GetMB()->Show(L"网络连接中断。",L"提示");
 				disconnectServer();
 			}
+			else if(msg.msg()==divanet::AuthClient::NOTIFY_AUTH_KICK) {
+				if(msg.description()=="system")
+					mgr->GetMB()->Show(L"你被管理员踢出游戏。", L"提示");
+			}
 		}
 
 		void HouseUI::observer_chat(divanet::Notification msg)
@@ -390,12 +394,14 @@ namespace diva
 				{
 					Base::String msg;
 					//msg += L"["+Base::s2ws(packet->getItem(3)->getString())+L"] ";
-					msg = gnet::ItemUtility::getWString(packet->getItem(4));
+					msg = Base::String(gnet::ItemUtility::getString(packet->getItem(4)),true);
 					gcn::Color color;
 					if (msg[1] == L'W')
 						color = gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"world"]);
 					else if (msg[1] == L'P')
 						color = gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"private"]);
+					else if (msg[1] == L'S')
+						color = gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"system"]);
 					messagePanelChatBox->addText(msg(3, -1), color);
 					break;
 				}
