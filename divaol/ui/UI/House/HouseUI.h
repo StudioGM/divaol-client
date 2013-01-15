@@ -38,9 +38,9 @@ namespace diva
 		class HouseUI : 
 			public sora::SoraGUIResponser
 		{
-		private:
+		public:
 			enum {STATE_OFFLINE, STATE_LOGINWINDOW, STATE_LOGINING, STATE_LOGINFAILED, STATE_ROOM, STATE_STAGE, STATE_ROOMLIST};
-
+		private:
 			HouseUI();
 
 			void ParseJson(const std::wstring& filename, const std::wstring& stage, const std::wstring& room);
@@ -201,7 +201,8 @@ namespace diva
 			void Leave();
 			void BeginLeave();
 			void SetFatherState(HouseGameState* state);
-
+			int getState() {return state;}
+			
 			// Event
 			void LoginButtonClicked();
 			void MouseClicked(gcn::MouseEvent& mouseEvent);

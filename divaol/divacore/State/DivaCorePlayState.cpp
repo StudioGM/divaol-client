@@ -159,36 +159,17 @@ namespace divacore
 		{
 			bShowDetail = !bShowDetail;
 		}
-		if(event.getKey()==SORA_KEY_J)
-		{
-			StandardEditUtility::instance().init();
-			StandardEditUtility::instance().setPosition(0);
-		}
 		else if(event.getKey()==SORA_KEY_H)
 		{
-			CORE_PTR->resume();
+			UI_PAINTER_PTR->hide();
 		}
-		else if(event.getKey()==SORA_KEY_Z)
+		else if(event.getKey()==SORA_KEY_N)
 		{
-			StandardEditUtility::instance().init();
-
-			StandardEditUtility::instance().setPosition(CORE_FLOW_PTR->getTotalPosition());
+			UI_PAINTER_PTR->display();
 		}
 		else if(event.getKey()==SORA_KEY_X)
 		{
 			core->resume();
-		}
-		else if(event.getKey()==SORA_KEY_C)
-		{
-			//StandardEditUtility::instance().init();
-			//StandardEditUtility::instance().setPosition(1000);
-			CORE_PTR->setSpeedScale(0.5);
-		}
-		else if(event.getKey()==SORA_KEY_R)
-		{
-			//StandardEditUtility::instance().init();
-			//StandardEditUtility::instance().refreshAll();
-			CORE_PTR->setSpeedScale();
 		}
 		else if(event.getKey()==SORA_KEY_ESCAPE)
 		{
