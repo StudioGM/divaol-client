@@ -281,6 +281,8 @@ namespace divacore
 			{
 				if(getState()==DISPLAYING)
 					nowTime = hideTime-nowTime;
+				else
+					nowTime = 0;
 				setState(HIDDING);
 				flush();
 			}
@@ -292,6 +294,8 @@ namespace divacore
 			{
 				if(getState()==HIDDING)
 					nowTime = hideTime-nowTime;
+				else
+					nowTime = 0;
 				setState(DISPLAYING);
 				flush();
 			}
@@ -329,7 +333,7 @@ namespace divacore
 			if(getState()==HIDDING)
 				setState(HIDDING);
 			if(getState()!=HIDE)
-				Image::render(x,y);
+				Image::onRender(x,y);
 		}
 		/*
 		 *StateBar
@@ -617,6 +621,62 @@ namespace divacore
 		void CTScaleBar::setRatio(float ratio)
 		{
 			ScaleBar::setRatio((1-startRatio)*ratio+startRatio);
+		}
+		/*
+		 * CTBottomBar
+		 */
+		void CTSlideBar::construct(Config &config, const std::string &head)
+		{
+			SlideBar::construct(config, head);
+			light = new Spark();
+			light->construct(config,head+"light_");
+			light->setSpark(true);
+			for(int i = 0; i < CT_LEVEL; i++)
+				ctLevelColor[i] = config.getAsRect(head+"color"+iToS(i));
+
+			level = 0;
+		}
+		void CTSlideBar::onInitialize()
+		{
+			ctMode = NULL;
+			flush();
+		}
+		void CTSlideBar::onStart()
+		{
+			ctMode = HOOK_MANAGER_PTR->getHook("CTMode");
+			if(ctMode)
+				flush();
+			state = HIDE;
+		}
+		void CTSlideBar::onUpdate(float dt)
+		{
+			light->update(dt);
+			SlideBar::onUpdate(dt);
+			if(ctMode)
+			{
+				if(level!=((CTMode*)ctMode)->getLevel())
+				{
+					int lastLevel = level;
+					level = ((CTMode*)ctMode)->getLevel();
+					uint32 color = CARGB(int(ctLevelColor[level].x), int(ctLevelColor[level].y),
+										 int(ctLevelColor[level].w), int(ctLevelColor[level].h));
+					int alpha = CGETA(tex->getColor());
+					color = CSETA(color, CGETA(tex->getColor()));
+					tex->setColor(color);
+					color = CSETA(color, CGETA(light->getColor()));
+					light->setColor(color);
+
+					if(lastLevel==0&&level>0)
+						ctDisplay();
+					if(lastLevel>0&&level==0)
+						ctHide();
+				}
+			}
+		}
+		void CTSlideBar::onRender(float x, float y)
+		{
+			light->render(x,y);
+			SlideBar::onRender(x,y);
 		}
 		/*
 		 * NumberBar
@@ -1384,6 +1444,8 @@ namespace divacore
 				widget = new LifeScaleBar();
 			else if(type=="ctScaleBar")
 				widget = new CTScaleBar();
+			else if(type=="ctSlideBar")
+				widget = new CTSlideBar();
 			else if(type=="dangerSpark")
 				widget = new DangerSpark();
 			else if(type=="singlePlayer")

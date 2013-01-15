@@ -40,6 +40,27 @@
 		"position" : [0,0,1002,66],
 		"direction" : "left"
 	},
+	"CTBottomBar" : {
+		"parent" : "0topBar",
+		"type" : "ctSlideBar",
+		"hideTime" : 1,
+		"hideWay" : "bottom",
+		"texRect" : [0,0,1920,110],
+		"tex" : "pic/CTMode/CT_back.png",
+		"position" : [0,970,1920,110],
+		"color0" : [255,36,240,240],
+		"color1" : [255,245,255,87],
+		"color2" : [255,87,255,111],
+		"color3" : [255,87,158,255],
+		"color4" : [255,190,87,255],
+		"color5" : [255,255,87,233],
+		"color6" : [255,229,15,134],
+		"light" : {
+			"texRect" : [0,0,1920,162],
+			"tex" : "pic/CTMode/CT_light.png",
+			"position" : [-26,-26,1972,162]
+		}
+	},
 	"1CTLabel" : {
 		"parent" : "0topBar",
 		"type" : "ctLabel",

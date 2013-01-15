@@ -150,6 +150,7 @@ namespace divacore
 			std::string SE;
 			int lastPeriod;
 		public:
+			Spark():fix(false),spark(false) {}
 			void setSpark(bool spark);
 			void setFix(bool fix) {this->fix = fix;}
 
@@ -159,6 +160,7 @@ namespace divacore
 			void onRender(float x, float y);
 			void onClear() {SAFE_DELETE_SPRITE(tex);}
 			void setScale(float scale) {tex->setScale(scale,scale);this->scale=scale;}
+			
 			virtual void setColor(uint32 color) {tex->setColor(color);}
 			virtual uint32 getColor() {return tex->getColor();}
 		};
@@ -247,6 +249,25 @@ namespace divacore
 			void onStart();
 			void onUpdate(float dt);
 			void setRatio(float ratio);
+		};
+
+		class CTSlideBar : public SlideBar
+		{
+			static const int CT_LEVEL = 7;
+			Base::SharedPtr<Spark> light;
+			Rect ctLevelColor[CT_LEVEL];
+			HookPtr ctMode;
+			int level;
+		public:
+			void construct(Config &config, const std::string &head);
+			void onInitialize();
+			void onStart();
+			void onUpdate(float dt);
+			void onRender(float x, float y);
+			void onDisplay() {}
+			void onHide() {}
+			void ctHide() {SlideBar::onHide();}
+			void ctDisplay() {SlideBar::onDisplay();}
 		};
 
 		class NumberBar : public Widget

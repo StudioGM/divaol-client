@@ -1842,11 +1842,6 @@ namespace diva
 			sora::SoraGUI::Instance()->registerGUIResponser(inputBox, this, "MessagePanel_InputBox", sora::RESPONSEACTION);
 			panel->add(inputBox);
 			messagePanelInputBox = inputBox;
-			
-
-
-
-
 
 			return panel;
 		}
@@ -1882,11 +1877,6 @@ namespace diva
 #else
 			Network::Send(L"LOGIN", usernameInput->getText() + L" " + passwordInput->getText());
 #endif
-		}
-
-		void HouseUI::StartOfflineGame()
-		{
-
 		}
 
 		void HouseUI::SetWidgetInvisible(gcn::Widget* widget)
