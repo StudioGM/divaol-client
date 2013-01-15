@@ -770,6 +770,7 @@
     <ClInclude Include="ui\structure.h" />
     <ClInclude Include="ui\Timer\DivaTimeCounterImplSora.h" />
     <ClInclude Include="ui\Timer\DivaTimeCounterImplWin32.h" />
+    <ClInclude Include="ui\UI\House\AvatarListItem.h" />
     <ClInclude Include="ui\UI\House\HouseGameState.h" />
     <ClInclude Include="ui\UI\House\HouseMessageBox.h" />
     <ClInclude Include="ui\UI\House\HouseUI.h" />
@@ -1179,6 +1180,7 @@
     <ClCompile Include="ui\Player\PlayerManager.cpp" />
     <ClCompile Include="ui\structure.cpp" />
     <ClCompile Include="ui\Timer\DivaTimeCounterImplWin32.cpp" />
+    <ClCompile Include="ui\UI\House\AvatarListItem.cpp" />
     <ClCompile Include="ui\UI\House\HouseGameState.cpp" />
     <ClCompile Include="ui\UI\House\HouseMessageBox.cpp" />
     <ClCompile Include="ui\UI\House\HouseUI.cpp" />

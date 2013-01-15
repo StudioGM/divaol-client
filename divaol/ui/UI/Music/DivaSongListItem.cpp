@@ -15,6 +15,7 @@ namespace diva
 			image = NULL;
 			difIndex = 0;
 			artistFont = NULL;
+			this->notDownloadImage = NULL;
 			previewFilename = L"";
 			listeningFilename  = L"";
 			
@@ -22,7 +23,7 @@ namespace diva
 			setDownloadProgress(0);
 		}
 
-		SongListItem::SongListItem(Image* image, const divamap::DivaMap& m, int look, Font* artistFont)
+		SongListItem::SongListItem(Image* image, const divamap::DivaMap& m, int look, Font* artistFont, Image* notDownloadImage)
 		{
 			this->look = look;
 			this->image = image;
@@ -32,6 +33,7 @@ namespace diva
 			preview = NULL;
 			previewFilename = L"";
 			listeningFilename  = L"";
+			this->notDownloadImage = notDownloadImage;
 
 			setDownloadFinished(false);
 			setDownloadProgress(0);
@@ -247,8 +249,17 @@ namespace diva
 
 				// download bar
 				if (!getDownloadFinished())
+				{
 					graphics->drawImage(image, 0, 847, 185, 85, 
 						int((prog / 1.0) * 368), 43);
+					if (notDownloadImage)
+					{
+						int desWidth = 38, desHeight = 38;
+						(((SoraGUIImage*)notDownloadImage)->getSprite())->setScale(double(desWidth) / notDownloadImage->getWidth(), 
+							double(desHeight) / notDownloadImage->getHeight());
+						graphics->drawImage(notDownloadImage, 0, 0, 200, 95, notDownloadImage->getWidth(), notDownloadImage->getHeight());
+					}
+				}
 
 				// preview loading
 				if (!preview)
