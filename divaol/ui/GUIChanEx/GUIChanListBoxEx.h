@@ -35,6 +35,7 @@ namespace gcn
 		Rectangle srcRect;
 		bool isHorizontal;
 		bool isSelectMode;
+		bool isDrawOutline;
 
 		void changeHighlightItem(int mx, int my, gcn::Rectangle firstRect, int itemGap);
 
@@ -52,6 +53,7 @@ namespace gcn
 		void insertItem(ListItemEx* item, int index);
 		void removeItem(int index);
 
+		void setOutline(bool v);
 		void setSelectMode(bool v);
 		void clearSelect();
 

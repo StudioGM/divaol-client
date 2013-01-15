@@ -22,6 +22,7 @@ namespace diva
 			std::wstring listeningFilename;
 			Image* preview;
 			Image* image;
+			Image* notDownloadImage;
 			divamap::DivaMap mapInfo;
 			int difIndex;
 			int look;
@@ -31,7 +32,7 @@ namespace diva
 			enum {SONG, ARTIST, RANDOM};
 
 			SongListItem();
-			SongListItem(Image* image, const divamap::DivaMap& m, int look = SONG, Font* artistFont = NULL);
+			SongListItem(Image* image, const divamap::DivaMap& m, int look = SONG, Font* artistFont = NULL, Image* notDownloadImage = NULL);
 			~SongListItem();
 
 			void setPreview(const std::wstring& filename);

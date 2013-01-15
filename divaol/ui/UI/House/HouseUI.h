@@ -38,9 +38,9 @@ namespace diva
 		class HouseUI : 
 			public sora::SoraGUIResponser
 		{
-		private:
+		public:
 			enum {STATE_OFFLINE, STATE_LOGINWINDOW, STATE_LOGINING, STATE_LOGINFAILED, STATE_ROOM, STATE_STAGE, STATE_ROOMLIST};
-
+		private:
 			HouseUI();
 
 			void ParseJson(const std::wstring& filename, const std::wstring& stage, const std::wstring& room);
@@ -101,7 +101,7 @@ namespace diva
 			//void gnet_login(divanet::GPacket *packet);
 			std::string roomId;
 
-			enum {CHANNEL_WORLD, CHANNEL_PRIVATE};
+			enum {CHANNEL_WORLD, CHANNEL_PRIVATE, CHANNEL_STAGE};
 			int msgChannelState;
 			int msgSendId;
 			//-----------------------------------------------------------------
@@ -162,6 +162,9 @@ namespace diva
 			gcn::WindowEx* modeWindow;
 			std::vector<SuperButtonEx*> modeButtonList;
 
+			gcn::ListBoxEx* avatarList;
+			WJson::Value avatarListInfo;
+
 			gcn::ContainerEx* sPlayerListPanel;
 			gcn::ListBoxEx* sPlayerList;
 
@@ -201,6 +204,8 @@ namespace diva
 			void Leave();
 			void BeginLeave();
 			void SetFatherState(HouseGameState* state);
+			int getState() {return state;}
+			void StartOfflineGame();
 
 			// Event
 			void LoginButtonClicked();
@@ -221,7 +226,7 @@ namespace diva
 			virtual void action();
 			virtual void mouseClicked(const gcn::MouseEvent& mouseEvent);
 			void ModeButtonClicked(int index);
-
+			void ModeButtonRefresh();
 			
 		};
 
@@ -238,6 +243,12 @@ namespace diva
 		};
 
 		class Mode_MouseListener : public gcn::MouseListener
+		{
+		public:
+			void mouseClicked(gcn::MouseEvent& mouseEvent);
+		};
+
+		class NotSupportInAlpha_MouseListener : public gcn::MouseListener
 		{
 		public:
 			void mouseClicked(gcn::MouseEvent& mouseEvent);

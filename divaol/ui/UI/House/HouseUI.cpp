@@ -10,6 +10,7 @@
 
 #include "ui/DivaNetwork/DivaNetwork.h"
 #include "ui/Player/PlayerManager.h"
+#include "AvatarListItem.h"
 #include "SoraFontManager.h"
 
 #include "HouseGameState.h"
@@ -97,6 +98,7 @@ namespace diva
 			// shop button
 			shopButton = CreateButton(conf, L"ToolButtons/Normal/Shop_Normal", L"ToolButtons/MouseOn/Shop_MouseOn", L"ToolButtons/MouseDown/Shop_MouseDown", L"ToolButtons/Normal/Shop_Normal");
 			roomTop->add(shopButton);
+			shopButton->addMouseListener(new NotSupportInAlpha_MouseListener());
 
 			// stage button
 			stageButton = CreateButton(conf, L"ToolButtons/Normal/Stage_Normal", L"ToolButtons/MouseOn/Stage_MouseOn", L"ToolButtons/MouseDown/Stage_MouseDown", L"ToolButtons/Normal/Stage_Normal");
@@ -106,14 +108,17 @@ namespace diva
 			// option button
 			optionButton = CreateButton(conf, L"ToolButtons/Normal/Option_Normal", L"ToolButtons/MouseOn/Option_MouseOn", L"ToolButtons/MouseDown/Option_MouseDown", L"ToolButtons/Normal/Option_Normal");
 			roomTop->add(optionButton);
+			//optionButton->addMouseListener(new NotSupportInAlpha_MouseListener());
 
 			// modify button
 			modifyButton = CreateButton(conf, L"ToolButtons/Normal/Modify_Normal", L"ToolButtons/MouseOn/Modify_MouseOn", L"ToolButtons/MouseDown/Modify_MouseDown", L"ToolButtons/Normal/Modify_Normal");
 			roomTop->add(modifyButton);
+			modifyButton->addMouseListener(new NotSupportInAlpha_MouseListener());
 
 			// clothes button
 			clothesButton = CreateButton(conf, L"ToolButtons/Normal/Clothes_Normal", L"ToolButtons/MouseOn/Clothes_MouseOn", L"ToolButtons/MouseDown/Clothes_MouseDown", L"ToolButtons/Normal/Clothes_Normal");
 			roomTop->add(clothesButton);
+			clothesButton->addMouseListener(new NotSupportInAlpha_MouseListener());
 
 			// exit button
 			exitButton = CreateButton(conf, L"ToolButtons/Normal/Exit_Normal", L"ToolButtons/MouseOn/Exit_MouseOn", L"ToolButtons/MouseDown/Exit_MouseDown", L"ToolButtons/Normal/Exit_Normal");
@@ -142,6 +147,7 @@ namespace diva
 			udButton = CreateButton(sconf, L"ToolBar/Normal/btn_UD_normal", L"ToolBar/MouseOn/btn_UD_mouseon", L"ToolBar/MouseDown/btn_UD_mousedown", L"ToolBar/Normal/btn_UD_normal");
 			roomTop->add(udButton);
 			udButton->setVisible(false);
+			udButton->addMouseListener(new NotSupportInAlpha_MouseListener());
 
 			// settings button
 			settingsButton = CreateButton(sconf, L"ToolBar/Normal/btn_settings_normal", L"ToolBar/MouseOn/btn_settings_mouseon", L"ToolBar/MouseDown/btn_settings_mousedown", L"ToolBar/Normal/btn_settings_normal");
@@ -166,7 +172,7 @@ namespace diva
 				gcn::Rectangle(979,104,450,206),
 				-19, -20);
 			roomTop->add(openGameButton, 1200, 870);
-			openGameButton->setVisible(false);
+			openGameButton->setVisible(true);
 			openGameButton->addMouseListener(new LoginButton_MouseListener());
 
 			//readyButton = CreateButton(sconf, L"ToolBar/Normal/btn_opengame_normal", L"ToolBar/Normal/btn_opengame_normal", L"ToolBar/Normal/btn_opengame_normal", L"ToolBar/Normal/btn_opengame_normal");
@@ -188,6 +194,7 @@ namespace diva
 			decorateButton = CreateButton(sconf, L"ToolBar/Normal/btn_decorate_normal", L"ToolBar/MouseOn/btn_decorate_mouseon", L"ToolBar/MouseDown/btn_decorate_mousedown", L"ToolBar/Normal/btn_decorate_normal");
 			roomTop->add(decorateButton);
 			decorateButton->setVisible(false);
+			decorateButton->addMouseListener(new NotSupportInAlpha_MouseListener());
 
 			// login 
 			loginPanel = CreateLoginWindow(conf, L"Login");
@@ -242,6 +249,22 @@ namespace diva
 			roomTop->add(stageList);
 
 			MessageChannelChange(CHANNEL_WORLD);
+
+			// temp value
+			WJson::Value tv;
+			Helper::ReadJsonFromFile(L"uiconfig/house/AvatarListBox.json", tv);
+			avatarList = Helper::CreateList<ListBoxEx>(tv);
+			avatarList->setHorizontal(true);
+			avatarList->setOutline(true);
+			avatarList->setVisible(true);
+			roomTop->add(avatarList);
+			avatarListInfo = tv;
+			for (int i = 0; i < 2; i++)
+			{
+				avatarList->pushItem(AvatarListItem::FromJson(tv, L"SonicMisora" + iToWS(i)));
+			}
+			
+
 			//////////////////////////////////////////////////////////////////////////
 
 			// ---------------------------  test
@@ -562,8 +585,6 @@ namespace diva
 					item->setInfo(info);
 					item->setTeamColor(STAGE_CLIENT.info().waiters[i].color);
 					stageList->pushItem(item);
-
-
 				}
 
 				{
@@ -572,6 +593,7 @@ namespace diva
 					teamListButtons[i]->setSelected(color == i);
 				}
 				MAPMGR.SelectedMode_Set(STAGE_CLIENT.info().hooks);
+				ModeButtonRefresh();
 
 				Refresh_sPlayerList();
 				
@@ -612,6 +634,7 @@ namespace diva
 				break;
 			case divanet::StageClient::NOTIFY_UPDATE_HOOK:
 				MAPMGR.SelectedMode_Set(STAGE_CLIENT.info().hooks);
+				ModeButtonRefresh();
 				messagePanelChatBox->addText(L"[提示] 房主更改了游戏模式", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 				break;
 			case divanet::StageClient::NOTIFY_STAGE_LEAVE_RESPONSE:
@@ -906,7 +929,7 @@ namespace diva
 			stageList->setVisible(false);
 			//songList->setVisible(false);
 			modeButton->setVisible(false);
-			openGameButton->setVisible(false);
+			openGameButton->setVisible(true);
 			readyButton->setVisible(false);
 		}
 
@@ -972,10 +995,15 @@ namespace diva
 			//songList->setVisible(true);
 			modeButton->setVisible(true);
 			if (STAGE_CLIENT.owner())
+			{
 				openGameButton->setVisible(true);
+				readyButton->setVisible(false);
+			}
 			else
+			{
+				openGameButton->setVisible(false);
 				readyButton->setVisible(true);
-
+			}
 			//
 			//roomListPanel->setVisible(false);
 			//roomTop->setEnabled(true);
@@ -1423,6 +1451,11 @@ namespace diva
 				else
 					messageToSomeOne->setText(L"尚未选择");
 			}
+			else if (ch == CHANNEL_STAGE)
+			{
+				messageChannel->setText(conf[L"MessageChannels"][L"stage"].asString());
+				messageToSomeOne->setText(L"");
+			}
 		}
 
 		void HouseUI::Refresh_hostInfo()
@@ -1851,7 +1884,10 @@ namespace diva
 #endif
 		}
 
+		void HouseUI::StartOfflineGame()
+		{
 
+		}
 
 		void HouseUI::SetWidgetInvisible(gcn::Widget* widget)
 		{
@@ -1920,7 +1956,10 @@ namespace diva
 					mgr->GetMB()->Show(L"该歌曲未下载或尚未下载完成，无法开始游戏。");
 					return;
 				}
-				start_game();	
+				if (state == STATE_ROOM)
+					StartOfflineGame();
+				else
+					start_game();	
 				return;
 			}
 			if (mouseEvent.getSource() == (gcn::Widget*) readyButton)
@@ -2000,6 +2039,8 @@ namespace diva
 					MessageChannelChange(CHANNEL_WORLD);
 				else if (index == 2)
 					MessageChannelChange(CHANNEL_PRIVATE);
+				else if (index == 1)
+					MessageChannelChange(CHANNEL_STAGE);
 			}
 			messageChannelList->setPosition(tv[L"desX_2"].asInt() - messagePanel->getX(), tv[L"desY_2"].asInt() - messagePanel->getY());
 			messageChannelList->addModifier(new GUIAnimation_Position(gcn::Point(tv[L"desX_1"].asInt() - messagePanel->getX(),
@@ -2094,8 +2135,31 @@ namespace diva
 		{
 			bool b = modeButtonList[index]->getSelected();
 			MAPMGR.SelectedMode_ToggleMode((divamap::DivaMapManager::GameMode)index, !b);
+			ModeButtonRefresh();
+		}
+
+		void HouseUI::ModeButtonRefresh()
+		{
 			for (int i = 0; i < 11; i++)
 				modeButtonList[i]->setSelected(MAPMGR.IsModeSelected((divamap::DivaMapManager::GameMode)i));
+		}
+
+		void HouseUI::StartOfflineGame()
+		{
+			if(getState() == HouseUI::STATE_ROOM)
+			{
+				if(mgr->GetMB()->isTopWindow())
+					mgr->CloseTopWindow();
+
+				Base::Path songPath = MAPMGR.GetDivaOLFilePath(MAPMGR.GetSelectedMaps()[0].id, static_cast<divamap::DivaMap::LevelType>(MAPMGR.GetSelectedMaps()[0].level)); 
+			
+				CORE_PTR->setSong(songPath.filePath().str(), songPath.fileName());
+
+				CORE_PTR->setInitState("load");
+				CORE_PTR->registerGameMode(new divacore::SinglePlay);
+
+				NextState = "core";
+			}
 		}
 
 
@@ -2116,6 +2180,11 @@ namespace diva
 		void Mode_MouseListener::mouseClicked(gcn::MouseEvent& mouseEvent)
 		{
 			HouseUI::Instance()->ModeButtonClicked( (int)((SuperButtonEx*)(mouseEvent.getSource()))->userData );
+		}
+
+		void NotSupportInAlpha_MouseListener::mouseClicked(gcn::MouseEvent& mouseEvent)
+		{
+			HouseUI::Instance()->mgr->GetMB()->Show(L"Alpha测试中不包含此功能。", L"提示", gcn::MessageBoxEx::TYPE_OK);
 		}
 	}
 }

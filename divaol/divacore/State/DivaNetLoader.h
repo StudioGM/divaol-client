@@ -31,7 +31,7 @@ namespace divacore
 		Task task,readyCallback;
 
 		bool bUnsync,bAutoPlay,bEmpty; //multithread or not
-		enum{DELAY,READY,START,GAME_RUN,FAILURE,FAILED,FINISH};
+		enum{DELAY,READY,START,GAME_RUN,FAILURE,FAILED,FINISH,FADEOUT};
 
 		int state; //delay a frame to render the preview image
 	public:
@@ -102,13 +102,13 @@ namespace divacore
 					text += L".";
 				mText.setText(text);
 			}
-			else if(state==GAME_RUN)
+			else if(state==FINISH)
 			{
 				if(!task.isRunning())
 				{
 					mText.setText(L"|#FF0000|Finished!");
 					sora::log_notice("loading succeed!");
-					state = FINISH;
+					state = FADEOUT;
 
 					//setCoreState(Core::RESULT);
 					RENDER_SYSTEM_PTR->fadeOut(sora::Color::White.getHWColor());
@@ -128,7 +128,7 @@ namespace divacore
 				core->over();
 				state = FAILURE;
 			}
-			else
+			else if(state==FADEOUT)
 			{
 				if(!RENDER_SYSTEM_PTR->isFade())
 				{

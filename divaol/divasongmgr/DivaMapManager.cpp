@@ -39,6 +39,8 @@ namespace divamap
 		GameModeStr[9] = "BlackHouseMode";
 		GameModeStr[10] = "NoFailMode";
 
+		registerConflict();
+
 		listMsgOut = NULL;
 		if(!initFromLocalFile())
 		{
@@ -53,6 +55,16 @@ namespace divamap
 		downloadCategoryQueryAddress = L"http://divaol.b0.upaiyun.com";
 		gameInfoQueryAddress = L"http://openxpn.org/game/";
 		//PrepareDivaMapListInfo();
+	}
+
+	void DivaMapManager::registerConflict()
+	{
+		ModeConflict[FastMode][SlowMode] = true;
+		ModeConflict[SlowMode][FastMode] = true;
+		ModeConflict[ChaosMode][RandomSwapMode] = true;
+		ModeConflict[RandomSwapMode][ChaosMode] = true;
+		for(int index = PVMode+1; index <=NoFailMode; index++)
+			ModeConflict[PVMode][index] = ModeConflict[index][PVMode] = true;
 	}
 
 	std::wstring DivaMapManager::GetQueryAddress_DownloadCategory()

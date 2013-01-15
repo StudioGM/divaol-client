@@ -117,7 +117,7 @@ namespace divanet
 		}
 
 		void draw(uint32 color) {
-			if(mState==STAGE)
+			if(mState==STAGE &&  (owner() || myInfo().status!=WaiterInfo::READY))
 				mNetSys->send("stage#draw","%d",color);
 		}
 
@@ -278,7 +278,7 @@ namespace divanet
 
 			mInfo.owner = stageInfo->getItem(0)->getString();
 			mInfo.capacity = stageInfo->getItem(1)->getInt();
-			_gnet_parse_songList(stageInfo->getItem(2)->as<divanet::ItemList>());
+			mInfo.songId = _gnet_parse_songList(stageInfo->getItem(2)->as<divanet::ItemList>());
 			mInfo.mode = stageInfo->getItem(3)->getString();
 			mInfo.status = stageInfo->getItem(4)->getString()=="stage"?StageInfo::STAGE:StageInfo::GAME;
 			mInfo.hooks = stageInfo->getItem(5)->getInt();
@@ -462,7 +462,7 @@ namespace divanet
 		}
 
 		bool _checkStart(Base::String &info) {
-			if(!owner())
+			if(!owner() || mInfo.waiters.size()==0)
 				return false;
 			if(mInfo.songId.size()==0) {
 				info = "noselect";
@@ -471,6 +471,24 @@ namespace divanet
 			for(int i = 0; i < mInfo.waiters.size(); i++)
 				if(mInfo.waiters[i].status==WaiterInfo::UNREADY) {
 					info = "unready";
+					return false;
+				}
+			std::map<int,int> colorCount;
+			for(int i = 0; i < mInfo.waiters.size(); i++)
+				if(mInfo.waiters[i].status==WaiterInfo::READY)
+				{
+					int color = mInfo.waiters[i].color;
+					if(colorCount.find(color)==colorCount.end())
+						colorCount[color] = 1;
+					else
+						colorCount[color]++;
+				}
+			std::map<int,int>::iterator ptr = colorCount.begin();
+			int tmp = (*ptr).second;
+			while((++ptr) != colorCount.end())
+				if(tmp != (*ptr).second)
+				{
+					info = "not match";
 					return false;
 				}
 			info = "ok";

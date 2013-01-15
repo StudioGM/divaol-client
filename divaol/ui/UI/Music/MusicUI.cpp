@@ -340,9 +340,10 @@ namespace diva
 				orig.push_back(i->second);
 			
 			gcn::Image* image = gcn::Image::load("res/UI1.png");
+			gcn::Image* notDI = gcn::Image::load("res/download.png");
 			songListOrigItems.push_back(new SongListItem(image, tMap, SongListItem::RANDOM));
 			for (int i=0; i<orig.size(); i++)
-				songListOrigItems.push_back(new SongListItem(image, orig[i], SongListItem::SONG));
+				songListOrigItems.push_back(new SongListItem(image, orig[i], SongListItem::SONG, NULL, notDI));
 			songListBox->setItems(songListOrigItems);
 
 			state = SONGLIST_ORIG;
@@ -483,6 +484,8 @@ namespace diva
 
 		void MusicUI::PlayListeningPreview(int index)
 		{
+			if (index == -1)
+				return;
 			SongListItem* item = (SongListItem*)songListBox->getItems()[index];
 			if ( item->hasListening() )
 			{

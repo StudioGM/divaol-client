@@ -96,6 +96,7 @@ namespace diva
 			{
 				houseUI->Leave();
 			}
+
 		};
 
 	}

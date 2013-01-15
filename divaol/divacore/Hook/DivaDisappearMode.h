@@ -34,7 +34,8 @@ namespace divacore
 		}
 		bool hook(NotePtr note)
 		{
-			return true;
+			// why I type true here before?
+			return false;
 		}
 		bool hook(float x, float y, SoraSprite*sprite, const std::string&tag) 
 		{

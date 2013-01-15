@@ -7,6 +7,7 @@ namespace gcn
 		setOpaque(false);
 		setHorizontal(false);
 		setSelectMode(false);
+		setOutline(false);
 
 		selectedItemIndex = -1;
 		highlightItemIndex = -1;
@@ -32,6 +33,11 @@ namespace gcn
 		}
 		for (int i=0; i<items.size(); i++)
 			delete items[i];
+	}
+
+	void ListBoxEx::setOutline(bool v)
+	{
+		isDrawOutline = v;
 	}
 
 	ListItemEx* ListBoxEx::getItem(int index) const
@@ -154,7 +160,10 @@ namespace gcn
 
 	void ListBoxEx::adjustMyWidth()
 	{
-		setWidth(firstRect.width + firstRect.x);
+		if (!isHorizontal)
+			setWidth(firstRect.width + firstRect.x);
+		else
+			setWidth(firstRect.x + maxItem * (firstRect.width + itemGap) - itemGap);
 	}
 
 	void ListBoxEx::clearSelect()
@@ -180,8 +189,6 @@ namespace gcn
 
 	void ListBoxEx::draw(Graphics* graphics)
 	{
-
-
 		if (image)
 		{
 			graphics->setColor(Color(255,255,255,getAlpha()));
@@ -208,6 +215,10 @@ namespace gcn
 			items[i]->draw(graphics, getFont(), getItemState(i), getAlpha());
 			graphics->popClipArea();
 		}
+
+		// draw my outline
+		if (isDrawOutline)
+			graphics->drawRectangle(gcn::Rectangle(0, 0, getWidth() - 1, getHeight() - 1));
 
 		// father draw
 		Container::draw(graphics);
@@ -356,7 +367,10 @@ namespace gcn
 
 	void ListBoxEx::adjustMyHeight()
 	{
-		setHeight(maxItem * (firstRect.height + itemGap) - itemGap);
+		if (!isHorizontal)
+			setHeight(firstRect.y + maxItem * (firstRect.height + itemGap) - itemGap);
+		else
+			setHeight(firstRect.height + firstRect.y);
 	}
 
 	void ListBoxEx::scrollNext()
