@@ -114,7 +114,10 @@ namespace gcn
 		else if (!isPressed())
 		{
 			//image->setTextureRect(highlightRect);
-			rect = highlightRect;
+			if (!isSelected)
+				rect = highlightRect;
+			else
+				rect = pressedRect;
 			//graphics->drawImage(image, 0, 0);
 			//return;
 		}
