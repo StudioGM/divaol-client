@@ -53,9 +53,18 @@ namespace gcn
 		else if (!isPressed())
 		{
 			//image->setTextureRect(highlightRect);
-			rect = highlightRect;
-			ox = x2;
-			oy = y2;
+			if (!isSelected)
+			{
+				rect = highlightRect;
+				ox = x2;
+				oy = y2;
+			}
+			else
+			{
+				rect = pressedRect;
+				ox = x3;
+				oy = y3;
+			}
 			//graphics->drawImage(image, 0, 0);
 			//return;
 		}

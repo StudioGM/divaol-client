@@ -1884,7 +1884,10 @@ namespace diva
 #endif
 		}
 
+		void HouseUI::StartOfflineGame()
+		{
 
+		}
 
 		void HouseUI::SetWidgetInvisible(gcn::Widget* widget)
 		{
