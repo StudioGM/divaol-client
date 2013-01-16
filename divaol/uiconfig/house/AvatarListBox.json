@@ -16,7 +16,7 @@
     "srcRect": [1429, 38, 462, 116]
   },
   
-  "playerNamePosition": [0, 0],
+  "playerNamePosition": [60, 10],
   "avatarDesRect": [0, 40, 120, 180]
 
 }

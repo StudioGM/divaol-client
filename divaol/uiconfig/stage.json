@@ -546,7 +546,10 @@
     "maxItem": 5,
     "desX": 1542,
     "desY": 250,
-    "fontSize": 18
+    "fontSize": 18,
+    "oriDesPos": [1542, 250],
+    "animeDesPos" : [2042, 250],
+    "animeTime": 20
   },
   "RoomList/scrollbar/btn_stagelist_up_mousedown": {
     "filename": "res/stage_001.png",

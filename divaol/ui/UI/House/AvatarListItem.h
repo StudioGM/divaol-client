@@ -23,6 +23,8 @@ namespace diva
 		public:
 			
 			AvatarListItem(const std::wstring& avatarFilename, const gcn::Rectangle& avatarRect, const PointEx& playerNamePos, const std::wstring& name);
+			const std::wstring& getName() const;
+			
 			static AvatarListItem* FromJson(const WJson::Value& v, const std::wstring& name);
 
 			virtual void draw(Graphics* graphics, Font* font, int state, int alpha);

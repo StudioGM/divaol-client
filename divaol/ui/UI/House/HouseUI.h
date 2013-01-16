@@ -71,6 +71,8 @@ namespace diva
 			void Refresh_sPlayerList(bool netRefresh = true);
 			void Refresh_hostInfo();
 			void Refresh_SongList();
+			void BeginSongListAnimation();
+			void EndSongListAnimation(gcn::Widget*);
 			void Refresh_RoomList(bool updateRoomInfo = true);
 
 			void setState(int des);
@@ -104,6 +106,7 @@ namespace diva
 			enum {CHANNEL_WORLD, CHANNEL_PRIVATE, CHANNEL_STAGE};
 			int msgChannelState;
 			int msgSendId;
+			bool isSongListAnimating;
 			//-----------------------------------------------------------------
 
 			void MessageChannelChange(int ch, int id = -1, const std::wstring &text = L"unknown");
@@ -164,6 +167,7 @@ namespace diva
 
 			gcn::ListBoxEx* avatarList;
 			WJson::Value avatarListInfo;
+			WJson::Value songListInfo;
 
 			gcn::ContainerEx* sPlayerListPanel;
 			gcn::ListBoxEx* sPlayerList;
