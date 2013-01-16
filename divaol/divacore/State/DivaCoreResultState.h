@@ -96,9 +96,9 @@ namespace divacore
 
 			RENDER_SYSTEM_PTR->fadeIn(sora::Color::White.getHWColor());
 
-			if(uiPainter->hasWidget("globalInfo"))
+			if(uiPainter->hasWidget("z_globalInfo"))
 			{
-				SimpleUI::Text * globalInfo = dynamic_cast<SimpleUI::Text*>(uiPainter->getWidget("globalInfo"));
+				SimpleUI::Text * globalInfo = dynamic_cast<SimpleUI::Text*>(uiPainter->getWidget("z_globalInfo"));
 				if(globalInfo)
 					globalInfo->setText(Base::String::format("X %.3f",HOOK_MANAGER_PTR->getHookFinalScale()).asUnicode());
 			}

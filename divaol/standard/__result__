@@ -177,12 +177,12 @@
 			"position" : [-200,10]
 		}
 	},
-	"globalInfo" : {
+	"z_globalInfo" : {
 		"type" : "text",
-		"position" : [1520,50],
+		"position" : [1520, 87],
 		"font" : {
-				"file" : "simhei.ttf",
-				"size" : 56,
+				"file" : "SHOWG.TTF",
+				"size" : 40,
 				"color" : "#FF0000"
 		}
 	},
