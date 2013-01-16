@@ -419,10 +419,10 @@ namespace divacore
 		{
 			friend class MultiPlayer;
 
-		protected:
+		public:
 			static const int MAX_TEAM = 8;
 			static const uint32 TEAM_COLOR[MAX_TEAM];
-
+		protected:
 			Point size;
 			Text *info;
 			Point position;
@@ -483,6 +483,8 @@ namespace divacore
 			std::string head;
 			Point position;
 			NumberBar *evalNumber[EvaluateStrategy::EVAL_NUM],*scoreNumber,*goldNumber,*expNumber;
+			Text *info;
+			Image *background;
 			int evalCnt[EvaluateStrategy::EVAL_NUM],nowCnt[EvaluateStrategy::EVAL_NUM];
 			int score,nowScore;
 			int gold, nowGold;
@@ -495,7 +497,8 @@ namespace divacore
 			void onInitialize();
 			void onUpdate(float dt);
 			void onRender(float x, float y);
-			void setInfo(int score, int eval[]);
+			void setInfo(int score, int eval[], const Base::String &info);
+			void setTeamColor(int teamIndex);
 		};
 
 		class Button : public Image

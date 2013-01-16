@@ -43,7 +43,7 @@
 	"CTBottomBar" : {
 		"parent" : "0topBar",
 		"type" : "ctSlideBar",
-		"hideTime" : 1,
+		"hideTime" : 0.5,
 		"hideWay" : "bottom",
 		"texRect" : [0,0,1920,110],
 		"tex" : "pic/CTMode/CT_back.png",

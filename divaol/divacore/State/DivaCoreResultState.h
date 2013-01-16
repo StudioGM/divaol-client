@@ -45,16 +45,26 @@ namespace divacore
 
 		void getEvalInfo(GPacket *packet)
 		{
+			if(CORE_PTR->getState()!=Core::RESULT)
+				return;
+
 			LOGGER->log((packet->getString()).c_str());
 			EvalResult &result = EVALUATE_STRATEGY_PTR->getResult();
 			gnet::Item<gnet::List> *list = packet->getItem(2)->as<gnet::ListItem>();
+			MultiPlay *multiPlay = dynamic_cast<MultiPlay*>(GAME_MODE_PTR);
 
 			for(int i = 0; i < result.evalData.size(); i++)
 			{
 				gnet::Item<gnet::Tuple> *tuple = dynamic_cast<gnet::Item<gnet::Tuple>*>(list->getItem(i));
 				result.evalData[i].status = tuple->getItem(1)->getString();
 				result.evalData[i].score = (tuple->getItem(2))->getInt();
-				result.evalData[i].index = i;
+				result.evalData[i].uid = tuple->getItem(5)->getString();
+				result.evalData[i].nickname = STAGE_CLIENT.waiterInfo(result.evalData[i].uid).nickname;
+				PlayerInfo *info = multiPlay->getSpecificPlayerInfo(result.evalData[i].uid);
+				if(info)
+					result.evalData[i].index = info->teamIndex;
+				else
+					result.evalData[i].index = 0;
 				gnet::Item<gnet::List> *evals = dynamic_cast<gnet::Item<gnet::List>*>(tuple->getItem(3));
 				for(int j = 0; j < EvaluateStrategy::EVAL_NUM; j++)
 					result.evalData[i].cntEval[j] = evals->getItem(j)->getInt();
@@ -85,6 +95,13 @@ namespace divacore
 			UI_PAINTER_PTR->gameStart();
 
 			RENDER_SYSTEM_PTR->fadeIn(sora::Color::White.getHWColor());
+
+			if(uiPainter->hasWidget("globalInfo"))
+			{
+				SimpleUI::Text * globalInfo = dynamic_cast<SimpleUI::Text*>(uiPainter->getWidget("globalInfo"));
+				if(globalInfo)
+					globalInfo->setText(Base::String::format("X %.3f",HOOK_MANAGER_PTR->getHookFinalScale()).asUnicode());
+			}
 		}
 
 		void onLeave()

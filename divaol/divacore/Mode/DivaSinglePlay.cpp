@@ -172,7 +172,7 @@ namespace divacore
 
 		EVALUATE_STRATEGY_PTR->getResult().myScore = getScore();
 		EVALUATE_STRATEGY_PTR->getResult().myID = 0;
-		EVALUATE_STRATEGY_PTR->getResult().evalData.push_back(EvalData("",getScore(),EVALUATE_STRATEGY_PTR->getResult().myCntEval));
+		EVALUATE_STRATEGY_PTR->getResult().evalData.push_back(EvalData("",getScore(),EVALUATE_STRATEGY_PTR->getResult().myCntEval,0,NET_INFO.nickname));
 	}
 
 	void SinglePlay::afterEvaluate()

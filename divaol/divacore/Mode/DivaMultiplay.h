@@ -116,6 +116,7 @@ namespace divacore
 		virtual PLAYERS& getPlayerInfo() {return mInfo->mPlayers;}
 		virtual TeamInfo* getMyTeamInfo() {return mInfo->myTeamPtr;}
 		virtual PlayerInfo* getMyPlayerInfo() {return mInfo->myPlayerPtr;}
+		PlayerInfo* getSpecificPlayerInfo(const std::string uid);
 
 		virtual std::string getName() {return "multiPlay";}
 

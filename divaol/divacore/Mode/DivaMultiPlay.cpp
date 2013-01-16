@@ -294,7 +294,17 @@ namespace divacore
 		PLAYERS &players = getPlayerInfo();
 
 		for(int i = 0; i < players.size(); i++)
-			EVALUATE_STRATEGY_PTR->getResult().evalData.push_back(EvalData(players[i].uid, players[i].score, i));
+			EVALUATE_STRATEGY_PTR->getResult().evalData.push_back(EvalData(players[i].uid, players[i].score, players[i].teamIndex, STAGE_CLIENT.waiterInfo(players[i].uid).nickname));
 		//((CommonEvaluateStrategy*)EVALUATE_STRATEGY_PTR)->addMultiEvalUI();
+	}
+
+	PlayerInfo* MultiPlay::getSpecificPlayerInfo(const std::string uid)
+	{
+		if(mInfo==NULL)
+			return NULL;
+		for(int i = 0; i < mInfo->mPlayers.size(); i++)
+			if(mInfo->mPlayers[i].uid == uid)
+				return &mInfo->mPlayers[i];
+		return NULL;
 	}
 }

@@ -227,7 +227,7 @@ namespace divanet
 			}
 		}
 
-	public:
+	private:
 		void gnet_closed(GPacket *packet) {
 			notify("closed",NOTIFY_STAGE_CLOSED,packet);
 		}
@@ -406,7 +406,11 @@ namespace divanet
 
 		void gnet_leave(GPacket *packet) {
 			if(state()!=STAGE)
+			{
+				int index = _findPlayer(packet->getItem(2)->getString());
+				mInfo.waiters[index-1].status = WaiterInfo::LEAVE;
 				return;
+			}
 
 			int index = _findPlayer(packet->getItem(2)->getString());
 			mInfo.waiters[index-1].uid = "0";
