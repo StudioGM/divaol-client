@@ -924,6 +924,33 @@ namespace divamap
 
 
 	//Get functions
+	std::wstring DivaMapManager::GetMapDescription(int id, int level)
+	{
+		std::wstring levelDesc;
+		switch(level)
+		{
+		case 0:
+			levelDesc = L"Easy";
+			break;
+		case 1:
+			levelDesc = L"Normal";
+			break;
+		case 2:
+			levelDesc = L"Hard";
+			break;
+		case 3:
+			levelDesc = L"Extra";
+			break;
+		case 4:
+			levelDesc = L"Die";
+			break;
+		case 5:
+			levelDesc = L"HYF";
+			break;
+		}
+		return GetMapName(id) + L" ("+levelDesc+L")";
+
+	}
 	std::wstring DivaMapManager::GetMapName(int id)
 	{
 		if(id==0)

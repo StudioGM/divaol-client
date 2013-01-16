@@ -433,10 +433,10 @@ namespace diva
 							//RoomListItem* b = SetRoomListItemInfo(rconf,L"RoomList/RoomItem_normal", L"RoomList/RoomItem_on", L"RoomList/RoomItem_down");
 							Network::RoomInfo info;
 							info.maxPlayerNum = infos[i].capacity;
-							info.owner = Base::s2ws(infos[i].ownerId);
+							info.owner = infos[i].ownerNickname;
 							info.playerNum = infos[i].playernum;
-							info.selectedSong.push_back("songID : "+Base::String::any2string(infos[i].sondId));
-							info.stageName = Base::String::any2string(infos[i].playernum)+"/"+Base::String::any2string(infos[i].capacity);
+							info.selectedSong.push_back(MAPMGR.GetMapDescription(infos[i].sondId,infos[i].level));
+							info.stageName = infos[i].ownerNickname+"的舞台";
 							//b->setInfo(info);
 
 							roomListView->pushRoomItem(info);

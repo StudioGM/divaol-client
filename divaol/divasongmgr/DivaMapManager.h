@@ -275,6 +275,7 @@ namespace divamap
 
 
 		//Get functions
+		std::wstring GetMapDescription(int id, int level);
 		std::wstring GetMapName(int id);
 		std::wstring GetMapDirectory(int id);
 		std::wstring GetThumbFilePath(int id);
