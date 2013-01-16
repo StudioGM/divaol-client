@@ -38,7 +38,7 @@ namespace diva
 			
 			msgSendId = -1;
 			
-
+			isSongListAnimating = false;
 			top = new gcn::Container();
 			top->setSize(config[L"gameWidth"].asInt(), config[L"gameHeight"].asInt());
 			top->setOpaque(false);
@@ -255,8 +255,8 @@ namespace diva
 			Helper::ReadJsonFromFile(L"uiconfig/house/AvatarListBox.json", tv);
 			avatarList = Helper::CreateList<ListBoxEx>(tv);
 			avatarList->setHorizontal(true);
-			avatarList->setOutline(true);
-			avatarList->setVisible(true);
+			avatarList->setOutline(false);
+			avatarList->setVisible(false);
 			roomTop->add(avatarList);
 			avatarListInfo = tv;
 			for (int i = 0; i < 2; i++)
@@ -492,6 +492,7 @@ namespace diva
 					info.status = 0;
 					info.teamIndex = 0;
 					dynamic_cast<StageListItem*>(stageList->getItems()[index-1])->setInfo(info);
+					avatarList->pushItem(AvatarListItem::FromJson(avatarListInfo, playerInfo.nickname));
 					//mgr->GetMB()->Destroy();
 					Refresh_sPlayerList();
 				}
@@ -517,6 +518,7 @@ namespace diva
 			case divanet::StageClient::NOTIFY_STAGE_LEAVE:
 				{
 					int index = msg.arg();
+					std::wstring nickname = dynamic_cast<StageListItem*>(stageList->getItems()[index-1])->getInfo().playerInfo.nickname;
 					PlayerInfo playerInfo;
 					playerInfo.id = 0;
 					StageListItem::StagePlayerInfo info;
@@ -525,7 +527,14 @@ namespace diva
 					info.status = 0;
 					info.teamIndex = 0;
 					dynamic_cast<StageListItem*>(stageList->getItems()[index-1])->setInfo(info);
-
+					for (int i = 0; i < avatarList->getItemCount(); i++)
+					{
+						if (dynamic_cast<AvatarListItem*>(avatarList->getItem(i))->getName() == nickname)
+						{
+							avatarList->removeItem(i);
+							break;
+						}
+					}
 					Refresh_sPlayerList();
 				} 
 				break;
@@ -570,6 +579,7 @@ namespace diva
 
 			case divanet::StageClient::NOTIFY_UPDATE_INFO:
 				stageList->clearItems();
+				avatarList->clearItems();
 				for(int i = 0; i < STAGE_CLIENT.info().waiters.size(); i++)
 				{
 					//for (int i=1; i<=8; i++)
@@ -585,6 +595,8 @@ namespace diva
 					item->setInfo(info);
 					item->setTeamColor(STAGE_CLIENT.info().waiters[i].color);
 					stageList->pushItem(item);
+					if (playerInfo.id != 0)
+						avatarList->pushItem(AvatarListItem::FromJson(avatarListInfo, playerInfo.nickname));
 				}
 
 				{
@@ -598,7 +610,8 @@ namespace diva
 				Refresh_sPlayerList();
 				
 				STAGE_CLIENT.refreshMusic();
-				Refresh_SongList();
+				//Refresh_SongList();
+				BeginSongListAnimation();
 
 				messagePanelChatBox->addText(L"[提示] 更新房间信息", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 
@@ -622,19 +635,23 @@ namespace diva
 				if(!STAGE_CLIENT.owner()) 
 				{
 					STAGE_CLIENT.refreshMusic();
-					Refresh_SongList();
+					//Refresh_SongList();
+					BeginSongListAnimation();
 					if(STAGE_CLIENT.isReady())
 						STAGE_CLIENT.unready();
 				}
 				messagePanelChatBox->addText(L"[提示] 房主更改了歌曲列表", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 				break;
 			case divanet::StageClient::NOTIFY_REFRESH_SONG_UI:
-				Refresh_SongList();
+				//Refresh_SongList();
+				BeginSongListAnimation();
 				messagePanelChatBox->addText(L"[提示] 歌曲列表刷新", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));				
 				break;
 			case divanet::StageClient::NOTIFY_UPDATE_HOOK:
 				MAPMGR.SelectedMode_Set(STAGE_CLIENT.info().hooks);
 				ModeButtonRefresh();
+				if (!STAGE_CLIENT.owner())
+					modeButton->setForegroundColor(gcn::Color(255, 0, 0, modeButton->getAlpha()));
 				messagePanelChatBox->addText(L"[提示] 房主更改了游戏模式", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 				break;
 			case divanet::StageClient::NOTIFY_STAGE_LEAVE_RESPONSE:
@@ -744,7 +761,8 @@ namespace diva
 			sora::GCN_GLOBAL->getTop()->add(top, 0, 0);
 			top->setVisible(true);
 			top->setEnabled(true);
-			Refresh_SongList();
+			//Refresh_SongList();
+			BeginSongListAnimation();
 			sora::SoraBGMManager::Instance()->play(config[L"lobbyMusicFilename"].asString(), false);
 		}
 		
@@ -846,6 +864,27 @@ namespace diva
 #endif
 		}
 
+		void HouseUI::EndSongListAnimation(gcn::Widget* ui)
+		{
+			Refresh_SongList();
+			isSongListAnimating = false;
+			PointEx desP = Helper::GetPoint(songListInfo[L"oriDesPos"]);
+			songListPanel->addModifier(new GUIAnimation_Position(gcn::Point(desP.x,
+				desP.y),
+				songListInfo[L"animeTime"].asInt(), GUIAnimation_Float_LinearSin));
+		}
+
+		void HouseUI::BeginSongListAnimation()
+		{
+			if (isSongListAnimating)
+				return;
+			isSongListAnimating = true;
+			PointEx desP = Helper::GetPoint(songListInfo[L"animeDesPos"]);
+			songListPanel->addModifier(new GUIAnimation_Position(gcn::Point(desP.x,
+				desP.y),
+				songListInfo[L"animeTime"].asInt(), GUIAnimation_Float_LinearSin, gcn::NONE, NULL, sora::Bind(this, &HouseUI::EndSongListAnimation) ));
+		}
+
 		void HouseUI::Refresh_SongList()
 		{
 			WJson::Value t2 = sconf[L"SongList/songitem_background"];
@@ -927,6 +966,7 @@ namespace diva
 			thingList->setVisible(false);
 			teamList->setVisible(false);
 			stageList->setVisible(false);
+			avatarList->setVisible(false);
 			//songList->setVisible(false);
 			modeButton->setVisible(false);
 			openGameButton->setVisible(true);
@@ -994,6 +1034,7 @@ namespace diva
 			stageList->setVisible(true);
 			//songList->setVisible(true);
 			modeButton->setVisible(true);
+			avatarList->setVisible(true);
 			if (STAGE_CLIENT.owner())
 			{
 				openGameButton->setVisible(true);
@@ -1531,7 +1572,8 @@ namespace diva
 				songListImage->setVisible(true);
 				WJson::Value t = sconf[st];
 				songListImage->load(t[L"filename"].asString(), GetRect(t));
-				songListImage->setPosition(t[L"desX"].asInt() - songListPanel->getX(), t[L"desY"].asInt() - songListPanel->getY());
+				PointEx oriP = Helper::GetPoint(songListInfo[L"oriDesPos"]);
+				songListImage->setPosition(t[L"desX"].asInt() - oriP.x, t[L"desY"].asInt() - oriP.y);
 
 			}
 		}
@@ -1565,6 +1607,7 @@ namespace diva
 
 			con->setSize(list->getWidth(), list->getHeight() + list->getY() - image->getY());
 			setSongListImage(0);
+			songListInfo = tv;
 
 			return con;
 			
@@ -2002,6 +2045,7 @@ namespace diva
 			if (mouseEvent.getSource() == (gcn::Widget*) modeButton)
 			{
 				mgr->OpenWindow(modeWindow);
+				modeButton->setForegroundColor(gcn::Color(255, 255, 255, modeButton->getAlpha()));
 				modeWindow->FadeIn(10);
 				return;
 			}
@@ -2123,9 +2167,12 @@ namespace diva
 
 		void HouseUI::ModeButtonClicked(int index)
 		{
-			bool b = modeButtonList[index]->getSelected();
-			MAPMGR.SelectedMode_ToggleMode((divamap::DivaMapManager::GameMode)index, !b);
-			ModeButtonRefresh();
+			if (STAGE_CLIENT.owner())
+			{
+				bool b = modeButtonList[index]->getSelected();
+				MAPMGR.SelectedMode_ToggleMode((divamap::DivaMapManager::GameMode)index, !b);
+				ModeButtonRefresh();
+			}
 		}
 
 		void HouseUI::ModeButtonRefresh()

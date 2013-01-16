@@ -27,8 +27,18 @@ namespace diva
 			if (name != L"")
 			{
 				graphics->setFont(font);
-				graphics->drawTextW(name, playerNamePos.x, playerNamePos.y);
+				graphics->setColor(gcn::Color(50, 50, 50, alpha));
+				int textW = font->getWidthW(name);
+				int textH = font->getHeight();
+				graphics->fillRectangle(gcn::Rectangle(playerNamePos.x - textW / 2 - 2, playerNamePos.y - 2,  textW + 4, font->getHeight() + 4));
+				graphics->setColor(gcn::Color(255, 255, 255, alpha));
+				graphics->drawTextW(name, playerNamePos.x, playerNamePos.y, gcn::Graphics::CENTER);
 			}
+		}
+
+		const std::wstring& AvatarListItem::getName() const
+		{
+			return name;
 		}
 
 		AvatarListItem* AvatarListItem::FromJson(const WJson::Value& v, const std::wstring& name)
