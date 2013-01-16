@@ -433,7 +433,8 @@ namespace diva
 							//RoomListItem* b = SetRoomListItemInfo(rconf,L"RoomList/RoomItem_normal", L"RoomList/RoomItem_on", L"RoomList/RoomItem_down");
 							Network::RoomInfo info;
 							info.maxPlayerNum = infos[i].capacity;
-							info.owner = infos[i].ownerNickname;
+							info.ownerNickname = infos[i].ownerNickname;
+							info.ownerID = Base::String(infos[i].ownerId);
 							info.playerNum = infos[i].playernum;
 							info.selectedSong.push_back(MAPMGR.GetMapDescription(infos[i].sondId,infos[i].level));
 							info.stageName = infos[i].ownerNickname+"的舞台";
@@ -1391,7 +1392,7 @@ namespace diva
 			{
 				Network::RoomInfo info;
 				info.maxPlayerNum = 10;
-				info.owner = L"拥有者";
+				info.ownerNickname = L"拥有者";
 				info.playerNum = i%8 + 1;
 				info.selectedSong.push_back(L"第一首歌");
 				info.stageName = L"这里是舞台" + iToWS(i);
