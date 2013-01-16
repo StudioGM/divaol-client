@@ -90,7 +90,8 @@ namespace gcn
 		if (text != L"")
 		{
 			graphics->setFont(getFont());
-			graphics->setColor(Color(255,255,255,getAlpha()));
+			color = getForegroundColor();
+			graphics->setColor(Color(color.r, color.g, color.b, getAlpha()));
 			graphics->drawTextW(text, (getWidth() - getFont()->getWidthW(text))/2, (getHeight() - getFont()->getHeight())/2);
 		}
 	}

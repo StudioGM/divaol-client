@@ -285,6 +285,9 @@ namespace divacore
 
 	void MultiPlay::preEvaluate()
 	{
+		// add the bonus score caused by hooks
+		setScore(getScore() * HOOK_MANAGER_PTR->getHookFinalScale());
+		
 		EVALUATE_STRATEGY_PTR->getResult().myScore = getScore();
 		EVALUATE_STRATEGY_PTR->getResult().myID = getPlayerID();
 
