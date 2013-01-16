@@ -42,6 +42,7 @@ namespace divacore
 		inline int getType() {return type;}
 		inline int hookInfo() {return info;}
 		virtual float scoreBonusScale() {return 0;}
+		virtual float scoreTotalScale() {return 1;}
 
 		virtual std::string getName() {return "";}
 		virtual int getAbility() = 0;

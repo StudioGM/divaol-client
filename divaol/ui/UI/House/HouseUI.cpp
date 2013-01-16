@@ -1885,11 +1885,6 @@ namespace diva
 			sora::SoraGUI::Instance()->registerGUIResponser(inputBox, this, "MessagePanel_InputBox", sora::RESPONSEACTION);
 			panel->add(inputBox);
 			messagePanelInputBox = inputBox;
-			
-
-
-
-
 
 			return panel;
 		}

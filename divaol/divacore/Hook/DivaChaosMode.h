@@ -35,7 +35,9 @@ namespace divacore
 		bool hook(MapNote &note)
 		{
 			note.notePoint[0].type = sora::SoraCore::RandomInt(0,NOTE_NUM);
-			
+			if(note.noteType == "long" || note.noteType == "pingpong")
+				note.notePoint[1].type = note.notePoint[0].type;
+
 			return false;
 		}
 		float scoreBonusScale() {return 1;}

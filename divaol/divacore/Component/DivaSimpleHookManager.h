@@ -205,6 +205,26 @@ namespace divacore
 			return mConfig;
 		}
 
+		virtual float getHookScoreBonus()
+		{
+			float bonus = 0;
+			for(int i = 0; i < hooks.size(); i++)
+				if(hooks[i]->isActive())
+					bonus += hooks[i]->scoreBonusScale();
+
+			return bonus;
+		}
+
+		virtual float getHookScoreScale()
+		{
+			float scale = 1;
+			for(int i = 0; i < hooks.size(); i++)
+				if(hooks[i]->isActive())
+					scale *= hooks[i]->scoreTotalScale();
+
+			return scale;
+		}
+
 		HookPtr createHook(const std::string &hookName)
 		{
 			if(hookName=="PVMode")
