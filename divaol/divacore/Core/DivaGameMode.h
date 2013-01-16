@@ -59,7 +59,7 @@ namespace divacore
 		//Start About
 		virtual void preStart() {}
 		virtual void afterStart() {}
-
+	
 		//Evaluate About
 		virtual void preEvaluate() {}
 		virtual void afterEvaluate() {} 

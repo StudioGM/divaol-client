@@ -71,6 +71,8 @@ namespace divacore
 
 			return true;
 		}
+
+		float scoreTotalScale() {return 0;}
 	};
 }
 

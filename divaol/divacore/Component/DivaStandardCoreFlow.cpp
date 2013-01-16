@@ -139,6 +139,7 @@ namespace divacore
 				{
 					EVALUATE_STRATEGY_PTR->finalEvaluate();
 					core->getMusicManager()->destroy();
+
 					state = END;
 				}
 				
