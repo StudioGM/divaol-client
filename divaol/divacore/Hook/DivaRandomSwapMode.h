@@ -47,6 +47,8 @@ namespace divacore
 		bool hook(MapNote &note)
 		{
 			note.notePoint[0].type = mSwap[note.notePoint[0].type];
+			if(note.noteType == "long" || note.noteType == "pingpong")
+				note.notePoint[1].type = note.notePoint[0].type;
 			
 			return false;
 		}
