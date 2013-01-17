@@ -196,6 +196,13 @@ namespace divanet
 
 		bool isReady() const {return mIsReady;}
 		bool isMe(int index) const {return index==myIndex;}
+		int getPlayerNum() const {
+			int count = 0;
+			for(Waiters::const_iterator ptr = mInfo.waiters.begin(); ptr != mInfo.waiters.end(); ptr++)
+				if(ptr->status != WaiterInfo::LEAVE)
+					count++;
+			return count;
+		}
 		const WaiterInfo& myInfo() const {return mInfo.waiters[myIndex-1];}
 		const WaiterInfo& waiterInfo(const std::string &uid) const {
 			for(Waiters::const_iterator ptr = mInfo.waiters.begin(); ptr != mInfo.waiters.end(); ptr++)
@@ -221,8 +228,7 @@ namespace divanet
 		}
 
 		void returnToStage(const std::string &info) {
-			if(info == "start_failed")
-				notify(info, NOTIFY_STAGE_RETURN);
+			notify(info, NOTIFY_STAGE_RETURN);
 		}
 
 		const StageInfo& info() const {return mInfo;}

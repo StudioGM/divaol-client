@@ -12,6 +12,7 @@
 #include "Core/DivaCoreState.h"
 #include "Component/DivaSimpleUIPainter.h"
 #include "Component/DivaCommonEvaluateStrategy.h"
+#include "divanetwork/DivaStageServer.h"
 
 namespace divacore
 {
@@ -27,6 +28,7 @@ namespace divacore
 		void press()
 		{
 			CORE_PTR->over();
+			STAGE_CLIENT.returnToStage("game_over");
 		}
 	};
 

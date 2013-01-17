@@ -748,11 +748,13 @@
     <ClInclude Include="ui\Config\DivaUIConfig.h" />
     <ClInclude Include="ui\Config\DivaUIHelper.h" />
     <ClInclude Include="ui\DivaNetwork\DivaNetwork.h" />
+    <ClInclude Include="ui\GUIChanEx\GUIChanAnimeBoxEx.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanAnimeEx.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanButtonEx.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanContainerEx.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanEx.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanImageDisplayerEx.h" />
+    <ClInclude Include="ui\GUIChanEx\GUIChanImageTileEx.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanJsonHelper.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanLabelEx.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanListBoxEx.h" />
@@ -1159,11 +1161,13 @@
     <ClCompile Include="ui\Config\DivaUIConfig.cpp" />
     <ClCompile Include="ui\Config\DivaUIHelper.cpp" />
     <ClCompile Include="ui\DivaNetwork\DivaNetwork.cpp" />
+    <ClCompile Include="ui\GUIChanEx\GUIChanAnimeBoxEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanAnimeEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanButtonEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanContainerEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanImageDisplayerEx.cpp" />
+    <ClCompile Include="ui\GUIChanEx\GUIChanImageTileEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanJsonHelper.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanLabelEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanListBoxEx.cpp" />
