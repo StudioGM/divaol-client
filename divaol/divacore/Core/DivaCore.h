@@ -216,7 +216,7 @@ namespace divacore
 		 * set functions
 		 */
 		 void setSong(const std::wstring &path, const std::wstring &mapFileName = L"");
-
+		 void setGameResolution(int width, int height) {renderSystem->setGameResolution(width, height);}
 		/*
 		 * Get functions
 		 */

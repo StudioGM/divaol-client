@@ -114,7 +114,7 @@ namespace divacore
 				core = INITIALIZE_DIVA_CORE;
 			}
 
-			CorePtr get()
+			CorePtr get(int width, int height)
 			{
 				registerComponents();
 				registerGameMode();
@@ -122,6 +122,7 @@ namespace divacore
 
 				//load config
 				core->prepare(configFolder+"/common.json");
+				core->setGameResolution(width, height);
 				EVALUATE_STRATEGY_PTR->prepare(configFolder+"/eval.json");
 
 				return core;

@@ -41,6 +41,7 @@ namespace divacore
 		virtual sora::SoraBaseCanvas *getInnerCanvas() {return NULL;}
 		virtual sora::SoraBaseCanvas *getCoreCanvas() {return NULL;}
 
+		virtual void setGameResolution(int width, int height) = 0;
 		virtual int getGameWidth() = 0;
 		virtual int getGameHeight() = 0;
 		virtual int getWindowWidth() = 0;
