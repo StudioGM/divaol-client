@@ -275,11 +275,13 @@
     "height": 75
   },
   "MessageArea/TextColors": {
-    "world" : [255, 255, 255],
+    "world" : [255, 128, 0],
     "private" : [0, 255, 0],
     "system" : [255, 255, 0],
+	"stage" : [255, 255, 255],
     "hint": [0, 0, 255],
-	"warning": [255, 0, 0]
+	"warning": [255, 0, 0],
+	"highlight": [255, 0, 255]
   },
   "MessageArea/InputBox": {
     "filename": "res/room_001.png",

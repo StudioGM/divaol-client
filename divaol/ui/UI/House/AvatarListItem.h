@@ -2,6 +2,7 @@
 
 #include "ui/GUIChanEx/GUIChanListBoxEx.h"
 #include "ui/GUIChanEx/GUIChanListItemEx.h"
+#include "ui/GUIChanEx/GUIChanAnimeBoxEx.h"
 #include "ui/GUIChanEx/GUIChanPointEx.h"
 #include "lib/wjson/wjson.h"
 
@@ -18,13 +19,15 @@ namespace diva
 			std::wstring name;
 			PointEx playerNamePos;
 			gcn::Rectangle avatarRect;
-			Image* avatarImage;
+			AnimeBoxEx* animeBox;
+			ImageTileEx* shadow;
+			gcn::Rectangle shadowDesRect;
 
 		public:
 			
-			AvatarListItem(const std::wstring& avatarFilename, const gcn::Rectangle& avatarRect, const PointEx& playerNamePos, const std::wstring& name);
+			AvatarListItem(AnimeBoxEx* animeBox, const gcn::Rectangle& avatarRect, const PointEx& playerNamePos, const std::wstring& name);
 			const std::wstring& getName() const;
-			
+			void update(float dt);
 			static AvatarListItem* FromJson(const WJson::Value& v, const std::wstring& name);
 
 			virtual void draw(Graphics* graphics, Font* font, int state, int alpha);

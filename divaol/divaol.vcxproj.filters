@@ -2475,6 +2475,15 @@
     <ClInclude Include="ui\UI\House\AvatarListItem.h">
       <Filter>源文件\ui\UI\House</Filter>
     </ClInclude>
+    <ClInclude Include="divanetwork\DivaNetCommand.h">
+      <Filter>源文件\divanetwork</Filter>
+	</ClInclude>
+    <ClInclude Include="ui\GUIChanEx\GUIChanAnimeBoxEx.h">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\GUIChanEx\GUIChanImageTileEx.h">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -3622,6 +3631,12 @@
     </ClCompile>
     <ClCompile Include="ui\UI\House\AvatarListItem.cpp">
       <Filter>源文件\ui\UI\House</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\GUIChanEx\GUIChanAnimeBoxEx.cpp">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\GUIChanEx\GUIChanImageTileEx.cpp">
+      <Filter>源文件\ui\GUIChanEx</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

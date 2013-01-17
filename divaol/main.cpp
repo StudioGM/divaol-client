@@ -38,6 +38,8 @@ int CALLBACK WinMain(
 	LPSTR lpCmdLine,
 	int nCmdShow
 	) {
+		diva::initialize_config(L"uiconfig/config.json");
+
 #ifdef DIVA_GNET_OPEN
 		NET_INFO.getServerInfo();
 		divanet::NetworkManager::instance().init();
@@ -52,15 +54,14 @@ int CALLBACK WinMain(
 		sora::SoraCore::SetRandomSeed((uint32)time(0));
 
 		divacore::standard::Initializer initializer("system",divacore::standard::Initializer::SINGLE, true);
-		divacore::CorePtr core = initializer.get();
+		divacore::CorePtr core = initializer.get(config[L"gameWidth"].asInt(), config[L"gameHeight"].asInt());
 
 		divacore::Config core_config;
 		divacore::configloader::loadWithJson(core_config,"system/common.json");
 		core->setSong(core_config.getAsWString("song"),core_config.getAsWString("map"));
-
+		
 		core->myPlayerInfo().loadFromFile("system/playerInfo.json");
 #endif
-		diva::initialize_config(L"uiconfig/config.json");
 
 		sora::SoraGameAppDef def("config.xml");
 		def.width(config[L"windowWidth"].asInt());

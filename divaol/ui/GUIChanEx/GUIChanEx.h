@@ -15,3 +15,5 @@
 #include "GUIChanWindowEx.h"
 #include "GUIChanJsonHelper.h"
 #include "GUIChanPointEx.h"
+#include "GUIChanImageTileEx.h"
+#include "GUIChanAnimeBoxEx.h"

@@ -129,5 +129,44 @@ namespace gcn
 			con->setPosition(conf[L"desX"].asInt(), conf[L"desY"].asInt());
 			return con;
 		}
+
+		ImageTileEx* CreateImageTile(const WJson::Value& conf)
+		{
+			if (conf.isString())
+				return new ImageTileEx(conf.asString());
+			if (conf.isArray())
+			{
+				if (conf.size() < 2)
+					throw "bad file!";
+				int z = 0;
+				return new ImageTileEx(conf[z].asString(), GetRect(conf[1]));
+			}
+			if (!conf.isMember(L"filename") || !conf.isMember(L"srcRect"))
+				throw "bad file!";
+			return new ImageTileEx(conf[L"filename"].asString(), GetRect(conf[L"srcRect"]));
+		}
+
+		AnimeBoxEx* CreateAnimeBox(const WJson::Value& conf)
+		{
+			AnimeBoxEx* animeBox = new AnimeBoxEx();
+
+			WJson::Value tv = conf[L"tiles"];
+			ImageTiles tiles;
+			tiles.clear();
+			for (WJson::Value::iterator i = tv.begin(); i != tv.end(); i++)
+				tiles.push_back(CreateImageTile(*i));
+			int mode = AnimeBoxEx::MODE_ONCE;
+			if (conf.isMember(L"mode"))
+			{
+				if (conf[L"mode"].asString() == L"repeat")
+					mode = AnimeBoxEx::MODE_REPEAT;
+				else if (conf[L"mode"].asString() == L"once")
+					mode = AnimeBoxEx::MODE_ONCE;
+			}
+			animeBox->loadAnime(tiles, conf[L"fps"].asDouble(), mode);
+			Rectangle rect = GetRect(conf[L"desRect"]);
+			animeBox->setDimension(rect);
+			return animeBox;
+		}
 	}
 }

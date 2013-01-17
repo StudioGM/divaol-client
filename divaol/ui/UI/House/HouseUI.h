@@ -39,7 +39,8 @@ namespace diva
 			public sora::SoraGUIResponser
 		{
 		public:
-			enum {STATE_OFFLINE, STATE_LOGINWINDOW, STATE_LOGINING, STATE_LOGINFAILED, STATE_ROOM, STATE_STAGE, STATE_ROOMLIST};
+			enum {STATE_OFFLINE, STATE_LOGINWINDOW, STATE_LOGINING, STATE_LOGINFAILED, STATE_ROOM, STATE_STAGE, STATE_ROOMLIST, STATE_PLAYING};
+
 		private:
 			HouseUI();
 
@@ -82,6 +83,9 @@ namespace diva
 			void StateChange_ROOM_ROOMLIST();
 			void StateChange_ROOMLIST_ROOM();
 			void StateChange_ROOMLIST_STAGE();
+			void StateChange_STAGE_PLAYING();
+			void StateChange_PLAYING_STAGE();
+			void StateChange_PLAYING_ROOM();
 
 			void setSongListImage(int v);
 
@@ -164,6 +168,7 @@ namespace diva
 			gcn::ButtonEx* modeButton;
 			gcn::WindowEx* modeWindow;
 			std::vector<SuperButtonEx*> modeButtonList;
+			gcn::AnimeBoxEx* testAnimeBox;
 
 			gcn::ListBoxEx* avatarList;
 			WJson::Value avatarListInfo;

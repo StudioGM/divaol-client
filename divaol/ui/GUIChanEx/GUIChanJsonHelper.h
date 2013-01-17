@@ -14,6 +14,8 @@ namespace gcn
 	class Rectangle;
 	class Color;
 	class PointEx;
+	class AnimeBoxEx;
+	class ImageTileEx;
 
 	namespace Helper
 	{
@@ -49,6 +51,10 @@ namespace gcn
 			
 			return list;
 		}
+
+		ImageTileEx* CreateImageTile(const WJson::Value& conf);
+
+		AnimeBoxEx* CreateAnimeBox(const WJson::Value& conf);
 
 		PointEx GetPoint(const WJson::Value& conf);
 
