@@ -155,6 +155,7 @@ namespace diva
 			settingsButton = CreateButton(sconf, L"ToolBar/Normal/btn_settings_normal", L"ToolBar/MouseOn/btn_settings_mouseon", L"ToolBar/MouseDown/btn_settings_mousedown", L"ToolBar/Normal/btn_settings_normal");
 			roomTop->add(settingsButton);
 			settingsButton->setVisible(false);
+			settingsButton->addMouseListener(new LoginButton_MouseListener());
 
 			// exitStageButton button
 			exitStageButton = CreateButton(sconf, L"ToolBar/Normal/btn_exitstage_normal", L"ToolBar/MouseOn/btn_exitstage_mouseon", L"ToolBar/MouseDown/btn_exitstage_mousedown", L"ToolBar/Normal/btn_exitstage_normal");
@@ -257,7 +258,7 @@ namespace diva
 			Helper::ReadJsonFromFile(L"uiconfig/house/AvatarListBox.json", tv);
 			avatarList = Helper::CreateList<ListBoxEx>(tv);
 			avatarList->setHorizontal(true);
-			avatarList->setOutline(true);
+			avatarList->setOutline(false);
 			avatarList->setVisible(false);
 			roomTop->add(avatarList);
 			avatarListInfo = tv;
@@ -2243,7 +2244,7 @@ namespace diva
 				STAGE_CLIENT.setHooks(MAPMGR.GetSelectedModeInt());
 				return;
 			}
-			if (mouseEvent.getSource() == (gcn::Widget*) optionButton)
+			if (mouseEvent.getSource() == (gcn::Widget*) optionButton || mouseEvent.getSource() == (gcn::Widget*) settingsButton)
 			{
 				mgr->OpenWindow(settingWindow);
 				settingWindow->FadeIn(10);
