@@ -21,6 +21,7 @@ namespace sora {
             return;
         }
         pCanvasSprite = new SoraSprite(0);
+		pCanvasSprite->setTexture(SoraCore::Ptr->getTargetTexture(canvasTarget));
 		  
 		if(!canvasTarget || !pCanvasSprite) {
             log_mssg("SoraBaseCanvas: Error creating render target");
