@@ -179,7 +179,7 @@ namespace diva
 				graphics->drawTextW(info.selectedSong[0], x2, y2);
 			else
 				graphics->drawTextW(L"尚未选择歌曲", x2, y2);
-			graphics->drawTextW(info.owner, x3, y3);
+			graphics->drawTextW(info.ownerNickname, x3, y3);
 			graphics->drawTextW(sora::s2ws(sora::int_to_str(info.playerNum)), x4, y4);
 		}
 
@@ -214,7 +214,7 @@ namespace diva
 		void RoomList::itemClicked(int itemIndex)
 		{
 			RoomListItem * item = dynamic_cast<RoomListItem*>(items[itemIndex]);
-			STAGE_CLIENT.join(Base::String(item->getInfo().owner));
+			STAGE_CLIENT.join(Base::String(item->getInfo().ownerID));
 			HouseUI::Instance()->mgr->GetMB()->Show(L"加入房间中...", L"提示", gcn::MessageBoxEx::TYPE_NONE);
 		}
 

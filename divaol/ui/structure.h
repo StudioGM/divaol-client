@@ -59,7 +59,8 @@ namespace Network
 	{
 		int playerNum;
 		int maxPlayerNum;
-		std::wstring owner;
+		std::wstring ownerID;
+		std::wstring ownerNickname;
 		std::wstring stageName;
 		std::vector<std::wstring> selectedSong;
 	};

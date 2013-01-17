@@ -1,4 +1,10 @@
 {
+	"header_info" : {
+		"type" : "image",
+		"position" : [434,82,1096,76],
+		"texRect" : [0,0,1096,76],
+		"tex" : "pic/UI/Eval/header.png"
+	},
 	"header" : {
 		"reserve" : true,
 		"type" : "evalBar",
@@ -32,9 +38,9 @@
 			"position" : [10,26,64,64]
 		},
 		"background" : {
-			"tex" : "pic/Kap.II.png",
-			"texRect" : [0,1049,1339,129],
-			"position" : [0,0,1339,129]
+			"tex" : "pic/UI/Eval/head_bar.png",
+			"texRect" : [0,0,1339,112],
+			"position" : [0,17,1339,112]
 		},
 		"gold" : {
 			"tex" : "pic/Kap.II.png",
@@ -75,6 +81,14 @@
 			"texRect" : [0,308,260,30],
 			"format" : "0123456789",
 			"showStyle" : "right"
+		},
+		"text" : {
+			"font" : {
+				"file" : "simhei.ttf",
+				"size" : 40,
+				"color" : "#FFFFFF"
+			},
+			"position" : [-200,30]
 		}
 	},
 	"bar" : {
@@ -110,8 +124,8 @@
 			"position" : [10,9,64,64]
 		},
 		"background" : {
-			"tex" : "pic/Kap.II.png",
-			"texRect" : [0,1178,1339,82],
+			"tex" : "pic/UI/Eval/bar.png",
+			"texRect" : [0,0,1339,82],
 			"position" : [0,0,1339,82]
 		},
 		"gold" : {
@@ -153,6 +167,23 @@
 			"texRect" : [0,308,260,30],
 			"format" : "0123456789",
 			"showStyle" : "right"
+		},
+		"text" : {
+			"font" : {
+				"file" : "simhei.ttf",
+				"size" : 40,
+				"color" : "#FFFFFF"
+			},
+			"position" : [-200,10]
+		}
+	},
+	"z_globalInfo" : {
+		"type" : "text",
+		"position" : [1520, 87],
+		"font" : {
+				"file" : "SHOWG.TTF",
+				"size" : 40,
+				"color" : "#FF0000"
 		}
 	},
 	"back" : {

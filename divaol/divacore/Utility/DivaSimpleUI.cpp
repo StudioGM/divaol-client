@@ -1262,21 +1262,29 @@ namespace divacore
 					source = dest;
 			}
 		}
-		void EvalBar::setInfo(int score, int eval[])
+		void EvalBar::setInfo(int score, int eval[], const Base::String &info)
 		{
 			this->score = score;
+			this->info->setText(info.asUnicode());
 			memcpy(evalCnt,eval,sizeof(evalCnt));
+		}
+		void EvalBar::setTeamColor(int teamIndex)
+		{
+			if(background != NULL)
+				background->setColor(Player::TEAM_COLOR[teamIndex]);
 		}
 		void EvalBar::construct(Config &config, const std::string &head)
 		{
 			this->head = head;
 			this->config = &config;
 
+			background = NULL;
 			if(config.has(head+"background"))
 			{
 				Image *image = new Image();
 				image->construct(config,head+"background_");
 				add(image);
+				background = image;
 			}
 			if(config.has(head+"gold"))
 			{
@@ -1289,6 +1297,13 @@ namespace divacore
 				Image *image = new Image();
 				image->construct(config,head+"exp_");
 				add(image);
+			}
+			if(config.has(head+"text"))
+			{
+				info = new Text();
+				info->construct(config,head+"text_");
+				add(info);
+				info->setText("unknown");
 			}
 
 			for(int i = 0; i < EvaluateStrategy::EVAL_NUM; i++)
@@ -1428,6 +1443,8 @@ namespace divacore
 				widget = new Widget();
 			else if(type=="image")
 				widget = new Image();
+			else if(type=="text")
+				widget = new Text();
 			else if(type=="lifeMetaBar")
 				widget = new LifeMetaBar();
 			else if(type=="ctMetaBar")

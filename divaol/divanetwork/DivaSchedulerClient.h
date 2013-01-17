@@ -17,11 +17,13 @@ namespace divanet
 		enum {STAGE,GAME,CHECKOUT};
 
 		std::string ownerId;
+		Base::String ownerNickname;
 		uint64 CreationTime;
 		uint32 serverId;
 		uint32 capacity;
 		uint32 playernum;
 		uint32 sondId;
+		uint32 level;
 		int32 state;
 	};
 	typedef std::vector<RoomInfo> RoomInfos;
@@ -82,8 +84,17 @@ namespace divanet
 					info.CreationTime = item->getItem(1)->getInt();
 					info.serverId = item->getItem(2)->getInt();
 					info.capacity = roomInfo->getItem(0)->getInt();
+					info.ownerNickname = Base::String::unEscape(roomInfo->getItem(4)->getString());
 					info.state = roomInfo->getItem(1)->getString()=="stage"?RoomInfo::STAGE:("game"?RoomInfo::GAME:RoomInfo::CHECKOUT);
-					info.sondId = roomInfo->getItem(2)->getInt();
+					gnet::Item<gnet::List> *songList = roomInfo->getItem(2)->as<gnet::Item<gnet::List>>();
+					if(songList->size() == 0)
+						info.sondId = 0;
+					else
+					{
+						gnet::Item<gnet::Tuple> *firstItem = songList->getItem(0)->as<gnet::Item<gnet::Tuple>>();
+						info.sondId = firstItem->getItem(0)->getInt();
+						info.level = firstItem->getItem(1)->getInt();
+					}
 					info.playernum = roomInfo->getItem(3)->getInt();
 
 					infos.push_back(info);
