@@ -13,7 +13,6 @@ namespace gcn
 	protected:
 		Image* image;
 		Rectangle srcRect;
-		bool expandBound;
 		bool autoScale;
 		std::wstring text;
 
@@ -22,10 +21,6 @@ namespace gcn
 		~ContainerEx();
 
 		void load(const std::wstring &filename, const Rectangle& srcRect, bool autoScale = false);
-
-		void setExpandBound(bool value);
-		bool getExpandBound() const;
-
 		void setText(const std::wstring& text);
 
 		Image* getImage();

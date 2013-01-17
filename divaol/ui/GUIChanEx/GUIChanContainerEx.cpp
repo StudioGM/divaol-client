@@ -5,7 +5,6 @@ namespace gcn
 	ContainerEx::ContainerEx()
 	{
 		image = NULL;
-		expandBound = false;
 		text = L"";
 	}
 
@@ -16,16 +15,6 @@ namespace gcn
 			delete image;
 			image = NULL;
 		}
-	}
-
-	void ContainerEx::setExpandBound(bool value)
-	{
-		expandBound = value;
-	}
-
-	bool ContainerEx::getExpandBound() const
-	{
-		return expandBound;
 	}
 
 	void ContainerEx::setText(const std::wstring& text)

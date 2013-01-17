@@ -17,3 +17,4 @@
 #include "GUIChanPointEx.h"
 #include "GUIChanImageTileEx.h"
 #include "GUIChanAnimeBoxEx.h"
+#include "SelectorEx.h"

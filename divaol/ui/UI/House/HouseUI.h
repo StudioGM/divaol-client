@@ -27,6 +27,7 @@
 #include <vector>
 
 #include "divanetwork/DivaNetworkManager.h"
+#include "SettingDisplayers.h"
 
 namespace diva
 {
@@ -67,6 +68,8 @@ namespace diva
 			gcn::ListBoxEx* CreateStageList(const WJson::Value& conf);
 			gcn::ContainerEx* CreateSongList(const WJson::Value& conf);
 			gcn::WindowEx* CreateModeWindow(const WJson::Value& conf);
+			gcn::WindowEx* CreateSettingWindow();
+			gcn::SelectorEx* CreateSelector(const WJson::Value& sconf, const WJson::Value& dconf, const WJson::Value& sizeConf);
 
 			void RefreshStatus();
 			void Refresh_sPlayerList(bool netRefresh = true);
@@ -169,6 +172,10 @@ namespace diva
 			gcn::WindowEx* modeWindow;
 			std::vector<SuperButtonEx*> modeButtonList;
 			gcn::AnimeBoxEx* testAnimeBox;
+			gcn::SuperButtonEx* settingConfirmBtn;
+			gcn::SuperButtonEx* settingCancelBtn;
+
+			gcn::WindowEx* settingWindow;
 
 			gcn::ListBoxEx* avatarList;
 			WJson::Value avatarListInfo;

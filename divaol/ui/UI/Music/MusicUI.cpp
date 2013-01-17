@@ -567,8 +567,10 @@ namespace diva
 						for (int i = 0; i<l; i++)
 						{
 							WJson::Value t = tv[L"rank"][i];
+							WJson::Value addData;
+							reader.parse(tv[L"add_data"].asString(), addData);
 							((RankingListItem*)rankingList->getItem(i))->SetInfo(t[L"score"].asInt(),
-								10,
+								addData[L"combo"].asInt(),
 								t[L"name"].asString());
 							((RankingListItem*)rankingList->getItem(i))->SetNull(0);
 						}

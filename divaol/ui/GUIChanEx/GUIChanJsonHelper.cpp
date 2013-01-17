@@ -54,7 +54,13 @@ namespace gcn
 		LabelEx* CreateLabel(const WJson::Value& conf)
 		{
 			LabelEx* label = new LabelEx();
-			label->setPosition(conf[L"desX"].asInt(), conf[L"desY"].asInt());
+			if (conf.isMember(L"desPos"))
+			{
+				PointEx p = GetPoint(conf[L"desPos"]);
+				label->setPosition(p.x, p.y);
+			}
+			else
+				label->setPosition(conf[L"desX"].asInt(), conf[L"desY"].asInt());
 			label->setText(conf[L"text"].asString());
 			label->adjustLabelSize();
 			if (conf.isMember(L"textColor"))
