@@ -255,7 +255,7 @@ namespace diva
 			Helper::ReadJsonFromFile(L"uiconfig/house/AvatarListBox.json", tv);
 			avatarList = Helper::CreateList<ListBoxEx>(tv);
 			avatarList->setHorizontal(true);
-			avatarList->setOutline(false);
+			avatarList->setOutline(true);
 			avatarList->setVisible(false);
 			roomTop->add(avatarList);
 			avatarListInfo = tv;
@@ -264,6 +264,12 @@ namespace diva
 				avatarList->pushItem(AvatarListItem::FromJson(tv, L"SonicMisora" + iToWS(i)));
 			}
 			
+			// just for test
+			//WJson::Value tv;
+			//Helper::ReadJsonFromFile(L"uiconfig/house/AnimeBox.json", tv);
+			//AnimeBoxEx* box = Helper::CreateAnimeBox(tv);
+			//roomTop->add(box);
+			//testAnimeBox = box;
 
 			//////////////////////////////////////////////////////////////////////////
 
@@ -826,6 +832,14 @@ namespace diva
 
 				BASE_PER_PERIOD_END();
 			}
+
+			if (state == STATE_STAGE)
+			{
+				for (int i = 0; i < avatarList->getItemCount(); i++)
+					dynamic_cast<AvatarListItem*>(avatarList->getItem(i))->update(dt);
+			}
+
+			//testAnimeBox->update(dt);
 		}
 
 		void HouseUI::RecvMsg()
@@ -1053,6 +1067,48 @@ namespace diva
 			Refresh_sPlayerList();
 		}
 
+		void HouseUI::StateChange_STAGE_PLAYING()
+		{
+			state = STATE_PLAYING;
+
+			udButton->setEnabled(false);
+			selectMusicButton->setEnabled(false);
+			decorateButton->setEnabled(false);
+			thingList->setEnabled(false);
+			teamList->setEnabled(false);
+			modeButton->setEnabled(false);
+			openGameButton->setEnabled(false);
+			readyButton->setEnabled(false);
+		}
+
+		void HouseUI::StateChange_PLAYING_STAGE()
+		{
+			state = STATE_STAGE;
+
+			udButton->setEnabled(true);
+			selectMusicButton->setEnabled(true);
+			decorateButton->setEnabled(true);
+			thingList->setEnabled(true);
+			teamList->setEnabled(true);
+			modeButton->setEnabled(true);
+			openGameButton->setEnabled(true);
+			readyButton->setEnabled(true);
+		}
+
+		void HouseUI::StateChange_PLAYING_ROOM()
+		{
+			StateChange_STAGE_ROOM();
+
+			udButton->setEnabled(true);
+			selectMusicButton->setEnabled(true);
+			decorateButton->setEnabled(true);
+			thingList->setEnabled(true);
+			teamList->setEnabled(true);
+			modeButton->setEnabled(true);
+			openGameButton->setEnabled(true);
+			readyButton->setEnabled(true);
+		}
+
 		void HouseUI::setState(int des)
 		{
 			if (state == STATE_ROOM && des == STATE_STAGE)
@@ -1086,6 +1142,25 @@ namespace diva
 				StateChange_ROOMLIST_STAGE();
 				return;
 			}
+			if (state == STATE_STAGE && des == STATE_PLAYING)
+			{
+				
+				StateChange_STAGE_PLAYING();
+				return;
+			}
+			if (state == STATE_PLAYING && des == STATE_STAGE)
+			{
+				
+				StateChange_PLAYING_STAGE();
+				return;
+			}
+			if (state == STATE_PLAYING && des == STATE_ROOM)
+			{
+				
+				StateChange_PLAYING_ROOM();
+				return;
+			}
+
 		}
 
 		void HouseUI::MessageSliderSlided(int v)

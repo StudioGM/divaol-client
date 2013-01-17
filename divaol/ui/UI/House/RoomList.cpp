@@ -175,12 +175,12 @@ namespace diva
 				graphics->drawImage(image3, r3.x, r3.y, 0, 0, r3.width, r3.height);
 			
 			graphics->drawTextW(info.stageName, x1, y1);
-			if (info.selectedSong.size() != 0)
-				graphics->drawTextW(info.selectedSong[0], x2, y2);
+			if (info.selectedSong.size() != 0 && info.selectedSong[0] != L"Random ()")
+				graphics->drawTextW(L"当前歌曲：" + info.selectedSong[0], x2, y2);
 			else
-				graphics->drawTextW(L"尚未选择歌曲", x2, y2);
-			graphics->drawTextW(info.ownerNickname, x3, y3);
-			graphics->drawTextW(sora::s2ws(sora::int_to_str(info.playerNum)), x4, y4);
+				graphics->drawTextW(L"当前歌曲：尚未选择", x2, y2);
+			graphics->drawTextW(L"房主：" + info.ownerNickname, x3, y3);
+			graphics->drawTextW(L"房间人数：" + iToWS(info.playerNum) + L"/" + iToWS(8), x4, y4);
 		}
 
 		// --------------------------
