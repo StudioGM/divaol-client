@@ -87,7 +87,7 @@ namespace divanet
 					info.ownerNickname = Base::String::unEscape(roomInfo->getItem(4)->getString());
 					info.state = roomInfo->getItem(1)->getString()=="stage"?RoomInfo::STAGE:("game"?RoomInfo::GAME:RoomInfo::CHECKOUT);
 					gnet::Item<gnet::List> *songList = roomInfo->getItem(2)->as<gnet::Item<gnet::List>>();
-					if(songList->size() == 0)
+					if(songList == 0 || songList->size() == 0)
 						info.sondId = 0;
 					else
 					{

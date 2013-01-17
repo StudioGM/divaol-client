@@ -701,6 +701,7 @@
     <ClInclude Include="divanetwork\DivaAuthClient.h" />
     <ClInclude Include="divanetwork\DivaChatClient.h" />
     <ClInclude Include="divanetwork\DivaClient.h" />
+    <ClInclude Include="divanetwork\DivaNetCommand.h" />
     <ClInclude Include="divanetwork\DivaNetInfo.h" />
     <ClInclude Include="divanetwork\DivaSchedulerClient.h" />
     <ClInclude Include="divanetwork\DivaStageServer.h" />

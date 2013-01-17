@@ -2475,6 +2475,9 @@
     <ClInclude Include="ui\UI\House\AvatarListItem.h">
       <Filter>源文件\ui\UI\House</Filter>
     </ClInclude>
+    <ClInclude Include="divanetwork\DivaNetCommand.h">
+      <Filter>源文件\divanetwork</Filter>
+	</ClInclude>
     <ClInclude Include="ui\GUIChanEx\GUIChanAnimeBoxEx.h">
       <Filter>源文件\ui\GUIChanEx</Filter>
     </ClInclude>
