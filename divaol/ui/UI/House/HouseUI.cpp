@@ -23,6 +23,7 @@
 #define SONICMISORA_MODIFYHYF
 
 #include "divanetwork/DivaAuthClient.h"
+#include "divanetwork/DivaNetCommand.h"
 #include "divasongmgr/DivaMapManager.h"
 
 namespace diva
@@ -375,6 +376,12 @@ namespace diva
 				mgr->GetMB()->Show(L"网络连接中断。",L"提示");
 				disconnectServer();
 			}
+			else if(msg.msg()==divanet::AuthClient::NOTIFY_PING_RESPONSE) {
+				divanet::GPacket *packet = static_cast<divanet::GPacket*>(msg.extra());
+				uint64 sendTime = packet->getItem(2)->getUInt();
+				uint32 deltaMs = uint32((Base::TimeUtil::currentTime() - sendTime) * 1000 / Base::TimeUtil::resolution());
+				messagePanelChatBox->addText(Base::String::format("[提示] 网络延迟 %d ms", deltaMs), gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+			}
 			else if(msg.msg()==divanet::AuthClient::NOTIFY_AUTH_KICK) {
 				if(msg.description()=="system")
 					mgr->GetMB()->Show(L"你被管理员踢出游戏。", L"提示");
@@ -396,12 +403,16 @@ namespace diva
 					//msg += L"["+Base::s2ws(packet->getItem(3)->getString())+L"] ";
 					msg = Base::String(gnet::ItemUtility::getString(packet->getItem(4)),true);
 					gcn::Color color;
-					if (msg[1] == L'W')
-						color = gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"world"]);
-					else if (msg[1] == L'P')
-						color = gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"private"]);
-					else if (msg[1] == L'S')
-						color = gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"system"]);
+					if(msg.size() > 0) {
+						if (msg[1] == L'W')
+							color = gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"world"]);
+						else if (msg[1] == L'P')
+							color = gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"private"]);
+						else if (msg[1] == L'S')
+							color = gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"system"]);
+						else if (msg[1] == L'T')
+							color = gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"stage"]);
+					}
 					messagePanelChatBox->addText(msg(3, -1), color);
 					break;
 				}
@@ -2109,16 +2120,24 @@ namespace diva
 			if (messagePanelInputBox->getText() == L"")
 				return;
 #ifdef DIVA_GNET_OPEN
-			if (msgChannelState == CHANNEL_WORLD)
-				CHAT_CLIENT.send("global", L"#W#[世界] " + PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
-			else if (msgChannelState == CHANNEL_PRIVATE)
-			{
-				if (msgSendId != -1)
-					CHAT_CLIENT.sendTo(Base::String::any2string<int>(msgSendId), L"#P#[私聊] " + PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
-				else
-					messagePanelChatBox->addText(L"[提示] 请先选择您要私聊的对象", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
-			}//CHAT_CLIENT.sendTo("691",PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
-			//divanet::NetworkManager::instance().chat()->send("chat#sendmsg","%s%W","global",PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
+			if(!NET_COMMAND.Analysis(messagePanelInputBox->getText())) {
+
+				if (msgChannelState == CHANNEL_WORLD)
+					CHAT_CLIENT.send("global", L"#W#[世界] " + PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
+				else if (msgChannelState == CHANNEL_PRIVATE)
+				{
+					if (msgSendId != -1)
+						CHAT_CLIENT.sendTo(Base::String::any2string<int>(msgSendId), L"#P#[私聊] " + PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
+					else
+						messagePanelChatBox->addText(L"[提示] 请先选择您要私聊的对象", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+				}
+				else if (msgChannelState == CHANNEL_STAGE)
+				{
+					CHAT_CLIENT.send(STAGE_CLIENT.getRoomID()+"_stage_room", L"#T#[舞台] " + PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
+				}
+				//CHAT_CLIENT.sendTo("691",PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
+				//divanet::NetworkManager::instance().chat()->send("chat#sendmsg","%s%W","global",PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
+			}
 #else
 			messagePanelChatBox->addText(PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
 #endif

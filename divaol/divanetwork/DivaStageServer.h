@@ -102,11 +102,21 @@ namespace divanet
 		void create(int capacity) {
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#join_response",&StageClient::gnet_join_response);
 			mNetSys->send("stage#create","%d",capacity);
+			
+			// create room chatroom
+			CHAT_CLIENT._create(NET_INFO.uid+"_stage_room");
+			CHAT_CLIENT.enter(NET_INFO.uid+"_stage_room");
+
+			mRoomID = NET_INFO.uid;
 		}
 
 		void join(const std::string &roomId) {
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#join_response",&StageClient::gnet_join_response);
 			mNetSys->send("stage#join","%S",roomId);
+
+			CHAT_CLIENT.enter(roomId+"_stage_room");
+
+			mRoomID = roomId;
 		}
 
 		void leave() {
@@ -216,7 +226,7 @@ namespace divanet
 		}
 
 		const StageInfo& info() const {return mInfo;}
-
+		const Base::String &getRoomID() const {return mRoomID;}
 		void onUpdate(float dt) {
 			Client::onUpdate(dt);
 			if(Client::state()==STATE_BREAK) {
@@ -229,6 +239,7 @@ namespace divanet
 
 	private:
 		void gnet_closed(GPacket *packet) {
+			_leaveStage();
 			notify("closed",NOTIFY_STAGE_CLOSED,packet);
 		}
 
@@ -247,7 +258,7 @@ namespace divanet
 		}
 
 		void gnet_leave_response(GPacket *packet) {
-			mState = OUTSIDE;
+			_leaveStage();
 			notify(packet->getItem(2)->getString(), NOTIFY_STAGE_LEAVE_RESPONSE, packet);
 
 			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#leave");
@@ -447,6 +458,14 @@ namespace divanet
 		}
 
 	private:
+		void _leaveStage() {
+			mState = OUTSIDE;
+
+			CHAT_CLIENT.leave(mRoomID+"_stage_room");
+
+			if(owner())
+				CHAT_CLIENT._close(mRoomID+"_stage_room");
+		}
 		divanet::SongList _gnet_parse_songList(divanet::ItemList *list) {
 			divanet::SongList newSong;
 			for(int i = 0; i < list->size(); i++)
@@ -526,6 +545,7 @@ namespace divanet
 		bool mIsReady;
 		StageInfo mInfo;
 		uint32 mState;
+		Base::String mRoomID;
 	};
 
 #define STAGE_CLIENT (divanet::StageClient::instance())
