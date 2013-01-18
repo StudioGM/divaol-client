@@ -138,7 +138,6 @@ namespace divacore
 			EnumDevices();
 			CreateDevices();
 		}
-
 		
 		void Poll()
 		{
@@ -211,7 +210,7 @@ namespace divacore
 			mLpdi->EnumDevices(DI8DEVCLASS_GAMECTRL, 
                   &Inputer_Enum_Joysticks, 
                   (void*)this, 
-                  DIEDFL_ATTACHEDONLY); 
+				  DIEDFL_ATTACHEDONLY); 
 		}
 		void CreateDevices()
 		{
