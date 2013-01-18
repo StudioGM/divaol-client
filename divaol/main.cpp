@@ -39,6 +39,7 @@ int CALLBACK WinMain(
 	int nCmdShow
 	) {
 		diva::initialize_config(L"uiconfig/SettingConfig.json", L"uiconfig/config.json");
+		//std::wstring ss = config[L"sdf"].asString();
 
 #ifdef DIVA_GNET_OPEN
 		NET_INFO.getServerInfo();
