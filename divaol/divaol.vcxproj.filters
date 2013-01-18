@@ -2477,7 +2477,7 @@
     </ClInclude>
     <ClInclude Include="divanetwork\DivaNetCommand.h">
       <Filter>源文件\divanetwork</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="ui\GUIChanEx\GUIChanAnimeBoxEx.h">
       <Filter>源文件\ui\GUIChanEx</Filter>
     </ClInclude>
@@ -2489,6 +2489,9 @@
     </ClInclude>
     <ClInclude Include="ui\UI\House\SettingDisplayers.h">
       <Filter>源文件\ui\UI\House</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Utility\DivaJoystickInputer.h">
+      <Filter>源文件\divacore\utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -48,12 +48,14 @@ namespace divacore
 		typedef std::vector<StateEvent> STATE_QUEUE;
 		STATE_LIST stateList; //记录每个note的进行状况和信息
 		STATE_QUEUE stateQueue; //记录state序列
-
-		int32 nowScore,nowHP;
 		Config config;
+		bool alive;
+
+		// statistic information
+		int32 nowScore,nowHP;
 		float weight; //根据当前的bpm计算的权值
 		int combo;
-		bool alive;
+		int maxCombo;
 	protected:
 		virtual void setAlive(bool alive) {this->alive = alive;} 
 	public:		
@@ -64,6 +66,7 @@ namespace divacore
 		int32 getHP() {return nowHP;}
 		float getHPinRatio() {return nowHP/float(MAX_HP);}
 		int32 getCombo() {return combo;}
+		int32 getMaxCombo() {return maxCombo;}
 		void setScore(int32 score) {nowScore=score;}
 		void setHP(int32 hp) {nowHP=hp;}
 		void setCombo(int32 combo) {this->combo = combo;}
