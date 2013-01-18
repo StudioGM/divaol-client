@@ -174,6 +174,7 @@ namespace diva
 			gcn::AnimeBoxEx* testAnimeBox;
 			gcn::SuperButtonEx* settingConfirmBtn;
 			gcn::SuperButtonEx* settingCancelBtn;
+			gcn::ContainerEx* playingHint;
 
 			gcn::WindowEx* settingWindow;
 
