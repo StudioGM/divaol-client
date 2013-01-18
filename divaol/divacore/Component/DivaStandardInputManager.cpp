@@ -37,6 +37,11 @@ namespace divacore
 		addJoystick(DIVA_KEY_TYPE_1,JoystickState::JOYSTICK_KEY_3);
 		addJoystick(DIVA_KEY_TYPE_2,JoystickState::JOYSTICK_KEY_2);
 		addJoystick(DIVA_KEY_TYPE_3,JoystickState::JOYSTICK_KEY_0);
+		addJoystick(DIVA_KEY_SPACE,JoystickState::JOYSTICK_KEY_4);
+		addJoystick(DIVA_KEY_SPACE,JoystickState::JOYSTICK_KEY_5);
+		addJoystick(DIVA_KEY_CT,JoystickState::JOYSTICK_KEY_6);
+		addJoystick(DIVA_KEY_CT,JoystickState::JOYSTICK_KEY_7);
+		addJoystick(DIVA_KEY_RELAY,JoystickState::JOYSTICK_KEY_8);
 	}
 
 	void StandardInputManager::clear()
@@ -101,6 +106,7 @@ namespace divacore
 		if(!HOOK_MANAGER_PTR->hook(_event)||!HOOK_MANAGER_PTR->hookInfo())
 		{
 			if (type == JoystickState::JOYSTICK_TYPE_PRESSED) {
+				LOGGER->log("pressed %d",key);
 				Core::Ptr->getCoreFlow()->onKeyPressed(_event);
 				GAME_MODE_PTR->onKeyPressed(_event);
 			}
