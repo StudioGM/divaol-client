@@ -767,6 +767,7 @@
     <ClInclude Include="ui\GUIChanEx\GUIChanTextBoxEx.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanTextFieldEx.h" />
     <ClInclude Include="ui\GUIChanEx\GUIChanWindowEx.h" />
+    <ClInclude Include="ui\GUIChanEx\SelectorEx.h" />
     <ClInclude Include="ui\GUIChanEx\WTextfield.h" />
     <ClInclude Include="ui\network.h" />
     <ClInclude Include="ui\Player\PlayerManager.h" />
@@ -781,6 +782,7 @@
     <ClInclude Include="ui\UI\House\MessageChannelList.h" />
     <ClInclude Include="ui\UI\House\RoomInfoList.h" />
     <ClInclude Include="ui\UI\House\RoomList.h" />
+    <ClInclude Include="ui\UI\House\SettingDisplayers.h" />
     <ClInclude Include="ui\UI\House\ThingList.h" />
     <ClInclude Include="ui\UI\Music\DivaPlayerItem.h" />
     <ClInclude Include="ui\UI\Music\DivaPlayerList.h" />
@@ -1180,6 +1182,7 @@
     <ClCompile Include="ui\GUIChanEx\GUIChanTextBoxEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanTextFieldEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\GUIChanWindowEx.cpp" />
+    <ClCompile Include="ui\GUIChanEx\SelectorEx.cpp" />
     <ClCompile Include="ui\GUIChanEx\WTextfield.cpp" />
     <ClCompile Include="ui\network.cpp" />
     <ClCompile Include="ui\Player\PlayerManager.cpp" />
@@ -1193,6 +1196,7 @@
     <ClCompile Include="ui\UI\House\MessageChannelList.cpp" />
     <ClCompile Include="ui\UI\House\RoomInfoList.cpp" />
     <ClCompile Include="ui\UI\House\RoomList.cpp" />
+    <ClCompile Include="ui\UI\House\SettingDisplayers.cpp" />
     <ClCompile Include="ui\UI\House\ThingList.cpp" />
     <ClCompile Include="ui\UI\Music\DivaPlayerItem.cpp" />
     <ClCompile Include="ui\UI\Music\DivaPlayerList.cpp" />

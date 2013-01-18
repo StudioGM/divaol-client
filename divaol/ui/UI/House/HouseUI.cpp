@@ -109,6 +109,7 @@ namespace diva
 			// option button
 			optionButton = CreateButton(conf, L"ToolButtons/Normal/Option_Normal", L"ToolButtons/MouseOn/Option_MouseOn", L"ToolButtons/MouseDown/Option_MouseDown", L"ToolButtons/Normal/Option_Normal");
 			roomTop->add(optionButton);
+			optionButton->addMouseListener(new LoginButton_MouseListener());
 			//optionButton->addMouseListener(new NotSupportInAlpha_MouseListener());
 
 			// modify button
@@ -154,6 +155,7 @@ namespace diva
 			settingsButton = CreateButton(sconf, L"ToolBar/Normal/btn_settings_normal", L"ToolBar/MouseOn/btn_settings_mouseon", L"ToolBar/MouseDown/btn_settings_mousedown", L"ToolBar/Normal/btn_settings_normal");
 			roomTop->add(settingsButton);
 			settingsButton->setVisible(false);
+			settingsButton->addMouseListener(new LoginButton_MouseListener());
 
 			// exitStageButton button
 			exitStageButton = CreateButton(sconf, L"ToolBar/Normal/btn_exitstage_normal", L"ToolBar/MouseOn/btn_exitstage_mouseon", L"ToolBar/MouseDown/btn_exitstage_mousedown", L"ToolBar/Normal/btn_exitstage_normal");
@@ -256,7 +258,7 @@ namespace diva
 			Helper::ReadJsonFromFile(L"uiconfig/house/AvatarListBox.json", tv);
 			avatarList = Helper::CreateList<ListBoxEx>(tv);
 			avatarList->setHorizontal(true);
-			avatarList->setOutline(true);
+			avatarList->setOutline(false);
 			avatarList->setVisible(false);
 			roomTop->add(avatarList);
 			avatarListInfo = tv;
@@ -264,6 +266,10 @@ namespace diva
 			{
 				avatarList->pushItem(AvatarListItem::FromJson(tv, L"SonicMisora" + iToWS(i)));
 			}
+			
+			// ------- setting window
+			settingWindow = CreateSettingWindow();
+
 			
 			// just for test
 			//WJson::Value tv;
@@ -1677,6 +1683,90 @@ namespace diva
 			}
 		}
 
+		gcn::SelectorEx* HouseUI::CreateSelector(const WJson::Value& sconf, const WJson::Value& dconf, const WJson::Value& sizeConf)
+		{
+			SelectorEx* resSelector = SelectorEx::FromJson(sconf);
+			SpecialItemDisplayer* displayer = new SpecialItemDisplayer();
+			for (WJson::Value::iterator i = dconf.begin(); i != dconf.end(); i++)
+			{
+				displayer->pushItem((*i).asString());
+			}
+			resSelector->setDisplayer(displayer);
+			resSelector->setDimension(Helper::GetRect(sizeConf));
+			resSelector->adjustButtonPos();
+			//win->add(resSelector);
+			return resSelector;
+		}
+
+		gcn::WindowEx* HouseUI::CreateSettingWindow()
+		{
+			WJson::Value tv;
+			Helper::ReadJsonFromFile(L"uiconfig/house/SettingWindow.json", tv);
+			WindowEx* win = Helper::CreateWindow(tv[L"window"]);
+			win->SetMovable(true);
+
+			SuperButtonEx* confirmButton = Helper::CreateButton(tv[L"DefaultButton"]);
+			PointEx pos = Helper::GetPoint(tv[L"confirmBtnPos"]);
+			confirmButton->setPosition(pos.x, pos.y);
+			confirmButton->setText(L"确定");
+			confirmButton->addMouseListener(new LoginButton_MouseListener());
+			win->add(confirmButton);
+			settingConfirmBtn = confirmButton;
+
+			SuperButtonEx* cancelButton = Helper::CreateButton(tv[L"DefaultButton"]);
+			pos = Helper::GetPoint(tv[L"cancelBtnPos"]);
+			cancelButton->setPosition(pos.x, pos.y);
+			cancelButton->setText(L"取消");
+			cancelButton->addMouseListener(new LoginButton_MouseListener());
+			win->add(cancelButton);
+			settingCancelBtn = cancelButton;
+
+			//SelectorEx* resSelector = SelectorEx::FromJson(tv[L"selector"]);
+			//SpecialItemDisplayer* displayer = new SpecialItemDisplayer();
+			//for (WJson::Value::iterator i = config[L"resolutions"].begin(); i != config[L"resolutions"].end(); i++)
+			//{
+			//	displayer->pushItem((*i)[L"name"].asString());
+			//}
+			//resSelector->setDisplayer(displayer);
+			
+			// 分辨率
+			SelectorEx* resSelector = CreateSelector(tv[L"selector"], config[L"resolutions"], tv[L"resSelDesRect"]);
+			((SpecialItemDisplayer*)resSelector->getDisplayer())->setRepeat(true);
+			win->add(resSelector);
+			win->add(Helper::CreateLabel(tv[L"resLabel"]));
+			// 窗口模式
+			SelectorEx* windowModeSelector = CreateSelector(tv[L"selector"], config[L"windowModes"], tv[L"windowModeSelDesRect"]);
+			win->add(windowModeSelector);
+			((SpecialItemDisplayer*)windowModeSelector->getDisplayer())->setRepeat(true);
+			win->add(Helper::CreateLabel(tv[L"windowModeLabel"]));
+			// 音乐音量
+			SelectorEx* mvSelector = CreateSelector(tv[L"selector"], config[L"musicVolumes"], tv[L"mvSelDesRect"]);
+			win->add(mvSelector);
+			win->add(Helper::CreateLabel(tv[L"mvLabel"]));
+			// 音效音量
+			SelectorEx* sevSelector = CreateSelector(tv[L"selector"], config[L"seVolumes"], tv[L"sevSelDesRect"]);
+			win->add(sevSelector);
+			win->add(Helper::CreateLabel(tv[L"sevLabel"]));
+			// 按键MOD
+			SelectorEx* keyModSelector = CreateSelector(tv[L"selector"], config[L"keyMods"], tv[L"keyModSelDesRect"]);
+			win->add(keyModSelector);
+			win->add(Helper::CreateLabel(tv[L"keyModLabel"]));
+			// 界面MOD
+			SelectorEx* uiModSelector = CreateSelector(tv[L"selector"], config[L"uiMods"], tv[L"uiModSelDesRect"]);
+			win->add(uiModSelector);
+			win->add(Helper::CreateLabel(tv[L"uiModLabel"]));
+			// 语言
+			SelectorEx* lanSelector = CreateSelector(tv[L"selector"], config[L"languages"], tv[L"lanSelDesRect"]);
+			win->add(lanSelector);
+			win->add(Helper::CreateLabel(tv[L"lanLabel"]));
+			// 例子效果
+			SelectorEx* psSelector = CreateSelector(tv[L"selector"], config[L"particleSystems"], tv[L"psSelDesRect"]);
+			win->add(psSelector);
+			win->add(Helper::CreateLabel(tv[L"psLabel"]));
+
+			return win;
+		}
+
 		gcn::ContainerEx* HouseUI::CreateSongList(const WJson::Value& conf)
 		{
 			using namespace gcn;
@@ -2150,9 +2240,19 @@ namespace diva
 			}
 			if (mouseEvent.getSource() == (gcn::Widget*) modeConfirmButton)
 			{
-				//mgr->OpenWindow(modeWindow);
 				modeWindow->FadeOut(10);
 				STAGE_CLIENT.setHooks(MAPMGR.GetSelectedModeInt());
+				return;
+			}
+			if (mouseEvent.getSource() == (gcn::Widget*) optionButton || mouseEvent.getSource() == (gcn::Widget*) settingsButton)
+			{
+				mgr->OpenWindow(settingWindow);
+				settingWindow->FadeIn(10);
+				return;
+			}
+			if (mouseEvent.getSource() == (gcn::Widget*) settingCancelBtn)
+			{
+				settingWindow->FadeOut(10);
 				return;
 			}
 		}

@@ -2484,6 +2484,12 @@
     <ClInclude Include="ui\GUIChanEx\GUIChanImageTileEx.h">
       <Filter>源文件\ui\GUIChanEx</Filter>
     </ClInclude>
+    <ClInclude Include="ui\GUIChanEx\SelectorEx.h">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UI\House\SettingDisplayers.h">
+      <Filter>源文件\ui\UI\House</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -3637,6 +3643,12 @@
     </ClCompile>
     <ClCompile Include="ui\GUIChanEx\GUIChanImageTileEx.cpp">
       <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\GUIChanEx\SelectorEx.cpp">
+      <Filter>源文件\ui\GUIChanEx</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UI\House\SettingDisplayers.cpp">
+      <Filter>源文件\ui\UI\House</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
