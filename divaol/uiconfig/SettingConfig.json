@@ -1,0 +1,48 @@
+{
+	///////////////////////////////////////////////////////
+	// basic info
+
+	///////////////////////////////////////////////////////
+
+	// settings info
+	// ui info
+	"resolutions" : [
+		"1280*720",
+		"1920*1080"
+	],
+	"windowModes": [
+		"是",
+		"否"
+	],
+	"musicVolumes":[
+		"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
+	],
+	"seVolumes":[
+		"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
+	],
+	"keyMods":[
+		"默认"
+	],
+	"uiMods":[
+		"默认"
+	],
+	"languages":[
+		"中文"
+	],
+	"particleSystems":[
+		"关闭",
+		"低",
+		"正常"
+	],
+
+	"gameModeNames" : ["普通", "接力"],
+	"difNames": ["EASY", "NORMAL", "HARD", "EXTRA", "DIE"],
+	"listenDelay" : 1.0,
+	"iconFileNames" : ["res/test_icon.png", "res/test_icon.png", "res/test_icon.png", "res/test_icon.png"],
+
+	"lobbyMusicFilename": "res/music/lobby.ogg",
+	"titleMusicFilename": "res/music/title.ogg",
+
+	///////////////////////////////////////////////////////
+	// Test data
+}
