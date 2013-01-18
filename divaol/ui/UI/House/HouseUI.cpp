@@ -270,6 +270,10 @@ namespace diva
 			// ------- setting window
 			settingWindow = CreateSettingWindow();
 
+			// ------- playing hint
+			playingHint = Helper::CreateStaticImage(sconf[L"PlayingHint"]);
+			roomTop->add(playingHint);
+			playingHint->setVisible(false);
 			
 			// just for test
 			//WJson::Value tv;
@@ -1108,6 +1112,8 @@ namespace diva
 			modeButton->setEnabled(false);
 			openGameButton->setEnabled(false);
 			readyButton->setEnabled(false);
+
+			playingHint->setVisible(true);
 		}
 
 		void HouseUI::StateChange_PLAYING_STAGE()
@@ -1122,6 +1128,8 @@ namespace diva
 			modeButton->setEnabled(true);
 			openGameButton->setEnabled(true);
 			readyButton->setEnabled(true);
+
+			playingHint->setVisible(false);
 		}
 
 		void HouseUI::StateChange_PLAYING_ROOM()
@@ -1136,6 +1144,8 @@ namespace diva
 			modeButton->setEnabled(true);
 			openGameButton->setEnabled(true);
 			readyButton->setEnabled(true);
+
+			playingHint->setVisible(false);
 		}
 
 		void HouseUI::setState(int des)

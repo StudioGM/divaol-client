@@ -22,6 +22,15 @@
   	"colorList": [16711680, 65280, 255, 16711680, 65280, 255, 16711680, 65280],
     "pagenumFontSize": 12
   },
+  "PlayingHint":{
+    "filename": "res/playing.png",
+    "srcX": 0,
+    "srcY": 0,
+    "width": 628,
+    "height": 117,
+    "desX": 610,
+    "desY": 200
+  },
   "PlayerList/ReadyIcon": {
     "filename": "res/UI1.png",
     "srcX": 1222,
