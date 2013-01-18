@@ -27,8 +27,8 @@ namespace gcn
     void SoraGUIGraphics::_beginDraw() {
         pushClipArea(Rectangle(0,
                                0,
-                               diva::config[L"gameWidth"].asInt(),
-                               diva::config[L"gameHeight"].asInt()));
+							   diva::setConfig[L"gameWidth"].asInt(),
+                               diva::setConfig[L"gameHeight"].asInt()));
     }
 
     void SoraGUIGraphics::_endDraw() {

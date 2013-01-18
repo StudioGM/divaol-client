@@ -97,8 +97,8 @@ namespace gcn
 
         sora->getMousePos(&curMouseX, &curMouseY);
 		// New modified by sonicmisora @ 2012/3/20   BEGIN
-		curMouseX *= double(diva::config[L"gameWidth"].asInt()) / diva::config[L"windowWidth"].asInt();
-		curMouseY *= double(diva::config[L"gameHeight"].asInt()) / diva::config[L"windowHeight"].asInt();
+		curMouseX *= double(diva::setConfig[L"gameWidth"].asInt()) / diva::setConfig[L"windowWidth"].asInt();
+		curMouseY *= double(diva::setConfig[L"gameHeight"].asInt()) / diva::setConfig[L"windowHeight"].asInt();
 		// .......................................   END
         mouseWheel = sora->getMouseWheel();
 
