@@ -29,6 +29,14 @@ namespace divacore
 		//addKey(DIVA_KEY_RELAY_WANT_TO_PLAY,SORA_KEY_2);
 		addKey(DIVA_KEY_RELAY,SORA_KEY_TAB);
 		addKey(DIVA_KEY_SPACE,SORA_KEY_SPACE);
+		addJoystick(DIVA_KEY_TYPE_4,JoystickState::JOYSTICK_KEY_RIGHT);
+		addJoystick(DIVA_KEY_TYPE_5,JoystickState::JOYSTICK_KEY_LEFT);
+		addJoystick(DIVA_KEY_TYPE_6,JoystickState::JOYSTICK_KEY_DOWN);
+		addJoystick(DIVA_KEY_TYPE_7,JoystickState::JOYSTICK_KEY_UP);
+		addJoystick(DIVA_KEY_TYPE_0,JoystickState::JOYSTICK_KEY_1);
+		addJoystick(DIVA_KEY_TYPE_1,JoystickState::JOYSTICK_KEY_3);
+		addJoystick(DIVA_KEY_TYPE_2,JoystickState::JOYSTICK_KEY_2);
+		addJoystick(DIVA_KEY_TYPE_3,JoystickState::JOYSTICK_KEY_0);
 	}
 
 	void StandardInputManager::clear()
@@ -39,6 +47,13 @@ namespace divacore
 
 	void StandardInputManager::init()
 	{
+		joystick.Init();
+		joystick += DxJoystickInputer::Listener(Base::MakeFunction(&StandardInputManager::joystickEventHandler, this));
+	}
+
+	void StandardInputManager::update(float dt)
+	{
+		joystick.Poll();
 	}
 
 	void StandardInputManager::addKey(int32 key, int32 origin, const std::string &tag)
@@ -71,6 +86,28 @@ namespace divacore
 		{
 			Core::Ptr->getCoreFlow()->onKeyReleased(_event);
 			GAME_MODE_PTR->onKeyReleased(_event);
+		}
+	}
+	void StandardInputManager::joystickEventHandler(int key, int type, int device, int dx, int dy)
+	{
+		if(type != JoystickState::JOYSTICK_TYPE_PRESSED && type != JoystickState::JOYSTICK_TYPE_UP)
+			return;
+
+		KeyEvent _event;
+		_event.key = originToKey(key+JOYSTICK_OFFSET);
+		_event.type = (type == JoystickState::JOYSTICK_TYPE_PRESSED)?(KeyEvent::PRESS):(KeyEvent::RELEASE);
+		_event.origin = key;
+
+		if(!HOOK_MANAGER_PTR->hook(_event)||!HOOK_MANAGER_PTR->hookInfo())
+		{
+			if (type == JoystickState::JOYSTICK_TYPE_PRESSED) {
+				Core::Ptr->getCoreFlow()->onKeyPressed(_event);
+				GAME_MODE_PTR->onKeyPressed(_event);
+			}
+			else {
+				Core::Ptr->getCoreFlow()->onKeyReleased(_event);
+				GAME_MODE_PTR->onKeyReleased(_event);
+			}
 		}
 	}
 }

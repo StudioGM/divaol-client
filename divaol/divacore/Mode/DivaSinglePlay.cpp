@@ -42,7 +42,7 @@ namespace divacore
 		stateList.clear();
 		stateQueue.clear();
 
-		nowScore = combo = 0;
+		nowScore = combo = maxCombo = 0;
 		nowHP = ORIGIN_HP;
 
 		setAlive(true);
@@ -129,6 +129,8 @@ namespace divacore
 		}
 		else if(event.type==StateEvent::FAILURE)
 			combo = 0;
+
+		maxCombo = std::max(maxCombo, combo);
 
 		//¼ÓÈëlistºÍqueue
 		stateList[event.note->getID()].addKey(event);

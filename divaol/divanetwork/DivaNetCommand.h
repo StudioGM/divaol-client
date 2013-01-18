@@ -28,8 +28,9 @@ namespace divanet
 			if(command == L"ping")
 			{
 				AUTH_CLIENT.ping();
+				return true;
 			}
-			return true;
+			return false;
 		}
 	protected:
 		friend class Base::Singleton<NetCommand>;

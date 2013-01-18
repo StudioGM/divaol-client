@@ -345,6 +345,12 @@ namespace divacore
 		event.y = event.y*RENDER_SYSTEM_PTR->getGameHeight()/RENDER_SYSTEM_PTR->getWindowHeight();
 		UI_PAINTER_PTR->onMouseMoved(event);
 	}
+	void Core::onJoystickPressed(SoraJoystickEvent& event)
+	{ 
+	}
+    void Core::onJoystickRelesed(SoraJoystickEvent& event) 
+	{ 
+	}
 	void Core::restart()
 	{
 		onLeave();

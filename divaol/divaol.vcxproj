@@ -695,6 +695,7 @@
     <ClInclude Include="divacore\Utility\DivaConfigLoader.h" />
     <ClInclude Include="divacore\Utility\DivaHDPSystem.h" />
     <ClInclude Include="divacore\Utility\DivaInitialize.h" />
+    <ClInclude Include="divacore\Utility\DivaJoystickInputer.h" />
     <ClInclude Include="divacore\Utility\DivaJsonHelper.h" />
     <ClInclude Include="divacore\Utility\DivaPath.h" />
     <ClInclude Include="divacore\Utility\DivaSimpleUI.h" />

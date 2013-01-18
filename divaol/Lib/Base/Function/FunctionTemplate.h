@@ -194,7 +194,7 @@ namespace Base {
 			}
 
 			inline R operator()(BASE_FUNCTION_PARAMS) const {
-				invoke();
+				invoke(BASE_FUNCTION_ARGS);
 			}
 
 			inline R invoke(BASE_FUNCTION_PARAMS) const {
