@@ -34,7 +34,7 @@ namespace diva
 			{
 				if (!initialized)
 				{
-					uiCanvas = new sora::SoraBaseCanvas(config[L"gameWidth"].asInt(), config[L"gameHeight"].asInt());
+					uiCanvas = new sora::SoraBaseCanvas(setConfig[L"gameWidth"].asInt(), setConfig[L"gameHeight"].asInt());
 					musicUI = MusicUI::Instance();
 					musicUI->SetFatherState(this);
 
@@ -91,7 +91,7 @@ namespace diva
 				sora::SoraGameApp::BeginScene();
 
 				sora::SoraSprite* sprite = uiCanvas->getCanvasSprite();
-				sprite->setScale(double(config[L"windowWidth"].asInt()) / config[L"gameWidth"].asInt(), double(config[L"windowHeight"].asInt()) / config[L"gameHeight"].asInt());
+				sprite->setScale(double(setConfig[L"windowWidth"].asInt()) / setConfig[L"gameWidth"].asInt(), double(setConfig[L"windowHeight"].asInt()) / setConfig[L"gameHeight"].asInt());
 				sprite->render(0, 0);
 
 				sora::SoraGameApp::EndScene();

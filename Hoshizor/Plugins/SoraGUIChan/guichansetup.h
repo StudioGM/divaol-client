@@ -95,8 +95,8 @@ namespace sora {
             
 			gcn::Container* contTop = new gcn::Container;
 			contTop->setDimension(gcn::Rectangle(0, 0, 
-												 diva::config[L"gameWidth"].asInt(), 
-												 diva::config[L"gameHeight"].asInt()));
+												 diva::setConfig[L"gameWidth"].asInt(), 
+												 diva::setConfig[L"gameHeight"].asInt()));
 			mGUIChan->setTop(contTop);
 			contTop->setOpaque(false);
 		}

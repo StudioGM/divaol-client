@@ -38,7 +38,7 @@ int CALLBACK WinMain(
 	LPSTR lpCmdLine,
 	int nCmdShow
 	) {
-		diva::initialize_config(L"uiconfig/config.json");
+		diva::initialize_config(L"uiconfig/SettingConfig.json", L"uiconfig/config.json");
 
 #ifdef DIVA_GNET_OPEN
 		NET_INFO.getServerInfo();
@@ -54,7 +54,7 @@ int CALLBACK WinMain(
 		sora::SoraCore::SetRandomSeed((uint32)time(0));
 
 		divacore::standard::Initializer initializer("system",divacore::standard::Initializer::SINGLE, true);
-		divacore::CorePtr core = initializer.get(config[L"gameWidth"].asInt(), config[L"gameHeight"].asInt());
+		divacore::CorePtr core = initializer.get(setConfig[L"gameWidth"].asInt(), setConfig[L"gameHeight"].asInt());
 
 		divacore::Config core_config;
 		divacore::configloader::loadWithJson(core_config,"system/common.json");
@@ -64,8 +64,8 @@ int CALLBACK WinMain(
 #endif
 
 		sora::SoraGameAppDef def("config.xml");
-		def.width(config[L"windowWidth"].asInt());
-		def.height(config[L"windowHeight"].asInt());
+		def.width(setConfig[L"windowWidth"].asInt());
+		def.height(setConfig[L"windowHeight"].asInt());
 		sora::SoraGameApp app(def);
 
 		sora::SoraCore::Instance()->registerSoundSystem(new sora::SoraFMODSoundSystem());

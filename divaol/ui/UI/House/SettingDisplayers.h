@@ -24,6 +24,7 @@ namespace diva
 
 			void pushItem(const std::wstring& str);
 			int getSelectedIndex() const;
+			void setSelectedIndex(int v);
 			void setRepeat(bool v);
 			const std::wstring& getSelectedItem() const;
 

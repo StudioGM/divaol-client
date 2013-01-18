@@ -10,9 +10,10 @@
 namespace diva
 {
 	extern WJson::Value config;
+	extern WJson::Value setConfig;
 	extern std::string NextState;
 
-	void initialize_config(const std::wstring& filename);
+	void initialize_config(const std::wstring& filename, const std::wstring& filename2);
 
 	std::wstring ReadJsonFile(const std::wstring& filename);
 	

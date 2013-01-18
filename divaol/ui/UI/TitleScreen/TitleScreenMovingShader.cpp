@@ -25,7 +25,7 @@ namespace diva
 		//sora::SoraSprite* sprite = ((SoraGUIImage*)image)->getSprite();
 		now += dt;
 		float t = now - int(now / period) * period;
-		float gameWidth = config[L"gameWidth"].asInt();
+		float gameWidth = setConfig[L"gameWidth"].asInt();
 		float bar = getWidth() - 2 * gameWidth; 
 		dx = int(t / period * (bar + gameWidth)) - bar - gameWidth;
 		dy = 0;
