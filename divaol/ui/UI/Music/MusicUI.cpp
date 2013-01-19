@@ -569,7 +569,7 @@ namespace diva
 						{
 							WJson::Value t = tv[L"rank"][i];
 							WJson::Value addData;
-							reader.parse(tv[L"add_data"].asString(), addData);
+							reader.parse(t[L"add_data"].asString(), addData);
 							((RankingListItem*)rankingList->getItem(i))->SetInfo(t[L"score"].asInt(),
 								addData[L"combo"].asInt(),
 								t[L"name"].asString());
