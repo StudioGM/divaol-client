@@ -32,6 +32,7 @@ namespace divacore
 		{
 			mConfig = config;
 		}
+
 	};
 }
 
