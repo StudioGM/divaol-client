@@ -1533,9 +1533,6 @@
     <ClInclude Include="divacore\Utility\DivaHDPSystem.h">
       <Filter>源文件\divacore\utility</Filter>
     </ClInclude>
-    <ClInclude Include="divacore\Utility\DivaInitialize.h">
-      <Filter>源文件\divacore\utility</Filter>
-    </ClInclude>
     <ClInclude Include="divacore\Utility\DivaJsonHelper.h">
       <Filter>源文件\divacore\utility</Filter>
     </ClInclude>
@@ -2491,6 +2488,12 @@
       <Filter>源文件\ui\UI\House</Filter>
     </ClInclude>
     <ClInclude Include="divacore\Utility\DivaJoystickInputer.h">
+      <Filter>源文件\divacore\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Utility\DivaInitialize.h">
+      <Filter>源文件\divacore\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="divacore\Utility\DivaSettings.h">
       <Filter>源文件\divacore\utility</Filter>
     </ClInclude>
   </ItemGroup>

@@ -25,6 +25,7 @@
 #include "divanetwork/DivaAuthClient.h"
 #include "divanetwork/DivaNetCommand.h"
 #include "divasongmgr/DivaMapManager.h"
+#include "divacore/Utility/DivaSettings.h"
 
 namespace diva
 {
@@ -1725,6 +1726,9 @@ namespace diva
 			FILE* file = fopen("uiconfig/config.json", "wb");
 			fwrite(p.c_str(), p.length(), 1, file);
 			fclose(file);
+
+			// Refresh all the settings
+			divacore::Settings::instance().RefreshAll(setConfig);
 		}
 
 		void HouseUI::LoadSettings()

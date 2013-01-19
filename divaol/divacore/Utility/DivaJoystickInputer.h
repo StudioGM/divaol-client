@@ -16,6 +16,7 @@
 #include "Lib/Base/Base.h"
 
 #ifdef OS_WIN32
+#define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 #include <windows.h>
 #endif

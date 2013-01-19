@@ -25,6 +25,8 @@
 #include "divanetwork/DivaNetworkManager.h"
 #include "divanetwork/DivaGNetTCPSystem.h"
 #include "divacore/Utility/DivaInitialize.h"
+#include "divacore/Utility/DivaSettings.h"
+
 using namespace diva;
 
 
@@ -77,6 +79,8 @@ int CALLBACK WinMain(
 #ifdef DIVA_GNET_OPEN
 		app.addState(core, "core");
 #endif
+		//refresh config
+		divacore::Settings::instance().RefreshAll(setConfig);
 
 		app.run("init");
 
