@@ -126,7 +126,7 @@ namespace divacore
 	{
 		/*if(event.getKey()==SORA_KEY_SPACE)
 		{
-			core->getMusicManager()->playDirect("hit","sound_effect");
+			core->getMusicManager()->playDirect("hit","se");
 			//sora::SoraSoundEffectManager::Instance()->playDirect(L"hit.wav");
 			bPressed = true;
 		}

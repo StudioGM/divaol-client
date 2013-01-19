@@ -1711,6 +1711,7 @@ namespace diva
 
 		void HouseUI::SaveSettings()
 		{
+			// first update config
 			setConfig[L"resolution"] = ((SpecialItemDisplayer*)setResSelector->getDisplayer())->getSelectedIndex();
 			setConfig[L"musicVolume"] = ((SpecialItemDisplayer*)setMvSelector->getDisplayer())->getSelectedIndex();
 			setConfig[L"seVolume"] = ((SpecialItemDisplayer*)setSevSelector->getDisplayer())->getSelectedIndex();
@@ -1720,15 +1721,28 @@ namespace diva
 			setConfig[L"language"] = ((SpecialItemDisplayer*)setLanSelector->getDisplayer())->getSelectedIndex();
 			setConfig[L"particleSystem"] = ((SpecialItemDisplayer*)setPsSelector->getDisplayer())->getSelectedIndex();
 
+			// save config with specific items (without window width&height)
+			WJson::Value saveSetting = WJson::Value();
+			saveSetting[L"resolution"] = ((SpecialItemDisplayer*)setResSelector->getDisplayer())->getSelectedIndex();
+			saveSetting[L"musicVolume"] = ((SpecialItemDisplayer*)setMvSelector->getDisplayer())->getSelectedIndex();
+			saveSetting[L"seVolume"] = ((SpecialItemDisplayer*)setSevSelector->getDisplayer())->getSelectedIndex();
+			saveSetting[L"isWindowMode"] = ((SpecialItemDisplayer*)setWindowModeSelector->getDisplayer())->getSelectedIndex() == 0;
+			saveSetting[L"keyMod"] = ((SpecialItemDisplayer*)setKeyModSelector->getDisplayer())->getSelectedIndex();
+			saveSetting[L"uiMod"] = ((SpecialItemDisplayer*)setUiModSelector->getDisplayer())->getSelectedIndex();
+			saveSetting[L"language"] = ((SpecialItemDisplayer*)setLanSelector->getDisplayer())->getSelectedIndex();
+			saveSetting[L"particleSystem"] = ((SpecialItemDisplayer*)setPsSelector->getDisplayer())->getSelectedIndex();
+			saveSetting[L"gameWidth"] = setConfig[L"gameWidth"].asInt();
+			saveSetting[L"gameHeight"] = setConfig[L"gameHeight"].asInt();
+
 			WJson::StyledWriter writer;
-			Base::base_string p = ((Base::String)writer.write(setConfig)).asUTF8();
+			Base::base_string p = ((Base::String)writer.write(saveSetting)).asUTF8();
 			
 			FILE* file = fopen("uiconfig/config.json", "wb");
 			fwrite(p.c_str(), p.length(), 1, file);
 			fclose(file);
 
 			// Refresh all the settings
-			divacore::Settings::instance().RefreshAll(setConfig);
+			divacore::Settings::instance().RefreshAll(setConfig, config);
 		}
 
 		void HouseUI::LoadSettings()
@@ -1778,7 +1792,7 @@ namespace diva
 			//resSelector->setDisplayer(displayer);
 			
 			// 分辨率
-			SelectorEx* resSelector = CreateSelector(tv[L"selector"], config[L"resolutions"], tv[L"resSelDesRect"]);
+			SelectorEx* resSelector = CreateSelector(tv[L"selector"], config[L"resolutions_description"], tv[L"resSelDesRect"]);
 			((SpecialItemDisplayer*)resSelector->getDisplayer())->setRepeat(true);
 			win->add(resSelector);
 			win->add(Helper::CreateLabel(tv[L"resLabel"]));

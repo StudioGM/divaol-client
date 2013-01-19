@@ -42,6 +42,7 @@ int CALLBACK WinMain(
 	) {
 		diva::initialize_config(L"uiconfig/SettingConfig.json", L"uiconfig/config.json");
 		//std::wstring ss = config[L"sdf"].asString();
+		// initialize settings
 
 #ifdef DIVA_GNET_OPEN
 		NET_INFO.getServerInfo();
@@ -66,7 +67,10 @@ int CALLBACK WinMain(
 		core->myPlayerInfo().loadFromFile("system/playerInfo.json");
 #endif
 
+		divacore::Settings::instance().InitializeSettings(setConfig, config);
+
 		sora::SoraGameAppDef def("config.xml");
+		def.windowMode(setConfig[L"isWindowMode"].asBool());
 		def.width(setConfig[L"windowWidth"].asInt());
 		def.height(setConfig[L"windowHeight"].asInt());
 		sora::SoraGameApp app(def);
@@ -80,9 +84,6 @@ int CALLBACK WinMain(
 #ifdef DIVA_GNET_OPEN
 		app.addState(core, "core");
 #endif
-		//refresh config
-		divacore::Settings::instance().RefreshAll(setConfig);
-
 		app.run("init");
 
 		//divanet::SchedulerClient::mReleaser;

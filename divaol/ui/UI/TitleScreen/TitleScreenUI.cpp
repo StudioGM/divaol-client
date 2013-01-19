@@ -87,6 +87,7 @@ namespace diva
 		sora::GCN_GLOBAL->getTop()->add(top, 0, 0);
 		top->setVisible(true);
 		top->setEnabled(true);
+
 		sora::SoraBGMManager::Instance()->play(config[L"titleMusicFilename"].asString(), false);
 	}
 

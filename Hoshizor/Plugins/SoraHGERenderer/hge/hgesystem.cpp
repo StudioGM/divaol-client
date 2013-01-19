@@ -160,16 +160,19 @@ bool CALL HGE_Impl::System_Initiate()
 	}
 	else
 	{
-		// Create window
+		styleW=WS_POPUP|WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX|WS_VISIBLE; //WS_OVERLAPPED | WS_SYSMENU | WS_MINIMIZEBOX;
 
-		width=nScreenWidth + GetSystemMetrics(SM_CXFIXEDFRAME)*2;
-		height=nScreenHeight + GetSystemMetrics(SM_CYFIXEDFRAME)*2 + GetSystemMetrics(SM_CYCAPTION);
+		RECT rect = {0,0,nScreenWidth,nScreenHeight};
+		AdjustWindowRectEx(&rect, styleW, false, 0);
+
+		// Create window
+		width=rect.right-rect.left;
+		height=rect.bottom-rect.top;
 
 		rectW.left=(GetSystemMetrics(SM_CXSCREEN)-width)/2;
 		rectW.top=(GetSystemMetrics(SM_CYSCREEN)-height)/2;
 		rectW.right=rectW.left+width;
 		rectW.bottom=rectW.top+height;
-		styleW=WS_POPUP|WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX|WS_VISIBLE; //WS_OVERLAPPED | WS_SYSMENU | WS_MINIMIZEBOX;
 	}
 
 	rectFS.left=0;
@@ -284,7 +287,18 @@ void CALL HGE_Impl::System_SetStateBool(hgeBoolState state, bool value)
 	switch(state)
 	{
 		//new add by hyf
-		case HGE_FAKE_FULLSCREEN:  bFakeFullScreen = value; break;
+		case HGE_FAKE_FULLSCREEN:  
+								if(pD3DDevice && bFakeFullScreen != value)
+								{
+									bFakeFullScreen = value;
+									_Resize(nScreenWidth, nScreenHeight, true);
+									_GfxRestore();
+									_AdjustWindow();
+								}
+								else
+									bFakeFullScreen = value;
+								break;
+
 		case HGE_WINDOWED:		if(VertArray || hwndParent) break;
 								if(pD3DDevice && bWindowed != value)
 								{
@@ -463,6 +477,7 @@ bool CALL HGE_Impl::System_GetStateBool(hgeBoolState state)
 {
 	switch(state)
 	{
+		case HGE_FAKE_FULLSCREEN: return bFakeFullScreen;
 		case HGE_WINDOWED:		return bWindowed;
 		case HGE_ZBUFFER:		return bZBuffer;
 		case HGE_TEXTUREFILTER:	return bTextureFilter;
