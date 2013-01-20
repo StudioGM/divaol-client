@@ -29,7 +29,7 @@
     "desY": 680,
     "width": 856,
     "height": 856,
-	"period": 1.0,
+	"period": 0.710,
 	"fPeriod": 0.15,
 	"scale": 1.2
   },
@@ -42,7 +42,7 @@
     "desY": 609,
     "width": 626,
     "height": 626,
-	"period": 1.0,
+	"period": 0.710,
 	"fPeriod": 0.15,
 	"scale": 1.2
   },
@@ -55,7 +55,7 @@
     "desY": 726,
     "width": 470,
     "height": 469,
-	"period": 1.0,
+	"period": 0.710,
 	"fPeriod": 0.15,
 	"scale": 1.2
   },
@@ -68,7 +68,7 @@
     "desY": 548,
     "width": 717,
     "height": 716,
-	"period": 1.0,
+	"period": 0.710,
 	"fPeriod": 0.15,
 	"scale": 1.2
   },

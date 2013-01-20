@@ -26,6 +26,8 @@ namespace divamap
 
 	DivaMapManager::DivaMapManager()
 	{
+		CreateDirectoryW(LocalSongDirectoryW,NULL);
+
 		selectedMode=0;
 		GameModeStr[0] = "PVMode";
 		GameModeStr[1] = "CTMode";

@@ -1,12 +1,12 @@
 {
    "gameHeight" : 1080,
    "gameWidth" : 1920,
-   "isWindowMode" : true,
+   "isWindowMode" : false,
    "keyMod" : 0,
    "language" : 0,
    "musicVolume" : 10,
-   "particleSystem" : 0,
-   "resolution" : 1,
+   "particleSystem" : 2,
+   "resolution" : 0,
    "seVolume" : 10,
    "uiMod" : 0
 }
