@@ -7,16 +7,16 @@
 			"canJump" : true
 		},
 		{
-			"texture" : "res/splash/stuff.png",
-			"fadeTime" : 1,
-			"detainTime" : 1.5,
-			"canJump" : true
-		},
-		{
 			"texture" : "res/splash/warning.png",
 			"fadeTime" : 1,
 			"detainTime" : 1.5,
 			"canJump" : false
+		},
+		{
+			"texture" : "res/splash/stuff.png",
+			"fadeTime" : 1,
+			"detainTime" : 1.5,
+			"canJump" : true
 		}
 	],
 	"nextState" : "title"
