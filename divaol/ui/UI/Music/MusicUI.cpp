@@ -608,8 +608,10 @@ namespace diva
 							break;
 						if (tv[L"error"].asString() == L"E_OK")
 						{
+							WJson::Value addData;
+							reader.parse(tv[L"add_data"].asString(), addData);
 							((RankingListItem*)rankingList->getItem(rankingList->getMaxItem() - 1))->SetInfo(tv[L"score"].asInt(),
-								10,
+								addData[L"combo"].asInt(),
 								tv[L"name"].asString());
 							((RankingListItem*)rankingList->getItem(rankingList->getMaxItem() - 1))->SetRanking(tv[L"rank"].asInt());
 							((RankingListItem*)rankingList->getItem(rankingList->getMaxItem() - 1))->SetNull(0);
