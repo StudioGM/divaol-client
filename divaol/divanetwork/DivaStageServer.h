@@ -512,7 +512,7 @@ namespace divanet
 						colorCount[color] = 1;
 					else
 						colorCount[color]++;
-				}
+				}	
 			std::map<int,int>::iterator ptr = colorCount.begin();
 			int tmp = (*ptr).second;
 			while((++ptr) != colorCount.end())
@@ -521,6 +521,24 @@ namespace divanet
 					info = "not match";
 					return false;
 				}
+
+			if(mInfo.songId[0].mode == divamap::DivaMap::RelayMode) {
+				for(int i = 0; i < colorCount.size(); i++)
+					if(colorCount[i]<=1)
+					{
+						info = "not match";
+						return false;
+					}
+			}
+			else if(mInfo.songId[0].mode == divamap::DivaMap::PairMode) {
+				for(int i = 0; i < colorCount.size(); i++)
+					if(colorCount[i]!=2)
+					{
+						info = "not match";
+						return false;
+					}
+			}
+
 			info = "ok";
 			return true;
 		}
