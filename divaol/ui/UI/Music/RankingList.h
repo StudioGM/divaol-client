@@ -20,6 +20,7 @@ namespace diva
 			int backColor;
 			int fontColor;
 			int isNull;
+			bool isLoading;
 			
 			static Image* image;
 			static gcn::Rectangle rect;
@@ -29,6 +30,7 @@ namespace diva
 			RankingListItem();
 			~RankingListItem();
 			void SetNull(int v);
+			void SetLoading(bool v);
 			void SetInfo(const int& score, const int& combo, const std::wstring& playerName);
 			void SetRanking(int ranking);
 			void SetColor(int backColor, int fontColor);

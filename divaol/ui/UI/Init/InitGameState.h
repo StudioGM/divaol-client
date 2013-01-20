@@ -119,9 +119,9 @@ namespace diva
 		}
 	};
 	class InitGameState: public sora::SoraGameState, public sora::SoraEventHandler {
-		enum State{SPLASH,DONE,LEFT};
+		enum State{UNINITIALIZED, INITIALIEZD, SPLASH,DONE,LEFT};
 	public:
-		InitGameState() {
+		InitGameState():state(UNINITIALIZED) {
 		}
 
 		~InitGameState()
@@ -160,7 +160,15 @@ namespace diva
 		}
 
 		void onEnter() {
-			_ReadConfig("uiconfig/init.json");
+			if(state == UNINITIALIZED)
+			{
+				_ReadConfig("uiconfig/init.json");
+				// init guichan (must before SoraKeyPoll, or we can not get the queue of event)
+				sora::GCN_GLOBAL->initGUIChan(L"msyh.ttf", 20);
+			}
+			
+			state = INITIALIEZD;
+
 			if(splashList.size() > 0)
 			{
 				nowSplashCnt = 0;

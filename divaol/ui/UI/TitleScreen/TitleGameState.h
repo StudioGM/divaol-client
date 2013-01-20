@@ -118,7 +118,6 @@ namespace diva
 				//diva::MapMgr::Instance()->Load("map_manifest.json");
 
 				//room = UIScreenRoom::Instance();
-				sora::GCN_GLOBAL->initGUIChan(L"msyh.ttf", 20);
 				titleScreen = TitleScreenUI::Instance();
 
 				uiCanvas = new sora::SoraBaseCanvas(setConfig[L"gameWidth"].asInt(), setConfig[L"gameHeight"].asInt());
