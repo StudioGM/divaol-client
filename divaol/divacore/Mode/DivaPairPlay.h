@@ -65,6 +65,8 @@ namespace divacore
 		typedef std::vector<PairNote> PAIR_NOTES;
 		PAIR_NOTES pairQueue;
 	public:
+		std::string getNetGameMode() {return "pair";}
+		
 		void init()
 		{
 			MultiPlay::init();

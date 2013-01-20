@@ -181,7 +181,7 @@
 		"type" : "text",
 		"position" : [1520, 87],
 		"font" : {
-				"file" : "SHOWG.TTF",
+				"file" : "msyh.TTF",
 				"size" : 40,
 				"color" : "#FF0000"
 		}

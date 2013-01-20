@@ -119,6 +119,7 @@ namespace divacore
 		PlayerInfo* getSpecificPlayerInfo(const std::string uid);
 
 		virtual std::string getName() {return "multiPlay";}
+		virtual std::string getNetGameMode() {return "normal";}
 
 		virtual void inform(StateEvent& event);
 		

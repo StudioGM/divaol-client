@@ -25,8 +25,9 @@ namespace divanet
 	struct SongInfo {
 		int songId;
 		int level;
-		SongInfo():songId(0),level(0){}
-		SongInfo(int songId, int level):songId(songId),level(level) {}
+		int mode;
+		SongInfo():songId(0),level(0),mode(0){}
+		SongInfo(int songId, int level, int mode):songId(songId),level(level),mode(mode) {}
 	};
 	typedef std::vector<SongInfo> SongList;
 	typedef std::vector<WaiterInfo> Waiters;
@@ -139,7 +140,7 @@ namespace divanet
 				packet->appendAhead<gnet::Atom>(gnet::Atom("stage"));
 				packet->appendItem(list);
 				for(int i = 0; i < songList.size(); i++)
-					list->appendItem(gnet::ItemUtility::formatTuple("%d%d",songList[i].songId,songList[i].level));
+					list->appendItem(gnet::ItemUtility::formatTuple("%d%d%d",songList[i].songId,songList[i].level,songList[i].mode));
 				mNetSys->send(packet);
 			}
 		}
@@ -216,13 +217,13 @@ namespace divanet
 				if(owner()) {
 					SongList songList;
 					for(int i = 0; i < MAPMGR.GetSelectedMaps().size(); i++)
-						songList.push_back(SongInfo(MAPMGR.GetSelectedMaps()[i].id, MAPMGR.GetSelectedMaps()[i].level));
+						songList.push_back(SongInfo(MAPMGR.GetSelectedMaps()[i].id, MAPMGR.GetSelectedMaps()[i].level, MAPMGR.GetSelectedMaps()[i].mode));
 					setSong(songList);
 				}
 				else {
 					MAPMGR.SelectedMap_Clear();
 					for(int i = 0; i < mInfo.songId.size(); i++)
-						MAPMGR.SelectedMap_Add(mInfo.songId[i].songId, static_cast<divamap::DivaMap::LevelType>(mInfo.songId[i].level));
+						MAPMGR.SelectedMap_Add(mInfo.songId[i].songId, static_cast<divamap::DivaMap::LevelType>(mInfo.songId[i].level), static_cast<divamap::DivaMap::ModeType>(mInfo.songId[i].mode));
 				}
 			}
 		}
@@ -453,7 +454,7 @@ namespace divanet
 					// update map manager
 					MAPMGR.SelectedMap_Clear();
 					for(int i = 0; i < mInfo.songId.size(); i++)
-						MAPMGR.SelectedMap_Add(mInfo.songId[i].songId, static_cast<divamap::DivaMap::LevelType>(mInfo.songId[i].level));
+						MAPMGR.SelectedMap_Add(mInfo.songId[i].songId, static_cast<divamap::DivaMap::LevelType>(mInfo.songId[i].level), static_cast<divamap::DivaMap::ModeType>(mInfo.songId[i].mode));
 					// notify ui
 					notify("song", NOTIFY_REFRESH_SONG_UI, NULL);
 					// send msg to server
@@ -477,7 +478,7 @@ namespace divanet
 			for(int i = 0; i < list->size(); i++)
 			{
 				divanet::GPacket *songItem = list->getItem(i)->as<divanet::GPacket>();
-				newSong.push_back(SongInfo(songItem->getItem(0)->getInt(), songItem->getItem(1)->getInt()));
+				newSong.push_back(SongInfo(songItem->getItem(0)->getInt(), songItem->getItem(1)->getInt(), songItem->getItem(2)->getInt()));
 			}
 
 			return newSong;
@@ -534,7 +535,7 @@ namespace divanet
 			if(a.size()!=b.size())
 				return false;
 			for(int i = 0; i < a.size(); i++)
-				if(a[i].level!=b[i].level||a[i].songId!=b[i].songId)
+				if(a[i].level!=b[i].level||a[i].songId!=b[i].songId||a[i].mode!=b[i].mode)
 					return false;
 			return true;
 		}

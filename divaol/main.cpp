@@ -89,7 +89,5 @@ int CALLBACK WinMain(
 #endif
 		app.run("init");
 
-		//divanet::SchedulerClient::mReleaser;
-
 		return 0;
 }

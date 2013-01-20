@@ -926,7 +926,7 @@ namespace divamap
 
 
 	//Get functions
-	std::wstring DivaMapManager::GetMapDescription(int id, int level)
+	std::wstring DivaMapManager::GetMapDescription(int id, int level, int mode)
 	{
 		std::wstring levelDesc;
 		switch(level)
@@ -950,7 +950,23 @@ namespace divamap
 			levelDesc = L"HYF";
 			break;
 		}
-		return GetMapName(id) + L" ("+levelDesc+L")";
+		std::wstring modeDesc;
+		switch(mode)
+		{
+		case 0:
+			modeDesc = L"普通";
+			break;
+		case 1:
+			modeDesc = L"接力";
+			break;
+		case 2:
+			modeDesc = L"双打";
+			break;
+		default:
+			modeDesc = L"法克";
+			break;
+		}
+		return GetMapName(id) + L" ("+levelDesc+L") [" + modeDesc + L"] BPM:" + Base::String::any2string<int>(maps[id].header.bpm);
 
 	}
 	std::wstring DivaMapManager::GetMapName(int id)
@@ -1033,10 +1049,10 @@ namespace divamap
 	}
 
 	//Select Map functions
-	void DivaMapManager::SelectedMap_Add(int id, DivaMap::LevelType level)
+	void DivaMapManager::SelectedMap_Add(int id, DivaMap::LevelType level, DivaMap::ModeType mode)
 	{
 		if(selectedMaps.size()<MAXSelectedMapCount)
-			selectedMaps.push_back(DivaMapSelectedItem(id,level));
+			selectedMaps.push_back(DivaMapSelectedItem(id,level,mode));
 	}
 	void DivaMapManager::SelectedMap_ChangeLevel(int index, DivaMap::LevelType level)
 	{

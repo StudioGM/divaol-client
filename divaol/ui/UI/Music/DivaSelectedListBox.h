@@ -20,8 +20,9 @@ namespace diva
 		divamap::DivaMap mapInfo;
 		int difIndex;
 		int type;
+		int mode;
 		SongListItem* item;
-		SongInfo(const divamap::DivaMap& a, int b, int c, SongListItem* item);
+		SongInfo(const divamap::DivaMap& a, int b, int c, SongListItem* item, int mode);
 
 		SongInfo();
 		divamap::DivaMap::LevelType getLevel() const;
@@ -42,11 +43,12 @@ namespace diva
 
 	public:
 		enum {RANDOM, SPECIFIC};
+		enum {NORMAL, RELAY, PAIR};
 
 		DivaSelectedListBox();
 		~DivaSelectedListBox();
 
-		void pushItem(const divamap::DivaMap& mapInfo, divamap::DivaMap::LevelType level, SongListItem* item, int type = SPECIFIC);
+		void pushItem(const divamap::DivaMap& mapInfo, divamap::DivaMap::LevelType level, SongListItem* item, int type, int mode);
 		void removeItem(int index);
 		void clearItems();
 		int getItemCount() const;

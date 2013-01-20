@@ -392,7 +392,7 @@ namespace diva
 				int index = songListBox->getIndexByMapId(SELECTEDMAPS[i].id);
 				if (index == -1)
 					throw "Fatal Error! Cann't find this Map!";
-				selectedListBox->pushItem(MAPS[SELECTEDMAPS[i].id], SELECTEDMAPS[i].level, (SongListItem*)songListBox->getItem(index));
+				selectedListBox->pushItem(MAPS[SELECTEDMAPS[i].id], SELECTEDMAPS[i].level, (SongListItem*)songListBox->getItem(index), DivaSelectedListBox::SPECIFIC, SELECTEDMAPS[i].mode);
 			}
 		}
 
@@ -832,14 +832,14 @@ namespace diva
 					return;
 				}
 				SongListItem* item = (SongListItem*)songListBox->getItems()[t];
-				selectedListBox->pushItem(item->getMapInfo(), (divamap::DivaMap::LevelType)((SongListItem*)songListBox->getItems()[0])->getDifIndex(), item, DivaSelectedListBox::SPECIFIC);
+				selectedListBox->pushItem(item->getMapInfo(), (divamap::DivaMap::LevelType)((SongListItem*)songListBox->getItems()[0])->getDifIndex(), item, DivaSelectedListBox::SPECIFIC, gameMode);
 				AdjustStartButton();
 			}
 			else
 			{
 				SongListItem* item = (SongListItem*)songListBox->getItems()[index];
 				if (item->getDownloadFinished())
-					selectedListBox->pushItem(item->getMapInfo(), item->getMapInfo().getLevel(item->getDifIndex()), item, DivaSelectedListBox::SPECIFIC);
+					selectedListBox->pushItem(item->getMapInfo(), item->getMapInfo().getLevel(item->getDifIndex()), item, DivaSelectedListBox::SPECIFIC, gameMode);
 				else
 				{
 					MAPMGR.PrepareDivaMapData(item->getMapInfo().id);
@@ -1037,7 +1037,7 @@ namespace diva
 			for (int i=0; i<count; i++)
 			{
 				const SongInfo& t= ui->selectedListBox->getSong(i);
-				MAPMGR.SelectedMap_Add(t.mapInfo.id, t.getLevel());
+				MAPMGR.SelectedMap_Add(t.mapInfo.id, t.getLevel(), static_cast<divamap::DivaMap::ModeType>(t.mode));
 			}
 			STAGE_CLIENT.refreshMusic();
 			ui->musicGameState->beginLeave("house");

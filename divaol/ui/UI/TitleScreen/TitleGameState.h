@@ -106,6 +106,10 @@ namespace diva
 			beginLeave("house");
 		}
 
+		void onMouseClicked(SoraMouseEvent& event) {
+			beginLeave("house");
+		}
+
 		void onMouseDragged(sora::SoraMouseEvent& from, sora::SoraMouseEvent& to) {
 			//y += to.x - from.x;
 			//getGameApp()->setState("house");

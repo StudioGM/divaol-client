@@ -91,6 +91,7 @@ namespace divacore
 
 		//derived control funcs
 		int getNowPlayer() {return nowPlayer;}
+		std::string getNetGameMode() {return "relay";}
 
 		void init()
 		{
@@ -349,7 +350,9 @@ namespace divacore
 		{
 			relayNewTurn();
 
-			NETWORK_SYSTEM_PTR->read(packet,"%d",&nowPlayer);
+			int tmpTurn;
+			NETWORK_SYSTEM_PTR->read(packet,"%d%d",&tmpTurn,&nowPlayer);
+			nowPlayer--;
 
 			if(getRelayState()!=CHANGE)
 			{

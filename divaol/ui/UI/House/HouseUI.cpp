@@ -130,7 +130,7 @@ namespace diva
 			
 
 			// select music button
-			selectMusicButton = CreateButton(sconf, L"ToolBar/Normal/btn_selectmusic_normal", L"ToolBar/MouseOn/btn_selectmusic_mouseon", L"ToolBar/MouseDown/btn_selectmusic_mousedown", L"ToolBar/Normal/btn_selectmusic_normal");
+			selectMusicButton = CreateButton(sconf, L"ToolBar/Normal/btn_selectmusic_normal", L"ToolBar/MouseOn/btn_selectmusic_mouseon", L"ToolBar/MouseDown/btn_selectmusic_mousedown", L"ToolBar/Disabled/btn_selectmusic_disabled");
 			roomTop->add(selectMusicButton);
 			selectMusicButton->addMouseListener(new LoginButton_MouseListener());
 			selectMusicButton->setVisible(true);
@@ -464,7 +464,7 @@ namespace diva
 							info.ownerNickname = infos[i].ownerNickname;
 							info.ownerID = Base::String(infos[i].ownerId);
 							info.playerNum = infos[i].playernum;
-							info.selectedSong.push_back(MAPMGR.GetMapDescription(infos[i].sondId,infos[i].level));
+							info.selectedSong.push_back(MAPMGR.GetMapDescription(infos[i].sondId,infos[i].level,infos[i].mode));
 							info.stageName = infos[i].ownerNickname+"的舞台";
 							//b->setInfo(info);
 
@@ -580,14 +580,22 @@ namespace diva
 						STAGE_CLIENT.back();
 						return;
 					}
-					
-			
+
 					CORE_PTR->setSong(songPath.filePath().str(), songPath.fileName());
 					
 					CORE_PTR->setInitState("net_load");
 					divacore::MultiPlay *multiplay = NULL;
-					if(STAGE_CLIENT.info().mode=="multiplay")
+					int gameMode = STAGE_CLIENT.info().songId[0].mode;
+					if(gameMode == divamap::DivaMap::NormalMode)
 						multiplay = new divacore::MultiPlay;
+					else if(gameMode == divamap::DivaMap::RelayMode)
+						multiplay = new divacore::RelayPlay;
+					else
+					{
+						mgr->GetMB()->Show(L"尚不支持的游戏模式！", L"提示", gcn::MessageBoxEx::TYPE_OK); 
+						STAGE_CLIENT.back();
+						return;
+					}
 					CORE_PTR->registerGameMode(multiplay);
 					multiplay->registerNetworkEvent();
 					NextState = "core";
@@ -680,7 +688,11 @@ namespace diva
 				MAPMGR.SelectedMode_Set(STAGE_CLIENT.info().hooks);
 				ModeButtonRefresh();
 				if (!STAGE_CLIENT.owner())
+				{
 					modeButton->setForegroundColor(gcn::Color(255, 0, 0, modeButton->getAlpha()));
+					if(STAGE_CLIENT.isReady())
+						STAGE_CLIENT.unready();
+				}
 				messagePanelChatBox->addText(L"[提示] 房主更改了游戏模式", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 				break;
 			case divanet::StageClient::NOTIFY_STAGE_LEAVE_RESPONSE:
@@ -944,7 +956,7 @@ namespace diva
 				divamap::DivaMap& m = MAPS[i->id];
 				SongListItem* item = new SongListItem(t2[L"filename"].asString(), GetRect(t2));
 				item->setText(m.header.name + L"(" + config[L"difNames"][(int)i->level].asString() + L":" +
-					gcn::iToWS(m.levels[i->level].difficulty) + L",BPM:" + gcn::iToWS(m.header.bpm) + L")");
+					gcn::iToWS(m.levels[i->level].difficulty) + L",BPM:" + gcn::iToWS(m.header.bpm) + L","+config[L"gameModeNames"][(*i).mode].asString()+L")");
 				songList->pushItem(item);
 			}
 
