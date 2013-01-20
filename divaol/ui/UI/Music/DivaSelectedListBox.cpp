@@ -8,11 +8,12 @@ namespace diva
 
 	using namespace gcn;
 
-	SongInfo::SongInfo(const divamap::DivaMap& a, int b, int c, SongListItem* item)
+	SongInfo::SongInfo(const divamap::DivaMap& a, int b, int c, SongListItem* item, int mode)
 	{
 		mapInfo = a;
 		difIndex = b;
 		type = c;
+		this->mode = mode;
 		this->item = item;
 	}
 
@@ -73,20 +74,20 @@ namespace diva
 	{
 		wchar_t temp[200];
 		if (songInfo[index].type == RANDOM)
-			_swprintf(temp, L"RANDOM -- %s", config[L"difNames"][songInfo[index].difIndex].asCString());
+			_swprintf(temp, L"RANDOM -- %s [%s]", config[L"difNames"][songInfo[index].difIndex].asCString(), config[L"gameModeNames"][songInfo[index].mode].asCString());
 		else if (songInfo[index].type = SPECIFIC)
-			_swprintf(temp, L"%s -- %s",  songInfo[index].mapInfo.header.name.c_str(), config[L"difNames"][songInfo[index].getLevel()].asCString());
+			_swprintf(temp, L"%s -- %s [%s]",  songInfo[index].mapInfo.header.name.c_str(), config[L"difNames"][songInfo[index].getLevel()].asCString(), config[L"gameModeNames"][songInfo[index].mode].asCString());
 		items[index]->setText(temp);
 	}
 
-	void DivaSelectedListBox::pushItem(const divamap::DivaMap& mapInfo, divamap::DivaMap::LevelType level, SongListItem* item, int type)
+	void DivaSelectedListBox::pushItem(const divamap::DivaMap& mapInfo, divamap::DivaMap::LevelType level, SongListItem* item, int type, int mode)
 	{
 		if (songInfo.size() >= maxItem)
 		{
 			throw "items man!";
 			return;
 		}
-		songInfo.push_back(SongInfo(mapInfo, mapInfo.getDifIndex(level), type, item));
+		songInfo.push_back(SongInfo(mapInfo, mapInfo.getDifIndex(level), type, item, mode));
 		int n = songInfo.size() - 1;
 		deleteButtons[n]->setVisible(true);
 		items[n]->setEnabled(true);

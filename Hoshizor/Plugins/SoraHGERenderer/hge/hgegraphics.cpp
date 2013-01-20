@@ -1118,7 +1118,7 @@ void HGE_Impl::_AdjustWindow()
 
 	if(bWindowed) {rc=&rectW; style=styleW; }
 	else  {rc=&rectFS; style=styleFS; }
-	SetWindowLong(hwnd, GWL_STYLE, style);
+	LONG result = SetWindowLong(hwnd, GWL_STYLE, style);
 
 	style=GetWindowLong(hwnd, GWL_EXSTYLE);
 	if(bWindowed)
@@ -1133,31 +1133,69 @@ void HGE_Impl::_AdjustWindow()
 	}
 }
 
-void HGE_Impl::_Resize(int width, int height)
+void HGE_Impl::_Resize(int width, int height, bool force)
 {
+	// here I don't know why but windows send a WM_SIZE with old size just before a SetWindowLong, so I ignore it
+	if(!force)
+	{
+		_SetProjectionMatrix(nScreenWidth, nScreenHeight);
+		_GfxRestore();
+		return;
+	}
 	rectW.right = width+rectW.left;
 	rectW.bottom = height+rectW.top;
 
 	rectFS.right = width;
 	rectFS.left = height;
 
-//	if(hwndParent)
+	//	if(hwndParent)
 	//{
 		//if(procFocusLostFunc) procFocusLostFunc();
 
-		d3dppW.BackBufferWidth=width;
-		d3dppW.BackBufferHeight=height;
-		d3dppFS.BackBufferWidth=width;
-		d3dppFS.BackBufferHeight=height;
-		nScreenWidth=width;
-		nScreenHeight=height;
+	d3dppW.BackBufferWidth=width;
+	d3dppW.BackBufferHeight=height;
+	d3dppFS.BackBufferWidth=width;
+	d3dppFS.BackBufferHeight=height;
+	nScreenWidth=width;
+	nScreenHeight=height;
 
-		_SetProjectionMatrix(nScreenWidth, nScreenHeight);
-		_GfxRestore();
+	_SetProjectionMatrix(nScreenWidth, nScreenHeight);
+	_GfxRestore();
 	//	_init_lost();
 
 		//if(procFocusGainFunc) procFocusGainFunc();
-//	}
+	//	}
+
+	// slight adjust size with frame
+	if(bFakeFullScreen)
+	{
+		// Create window
+
+		width=nScreenWidth;
+		height=nScreenHeight;
+
+		rectW.left=0;
+		rectW.top=0;
+		rectW.right=rectW.left+width;
+		rectW.bottom=rectW.top+height;
+		styleW=WS_POPUP|WS_VISIBLE; //WS_OVERLAPPED | WS_SYSMENU | WS_MINIMIZEBOX;
+	}
+	else
+	{
+		styleW=WS_POPUP|WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX|WS_VISIBLE; //WS_OVERLAPPED | WS_SYSMENU | WS_MINIMIZEBOX;
+
+		RECT rect = {0,0,nScreenWidth,nScreenHeight};
+		AdjustWindowRectEx(&rect, styleW, false, 0);
+
+		// Create window
+		width=rect.right-rect.left;
+		height=rect.bottom-rect.top;
+
+		rectW.left=(GetSystemMetrics(SM_CXSCREEN)-width)/2;
+		rectW.top=(GetSystemMetrics(SM_CYSCREEN)-height)/2;
+		rectW.right=rectW.left+width;
+		rectW.bottom=rectW.top+height;
+	}
 }
 
 void HGE_Impl::_GfxDone()

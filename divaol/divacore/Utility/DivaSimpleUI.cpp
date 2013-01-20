@@ -1211,13 +1211,16 @@ namespace divacore
 			PLAYERS &players = state->getPlayerInfo();
 			for(int i = 0; i < teams.size(); i++)
 			{
-				if(teams[i].nowPlayer!=nowPlayers[i])
+				if(dynamic_cast<MultiPlay*>(GAME_MODE_PTR)->getNetGameMode() == "relay")
 				{
-					if(nowPlayers[i]>=0)
-						panels[teams[i].players[nowPlayers[i]]]->setFocus(false);
-					if(teams[i].nowPlayer>=0)
-						panels[teams[i].players[teams[i].nowPlayer]]->setFocus(true);
-					nowPlayers[i] = teams[i].nowPlayer;
+					if(teams[i].nowPlayer!=nowPlayers[i])
+					{
+						if(nowPlayers[i]>=0)
+							panels[teams[i].players[nowPlayers[i]]]->setFocus(false);
+						if(teams[i].nowPlayer>=0)
+							panels[teams[i].players[teams[i].nowPlayer]]->setFocus(true);
+						nowPlayers[i] = teams[i].nowPlayer;
+					}
 				}
 			}
 			for(int i = 0; i < players.size(); i++)

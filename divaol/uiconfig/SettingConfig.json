@@ -8,9 +8,19 @@
 	// ui info
 
 
-	"resolutions" : [
+	"resolutions_description" : [
 		"1280*720",
 		"1920*1080"
+	],
+	"resolutions_pair" : [
+		{
+			"width" : 1280,
+			"height" : 720
+		},
+		{
+			"width" : 1920,
+			"height" : 1080
+		}
 	],
 	"windowModes": [
 		"是",

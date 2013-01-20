@@ -29,7 +29,8 @@ namespace divacore
 	}
 	void NetGameInfo::updateInfoFromPacket(GPacket *packet)
 	{
-		gnet::Item<gnet::List> *list = dynamic_cast<gnet::Item<gnet::List>*>(packet->getItem(2));
+		gnet::Item<gnet::Tuple> *tuple = dynamic_cast<gnet::Item<gnet::Tuple>*>(packet->getItem(2));
+		gnet::Item<gnet::List> *list = dynamic_cast<gnet::Item<gnet::List>*>(tuple->getItem(0));
 
 		for(int i = 0; i < mPlayers.size(); i++)
 			if(i!=myPlayerID)
@@ -39,7 +40,14 @@ namespace divacore
 				mPlayers[i].combo = gnet::ItemUtility::getUInt(player->getItem(2));
 				mPlayers[i].hp = gnet::ItemUtility::getValue(player->getItem(3));
 			}
-			updateTeamInfo();
+		list = dynamic_cast<gnet::Item<gnet::List>*>(tuple->getItem(1));
+
+		for(int i = 0; i < mTeams.size(); i++)
+		{
+			mTeams[i].nowPlayer = list->getItem(i)->getInt()-1;
+		}
+
+		updateTeamInfo();
 	}
 	void NetGameInfo::updateTeamInfo()
 	{

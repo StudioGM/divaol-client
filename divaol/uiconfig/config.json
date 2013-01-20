@@ -5,10 +5,8 @@
    "keyMod" : 0,
    "language" : 0,
    "musicVolume" : 10,
-   "particleSystem" : 1,
+   "particleSystem" : 2,
    "resolution" : 0,
-   "seVolume" : 6,
-   "uiMod" : 0,
-   "windowHeight" : 720,
-   "windowWidth" : 1280
+   "seVolume" : 10,
+   "uiMod" : 0
 }

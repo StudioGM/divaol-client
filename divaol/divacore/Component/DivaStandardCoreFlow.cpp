@@ -357,7 +357,7 @@ namespace divacore
 		if(_totalTime!=totalTime)
 		{
 			MUSIC_MANAGER_PTR->reload(MAP_INFO->header.mainSound);
-			MUSIC_MANAGER_PTR->play(MAP_INFO->header.mainSound,CORE_FLOW_PTR->MAIN_SOUND_CHANNEL);
+			MUSIC_MANAGER_PTR->play(MAP_INFO->header.mainSound,CORE_FLOW_PTR->MAIN_SOUND_CHANNEL,"bgm");
 		}
 		_totalTime = MUSIC_MANAGER_PTR->getLength(MAIN_SOUND_CHANNEL);
 
@@ -483,7 +483,7 @@ namespace divacore
 			}
 		}
 
-		MUSIC_MANAGER_PTR->play(mainSound,MAIN_SOUND_CHANNEL);
+		MUSIC_MANAGER_PTR->play(mainSound,MAIN_SOUND_CHANNEL,"bgm");
 	}
 
     double StandardCoreFlow::_posToTime(double position)

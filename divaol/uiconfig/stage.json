@@ -180,6 +180,15 @@
     "width": 128,
     "height": 114
   },
+  "ToolBar/Disabled/btn_selectmusic_disabled": {
+    "filename": "res/stage_001.png",
+    "srcX": 0,
+    "srcY": 1344,
+    "desX": 1815,
+    "desY": 179,
+    "width": 98,
+    "height": 84
+  },
   "itemlist/item_itemback_selected": {
     "filename": "res/stage_001.png",
     "srcX": 1808,

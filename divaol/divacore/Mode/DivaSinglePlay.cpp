@@ -106,9 +106,9 @@ namespace divacore
 		if(event.type==StateEvent::PRESS||event.type==StateEvent::FAILURE)
 		{
 			if(event.rank<=4)
-				Core::Ptr->getMusicManager()->playDirect("hit","sound_effect");
+				Core::Ptr->getMusicManager()->playDirect("hit","se");
 			else
-				Core::Ptr->getMusicManager()->playDirect("miss","sound_effect");
+				Core::Ptr->getMusicManager()->playDirect("miss","se");
 		}
 
 		//如果是PRESS考虑其combo加成

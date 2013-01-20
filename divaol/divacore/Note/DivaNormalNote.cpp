@@ -168,8 +168,8 @@ namespace divacore
 		if(Core::Ptr->getGameMode()->checkPress(event))
 		{
 			//if(noteInfo.notePoint[0].key!="")
-			//	Core::Ptr->getMusicManager()->playDirect(noteInfo.notePoint[0].key,"sound_effect");
-			//Core::Ptr->getMusicManager()->playDirect("hit","sound_effect");
+			//	Core::Ptr->getMusicManager()->playDirect(noteInfo.notePoint[0].key,"se");
+			//Core::Ptr->getMusicManager()->playDirect("hit","se");
 
 			Core::Ptr->getGameMode()->inform(event);
 

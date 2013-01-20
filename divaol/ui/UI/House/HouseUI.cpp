@@ -25,6 +25,7 @@
 #include "divanetwork/DivaAuthClient.h"
 #include "divanetwork/DivaNetCommand.h"
 #include "divasongmgr/DivaMapManager.h"
+#include "divacore/Utility/DivaSettings.h"
 
 namespace diva
 {
@@ -129,7 +130,7 @@ namespace diva
 			
 
 			// select music button
-			selectMusicButton = CreateButton(sconf, L"ToolBar/Normal/btn_selectmusic_normal", L"ToolBar/MouseOn/btn_selectmusic_mouseon", L"ToolBar/MouseDown/btn_selectmusic_mousedown", L"ToolBar/Normal/btn_selectmusic_normal");
+			selectMusicButton = CreateButton(sconf, L"ToolBar/Normal/btn_selectmusic_normal", L"ToolBar/MouseOn/btn_selectmusic_mouseon", L"ToolBar/MouseDown/btn_selectmusic_mousedown", L"ToolBar/Disabled/btn_selectmusic_disabled");
 			roomTop->add(selectMusicButton);
 			selectMusicButton->addMouseListener(new LoginButton_MouseListener());
 			selectMusicButton->setVisible(true);
@@ -463,7 +464,11 @@ namespace diva
 							info.ownerNickname = infos[i].ownerNickname;
 							info.ownerID = Base::String(infos[i].ownerId);
 							info.playerNum = infos[i].playernum;
-							info.selectedSong.push_back(MAPMGR.GetMapDescription(infos[i].sondId,infos[i].level));
+							info.selectedSong.clear();
+							if(infos[i].songId == 0)
+								info.selectedSong.push_back(L"尚未选择");
+							else
+								info.selectedSong.push_back(MAPMGR.GetMapDescription(infos[i].songId,infos[i].level,infos[i].mode));
 							info.stageName = infos[i].ownerNickname+"的舞台";
 							//b->setInfo(info);
 
@@ -579,14 +584,22 @@ namespace diva
 						STAGE_CLIENT.back();
 						return;
 					}
-					
-			
+
 					CORE_PTR->setSong(songPath.filePath().str(), songPath.fileName());
 					
 					CORE_PTR->setInitState("net_load");
 					divacore::MultiPlay *multiplay = NULL;
-					if(STAGE_CLIENT.info().mode=="multiplay")
+					int gameMode = STAGE_CLIENT.info().songId[0].mode;
+					if(gameMode == divamap::DivaMap::NormalMode)
 						multiplay = new divacore::MultiPlay;
+					else if(gameMode == divamap::DivaMap::RelayMode)
+						multiplay = new divacore::RelayPlay;
+					else
+					{
+						mgr->GetMB()->Show(L"尚不支持的游戏模式！", L"提示", gcn::MessageBoxEx::TYPE_OK); 
+						STAGE_CLIENT.back();
+						return;
+					}
 					CORE_PTR->registerGameMode(multiplay);
 					multiplay->registerNetworkEvent();
 					NextState = "core";
@@ -679,7 +692,11 @@ namespace diva
 				MAPMGR.SelectedMode_Set(STAGE_CLIENT.info().hooks);
 				ModeButtonRefresh();
 				if (!STAGE_CLIENT.owner())
+				{
 					modeButton->setForegroundColor(gcn::Color(255, 0, 0, modeButton->getAlpha()));
+					if(STAGE_CLIENT.isReady())
+						STAGE_CLIENT.unready();
+				}
 				messagePanelChatBox->addText(L"[提示] 房主更改了游戏模式", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 				break;
 			case divanet::StageClient::NOTIFY_STAGE_LEAVE_RESPONSE:
@@ -943,7 +960,7 @@ namespace diva
 				divamap::DivaMap& m = MAPS[i->id];
 				SongListItem* item = new SongListItem(t2[L"filename"].asString(), GetRect(t2));
 				item->setText(m.header.name + L"(" + config[L"difNames"][(int)i->level].asString() + L":" +
-					gcn::iToWS(m.levels[i->level].difficulty) + L",BPM:" + gcn::iToWS(m.header.bpm) + L")");
+					gcn::iToWS(m.levels[i->level].difficulty) + L",BPM:" + gcn::iToWS(m.header.bpm) + L","+config[L"gameModeNames"][(*i).mode].asString()+L")");
 				songList->pushItem(item);
 			}
 
@@ -1710,6 +1727,7 @@ namespace diva
 
 		void HouseUI::SaveSettings()
 		{
+			// first update config
 			setConfig[L"resolution"] = ((SpecialItemDisplayer*)setResSelector->getDisplayer())->getSelectedIndex();
 			setConfig[L"musicVolume"] = ((SpecialItemDisplayer*)setMvSelector->getDisplayer())->getSelectedIndex();
 			setConfig[L"seVolume"] = ((SpecialItemDisplayer*)setSevSelector->getDisplayer())->getSelectedIndex();
@@ -1719,12 +1737,28 @@ namespace diva
 			setConfig[L"language"] = ((SpecialItemDisplayer*)setLanSelector->getDisplayer())->getSelectedIndex();
 			setConfig[L"particleSystem"] = ((SpecialItemDisplayer*)setPsSelector->getDisplayer())->getSelectedIndex();
 
+			// save config with specific items (without window width&height)
+			WJson::Value saveSetting = WJson::Value();
+			saveSetting[L"resolution"] = ((SpecialItemDisplayer*)setResSelector->getDisplayer())->getSelectedIndex();
+			saveSetting[L"musicVolume"] = ((SpecialItemDisplayer*)setMvSelector->getDisplayer())->getSelectedIndex();
+			saveSetting[L"seVolume"] = ((SpecialItemDisplayer*)setSevSelector->getDisplayer())->getSelectedIndex();
+			saveSetting[L"isWindowMode"] = ((SpecialItemDisplayer*)setWindowModeSelector->getDisplayer())->getSelectedIndex() == 0;
+			saveSetting[L"keyMod"] = ((SpecialItemDisplayer*)setKeyModSelector->getDisplayer())->getSelectedIndex();
+			saveSetting[L"uiMod"] = ((SpecialItemDisplayer*)setUiModSelector->getDisplayer())->getSelectedIndex();
+			saveSetting[L"language"] = ((SpecialItemDisplayer*)setLanSelector->getDisplayer())->getSelectedIndex();
+			saveSetting[L"particleSystem"] = ((SpecialItemDisplayer*)setPsSelector->getDisplayer())->getSelectedIndex();
+			saveSetting[L"gameWidth"] = setConfig[L"gameWidth"].asInt();
+			saveSetting[L"gameHeight"] = setConfig[L"gameHeight"].asInt();
+
 			WJson::StyledWriter writer;
-			Base::base_string p = ((Base::String)writer.write(setConfig)).asUTF8();
+			Base::base_string p = ((Base::String)writer.write(saveSetting)).asUTF8();
 			
 			FILE* file = fopen("uiconfig/config.json", "wb");
 			fwrite(p.c_str(), p.length(), 1, file);
 			fclose(file);
+
+			// Refresh all the settings
+			divacore::Settings::instance().RefreshAll(setConfig, config);
 		}
 
 		void HouseUI::LoadSettings()
@@ -1774,7 +1808,7 @@ namespace diva
 			//resSelector->setDisplayer(displayer);
 			
 			// 分辨率
-			SelectorEx* resSelector = CreateSelector(tv[L"selector"], config[L"resolutions"], tv[L"resSelDesRect"]);
+			SelectorEx* resSelector = CreateSelector(tv[L"selector"], config[L"resolutions_description"], tv[L"resSelDesRect"]);
 			((SpecialItemDisplayer*)resSelector->getDisplayer())->setRepeat(true);
 			win->add(resSelector);
 			win->add(Helper::CreateLabel(tv[L"resLabel"]));

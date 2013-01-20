@@ -19,6 +19,7 @@ namespace diva
 			SetInfo(0, 0, L"none");
 			SetColor(0xFFFFFF, 0xFFFFFF);
 			isNull = false;
+			isLoading = false;
 		}
 
 		RankingListItem::~RankingListItem()
@@ -28,6 +29,11 @@ namespace diva
 		void RankingListItem::SetNull(int v)
 		{
 			isNull = v;
+		}
+
+		void RankingListItem::SetLoading(bool v)
+		{
+			isLoading = v;
 		}
 
 		void RankingListItem::SetColor(int backColor, int fontColor)
@@ -44,7 +50,13 @@ namespace diva
 				graphics->drawImage(image, rect.x, rect.y, 0, 0, rect.width, rect.height);
 			}
 
-			if (isNull == 0)
+			if (isLoading)
+			{
+				graphics->setColor(gcn::Color(fontColor, alpha));
+				graphics->setFont(font);
+				graphics->drawTextW(L"ÕýÔÚ¶ÁÈ¡...", playerP.x, playerP.y);
+			}
+			else if (isNull == 0)
 			{
 				graphics->setColor(gcn::Color(fontColor, alpha));
 				graphics->setFont(font);

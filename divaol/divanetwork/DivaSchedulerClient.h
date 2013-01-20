@@ -22,8 +22,9 @@ namespace divanet
 		uint32 serverId;
 		uint32 capacity;
 		uint32 playernum;
-		uint32 sondId;
+		uint32 songId;
 		uint32 level;
+		uint32 mode;
 		int32 state;
 	};
 	typedef std::vector<RoomInfo> RoomInfos;
@@ -88,12 +89,13 @@ namespace divanet
 					info.state = roomInfo->getItem(1)->getString()=="stage"?RoomInfo::STAGE:("game"?RoomInfo::GAME:RoomInfo::CHECKOUT);
 					gnet::Item<gnet::List> *songList = roomInfo->getItem(2)->as<gnet::Item<gnet::List>>();
 					if(songList == 0 || songList->size() == 0)
-						info.sondId = 0;
+						info.songId = 0;
 					else
 					{
 						gnet::Item<gnet::Tuple> *firstItem = songList->getItem(0)->as<gnet::Item<gnet::Tuple>>();
-						info.sondId = firstItem->getItem(0)->getInt();
+						info.songId = firstItem->getItem(0)->getInt();
 						info.level = firstItem->getItem(1)->getInt();
+						info.mode = firstItem->getItem(2)->getInt();
 					}
 					info.playernum = roomInfo->getItem(3)->getInt();
 

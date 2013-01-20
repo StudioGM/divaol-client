@@ -698,6 +698,7 @@
     <ClInclude Include="divacore\Utility\DivaJoystickInputer.h" />
     <ClInclude Include="divacore\Utility\DivaJsonHelper.h" />
     <ClInclude Include="divacore\Utility\DivaPath.h" />
+    <ClInclude Include="divacore\Utility\DivaSettings.h" />
     <ClInclude Include="divacore\Utility\DivaSimpleUI.h" />
     <ClInclude Include="divanetwork\DivaAuthClient.h" />
     <ClInclude Include="divanetwork\DivaChatClient.h" />
@@ -785,6 +786,7 @@
     <ClInclude Include="ui\UI\House\RoomList.h" />
     <ClInclude Include="ui\UI\House\SettingDisplayers.h" />
     <ClInclude Include="ui\UI\House\ThingList.h" />
+    <ClInclude Include="ui\UI\Init\InitGameState.h" />
     <ClInclude Include="ui\UI\Music\DivaPlayerItem.h" />
     <ClInclude Include="ui\UI\Music\DivaPlayerList.h" />
     <ClInclude Include="ui\UI\Music\DivaSelectedListBox.h" />

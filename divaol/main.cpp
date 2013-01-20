@@ -21,10 +21,13 @@
 #include "ui/UI/Stage/StageGameState.h"
 #include "ui/UI/Music/MusicGameState.h"
 #include "ui/UI/TitleScreen/TitleGameState.h"
+#include "ui/UI/Init/InitGameState.h"
 
 #include "divanetwork/DivaNetworkManager.h"
 #include "divanetwork/DivaGNetTCPSystem.h"
 #include "divacore/Utility/DivaInitialize.h"
+#include "divacore/Utility/DivaSettings.h"
+
 using namespace diva;
 
 
@@ -40,6 +43,7 @@ int CALLBACK WinMain(
 	) {
 		diva::initialize_config(L"uiconfig/SettingConfig.json", L"uiconfig/config.json");
 		//std::wstring ss = config[L"sdf"].asString();
+		// initialize settings
 
 #ifdef DIVA_GNET_OPEN
 		NET_INFO.getServerInfo();
@@ -64,13 +68,18 @@ int CALLBACK WinMain(
 		core->myPlayerInfo().loadFromFile("system/playerInfo.json");
 #endif
 
+		divacore::Settings::instance().InitializeSettings(setConfig, config);
+
 		sora::SoraGameAppDef def("config.xml");
+		def.windowMode(setConfig[L"isWindowMode"].asBool());
 		def.width(setConfig[L"windowWidth"].asInt());
 		def.height(setConfig[L"windowHeight"].asInt());
 		sora::SoraGameApp app(def);
 
 		sora::SoraCore::Instance()->registerSoundSystem(new sora::SoraFMODSoundSystem());
-		app.addState(new GameInitState, "init");
+
+		app.addState(new InitGameState, "init");
+		app.addState(new TitleGameState, "title");
 		app.addState(new diva::HouseUI::HouseGameState(), "house");
 		app.addState(new diva::StageUI::StageGameState(), "stage");
 		app.addState(new diva::MusicUI::MusicGameState(), "music");
@@ -78,10 +87,7 @@ int CALLBACK WinMain(
 #ifdef DIVA_GNET_OPEN
 		app.addState(core, "core");
 #endif
-
 		app.run("init");
-
-		//divanet::SchedulerClient::mReleaser;
 
 		return 0;
 }

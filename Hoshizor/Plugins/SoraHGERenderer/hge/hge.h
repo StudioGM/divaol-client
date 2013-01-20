@@ -429,7 +429,7 @@ public:
 	virtual void		CALL	enableFSAA() = 0;
 	virtual void		CALL	disableFSAA() = 0;
 	
-	virtual void			CALL	_Resize(int width, int height) = 0;
+	virtual void			CALL	_Resize(int width, int height, bool force = false) = 0; // tempbuffer modified
 	virtual void			CALL	_AdjustWindow() = 0;
 	virtual std::string		CALL	getDeviceInfo() = 0;
 	IDirect3DDevice9*		pD3DDevice;

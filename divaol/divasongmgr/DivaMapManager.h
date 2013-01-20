@@ -166,6 +166,11 @@ namespace divamap
 			Hard = 2,
 			Extra = 3,
 			Die = 4};
+		enum ModeType {
+			NormalMode = 0,
+			RelayMode = 1,
+			PairMode = 2
+		};
 
 		int id;
 		DivaMapHeader header;
@@ -181,10 +186,11 @@ namespace divamap
 	class DivaMapSelectedItem
 	{
 	public:
-		DivaMapSelectedItem(int id, DivaMap::LevelType level) {this->id = id;this->level=level;}
+		DivaMapSelectedItem(int id, DivaMap::LevelType level, DivaMap::ModeType mode) {this->id = id;this->level=level;this->mode=mode;}
 
 		int id;
 		DivaMap::LevelType level;
+		DivaMap::ModeType mode;
 	};
 
 	class DivaMapManager : public sora::SoraAutoUpdate
@@ -275,7 +281,7 @@ namespace divamap
 
 
 		//Get functions
-		std::wstring GetMapDescription(int id, int level);
+		std::wstring GetMapDescription(int id, int level, int mode);
 		std::wstring GetMapName(int id);
 		std::wstring GetMapDirectory(int id);
 		std::wstring GetThumbFilePath(int id);
@@ -290,13 +296,16 @@ namespace divamap
 
 	public:
 		//Select Map functions
-		void SelectedMap_Add(int id, DivaMap::LevelType level);
+		void SelectedMap_Add(int id, DivaMap::LevelType level, DivaMap::ModeType mode);
 		void SelectedMap_Remove(int index);
 		void SelectedMap_ChangeLevel(int index, DivaMap::LevelType level);
 		void SelectedMap_Swap(int indexL,int indexR);
 		void SelectedMap_Clear();
 
-		std::vector<DivaMapSelectedItem>& GetSelectedMaps(){return selectedMaps;}
+		std::vector<DivaMapSelectedItem>& GetSelectedMaps()
+		{
+			return selectedMaps;
+		}
 
 
 		//Select Mode functions

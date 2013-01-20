@@ -29,16 +29,16 @@
 namespace diva
 {
 
-	class GameInitState: public sora::SoraGameState, public sora::SoraEventHandler {
+	class TitleGameState: public sora::SoraGameState, public sora::SoraEventHandler {
 	public:
-		GameInitState() {
+		TitleGameState() {
 			//this->app = app;
 			isInitialized = false;
 			state = 0;
 			//nextState = "";
 		}
 
-		~GameInitState()
+		~TitleGameState()
 		{
 			if (uiCanvas)
 				delete uiCanvas;
@@ -106,6 +106,10 @@ namespace diva
 			beginLeave("house");
 		}
 
+		void onMouseClicked(SoraMouseEvent& event) {
+			beginLeave("house");
+		}
+
 		void onMouseDragged(sora::SoraMouseEvent& from, sora::SoraMouseEvent& to) {
 			//y += to.x - from.x;
 			//getGameApp()->setState("house");
@@ -118,7 +122,6 @@ namespace diva
 				//diva::MapMgr::Instance()->Load("map_manifest.json");
 
 				//room = UIScreenRoom::Instance();
-				sora::GCN_GLOBAL->initGUIChan(L"msyh.ttf", 20);
 				titleScreen = TitleScreenUI::Instance();
 
 				uiCanvas = new sora::SoraBaseCanvas(setConfig[L"gameWidth"].asInt(), setConfig[L"gameHeight"].asInt());

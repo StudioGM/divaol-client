@@ -11,6 +11,18 @@
 namespace diva
 {
 
+	std::wstring& TitleScreenUI::GetRandomStyle()
+	{
+		Base::Random::SetRandomSeed(time(0));
+
+		WJson::Value styles = conf[L"styles"];
+		int count = styles.size();
+		int result = rand()%count;
+
+		style = styles[result].asString();
+		return style;
+	}
+
 	TitleScreenUI::TitleScreenUI()
 	{
 		// json init
@@ -31,7 +43,8 @@ namespace diva
 			def("CreateWheel", &TitleScreenUI::CreateWheel).
 			def("CreateExpander", &TitleScreenUI::CreateExpander).
 			def("CreatePressAnyKey", &TitleScreenUI::CreatePressAnyKey).
-			def("CreateMovingShader", &TitleScreenUI::CreateMovingShader);
+			def("CreateMovingShader", &TitleScreenUI::CreateMovingShader).
+			def("GetRandomStyle", &TitleScreenUI::GetRandomStyle);
 		lo.doScript(L"uiconfig/TitleScreen.lua");
 
 		style = L"Miku";
@@ -87,6 +100,7 @@ namespace diva
 		sora::GCN_GLOBAL->getTop()->add(top, 0, 0);
 		top->setVisible(true);
 		top->setEnabled(true);
+
 		sora::SoraBGMManager::Instance()->play(config[L"titleMusicFilename"].asString(), false);
 	}
 

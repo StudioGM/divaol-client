@@ -100,12 +100,12 @@ namespace divacore
 				if(event.rank<=4)
 				{
 					if(mHitSound)
-						Core::Ptr->getMusicManager()->playDirect("hit","sound_effect");
+						Core::Ptr->getMusicManager()->playDirect("hit","se");
 				}
 				else
 				{
 					if(mMissSound)
-						Core::Ptr->getMusicManager()->playDirect("miss","sound_effect");
+						Core::Ptr->getMusicManager()->playDirect("miss","se");
 				}
 			}
 		}

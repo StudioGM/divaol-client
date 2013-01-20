@@ -247,8 +247,8 @@ namespace divacore
 			if(GAME_MODE_PTR->checkPress(event))
 			{
 				//if(noteInfo.notePoint[0].key!="")
-				//	Core::Ptr->getMusicManager()->playDirect(noteInfo.notePoint[0].key,"sound_effect");
-				//Core::Ptr->getMusicManager()->playDirect("hit","sound_effect");
+				//	Core::Ptr->getMusicManager()->playDirect(noteInfo.notePoint[0].key,"se");
+				//Core::Ptr->getMusicManager()->playDirect("hit","se");
 
 				Core::Ptr->getGameMode()->inform(event);
 				if(event.breakNote)
@@ -269,8 +269,8 @@ namespace divacore
 			if(GAME_MODE_PTR->checkPress(event))
 			{
 				//if(noteInfo.notePoint[1].key!="")
-				//	Core::Ptr->getMusicManager()->playDirect(noteInfo.notePoint[1].key,"sound_effect");
-				//Core::Ptr->getMusicManager()->playDirect("hit","sound_effect");
+				//	Core::Ptr->getMusicManager()->playDirect(noteInfo.notePoint[1].key,"se");
+				//Core::Ptr->getMusicManager()->playDirect("hit","se");
 
 				Core::Ptr->getGameMode()->inform(event);
 				setState(END);
