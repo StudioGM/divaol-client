@@ -29,16 +29,16 @@
 namespace diva
 {
 
-	class GameInitState: public sora::SoraGameState, public sora::SoraEventHandler {
+	class TitleGameState: public sora::SoraGameState, public sora::SoraEventHandler {
 	public:
-		GameInitState() {
+		TitleGameState() {
 			//this->app = app;
 			isInitialized = false;
 			state = 0;
 			//nextState = "";
 		}
 
-		~GameInitState()
+		~TitleGameState()
 		{
 			if (uiCanvas)
 				delete uiCanvas;

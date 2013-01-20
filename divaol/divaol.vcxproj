@@ -786,6 +786,7 @@
     <ClInclude Include="ui\UI\House\RoomList.h" />
     <ClInclude Include="ui\UI\House\SettingDisplayers.h" />
     <ClInclude Include="ui\UI\House\ThingList.h" />
+    <ClInclude Include="ui\UI\Init\InitGameState.h" />
     <ClInclude Include="ui\UI\Music\DivaPlayerItem.h" />
     <ClInclude Include="ui\UI\Music\DivaPlayerList.h" />
     <ClInclude Include="ui\UI\Music\DivaSelectedListBox.h" />

@@ -21,6 +21,7 @@
 #include "ui/UI/Stage/StageGameState.h"
 #include "ui/UI/Music/MusicGameState.h"
 #include "ui/UI/TitleScreen/TitleGameState.h"
+#include "ui/UI/Init/InitGameState.h"
 
 #include "divanetwork/DivaNetworkManager.h"
 #include "divanetwork/DivaGNetTCPSystem.h"
@@ -76,7 +77,9 @@ int CALLBACK WinMain(
 		sora::SoraGameApp app(def);
 
 		sora::SoraCore::Instance()->registerSoundSystem(new sora::SoraFMODSoundSystem());
-		app.addState(new GameInitState, "init");
+
+		app.addState(new InitGameState, "init");
+		app.addState(new TitleGameState, "title");
 		app.addState(new diva::HouseUI::HouseGameState(), "house");
 		app.addState(new diva::StageUI::StageGameState(), "stage");
 		app.addState(new diva::MusicUI::MusicGameState(), "music");

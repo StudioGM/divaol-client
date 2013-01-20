@@ -97,10 +97,10 @@ namespace divacore
 		{
 			windowWidth = config[L"windowWidth"].asInt();
 			windowHeight = config[L"windowHeight"].asInt();
-			bgmVolume = config[L"musicVolume"].asInt() / 10.0;
-			seVolume = config[L"seVolume"].asInt() / 10.0;
+			bgmVolume = Base::Math::Util::Clamp(config[L"musicVolume"].asInt(), 0, 10) / 10.0;
+			seVolume = Base::Math::Util::Clamp(config[L"seVolume"].asInt(), 0, 10) / 10.0;
 			isWindowMode = config[L"isWindowMode"].asBool();
-			particleLevel = config[L"particleSystem"].asInt();
+			particleLevel = Base::Math::Util::Clamp(config[L"particleSystem"].asInt(), 0, 2);
 		}
 
 	protected:
