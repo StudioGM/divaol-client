@@ -91,6 +91,8 @@ namespace diva
 			void StateChange_PLAYING_ROOM();
 
 			void setSongListImage(int v);
+			void SaveSettings();
+			void LoadSettings();
 
 			//-------network---------------------------------------------------
 			bool connectServer();
@@ -174,6 +176,16 @@ namespace diva
 			gcn::AnimeBoxEx* testAnimeBox;
 			gcn::SuperButtonEx* settingConfirmBtn;
 			gcn::SuperButtonEx* settingCancelBtn;
+			gcn::ContainerEx* playingHint;
+
+			gcn::SelectorEx* setResSelector;
+			gcn::SelectorEx* setWindowModeSelector;
+			gcn::SelectorEx* setMvSelector;
+			gcn::SelectorEx* setSevSelector;
+			gcn::SelectorEx* setKeyModSelector;
+			gcn::SelectorEx* setUiModSelector;
+			gcn::SelectorEx* setLanSelector;
+			gcn::SelectorEx* setPsSelector;
 
 			gcn::WindowEx* settingWindow;
 

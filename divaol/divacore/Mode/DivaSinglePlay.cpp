@@ -42,7 +42,7 @@ namespace divacore
 		stateList.clear();
 		stateQueue.clear();
 
-		nowScore = combo = 0;
+		nowScore = combo = maxCombo = 0;
 		nowHP = ORIGIN_HP;
 
 		setAlive(true);
@@ -106,9 +106,9 @@ namespace divacore
 		if(event.type==StateEvent::PRESS||event.type==StateEvent::FAILURE)
 		{
 			if(event.rank<=4)
-				Core::Ptr->getMusicManager()->playDirect("hit","sound_effect");
+				Core::Ptr->getMusicManager()->playDirect("hit","se");
 			else
-				Core::Ptr->getMusicManager()->playDirect("miss","sound_effect");
+				Core::Ptr->getMusicManager()->playDirect("miss","se");
 		}
 
 		//如果是PRESS考虑其combo加成
@@ -129,6 +129,8 @@ namespace divacore
 		}
 		else if(event.type==StateEvent::FAILURE)
 			combo = 0;
+
+		maxCombo = std::max(maxCombo, combo);
 
 		//加入list和queue
 		stateList[event.note->getID()].addKey(event);

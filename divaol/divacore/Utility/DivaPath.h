@@ -29,19 +29,27 @@ namespace divacore
 			}
 			static void renderLine(const Point &p0, const Point &p1, sora::SoraSprite *meta)
 			{
-				const float LINE_INC = max(1.f,0.1f*min(meta->getSpriteWidth()*meta->getHScale(),meta->getSpriteHeight()*meta->getVScale()));
+				// increase inc by effect level
+				float factor = 4*(1-EFFECT_SYSTEM_PTR->getEffectLevel()/2.0)+1;
+				float LINE_INC = max(1.f,0.1f*factor*min(meta->getSpriteWidth()*meta->getHScale(),meta->getSpriteHeight()*meta->getVScale()));
+				
 				Point p = p0;
 				float D = (p1-p0).mod();
 				Point p_inc = (p1-p0).unit()*LINE_INC;
 				for(float i = 0; i <= D; i+=LINE_INC)
 				{
-					p  = p+p_inc;
 					Core::Ptr->render(p.x,p.y,meta,"line_meta+");
+					p  = p+p_inc;
 				}
 			}
 			static void renderCometLine(const Point &p0, const Point &p1, NotePtr note)
 			{
-				const float LINE_INC = 5.f;
+				// increase inc by effect level
+				int level = EFFECT_SYSTEM_PTR->getEffectLevel();
+				if(level == 0)
+					return;
+				float LINE_INC = 5.f + (2-EFFECT_SYSTEM_PTR->getEffectLevel()) * 20;
+
 				Point p = p0;
 				float D = (p1-p0).mod();
 				Point p_inc = (p1-p0).unit()*LINE_INC;

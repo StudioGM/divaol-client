@@ -302,8 +302,8 @@ namespace divacore
 				//Rect texRect = config->getAsRect("pingpong_note_"+NOTE_MAP[twoType[cntHit%2]]);
 				//noteSprite->setTextureRect(texRect.x,texRect.y,texRect.w,texRect.h);
 				//if(noteInfo.notePoint[0].key!="")
-				//	Core::Ptr->getMusicManager()->playDirect(noteInfo.notePoint[0].key,"sound_effect");
-				//Core::Ptr->getMusicManager()->playDirect("hit","sound_effect");
+				//	Core::Ptr->getMusicManager()->playDirect(noteInfo.notePoint[0].key,"se");
+				//Core::Ptr->getMusicManager()->playDirect("hit","se");
 
 				Core::Ptr->getGameMode()->inform(event);
 				if(event.breakNote)
@@ -319,10 +319,10 @@ namespace divacore
 		{
 			//the pingpong hit
 			//if(noteInfo.notePoint[0].key!="")
-			//	Core::Ptr->getMusicManager()->playDirect(noteInfo.notePoint[0].key,"sound_effect");
+			//	Core::Ptr->getMusicManager()->playDirect(noteInfo.notePoint[0].key,"se");
 			
 			// here playing the key sound should be located in GAME_MODE, fix delayed
-			Core::Ptr->getMusicManager()->playDirect("hit","sound_effect");
+			Core::Ptr->getMusicManager()->playDirect("hit","se");
 
 			cntHit++;
 

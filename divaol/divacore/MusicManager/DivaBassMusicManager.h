@@ -35,6 +35,7 @@ namespace divacore
 		typedef std::map<std::string,SOUNDPAIR> MUSICPOOL;
 		typedef std::map<std::string,SOURCEPAIR> SOUNDPOOL;
 		typedef std::vector<SOUNDPAIR> MUSICLIST; 
+
 		SOUNDPOOL soundPool;
 		MUSICPOOL musicPool;
 		MUSICLIST musicList;

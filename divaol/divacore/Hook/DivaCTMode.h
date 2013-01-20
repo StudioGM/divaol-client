@@ -124,7 +124,7 @@ namespace divacore
 				if(bFull&&level+1<MAX_LEVEL)
 				{
 					setLevel(level+1);
-					MUSIC_MANAGER_PTR->playDirectWithFile("Data/ct.mp3",true);
+					MUSIC_MANAGER_PTR->playDirectWithFile("Data/ct.mp3",true,"se");
 				}
 			return false;
 		}

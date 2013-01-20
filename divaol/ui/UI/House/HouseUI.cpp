@@ -25,6 +25,7 @@
 #include "divanetwork/DivaAuthClient.h"
 #include "divanetwork/DivaNetCommand.h"
 #include "divasongmgr/DivaMapManager.h"
+#include "divacore/Utility/DivaSettings.h"
 
 namespace diva
 {
@@ -41,7 +42,7 @@ namespace diva
 			
 			isSongListAnimating = false;
 			top = new gcn::Container();
-			top->setSize(config[L"gameWidth"].asInt(), config[L"gameHeight"].asInt());
+			top->setSize(setConfig[L"gameWidth"].asInt(), setConfig[L"gameHeight"].asInt());
 			top->setOpaque(false);
 
 			// initialize window mgr
@@ -51,7 +52,7 @@ namespace diva
 			//Enter();
 
 			roomTop = new gcn::WindowEx();
-			roomTop->setSize(config[L"gameWidth"].asInt(), config[L"gameHeight"].asInt());
+			roomTop->setSize(setConfig[L"gameWidth"].asInt(), setConfig[L"gameHeight"].asInt());
 			roomTop->setOpaque(false);
 			//roomTop->setEnabled(false);
 			roomTop->setVisible(true);
@@ -270,6 +271,10 @@ namespace diva
 			// ------- setting window
 			settingWindow = CreateSettingWindow();
 
+			// ------- playing hint
+			playingHint = Helper::CreateStaticImage(sconf[L"PlayingHint"]);
+			roomTop->add(playingHint);
+			playingHint->setVisible(false);
 			
 			// just for test
 			//WJson::Value tv;
@@ -1108,6 +1113,8 @@ namespace diva
 			modeButton->setEnabled(false);
 			openGameButton->setEnabled(false);
 			readyButton->setEnabled(false);
+
+			playingHint->setVisible(true);
 		}
 
 		void HouseUI::StateChange_PLAYING_STAGE()
@@ -1122,6 +1129,8 @@ namespace diva
 			modeButton->setEnabled(true);
 			openGameButton->setEnabled(true);
 			readyButton->setEnabled(true);
+
+			playingHint->setVisible(false);
 		}
 
 		void HouseUI::StateChange_PLAYING_ROOM()
@@ -1136,6 +1145,8 @@ namespace diva
 			modeButton->setEnabled(true);
 			openGameButton->setEnabled(true);
 			readyButton->setEnabled(true);
+
+			playingHint->setVisible(false);
 		}
 
 		void HouseUI::setState(int des)
@@ -1698,6 +1709,57 @@ namespace diva
 			return resSelector;
 		}
 
+		void HouseUI::SaveSettings()
+		{
+			// first update config
+			setConfig[L"resolution"] = ((SpecialItemDisplayer*)setResSelector->getDisplayer())->getSelectedIndex();
+			setConfig[L"musicVolume"] = ((SpecialItemDisplayer*)setMvSelector->getDisplayer())->getSelectedIndex();
+			setConfig[L"seVolume"] = ((SpecialItemDisplayer*)setSevSelector->getDisplayer())->getSelectedIndex();
+			setConfig[L"isWindowMode"] = ((SpecialItemDisplayer*)setWindowModeSelector->getDisplayer())->getSelectedIndex() == 0;
+			setConfig[L"keyMod"] = ((SpecialItemDisplayer*)setKeyModSelector->getDisplayer())->getSelectedIndex();
+			setConfig[L"uiMod"] = ((SpecialItemDisplayer*)setUiModSelector->getDisplayer())->getSelectedIndex();
+			setConfig[L"language"] = ((SpecialItemDisplayer*)setLanSelector->getDisplayer())->getSelectedIndex();
+			setConfig[L"particleSystem"] = ((SpecialItemDisplayer*)setPsSelector->getDisplayer())->getSelectedIndex();
+
+			// save config with specific items (without window width&height)
+			WJson::Value saveSetting = WJson::Value();
+			saveSetting[L"resolution"] = ((SpecialItemDisplayer*)setResSelector->getDisplayer())->getSelectedIndex();
+			saveSetting[L"musicVolume"] = ((SpecialItemDisplayer*)setMvSelector->getDisplayer())->getSelectedIndex();
+			saveSetting[L"seVolume"] = ((SpecialItemDisplayer*)setSevSelector->getDisplayer())->getSelectedIndex();
+			saveSetting[L"isWindowMode"] = ((SpecialItemDisplayer*)setWindowModeSelector->getDisplayer())->getSelectedIndex() == 0;
+			saveSetting[L"keyMod"] = ((SpecialItemDisplayer*)setKeyModSelector->getDisplayer())->getSelectedIndex();
+			saveSetting[L"uiMod"] = ((SpecialItemDisplayer*)setUiModSelector->getDisplayer())->getSelectedIndex();
+			saveSetting[L"language"] = ((SpecialItemDisplayer*)setLanSelector->getDisplayer())->getSelectedIndex();
+			saveSetting[L"particleSystem"] = ((SpecialItemDisplayer*)setPsSelector->getDisplayer())->getSelectedIndex();
+			saveSetting[L"gameWidth"] = setConfig[L"gameWidth"].asInt();
+			saveSetting[L"gameHeight"] = setConfig[L"gameHeight"].asInt();
+
+			WJson::StyledWriter writer;
+			Base::base_string p = ((Base::String)writer.write(saveSetting)).asUTF8();
+			
+			FILE* file = fopen("uiconfig/config.json", "wb");
+			fwrite(p.c_str(), p.length(), 1, file);
+			fclose(file);
+
+			// Refresh all the settings
+			divacore::Settings::instance().RefreshAll(setConfig, config);
+		}
+
+		void HouseUI::LoadSettings()
+		{
+			((SpecialItemDisplayer*)setResSelector->getDisplayer())->setSelectedIndex(setConfig[L"resolution"].asInt());
+			((SpecialItemDisplayer*)setMvSelector->getDisplayer())->setSelectedIndex(setConfig[L"musicVolume"].asInt());
+			((SpecialItemDisplayer*)setSevSelector->getDisplayer())->setSelectedIndex(setConfig[L"seVolume"].asInt());
+			if (setConfig[L"isWindowMode"].asBool())
+				((SpecialItemDisplayer*)setWindowModeSelector->getDisplayer())->setSelectedIndex(0);
+			else
+				((SpecialItemDisplayer*)setWindowModeSelector->getDisplayer())->setSelectedIndex(1);
+			((SpecialItemDisplayer*)setKeyModSelector->getDisplayer())->setSelectedIndex(setConfig[L"keyMod"].asInt());
+			((SpecialItemDisplayer*)setUiModSelector->getDisplayer())->setSelectedIndex(setConfig[L"uiMod"].asInt());
+			((SpecialItemDisplayer*)setLanSelector->getDisplayer())->setSelectedIndex(setConfig[L"language"].asInt());
+			((SpecialItemDisplayer*)setPsSelector->getDisplayer())->setSelectedIndex(setConfig[L"particleSystem"].asInt());
+		}
+
 		gcn::WindowEx* HouseUI::CreateSettingWindow()
 		{
 			WJson::Value tv;
@@ -1730,39 +1792,47 @@ namespace diva
 			//resSelector->setDisplayer(displayer);
 			
 			// 分辨率
-			SelectorEx* resSelector = CreateSelector(tv[L"selector"], config[L"resolutions"], tv[L"resSelDesRect"]);
+			SelectorEx* resSelector = CreateSelector(tv[L"selector"], config[L"resolutions_description"], tv[L"resSelDesRect"]);
 			((SpecialItemDisplayer*)resSelector->getDisplayer())->setRepeat(true);
 			win->add(resSelector);
 			win->add(Helper::CreateLabel(tv[L"resLabel"]));
+			setResSelector = resSelector;
 			// 窗口模式
 			SelectorEx* windowModeSelector = CreateSelector(tv[L"selector"], config[L"windowModes"], tv[L"windowModeSelDesRect"]);
 			win->add(windowModeSelector);
 			((SpecialItemDisplayer*)windowModeSelector->getDisplayer())->setRepeat(true);
 			win->add(Helper::CreateLabel(tv[L"windowModeLabel"]));
+			setWindowModeSelector = windowModeSelector;
 			// 音乐音量
 			SelectorEx* mvSelector = CreateSelector(tv[L"selector"], config[L"musicVolumes"], tv[L"mvSelDesRect"]);
 			win->add(mvSelector);
 			win->add(Helper::CreateLabel(tv[L"mvLabel"]));
+			setMvSelector = mvSelector;
 			// 音效音量
 			SelectorEx* sevSelector = CreateSelector(tv[L"selector"], config[L"seVolumes"], tv[L"sevSelDesRect"]);
 			win->add(sevSelector);
 			win->add(Helper::CreateLabel(tv[L"sevLabel"]));
+			setSevSelector = sevSelector;
 			// 按键MOD
 			SelectorEx* keyModSelector = CreateSelector(tv[L"selector"], config[L"keyMods"], tv[L"keyModSelDesRect"]);
 			win->add(keyModSelector);
 			win->add(Helper::CreateLabel(tv[L"keyModLabel"]));
+			setKeyModSelector = keyModSelector;
 			// 界面MOD
 			SelectorEx* uiModSelector = CreateSelector(tv[L"selector"], config[L"uiMods"], tv[L"uiModSelDesRect"]);
 			win->add(uiModSelector);
 			win->add(Helper::CreateLabel(tv[L"uiModLabel"]));
+			setUiModSelector = uiModSelector;
 			// 语言
 			SelectorEx* lanSelector = CreateSelector(tv[L"selector"], config[L"languages"], tv[L"lanSelDesRect"]);
 			win->add(lanSelector);
 			win->add(Helper::CreateLabel(tv[L"lanLabel"]));
+			setLanSelector = lanSelector;
 			// 例子效果
 			SelectorEx* psSelector = CreateSelector(tv[L"selector"], config[L"particleSystems"], tv[L"psSelDesRect"]);
 			win->add(psSelector);
 			win->add(Helper::CreateLabel(tv[L"psLabel"]));
+			setPsSelector = psSelector;
 
 			return win;
 		}
@@ -2246,6 +2316,7 @@ namespace diva
 			}
 			if (mouseEvent.getSource() == (gcn::Widget*) optionButton || mouseEvent.getSource() == (gcn::Widget*) settingsButton)
 			{
+				LoadSettings();
 				mgr->OpenWindow(settingWindow);
 				settingWindow->FadeIn(10);
 				return;
@@ -2255,7 +2326,15 @@ namespace diva
 				settingWindow->FadeOut(10);
 				return;
 			}
+			if (mouseEvent.getSource() == (gcn::Widget*) settingConfirmBtn)
+			{
+				SaveSettings();
+				settingWindow->FadeOut(10);
+				return;
+			}
 		}
+
+
 
 		void HouseUI::SetFatherState(HouseGameState* state)
 		{

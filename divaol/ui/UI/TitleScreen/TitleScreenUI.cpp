@@ -19,7 +19,7 @@ namespace diva
 		// create top container
 
 		top = new gcn::Container();
-		top->setSize(config[L"gameWidth"].asInt(), config[L"gameHeight"].asInt());
+		top->setSize(setConfig[L"gameWidth"].asInt(), setConfig[L"gameHeight"].asInt());
 		top->setOpaque(false);
 		//Enter();
 
@@ -87,6 +87,7 @@ namespace diva
 		sora::GCN_GLOBAL->getTop()->add(top, 0, 0);
 		top->setVisible(true);
 		top->setEnabled(true);
+
 		sora::SoraBGMManager::Instance()->play(config[L"titleMusicFilename"].asString(), false);
 	}
 

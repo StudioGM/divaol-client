@@ -185,6 +185,8 @@ namespace divacore
 		void onMouseClicked(SoraMouseEvent& event);
 		void onMouseReleased(SoraMouseEvent& event);
 		void onMouseMoved(SoraMouseEvent& event);
+		void onJoystickPressed(SoraJoystickEvent& event);
+        void onJoystickRelesed(SoraJoystickEvent& event);
 
 		/*
 		 * CoreState

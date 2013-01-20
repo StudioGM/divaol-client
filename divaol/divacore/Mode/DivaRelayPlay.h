@@ -230,9 +230,9 @@ namespace divacore
 				if(event.type==StateEvent::PRESS||event.type==StateEvent::FAILURE)
 				{
 					if(event.rank<=4)
-						Core::Ptr->getMusicManager()->playDirect("hit","sound_effect");
+						Core::Ptr->getMusicManager()->playDirect("hit","se");
 					else
-						Core::Ptr->getMusicManager()->playDirect("miss","sound_effect");
+						Core::Ptr->getMusicManager()->playDirect("miss","se");
 				}
 
 				//show effect
@@ -387,7 +387,7 @@ namespace divacore
 			}
 			
 			if(rank>4)
-				MUSIC_MANAGER_PTR->playDirect("miss","sound_effect");
+				MUSIC_MANAGER_PTR->playDirect("miss","se");
 			if(breakNote)
 				CORE_FLOW_PTR->toFail(pID);
 
@@ -497,7 +497,7 @@ namespace divacore
 					KeyState &keyState = stateList[relayQueue.begin()->noteID];
 
 					if(relayQueue.begin()->event.rank>4)
-						MUSIC_MANAGER_PTR->playDirect("miss","sound_effect");
+						MUSIC_MANAGER_PTR->playDirect("miss","se");
 
 					if(relayQueue.begin()->event.breakNote&&!keyState.isOver())
 					{

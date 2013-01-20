@@ -20,6 +20,13 @@ namespace diva
 			return selectedIndex;
 		}
 
+		void SpecialItemDisplayer::setSelectedIndex(int v)
+		{
+			selectedIndex = v;
+			if (selectedIndex >= items.size())
+				selectedIndex = items.size() - 1;
+		}
+
 		const std::wstring& SpecialItemDisplayer::getSelectedItem() const
 		{
 			if (selectedIndex == -1)

@@ -679,7 +679,7 @@ Reader::decodeString( Token &token, std::wstring &decoded )
          Char escape = *current++;
          switch ( escape )
          {
-         case 'L"': decoded += '"'; break;
+         case '"': decoded += '"'; break;
          case '/': decoded += '/'; break;
          case '\\': decoded += '\\'; break;
          case 'b': decoded += '\b'; break;

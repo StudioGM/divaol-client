@@ -266,7 +266,7 @@ public:
 	void				_GfxDone();
 	bool				_GfxRestore();
 	void		CALL		_AdjustWindow();
-	void		CALL		_Resize(int width, int height);
+	void		CALL		_Resize(int width, int height, bool force = false);
 	bool				_init_lost();
 	void				CALL _render_batch(bool bEndScene=false);
 	int					_format_id(D3DFORMAT fmt);

@@ -25,6 +25,8 @@
 #include "divanetwork/DivaNetworkManager.h"
 #include "divanetwork/DivaGNetTCPSystem.h"
 #include "divacore/Utility/DivaInitialize.h"
+#include "divacore/Utility/DivaSettings.h"
+
 using namespace diva;
 
 
@@ -38,7 +40,9 @@ int CALLBACK WinMain(
 	LPSTR lpCmdLine,
 	int nCmdShow
 	) {
-		diva::initialize_config(L"uiconfig/config.json");
+		diva::initialize_config(L"uiconfig/SettingConfig.json", L"uiconfig/config.json");
+		//std::wstring ss = config[L"sdf"].asString();
+		// initialize settings
 
 #ifdef DIVA_GNET_OPEN
 		NET_INFO.getServerInfo();
@@ -54,7 +58,7 @@ int CALLBACK WinMain(
 		sora::SoraCore::SetRandomSeed((uint32)time(0));
 
 		divacore::standard::Initializer initializer("system",divacore::standard::Initializer::SINGLE, true);
-		divacore::CorePtr core = initializer.get(config[L"gameWidth"].asInt(), config[L"gameHeight"].asInt());
+		divacore::CorePtr core = initializer.get(setConfig[L"gameWidth"].asInt(), setConfig[L"gameHeight"].asInt());
 
 		divacore::Config core_config;
 		divacore::configloader::loadWithJson(core_config,"system/common.json");
@@ -63,10 +67,12 @@ int CALLBACK WinMain(
 		core->myPlayerInfo().loadFromFile("system/playerInfo.json");
 #endif
 
+		divacore::Settings::instance().InitializeSettings(setConfig, config);
+
 		sora::SoraGameAppDef def("config.xml");
-		def.width(config[L"windowWidth"].asInt());
-		def.height(config[L"windowHeight"].asInt());
-		def.WindowMode = config[L"windowMode"].asBool();
+		def.windowMode(setConfig[L"isWindowMode"].asBool());
+		def.width(setConfig[L"windowWidth"].asInt());
+		def.height(setConfig[L"windowHeight"].asInt());
 		sora::SoraGameApp app(def);
 
 		sora::SoraCore::Instance()->registerSoundSystem(new sora::SoraFMODSoundSystem());
@@ -78,7 +84,6 @@ int CALLBACK WinMain(
 #ifdef DIVA_GNET_OPEN
 		app.addState(core, "core");
 #endif
-
 		app.run("init");
 
 		//divanet::SchedulerClient::mReleaser;

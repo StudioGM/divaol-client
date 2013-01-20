@@ -57,12 +57,12 @@ namespace diva
 
 			//////////////////////////////////////////////////////////////////////////
 			trueTop = new gcn::Container();
-			trueTop->setSize(config[L"gameWidth"].asInt(), config[L"gameHeight"].asInt());
+			trueTop->setSize(setConfig[L"gameWidth"].asInt(), setConfig[L"gameHeight"].asInt());
 			trueTop->setOpaque(false);
 			mgr = new WindowMgr(trueTop);
 			
 			top = new gcn::WindowEx();
-			top->setSize(config[L"gameWidth"].asInt(), config[L"gameHeight"].asInt());
+			top->setSize(setConfig[L"gameWidth"].asInt(), setConfig[L"gameHeight"].asInt());
 			top->setOpaque(false);
 			//top->SetMovable(true);
 			mgr->OpenWindow(top);
@@ -312,6 +312,7 @@ namespace diva
 					RankingListItem::LoadFromJson(tv[L"positions"]);
 					item->SetRanking(i+1);
 					item->SetInfo(100 + i * 50, 50 + i * 10, L"SonicMisora");
+					item->SetNull(1);
 					rankingList->pushItem(item);
 					if (i == 4)
 						item->SetColor(0x00FFFF, 0xFF0000);
@@ -568,7 +569,7 @@ namespace diva
 						{
 							WJson::Value t = tv[L"rank"][i];
 							WJson::Value addData;
-							reader.parse(tv[L"add_data"].asString(), addData);
+							reader.parse(t[L"add_data"].asString(), addData);
 							((RankingListItem*)rankingList->getItem(i))->SetInfo(t[L"score"].asInt(),
 								addData[L"combo"].asInt(),
 								t[L"name"].asString());
