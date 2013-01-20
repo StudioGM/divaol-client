@@ -47,7 +47,7 @@
 		"正常"
 	],
 
-	"gameModeNames" : ["普通", "接力", "双打"],
+	"gameModeNames" : ["普通", "接力"],
 	"difNames": ["EASY", "NORMAL", "HARD", "EXTRA", "DIE"],
 	"listenDelay" : 1.0,
 	"iconFileNames" : ["res/test_icon.png", "res/test_icon.png", "res/test_icon.png", "res/test_icon.png"],

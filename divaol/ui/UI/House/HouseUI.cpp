@@ -464,7 +464,11 @@ namespace diva
 							info.ownerNickname = infos[i].ownerNickname;
 							info.ownerID = Base::String(infos[i].ownerId);
 							info.playerNum = infos[i].playernum;
-							info.selectedSong.push_back(MAPMGR.GetMapDescription(infos[i].sondId,infos[i].level,infos[i].mode));
+							info.selectedSong.clear();
+							if(infos[i].songId == 0)
+								info.selectedSong.push_back(L"尚未选择");
+							else
+								info.selectedSong.push_back(MAPMGR.GetMapDescription(infos[i].songId,infos[i].level,infos[i].mode));
 							info.stageName = infos[i].ownerNickname+"的舞台";
 							//b->setInfo(info);
 
