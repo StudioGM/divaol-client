@@ -45,6 +45,7 @@ namespace diva
 		TitleScreenPressAnyKey* CreatePressAnyKey(const std::wstring& name);
 		gcn::ContainerEx* CreateMovingShader(const std::wstring& name);
 		TitleScreenExpander* CreateExpander(const std::wstring& name);
+		std::wstring& GetRandomStyle();
 		void ParseJson(const std::wstring& filename);
 
 	public:
