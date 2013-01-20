@@ -1,6 +1,6 @@
 UI:ParseJson("uiconfig/TitleScreen.json")
 
-style = "Miku"
+style = UI:GetRandomStyle();
 
 UI:CreateStaticImage("BG/" .. style);
 
