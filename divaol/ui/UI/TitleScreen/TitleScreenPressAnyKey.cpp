@@ -1,4 +1,5 @@
 #include "TitleScreenPressAnyKey.h"
+#include "ui/Config/DivaUIConfig.h"
 
 namespace diva
 {
@@ -22,6 +23,11 @@ namespace diva
 	{
 		//sora::SoraSprite* sprite = ((SoraGUIImage*)image)->getSprite();
 		now += dt;
+		if (now < config[L"titleScreenDelayTime"].asDouble())
+		{
+			setAlpha(0);
+			return;
+		}
 		float t = now - int(now / period) * period;
 		float h = period / 2;
 		if (t<=h)

@@ -54,6 +54,7 @@
 
 	"lobbyMusicFilename": "res/music/lobby.ogg",
 	"titleMusicFilename": "res/music/title.ogg",
+	"titleScreenDelayTime": 3.0
 
 	///////////////////////////////////////////////////////
 	// Test data

@@ -35,6 +35,7 @@ namespace diva
 			//this->app = app;
 			isInitialized = false;
 			state = 0;
+			nowTime = 0;
 			//nextState = "";
 		}
 
@@ -69,6 +70,8 @@ namespace diva
 
 		void beginLeave(const std::string& nextState)
 		{
+			if (nowTime < config[L"titleScreenDelayTime"].asDouble())
+				return;
 			if (nextState == "init" || state == 1)
 				return;
 			this->nextState = nextState;
@@ -98,6 +101,7 @@ namespace diva
 			}
 			titleScreen->Update(dt);
 			uiCanvas->update(dt);
+			nowTime += dt;
 		}
 
 
@@ -143,6 +147,7 @@ namespace diva
 		bool isInitialized;
 		int state;
 		std::string nextState;
+		float nowTime;
 		//sora::SoraGameApp* app;
 	};
 
