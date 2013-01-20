@@ -1,7 +1,7 @@
 {
    "gameHeight" : 1080,
    "gameWidth" : 1920,
-   "isWindowMode" : false,
+   "isWindowMode" : true,
    "keyMod" : 0,
    "language" : 0,
    "musicVolume" : 3,

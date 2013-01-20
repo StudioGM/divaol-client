@@ -247,6 +247,9 @@
     <Filter Include="源文件\lib\base">
       <UniqueIdentifier>{f8d32c05-2f3e-4e05-9c2c-cd01184073e7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\ui\UI\Init">
+      <UniqueIdentifier>{d8aa9cc2-b361-4ee1-bee0-d19e958d2092}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Hoshizor\Sora\Hoshizora.h">
@@ -2495,6 +2498,9 @@
     </ClInclude>
     <ClInclude Include="divacore\Utility\DivaSettings.h">
       <Filter>源文件\divacore\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UI\Init\InitGameState.h">
+      <Filter>源文件\ui\UI\Init</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
