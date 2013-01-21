@@ -45,7 +45,7 @@ namespace sora {
 		_clearBGMQueue();
 	}
 	
-	bool SoraBGMManager::play(const std::wstring& bgmPath, bool addToQueue) {
+	bool SoraBGMManager::play(const std::wstring& bgmPath, bool addToQueue, bool isReapeat) {
 		if(!addToQueue)
 			_clearBGMQueue();
 	
@@ -53,14 +53,14 @@ namespace sora {
 		if(pmfile != NULL) {
 			mBGMQueue.push_back(pmfile);
 			if(!addToQueue || mBGMQueue.size() == 1) {
-				_playBGM(pmfile, 0);
+				_playBGM(pmfile, 0, isReapeat);
 			}
 			return true;
 		}
 		return false;
 	}
 
-	void SoraBGMManager::_playBGM(SoraMusicFile* musicFile, uint32 newBGMId) {
+	void SoraBGMManager::_playBGM(SoraMusicFile* musicFile, uint32 newBGMId, bool isReapeat) {
 		if(mFadeOutTime != 0.f && mCurrBGMId != -1) {
 			mPrevBGMId = mCurrBGMId;
 			mCurrFadeOutTime = 0.f;
@@ -77,7 +77,7 @@ namespace sora {
 		musicFile->registerEventHandler(this);
 		
 		musicFile->play();
-        musicFile->setRepeat(1);
+        musicFile->setRepeat(isReapeat);
 		musicFile->setVolume(bgmVolume);
 		if(bgmPitch != -2.f)
 			musicFile->setPitch(bgmPitch);

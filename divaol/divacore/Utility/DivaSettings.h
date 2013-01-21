@@ -15,6 +15,7 @@
 #include "Core/DivaCore.h"
 #include "Lib/Base/Base.h"
 #include "Lib/WJson/wjson.h"
+#include "SoraBGMManager.h"
 
 namespace divacore
 {
@@ -31,6 +32,7 @@ namespace divacore
 		int getWindowheight() const {return windowHeight;}
 		float getBGMVolume() const {return bgmVolume;}
 		float getSEVolume() const {return seVolume;}
+		const Base::String &getGlobalFontName() const {return globalFontName;}
 
 		void InitializeSettings(WJson::Value &config, WJson::Value &setting)
 		{
@@ -101,6 +103,7 @@ namespace divacore
 			seVolume = Base::Math::Util::Clamp(config[L"seVolume"].asInt(), 0, 10) / 10.0;
 			isWindowMode = config[L"isWindowMode"].asBool();
 			particleLevel = Base::Math::Util::Clamp(config[L"particleSystem"].asInt(), 0, 2);
+			globalFontName = config[L"globalFont"].asString();
 		}
 
 	protected:
@@ -110,7 +113,10 @@ namespace divacore
 		float seVolume;
 		bool isWindowMode;
 		int particleLevel;
+		Base::String globalFontName;
 	};
+
+#define SETTINGS (divacore::Settings::instance())
 }
 
 #endif

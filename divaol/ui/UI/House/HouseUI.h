@@ -83,6 +83,7 @@ namespace diva
 			void StateChange_ROOM_STAGE();
 			void StateChange_STAGE_ROOM();
 			void StateChange_LOGINWINDOW_ROOM();
+			void StateChange_ROOM_LOGINWINDOW();
 			void StateChange_ROOM_ROOMLIST();
 			void StateChange_ROOMLIST_ROOM();
 			void StateChange_ROOMLIST_STAGE();
@@ -93,6 +94,7 @@ namespace diva
 			void setSongListImage(int v);
 			void SaveSettings();
 			void LoadSettings();
+			void _ClearLoginInfo();
 
 			//-------network---------------------------------------------------
 			bool connectServer();
@@ -103,6 +105,7 @@ namespace diva
 			void leave_stage();
 			void cb_connect_break();
 			void login();
+			void logout();
 			void attachObserver();
 			void detachObserver();
 			void observer_auth(divanet::Notification);

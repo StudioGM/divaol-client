@@ -177,7 +177,7 @@
 		"type" : "title",
 		"position" : [88,12],
 		"font" : {
-			"file" : "simhei.ttf",
+			"file" : "global",
 			"size" : 56,
 			"color" : "#FFFFFF"
 		}
@@ -203,7 +203,7 @@
 		"info" : {
 			"position" : [108,-2],
 			"font" : {
-				"file" : "simhei.ttf",
+				"file" : "global",
 				"size" : 28,
 				"color" : "#FFFFFF"
 			}
@@ -253,7 +253,7 @@
 		"info" : {
 			"position" : [108,-2],
 			"font" : {
-				"file" : "simhei.ttf",
+				"file" : "global",
 				"size" : 28,
 				"color" : "#FFFFFF"
 			}

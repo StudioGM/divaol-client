@@ -1,0 +1,10 @@
+{
+	"range" : 
+	{
+	    "rank1" : 0.03,
+		"rank2" : 0.05,
+		"rank3" : 0.06,
+		"rank4" : 0.07
+	},
+	"protectedTime" : 0.1
+}

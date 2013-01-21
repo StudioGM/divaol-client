@@ -58,14 +58,14 @@ int CALLBACK WinMain(
 		Base::Random::SetRandomSeed((uint32)time(0));
 		sora::SoraCore::SetRandomSeed((uint32)time(0));
 
-		divacore::standard::Initializer initializer("system",divacore::standard::Initializer::SINGLE, true);
+		divacore::standard::Initializer initializer("uiconfig",divacore::standard::Initializer::SINGLE, true);
 		divacore::CorePtr core = initializer.get(setConfig[L"gameWidth"].asInt(), setConfig[L"gameHeight"].asInt());
 
-		divacore::Config core_config;
-		divacore::configloader::loadWithJson(core_config,"system/common.json");
-		core->setSong(core_config.getAsWString("song"),core_config.getAsWString("map"));
-		
-		core->myPlayerInfo().loadFromFile("system/playerInfo.json");
+		MY_PLAYER_INFO.loadFromFile(Base::String(config[L"tmpInfoFile"].asString()));
+		// only need these for core solo
+		//divacore::Config core_config;
+		//divacore::configloader::loadWithJson(core_config,"system/common.json");
+		//core->setSong(core_config.getAsWString("song"),core_config.getAsWString("map"));
 #endif
 
 		divacore::Settings::instance().InitializeSettings(setConfig, config);

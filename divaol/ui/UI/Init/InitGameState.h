@@ -16,6 +16,7 @@
 #include "app/SoraGameApp.h"
 #include "app/SoraGameState.h"
 #include "ui/Config/DivaUIConfig.h"
+#include "Utility/DivaSettings.h"
 
 #include "Lib/Base/Base.h"
 #include "Lib/WJson/wjson.h"
@@ -160,11 +161,12 @@ namespace diva
 		}
 
 		void onEnter() {
+			sora::SoraBGMManager::Instance()->setFadeTime(setConfig[L"bgmFadeTime"].asDouble(), setConfig[L"bgmFadeTime"].asDouble());
 			if(state == UNINITIALIZED)
 			{
 				_ReadConfig("uiconfig/init.json");
 				// init guichan (must before SoraKeyPoll, or we can not get the queue of event)
-				sora::GCN_GLOBAL->initGUIChan(L"msyh.ttf", 20);
+				sora::GCN_GLOBAL->initGUIChan(SETTINGS.getGlobalFontName().unicode_str(), 20);
 			}
 			
 			state = INITIALIEZD;

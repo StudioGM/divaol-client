@@ -84,7 +84,7 @@
 		},
 		"text" : {
 			"font" : {
-				"file" : "simhei.ttf",
+				"file" : "global",
 				"size" : 40,
 				"color" : "#FFFFFF"
 			},
@@ -170,7 +170,7 @@
 		},
 		"text" : {
 			"font" : {
-				"file" : "simhei.ttf",
+				"file" : "global",
 				"size" : 40,
 				"color" : "#FFFFFF"
 			},
@@ -181,7 +181,7 @@
 		"type" : "text",
 		"position" : [1520, 87],
 		"font" : {
-				"file" : "msyh.TTF",
+				"file" : "global",
 				"size" : 40,
 				"color" : "#FF0000"
 		}

@@ -16,6 +16,8 @@ namespace diva
 			int ranking;
 			int score;
 			int combo;
+			int mode;
+			int maxCT;
 			std::wstring playerName;
 			int backColor;
 			int fontColor;
@@ -24,14 +26,14 @@ namespace diva
 			
 			static Image* image;
 			static gcn::Rectangle rect;
-			static PointEx scoreP, comboP, rankingP, playerP;
+			static PointEx scoreP, comboP, rankingP, playerP, maxCTP, modeP;
 
 		public:
 			RankingListItem();
 			~RankingListItem();
 			void SetNull(int v);
 			void SetLoading(bool v);
-			void SetInfo(const int& score, const int& combo, const std::wstring& playerName);
+			void SetInfo(const int& score, const int& combo, const int &mode, const int &maxCT, const std::wstring& playerName);
 			void SetRanking(int ranking);
 			void SetColor(int backColor, int fontColor);
 			int GetRanking() const;

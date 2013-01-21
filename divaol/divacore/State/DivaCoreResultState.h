@@ -13,6 +13,8 @@
 #include "Component/DivaSimpleUIPainter.h"
 #include "Component/DivaCommonEvaluateStrategy.h"
 #include "divanetwork/DivaStageServer.h"
+#include "Utility/DivaSettings.h"
+#include "ui/Config/DivaUIConfig.h"
 
 namespace divacore
 {
@@ -39,9 +41,11 @@ namespace divacore
 	public:
 		void onInitiate()
 		{
-			sora::SoraFont* mFont = sora::SoraFont::LoadFromFile("cour.ttf", 20);
+#ifdef _DEBUG
+			sora::SoraFont* mFont = sora::SoraFont::LoadFromFile(SETTINGS.getGlobalFontName().asUnicode(), 20);
 
 			mText.setFont(mFont);
+#endif
 			mText.setText(L"|#FF0000|Game Over");
 		}
 
@@ -104,10 +108,16 @@ namespace divacore
 				if(globalInfo)
 					globalInfo->setText(Base::String::format("X %.3f",HOOK_MANAGER_PTR->getHookFinalScale()).asUnicode());
 			}
+
+			// play BGM
+			sora::SoraBGMManager::Instance()->play(diva::config[L"resultMusicFilename"].asString(), false, false);
+			sora::SoraBGMManager::Instance()->play(diva::config[L"resultLoopMusicFilename"].asString(), true, true);
 		}
 
 		void onLeave()
 		{
+			sora::SoraBGMManager::Instance()->stop(false);
+
 			if(CORE_PTR->getMode()=="multiPlay")
 				GNET_UNRECEIVE_PACKET("game#evalL");
 			

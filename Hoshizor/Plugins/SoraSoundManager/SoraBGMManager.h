@@ -46,7 +46,7 @@ namespace sora {
 		 @param bgmPath, the path of the bgm to play
 		 @param addToQueue, is add the bgm to the bgm queue
 		*/
-		bool   play(const std::wstring& bgmPath, bool addToQueue);
+		bool   play(const std::wstring& bgmPath, bool addToQueue, bool isReapeat = true);
 		/*
 		 stops the bgm
 		 @param stopAtEnd, is stop the bgm queue at the end of it
@@ -137,7 +137,7 @@ namespace sora {
 		
 	private:
 		inline void _clearBGMQueue();
-		inline void _playBGM(SoraMusicFile* musicFile, uint32 newBGMId);
+		inline void _playBGM(SoraMusicFile* musicFile, uint32 newBGMId, bool isReapeat = true);
 		
 		typedef std::vector<SoraMusicFile*> BGM_QUEUE;
 		BGM_QUEUE mBGMQueue;

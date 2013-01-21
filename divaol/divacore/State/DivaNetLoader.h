@@ -13,6 +13,7 @@
 #include "Core/DivaMapLoader.h"
 #include "Core/DivaTask.h"
 #include "mode/DivaMultiplay.h"
+#include "Utility/DivaSettings.h"
 //#include "SoraFMODSoundSystem/SoraFMODSoundSystem.h"
 //#include "SoraAudiereSoundSystem/SoraAudiereSoundSystem.h"
 
@@ -40,9 +41,11 @@ namespace divacore
 		{
 			state = DELAY;
 
-			mFont = sora::SoraFont::LoadFromFile("cour.ttf", 20);
+#ifdef _DEBUG
+			mFont = sora::SoraFont::LoadFromFile(SETTINGS.getGlobalFontName().asUnicode(), 20);
 
 			mText.setFont(mFont);
+#endif
 			mText.setText(L"|#FF0000|Loading");
 		}
 		void onEnter()
@@ -151,8 +154,6 @@ namespace divacore
 				core->getMapParser()->parser(MAP_INFO);
 		
 				core->getCoreFlow()->ready();
-
-				//NETWORK_SYSTEM_PTR->gameLoad("system/netConfig.json");
 				
 				GAME_MODE_PTR->gameLoad("");
 

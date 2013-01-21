@@ -40,7 +40,7 @@ namespace divacore
 			//windowWidth = config.getAsInt("windowWidth");
 			//windowHeight = config.getAsInt("windowHeight");
 
-			fadeTime = config.getAsDouble("fadeTime");
+			fadeTime = config.getAsDouble("screenFadeTime");
 		}
 		sora::SoraBaseCanvas *getInnerCanvas() {return innerCanvas;}
 		sora::SoraBaseCanvas *getCoreCanvas() {return coreCanvas;}

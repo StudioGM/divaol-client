@@ -9,6 +9,8 @@
 #include "DivaMultiPlay.h"
 #include "Component/DivaCommonEvaluateStrategy.h"
 #include "divanetwork/DivaNetworkManager.h"
+#include "Hook/DivaCTMode.h"
+#include "Utility/DivaSettings.h"
 
 namespace divacore
 {
@@ -94,8 +96,10 @@ namespace divacore
 	void MultiPlay::init() 
 	{
 		//debug info
+#ifdef _DEBUG
 		mText.setColor(CARGB(255,255,0,0));
-		mText.setFont(sora::SoraFont::LoadFromFile("simhei.ttf", 50));
+		mText.setFont(sora::SoraFont::LoadFromFile(SETTINGS.getGlobalFontName().asUnicode(), 50));
+#endif
 	}
 
 	void MultiPlay::registerNetworkEvent() {
@@ -134,8 +138,22 @@ namespace divacore
 		GNET_UNRECEIVE_PACKET("game#start_failed");
 		//GNET_UNRECEIVE_PACKET("stage#join_failed");
 		//GNET_UNRECEIVE_PACKET("stage#join_ok");
+		
+		GPacket *packet = new GPacket();
+		*packet += (gnet::Atom)"game";
+		*packet += (gnet::Atom)"overR";
+		*packet += (int8)CORE_FLOW_PTR->isSongOver();
+		GPacket *addData = new GPacket();
+		*addData += maxCombo;
+		CTMode* ctMode = dynamic_cast<CTMode*>(HOOK_MANAGER_PTR->getHook("CTMode"));
+		if(ctMode)
+			*addData += ctMode->getMaxLevel();
+		else
+			*addData += 0;
+		packet->appendItem(addData);
 
-		NETWORK_SYSTEM_PTR->send("game#overR","%b%d",CORE_FLOW_PTR->isSongOver(),maxCombo);
+		NETWORK_SYSTEM_PTR->send(packet);
+		//NETWORK_SYSTEM_PTR->send("game#overR","%b%d",CORE_FLOW_PTR->isSongOver(),maxCombo);
 	}
 	void MultiPlay::setMyInfo(Config &config)
 	{

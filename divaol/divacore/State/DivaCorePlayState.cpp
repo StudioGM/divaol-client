@@ -9,6 +9,7 @@
 #include "DivaCorePlayState.h"
 #include "Component/DivaStandardCoreFlow.h"
 #include "Mode/DivaEditMode.h"
+#include "Utility/DivaSettings.h"
 //#include "SoraSoundManager/SoraSoundEffectManager.h"
 
 namespace divacore
@@ -17,9 +18,11 @@ namespace divacore
 
 	void CorePlayState::onInitiate()
 	{
-		mFont = sora::SoraFont::LoadFromFile("cour.ttf", 20);
+#ifdef _DEBUG
+		mFont = sora::SoraFont::LoadFromFile(SETTINGS.getGlobalFontName().asUnicode(), 20);
 
 		mText.setFont(mFont);
+#endif
 		mText.setText(L"|#FF0000|Playing");
 
 		bShowDetail = false;
@@ -124,85 +127,16 @@ namespace divacore
 
 	void CorePlayState::onKeyPressed(SoraKeyEvent& event)
 	{
-		/*if(event.getKey()==SORA_KEY_SPACE)
-		{
-			core->getMusicManager()->playDirect("hit","se");
-			//sora::SoraSoundEffectManager::Instance()->playDirect(L"hit.wav");
-			bPressed = true;
-		}
-		else if(event.getKey()==SORA_KEY_UP)
-		{
-			volume += 0.01;
-			volume = 1<volume?1:volume;
-			core->getMusicManager()->setTagVolume("music",volume);
-		}
-		else if(event.getKey()==SORA_KEY_DOWN)
-		{
-			volume -= 0.01;
-			volume = 0>volume?0:volume;
-			core->getMusicManager()->setTagVolume("music",volume);
-		}
-		else if(event.getKey()==SORA_KEY_R)
-		{
-			core->restart();
-		}
-		else if(event.getKey()==SORA_KEY_H)
-		{
-			UI_PAINTER_PTR->hide();
-		}
-		else if(event.getKey()==SORA_KEY_N)
-		{
-			UI_PAINTER_PTR->display();
-		}*/
 #ifdef _DEBUG
 		if(event.getKey()==SORA_KEY_TAB)
 		{
 			bShowDetail = !bShowDetail;
 		}
-		else if(event.getKey()==SORA_KEY_H)
-		{
-			UI_PAINTER_PTR->hide();
-		}
-		else if(event.getKey()==SORA_KEY_N)
-		{
-			UI_PAINTER_PTR->display();
-		}
-		else if(event.getKey()==SORA_KEY_X)
-		{
-			core->resume();
-		}
-		else if(event.getKey()==SORA_KEY_ESCAPE)
+#endif
+		if(event.getKey()==SORA_KEY_ESCAPE)
 		{
 			CORE_PTR->exitGame();
 		}
-#endif
-		/*else if(event.getKey()==SORA_KEY_D)
-		{
-			StandardEditUtility::instance().init();
-			MapEvent event;
-			event.position = 0;
-			event.eventType = "bpm";
-			event.arg["value"] = 350.0;
-
-			StandardEditUtility::instance().addEvent(event);
-			StandardEditUtility::instance().reCaltTime();
-		}
-		else if(event.getKey()==SORA_KEY_R)
-		{
-			StandardEditUtility::instance().init();
-			MapEvent event;
-			event.position = 0;
-			event.eventType = "bpm";
-			event.arg["value"] = 154.0;
-
-			StandardEditUtility::instance().addEvent(event);
-			StandardEditUtility::instance().reCaltTime();
-		}
-		else if(event.getKey()==SORA_KEY_C)
-		{
-			Packet packet((uint32)1,0);
-			NETWORK_SYSTEM_PTR->send(packet);
-		}*/
 	}
 	void CorePlayState::onKeyReleased(SoraKeyEvent& event)
 	{

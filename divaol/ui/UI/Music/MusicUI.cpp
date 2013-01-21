@@ -5,6 +5,7 @@
 #include "divanetwork/DivaNetworkManager.h"
 #include "divanetwork/DivaNetInfo.h"
 #include "lib/Base/String.h"
+#include "Utility/DivaSettings.h"
 
 namespace diva
 {
@@ -79,7 +80,7 @@ namespace diva
 			countStarted = false;
 
 			// load font
-			artistFont = new gcn::SoraGUIFont(L"msyh.ttf", 30);
+			artistFont = new gcn::SoraGUIFont(SETTINGS.getGlobalFontName(), 30);
 			uiImage1 = gcn::Image::load("res/UI1.png");
 			uiImage2 = gcn::Image::load("res/UI2.png");
 
@@ -212,7 +213,7 @@ namespace diva
 
 			// SongInfoContainer
 
-			songInfoFont = new gcn::SoraGUIFont(L"msyh.ttf", 16);
+			songInfoFont = new gcn::SoraGUIFont(SETTINGS.getGlobalFontName(), 16);
 
 			songInfoContainer = new DivaSongInfoContainer();
 			songInfoContainer->setFont(songInfoFont);
@@ -311,7 +312,7 @@ namespace diva
 					RankingListItem::LoadBack(tv[L"itemBackImage"][L"filename"].asString(), Helper::GetRect(tv[L"itemBackImage"][L"srcRect"]));
 					RankingListItem::LoadFromJson(tv[L"positions"]);
 					item->SetRanking(i+1);
-					item->SetInfo(100 + i * 50, 50 + i * 10, L"none");
+					item->SetInfo(100 + i * 50, 50 + i * 10, 0, 0, L"none");
 					item->SetNull(1);
 					rankingList->pushItem(item);
 					if (i == 4)
@@ -576,6 +577,8 @@ namespace diva
 							reader.parse(t[L"add_data"].asString(), addData);
 							((RankingListItem*)rankingList->getItem(i))->SetInfo(t[L"score"].asInt(),
 								addData[L"combo"].asInt(),
+								addData[L"mode"].asInt(),
+								addData[L"maxCT"].asInt(),
 								t[L"name"].asString());
 							((RankingListItem*)rankingList->getItem(i))->SetNull(0);
 						}
@@ -620,6 +623,8 @@ namespace diva
 							reader.parse(tv[L"add_data"].asString(), addData);
 							((RankingListItem*)rankingList->getItem(rankingList->getMaxItem() - 1))->SetInfo(tv[L"score"].asInt(),
 								addData[L"combo"].asInt(),
+								addData[L"mode"].asInt(),
+								addData[L"maxCT"].asInt(),
 								tv[L"name"].asString());
 							((RankingListItem*)rankingList->getItem(rankingList->getMaxItem() - 1))->SetRanking(tv[L"rank"].asInt());
 							((RankingListItem*)rankingList->getItem(rankingList->getMaxItem() - 1))->SetNull(0);

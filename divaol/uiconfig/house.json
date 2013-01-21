@@ -470,6 +470,7 @@
     "desY_1": 1080,
     "animationTime": 100,
     "disTime": 10,
+	"inTime": 5,
     "blackAlpha": 127
   },
   "Time/Config": {

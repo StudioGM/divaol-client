@@ -221,8 +221,8 @@ namespace diva
 
 			//sPlayerListPanel->setVisible(false);
 
-			usernameInput->setText(L"test");
-			passwordInput->setText(L"test");
+			usernameInput->setText(Base::String(MY_PLAYER_INFO.username()));
+			passwordInput->setText(L"");
 			
 			roomTop->setEnabled(false);
 
@@ -332,6 +332,7 @@ namespace diva
 					wchar_t un[100], nm[100];
 
 					MY_PLAYER_INFO.setUid(NET_INFO.uid);
+					MY_PLAYER_INFO.loadFromNetInfo();
 					info.id = Base::String(NET_INFO.uid).toAny<int>();
 					info.username = Base::String(NET_INFO.username);
 					info.nickname = Base::String(NET_INFO.nickname);
@@ -820,7 +821,8 @@ namespace diva
 			top->setEnabled(true);
 			//Refresh_SongList();
 			BeginSongListAnimation();
-			sora::SoraBGMManager::Instance()->play(config[L"lobbyMusicFilename"].asString(), false);
+			sora::SoraBGMManager::Instance()->play(config[L"lobbyMusicFilename"].asString(), false, false);
+			sora::SoraBGMManager::Instance()->play(config[L"lobbyLoopMusicFilename"].asString(), true, true);
 		}
 		
 		void HouseUI::Leave()
@@ -1049,6 +1051,24 @@ namespace diva
 			//roomTop->setEnabled(true);
 		}
 
+		void HouseUI::_ClearLoginInfo()
+		{
+			passwordInput->setText(L"");
+			messagePanelChatBox->clearText();
+			MAPMGR.SelectedMap_Clear();
+			Refresh_SongList();
+			PlayerManager::Instance()->ClearHostInfo();
+			hostInfoLabel->setText(L"");
+		}
+
+		void HouseUI::StateChange_ROOM_LOGINWINDOW()
+		{
+			state = STATE_LOGINWINDOW;
+			_ClearLoginInfo();
+			loginPanel->FadeIn(conf[L"Login/Config"][L"inTime"].asInt());
+			mgr->OpenWindow(loginPanel, conf[L"Login/Config"][L"blackAlpha"].asInt());
+		}
+
 		void HouseUI::StateChange_ROOM_ROOMLIST()
 		{
 			state = STATE_ROOMLIST;
@@ -1180,6 +1200,11 @@ namespace diva
 			if (state == STATE_LOGINWINDOW && des == STATE_ROOM)
 			{
 				StateChange_LOGINWINDOW_ROOM();
+				return;
+			}
+			if (state == STATE_ROOM && des == STATE_LOGINWINDOW)
+			{
+				StateChange_ROOM_LOGINWINDOW();
 				return;
 			}
 			if (state == STATE_ROOM && des == STATE_ROOMLIST)
@@ -1749,6 +1774,9 @@ namespace diva
 			saveSetting[L"particleSystem"] = ((SpecialItemDisplayer*)setPsSelector->getDisplayer())->getSelectedIndex();
 			saveSetting[L"gameWidth"] = setConfig[L"gameWidth"].asInt();
 			saveSetting[L"gameHeight"] = setConfig[L"gameHeight"].asInt();
+			saveSetting[L"globalFont"] = setConfig[L"globalFont"].asString();
+			saveSetting[L"screenFadeTime"] = setConfig[L"screenFadeTime"].asDouble();
+			saveSetting[L"bgmFadeTime"] = setConfig[L"bgmFadeTime"].asDouble();
 
 			WJson::StyledWriter writer;
 			Base::base_string p = ((Base::String)writer.write(saveSetting)).asUTF8();
@@ -1870,7 +1898,7 @@ namespace diva
 			list->setWidth(t2[L"width"].asInt());
 			list->adjustMyHeight();
 			list->setPosition(t2[L"desX"].asInt() - con->getX(), t2[L"desY"].asInt() - con->getY());
-			songListFont = new SoraGUIFont(L"msyh.ttf", tv[L"fontSize"].asInt());
+			songListFont = new SoraGUIFont(SETTINGS.getGlobalFontName(), tv[L"fontSize"].asInt());
 			list->setFont(songListFont);
 			con->add(list);
 			songList = list;
@@ -1958,7 +1986,7 @@ namespace diva
 			LabelEx* lb = new LabelEx(L"");
 			lb->setSize(tv[L"lbWidth"].asInt(), tv[L"lbHeight"].asInt());
 			panel->add(lb, tv[L"lbX"].asInt(), tv[L"lbY"].asInt());
-			statusPanelFont = new gcn::SoraGUIFont(L"res/msyh.ttf", tv[L"fontSize"].asInt());
+			statusPanelFont = new gcn::SoraGUIFont(SETTINGS.getGlobalFontName(), tv[L"fontSize"].asInt());
 			lb->setFont(statusPanelFont);
 			hostInfoLabel = lb;
 
@@ -1970,7 +1998,7 @@ namespace diva
 			using namespace gcn;
 			WJson::Value tv = conf[L"RoomInfo/Config"];
 			ContainerEx* panel = CreateStaticImage(conf, L"RoomInfo/background");
-			playerListFont = new gcn::SoraGUIFont(L"res/msyh.ttf", tv[L"fontSize"].asInt());
+			playerListFont = new gcn::SoraGUIFont(SETTINGS.getGlobalFontName(), tv[L"fontSize"].asInt());
 			
 			RoomInfoList* list = new RoomInfoList();
 			list->setMaxItem(tv[L"maxItem"].asInt());
@@ -1980,7 +2008,7 @@ namespace diva
 				tv[L"gap"][L"width"].asInt(),
 				tv[L"gap"][L"height"].asInt()), 
 				tv[L"gap"][L"itemGap"].asInt());
-			//Font* font = new gcn::SoraGUIFont(L"res/msyh.ttf", 16);
+			//Font* font = new gcn::SoraGUIFont(SETTINGS.getGlobalFontName(), 16);
 			list->setFont(playerListFont);
 			//list->setHorizontal(true);
 			panel->add(list, 0, 0);
@@ -2003,7 +2031,7 @@ namespace diva
 			ContainerEx* pagenum = CreateStaticImage(conf, L"RoomInfo/buttons/label_pagenum");
 			pagenum->setPosition(pagenum->getX() - panel->getX(), pagenum->getY() - panel->getY());
 			panel->add(pagenum);
-			playerListPagenumFont = new SoraGUIFont(L"res/msyh.ttf", tv[L"pagenumFontSize"].asInt());
+			playerListPagenumFont = new SoraGUIFont(SETTINGS.getGlobalFontName(), tv[L"pagenumFontSize"].asInt());
 			pagenum->setFont(playerListPagenumFont);
 			pagenum->setText(L"1/1");
 
@@ -2064,7 +2092,7 @@ namespace diva
 			chatBox->setMaxLine(tv[L"maxLine"].asInt());
 			chatBox->setWidth(tv[L"width"].asInt());
 			chatBox->setPosition(tv[L"desX"].asInt() - panel->getX(), tv[L"desY"].asInt() - panel->getY());
-			messageAreaFont = new SoraGUIFont(L"res/msyh.ttf", tv[L"fontSize"].asInt());
+			messageAreaFont = new SoraGUIFont(SETTINGS.getGlobalFontName(), tv[L"fontSize"].asInt());
 			chatBox->setFont(messageAreaFont);
 			chatBox->adjust();
 			
@@ -2152,7 +2180,7 @@ namespace diva
 			inputBox->setSize(tv[L"width"].asInt(), tv[L"height"].asInt());
 			inputBox->setImage(tv[L"filename"].asString(), 
 				gcn::Rectangle(tv[L"srcX"].asInt(), tv[L"srcY"].asInt(), tv[L"width"].asInt(), tv[L"height"].asInt()));
-			messageInputFont = new SoraGUIFont(L"res/msyh.ttf", tv[L"fontSize"].asInt());
+			messageInputFont = new SoraGUIFont(SETTINGS.getGlobalFontName(), tv[L"fontSize"].asInt());
 			inputBox->setFont(messageInputFont);
 			inputBox->setForegroundColor(tv[L"fontColor"].asUInt());
 			inputBox->setPosition(inputBox->getX() - panel->getX(), inputBox->getY() - panel->getY());
@@ -2172,6 +2200,14 @@ namespace diva
 				return;
 			}
 			AUTH_CLIENT.login(Base::ws2s(usernameInput->getText()),Base::ws2s(passwordInput->getText()));
+		}
+
+		void HouseUI::logout() {
+			STAGE_CLIENT.logout();
+			SCHEDULER_CLIENT.logout();
+			CHAT_CLIENT.logout();
+			AUTH_CLIENT.logout();
+			disconnectServer();
 		}
 
 		void HouseUI::LoginButtonClicked()
@@ -2314,8 +2350,9 @@ namespace diva
 			}
 			if (mouseEvent.getSource() == (gcn::Widget*) exitButton)
 			{
+				logout();
 				//sora::SoraCore::Instance()->shutDown();
-				exit(0);
+				setState(STATE_LOGINWINDOW);
 			}
 			if (mouseEvent.getSource() == (gcn::Widget*) modeButton)
 			{
@@ -2479,7 +2516,7 @@ namespace diva
 
 		void HouseUI::ModeButtonRefresh()
 		{
-			for (int i = 0; i < 11; i++)
+			for (int i = 0; i < 10; i++)
 				modeButtonList[i]->setSelected(MAPMGR.IsModeSelected((divamap::DivaMapManager::GameMode)i));
 		}
 

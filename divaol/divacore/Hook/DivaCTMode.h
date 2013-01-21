@@ -38,6 +38,7 @@ namespace divacore
 		static const int LIMIT_CT = 1000;
 		static const int ORIGIN_CT = 0;
 		double ct;
+		int maxLevel;
 		int level;
 		float duration;
 		bool bFull;
@@ -51,9 +52,11 @@ namespace divacore
 			setType(Hook::MODE);
 			originSpeedScale = MAP_INFO->header.speedScale;
 			setLevel(0);
+			maxLevel = 0;
 		}
 		void setLevel(int level, bool keep = false)
 		{
+			maxLevel = std::max(level,maxLevel);
 			if(!keep) {
 				bFull = false;
 				ct = ORIGIN_CT;
@@ -131,6 +134,7 @@ namespace divacore
 
 		int getCT() {return (int)ct;}
 		int getLevel() {return level;}
+		int getMaxLevel() {return maxLevel;}
 	};
 }
 

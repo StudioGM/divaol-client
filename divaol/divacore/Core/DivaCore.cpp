@@ -189,11 +189,16 @@ namespace divacore
 	 */
 	void Core::prepare(const std::string &configFile)
 	{
-		configloader::loadWithJson(config,configFile);
-		if(config.has("fps"))
-			sora::SoraCore::Ptr->setFPS(config.getAsDouble("fps"));
-		
-		RENDER_SYSTEM_PTR->prepare(config);
+		if(Base::FileUtil::FileExist(configFile))
+		{
+			configloader::loadWithJson(config,configFile);
+			if(config.has("fps"))
+				sora::SoraCore::Ptr->setFPS(config.getAsDouble("fps"));
+
+			RENDER_SYSTEM_PTR->prepare(config);
+		}
+		else
+			DIVA_EXCEPTION_MESSAGE("no common config file!");
 	}
 
 	void Core::init()

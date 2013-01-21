@@ -24,6 +24,7 @@ namespace diva
 
 		const PlayerInfo& GetHostInfo();
 		void SetHostInfo(const PlayerInfo& v);
+		void ClearHostInfo() {host.id = 0, host.nickname = host.username = L"";}
 
 		std::vector<PlayerInfo>& GetStageGuests();
 		std::vector<PlayerInfo>& GetHouseGuests();

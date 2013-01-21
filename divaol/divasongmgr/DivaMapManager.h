@@ -281,6 +281,8 @@ namespace divamap
 
 
 		//Get functions
+		std::wstring GetModeDescription(int mode);
+		std::wstring GetLevelDescription(int level);
 		std::wstring GetMapDescription(int id, int level, int mode);
 		std::wstring GetMapName(int id);
 		std::wstring GetMapDirectory(int id);

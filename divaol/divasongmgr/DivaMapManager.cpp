@@ -30,16 +30,15 @@ namespace divamap
 
 		selectedMode=0;
 		GameModeStr[0] = "PVMode";
-		GameModeStr[1] = "CTMode";
-		GameModeStr[2] = "AutoMode";
-		GameModeStr[3] = "FastMode";
-		GameModeStr[4] = "SlowMode";
-		GameModeStr[5] = "DeathMode";
-		GameModeStr[6] = "RandomSwapMode";
-		GameModeStr[7] = "ChaosMode";
-		GameModeStr[8] = "DisappearMode";
-		GameModeStr[9] = "BlackHouseMode";
-		GameModeStr[10] = "NoFailMode";
+		GameModeStr[1] = "AutoMode";
+		GameModeStr[2] = "FastMode";
+		GameModeStr[3] = "SlowMode";
+		GameModeStr[4] = "DeathMode";
+		GameModeStr[5] = "RandomSwapMode";
+		GameModeStr[6] = "ChaosMode";
+		GameModeStr[7] = "DisappearMode";
+		GameModeStr[8] = "BlackHouseMode";
+		GameModeStr[9] = "NoFailMode";
 
 		registerConflict();
 
@@ -926,7 +925,27 @@ namespace divamap
 
 
 	//Get functions
-	std::wstring DivaMapManager::GetMapDescription(int id, int level, int mode)
+	std::wstring DivaMapManager::GetModeDescription(int mode)
+	{
+		std::wstring modeDesc;
+		switch(mode)
+		{
+		case 0:
+			modeDesc = L"普通";
+			break;
+		case 1:
+			modeDesc = L"接力";
+			break;
+		case 2:
+			modeDesc = L"双打";
+			break;
+		default:
+			modeDesc = L"法克";
+			break;
+		}
+		return modeDesc;
+	}
+	std::wstring DivaMapManager::GetLevelDescription(int level)
 	{
 		std::wstring levelDesc;
 		switch(level)
@@ -946,26 +965,16 @@ namespace divamap
 		case 4:
 			levelDesc = L"Die";
 			break;
-		case 5:
+		default:
 			levelDesc = L"HYF";
 			break;
 		}
-		std::wstring modeDesc;
-		switch(mode)
-		{
-		case 0:
-			modeDesc = L"普通";
-			break;
-		case 1:
-			modeDesc = L"接力";
-			break;
-		case 2:
-			modeDesc = L"双打";
-			break;
-		default:
-			modeDesc = L"法克";
-			break;
-		}
+		return levelDesc;
+	}
+	std::wstring DivaMapManager::GetMapDescription(int id, int level, int mode)
+	{
+		std::wstring levelDesc = GetLevelDescription(level);
+		std::wstring modeDesc = GetModeDescription(mode);
 		return GetMapName(id) + L" ("+levelDesc+L") [" + modeDesc + L"] BPM:" + Base::String::any2string<int>(maps[id].header.bpm);
 
 	}

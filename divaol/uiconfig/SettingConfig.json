@@ -53,8 +53,13 @@
 	"iconFileNames" : ["res/test_icon.png", "res/test_icon.png", "res/test_icon.png", "res/test_icon.png"],
 
 	"lobbyMusicFilename": "res/music/lobby.ogg",
+	"lobbyLoopMusicFilename": "res/music/lobbyloop.ogg",
+	"resultMusicFilename": "res/music/result.ogg",
+	"resultLoopMusicFilename": "res/music/resultloop.ogg",
 	"titleMusicFilename": "res/music/title.ogg",
-	"titleScreenDelayTime": 3.0
+	"titleScreenDelayTime": 3.0,
+	
+	"tmpInfoFile" : "info.tmp"
 
 	///////////////////////////////////////////////////////
 	// Test data

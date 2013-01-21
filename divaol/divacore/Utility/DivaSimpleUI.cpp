@@ -11,6 +11,8 @@
 #include "SoraResourceFile.h"
 #include "Core/DivaCore.h"
 #include "Hook/DivaCTMode.h"
+#include "Utility/DivaSettings.h"
+#include "divasongmgr/DivaMapManager.h"
 
 namespace divacore
 {
@@ -1004,6 +1006,9 @@ namespace divacore
 			setPosition(position.x,position.y);
 
 			std::string font = config.getAsString(head+"font_file");
+			if(font=="global")
+				font = SETTINGS.getGlobalFontName();
+
 			int size = config.getAsInt(head+"font_size");
 
 			text.setFont(sora::SoraFont::LoadFromFile(font, size));
@@ -1026,7 +1031,7 @@ namespace divacore
 
 		void Title::onStart()
 		{
-			setText(CORE_PTR->getMapInfo()->header.mapName);
+			setText(MAPMGR.GetMapName(MAPMGR.GetSelectedMaps()[0].id) + L" - " + MAPMGR.GetLevelDescription(MAPMGR.GetSelectedMaps()[0].level));
 		}
 
 		/*

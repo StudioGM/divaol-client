@@ -121,7 +121,7 @@ namespace divacore
 				registerStates();
 
 				//load config
-				core->prepare(configFolder+"/common.json");
+				core->prepare(configFolder+"/config.json");
 				core->setGameResolution(width, height);
 				EVALUATE_STRATEGY_PTR->prepare(configFolder+"/eval.json");
 
