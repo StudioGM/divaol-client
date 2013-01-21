@@ -45,7 +45,7 @@ namespace diva
 			def("CreatePressAnyKey", &TitleScreenUI::CreatePressAnyKey).
 			def("CreateMovingShader", &TitleScreenUI::CreateMovingShader).
 			def("GetRandomStyle", &TitleScreenUI::GetRandomStyle);
-		lo.doScript(L"uiconfig/TitleScreen.lua");
+		lo.doScript(L"config/uiconfig/TitleScreen.lua");
 
 		style = L"Miku";
 

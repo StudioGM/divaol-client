@@ -41,7 +41,7 @@ int CALLBACK WinMain(
 	LPSTR lpCmdLine,
 	int nCmdShow
 	) {
-		diva::initialize_config(L"uiconfig/SettingConfig.json", L"uiconfig/config.json");
+		diva::initialize_config(L"config/SettingConfig.json", L"config/config.json");
 		//std::wstring ss = config[L"sdf"].asString();
 		// initialize settings
 
@@ -58,7 +58,7 @@ int CALLBACK WinMain(
 		Base::Random::SetRandomSeed((uint32)time(0));
 		sora::SoraCore::SetRandomSeed((uint32)time(0));
 
-		divacore::standard::Initializer initializer("uiconfig",divacore::standard::Initializer::SINGLE, true);
+		divacore::standard::Initializer initializer("config",divacore::standard::Initializer::SINGLE, true);
 		divacore::CorePtr core = initializer.get(setConfig[L"gameWidth"].asInt(), setConfig[L"gameHeight"].asInt());
 
 		MY_PLAYER_INFO.loadFromFile(Base::String(config[L"tmpInfoFile"].asString()));

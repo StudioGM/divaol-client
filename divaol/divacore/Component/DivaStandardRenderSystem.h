@@ -220,7 +220,7 @@ namespace divacore
 			if(MAPMGR.GetSelectedMaps().size()>0) {
 				preview = sora::SoraCore::Ptr->createSprite(MAPMGR.GetThumbFilePath(MAPMGR.GetSelectedMaps()[0].id));
 			}
-			white = sora::SoraCore::Ptr->createSprite("Data/white.png");
+			white = sora::SoraCore::Ptr->createSprite("res/white.png");
 			if(!white->getTexture())
 				DIVA_EXCEPTION_MODULE("Do not found white.png!","RenderSystem");
 			if(preview->getTexture())

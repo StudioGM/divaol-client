@@ -164,7 +164,7 @@ namespace diva
 			sora::SoraBGMManager::Instance()->setFadeTime(setConfig[L"bgmFadeTime"].asDouble(), setConfig[L"bgmFadeTime"].asDouble());
 			if(state == UNINITIALIZED)
 			{
-				_ReadConfig("uiconfig/init.json");
+				_ReadConfig("config/init.json");
 				// init guichan (must before SoraKeyPoll, or we can not get the queue of event)
 				sora::GCN_GLOBAL->initGUIChan(SETTINGS.getGlobalFontName().unicode_str(), 20);
 			}

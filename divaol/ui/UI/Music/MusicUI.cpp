@@ -71,7 +71,7 @@ namespace diva
 			gcn::MessageBoxEx* mbex = new gcn::MessageBoxEx();
 			{
 				WJson::Value t;
-				gcn::Helper::ReadJsonFromFile(L"uiconfig/house/MessageBox.json", t);
+				gcn::Helper::ReadJsonFromFile(L"config/uiconfig/house/MessageBox.json", t);
 				mbex->LoadFromJsonFile(t);
 				mgr->RegisterMessageBox(mbex);
 			}
@@ -294,7 +294,7 @@ namespace diva
 
 			// StartButton
 			{
-				gcn::Helper::ReadJsonFromFile(L"uiconfig/music/btn_select.json", tv);
+				gcn::Helper::ReadJsonFromFile(L"config/uiconfig/music/btn_select.json", tv);
 
 				startButton = gcn::Helper::CreateButton(tv);
 				startButton->addMouseListener(new PlayButton_MouseListener());
@@ -304,7 +304,7 @@ namespace diva
 
 			// Ranking List
 			{
-				gcn::Helper::ReadJsonFromFile(L"uiconfig/music/list_ranking.json", tv);
+				gcn::Helper::ReadJsonFromFile(L"config/uiconfig/music/list_ranking.json", tv);
 				rankingList = Helper::CreateList<RankingList>(tv);
 				for (int i=0; i<5; i++)
 				{

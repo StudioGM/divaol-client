@@ -73,14 +73,14 @@ namespace diva
 			
 
 			// parse json
-			ParseJson(L"uiconfig/house.json", L"uiconfig/stage.json", L"uiconfig/RoomList_PlayerList.json");
+			ParseJson(L"config/uiconfig/house.json", L"config/uiconfig/stage.json", L"config/uiconfig/RoomList_PlayerList.json");
 
 			// message Box
 			gcn::MessageBoxEx* mbex = new gcn::MessageBoxEx();
 			{
 				WJson::Reader reader;
 				WJson::Value t;
-				reader.parse(ReadJsonFile(L"uiconfig/house/MessageBox.json"), t);
+				reader.parse(ReadJsonFile(L"config/uiconfig/house/MessageBox.json"), t);
 				mbex->LoadFromJsonFile(t);
 				mgr->RegisterMessageBox(mbex);
 			}
@@ -256,7 +256,7 @@ namespace diva
 
 			// temp value
 			WJson::Value tv;
-			Helper::ReadJsonFromFile(L"uiconfig/house/AvatarListBox.json", tv);
+			Helper::ReadJsonFromFile(L"config/uiconfig/house/AvatarListBox.json", tv);
 			avatarList = Helper::CreateList<ListBoxEx>(tv);
 			avatarList->setHorizontal(true);
 			avatarList->setOutline(false);
@@ -1781,7 +1781,7 @@ namespace diva
 			WJson::StyledWriter writer;
 			Base::base_string p = ((Base::String)writer.write(saveSetting)).asUTF8();
 			
-			FILE* file = fopen("uiconfig/config.json", "wb");
+			FILE* file = fopen("config/config.json", "wb");
 			fwrite(p.c_str(), p.length(), 1, file);
 			fclose(file);
 
@@ -1807,7 +1807,7 @@ namespace diva
 		gcn::WindowEx* HouseUI::CreateSettingWindow()
 		{
 			WJson::Value tv;
-			Helper::ReadJsonFromFile(L"uiconfig/house/SettingWindow.json", tv);
+			Helper::ReadJsonFromFile(L"config/uiconfig/house/SettingWindow.json", tv);
 			WindowEx* win = Helper::CreateWindow(tv[L"window"]);
 			win->SetMovable(true);
 
@@ -2103,7 +2103,7 @@ namespace diva
 
 			MessageSlider* slider = new MessageSlider();
 			WJson::Reader reader;
-			reader.parse(ReadJsonFile(L"uiconfig/house/ChatSlider.json"), tv);
+			reader.parse(ReadJsonFile(L"config/uiconfig/house/ChatSlider.json"), tv);
 			MarkerEx* marker = CreateMarker(tv, L"up",
 				L"up",
 				L"up",
