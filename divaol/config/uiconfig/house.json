@@ -1,0 +1,479 @@
+{
+  "MessageChannels": {
+    "world" : "世界",
+    "private" : "私聊",
+    "stage": "舞台"
+  },
+  "StatusPanel/Config": {
+  	"fontSize": 30,
+  	"fontName": "res/msyh.ttf",
+  	"lbWidth": 300,
+  	"lbHeight": 100,
+  	"lbX": 330,
+  	"lbY": 100
+  },
+  "TestBackground": {
+    "filename": "res/room_001.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": 0,
+    "desY": 0,
+    "width": 1920,
+    "height": 1080
+  },
+
+  "StatusArea": {
+    "filename": "res/room_001.png",
+    "srcX": 0,
+    "srcY": 1409,
+    "desX": -297,
+    "desY": -91,
+    "width": 1168,
+    "height": 300
+  },
+  "Login/BackGround": {
+    "filename": "res/room_001.png",
+    "srcX": 1168,
+    "srcY": 1409,
+    "desX": 690,
+    "desY": 335,
+    "width": 551,
+    "height": 270
+  },
+  "ToolButtons/MouseOn/Shop_MouseOn": {
+    "filename": "res/room_001.png",
+    "srcX": 1719,
+    "srcY": 1409,
+    "desX": 1488,
+    "desY": 33,
+    "width": 142,
+    "height": 134
+  },
+  "ToolButtons/MouseOn/Clothes_MouseOn": {
+    "filename": "res/room_001.png",
+    "srcX": 1861,
+    "srcY": 1409,
+    "desX": 1640,
+    "desY": 33,
+    "width": 142,
+    "height": 134
+  },
+  "ToolButtons/MouseOn/Stage_MouseOn": {
+    "filename": "res/room_001.png",
+    "srcX": 0,
+    "srcY": 1709,
+    "desX": 1412,
+    "desY": -12,
+    "width": 142,
+    "height": 134
+  },
+  "ToolButtons/MouseOn/Option_MouseOn": {
+    "filename": "res/room_001.png",
+    "srcX": 142,
+    "srcY": 1709,
+    "desX": 1716,
+    "desY": -12,
+    "width": 142,
+    "height": 134
+  },
+  "ToolButtons/MouseOn/Modify_MouseOn": {
+    "filename": "res/room_001.png",
+    "srcX": 284,
+    "srcY": 1709,
+    "desX": 1564,
+    "desY": -12,
+    "width": 142,
+    "height": 134
+  },
+  "ToolButtons/MouseOn/Exit_MouseOn": {
+    "filename": "res/room_001.png",
+    "srcX": 426,
+    "srcY": 1709,
+    "desX": 1792,
+    "desY": 33,
+    "width": 128,
+    "height": 134
+  },
+  "Team/Head2": {
+    "filename": "res/room_001.png",
+    "srcX": 554,
+    "srcY": 1709,
+    "desX": 1093,
+    "desY": 924,
+    "width": 124,
+    "height": 124
+  },
+  "Team/Head1": {
+    "filename": "res/room_001.png",
+    "srcX": 678,
+    "srcY": 1709,
+    "desX": 910,
+    "desY": 924,
+    "width": 124,
+    "height": 124
+  },
+  "Team/Head4": {
+    "filename": "res/room_001.png",
+    "srcX": 802,
+    "srcY": 1709,
+    "desX": 1459,
+    "desY": 924,
+    "width": 124,
+    "height": 124
+  },
+  "Team/Head3": {
+    "filename": "res/room_001.png",
+    "srcX": 926,
+    "srcY": 1709,
+    "desX": 1276,
+    "desY": 924,
+    "width": 124,
+    "height": 124
+  },
+  "Team/NoHead": {
+    "filename": "res/room_001.png",
+    "srcX": 1050,
+    "srcY": 1709,
+    "desX": 1642,
+    "desY": 924,
+    "width": 124,
+    "height": 124
+  },
+  "ToolButtons/MouseDown/Stage_MouseDown": {
+    "filename": "res/room_001.png",
+    "srcX": 1174,
+    "srcY": 1709,
+    "desX": 1419,
+    "desY": -4,
+    "width": 128,
+    "height": 118
+  },
+  "ToolButtons/MouseDown/Option_MouseDown": {
+    "filename": "res/room_001.png",
+    "srcX": 1302,
+    "srcY": 1709,
+    "desX": 1723,
+    "desY": -4,
+    "width": 128,
+    "height": 118
+  },
+  "ToolButtons/MouseDown/Modify_MouseDown": {
+    "filename": "res/room_001.png",
+    "srcX": 1430,
+    "srcY": 1709,
+    "desX": 1571,
+    "desY": -4,
+    "width": 128,
+    "height": 118
+  },
+  "ToolButtons/MouseDown/Clothes_MouseDown": {
+    "filename": "res/room_001.png",
+    "srcX": 1558,
+    "srcY": 1709,
+    "desX": 1647,
+    "desY": 41,
+    "width": 128,
+    "height": 118
+  },
+  "ToolButtons/MouseDown/Shop_MouseDown": {
+    "filename": "res/room_001.png",
+    "srcX": 1686,
+    "srcY": 1709,
+    "desX": 1495,
+    "desY": 41,
+    "width": 128,
+    "height": 118
+  },
+  "ToolButtons/MouseDown/Exit_MouseDown": {
+    "filename": "res/room_001.png",
+    "srcX": 1814,
+    "srcY": 1709,
+    "desX": 1799,
+    "desY": 41,
+    "width": 121,
+    "height": 118
+  },
+  "Login/LoginButton_MouseOn": {
+    "filename": "res/room_001.png",
+    "srcX": 0,
+    "srcY": 1843,
+    "desX": 1070,
+    "desY": 427,
+    "width": 128,
+    "height": 107
+  },
+  "ToolButtons/Normal/Shop_Normal": {
+    "filename": "res/room_001.png",
+    "srcX": 128,
+    "srcY": 1843,
+    "desX": 1510,
+    "desY": 58,
+    "width": 98,
+    "height": 84
+  },
+  "ToolButtons/Normal/Exit_Normal": {
+    "filename": "res/room_001.png",
+    "srcX": 226,
+    "srcY": 1843,
+    "desX": 1814,
+    "desY": 58,
+    "width": 98,
+    "height": 84
+  },
+  "ToolButtons/Normal/Modify_Normal": {
+    "filename": "res/room_001.png",
+    "srcX": 324,
+    "srcY": 1843,
+    "desX": 1586,
+    "desY": 13,
+    "width": 98,
+    "height": 84
+  },
+  "ToolButtons/Normal/Clothes_Normal": {
+    "filename": "res/room_001.png",
+    "srcX": 422,
+    "srcY": 1843,
+    "desX": 1662,
+    "desY": 58,
+    "width": 98,
+    "height": 84
+  },
+  "ToolButtons/Normal/Stage_Normal": {
+    "filename": "res/room_001.png",
+    "srcX": 520,
+    "srcY": 1843,
+    "desX": 1434,
+    "desY": 13,
+    "width": 98,
+    "height": 84
+  },
+  "ToolButtons/Normal/Option_Normal": {
+    "filename": "res/room_001.png",
+    "srcX": 618,
+    "srcY": 1843,
+    "desX": 1738,
+    "desY": 13,
+    "width": 98,
+    "height": 84
+  },
+  "Login/LoginButton_MouseDown": {
+    "filename": "res/room_001.png",
+    "srcX": 716,
+    "srcY": 1843,
+    "desX": 1082,
+    "desY": 439,
+    "width": 104,
+    "height": 83
+  },
+  "Login/LoginButton_Normal": {
+    "filename": "res/room_001.png",
+    "srcX": 820,
+    "srcY": 1843,
+    "desX": 1086,
+    "desY": 443,
+    "width": 96,
+    "height": 75
+  },
+  "MessageArea/TextColors": {
+    "world" : [255, 128, 0],
+    "private" : [0, 255, 0],
+    "system" : [255, 255, 0],
+	"stage" : [255, 255, 255],
+    "hint": [0, 0, 255],
+	"warning": [255, 0, 0],
+	"highlight": [255, 0, 255]
+  },
+  "MessageArea/InputBox": {
+    "filename": "res/room_001.png",
+    "srcX": 916,
+    "srcY": 1843,
+    "desX": 0,
+    "desY": 1044,
+    "width": 724,
+    "height": 37,
+    "fontSize": 24,
+    "fontColor": 4294967295
+  },
+  "MessageArea/InputBoxBack":{
+    "filename": "res/room_001.png",
+    "srcX" : 916,
+    "srcY" : 1880,
+    "width" : 759,
+    "height" : 94,
+    "desX" : 0,
+    "desY" : 986
+  },
+  "MessageArea/ChannelList": {
+    "filename": "res/room_001.png",
+    "srcX": 1879,
+    "srcY": 1843,
+    "width": 57,
+    "height": 28,
+    "desX_1": 0,
+    "desY_1": 1017,
+    "desX_2": 0,
+    "desY_2": 933,
+    "items": ["世界","舞台","私聊"],
+    "animationTime": 15
+  },
+  "MessageArea/TextBox": {
+    "desX": 46,
+    "desY": 752,
+    "width": 694,
+    "fontSize": 30,
+    "maxLine": 7,
+    "testText": ""
+  },
+  "MessageArea/InputArea_BackGround": {
+    "filename": "res/room_001.png",
+    "srcX": 0,
+    "srcY": 1080,
+    "desX": 0,
+    "desY": 752,
+    "width": 741,
+    "height": 329
+  },
+  "MessageArea/InputBox2": {
+    "filename": "res/room_001.png",
+    "srcX": 741,
+    "srcY": 1080,
+    "desX": 0,
+    "desY": 1044,
+    "width": 907,
+    "height": 306
+  },
+  "MessageArea/ScrollBar_Block": {
+    "filename": "res/room_001.png",
+    "srcX": 1640,
+    "srcY": 1843,
+    "desX": 5,
+    "desY": 742,
+    "width": 27,
+    "height": 35
+  },
+  "MessageArea/MessageTo/ToSomeOne": {
+    "filename": "res/room_001.png",
+    "srcX": 1667,
+    "srcY": 1843,
+    "desX": 56,
+    "desY": 1016,
+    "width": 183,
+    "height": 30
+  },
+  "MessageArea/MessageTo/Channel": {
+    "filename": "res/room_001.png",
+    "srcX": 1879,
+    "srcY": 1843,
+    "desX": 0,
+    "desY": 1017,
+    "width": 57,
+    "height": 28
+  },
+  "MessageArea/ScrollBar_Up": {
+    "filename": "res/room_001.png",
+    "srcX": 570,
+    "srcY": 1950,
+    "desX": 2,
+    "desY": 729,
+    "width": 33,
+    "height": 18
+  },
+  "MessageArea/ScrollBar_Down": {
+    "filename": "res/room_001.png",
+    "srcX": 603,
+    "srcY": 1950,
+    "desX": 2,
+    "desY": 981,
+    "width": 33,
+    "height": 18
+  },
+  "Login/Select Button/Border_MouseOn": {
+    "filename": "res/room_001.png",
+    "srcX": 1850,
+    "srcY": 1843,
+    "desX": 807,
+    "desY": 523,
+    "width": 29,
+    "height": 29
+  },
+  "Login/textBox_1": {
+    "filename": "res/room_001.png",
+    "srcX": 0,
+    "srcY": 1950,
+    "desX": 811,
+    "desY": 443,
+    "width": 264,
+    "height": 27
+  },
+  "Login/textBox_2": {
+    "filename": "res/room_001.png",
+    "srcX": 264,
+    "srcY": 1950,
+    "desX": 811,
+    "desY": 491,
+    "width": 264,
+    "height": 27
+  },
+  "Login/Select Button/Border_Normal": {
+    "filename": "res/room_001.png",
+    "srcX": 528,
+    "srcY": 1950,
+    "desX": 811,
+    "desY": 527,
+    "width": 21,
+    "height": 21
+  },
+  "Login/Select Button/Point_MouseOn&Checked": {
+    "filename": "res/room_001.png",
+    "srcX": 549,
+    "srcY": 1950,
+    "desX": 811,
+    "desY": 527,
+    "width": 21,
+    "height": 21
+  },
+
+  "Login/Select Button/Point_Checked": {
+    "filename": "res/room_001.png",
+    "srcX": 636,
+    "srcY": 1950,
+    "desX": 815,
+    "desY": 531,
+    "width": 13,
+    "height": 13
+  },
+  "Login/Label_1": {
+	  "text": "用户登录",
+    "desX": 776,
+    "desY": 384,
+    "width": 100,
+    "height": 20
+  },
+  "Login/Label_2": {
+	  "text": "账户",
+    "desX": 746,
+    "desY": 444,
+    "width": 60,
+    "height": 20
+  },
+  "Login/Label_3": {
+	  "text": "密码",
+    "desX": 746,
+    "desY": 494,
+    "width": 60,
+    "height": 20
+  },
+  "Login/Config": {
+    "desX_2": 690,
+    "desY_2": 335,
+    "desX_1": 690,
+    "desY_1": 1080,
+    "animationTime": 100,
+    "disTime": 10,
+	"inTime": 5,
+    "blackAlpha": 127
+  },
+  "Time/Config": {
+    "globalAnimationTime": 10
+  }
+}

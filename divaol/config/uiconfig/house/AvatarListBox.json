@@ -1,0 +1,34 @@
+{
+  "firstRect" : [0, 0, 128, 188],
+  "itemGap": 30,
+  "maxItem": 8,
+  "desPos": [420, 479],
+  "horizontal": true,
+  //"desRect": [1385, 79, 462, 464],
+  
+  "avatarAnimes":
+  [
+    {
+      "tiles" : [
+        "res/avatar/miku/miku_01.png",
+        "res/avatar/miku/miku_02.png",
+        "res/avatar/miku/miku_03.png",
+        "res/avatar/miku/miku_04.png",
+        "res/avatar/miku/miku_05.png",
+        "res/avatar/miku/miku_06.png",
+        "res/avatar/miku/miku_07.png",
+        "res/avatar/miku/miku_08.png"
+      ],
+      "mode" : "repeat", // "once"
+      "fps": 8.0,
+      "desRect": [0, 0, 128, 128]
+    }
+  ],
+
+  "shadow": "res/avatar/shadow.png",
+  "shadowDesRect": [32, 156, 64, 20],
+  
+  "playerNamePosition": [60, 10],
+  "avatarDesRect": [0, 40, 128, 128]
+
+}

@@ -1,0 +1,222 @@
+{
+	"leftBtn": {
+		"down": {
+			"filename": "res/house/settings_001.png",
+			"srcX": 890,
+			"srcY": 0,
+			"desX": -19,
+			"desY": -19,
+			"width": 64,
+			"height": 57
+		},
+		"on": {
+			"filename": "res/house/settings_001.png",
+			"srcX": 890,
+			"srcY": 57,
+			"desX": -19,
+			"desY": -19,
+			"width": 64,
+			"height": 57
+		},
+		"normal": {
+			"filename": "res/house/settings_001.png",
+			"srcX": 890,
+			"srcY": 228,
+			"desX": 0,
+			"desY": 0,
+			"width": 26,
+			"height": 19
+		}
+	},
+
+	"rightBtn": {
+		"down": {
+			"filename": "res/house/settings_001.png",
+			"srcX": 890,
+			"srcY": 114,
+			"desX": -19,
+			"desY": -19,
+			"width": 64,
+			"height": 57
+		},
+		"on": {
+			"filename": "res/house/settings_001.png",
+			"srcX": 890,
+			"srcY": 171,
+			"desX": -19,
+			"desY": -19,
+			"width": 64,
+			"height": 57
+		},
+		"normal": {
+			"filename": "res/house/settings_001.png",
+			"srcX": 890,
+			"srcY": 247,
+			"desX": 0,
+			"desY": 0,
+			"width": 26,
+			"height": 19
+		}
+	},
+
+	"window": {
+		"filename": "res/house/settings_001.png",
+		"srcX": 0,
+		"srcY": 0,
+		"desX": 500,
+		"desY": 300,
+		"width": 890,
+		"height": 508
+	},
+
+	"DefaultButton": {
+		"down": {
+			"filename": "res/house/MessageBox_001.png",
+			"srcX": 0,
+			"srcY": 336,
+			"desX": 767,
+			"desY": 426,
+			"width": 115,
+			"height": 55
+		},
+		"on": {
+			"filename": "res/house/MessageBox_001.png",
+			"srcX": 0,
+			"srcY": 391,
+			"desX": 767,
+			"desY": 426,
+			"width": 115,
+			"height": 55
+		},
+		"normal": {
+			"filename": "res/house/MessageBox_001.png",
+			"srcX": 0,
+			"srcY": 446,
+			"desX": 775,
+			"desY": 434,
+			"width": 99,
+			"height": 39
+		}
+	},
+
+	"confirmBtnPos": [600, 410],
+	"cancelBtnPos": [700, 410],
+
+	"selector": {
+		"leftBtn": {
+			"down": {
+				"filename": "res/house/settings_001.png",
+				"srcX": 890,
+				"srcY": 0,
+				"desX": -19,
+				"desY": -19,
+				"width": 64,
+				"height": 57
+			},
+			"on": {
+				"filename": "res/house/settings_001.png",
+				"srcX": 890,
+				"srcY": 57,
+				"desX": -19,
+				"desY": -19,
+				"width": 64,
+				"height": 57
+			},
+			"normal": {
+				"filename": "res/house/settings_001.png",
+				"srcX": 890,
+				"srcY": 228,
+				"desX": 0,
+				"desY": 0,
+				"width": 26,
+				"height": 19
+			}
+		},
+		"rightBtn": {
+			"down": {
+				"filename": "res/house/settings_001.png",
+				"srcX": 890,
+				"srcY": 114,
+				"desX": -19,
+				"desY": -19,
+				"width": 64,
+				"height": 57
+			},
+			"on": {
+				"filename": "res/house/settings_001.png",
+				"srcX": 890,
+				"srcY": 171,
+				"desX": -19,
+				"desY": -19,
+				"width": 64,
+				"height": 57
+			},
+			"normal": {
+				"filename": "res/house/settings_001.png",
+				"srcX": 890,
+				"srcY": 247,
+				"desX": 0,
+				"desY": 0,
+				"width": 26,
+				"height": 19
+			}
+		},
+		"desRect": [400, 70, 200, 30]
+	},
+
+	"resSelDesRect": [320, 60, 200, 30],
+	"resLabel": {
+		"desPos": [100, 60],
+		"textColor": [255, 255, 255],
+		"text": "游戏分辨率："
+	},
+
+	"windowModeSelDesRect": [320, 105, 200, 30],
+	"windowModeLabel": {
+		"desPos": [100, 105],
+		"textColor": [255, 255, 255],
+		"text": "窗口模式："
+	},
+
+	"mvSelDesRect": [320, 150, 200, 30],
+	"mvLabel": {
+		"desPos": [100, 150],
+		"textColor": [255, 255, 255],
+		"text": "音乐音量："
+	},
+
+	"sevSelDesRect": [320, 195, 200, 30],
+	"sevLabel": {
+		"desPos": [100, 195],
+		"textColor": [255, 255, 255],
+		"text": "音效音量："
+	},
+
+	"keyModSelDesRect": [320, 240, 200, 30],
+	"keyModLabel": {
+		"desPos": [100, 240],
+		"textColor": [255, 255, 255],
+		"text": "按键MOD："
+	},
+
+	"uiModSelDesRect": [320, 285, 200, 30],
+	"uiModLabel": {
+		"desPos": [100, 285],
+		"textColor": [255, 255, 255],
+		"text": "界面MOD："
+	},
+
+	"lanSelDesRect": [320, 330, 200, 30],
+	"lanLabel": {
+		"desPos": [100, 330],
+		"textColor": [255, 255, 255],
+		"text": "语言："
+	},
+
+	"psSelDesRect": [320, 375, 200, 30],
+	"psLabel": {
+		"desPos": [100, 375],
+		"textColor": [255, 255, 255],
+		"text": "粒子效果："
+	}
+}

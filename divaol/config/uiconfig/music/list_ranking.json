@@ -1,0 +1,21 @@
+{
+  "firstRect" : [0, 0, 462, 116],
+  "itemGap": 5,
+  "maxItem": 5,
+  "desPos": [1385, 129],
+  //"desRect": [1385, 79, 462, 464],
+  
+  "itemBackImage": {
+    "filename": "res/UI2.png",
+    "srcRect": [1429, 38, 462, 116]
+  },
+  
+  "positions": {
+  	"ranking": [400, 40],
+  	"score": [40, 30],
+  	"combo": [190, 30],
+	"mode": [20, 70],
+	"maxCT": [140, 70],
+  	"player": [240, 70]
+  }
+}
