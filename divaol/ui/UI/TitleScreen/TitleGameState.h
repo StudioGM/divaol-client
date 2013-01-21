@@ -24,7 +24,7 @@
 
 #include "SoraFMODSoundSystem.h"
 #include "ui/Config/DivaUIConfig.h"
-#include "ui/UI/TitleScreen/TitleGameState.h"
+#include "Utility/DivaSettings.h"
 
 namespace diva
 {
@@ -74,6 +74,9 @@ namespace diva
 				return;
 			if (nextState == "init" || state == 1)
 				return;
+			
+			sora::SoraBGMManager::Instance()->playSE(soundConfig[L"pressAnyKey"].asString(), SETTINGS.getSEVolume());
+
 			this->nextState = nextState;
 			titleScreen->BeginLeave();
 			uiCanvas->getCanvasSprite()->addEffect(sora::CreateEffectFade(1.0, 0.0, 0.5));

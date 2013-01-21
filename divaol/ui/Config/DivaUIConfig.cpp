@@ -6,9 +6,10 @@ namespace diva
 {
 	WJson::Value config;
 	WJson::Value setConfig;
+	WJson::Value soundConfig;
 	std::string NextState;
 
-	void initialize_config(const std::wstring& filename, const std::wstring& filename2)
+	void initialize_config(const std::wstring& filename, const std::wstring& filename2, const std::wstring& filename3)
 	{
 		//std::ifstream inf(filename);
 		WJson::Reader reader;
@@ -17,6 +18,8 @@ namespace diva
 
 		NextState = "";
 		reader.parse(ReadJsonFile(filename2), setConfig);
+
+		reader.parse(ReadJsonFile(filename3), soundConfig);
 	}
 
 	std::wstring ReadJsonFile(const std::wstring& filename)

@@ -60,6 +60,17 @@ namespace sora {
 		return false;
 	}
 
+	bool SoraBGMManager::playSE(const std::wstring &sePath, float volume) {
+		SoraMusicFile* pmfile = sora::SoraCore::Ptr->createMusicFile(sePath);
+		if(pmfile != NULL) {
+			pmfile->play();
+			pmfile->setRepeat(false);
+			pmfile->setVolume(volume);
+			return true;
+		}
+		return false;
+	}
+
 	void SoraBGMManager::_playBGM(SoraMusicFile* musicFile, uint32 newBGMId, bool isReapeat) {
 		if(mFadeOutTime != 0.f && mCurrBGMId != -1) {
 			mPrevBGMId = mCurrBGMId;

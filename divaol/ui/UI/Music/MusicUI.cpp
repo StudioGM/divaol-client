@@ -1034,7 +1034,6 @@ namespace diva
 			}
 		}
 
-
 		void PlayButton_MouseListener::mouseClicked(MouseEvent& mouseEvent)
 		{
 			MusicUI* ui = MusicUI::Instance();

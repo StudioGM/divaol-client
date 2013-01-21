@@ -47,6 +47,14 @@ namespace sora {
 		 @param addToQueue, is add the bgm to the bgm queue
 		*/
 		bool   play(const std::wstring& bgmPath, bool addToQueue, bool isReapeat = true);
+
+		/*
+		 plays a se
+		 @param sePath, the path of the se to play
+		 @param volume, the volume of the se
+		*/
+		bool SoraBGMManager::playSE(const std::wstring &sePath, float volume = 1.0);
+
 		/*
 		 stops the bgm
 		 @param stopAtEnd, is stop the bgm queue at the end of it

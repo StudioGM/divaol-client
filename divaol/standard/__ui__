@@ -293,7 +293,7 @@
 			"texRect" : [0,1388,796,261],
 			"position" : [562,410,796,261],
 			"showStyle" : "middle",
-			"SE" : "Data/help.mp3"
+			"SE" : "res/se/help.mp3"
 		},
 		"get" : {
 			"tex" : "pic/UI/Kap.II.png",

@@ -267,6 +267,13 @@ namespace diva
 			void mouseClicked(gcn::MouseEvent& mouseEvent);
 		};
 
+		class ClickButton_MouseListener : public gcn::MouseListener
+		{
+		public:
+			void mouseClicked(gcn::MouseEvent& mouseEvent);
+			void mousePressed(gcn::MouseEvent& mouseEvent);
+		};
+
 		class TeamSelect_MouseListener : public gcn::MouseListener
 		{
 		public:
@@ -283,6 +290,7 @@ namespace diva
 		{
 		public:
 			void mouseClicked(gcn::MouseEvent& mouseEvent);
+			void mousePressed(gcn::MouseEvent& mouseEvent);
 		};
 	}
 }

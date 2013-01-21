@@ -105,12 +105,12 @@ namespace diva
 			// stage button
 			stageButton = CreateButton(conf, L"ToolButtons/Normal/Stage_Normal", L"ToolButtons/MouseOn/Stage_MouseOn", L"ToolButtons/MouseDown/Stage_MouseDown", L"ToolButtons/Normal/Stage_Normal");
 			roomTop->add(stageButton);
-			stageButton->addMouseListener(new LoginButton_MouseListener());
+			stageButton->addMouseListener(new ClickButton_MouseListener());
 
 			// option button
 			optionButton = CreateButton(conf, L"ToolButtons/Normal/Option_Normal", L"ToolButtons/MouseOn/Option_MouseOn", L"ToolButtons/MouseDown/Option_MouseDown", L"ToolButtons/Normal/Option_Normal");
 			roomTop->add(optionButton);
-			optionButton->addMouseListener(new LoginButton_MouseListener());
+			optionButton->addMouseListener(new ClickButton_MouseListener());
 			//optionButton->addMouseListener(new NotSupportInAlpha_MouseListener());
 
 			// modify button
@@ -125,14 +125,14 @@ namespace diva
 
 			// exit button
 			exitButton = CreateButton(conf, L"ToolButtons/Normal/Exit_Normal", L"ToolButtons/MouseOn/Exit_MouseOn", L"ToolButtons/MouseDown/Exit_MouseDown", L"ToolButtons/Normal/Exit_Normal");
-			exitButton->addMouseListener(new LoginButton_MouseListener());
+			exitButton->addMouseListener(new ClickButton_MouseListener());
 			roomTop->add(exitButton);
 			
 
 			// select music button
 			selectMusicButton = CreateButton(sconf, L"ToolBar/Normal/btn_selectmusic_normal", L"ToolBar/MouseOn/btn_selectmusic_mouseon", L"ToolBar/MouseDown/btn_selectmusic_mousedown", L"ToolBar/Disabled/btn_selectmusic_disabled");
 			roomTop->add(selectMusicButton);
-			selectMusicButton->addMouseListener(new LoginButton_MouseListener());
+			selectMusicButton->addMouseListener(new ClickButton_MouseListener());
 			selectMusicButton->setVisible(true);
 			selectMusicButton->setEnabled(false);
 
@@ -232,7 +232,7 @@ namespace diva
 			modeButton->setPosition(sconf[L"ModeButton"][L"desX"].asInt(), sconf[L"ModeButton"][L"desY"].asInt());
 			modeButton->setVisible(false);
 			modeButton->setText(sconf[L"ModeButton"][L"text"].asString());
-			modeButton->addMouseListener(new LoginButton_MouseListener());
+			modeButton->addMouseListener(new ClickButton_MouseListener());
 			roomTop->add(modeButton);
 
 			modeWindow = CreateModeWindow(sconf);
@@ -1445,7 +1445,7 @@ namespace diva
 				prefix + L"/LoginButton_MouseDown",
 				prefix + L"/LoginButton_Normal");
 			con->add(lb, lb->getX() - topX, lb->getY() - topY);
-			lb->addMouseListener(new LoginButton_MouseListener());
+			lb->addMouseListener(new ClickButton_MouseListener());
 			loginButton = lb;
 			//lb->setBaseColor(gcn::Color(255, 0, 0));
 
@@ -1493,7 +1493,7 @@ namespace diva
 				L"RoomList/btn_openStage/btn_openStage_down", L"RoomList/btn_openStage/btn_openStage_normal");
 			openButton->setPosition(openButton->getX() - panel->getX(), openButton->getY() - panel->getY());
 			openButton->setText(tv[L"openStageText"].asString());
-			openButton->addMouseListener(new LoginButton_MouseListener());
+			openButton->addMouseListener(new ClickButton_MouseListener());
 			panel->add(openButton);
 			roomListOpenButton = openButton;
 			
@@ -2300,6 +2300,9 @@ namespace diva
 					mgr->GetMB()->Show(L"该歌曲未下载或尚未下载完成，无法开始游戏。");
 					return;
 				}
+
+				sora::SoraBGMManager::Instance()->playSE(soundConfig[L"gameStart"].asString(), SETTINGS.getSEVolume());
+		
 				if (state == STATE_ROOM)
 					StartOfflineGame();
 				else
@@ -2547,6 +2550,14 @@ namespace diva
 		{
 			HouseUI::Instance()->MouseClicked(mouseEvent);
 		}
+		void ClickButton_MouseListener::mouseClicked(gcn::MouseEvent& mouseEvent)
+		{
+			HouseUI::Instance()->MouseClicked(mouseEvent);
+		}
+		void ClickButton_MouseListener::mousePressed(gcn::MouseEvent& mouseEvent)
+		{
+			sora::SoraBGMManager::Instance()->playSE(soundConfig[L"clickButton"].asString(), SETTINGS.getSEVolume());
+		}
 
 		void TeamSelect_MouseListener::mouseClicked(gcn::MouseEvent& mouseEvent)
 		{
@@ -2562,5 +2573,11 @@ namespace diva
 		{
 			HouseUI::Instance()->mgr->GetMB()->Show(L"Alpha测试中不包含此功能。", L"提示", gcn::MessageBoxEx::TYPE_OK);
 		}
+
+		void NotSupportInAlpha_MouseListener::mousePressed(gcn::MouseEvent& mouseEvent)
+		{
+			sora::SoraBGMManager::Instance()->playSE(soundConfig[L"clickButton"].asString(), SETTINGS.getSEVolume());
+		}
+
 	}
 }
