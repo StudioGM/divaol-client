@@ -17,6 +17,7 @@
 #include "app/SoraGameState.h"
 #include "ui/Config/DivaUIConfig.h"
 #include "Utility/DivaSettings.h"
+#include "SoraVlcMoviePlayer/SoraVlcMoviePlayer.h"
 
 #include "Lib/Base/Base.h"
 #include "Lib/WJson/wjson.h"
@@ -25,8 +26,34 @@ namespace diva
 {
 	class Splash
 	{
+	protected:
+		int state;
+		bool canJump;
 	public:
-		enum {UNINITIALIZED, INITIALIZED, FADE_IN, DETAIN, FADE_OUT, DONE};
+		enum {UNINITIALIZED, INITIALIZED, DONE};
+
+		Splash():state(UNINITIALIZED) {}
+		virtual ~Splash() {}
+
+		virtual void Start() {}
+		virtual void Update(float dt) {}
+		virtual void Render() {}
+		virtual bool IsDone() {return true;}
+		virtual int GetState() const {return state;}
+		
+		virtual void Jump() {
+			if(canJump) 
+			{
+				state = DONE;
+				//image->setColor(CSETA(image->getColor(), 0));
+			}
+		}
+	};
+
+	class ImageSplash : public Splash
+	{
+	public:
+		enum {FADE_IN = 0x80, DETAIN, FADE_OUT};
 	private:
 		sora::SoraSprite *image;
 
@@ -34,12 +61,9 @@ namespace diva
 		float detainTime;
 		float nowTime;
 		float targetTime;
-		bool canJump;
-		
-		int state;
 	public:
-		Splash():image(NULL),state(UNINITIALIZED) {}
-		~Splash() {Clear();}
+		ImageSplash():image(NULL) {}
+		virtual ~ImageSplash() {Clear();}
 		void Clear() 
 		{
 			state = UNINITIALIZED;
@@ -110,23 +134,126 @@ namespace diva
 				return;
 			image->render();
 		}
-		int GetState() const {return state;}
-		void Jump() {
-			if(canJump) 
+	};
+
+	class VideoSplash : public Splash
+	{
+		sora::SoraSprite *image;
+		SoraVlcMoviePlayer *video;
+		float lastTime;
+		float nowTime;
+		Base::String videoFile;
+		Base::Thread<void()> loadTask;
+	public:
+		enum {DISPLAY_LOADING_IMAGE = 0x80, DISPLAY_LOADING_OVER, LOADING_VIDEO, PLAYING_VIDEO};
+	public:
+		VideoSplash():image(NULL),video(NULL) {}
+		virtual ~VideoSplash() {Clear();}
+		void Clear() 
+		{
+			state = UNINITIALIZED;
+			if(image)
 			{
-				state = DONE;
-				//image->setColor(CSETA(image->getColor(), 0));
+				delete image;
+				image = NULL;
+			}
+			if(video)
+			{
+				delete video;
+				video = NULL;
 			}
 		}
+
+		void Start() 
+		{
+			if(state == UNINITIALIZED)
+				return;
+			state = DISPLAY_LOADING_IMAGE;
+			nowTime = 0;
+		}
+		void setParameters(float lastTime, bool canJump)
+		{
+			this->lastTime = lastTime;
+			this->canJump = canJump;
+		}
+		bool Initialize(const Base::String &video_file, const Base::String &loading_file)
+		{
+			image = sora::SoraCore::Ptr->createSprite(loading_file.asUnicode());
+			if (image)
+				image->setScale(float(setConfig[L"windowWidth"].asInt()) / image->getSpriteWidth(), float(setConfig[L"windowHeight"].asInt()) / image->getSpriteHeight());
+			
+			video = new sora::SoraVlcMoviePlayer();
+
+			loadTask.set(Base::MakeFunction(&VideoSplash::_LoadVideo, this));
+
+			this->videoFile = video_file;
+
+			state = INITIALIZED;
+			return true;
+		}
+
+		void _LoadVideo()
+		{
+			video->openMedia(videoFile.asUnicode());
+		}
+
+		void Update(float dt)
+		{
+			if(state == UNINITIALIZED || state == INITIALIZED)
+				return;
+			
+			if(state == DISPLAY_LOADING_IMAGE)
+			{
+				state = DISPLAY_LOADING_OVER;
+			}
+			else if(state == DISPLAY_LOADING_OVER)
+			{
+				state = LOADING_VIDEO;
+				_LoadVideo();
+			}
+			else if(state == LOADING_VIDEO)
+			{
+				if(!loadTask.active())
+				{
+					nowTime = 0;
+					state = PLAYING_VIDEO;
+					if(nowTime >= lastTime)
+						state = DONE;
+					else
+					{
+						if(image)
+							delete image;
+						sora::SoraSprite *image = new sora::SoraSprite();
+						sora::SoraTextureHandle texture = sora::SoraTexture::CreateEmpty(video->getWidth(), video->getHeight());
+						video->bindTexture(texture);
+					}
+				}
+			}
+			else if(state == PLAYING_VIDEO)
+			{
+				nowTime += dt;
+				if(nowTime >= lastTime)
+					state = DONE;
+			}
+		}
+
+		void Render()
+		{
+			if(state == DISPLAY_LOADING_IMAGE || state == DISPLAY_LOADING_OVER || state == LOADING_VIDEO || state == PLAYING_VIDEO)
+				if(image)
+					image->render();
+		}
+
+		void Jump() {
+			if(canJump && state == PLAYING_VIDEO) 
+				state = DONE;
+		}
 	};
+
 	class InitGameState: public sora::SoraGameState, public sora::SoraEventHandler {
 		enum State{UNINITIALIZED, INITIALIEZD, SPLASH,DONE,LEFT};
 	public:
 		InitGameState():state(UNINITIALIZED) {
-		}
-
-		~InitGameState()
-		{
 		}
 
 		void onRender() {
@@ -206,10 +333,20 @@ namespace diva
 				for(WJson::Value::iterator ptr = splashConf.begin(); ptr != splashConf.end(); ptr++)
 				{
 					WJson::Value item = *ptr;
-					Base::SharedPtr<Splash> splash = new Splash();
-					splash->Initialize(item[L"texture"].asString());
-					splash->setParameters(item[L"fadeTime"].asDouble(), item[L"detainTime"].asDouble(), item[L"canJump"].asBool());
-					splashList.push_back(splash);
+					if(!item.isMember(L"type") || item[L"type"].asString() == L"image")
+					{
+						Base::SharedPtr<ImageSplash> splash = new ImageSplash();
+						splash->Initialize(item[L"texture"].asString());
+						splash->setParameters(item[L"fadeTime"].asDouble(), item[L"detainTime"].asDouble(), item[L"canJump"].asBool());
+						splashList.push_back(splash);
+					}
+					else if(item[L"type"].asString() == L"video")
+					{
+						Base::SharedPtr<VideoSplash> splash = new VideoSplash();
+						splash->Initialize(item[L"video"].asString(), item[L"loading"].asString());
+						splash->setParameters(item[L"lastTime"].asDouble(), item[L"canJump"].asBool());
+						splashList.push_back(splash);
+					}
 				}
 			}
 			nextState = config[L"nextState"].asString();

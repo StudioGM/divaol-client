@@ -27,6 +27,7 @@
 #include "divanetwork/DivaGNetTCPSystem.h"
 #include "divacore/Utility/DivaInitialize.h"
 #include "divacore/Utility/DivaSettings.h"
+#include "Utility/DivaVersion.h"
 
 using namespace diva;
 
@@ -41,6 +42,8 @@ int CALLBACK WinMain(
 	LPSTR lpCmdLine,
 	int nCmdShow
 	) {
+		VERSION.RequireVersion();
+
 		diva::initialize_config(L"config/SettingConfig.json", L"config/config.json", L"config/sound.json");
 		//std::wstring ss = config[L"sdf"].asString();
 		// initialize settings

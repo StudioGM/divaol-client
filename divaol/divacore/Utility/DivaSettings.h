@@ -50,6 +50,22 @@ namespace divacore
 			_ResetVolume(config, setting);
 			_ResetEffect(config, setting);
 		}
+		void DefaultSettings(WJson::Value &config)
+		{
+			config[L"gameHeight"] = 1080;
+			config[L"gameWidth"] = 1920;
+			config[L"globalFont"] = L"res/msyh.ttf";
+			config[L"isWindowMode"] = false;
+			config[L"keyMod"] = 0;
+			config[L"uiMod"] = 0;
+			config[L"language"] = 0;
+			config[L"musicVolume"] = 10;
+			config[L"seVolume"] = 6;
+			config[L"particleSystem"] = 2;
+			config[L"resolution"] = 0;
+			config[L"screenFadeTime"] = 0.5;
+			config[L"bgmFadeTime"] = 1.0;
+		}
 
 	private:
 		void _ReloadWindowSize(WJson::Value &config, WJson::Value &setting)

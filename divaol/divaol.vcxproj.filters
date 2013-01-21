@@ -2502,6 +2502,9 @@
     <ClInclude Include="ui\UI\Init\InitGameState.h">
       <Filter>源文件\ui\UI\Init</Filter>
     </ClInclude>
+    <ClInclude Include="divacore\Utility\DivaVersion.h">
+      <Filter>源文件\divacore\utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

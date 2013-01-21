@@ -56,7 +56,7 @@ namespace Base
 		}
 	public:
 		static Path GetEnvironment(const String &env);
-		static Path GetApplicationPath();
+		static Path GetApplicationPath(bool full = false);
 
 		static Path GetFontPath();
 

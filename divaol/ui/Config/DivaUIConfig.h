@@ -17,7 +17,8 @@ namespace diva
 	void initialize_config(const std::wstring& filename, const std::wstring& filename2, const std::wstring& filename3);
 
 	std::wstring ReadJsonFile(const std::wstring& filename);
-	
+	void WriteJsonFile(const std::string &filename, const WJson::Value &value);
+
 	gcn::Rectangle GetRect(const WJson::Value& v);
 
 

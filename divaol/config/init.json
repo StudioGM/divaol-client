@@ -1,18 +1,28 @@
 {
 	"splash" : [
 		{
+			"type" : "video",
+			"loading" : "res/splash/boot.png",
+			"video" : "res/splash/boot.mp4",
+			"lastTime" : 0,
+			"canJump" : true
+		},
+		{
+			"type" : "image",
 			"texture" : "res/splash/logo_gamemaster.png",
 			"fadeTime" : 1,
 			"detainTime" : 1.5,
 			"canJump" : true
 		},
 		{
+			"type" : "image",
 			"texture" : "res/splash/warning.png",
 			"fadeTime" : 1,
 			"detainTime" : 1.5,
 			"canJump" : false
 		},
 		{
+			"type" : "image",
 			"texture" : "res/splash/stuff.png",
 			"fadeTime" : 1,
 			"detainTime" : 1.5,

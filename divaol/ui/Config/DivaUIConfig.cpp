@@ -1,4 +1,6 @@
 #include "ui/Config/DivaUIConfig.h"
+#include "Utility/DivaSettings.h"
+#include "Lib/Base/Base.h"
 #include <fstream>
 #include <sstream>
 
@@ -17,8 +19,13 @@ namespace diva
 		reader.parse(ReadJsonFile(filename), config);
 
 		NextState = "";
+		if(!Base::FileUtil::FileExist(filename2))
+		{
+			SETTINGS.DefaultSettings(setConfig);
+			WriteJsonFile("config/config.json", setConfig);
+		}
 		reader.parse(ReadJsonFile(filename2), setConfig);
-
+		
 		reader.parse(ReadJsonFile(filename3), soundConfig);
 	}
 
@@ -38,6 +45,16 @@ namespace diva
 		fclose(readFile);
 
 		return jsonStrToParse;
+	}
+
+	void WriteJsonFile(const std::string &filename, const WJson::Value &value)
+	{
+		WJson::StyledWriter writer;
+		Base::base_string p = ((Base::String)writer.write(value)).asUTF8();
+			
+		FILE* file = fopen(filename.c_str(), "wb");
+		fwrite(p.c_str(), p.length(), 1, file);
+		fclose(file);
 	}
 
 	gcn::Rectangle GetRect(const WJson::Value& v)

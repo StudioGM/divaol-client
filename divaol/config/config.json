@@ -1,5 +1,5 @@
 {
-   "bgmFadeTime" : 0.0,
+   "bgmFadeTime" : 1.0,
    "gameHeight" : 1080,
    "gameWidth" : 1920,
    "globalFont" : "res/msyh.ttf",
@@ -10,6 +10,6 @@
    "particleSystem" : 2,
    "resolution" : 0,
    "screenFadeTime" : 0.5,
-   "seVolume" : 10,
+   "seVolume" : 6,
    "uiMod" : 0
 }

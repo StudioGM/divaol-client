@@ -19,7 +19,7 @@ namespace divacore
 		config.add("render","__render__");
 		config.add("effect","__effect__");
 		config.add("result","__result__");
-		config.add("hookConfig","/hook/hookConfig.json");
+		config.add("hookConfig","hook/hookConfig.json");
 
 		if(SoraFileUtility::FileExists(getDefaultFile()))
 			configloader::loadWithJson(config,getDefaultFile());

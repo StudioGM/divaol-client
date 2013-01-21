@@ -1778,12 +1778,7 @@ namespace diva
 			saveSetting[L"screenFadeTime"] = setConfig[L"screenFadeTime"].asDouble();
 			saveSetting[L"bgmFadeTime"] = setConfig[L"bgmFadeTime"].asDouble();
 
-			WJson::StyledWriter writer;
-			Base::base_string p = ((Base::String)writer.write(saveSetting)).asUTF8();
-			
-			FILE* file = fopen("config/config.json", "wb");
-			fwrite(p.c_str(), p.length(), 1, file);
-			fclose(file);
+			WriteJsonFile("config/config.json", saveSetting);
 
 			// Refresh all the settings
 			divacore::Settings::instance().RefreshAll(setConfig, config);
