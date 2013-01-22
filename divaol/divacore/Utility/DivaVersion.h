@@ -35,9 +35,6 @@ namespace divacore
 
 		void RequireVersion() 
 		{
-			if(state != UNINITIALIZED && state != UNREADY)
-				return;
-
 			applicationPath = Base::Path::GetApplicationPath(true);
 
 			MAPMGR.PrepareDownloadFile(L"http://divaol.com/update/divaol.json");
