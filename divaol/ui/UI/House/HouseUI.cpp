@@ -511,6 +511,7 @@ namespace diva
 						mgr->GetMB()->Destroy();
 					setState(STATE_STAGE);
 					roomId = static_cast<divanet::GPacket*>(msg.extra())->getItem(2)->getString();
+					selectMusicButton->setEnabled(STAGE_CLIENT.isReady());
 				}
 				else
 					mgr->GetMB()->Show(L"加入房间出错，请稍后再试。");
@@ -548,6 +549,8 @@ namespace diva
 						info.status = 0;
 						item->setInfo(info);
 					}
+					if (!STAGE_CLIENT.owner())
+						selectMusicButton->setEnabled(!STAGE_CLIENT.isReady());
 				}
 				break;
 			case divanet::StageClient::NOTIFY_STAGE_LEAVE:
@@ -657,7 +660,8 @@ namespace diva
 				BeginSongListAnimation();
 
 				messagePanelChatBox->addText(L"[提示] 更新房间信息", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
-
+				if (!STAGE_CLIENT.owner())
+					selectMusicButton->setEnabled(!STAGE_CLIENT.isReady());
 				break;
 			case divanet::StageClient::NOTIFY_UPDATE_COLOR:
 				{
@@ -1039,6 +1043,9 @@ namespace diva
 			modeButton->setVisible(false);
 			openGameButton->setVisible(true);
 			readyButton->setVisible(false);
+
+			MessageChannelChange(CHANNEL_WORLD);
+			selectMusicButton->setEnabled(true);
 		}
 
 		void HouseUI::StateChange_LOGINWINDOW_ROOM()
@@ -1136,6 +1143,7 @@ namespace diva
 			//roomTop->setEnabled(true);
 			roomListPanel->FadeOut(10);
 			Refresh_sPlayerList();
+			MessageChannelChange(CHANNEL_STAGE);
 		}
 
 		void HouseUI::StateChange_STAGE_PLAYING()
@@ -2097,6 +2105,7 @@ namespace diva
 			chatBox->setPosition(tv[L"desX"].asInt() - panel->getX(), tv[L"desY"].asInt() - panel->getY());
 			messageAreaFont = new SoraGUIFont(SETTINGS.getGlobalFontName(), tv[L"fontSize"].asInt());
 			chatBox->setFont(messageAreaFont);
+			chatBox->setTotalMaxLine(config[L"chatAreaMaxLine"].asInt());
 			chatBox->adjust();
 			
 			panel->add(chatBox);

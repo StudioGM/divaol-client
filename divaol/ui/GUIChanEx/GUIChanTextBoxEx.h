@@ -22,7 +22,8 @@ namespace gcn
 	class TextBoxEx : public ListBoxEx
 	{
 	protected:
-		
+		int totalMaxLine;
+		void adjustTotalMaxLine();
 
 	public:
 		TextBoxEx();
@@ -30,6 +31,7 @@ namespace gcn
 
 
 		void adjust();
+		void setTotalMaxLine(int v);
 		void setMaxLine(int v);
 		void setText(const std::wstring& str);
 		void setText(const std::wstring& str, const Color& color);

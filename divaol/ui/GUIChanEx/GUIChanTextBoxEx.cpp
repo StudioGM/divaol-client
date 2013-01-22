@@ -36,12 +36,20 @@ namespace gcn
 	TextBoxEx::TextBoxEx()
 	{
 		//setGap(gcn::Rectangle(0, 0, getWidth(), getHeight()), 0);
+		setTotalMaxLine(-1);
 		setForegroundColor(Color(255, 255, 255));
 		adjust();
 	}
 
 	TextBoxEx::~TextBoxEx()
 	{
+	}
+
+	void TextBoxEx::setTotalMaxLine(int v)
+	{
+		if (v < 0)
+			v = -1;
+		totalMaxLine = v;
 	}
 
 	void TextBoxEx::setMaxLine(int v)
@@ -54,6 +62,14 @@ namespace gcn
 	{
 		setHeight(getFont()->getHeight() * maxItem);
 		setGap(gcn::Rectangle(0, 0, getWidth(), getFont()->getHeight()), 0);
+	}
+
+	void TextBoxEx::adjustTotalMaxLine()
+	{
+		if (totalMaxLine == -1)
+			return;
+		while (getItemCount() > totalMaxLine)
+			removeItem(0);
 	}
 
 	void TextBoxEx::setText(const std::wstring& str)
@@ -95,8 +111,10 @@ namespace gcn
 			if (font->getWidthW(temp) <= w)
 				pushItem(new TextBoxItemEx(temp, color));
 		}
-
+		adjustTotalMaxLine();
 		setFirstIndex(getMaxIndex());
+
+		
 	}
 
 	void TextBoxEx::addText(const std::wstring& str)

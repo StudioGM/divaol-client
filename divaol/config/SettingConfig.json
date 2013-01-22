@@ -9,10 +9,15 @@
 
 
 	"resolutions_description" : [
+		"1120*630",
 		"1280*720",
 		"1920*1080"
 	],
 	"resolutions_pair" : [
+		{
+			"width" : 1120,
+			"height" : 630
+		},
 		{
 			"width" : 1280,
 			"height" : 720
@@ -58,6 +63,7 @@
 	"resultLoopMusicFilename": "res/music/resultloop.ogg",
 	"titleMusicFilename": "res/music/title.ogg",
 	"titleScreenDelayTime": 1.5,
+	"chatAreaMaxLine": 60,
 	
 	"tmpInfoFile" : "info.tmp"
 

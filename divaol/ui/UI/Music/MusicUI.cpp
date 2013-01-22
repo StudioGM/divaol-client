@@ -33,6 +33,12 @@ namespace diva
 			trueTop->setEnabled(true);
 			refreshSelectedSongList();
 			refreshSongList();
+			if (songListBox->getSelectedIndex() != -1 && state != SONGLIST_ART)
+			{
+				PlayListeningPreview(songListBox->getSelectedIndex());
+				refreshRankingList();
+			}
+
 		}
 
 		void MusicUI::Leave()
