@@ -442,6 +442,38 @@
     "width": 13,
     "height": 13
   },
+  
+  // The close button from room list
+   "Login/btn_close/btn_close_normal": {
+    "filename": "res/RoomList_PlayerList_001.png",
+    "srcX": 1750,
+    "srcY": 360,
+    "desX": 1017,
+    "desY": 359,
+    "width": 35,
+    "height": 34
+  },
+  
+  "Login/btn_close/btn_close_down": {
+    "filename": "res/RoomList_PlayerList_001.png",
+    "srcX": 1220,
+    "srcY": 899,
+    "desX": 995,
+    "desY": 337,
+    "width": 79,
+    "height": 78
+  },
+  
+  "Login/btn_close/btn_close_on": {
+    "filename": "res/RoomList_PlayerList_001.png",
+    "srcX": 1750,
+    "srcY": 242,
+    "desX": 1013,
+    "desY": 355,
+    "width": 44,
+    "height": 42
+  },
+  
   "Login/Label_1": {
 	  "text": "用户登录",
     "desX": 776,

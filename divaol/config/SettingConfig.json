@@ -57,7 +57,7 @@
 	"resultMusicFilename": "res/music/result.ogg",
 	"resultLoopMusicFilename": "res/music/resultloop.ogg",
 	"titleMusicFilename": "res/music/title.ogg",
-	"titleScreenDelayTime": 3.0,
+	"titleScreenDelayTime": 1.5,
 	
 	"tmpInfoFile" : "info.tmp"
 
