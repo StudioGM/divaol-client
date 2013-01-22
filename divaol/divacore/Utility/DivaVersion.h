@@ -46,7 +46,8 @@ namespace divacore
 		}
 		bool CheckVersion()
 		{
-			MD52 md5(applicationPath);
+			std::wstring path = applicationPath;
+			MD52 md5(path);
 			Base::String md5str(md5.toString());
 
 			if(md5str == md5Value)
