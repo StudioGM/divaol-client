@@ -46,10 +46,6 @@ namespace divacore
 			std::wstring path = applicationPath;
 			MD52 md5(path);
 			Base::String md5str(md5.toString());
-			
-			LOGGER->log("CheckVersion...");
-			LOGGER->log("Path %s", Base::String(path).ansi_str());
-			LOGGER->log("MD5 %s", md5str.ansi_str());
 
 			if(md5str == md5Value)
 				return true;
