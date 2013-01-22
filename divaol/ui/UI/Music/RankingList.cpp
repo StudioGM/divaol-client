@@ -63,11 +63,15 @@ namespace diva
 			{
 				graphics->setColor(gcn::Color(fontColor, alpha));
 				graphics->setFont(font);
-				graphics->drawTextW(L"Score:" + Base::String::any2string<int>(score), scoreP.x, scoreP.y);
-				graphics->drawTextW(Base::String::any2string<int>(ranking), rankingP.x, rankingP.y);
-				graphics->drawTextW(L"Combo:" + Base::String::any2string<int>(combo), comboP.x, comboP.y);
-				graphics->drawTextW(L"MaxCT:" + Base::String::any2string<int>(maxCT), maxCTP.x, maxCTP.y);
-				graphics->drawTextW(L"Mode:" + MAPMGR.GetModeDescription(mode), modeP.x, modeP.y);
+				graphics->drawTextW(L"分数:" + Base::String::any2string<int>(score), scoreP.x, scoreP.y);
+				graphics->drawTextW(L"#" + Base::String::any2string<int>(ranking), rankingP.x, rankingP.y);
+				graphics->drawTextW(L"连击:" + Base::String::any2string<int>(combo), comboP.x, comboP.y);
+
+				// temporarily hard code here
+				static const wchar_t* CTText[] = {L"零段",L"一段",L"二段",L"三段",L"四段",L"五段",L"六段",L"爆表"};
+				
+				graphics->drawTextW(CTText[maxCT], maxCTP.x, maxCTP.y);
+				graphics->drawTextW(L"模式:" + MAPMGR.GetModeDescription(mode), modeP.x, modeP.y);
 				graphics->drawTextW(L"By:" + playerName, playerP.x, playerP.y);
 			}
 			else if (isNull == 1)

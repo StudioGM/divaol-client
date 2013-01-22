@@ -1240,6 +1240,7 @@ namespace divacore
 		void EvalBar::reset()
 		{
 			nowScore = score = nowGold = gold = nowExp = exp = 0;
+			nowCombo = 0;
 			memset(evalCnt,0,sizeof(evalCnt));
 			memset(nowCnt,0,sizeof(nowCnt));
 		}
@@ -1270,9 +1271,11 @@ namespace divacore
 					source = dest;
 			}
 		}
-		void EvalBar::setInfo(int score, int eval[], const Base::String &info)
+		void EvalBar::setInfo(int score, int maxCombo, int maxCTLevel, int eval[], const Base::String &info)
 		{
 			this->score = score;
+			this->maxCombo = maxCombo;
+			this->maxCTLevel = maxCTLevel;
 			this->info->setText(info.asUnicode());
 			memcpy(evalCnt,eval,sizeof(evalCnt));
 		}
@@ -1313,6 +1316,16 @@ namespace divacore
 				add(info);
 				info->setText("unknown");
 			}
+			level = NULL;
+			if(config.has(head+"level"))
+			{
+				Image *image = new Image();
+				image->construct(config,head+"level_");
+				add(image);
+				level = image;
+				for(int i = 0; i < MAX_LEVEL; i++)
+					levelTexRect[i] = config.getAsRect(head+"level_"+iToS(i));
+			}
 
 			for(int i = 0; i < EvaluateStrategy::EVAL_NUM; i++)
 			{
@@ -1326,6 +1339,10 @@ namespace divacore
 			scoreNumber->construct(config,head+"scoreNumber_");
 			scoreNumber->init();
 			add(scoreNumber);
+			comboNumber = new NumberBar();
+			comboNumber->construct(config,head+"comboNumber_");
+			comboNumber->init();
+			add(comboNumber);
 			goldNumber = new NumberBar();
 			goldNumber->construct(config,head+"littleNumber_");
 			goldNumber->setSize(Point(13,15));
@@ -1337,6 +1354,11 @@ namespace divacore
 			expNumber->init();
 			add(expNumber);
 
+			if(config.has(head+"comboPosition"))
+			{
+				Point tmp = config.getAsPoint(head+"comboPosition");
+				comboNumber->setPosition(tmp.x,tmp.y);
+			}
 			if(config.has(head+"scorePosition"))
 			{
 				Point tmp = config.getAsPoint(head+"scorePosition");
@@ -1380,6 +1402,11 @@ namespace divacore
 			goldNumber->setNumber(nowGold);
 			updateNumber(nowExp,exp);
 			expNumber->setNumber(nowExp);
+			updateNumber(nowCombo,maxCombo);
+			comboNumber->setNumber(nowCombo);
+			
+			if(level)
+				level->setTextureRect(levelTexRect[maxCTLevel]);
 		}
 		void EvalBar::onRender(float x, float y)
 		{

@@ -62,6 +62,7 @@ namespace diva
 			gcn::Container* trueTop;
 			gcn::WindowMgr* mgr;
 
+			gcn::SuperButtonEx*  songSelectButton;
 			gcn::ImageDisplayerEx* background;
 			gcn::ContainerEx* backPanel;
 			DivaSongList* songListBox;
@@ -135,6 +136,7 @@ namespace diva
 			void SongListItemClicked(int index);
 			void SongListHighlightItemChanged(int index);
 			void SongListItemDoubleClicked(int index);
+			void SongSelectButtonClicked();
 
 			int GetRandomSong(divamap::DivaMap::LevelType level);
 
@@ -196,8 +198,15 @@ namespace diva
 			virtual void mouseClicked(MouseEvent& mouseEvent);
 		};
 
+		class SongSelectButton_MouseListener
+			:public gcn::MouseListener
+		{
+		public:
+			virtual void mouseClicked(MouseEvent& mouseEvent);
+		};
+
 		class RankPageLeft_MouseListener
-			: public gcn::MouseListener
+			:public gcn::MouseListener
 		{
 		public:
 			virtual void mouseClicked(MouseEvent& mouseEvent);

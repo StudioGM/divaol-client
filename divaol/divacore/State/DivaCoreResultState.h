@@ -62,6 +62,20 @@ namespace divacore
 			for(int i = 0; i < result.evalData.size(); i++)
 			{
 				gnet::Item<gnet::Tuple> *tuple = dynamic_cast<gnet::Item<gnet::Tuple>*>(list->getItem(i));
+				gnet::Item<gnet::Tuple> *addData = NULL;
+
+				if(list->getItem(0)->getType() == gnet::GNET_TYPE_TUPLE)
+					addData = dynamic_cast<gnet::Item<gnet::Tuple>*>(tuple->getItem(0));
+
+				if(addData&&addData->size() == 2) {
+					result.evalData[i].maxCombo = addData->getItem(0)->getInt();
+					result.evalData[i].maxCTLevel = addData->getItem(1)->getInt();
+				}
+				else
+				{
+					result.evalData[i].maxCombo = 0;
+					result.evalData[i].maxCTLevel = 0;
+				}
 				result.evalData[i].status = tuple->getItem(1)->getString();
 				result.evalData[i].score = (tuple->getItem(2))->getInt();
 				result.evalData[i].uid = tuple->getItem(5)->getString();

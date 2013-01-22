@@ -9,6 +9,7 @@
 #include "DivaSinglePlay.h"
 //#include "DivaRelayUI.h"
 #include "Component/DivaCommonEvaluateStrategy.h"
+#include "Hook/DivaCTMode.h"
 
 namespace divacore
 {
@@ -42,10 +43,18 @@ namespace divacore
 		stateList.clear();
 		stateQueue.clear();
 
-		nowScore = combo = maxCombo = 0;
+		nowScore = combo = maxCombo = maxCTLevel = 0;
 		nowHP = ORIGIN_HP;
 
 		setAlive(true);
+	}
+	void SinglePlay::gameOver()
+	{
+		CTMode* ctMode = dynamic_cast<CTMode*>(HOOK_MANAGER_PTR->getHook("CTMode"));
+		if(ctMode)
+			maxCTLevel += ctMode->getMaxLevel();
+		else
+			maxCTLevel += 0;
 	}
 	bool SinglePlay::checkNote(NotePtr note) 
 	{
@@ -174,7 +183,9 @@ namespace divacore
 
 		EVALUATE_STRATEGY_PTR->getResult().myScore = getScore();
 		EVALUATE_STRATEGY_PTR->getResult().myID = 0;
-		EVALUATE_STRATEGY_PTR->getResult().evalData.push_back(EvalData("",getScore(),EVALUATE_STRATEGY_PTR->getResult().myCntEval,0,NET_INFO.nickname));
+		EVALUATE_STRATEGY_PTR->getResult().myMaxCombo = getMaxCombo();
+		EVALUATE_STRATEGY_PTR->getResult().myMaxCTLevel = getMaxCTLevel();
+		EVALUATE_STRATEGY_PTR->getResult().evalData.push_back(EvalData("",getScore(),maxCombo,maxCTLevel,EVALUATE_STRATEGY_PTR->getResult().myCntEval,0,NET_INFO.nickname));
 	}
 
 	void SinglePlay::afterEvaluate()

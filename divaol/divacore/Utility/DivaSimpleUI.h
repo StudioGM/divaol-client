@@ -16,6 +16,7 @@
 #include "Core/DivaHook.h"
 #include "Core/DivaEvaluateStrategy.h"
 #include "Mode/DivaMultiplay.h"
+#include "Hook/DivaCTMode.h"
 
 namespace divacore
 {
@@ -482,11 +483,14 @@ namespace divacore
 			ConfigPtr config;
 			std::string head;
 			Point position;
-			NumberBar *evalNumber[EvaluateStrategy::EVAL_NUM],*scoreNumber,*goldNumber,*expNumber;
+			NumberBar *evalNumber[EvaluateStrategy::EVAL_NUM],*scoreNumber,*goldNumber,*expNumber,*comboNumber;
+			Rect levelTexRect[MAX_LEVEL];
 			Text *info;
-			Image *background;
+			Image *background, *level;
 			int evalCnt[EvaluateStrategy::EVAL_NUM],nowCnt[EvaluateStrategy::EVAL_NUM];
 			int score,nowScore;
+			int maxCombo, nowCombo;
+			int maxCTLevel;
 			int gold, nowGold;
 			int exp, nowExp;
 		protected:
@@ -497,7 +501,7 @@ namespace divacore
 			void onInitialize();
 			void onUpdate(float dt);
 			void onRender(float x, float y);
-			void setInfo(int score, int eval[], const Base::String &info);
+			void setInfo(int score, int maxCombo, int maxCTLevel, int eval[], const Base::String &info);
 			void setTeamColor(int teamIndex);
 		};
 

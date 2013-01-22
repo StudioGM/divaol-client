@@ -131,6 +131,8 @@ namespace divacore
 	}
 	void MultiPlay::gameOver()
 	{
+		SinglePlay::gameOver();
+
 		sendInfo();
 
 		GNET_UNRECEIVE_PACKET("game#membersinfoL");
@@ -145,11 +147,7 @@ namespace divacore
 		*packet += (int8)CORE_FLOW_PTR->isSongOver();
 		GPacket *addData = new GPacket();
 		*addData += maxCombo;
-		CTMode* ctMode = dynamic_cast<CTMode*>(HOOK_MANAGER_PTR->getHook("CTMode"));
-		if(ctMode)
-			*addData += ctMode->getMaxLevel();
-		else
-			*addData += 0;
+		*addData += maxCTLevel;
 		packet->appendItem(addData);
 
 		NETWORK_SYSTEM_PTR->send(packet);
@@ -316,11 +314,13 @@ namespace divacore
 		
 		EVALUATE_STRATEGY_PTR->getResult().myScore = getScore();
 		EVALUATE_STRATEGY_PTR->getResult().myID = getPlayerID();
+		EVALUATE_STRATEGY_PTR->getResult().myMaxCombo = getMaxCombo();
+		EVALUATE_STRATEGY_PTR->getResult().myMaxCTLevel = getMaxCTLevel();
 
 		PLAYERS &players = getPlayerInfo();
 
 		for(int i = 0; i < players.size(); i++)
-			EVALUATE_STRATEGY_PTR->getResult().evalData.push_back(EvalData(players[i].uid, players[i].score, players[i].teamIndex, STAGE_CLIENT.waiterInfo(players[i].uid).nickname));
+			EVALUATE_STRATEGY_PTR->getResult().evalData.push_back(EvalData(players[i].uid, players[i].score, 0, 0, players[i].teamIndex, STAGE_CLIENT.waiterInfo(players[i].uid).nickname));
 		//((CommonEvaluateStrategy*)EVALUATE_STRATEGY_PTR)->addMultiEvalUI();
 	}
 

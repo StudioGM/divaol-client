@@ -292,6 +292,16 @@ namespace diva
 			//playerList->init();
 			//top->add(playerList, 1385, 179);
 
+			// SongSelectButton
+			{
+				// SongSelectButton
+				gcn::Helper::ReadJsonFromFile(L"config/uiconfig/music/song_select.json", tv);
+				
+				songSelectButton = gcn::Helper::CreateButton(tv);
+				songSelectButton->addMouseListener(new SongSelectButton_MouseListener());
+				top->add(songSelectButton);
+			}
+
 			// StartButton
 			{
 				gcn::Helper::ReadJsonFromFile(L"config/uiconfig/music/btn_select.json", tv);
@@ -560,7 +570,10 @@ namespace diva
 						WJson::Value tv;
 						reader.parse( s2ws(std::string(t.additionalMessage)), tv);
 
-						SongListItem *item = (SongListItem*) songListBox->getItem(songListBox->getSelectedIndex());
+						int selectedIndex = songListBox->getSelectedIndex();
+						if(selectedIndex < 0 || selectedIndex >= songListBox->getItemCount())
+							break;
+						SongListItem *item = (SongListItem*) songListBox->getItem(selectedIndex);
 						if (t.effectedMapID !=  item->getMapInfo().id)
 							break;
 						if (t.effectedMapLevel != item->getMapInfo().getLevel(item->getDifIndex()))
@@ -605,7 +618,10 @@ namespace diva
 						reader.parse(s2ws(std::string(t.additionalMessage)), tv);
 						//if (tv[L"error"] != "E_")
 
-						SongListItem *item = (SongListItem*) songListBox->getItem(songListBox->getSelectedIndex());
+						int selectedIndex = songListBox->getSelectedIndex();
+						if(selectedIndex < 0 || selectedIndex >= songListBox->getItemCount())
+							break;
+						SongListItem *item = (SongListItem*) songListBox->getItem(selectedIndex);
 						if (t.effectedMapID !=  item->getMapInfo().id)
 							break;
 						if (t.effectedMapLevel != item->getMapInfo().getLevel(item->getDifIndex()))
@@ -680,12 +696,24 @@ namespace diva
 					{
 						int index = songListBox->getIndexByMapId(t.effectedMapID);
 						//((SongListItem*)songListBox->getItem(index))->setDownloadFinished(true);
-						((SongListItem*)songListBox->getItem(index))->setDownloadProgress(MAPMGR.GetMapDownloadProgress(t.effectedMapID));
+						if(index >= 0) {
+							((SongListItem*)songListBox->getItem(index))->setDownloadProgress(MAPMGR.GetMapDownloadProgress(t.effectedMapID));
+							if(index == songListBox->getSelectedIndex()) {
+								songSelectButton->setText(L"下载中...");
+								songSelectButton->setEnabled(false);
+							}
+						}
 					}
 					else
 					{
 						int index = songListBox->getIndexByMapId(t.effectedMapID);
-						((SongListItem*)songListBox->getItem(index))->setDownloadProgress(MAPMGR.GetMapDownloadProgress(t.effectedMapID));
+						if(index >= 0) {
+							((SongListItem*)songListBox->getItem(index))->setDownloadProgress(MAPMGR.GetMapDownloadProgress(t.effectedMapID));
+							if(index == songListBox->getSelectedIndex()) {
+								songSelectButton->setText(L"下载中...");
+								songSelectButton->setEnabled(false);
+							}
+						}
 					}
 					break;
 				case divamap::DivaMapEventMessage::UnpackMapDataFile :
@@ -697,13 +725,22 @@ namespace diva
 					if (t.finish)
 					{
 						int index = songListBox->getIndexByMapId(t.effectedMapID);
-						((SongListItem*)songListBox->getItem(index))->setDownloadFinished(true);
-						((SongListItem*)songListBox->getItem(index))->setDownloadProgress(1.0);
+						if(index >= 0) {
+							((SongListItem*)songListBox->getItem(index))->setDownloadFinished(true);
+							((SongListItem*)songListBox->getItem(index))->setDownloadProgress(1.0);
+
+							if(songListBox->getSelectedIndex() == index)
+							{
+								songSelectButton->setText(L"选择歌曲");
+								songSelectButton->setEnabled(true);
+							}
+						}
 					}
 					else
 					{
 						int index = songListBox->getIndexByMapId(t.effectedMapID);
-						((SongListItem*)songListBox->getItem(index))->setDownloadProgress(MAPMGR.GetMapDownloadProgress(t.effectedMapID));
+						if(index >= 0)
+							((SongListItem*)songListBox->getItem(index))->setDownloadProgress(MAPMGR.GetMapDownloadProgress(t.effectedMapID));
 					}
 					break;
 				}
@@ -761,6 +798,9 @@ namespace diva
 			{
 				//sora::SoraBGMManager::Instance()->stop(false);
 				countStarted = false;
+
+				songSelectButton->setText(L"");
+				songSelectButton->setEnabled(false);
 				return;
 			}
 			if (state == SONGLIST_ART)
@@ -769,8 +809,12 @@ namespace diva
 				songInfoContainer->setTextVisible(false);
 				//sora::SoraBGMManager::Instance()->stop(false);
 				countStarted = false;
+
+				songSelectButton->setText(L"查看艺术家");
+				songSelectButton->setEnabled(true);
 				return;
 			}
+
 			SongListItem* item = (SongListItem*)songListBox->getItems()[index];
 			if (item->getLook() == SongListItem::RANDOM)
 			{
@@ -780,6 +824,13 @@ namespace diva
 				countStarted = false;
 				return;
 			}
+
+			// refresh select button
+			if(item->getDownloadFinished())
+				songSelectButton->setText(L"选择歌曲");
+			else
+				songSelectButton->setText(L"下载歌曲");
+			songSelectButton->setEnabled(true);
 		
 			// DISPLAY SONGLIST
 			if (item->hasPreview())
@@ -798,6 +849,14 @@ namespace diva
 			rankPage = 0;
 			refreshRankPageText();
 			refreshRankingList();
+		}
+
+		void MusicUI::SongSelectButtonClicked()
+		{
+			int index = songListBox->getSelectedIndex();
+
+			if(index >= 0)
+				SongListItemDoubleClicked(index);
 		}
 
 		void MusicUI::SongListItemDoubleClicked(int index)
@@ -850,6 +909,8 @@ namespace diva
 				else
 				{
 					MAPMGR.PrepareDivaMapData(item->getMapInfo().id);
+					songSelectButton->setText(L"下载中...");
+					songSelectButton->setEnabled(false);
 				}
 				AdjustStartButton();
 			}
@@ -973,6 +1034,7 @@ namespace diva
 		{
 			MusicUI* ui = MusicUI::Instance();
 			ui->songListBox->clearItems();
+
 			for (std::map<std::wstring, ListItemEx*>::iterator i = ui->artistListItems.begin(); i != ui->artistListItems.end(); i++)
 			{
 				ui->songListBox->pushItem(i->second);
@@ -1032,6 +1094,13 @@ namespace diva
 				ui->refreshRankPageText();
 				ui->refreshRankingList(true, false);
 			}
+		}
+
+		void SongSelectButton_MouseListener::mouseClicked(MouseEvent& mouseEvent)
+		{
+			// !!
+			MusicUI* ui = MusicUI::Instance();
+			ui->SongSelectButtonClicked();
 		}
 
 		void PlayButton_MouseListener::mouseClicked(MouseEvent& mouseEvent)

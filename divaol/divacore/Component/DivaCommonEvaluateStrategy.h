@@ -159,7 +159,7 @@ namespace divacore
 			_sortRank();
 			for(int i = 0; i < mRank.size(); i++)
 			{
-				evals[i]->setInfo(mRank[i].score,mRank[i].cntEval, mRank[i].nickname);
+				evals[i]->setInfo(mRank[i].score,mRank[i].maxCombo,mRank[i].maxCTLevel,mRank[i].cntEval, mRank[i].nickname);
 				evals[i]->setTeamColor(mRank[i].index);
 			}
 		}
@@ -169,7 +169,7 @@ namespace divacore
 			SimpleUI::EvalBar *eval;
 
 			eval = (SimpleUI::EvalBar *)uiPainter->createWidget("header");
-			eval->setInfo(mResult.myScore,mResult.myCntEval,NET_INFO.nickname);
+			eval->setInfo(mResult.myScore,mResult.myMaxCombo,mResult.myMaxCTLevel,mResult.myCntEval,NET_INFO.nickname);
 			uiPainter->addWidget(eval);
 		}
 		void addMultiEvalUI()

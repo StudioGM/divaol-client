@@ -152,6 +152,7 @@ namespace gcn
 
 	void ListBoxEx::clearItems()
 	{
+		clearSelect();
 		if (items.size() == 0)
 			return;
 		items.clear();
