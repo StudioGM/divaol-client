@@ -314,6 +314,7 @@ namespace divamap
 
 
 		//Select Mode functions
+		std::wstring GetModeStr(long long int mode);
 		void SelectedMode_Set(long long int mode);
 		void SelectedMode_ToggleMode(GameMode mode, bool select);
 
