@@ -1,22 +1,22 @@
 {
 	"header_info" : {
 		"type" : "image",
-		"position" : [434,82,1096,76],
-		"texRect" : [0,0,1096,76],
+		"position" : [388,82,1247,129],
+		"texRect" : [0,0,1247,129],
 		"tex" : "pic/UI/Eval/header.png"
 	},
 	"header" : {
 		"reserve" : true,
 		"type" : "evalBar",
-		"position" : [287,82],
-		"scorePosition" : [1170,66],
-		"goldPosition" : [1055,104],
-		"expPosition" : [1166,104],
-		"0" : [253,78],
-		"1" : [390,78],
-		"2" : [532,78],
-		"3" : [660,78],
-		"4" : [806,78],
+		"position" : [78,82],
+		"scorePosition" : [1410,78],
+		"goldPosition" : [1505,70],
+		"expPosition" : [1505,100],
+		"0" : [470,78],
+		"1" : [585,78],
+		"2" : [710,78],
+		"3" : [830,78],
+		"4" : [960,78],
 		"icon0" : {
 			"tex" : "pic/head/head1.png",
 			"texRect" : [0,0,92,92],
@@ -39,18 +39,18 @@
 		},
 		"background" : {
 			"tex" : "pic/UI/Eval/head_bar.png",
-			"texRect" : [0,0,1339,112],
-			"position" : [0,17,1339,112]
+			"texRect" : [0,0,1548,112],
+			"position" : [0,17,1548,112]
 		},
 		"gold" : {
 			"tex" : "pic/UI/Kap.II.png",
 			"texRect" : [0,1260,35,23],
-			"position" : [982,99,35,23]
+			"position" : [1440,65,35,23]
 		},
 		"exp" : {
 			"tex" : "pic/UI/Kap.II.png",
 			"texRect" : [0,1284,56,24],
-			"position" : [1074,99,56,24]
+			"position" : [1419,95,56,24]
 		},
 		"evalNumber" : {
 			"startPoint" : [0,0],
@@ -88,21 +88,21 @@
 				"size" : 40,
 				"color" : "#FFFFFF"
 			},
-			"position" : [-200,30]
+			"position" : [20,33]
 		}
 	},
 	"bar" : {
 		"reserve" : true,
 		"type" : "evalBar",
-		"position" : [287,82],
-		"scorePosition" : [1170,15],
-		"goldPosition" : [1055,53],
-		"expPosition" : [1166,53],
-		"0" : [253,27],
-		"1" : [390,27],
-		"2" : [532,27],
-		"3" : [660,27],
-		"4" : [806,27],
+		"position" : [78,82],
+		"scorePosition" : [1410,28],
+		"goldPosition" : [1505,17],
+		"expPosition" : [1505,47],
+		"0" : [470,28],
+		"1" : [585,28],
+		"2" : [710,28],
+		"3" : [830,28],
+		"4" : [960,28],
 		"icon0" : {
 			"tex" : "pic/head/head1.png",
 			"texRect" : [0,0,92,90],
@@ -125,18 +125,18 @@
 		},
 		"background" : {
 			"tex" : "pic/UI/Eval/bar.png",
-			"texRect" : [0,0,1339,82],
-			"position" : [0,0,1339,82]
+			"texRect" : [0,0,1548,82],
+			"position" : [0,0,1548,82]
 		},
 		"gold" : {
 			"tex" : "pic/UI/Kap.II.png",
 			"texRect" : [0,1260,35,23],
-			"position" : [982,48,35,23]
+			"position" : [1440,12,35,23]
 		},
 		"exp" : {
 			"tex" : "pic/UI/Kap.II.png",
 			"texRect" : [0,1284,56,24],
-			"position" : [1074,48,56,24]
+			"position" : [1419,42,56,24]
 		},
 		"evalNumber" : {
 			"startPoint" : [0,0],
@@ -174,7 +174,7 @@
 				"size" : 40,
 				"color" : "#FFFFFF"
 			},
-			"position" : [-200,10]
+			"position" : [20,13]
 		}
 	},
 	"z_globalInfo" : {

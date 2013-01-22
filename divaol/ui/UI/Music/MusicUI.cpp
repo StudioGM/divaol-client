@@ -202,14 +202,14 @@ namespace diva
 			thumbImage = new gcn::ContainerEx();
 			thumbImage->load(noimageFileName, noimageRect, true);
 			thumbImage->setSize(368,207);
-			top->add(thumbImage, 803, 132);
+			top->add(thumbImage, 793, 132);
 
 			// ThumbFrameContainer
 
 			thumbFrameContainter = new gcn::ContainerEx();
 			thumbFrameContainter->load(L"res/UI2.png", gcn::Rectangle(0,0,412,251));
 			thumbFrameContainter->setSize(412,251);
-			top->add(thumbFrameContainter, 781,110);
+			top->add(thumbFrameContainter, 771,110);
 
 			// SongInfoContainer
 
@@ -219,14 +219,14 @@ namespace diva
 			songInfoContainer->setFont(songInfoFont);
 			songInfoContainer->load(L"res/UI2.png", gcn::Rectangle(412,414,553,295));
 			songInfoContainer->setSize(553,295);
-			top->add(songInfoContainer, 700, 391);
+			top->add(songInfoContainer, 700, 346);
 		
 			// SelectedListBox
 
 			selectedListBox = new DivaSelectedListBox();
-			top->add(selectedListBox, 693 + 19, 710 - 19);
+			top->add(selectedListBox, 693 + 19, 710 - 19 + 35);
 
-			int offx = -670, offy = 235;
+			int offx = -670, offy = 245;
 
 			// ModeLeftButton
 			modeLeftButton = new gcn::ButtonEx();

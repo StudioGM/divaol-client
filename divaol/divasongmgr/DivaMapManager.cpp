@@ -922,6 +922,23 @@ namespace divamap
 		else
 			return true;
 	}
+	bool DivaMapManager::PrepareDownloadFile(std::wstring url)
+	{
+		DivaMapManagerDownloadQuest *thisQuest = new DivaMapManagerDownloadQuest(url,L"",-1,-1,DivaMapEventMessage::DownloadFile);
+		unsigned int threadAddress;
+		HANDLE hThread = 
+			(HANDLE)_beginthreadex(
+			NULL,
+			0,
+			&HTTPQueryAsync,
+			thisQuest,
+			0,
+			&threadAddress
+			);
+
+		if(hThread==NULL)
+			return false;
+	}
 
 
 	//Get functions

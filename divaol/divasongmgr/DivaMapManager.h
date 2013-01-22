@@ -39,7 +39,8 @@ namespace divamap
 			PrepareRecordByUser,
 			UnpackMapDataFile, 
 			PrepareCheckMapDataFile, 
-			MapEventERROR
+			MapEventERROR,
+			DownloadFile
 		};
 		
 		DivaMapEventMessage()
@@ -278,6 +279,8 @@ namespace divamap
 
 		bool PrepareRecordByRank(int mapID, int difficulty, int startRank, int endRank, void* extraPTR=NULL);
 		bool PrepareRecordByUser(int mapID, int difficulty, std::wstring userID);
+
+		bool PrepareDownloadFile(std::wstring url);
 
 
 		//Get functions
