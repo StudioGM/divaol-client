@@ -448,8 +448,8 @@
     "filename": "res/RoomList_PlayerList_001.png",
     "srcX": 1750,
     "srcY": 360,
-    "desX": 1017,
-    "desY": 359,
+    "desX": 1157,
+    "desY": 354,
     "width": 35,
     "height": 34
   },
@@ -458,8 +458,8 @@
     "filename": "res/RoomList_PlayerList_001.png",
     "srcX": 1220,
     "srcY": 899,
-    "desX": 995,
-    "desY": 337,
+    "desX": 1135,
+    "desY": 332,
     "width": 79,
     "height": 78
   },
@@ -468,8 +468,8 @@
     "filename": "res/RoomList_PlayerList_001.png",
     "srcX": 1750,
     "srcY": 242,
-    "desX": 1013,
-    "desY": 355,
+    "desX": 1153,
+    "desY": 350,
     "width": 44,
     "height": 42
   },
