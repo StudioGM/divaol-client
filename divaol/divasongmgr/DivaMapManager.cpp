@@ -1110,7 +1110,7 @@ namespace divamap
 		{
 			if(((mode>>i)&1)==1)
 			{
-				if(ret!=L"" && ((GameMode)i != GameMode::CTMode))
+				if(ret!=L"")
 					ret+=L",";
 				switch ((GameMode)i)
 				{
@@ -1118,7 +1118,7 @@ namespace divamap
 					ret+=L"Auto¾ý";
 					break;
 				case GameMode::BlackHouseMode:
-					ret=+L"ºÚÎÝ";
+					ret+=L"ºÚÎÝ";
 					break;
 				case GameMode::ChaosMode:
 					ret+=L"»ìãç";

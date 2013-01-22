@@ -199,16 +199,15 @@ namespace divamap
 	public:
 		enum GameMode {
 			PVMode = 0, 
-			CTMode = 1,
-			AutoMode = 2,
-			FastMode = 3,
-			SlowMode = 4,
-			DeathMode = 5,
-			RandomSwapMode = 6,
-			ChaosMode = 7,
-			DisappearMode = 8,
-			BlackHouseMode = 9,
-			NoFailMode = 10
+			AutoMode = 1,
+			FastMode = 2,
+			SlowMode = 3,
+			DeathMode = 4,
+			RandomSwapMode = 5,
+			ChaosMode = 6,
+			DisappearMode = 7,
+			BlackHouseMode = 8,
+			NoFailMode = 9
 		};
 
 		long long int selectedMode;
