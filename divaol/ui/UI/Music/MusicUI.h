@@ -137,6 +137,7 @@ namespace diva
 			void SongListHighlightItemChanged(int index);
 			void SongListItemDoubleClicked(int index);
 			void SongSelectButtonClicked();
+			void ClearSongSelectButton();
 
 			int GetRandomSong(divamap::DivaMap::LevelType level);
 

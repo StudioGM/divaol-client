@@ -816,6 +816,14 @@ namespace diva
 			}
 
 			SongListItem* item = (SongListItem*)songListBox->getItems()[index];
+
+			// refresh select button
+			if(item->getDownloadFinished() || item->getLook() == SongListItem::RANDOM)
+				songSelectButton->setText(L"Ñ¡Ôñ¸èÇú");
+			else
+				songSelectButton->setText(L"ÏÂÔØ¸èÇú");
+			songSelectButton->setEnabled(true);
+
 			if (item->getLook() == SongListItem::RANDOM)
 			{
 				thumbImage->load(randomFileName, randomRect, true);
@@ -824,13 +832,6 @@ namespace diva
 				countStarted = false;
 				return;
 			}
-
-			// refresh select button
-			if(item->getDownloadFinished())
-				songSelectButton->setText(L"Ñ¡Ôñ¸èÇú");
-			else
-				songSelectButton->setText(L"ÏÂÔØ¸èÇú");
-			songSelectButton->setEnabled(true);
 		
 			// DISPLAY SONGLIST
 			if (item->hasPreview())
@@ -859,6 +860,14 @@ namespace diva
 				SongListItemDoubleClicked(index);
 		}
 
+		void MusicUI::ClearSongSelectButton()
+		{
+			if(songSelectButton) {
+				songSelectButton->setText(L"");
+				songSelectButton->setEnabled(false);
+			}
+		}
+
 		void MusicUI::SongListItemDoubleClicked(int index)
 		{
 			if (state == SONGLIST_ART)
@@ -883,6 +892,8 @@ namespace diva
 				songListBox->setDifButtonDisplayed(true);
 				state = SONGLIST_SPEART;
 				refreshSongList();
+				ClearSongSelectButton();
+
 				return;
 			}
 
@@ -1034,6 +1045,7 @@ namespace diva
 		{
 			MusicUI* ui = MusicUI::Instance();
 			ui->songListBox->clearItems();
+			ui->ClearSongSelectButton();
 
 			for (std::map<std::wstring, ListItemEx*>::iterator i = ui->artistListItems.begin(); i != ui->artistListItems.end(); i++)
 			{
@@ -1046,6 +1058,7 @@ namespace diva
 
 		void SongButton_MouseListener::mouseClicked(MouseEvent& mouseEvent)
 		{
+			MusicUI::Instance()->ClearSongSelectButton();
 			MusicUI::Instance()->state = MusicUI::SONGLIST_ORIG;
 			MusicUI::Instance()->songListBox->setDifButtonDisplayed(true);
 			MusicUI::Instance()->songListBox->setItems(MusicUI::Instance()->songListOrigItems);
