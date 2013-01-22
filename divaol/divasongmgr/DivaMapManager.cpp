@@ -1102,6 +1102,53 @@ namespace divamap
 
 
 	//Selected Mode functions
+	std::wstring DivaMapManager::GetModeStr(long long int mode)
+	{
+		std::wstring ret = L"";
+
+		for(long long int i=0;i<=(long long int)GameMode::NoFailMode;i++)
+		{
+			if(((mode>>i)&1)==1)
+			{
+				if(ret!=L"" && ((GameMode)i != GameMode::CTMode))
+					ret+=L",";
+				switch ((GameMode)i)
+				{
+				case GameMode::AutoMode:
+					ret+=L"Auto¾ý";
+					break;
+				case GameMode::BlackHouseMode:
+					ret=+L"ºÚÎÝ";
+					break;
+				case GameMode::ChaosMode:
+					ret+=L"»ìãç";
+					break;
+				case GameMode::DeathMode:
+					ret+=L"ËÀÍö";
+					break;
+				case GameMode::DisappearMode:
+					ret+=L"½¥Òþ";
+					break;
+				case GameMode::FastMode:
+					ret+=L"¼ÓËÙ";
+					break;
+				case GameMode::NoFailMode:
+					ret+=L"³¢ÊÔ";
+					break;
+				case GameMode::RandomSwapMode:
+					ret+=L"ÖÃ»»";
+					break;
+				case GameMode::SlowMode:
+					ret+=L"¼õËÙ";
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		return ret;
+
+	}
 	void DivaMapManager::SelectedMode_Set(long long int mode)
 	{
 		selectedMode = mode;
