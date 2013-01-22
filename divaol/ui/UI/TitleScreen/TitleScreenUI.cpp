@@ -49,7 +49,8 @@ namespace diva
 
 		style = L"Miku";
 
-		MAPMGR.registerMapEventMessageQueue(new std::list<divamap::DivaMapEventMessage>);
+		if(MAPMGR.GetQueue()==NULL)
+			MAPMGR.registerMapEventMessageQueue(new std::list<divamap::DivaMapEventMessage>);
 
 		// --------- Inner Line
 

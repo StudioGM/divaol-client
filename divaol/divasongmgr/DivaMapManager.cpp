@@ -1146,6 +1146,10 @@ namespace divamap
 				}
 			}
 		}
+
+		if(ret == L"")
+			ret = L"нч";
+
 		return ret;
 
 	}

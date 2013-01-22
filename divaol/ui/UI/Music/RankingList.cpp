@@ -71,7 +71,7 @@ namespace diva
 				static const wchar_t* CTText[] = {L"零段",L"一段",L"二段",L"三段",L"四段",L"五段",L"六段",L"爆表"};
 				
 				graphics->drawTextW(CTText[maxCT], maxCTP.x, maxCTP.y);
-				graphics->drawTextW(L"模式:" + MAPMGR.GetModeDescription(mode), modeP.x, modeP.y);
+				graphics->drawTextW(L"模式:" + MAPMGR.GetModeStr(mode), modeP.x, modeP.y);
 				graphics->drawTextW(L"By:" + playerName, playerP.x, playerP.y);
 			}
 			else if (isNull == 1)

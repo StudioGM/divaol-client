@@ -14,45 +14,97 @@
 #include "Core/DivaCore.h"
 #include "Lib/Base/Base.h"
 #include "Lib/MD5/md52.h"
+#include "divasongmgr/divamapmanager.h"
+#include "SoraAutoUpdate.h"
 
 namespace divacore
 {
-	class Version : public Base::Singleton<Version>
+	class Version : public Base::Singleton<Version>, public sora::SoraAutoUpdate
 	{
 	private:
 		friend class Base::Singleton<Version>;
 
-		Version():state(UNINITIALIZED) {RequireVersion();}
+		Version():state(UNINITIALIZED) {
+		}
 		~Version() {}
 
 	public:
-		enum State{UNINITIALIZED, REQUIREING, READY};
+		enum State{UNINITIALIZED, REQUIREING, UNREADY, READY};
+
+		int getState() {return state;}
 
 		void RequireVersion() 
 		{
-			if(state != UNINITIALIZED)
+			if(state != UNINITIALIZED && state != UNREADY)
 				return;
 
 			applicationPath = Base::Path::GetApplicationPath(true);
 
-			CheckVersion();
+			MAPMGR.PrepareDownloadFile(L"http://divaol.com/update/divaol.json");
+
+			state = REQUIREING;
 		}
 		bool CheckVersion()
 		{
-			uint64 nowTime = Base::TimeUtil::currentTime();
 			MD52 md5(applicationPath);
 			Base::String md5str(md5.toString());
 
 			if(md5str == md5Value)
 				return true;
 
+			state = UNREADY;
 			return false;
+		}
+		void onUpdate(float dt) {
+			if(state == REQUIREING) {
+				MAPQUEUE* q = MAPMGR.GetQueue();
+				if(q == NULL)
+				{
+					state = UNREADY;
+					return;
+				}
+				while (!q->empty())
+				{
+					const divamap::DivaMapEventMessage &t = (*((*q).begin()));
+					switch (t.eventType)
+					{
+					case divamap::DivaMapEventMessage::DownloadFile:
+						if(t.finish)
+						{
+							if(!t.error)
+							{
+								Json::Reader reader;
+								Json::Value value;
+								if(reader.parse(t.additionalMessage, value))
+								{
+									if(value.isMember("version"))
+									{
+										version = value["version"].asString();
+										if(value.isMember("files")&&value["files"].isMember("divaol.exe_zlib")) {
+											md5Value = value["files"]["divaol.exe_zlib"].asString();
+											q->pop_front();
+											state = READY;
+											return;
+										}
+									}
+								}
+							}
+							q->pop_front();
+							state = UNREADY;
+							return;
+						}
+						break;
+					}
+					q->pop_front();	
+				}
+			}
 		}
 
 	protected:
 		int state;
 		Base::String version;
 		Base::String md5Value;
+		Base::String errorCode;
 		Base::String applicationPath;
 	};
 

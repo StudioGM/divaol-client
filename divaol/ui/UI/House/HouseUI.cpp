@@ -26,6 +26,7 @@
 #include "divanetwork/DivaNetCommand.h"
 #include "divasongmgr/DivaMapManager.h"
 #include "divacore/Utility/DivaSettings.h"
+#include "Utility/DivaVersion.h"
 
 namespace diva
 {
@@ -2195,6 +2196,20 @@ namespace diva
 		}
 
 		void HouseUI::login() {
+			VERSION.RequireVersion();
+			while(VERSION.getState() == divacore::Version::REQUIREING)
+				Base::TimeUtil::mSleep(1);
+			if(VERSION.getState() == divacore::Version::UNREADY)
+			{
+				mgr->GetMB()->Show(L"无法获取版本信息，请重试。", L"错误", gcn::MessageBoxEx::TYPE_OK);
+				return;
+			}
+			else if(!VERSION.CheckVersion())
+			{
+				mgr->GetMB()->Show(L"版本已过时，请更新游戏。", L"错误", gcn::MessageBoxEx::TYPE_OK);
+				return;
+			}
+
 			if(!connectServer())
 			{
 				mgr->GetMB()->Show(L"无法连接服务器", L"错误", gcn::MessageBoxEx::TYPE_OK);

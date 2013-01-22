@@ -590,7 +590,7 @@ namespace diva
 							reader.parse(t[L"add_data"].asString(), addData);
 							((RankingListItem*)rankingList->getItem(i))->SetInfo(t[L"score"].asInt(),
 								addData[L"combo"].asInt(),
-								addData[L"mode"].asInt(),
+								addData[L"hooks"].asInt(),
 								addData[L"maxCT"].asInt(),
 								t[L"name"].asString());
 							((RankingListItem*)rankingList->getItem(i))->SetNull(0);
@@ -639,7 +639,7 @@ namespace diva
 							reader.parse(tv[L"add_data"].asString(), addData);
 							((RankingListItem*)rankingList->getItem(rankingList->getMaxItem() - 1))->SetInfo(tv[L"score"].asInt(),
 								addData[L"combo"].asInt(),
-								addData[L"mode"].asInt(),
+								addData[L"hooks"].asInt(),
 								addData[L"maxCT"].asInt(),
 								tv[L"name"].asString());
 							((RankingListItem*)rankingList->getItem(rankingList->getMaxItem() - 1))->SetRanking(tv[L"rank"].asInt());

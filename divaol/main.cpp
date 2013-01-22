@@ -42,8 +42,6 @@ int CALLBACK WinMain(
 	LPSTR lpCmdLine,
 	int nCmdShow
 	) {
-		VERSION.RequireVersion();
-
 		diva::initialize_config(L"config/SettingConfig.json", L"config/config.json", L"config/sound.json");
 		//std::wstring ss = config[L"sdf"].asString();
 		// initialize settings
