@@ -1449,6 +1449,13 @@ namespace diva
 			loginButton = lb;
 			//lb->setBaseColor(gcn::Color(255, 0, 0));
 
+			SuperButtonEx* closeButton = CreateButton(conf, L"Login/btn_close/btn_close_normal", L"Login/btn_close/btn_close_on",
+				L"Login/btn_close/btn_close_down", L"Login/btn_close/btn_close_normal");
+			con->add(closeButton, closeButton->getX() - topX, closeButton->getY() - topY);
+			//closeButton->setPosition(800,100);
+			closeButton->addMouseListener(new LoginButton_MouseListener());
+			loginCloseButton = closeButton;
+
 			//loginButton->addModifier(new GUIAnimation_Position(gcn::Point(0, 0), 120, GUIAnimation_Float_Linear, GUIAnimation_Mode::NONE));
 
 			// user login label
@@ -2228,6 +2235,11 @@ namespace diva
 #endif
 		}
 
+		void HouseUI::LoginCloseButtonClicked()
+		{
+			exit(0);
+		}
+
 		void HouseUI::SetWidgetInvisible(gcn::Widget* widget)
 		{
 			widget->setVisible(false);
@@ -2239,6 +2251,11 @@ namespace diva
 			if (mouseEvent.getSource() == (gcn::Widget*) loginButton && loginButton->checkIsEnabled())
 			{
 				LoginButtonClicked();
+				return;
+			}
+			if (mouseEvent.getSource() == (gcn::Widget*) loginCloseButton && loginCloseButton->checkIsEnabled())
+			{
+				LoginCloseButtonClicked();
 				return;
 			}
 			if (mouseEvent.getSource() == (gcn::Widget*) stageButton) //&& stageButton->checkIsEnabled())

@@ -208,6 +208,7 @@ namespace diva
 			// --------- Login
 			gcn::WindowEx* loginPanel;
 			gcn::SuperButtonEx* loginButton;
+			gcn::SuperButtonEx* loginCloseButton;
 			gcn::WTextField* usernameInput;
 			gcn::WTextField* passwordInput;
 
@@ -240,6 +241,7 @@ namespace diva
 
 			// Event
 			void LoginButtonClicked();
+			void LoginCloseButtonClicked();
 			void MouseClicked(gcn::MouseEvent& mouseEvent);
 			void MessagePanelInputBoxEnterPressed();
 			void MessagePanelChannelClicked();
