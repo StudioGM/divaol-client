@@ -47,11 +47,11 @@
 	],
 	"uiMods":[
 		"默认",
-		"WSAD"
+		"PlayStation按键"
 	],
 	"uiModFiles":[
 		"standard",
-		"wsad"
+		"skin_playstation"
 	],
 	"languages":[
 		"中文"
