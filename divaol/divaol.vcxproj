@@ -699,6 +699,7 @@
     <ClInclude Include="divacore\Utility\DivaJoystickInputer.h" />
     <ClInclude Include="divacore\Utility\DivaJsonHelper.h" />
     <ClInclude Include="divacore\Utility\DivaPath.h" />
+    <ClInclude Include="divacore\Utility\DivaRankResult.h" />
     <ClInclude Include="divacore\Utility\DivaSettings.h" />
     <ClInclude Include="divacore\Utility\DivaSimpleUI.h" />
     <ClInclude Include="divacore\Utility\DivaVersion.h" />

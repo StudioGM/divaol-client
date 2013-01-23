@@ -2505,6 +2505,9 @@
     <ClInclude Include="divacore\Utility\DivaVersion.h">
       <Filter>源文件\divacore\utility</Filter>
     </ClInclude>
+    <ClInclude Include="divacore\Utility\DivaRankResult.h">
+      <Filter>源文件\divacore\utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

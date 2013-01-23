@@ -15,23 +15,23 @@ namespace divacore
 {
 	const int MAX_LEVEL = 7;
 	const float RATE[MAX_LEVEL] = {1,1.5,2,2.5,3,3.5,4};
-	const float SpeedUp[MAX_LEVEL] = {1,1,2,4,5,6,7};
+	const float SpeedUp[MAX_LEVEL] = {1,1.3,1.6,2,2.5,3,4};
 	const float Duration[MAX_LEVEL] = {10,10,10,10,10,10,10};
 	const float CostValueWithTime[MAX_LEVEL][2] = {{0,GRID_PER_BAR},
-									{100,GRID_PER_BAR},
-									{125,GRID_PER_BAR},
+									{30,GRID_PER_BAR},
+									{80,GRID_PER_BAR},
+									{120,GRID_PER_BAR},
 									{150,GRID_PER_BAR},
-									{175,GRID_PER_BAR},
-									{200,GRID_PER_BAR},
-									{250,GRID_PER_BAR}};
+									{180,GRID_PER_BAR},
+									{200,GRID_PER_BAR}};
 	const int CostValueWithRank[MAX_LEVEL][5] = {
-		{60,30,0,-20,-20},
-		{60,30,0,-20,-20},
-		{60,30,0,-20,-20},
-		{60,30,0,-50,-100},
-		{60,20,0,-150,-300},
-		{60,10,0,-250,-500},
-		{60,0,0,-500,-1000}};
+		{50,30,0,-10,-10},
+		{50,30,0,-25,-25},
+		{55,30,0,-40,-50},
+		{55,35,0,-80,-100},
+		{60,35,0,-120,-150},
+		{60,40,0,-250,-400},
+		{70,40,0,-300,-600}};
 
 	class CTMode : public Hook
 	{
