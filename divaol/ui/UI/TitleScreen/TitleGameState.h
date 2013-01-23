@@ -109,11 +109,14 @@ namespace diva
 
 
 		void onKeyPressed(sora::SoraKeyEvent& keyEvent) {
+			sora::SoraBGMManager::Instance()->setFadeTime(setConfig[L"bgmFadeTime"].asDouble(), setConfig[L"bgmFadeTime"].asDouble());
 			//getGameApp()->setState("house");
 			beginLeave("house");
 		}
 
 		void onMouseClicked(SoraMouseEvent& event) {
+			sora::SoraBGMManager::Instance()->setFadeTime(setConfig[L"bgmFadeTime"].asDouble(), setConfig[L"bgmFadeTime"].asDouble());
+			
 			beginLeave("house");
 		}
 

@@ -288,7 +288,6 @@ namespace diva
 		}
 
 		void onEnter() {
-			sora::SoraBGMManager::Instance()->setFadeTime(setConfig[L"bgmFadeTime"].asDouble(), setConfig[L"bgmFadeTime"].asDouble());
 			if(state == UNINITIALIZED)
 			{
 				_ReadConfig("config/init.json");

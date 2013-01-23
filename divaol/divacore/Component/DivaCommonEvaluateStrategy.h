@@ -215,6 +215,14 @@ namespace divacore
 					if(compare(mRank[j],mRank[j-1]))
 						std::swap(mRank[j],mRank[j-1]);
 		}
+
+		bool isNumberUp()
+		{
+			bool isUp = false;
+			for(int i = 0; i < evals.size(); i++)
+				isUp |= evals[i]->isNumberUp();
+			return isUp;
+		}
 	};
 }
 

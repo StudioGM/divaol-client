@@ -83,7 +83,10 @@ namespace divacore
 
 		inline std::string username() {return mUserName;}
 		inline std::string uid() {return mUid;}
-		inline std::string module() {return mModule;}
+		inline std::string module() 
+		{
+			return mModule;
+		}
 		inline void setUid(std::string &uid) {mUid = uid;} 
 		inline std::vector<std::string> hooks() {return mHooks;}
 	private:

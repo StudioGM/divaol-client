@@ -38,6 +38,7 @@ namespace divacore
 	{
 		sora::SoraText mText;
 		divacore::SimpleUIPainter *uiPainter;
+		static const int BGS_ID = 0;
 	public:
 		void onInitiate()
 		{
@@ -124,8 +125,8 @@ namespace divacore
 			}
 
 			// play BGM
-			sora::SoraBGMManager::Instance()->play(diva::config[L"resultMusicFilename"].asString(), false, false);
-			sora::SoraBGMManager::Instance()->play(diva::config[L"resultLoopMusicFilename"].asString(), true, true);
+			//sora::SoraBGMManager::Instance()->play(diva::config[L"resultMusicFilename"].asString(), false, false);
+			//sora::SoraBGMManager::Instance()->play(diva::config[L"resultLoopMusicFilename"].asString(), true, true);
 		}
 
 		void onLeave()
@@ -148,6 +149,14 @@ namespace divacore
 
 		void onUpdate(float dt)
 		{
+			if(((CommonEvaluateStrategy*)EVALUATE_STRATEGY_PTR)->isNumberUp())
+			{
+				sora::SoraBGMManager::Instance()->playBGS(diva::config[L"resultNumberUpSound"].asString(), BGS_ID, 1, SETTINGS.getSEVolume(), 1.f);
+			}
+			else
+			{
+				//sora::SoraBGMManager::Instance()->stopBGS(BGS_ID);
+			}
 		}
 
 		void onKeyReleased(SoraKeyEvent& event)

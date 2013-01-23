@@ -399,12 +399,14 @@ namespace divacore
 			std::string color;
 			Point position;
 			sora::SoraText text;
+			sora::SoraFont::Alignment style;
 		public:
 			void setText(const std::wstring &content);
 			void setText(const std::string &content) {setText(sora::s2ws(content));}
 			void construct(Config &config, const std::string &head);
 			void onRender(float x, float y);
 			void setScale(float scale);
+			void setAlign(sora::SoraFont::Alignment style) {this->style = style;}
 		};
 
 		class Title : public Text
@@ -425,9 +427,9 @@ namespace divacore
 			static const uint32 TEAM_COLOR[MAX_TEAM];
 		protected:
 			Point size;
-			Text *info;
+			Text *info, *appendInfo;
 			Point position;
-			std::string name;
+			Base::String name,append;
 			int score,combo;
 			float hp,dangerRatio;
 			Image *icon, *background, *focus;
@@ -435,7 +437,8 @@ namespace divacore
 			Spark *dangerSpark;
 		protected:
 			Player():icon(NULL) {}
-			void setName(std::string name) {this->name = name;}
+			void setName(Base::String name) {this->name = name;}
+			void setAppend(Base::String append) {this->append = append;}
 			void setInfo(int score, int combo, float hp) {this->score=score,this->combo=combo,this->hp=hp;}
 			void setFocus(bool bFocus) {if(focus)focus->setVisible(bFocus);}
 		public:
@@ -486,13 +489,16 @@ namespace divacore
 			NumberBar *evalNumber[EvaluateStrategy::EVAL_NUM],*scoreNumber,*goldNumber,*expNumber,*comboNumber;
 			Rect levelTexRect[MAX_LEVEL];
 			Text *info;
-			Image *background, *level;
+			Image *background, *level, *result;
+			std::vector<Rect> resultTexRect;
+
 			int evalCnt[EvaluateStrategy::EVAL_NUM],nowCnt[EvaluateStrategy::EVAL_NUM];
 			int score,nowScore;
 			int maxCombo, nowCombo;
 			int maxCTLevel;
 			int gold, nowGold;
 			int exp, nowExp;
+			bool bNumberUp;
 		protected:
 			void updateNumber(int &source, int dest);
 		public:
@@ -503,6 +509,8 @@ namespace divacore
 			void onRender(float x, float y);
 			void setInfo(int score, int maxCombo, int maxCTLevel, int eval[], const Base::String &info);
 			void setTeamColor(int teamIndex);
+			bool isNumberUp() {return bNumberUp;}
+			void evalResult();
 		};
 
 		class Button : public Image

@@ -257,7 +257,8 @@ namespace sora {
 			} else {
 				if(itBgs->second->bgsFile != NULL) {
 					itBgs->second->bgsFile->setVolume(volumeScale * bgmVolume);
-					itBgs->second->bgsFile->play();
+					if(!itBgs->second->bgsFile->isPlaying())
+						itBgs->second->bgsFile->play();
 					itBgs->second->bPlayFinished = false;
 					if(mCurrBGMId >= 0 && mCurrBGMId < mBGMQueue.size()) {
 						mBGMQueue[mCurrBGMId]->setVolume(bgmVolume * bgmVolumeScale);

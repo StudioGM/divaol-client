@@ -41,6 +41,7 @@ namespace divacore
 				mPlayers[i].score = gnet::ItemUtility::getUInt(player->getItem(1));
 				mPlayers[i].combo = gnet::ItemUtility::getUInt(player->getItem(2));
 				mPlayers[i].hp = gnet::ItemUtility::getValue(player->getItem(3));
+				mPlayers[i].status = gnet::ItemUtility::getString(player->getItem(4));
 			}
 		list = dynamic_cast<gnet::Item<gnet::List>*>(tuple->getItem(1));
 

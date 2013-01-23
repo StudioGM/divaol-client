@@ -43,6 +43,10 @@
 	"uiMods":[
 		"默认"
 	],
+	"uiModFiles":[
+		"standard",
+		"special"
+	],
 	"languages":[
 		"中文"
 	],
@@ -61,6 +65,7 @@
 	"lobbyLoopMusicFilename": "res/music/lobbyloop.ogg",
 	"resultMusicFilename": "res/music/result.ogg",
 	"resultLoopMusicFilename": "res/music/resultloop.ogg",
+	"resultNumberUpSound": "res/se/start.mp3",
 	"titleMusicFilename": "res/music/title.ogg",
 	"titleScreenDelayTime": 1.5,
 	"chatAreaMaxLine": 60,

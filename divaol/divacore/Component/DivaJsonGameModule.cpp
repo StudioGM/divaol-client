@@ -13,6 +13,7 @@
 #include "Core/DivaCore.h"
 #include "divanetwork/DivaNetworkManager.h"
 #include "divasongmgr/DivaMapManager.h"
+#include "Utility/DivaSettings.h"
 
 namespace divacore
 {
@@ -125,6 +126,7 @@ namespace divacore
 
 			//merge note/render/effect configs so that player can custom specfic parts of them
 			loadConfig(path);
+			loadConfig(SETTINGS.getUserModule());
 			loadConfig(MY_PLAYER_INFO.module());
 
 			if(noteFile=="__default__")

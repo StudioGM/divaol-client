@@ -13,6 +13,7 @@
 #include "Hook/DivaCTMode.h"
 #include "Utility/DivaSettings.h"
 #include "divasongmgr/DivaMapManager.h"
+#include "divanetwork/DivaStageServer.h"
 
 namespace divacore
 {
@@ -998,6 +999,8 @@ namespace divacore
 		}
 		void Text::construct(Config &config, const std::string &head)
 		{
+			style = sora::SoraFont::AlignmentLeft;
+
 			if(config.has(head+"text"))
 				content = sora::s2ws(config.getAsString(head+"text"));
 			else
@@ -1021,7 +1024,10 @@ namespace divacore
 		}
 		void Text::onRender(float x, float y)
 		{
-			text.renderTo(x,y);
+			if(style == sora::SoraFont::AlignmentRight)
+				text.renderTo(x-text.getFont()->getStringWidth(content.c_str()), y);
+			else
+				text.renderTo(x,y);
 		}
 		void Text::setScale(float scale)
 		{
@@ -1091,12 +1097,24 @@ namespace divacore
 				add(icon);
 			}
 			info = NULL;
+			appendInfo = NULL;
 			if(config.has(head+"info"))
 			{
 				info = new Text();
+				appendInfo = new Text();
 				info->construct(config,head+"info_");
+				appendInfo->construct(config,head+"info_");
 				info->init();
+				appendInfo->init();
 				add(info);
+				add(appendInfo);
+				appendInfo->setAlign(sora::SoraFont::AlignmentRight);
+				appendInfo->setVisible(false);
+				if(config.has(head+"info_appendPosition"))
+				{
+					Point p = config.getAsPoint(head+"info_appendPosition");
+					appendInfo->setPosition(p.x,p.y);
+				}
 			}
 			focus = NULL;
 			if(config.has(head+"focus"))
@@ -1116,7 +1134,15 @@ namespace divacore
 		}
 		void Player::onUpdate(float dt)
 		{
-			info->setText(format("%d\nX %d\n%s",score,combo,name.c_str()));
+			Base::String text = Base::String::format("%d\nX %d\n",score,combo)+name;
+			info->setText(text.asUnicode());
+			if(append != "")
+			{
+				appendInfo->setVisible(true);
+				appendInfo->setText(append.asUnicode());
+			}
+			else
+				appendInfo->setVisible(false);
 			hpBar->setRatio(hp);
 
 			dangerSpark->setFix(hp==0);
@@ -1143,6 +1169,7 @@ namespace divacore
 			Image *highLight = new Image();
 			highLight->construct(config,head+"highlight_");
 			this->add(highLight);
+			this->setName(NET_INFO.nickname);
 			
 			hpBar->setColor(Player::TEAM_COLOR[0]);
 			//setFocus(true);
@@ -1193,7 +1220,7 @@ namespace divacore
 
 				player->hpBar->setColor(Player::TEAM_COLOR[players[i].teamIndex]);
 				player->setPosition(width,0);
-				player->setName(players[i].name);
+				player->setName(STAGE_CLIENT.waiterInfo(players[i].uid).nickname);
 				player->setInfo(0,0,0.5);
 				player->flushOnly();
 				player->flush();
@@ -1231,6 +1258,14 @@ namespace divacore
 			for(int i = 0; i < players.size(); i++)
 			{
 				panels[i]->setInfo(players[i].score,players[i].combo,players[i].hp);
+				if(players[i].status == "leave")
+					panels[i]->setAppend("(已离开)");
+				else if(players[i].status == "back")
+					panels[i]->setAppend("(已返回)");
+				else if(players[i].status == "over")
+					panels[i]->setAppend("(计分板)");
+				else
+					panels[i]->setAppend("");
 			}
 		} 
 
@@ -1257,6 +1292,8 @@ namespace divacore
 				}
 				if(source>dest)
 					source = dest;
+
+				bNumberUp = true;
 			}
 			else if(dest<source)
 			{
@@ -1269,6 +1306,8 @@ namespace divacore
 				}
 				if(source<dest)
 					source = dest;
+
+				bNumberUp = true;
 			}
 		}
 		void EvalBar::setInfo(int score, int maxCombo, int maxCTLevel, int eval[], const Base::String &info)
@@ -1278,11 +1317,21 @@ namespace divacore
 			this->maxCTLevel = maxCTLevel;
 			this->info->setText(info.asUnicode());
 			memcpy(evalCnt,eval,sizeof(evalCnt));
+
+			evalResult();
 		}
 		void EvalBar::setTeamColor(int teamIndex)
 		{
 			if(background != NULL)
 				background->setColor(Player::TEAM_COLOR[teamIndex]);
+		}
+		void EvalBar::evalResult()
+		{
+			if(result) {
+				int resultLevel = 0;
+				if(resultLevel >= 0 && resultLevel < resultTexRect.size())
+					result->setTextureRect(resultTexRect[resultLevel]);
+			}
 		}
 		void EvalBar::construct(Config &config, const std::string &head)
 		{
@@ -1325,6 +1374,21 @@ namespace divacore
 				level = image;
 				for(int i = 0; i < MAX_LEVEL; i++)
 					levelTexRect[i] = config.getAsRect(head+"level_"+iToS(i));
+			}
+			result = NULL;
+			resultTexRect.clear();
+			if(config.has(head+"result"))
+			{
+				Image *image = new Image();
+				image->construct(config,head+"result_");
+				add(image);
+				result = image;
+				int count = config.getAsInt(head+"result_count");
+				for(int i = 0; i < count; i++)
+				{
+					Rect rect = config.getAsRect(head+"result_texRect"+iToS(i));
+					resultTexRect.push_back(rect);
+				}
 			}
 
 			for(int i = 0; i < EvaluateStrategy::EVAL_NUM; i++)
@@ -1391,6 +1455,7 @@ namespace divacore
 		}
 		void EvalBar::onUpdate(float dt)
 		{
+			bNumberUp = false;
 			for(int i = 0; i < EvaluateStrategy::EVAL_NUM; i++)
 			{
 				updateNumber(nowCnt[i],evalCnt[i]);

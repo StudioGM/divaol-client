@@ -11,7 +11,8 @@
 
 #include "DivaClient.h"
 #include "divasongmgr/DivaMapManager.h"
- 
+#include "divanetwork/DivaChatClient.h"
+
 namespace divanet
 {
 	struct WaiterInfo {

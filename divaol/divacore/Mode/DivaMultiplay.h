@@ -36,9 +36,10 @@ namespace divacore
 		float hp;
 		int maxCombo;
 		int maxCTLevel;
+		std::string status;
 
 		PlayerInfo()
-			:name(""),score(0),combo(0),hp(1.0),index(0),teamIndex(0),indexInTeam(0),maxCombo(0),maxCTLevel(0)
+			:name(""),score(0),combo(0),hp(1.0),index(0),teamIndex(0),indexInTeam(0),maxCombo(0),maxCTLevel(0),status("systemready")
 		{}
 		friend bool operator<(const PlayerInfo &a, const PlayerInfo &b)
 		{

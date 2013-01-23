@@ -202,6 +202,7 @@
 		},
 		"info" : {
 			"position" : [108,-2],
+			"appendPosition" : [280, 24],
 			"font" : {
 				"file" : "global",
 				"size" : 28,
@@ -252,6 +253,7 @@
 		},
 		"info" : {
 			"position" : [108,-2],
+			"appendPosition" : [280, 24],
 			"font" : {
 				"file" : "global",
 				"size" : 28,

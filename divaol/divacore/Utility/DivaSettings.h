@@ -32,7 +32,8 @@ namespace divacore
 		int getWindowheight() const {return windowHeight;}
 		float getBGMVolume() const {return bgmVolume;}
 		float getSEVolume() const {return seVolume;}
-		const Base::String &getGlobalFontName() const {return globalFontName;}
+		const Base::String& getUserModule() const {return userModule;}
+		const Base::String& getGlobalFontName() const {return globalFontName;}
 
 		void InitializeSettings(WJson::Value &config, WJson::Value &setting)
 		{
@@ -120,6 +121,11 @@ namespace divacore
 			isWindowMode = config[L"isWindowMode"].asBool();
 			particleLevel = Base::Math::Util::Clamp(config[L"particleSystem"].asInt(), 0, 2);
 			globalFontName = config[L"globalFont"].asString();
+			int uiMod = config[L"uiMod"].asInt();
+			if(setting.isMember(L"uiModFiles")&&setting[L"uiModFiles"].size() > uiMod)
+				userModule = setting[L"uiModFiles"][uiMod].asString();
+			else
+				userModule = "";
 		}
 
 	protected:
@@ -130,6 +136,7 @@ namespace divacore
 		bool isWindowMode;
 		int particleLevel;
 		Base::String globalFontName;
+		Base::String userModule;
 	};
 
 #define SETTINGS (divacore::Settings::instance())
