@@ -1766,6 +1766,26 @@ namespace diva
 			return resSelector;
 		}
 
+		gcn::SelectorEx* HouseUI::CreateResolutionSelector(const WJson::Value& sconf, const WJson::Value& dconf, const WJson::Value& sizeConf)
+		{
+			SelectorEx* resSelector = SelectorEx::FromJson(sconf);
+			SpecialItemDisplayer* displayer = new SpecialItemDisplayer();
+			for (WJson::Value::iterator i = dconf.begin(); i != dconf.end(); i++)
+			{
+				Base::String str = (*i).asString();
+				int width = Base::String::string2any<int>(str(0, str.find("*")));
+				int height = Base::String::string2any<int>(str(str.find("*"), -1));
+				
+				if(width <= SETTINGS.getScreenWidth() && height <= SETTINGS.getScreenHeight())
+					displayer->pushItem((*i).asString());
+			}
+			resSelector->setDisplayer(displayer);
+			resSelector->setDimension(Helper::GetRect(sizeConf));
+			resSelector->adjustButtonPos();
+			//win->add(resSelector);
+			return resSelector;
+		}
+
 		void HouseUI::SaveSettings()
 		{
 			// first update config
@@ -1847,7 +1867,7 @@ namespace diva
 			//resSelector->setDisplayer(displayer);
 			
 			// 分辨率
-			SelectorEx* resSelector = CreateSelector(tv[L"selector"], config[L"resolutions_description"], tv[L"resSelDesRect"]);
+			SelectorEx* resSelector = CreateResolutionSelector(tv[L"selector"], config[L"resolutions_description"], tv[L"resSelDesRect"]);
 			((SpecialItemDisplayer*)resSelector->getDisplayer())->setRepeat(true);
 			win->add(resSelector);
 			win->add(Helper::CreateLabel(tv[L"resLabel"]));

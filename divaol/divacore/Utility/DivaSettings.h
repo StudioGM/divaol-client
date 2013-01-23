@@ -30,6 +30,8 @@ namespace divacore
 	public:
 		int getWindowWidth() const {return windowWidth;}
 		int getWindowheight() const {return windowHeight;}
+		int getScreenWidth() const {return screenWidth;}
+		int getScreenHeight() const {return screenHeight;}
 		float getBGMVolume() const {return bgmVolume;}
 		float getSEVolume() const {return seVolume;}
 		const Base::String& getUserModule() const {return userModule;}
@@ -71,16 +73,18 @@ namespace divacore
 	private:
 		void _ReloadWindowSize(WJson::Value &config, WJson::Value &setting)
 		{
+#ifdef OS_WIN32
+			screenWidth = GetSystemMetrics(SM_CXSCREEN);
+			screenHeight = GetSystemMetrics(SM_CYSCREEN);
+#else
+			screenWidth = sora::SoraCore::Ptr->getScreenWidth();
+			screenHeight = sora::SoraCore::Ptr->getScreenHeight();
+#endif
 			// if fullscreen, set window size to global size
 			if(!config[L"isWindowMode"].asBool())
 			{
-#ifdef OS_WIN32
-				config[L"windowWidth"] = GetSystemMetrics(SM_CXSCREEN);
-				config[L"windowHeight"] = GetSystemMetrics(SM_CYSCREEN);
-#else
-				config[L"windowWidth"] = sora::SoraCore::Ptr->getScreenWidth();
-				config[L"windowHeight"] = sora::SoraCore::Ptr->getScreenHeight();
-#endif
+				config[L"windowWidth"] = screenWidth;
+				config[L"windowHeight"] = screenHeight;
 			}
 			else
 			{
@@ -131,6 +135,8 @@ namespace divacore
 	protected:
 		int windowWidth;
 		int windowHeight;
+		int screenWidth;
+		int screenHeight;
 		float bgmVolume;
 		float seVolume;
 		bool isWindowMode;

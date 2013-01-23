@@ -159,18 +159,18 @@ namespace divacore
 			_sortRank();
 			for(int i = 0; i < mRank.size(); i++)
 			{
-				evals[i]->setInfo(mRank[i].score,mRank[i].maxCombo,mRank[i].maxCTLevel,mRank[i].cntEval, mRank[i].nickname);
+				evals[i]->setInfo(mRank[i]);
 				evals[i]->setTeamColor(mRank[i].index);
 			}
 		}
 		void addSingleEvalUI()
 		{
-			divacore::SimpleUIPainter * uiPainter = (divacore::SimpleUIPainter*)UI_PAINTER_PTR;
+			/*divacore::SimpleUIPainter * uiPainter = (divacore::SimpleUIPainter*)UI_PAINTER_PTR;
 			SimpleUI::EvalBar *eval;
 
 			eval = (SimpleUI::EvalBar *)uiPainter->createWidget("header");
 			eval->setInfo(mResult.myScore,mResult.myMaxCombo,mResult.myMaxCTLevel,mResult.myCntEval,NET_INFO.nickname);
-			uiPainter->addWidget(eval);
+			uiPainter->addWidget(eval);*/
 		}
 		void addMultiEvalUI()
 		{

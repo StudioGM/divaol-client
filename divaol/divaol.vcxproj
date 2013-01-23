@@ -1146,6 +1146,7 @@
     <ClCompile Include="divacore\State\DivaCorePlayState.cpp" />
     <ClCompile Include="divacore\Timer\DivaTimeCounterImplWin32.cpp" />
     <ClCompile Include="divacore\Utility\DivaConfigLoader.cpp" />
+    <ClCompile Include="divacore\Utility\DivaRankResult.cpp" />
     <ClCompile Include="divacore\Utility\DivaSimpleUI.cpp" />
     <ClCompile Include="divanetwork\gnet\connection.cpp" />
     <ClCompile Include="divanetwork\gnet\gnet.cpp" />

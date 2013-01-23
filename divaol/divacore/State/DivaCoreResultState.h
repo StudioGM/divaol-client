@@ -79,6 +79,8 @@ namespace divacore
 				}
 				result.evalData[i].status = tuple->getItem(1)->getString();
 				result.evalData[i].score = (tuple->getItem(2))->getInt();
+				result.evalData[i].isOver = tuple->getItem(4)->getInt() > 0;
+				result.evalData[i].hp = tuple->getItem(6)->getValue();
 				result.evalData[i].uid = tuple->getItem(5)->getString();
 				result.evalData[i].nickname = STAGE_CLIENT.waiterInfo(result.evalData[i].uid).nickname;
 				PlayerInfo *info = multiPlay->getSpecificPlayerInfo(result.evalData[i].uid);

@@ -19,10 +19,10 @@ namespace divacore
 			BeyondAuto
 		};
 
-		const float StandardLeast = 0.75;
-		const float GreatLeast = 0.85;
-		const float ExcellentLeast = 0.92;
-		const float PerfectLeast = 1;
+		static const float StandardLeast;
+		static const float GreatLeast;
+		static const float ExcellentLeast;
+		static const float PerfectLeast;
 		
 
 		static RankResult GetRankResult(bool isOver, int HP, int MaxCT, int MaxCombo, int Cool, int Fine, int Safe, int Bad, int Worst)

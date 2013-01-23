@@ -14,6 +14,7 @@
 #include "Utility/DivaSettings.h"
 #include "divasongmgr/DivaMapManager.h"
 #include "divanetwork/DivaStageServer.h"
+#include "Utility/DivaRankResult.h"
 
 namespace divacore
 {
@@ -1310,27 +1311,34 @@ namespace divacore
 				bNumberUp = true;
 			}
 		}
-		void EvalBar::setInfo(int score, int maxCombo, int maxCTLevel, int eval[], const Base::String &info)
+		void EvalBar::setInfo(EvalData &data)
 		{
-			this->score = score;
-			this->maxCombo = maxCombo;
-			this->maxCTLevel = maxCTLevel;
-			this->info->setText(info.asUnicode());
-			memcpy(evalCnt,eval,sizeof(evalCnt));
+			this->score = data.score;
+			this->maxCombo = data.maxCombo;
+			this->maxCTLevel = data.maxCTLevel;
+			this->info->setText(data.nickname.asUnicode());
+			memcpy(evalCnt,data.cntEval,sizeof(evalCnt));
 
-			evalResult();
+			evalResult(data);
 		}
 		void EvalBar::setTeamColor(int teamIndex)
 		{
 			if(background != NULL)
 				background->setColor(Player::TEAM_COLOR[teamIndex]);
 		}
-		void EvalBar::evalResult()
+		void EvalBar::evalResult(EvalData &data)
 		{
 			if(result) {
-				int resultLevel = 0;
-				if(resultLevel >= 0 && resultLevel < resultTexRect.size())
+				if(data.status!="back" && data.status != "leave" && data.status != "over")
+					return;
+
+				int resultLevel = divacore::DivaRankResult::GetRankResult(data.isOver, data.hp * 100, data.maxCTLevel,
+					data.maxCombo,data.cntEval[0],data.cntEval[1],data.cntEval[2],data.cntEval[3],data.cntEval[4]);
+				if(resultLevel >= 0 && resultLevel < resultTexRect.size()) {
 					result->setTextureRect(resultTexRect[resultLevel]);
+					result->setPosition(resultDesRect[resultLevel].x, resultDesRect[resultLevel].y);
+					result->setSize(resultDesRect[resultLevel].w, resultDesRect[resultLevel].h);
+				}
 			}
 		}
 		void EvalBar::construct(Config &config, const std::string &head)
@@ -1377,6 +1385,7 @@ namespace divacore
 			}
 			result = NULL;
 			resultTexRect.clear();
+			resultDesRect.clear();
 			if(config.has(head+"result"))
 			{
 				Image *image = new Image();
@@ -1386,8 +1395,10 @@ namespace divacore
 				int count = config.getAsInt(head+"result_count");
 				for(int i = 0; i < count; i++)
 				{
-					Rect rect = config.getAsRect(head+"result_texRect"+iToS(i));
+					Rect rect = config.getAsRect(head+"result_"+iToS(i)+"_src");
 					resultTexRect.push_back(rect);
+					rect = config.getAsRect(head+"result_"+iToS(i)+"_des");
+					resultDesRect.push_back(rect);
 				}
 			}
 

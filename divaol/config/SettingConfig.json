@@ -11,7 +11,8 @@
 	"resolutions_description" : [
 		"1120*630",
 		"1280*720",
-		"1920*1080"
+		"1920*1080",
+		"2580*1280"
 	],
 	"resolutions_pair" : [
 		{
@@ -25,6 +26,10 @@
 		{
 			"width" : 1920,
 			"height" : 1080
+		},
+		{
+			"width" : 2580,
+			"height" : 1280
 		}
 	],
 	"windowModes": [
@@ -41,11 +46,12 @@
 		"默认"
 	],
 	"uiMods":[
-		"默认"
+		"默认",
+		"WSAD"
 	],
 	"uiModFiles":[
 		"standard",
-		"special"
+		"wsad"
 	],
 	"languages":[
 		"中文"

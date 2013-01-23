@@ -3668,6 +3668,9 @@
     <ClCompile Include="ui\UI\House\SettingDisplayers.cpp">
       <Filter>源文件\ui\UI\House</Filter>
     </ClCompile>
+    <ClCompile Include="divacore\Utility\DivaRankResult.cpp">
+      <Filter>源文件\divacore\utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Hoshizor\Sora\json\json_internalarray.inl">
