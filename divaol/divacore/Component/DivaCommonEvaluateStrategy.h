@@ -48,12 +48,22 @@ namespace divacore
 
 		void prepare(std::string configFile)
 		{
-			Config config;
-			configloader::loadWithJson(config,configFile);
-			for(int i = 0; i < EVAL_NUM-1; i++)
-				range_rank[i] = config.getAsDouble("range_rank"+iToS(i+1));
+			if(configFile == "" || Base::FileUtil::FileExist(configFile))
+			{
+				range_rank[0] = 0.03;
+				range_rank[1] = 0.05;
+				range_rank[2] = 0.06;
+				range_rank[3] = 0.07;
+				protectedTime = 0.1;
+			}
+			else {
+				Config config;
+				configloader::loadWithJson(config,configFile);
+				for(int i = 0; i < EVAL_NUM-1; i++)
+					range_rank[i] = config.getAsDouble("range_rank"+iToS(i+1));
 
-			protectedTime = config.getAsDouble("protectedTime");
+				protectedTime = config.getAsDouble("protectedTime");
+			}
 		}
 
 		bool evaluatePress(StateEvent& event)
@@ -179,7 +189,7 @@ namespace divacore
 			
 			evals.clear();
 			mRank = mResult.evalData;
-			sort(mRank.begin(),mRank.end());
+			_sortRank();
 			for(int i = 0; i < mRank.size(); i++) {
 				SimpleUI::EvalBar *eval = (SimpleUI::EvalBar *)uiPainter->createWidget(i==0?"header":"bar");
 				//eval->addIcon(players[i].netID);
@@ -211,9 +221,9 @@ namespace divacore
 				teamScore[mRank[i].index] += mRank[i].score;
 
 			for(int i = 0; i < mRank.size(); i++)
-				for(int j = i+1; j < mRank.size(); j++)
-					if(compare(mRank[j],mRank[j-1]))
-						std::swap(mRank[j],mRank[j-1]);
+				for(int j = 0; j < mRank.size()-i-1; j++)
+					if(compare(mRank[j+1],mRank[j]))
+						std::swap(mRank[j],mRank[j+1]);
 		}
 
 		bool isNumberUp()
