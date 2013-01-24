@@ -72,6 +72,8 @@ int CALLBACK WinMain(
 		divacore::Settings::instance().InitializeSettings(setConfig, config);
 
 		sora::SoraGameAppDef def("config.xml");
+		def.icon("divaol.ico");
+		def.title("Diva Online");
 		def.windowMode(setConfig[L"isWindowMode"].asBool());
 		def.width(setConfig[L"windowWidth"].asInt());
 		def.height(setConfig[L"windowHeight"].asInt());
@@ -89,6 +91,7 @@ int CALLBACK WinMain(
 		app.addState(core, "core");
 #endif
 		app.run("init");
+		
 
 		return 0;
 }

@@ -750,6 +750,7 @@
     <ClInclude Include="Lib\Base\TypeTraits.h" />
     <ClInclude Include="Lib\Base\Uncopyable.h" />
     <ClInclude Include="Lib\MD5\md52.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="ui\Config\DivaUIConfig.h" />
     <ClInclude Include="ui\Config\DivaUIHelper.h" />
     <ClInclude Include="ui\DivaNetwork\DivaNetwork.h" />
@@ -1241,6 +1242,12 @@
     <None Include="Lib\curl\Makefile.am" />
     <None Include="Lib\curl\Makefile.in" />
     <None Include="Lib\wjson\wjson_valueiterator.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="divaol.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="divaol.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

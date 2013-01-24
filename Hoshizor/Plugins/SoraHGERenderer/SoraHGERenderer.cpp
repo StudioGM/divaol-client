@@ -158,12 +158,11 @@ namespace sora{
 			
 			pHGE->System_SetState(HGE_FAKE_FULLSCREEN, !windowInfo->isWindowed()); //add new by hyf
 
-			
-			if(windowInfo->getIcon() != 0) {
+			if(!std::string(windowInfo->getIcon()).empty()) {
 				pHGE->System_SetState(HGE_ICON, windowInfo->getIcon());
 			}
 		
-			if(windowInfo->getCursor() != 0) {
+			if(!std::string(windowInfo->getCursor()).empty()) {
 				pHGE->System_SetState(HGE_CURSOR, windowInfo->getCursor());
 			}
 
