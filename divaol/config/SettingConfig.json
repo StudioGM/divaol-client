@@ -71,7 +71,7 @@
 	"lobbyLoopMusicFilename": "res/music/lobbyloop.ogg",
 	"resultMusicFilename": "res/music/result.ogg",
 	"resultLoopMusicFilename": "res/music/resultloop.ogg",
-	"resultNumberUpSound": "res/se/start.mp3",
+	"resultNumberUpSound": "res/se/number.mp3",
 	"titleMusicFilename": "res/music/title.ogg",
 	"titleScreenDelayTime": 1.5,
 	"chatAreaMaxLine": 60,
