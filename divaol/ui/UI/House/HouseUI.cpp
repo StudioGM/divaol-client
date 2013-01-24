@@ -514,7 +514,8 @@ namespace diva
 
 					setState(STATE_STAGE);
 					roomId = static_cast<divanet::GPacket*>(msg.extra())->getItem(2)->getString();
-					selectMusicButton->setEnabled(!STAGE_CLIENT.isReady());
+					if(!STAGE_CLIENT.owner())
+						selectMusicButton->setEnabled(!STAGE_CLIENT.isReady());
 				}
 				else
 					mgr->GetMB()->Show(L"加入房间出错，请稍后再试。");
