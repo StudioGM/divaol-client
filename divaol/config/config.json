@@ -7,7 +7,7 @@
    "language" : 0,
    "musicVolume" : 10,
    "particleSystem" : 2,
-   "resolution" : -1,
+   "resolution" : 2,
    "screenFadeTime" : 0.5,
    "seVolume" : 6,
    "uiMod" : 0

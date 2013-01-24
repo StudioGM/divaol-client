@@ -124,9 +124,9 @@ namespace divacore
 		bool hook(KeyEvent &key) 
 		{
 			if(key.key==DIVA_KEY_CT)
-				if(bFull&&level+1<MAX_LEVEL)
+				if(bFull)
 				{
-					setLevel(level+1);
+					setLevel(std::min(level+1, MAX_LEVEL-1));
 					MUSIC_MANAGER_PTR->playDirectWithFile("res/se/ct.mp3",true,"se");
 				}
 			return false;

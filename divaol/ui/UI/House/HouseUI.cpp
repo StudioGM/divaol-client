@@ -514,7 +514,7 @@ namespace diva
 
 					setState(STATE_STAGE);
 					roomId = static_cast<divanet::GPacket*>(msg.extra())->getItem(2)->getString();
-					selectMusicButton->setEnabled(STAGE_CLIENT.isReady());
+					selectMusicButton->setEnabled(!STAGE_CLIENT.isReady());
 				}
 				else
 					mgr->GetMB()->Show(L"加入房间出错，请稍后再试。");
@@ -2225,21 +2225,21 @@ namespace diva
 		}
 
 		void HouseUI::login() {
-//#ifndef _DEBUG
-//			VERSION.RequireVersion();
-//			while(VERSION.getState() == divacore::Version::REQUIREING)
-//				Base::TimeUtil::mSleep(1);
-//			if(VERSION.getState() == divacore::Version::UNREADY)
-//			{
-//				mgr->GetMB()->Show(L"无法获取版本信息，请重试。", L"错误", gcn::MessageBoxEx::TYPE_OK);
-//				return;
-//			}
-//			else if(!VERSION.CheckVersion())
-//			{
-//				mgr->GetMB()->Show(L"版本已过时，请更新游戏。", L"错误", gcn::MessageBoxEx::TYPE_OK);
-//				return;
-//			}
-//#endif
+#ifndef _DEBUG
+			VERSION.RequireVersion();
+			while(VERSION.getState() == divacore::Version::REQUIREING)
+				Base::TimeUtil::mSleep(1);
+			if(VERSION.getState() == divacore::Version::UNREADY)
+			{
+				mgr->GetMB()->Show(L"无法获取版本信息，请重试。", L"错误", gcn::MessageBoxEx::TYPE_OK);
+				return;
+			}
+			else if(!VERSION.CheckVersion())
+			{
+				mgr->GetMB()->Show(L"版本已过时，请更新游戏。", L"错误", gcn::MessageBoxEx::TYPE_OK);
+				return;
+			}
+#endif
 
 			if(!connectServer())
 			{
