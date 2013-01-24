@@ -157,7 +157,7 @@ namespace divacore
 			}
 			else
 			{
-				//sora::SoraBGMManager::Instance()->stopBGS(BGS_ID);
+				sora::SoraBGMManager::Instance()->stopBGS(BGS_ID);
 			}
 		}
 
