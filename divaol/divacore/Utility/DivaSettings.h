@@ -59,7 +59,6 @@ namespace divacore
 			config[L"gameWidth"] = 1920;
 			config[L"globalFont"] = L"res/msyh.ttf";
 			config[L"isWindowMode"] = false;
-			config[L"keyMod"] = 0;
 			config[L"uiMod"] = 0;
 			config[L"language"] = 0;
 			config[L"musicVolume"] = 10;

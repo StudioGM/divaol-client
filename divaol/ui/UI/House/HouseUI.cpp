@@ -1796,7 +1796,6 @@ namespace diva
 			setConfig[L"musicVolume"] = ((SpecialItemDisplayer*)setMvSelector->getDisplayer())->getSelectedIndex();
 			setConfig[L"seVolume"] = ((SpecialItemDisplayer*)setSevSelector->getDisplayer())->getSelectedIndex();
 			setConfig[L"isWindowMode"] = ((SpecialItemDisplayer*)setWindowModeSelector->getDisplayer())->getSelectedIndex() == 0;
-			setConfig[L"keyMod"] = ((SpecialItemDisplayer*)setKeyModSelector->getDisplayer())->getSelectedIndex();
 			setConfig[L"uiMod"] = ((SpecialItemDisplayer*)setUiModSelector->getDisplayer())->getSelectedIndex();
 			setConfig[L"language"] = ((SpecialItemDisplayer*)setLanSelector->getDisplayer())->getSelectedIndex();
 			setConfig[L"particleSystem"] = ((SpecialItemDisplayer*)setPsSelector->getDisplayer())->getSelectedIndex();
@@ -1807,7 +1806,6 @@ namespace diva
 			saveSetting[L"musicVolume"] = ((SpecialItemDisplayer*)setMvSelector->getDisplayer())->getSelectedIndex();
 			saveSetting[L"seVolume"] = ((SpecialItemDisplayer*)setSevSelector->getDisplayer())->getSelectedIndex();
 			saveSetting[L"isWindowMode"] = ((SpecialItemDisplayer*)setWindowModeSelector->getDisplayer())->getSelectedIndex() == 0;
-			saveSetting[L"keyMod"] = ((SpecialItemDisplayer*)setKeyModSelector->getDisplayer())->getSelectedIndex();
 			saveSetting[L"uiMod"] = ((SpecialItemDisplayer*)setUiModSelector->getDisplayer())->getSelectedIndex();
 			saveSetting[L"language"] = ((SpecialItemDisplayer*)setLanSelector->getDisplayer())->getSelectedIndex();
 			saveSetting[L"particleSystem"] = ((SpecialItemDisplayer*)setPsSelector->getDisplayer())->getSelectedIndex();
@@ -1832,7 +1830,6 @@ namespace diva
 				((SpecialItemDisplayer*)setWindowModeSelector->getDisplayer())->setSelectedIndex(0);
 			else
 				((SpecialItemDisplayer*)setWindowModeSelector->getDisplayer())->setSelectedIndex(1);
-			((SpecialItemDisplayer*)setKeyModSelector->getDisplayer())->setSelectedIndex(setConfig[L"keyMod"].asInt());
 			((SpecialItemDisplayer*)setUiModSelector->getDisplayer())->setSelectedIndex(setConfig[L"uiMod"].asInt());
 			((SpecialItemDisplayer*)setLanSelector->getDisplayer())->setSelectedIndex(setConfig[L"language"].asInt());
 			((SpecialItemDisplayer*)setPsSelector->getDisplayer())->setSelectedIndex(setConfig[L"particleSystem"].asInt());
@@ -1891,11 +1888,11 @@ namespace diva
 			win->add(sevSelector);
 			win->add(Helper::CreateLabel(tv[L"sevLabel"]));
 			setSevSelector = sevSelector;
-			// 按键MOD
-			SelectorEx* keyModSelector = CreateSelector(tv[L"selector"], config[L"keyMods"], tv[L"keyModSelDesRect"]);
-			win->add(keyModSelector);
-			win->add(Helper::CreateLabel(tv[L"keyModLabel"]));
-			setKeyModSelector = keyModSelector;
+			// 按键MOD (Abandon)
+			// SelectorEx* keyModSelector = CreateSelector(tv[L"selector"], config[L"keyMods"], tv[L"keyModSelDesRect"]);
+			// win->add(keyModSelector);
+			// win->add(Helper::CreateLabel(tv[L"keyModLabel"]));
+			// setKeyModSelector = keyModSelector;
 			// 界面MOD
 			SelectorEx* uiModSelector = CreateSelector(tv[L"selector"], config[L"uiMods"], tv[L"uiModSelDesRect"]);
 			win->add(uiModSelector);
