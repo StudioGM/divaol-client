@@ -525,8 +525,11 @@ namespace diva
 			SongListItem* item = (SongListItem*)songListBox->getItem(songListBox->getSelectedIndex());
 
 			// set loading state to all the rankList item
-			for (int i = 0; i < rankingList->getItemCount(); i++)
-				((RankingListItem*)rankingList->getItem(i))->SetLoading(true);
+			if(topRank)
+				for (int i = 0; i < rankingList->getItemCount()-1; i++)
+					((RankingListItem*)rankingList->getItem(i))->SetLoading(true);
+			if(myRank)
+				((RankingListItem*)rankingList->getItem(rankingList->getItemCount()-1))->SetLoading(true);
 
 			if (topRank)
 			{
