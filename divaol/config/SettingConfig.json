@@ -9,12 +9,17 @@
 
 
 	"resolutions_description" : [
+		"864*486",
 		"1120*630",
 		"1280*720",
 		"1920*1080",
-		"2580*1280"
+		"2560*1440"
 	],
 	"resolutions_pair" : [
+	    {
+		    "width" : 864,
+			"height" : 486
+		},
 		{
 			"width" : 1120,
 			"height" : 630
@@ -28,8 +33,8 @@
 			"height" : 1080
 		},
 		{
-			"width" : 2580,
-			"height" : 1280
+			"width" : 2560,
+			"height" : 1440
 		}
 	],
 	"windowModes": [

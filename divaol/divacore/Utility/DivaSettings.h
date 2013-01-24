@@ -64,7 +64,7 @@ namespace divacore
 			config[L"musicVolume"] = 10;
 			config[L"seVolume"] = 6;
 			config[L"particleSystem"] = 2;
-			config[L"resolution"] = 0;
+			config[L"resolution"] = 2;
 			config[L"screenFadeTime"] = 0.5;
 			config[L"bgmFadeTime"] = 1.0;
 		}
@@ -89,16 +89,24 @@ namespace divacore
 			{
 				int resolution = config[L"resolution"].asInt();
 				WJson::Value::iterator ptr = setting[L"resolutions_pair"].begin();
-				for (int i = 0; i < resolution && ptr != setting[L"resolutions_pair"].end(); i++, ptr++);
-				if(ptr == setting[L"resolutions_pair"].end())
+				for (int i = 0; ptr != setting[L"resolutions_pair"].end(); i++, ptr++)
+					if(setting[L"resolutions_pair"][i][L"width"] > screenWidth || setting[L"resolutions_pair"][i][L"height"] > screenHeight)
+					{
+						resolution = i-1;
+						break;
+					}
+					else if(i == resolution)
+						break;
+
+				if(resolution < 0 || ptr == setting[L"resolutions_pair"].end())
 				{
-					config[L"windowWidth"] = 1280;
-					config[L"windowHeight"]  =720;
+					config[L"windowWidth"] = screenWidth;
+					config[L"windowHeight"] = screenHeight;
 				}
 				else
 				{
-					config[L"windowWidth"] = (*ptr)[L"width"].asInt();
-					config[L"windowHeight"] = (*ptr)[L"height"].asInt();
+					config[L"windowWidth"] = setting[L"resolutions_pair"][resolution][L"width"].asInt();
+					config[L"windowHeight"] = setting[L"resolutions_pair"][resolution][L"height"].asInt();
 				}
 			}
 		}
