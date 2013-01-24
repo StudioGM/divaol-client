@@ -509,6 +509,9 @@ namespace diva
 					//StateChange_ROOMLIST_STAGE();
 					if(mgr->GetMB()->isTopWindow())
 						mgr->GetMB()->Destroy();
+					
+					MessageChannelChange(CHANNEL_STAGE);
+
 					setState(STATE_STAGE);
 					roomId = static_cast<divanet::GPacket*>(msg.extra())->getItem(2)->getString();
 					selectMusicButton->setEnabled(STAGE_CLIENT.isReady());
