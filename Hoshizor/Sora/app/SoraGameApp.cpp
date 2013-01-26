@@ -150,6 +150,8 @@ namespace sora {
 #ifndef OS_IOS
             // first create main window
             SoraCore::Instance()->createWindow(mWindow);
+
+			SetForegroundWindow((HWND)SoraCore::Instance()->getMainWindowHandle());
             
             // then init the first state
             mFSMManager.switchToState(initState);
