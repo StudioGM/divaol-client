@@ -87,6 +87,8 @@ namespace diva
 				graphics->drawTextW(L"ģʽ:" + MAPMGR.GetModeStr(mode), modeP.x, modeP.y);
 				graphics->drawTextW(L"By:" + playerName, playerP.x, playerP.y);
 
+				graphics->setColor(gcn::Color(CARGB(0,255,255,255), alpha));
+
 				if (rankImage && rankResult < rankDrawPos.size()) {
 					graphics->drawImage(rankImage, rankDrawPos[rankResult].x, rankDrawPos[rankResult].y);
 				}
@@ -145,8 +147,8 @@ namespace diva
 					rankImage = Image::load(ranks[L"texture"].asString());
 
 					for(int i = 0; i < ranks[L"positions"].size(); i++) {
-						rankTexRect.push_back(Helper::GetRect(ranks[i][L"src"]));
-						rankDrawPos.push_back(Helper::GetPoint(ranks[i][L"tar"]));
+						rankTexRect.push_back(Helper::GetRect(ranks[L"positions"][i][L"src"]));
+						rankDrawPos.push_back(Helper::GetPoint(ranks[L"positions"][i][L"tar"]));
 					}
 				}
 			}
