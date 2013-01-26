@@ -7,7 +7,7 @@ namespace diva
 {
 	namespace MusicUI
 	{
-		Image* RankingListItem::image;
+		Image* RankingListItem::image, *RankingListItem::rankImage = NULL;
 		gcn::Rectangle RankingListItem::rect;
 		gcn::PointEx RankingListItem::scoreP;
 		gcn::PointEx RankingListItem::comboP;
@@ -15,14 +15,17 @@ namespace diva
 		gcn::PointEx RankingListItem::playerP;
 		gcn::PointEx RankingListItem::maxCTP;
 		gcn::PointEx RankingListItem::modeP;
+		std::vector<gcn::Rectangle> RankingListItem::rankTexRect;
+		std::vector<gcn::PointEx> RankingListItem::rankDrawPos;
 
 		RankingListItem::RankingListItem()
 		{
 			SetRanking(1);
-			SetInfo(0, 0, 0, 0, L"none");
+			SetInfo(0, 0, 0, 0, 0, L"none");
 			SetColor(0xFFFFFF, 0xFFFFFF);
 			isNull = false;
 			isLoading = false;
+			rankImage = NULL;
 		}
 
 		RankingListItem::~RankingListItem()
@@ -43,6 +46,16 @@ namespace diva
 		{
 			this->backColor = backColor;
 			this->fontColor = fontColor;
+		}
+
+		void RankingListItem::SetRankImage()
+		{
+			if(rankResult < rankTexRect.size()) {
+				rankImage->setTextureRect(rankTexRect[rankResult]);
+			}
+			else if(rankImage){
+				rankImage->setTextureRect(gcn::Rectangle(0,0,0,0));
+			}
 		}
 
 		void RankingListItem::draw(Graphics* graphics, Font* font, int state, int alpha)
@@ -73,6 +86,10 @@ namespace diva
 				graphics->drawTextW(CTText[maxCT], maxCTP.x, maxCTP.y);
 				graphics->drawTextW(L"ģʽ:" + MAPMGR.GetModeStr(mode), modeP.x, modeP.y);
 				graphics->drawTextW(L"By:" + playerName, playerP.x, playerP.y);
+
+				if (rankImage && rankResult < rankDrawPos.size()) {
+					graphics->drawImage(rankImage, rankDrawPos[rankResult].x, rankDrawPos[rankResult].y);
+				}
 			}
 			else if (isNull == 1)
 			{
@@ -88,13 +105,16 @@ namespace diva
 			}
 		}
 
-		void RankingListItem::SetInfo(const int& score, const int& combo, const int &mode, const int &maxCT, const std::wstring& playerName)
+		void RankingListItem::SetInfo(const int& score, const int& combo, const int &mode, const int &maxCT, const int &rankResult, const std::wstring& playerName)
 		{
 			this->score = score;
 			this->combo = combo;
 			this->playerName = playerName;
 			this->mode = mode;
 			this->maxCT = maxCT;
+			this->rankResult = rankResult;
+			
+			SetRankImage();
 		}
 
 		void RankingListItem::LoadBack(const std::wstring& filename, const gcn::Rectangle& rect)
@@ -116,6 +136,18 @@ namespace diva
 			maxCTP = Helper::GetPoint(conf[L"maxCT"]);
 			modeP = Helper::GetPoint(conf[L"mode"]);
 			playerP = Helper::GetPoint(conf[L"player"]);
+
+			rankTexRect.clear();
+			rankDrawPos.clear();
+			if(conf.isMember(L"ranks")) {
+				const WJson::Value &ranks = conf[L"ranks"];
+				rankImage = Image::load(ranks[L"texture"].asString());
+
+				for(int i = 0; i < ranks[L"positions"].size(); i++) {
+					rankTexRect.push_back(Helper::GetRect(ranks[i][L"src"]));
+					rankDrawPos.push_back(Helper::GetPoint(ranks[i][L"tar"]));
+				}
+			}
 		}
 	}
 }

@@ -11,6 +11,7 @@
 #include "divanetwork/DivaNetworkManager.h"
 #include "Hook/DivaCTMode.h"
 #include "Utility/DivaSettings.h"
+#include "Utility/DivaRankResult.h"
 
 namespace divacore
 {
@@ -149,6 +150,13 @@ namespace divacore
 		GPacket *addData = new GPacket();
 		*addData += maxCombo;
 		*addData += maxCTLevel;
+
+		*addData += DivaRankResult::GetRankResult(true, getHP(), maxCTLevel, maxCombo, EVALUATE_STRATEGY_PTR->getResult().myCntEval[0], 
+																					   EVALUATE_STRATEGY_PTR->getResult().myCntEval[1],
+																					   EVALUATE_STRATEGY_PTR->getResult().myCntEval[2],
+																					   EVALUATE_STRATEGY_PTR->getResult().myCntEval[3],
+																					   EVALUATE_STRATEGY_PTR->getResult().myCntEval[4]);
+		
 		packet->appendItem(addData);
 
 		NETWORK_SYSTEM_PTR->send(packet);
