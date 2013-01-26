@@ -509,6 +509,9 @@ namespace diva
 					//StateChange_ROOMLIST_STAGE();
 					if(mgr->GetMB()->isTopWindow())
 						mgr->GetMB()->Destroy();
+					
+					MessageChannelChange(CHANNEL_STAGE);
+
 					setState(STATE_STAGE);
 					roomId = static_cast<divanet::GPacket*>(msg.extra())->getItem(2)->getString();
 					selectMusicButton->setEnabled(STAGE_CLIENT.isReady());
@@ -1766,6 +1769,26 @@ namespace diva
 			return resSelector;
 		}
 
+		gcn::SelectorEx* HouseUI::CreateResolutionSelector(const WJson::Value& sconf, const WJson::Value& dconf, const WJson::Value& sizeConf)
+		{
+			SelectorEx* resSelector = SelectorEx::FromJson(sconf);
+			SpecialItemDisplayer* displayer = new SpecialItemDisplayer();
+			for (WJson::Value::iterator i = dconf.begin(); i != dconf.end(); i++)
+			{
+				Base::String str = (*i).asString();
+				int width = Base::String::string2any<int>(str(0, str.find("*")));
+				int height = Base::String::string2any<int>(str(str.find("*"), -1));
+				
+				if(width <= SETTINGS.getScreenWidth() && height <= SETTINGS.getScreenHeight())
+					displayer->pushItem((*i).asString());
+			}
+			resSelector->setDisplayer(displayer);
+			resSelector->setDimension(Helper::GetRect(sizeConf));
+			resSelector->adjustButtonPos();
+			//win->add(resSelector);
+			return resSelector;
+		}
+
 		void HouseUI::SaveSettings()
 		{
 			// first update config
@@ -1773,7 +1796,6 @@ namespace diva
 			setConfig[L"musicVolume"] = ((SpecialItemDisplayer*)setMvSelector->getDisplayer())->getSelectedIndex();
 			setConfig[L"seVolume"] = ((SpecialItemDisplayer*)setSevSelector->getDisplayer())->getSelectedIndex();
 			setConfig[L"isWindowMode"] = ((SpecialItemDisplayer*)setWindowModeSelector->getDisplayer())->getSelectedIndex() == 0;
-			setConfig[L"keyMod"] = ((SpecialItemDisplayer*)setKeyModSelector->getDisplayer())->getSelectedIndex();
 			setConfig[L"uiMod"] = ((SpecialItemDisplayer*)setUiModSelector->getDisplayer())->getSelectedIndex();
 			setConfig[L"language"] = ((SpecialItemDisplayer*)setLanSelector->getDisplayer())->getSelectedIndex();
 			setConfig[L"particleSystem"] = ((SpecialItemDisplayer*)setPsSelector->getDisplayer())->getSelectedIndex();
@@ -1784,7 +1806,6 @@ namespace diva
 			saveSetting[L"musicVolume"] = ((SpecialItemDisplayer*)setMvSelector->getDisplayer())->getSelectedIndex();
 			saveSetting[L"seVolume"] = ((SpecialItemDisplayer*)setSevSelector->getDisplayer())->getSelectedIndex();
 			saveSetting[L"isWindowMode"] = ((SpecialItemDisplayer*)setWindowModeSelector->getDisplayer())->getSelectedIndex() == 0;
-			saveSetting[L"keyMod"] = ((SpecialItemDisplayer*)setKeyModSelector->getDisplayer())->getSelectedIndex();
 			saveSetting[L"uiMod"] = ((SpecialItemDisplayer*)setUiModSelector->getDisplayer())->getSelectedIndex();
 			saveSetting[L"language"] = ((SpecialItemDisplayer*)setLanSelector->getDisplayer())->getSelectedIndex();
 			saveSetting[L"particleSystem"] = ((SpecialItemDisplayer*)setPsSelector->getDisplayer())->getSelectedIndex();
@@ -1809,7 +1830,6 @@ namespace diva
 				((SpecialItemDisplayer*)setWindowModeSelector->getDisplayer())->setSelectedIndex(0);
 			else
 				((SpecialItemDisplayer*)setWindowModeSelector->getDisplayer())->setSelectedIndex(1);
-			((SpecialItemDisplayer*)setKeyModSelector->getDisplayer())->setSelectedIndex(setConfig[L"keyMod"].asInt());
 			((SpecialItemDisplayer*)setUiModSelector->getDisplayer())->setSelectedIndex(setConfig[L"uiMod"].asInt());
 			((SpecialItemDisplayer*)setLanSelector->getDisplayer())->setSelectedIndex(setConfig[L"language"].asInt());
 			((SpecialItemDisplayer*)setPsSelector->getDisplayer())->setSelectedIndex(setConfig[L"particleSystem"].asInt());
@@ -1847,7 +1867,7 @@ namespace diva
 			//resSelector->setDisplayer(displayer);
 			
 			// 分辨率
-			SelectorEx* resSelector = CreateSelector(tv[L"selector"], config[L"resolutions_description"], tv[L"resSelDesRect"]);
+			SelectorEx* resSelector = CreateResolutionSelector(tv[L"selector"], config[L"resolutions_description"], tv[L"resSelDesRect"]);
 			((SpecialItemDisplayer*)resSelector->getDisplayer())->setRepeat(true);
 			win->add(resSelector);
 			win->add(Helper::CreateLabel(tv[L"resLabel"]));
@@ -1868,11 +1888,11 @@ namespace diva
 			win->add(sevSelector);
 			win->add(Helper::CreateLabel(tv[L"sevLabel"]));
 			setSevSelector = sevSelector;
-			// 按键MOD
-			SelectorEx* keyModSelector = CreateSelector(tv[L"selector"], config[L"keyMods"], tv[L"keyModSelDesRect"]);
-			win->add(keyModSelector);
-			win->add(Helper::CreateLabel(tv[L"keyModLabel"]));
-			setKeyModSelector = keyModSelector;
+			// 按键MOD (Abandon)
+			// SelectorEx* keyModSelector = CreateSelector(tv[L"selector"], config[L"keyMods"], tv[L"keyModSelDesRect"]);
+			// win->add(keyModSelector);
+			// win->add(Helper::CreateLabel(tv[L"keyModLabel"]));
+			// setKeyModSelector = keyModSelector;
 			// 界面MOD
 			SelectorEx* uiModSelector = CreateSelector(tv[L"selector"], config[L"uiMods"], tv[L"uiModSelDesRect"]);
 			win->add(uiModSelector);

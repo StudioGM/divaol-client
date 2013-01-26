@@ -192,30 +192,23 @@
 		"text": "音效音量："
 	},
 
-	"keyModSelDesRect": [320, 240, 200, 30],
-	"keyModLabel": {
-		"desPos": [100, 240],
-		"textColor": [255, 255, 255],
-		"text": "按键MOD："
-	},
-
-	"uiModSelDesRect": [320, 285, 200, 30],
+	"uiModSelDesRect": [320, 240, 200, 30],
 	"uiModLabel": {
-		"desPos": [100, 285],
+		"desPos": [100, 240],
 		"textColor": [255, 255, 255],
 		"text": "界面MOD："
 	},
 
-	"lanSelDesRect": [320, 330, 200, 30],
+	"lanSelDesRect": [320, 285, 200, 30],
 	"lanLabel": {
-		"desPos": [100, 330],
+		"desPos": [100, 285],
 		"textColor": [255, 255, 255],
 		"text": "语言："
 	},
 
-	"psSelDesRect": [320, 375, 200, 30],
+	"psSelDesRect": [320, 330, 200, 30],
 	"psLabel": {
-		"desPos": [100, 375],
+		"desPos": [100, 330],
 		"textColor": [255, 255, 255],
 		"text": "粒子效果："
 	}

@@ -123,7 +123,9 @@ namespace divacore
 				//load config
 				core->prepare(configFolder+"/config.json");
 				core->setGameResolution(width, height);
-				EVALUATE_STRATEGY_PTR->prepare(configFolder+"/eval.json");
+
+				// here we can use eval.json to test for debug, but must hard code in release
+				EVALUATE_STRATEGY_PTR->prepare(/*configFolder+"/eval.json"*/"");
 
 				return core;
 			}

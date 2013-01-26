@@ -317,11 +317,13 @@ namespace divacore
 		EVALUATE_STRATEGY_PTR->getResult().myID = getPlayerID();
 		EVALUATE_STRATEGY_PTR->getResult().myMaxCombo = getMaxCombo();
 		EVALUATE_STRATEGY_PTR->getResult().myMaxCTLevel = getMaxCTLevel();
+		EVALUATE_STRATEGY_PTR->getResult().myHp = getHPinRatio();
+		EVALUATE_STRATEGY_PTR->getResult().myIsOver = (bool)CORE_FLOW_PTR->isSongOver();
 
 		PLAYERS &players = getPlayerInfo();
 
 		for(int i = 0; i < players.size(); i++)
-			EVALUATE_STRATEGY_PTR->getResult().evalData.push_back(EvalData(players[i].uid, players[i].score, 0, 0, players[i].teamIndex, STAGE_CLIENT.waiterInfo(players[i].uid).nickname));
+			EVALUATE_STRATEGY_PTR->getResult().evalData.push_back(EvalData(players[i].uid, players[i].score, 0, 0, 0, false, players[i].teamIndex, STAGE_CLIENT.waiterInfo(players[i].uid).nickname));
 		//((CommonEvaluateStrategy*)EVALUATE_STRATEGY_PTR)->addMultiEvalUI();
 	}
 

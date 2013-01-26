@@ -96,6 +96,7 @@ namespace divacore
 			uint32 getColor() {return tex->getColor();}
 			void setTextureRect(Rect texRect);
 			void construct(Config &config, const std::string &head);
+			void setSize(float width, float height) {if(tex) tex->setScale(width/tex->getSpriteWidth(), height/tex->getSpriteHeight());}
 		protected:
 			void onInitialize() {}
 			void onClear() {SAFE_DELETE_SPRITE(tex);}
@@ -490,7 +491,7 @@ namespace divacore
 			Rect levelTexRect[MAX_LEVEL];
 			Text *info;
 			Image *background, *level, *result;
-			std::vector<Rect> resultTexRect;
+			std::vector<Rect> resultTexRect, resultDesRect;
 
 			int evalCnt[EvaluateStrategy::EVAL_NUM],nowCnt[EvaluateStrategy::EVAL_NUM];
 			int score,nowScore;
@@ -507,10 +508,10 @@ namespace divacore
 			void onInitialize();
 			void onUpdate(float dt);
 			void onRender(float x, float y);
-			void setInfo(int score, int maxCombo, int maxCTLevel, int eval[], const Base::String &info);
+			void setInfo(EvalData &data);
 			void setTeamColor(int teamIndex);
 			bool isNumberUp() {return bNumberUp;}
-			void evalResult();
+			void evalResult(EvalData &data);
 		};
 
 		class Button : public Image

@@ -70,6 +70,7 @@ namespace diva
 			gcn::WindowEx* CreateModeWindow(const WJson::Value& conf);
 			gcn::WindowEx* CreateSettingWindow();
 			gcn::SelectorEx* CreateSelector(const WJson::Value& sconf, const WJson::Value& dconf, const WJson::Value& sizeConf);
+			gcn::SelectorEx* CreateResolutionSelector(const WJson::Value& sconf, const WJson::Value& dconf, const WJson::Value& sizeConf);
 
 			void RefreshStatus();
 			void Refresh_sPlayerList(bool netRefresh = true);
@@ -185,7 +186,7 @@ namespace diva
 			gcn::SelectorEx* setWindowModeSelector;
 			gcn::SelectorEx* setMvSelector;
 			gcn::SelectorEx* setSevSelector;
-			gcn::SelectorEx* setKeyModSelector;
+			//gcn::SelectorEx* setKeyModSelector;
 			gcn::SelectorEx* setUiModSelector;
 			gcn::SelectorEx* setLanSelector;
 			gcn::SelectorEx* setPsSelector;

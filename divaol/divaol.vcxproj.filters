@@ -2505,6 +2505,9 @@
     <ClInclude Include="divacore\Utility\DivaVersion.h">
       <Filter>源文件\divacore\utility</Filter>
     </ClInclude>
+    <ClInclude Include="divacore\Utility\DivaRankResult.h">
+      <Filter>源文件\divacore\utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -3664,6 +3667,9 @@
     </ClCompile>
     <ClCompile Include="ui\UI\House\SettingDisplayers.cpp">
       <Filter>源文件\ui\UI\House</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Utility\DivaRankResult.cpp">
+      <Filter>源文件\divacore\utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

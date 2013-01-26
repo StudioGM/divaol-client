@@ -6,7 +6,7 @@
 	"normal" : {
 		"note" : {
 			"fadeout" : 0.5,
-			"tex" : "pic/UI/note/Note_PC.png",
+			"tex" : "pic/UI/note/Note_PSP.png",
 			"circle" : [291,0,97,97],
 			"rectangle" : [97,0,97,97],
 			"cross" : [194,0,97,97],
@@ -39,7 +39,7 @@
 			"blowTimeRate" : 0.125
 		},
 		"rhythm" : {
-			"tex" : "pic/UI/note/Note_PC.png",
+			"tex" : "pic/UI/note/Note_PSP.png",
 			"circle" : [291,97,97,97],
 			"rectangle" : [97,97,97,97],
 			"cross" : [194,97,97,97],
@@ -61,7 +61,7 @@
 		},
 		"note" : {
 			"fadeout" : 0.5,
-			"tex" : "pic/UI/note/Note_PC.png",
+			"tex" : "pic/UI/note/Note_PSP.png",
 			"circle" : [291,291,97,97],
 			"rectangle" : [97,291,97,97],
 			"cross" : [194,291,97,97],
@@ -96,7 +96,7 @@
 			"blowTimeRate" : 0.125
 		},
 		"rhythm" : {
-			"tex" : "pic/UI/note/Note_PC.png",
+			"tex" : "pic/UI/note/Note_PSP.png",
 			"circle" : [291,388,97,97],
 			"rectangle" : [97,388,97,97],
 			"cross" : [194,388,97,97],
@@ -129,7 +129,7 @@
 		},
 		"note" : {
 			"fadeout" : 0.5,
-			"tex" : "pic/UI/note/Note_PC.png",
+			"tex" : "pic/UI/note/Note_PSP.png",
 			"circle" : [679,97,97,97],
 			"rectangle" : [485,97,97,97],
 			"cross" : [582,97,97,97],
@@ -164,7 +164,7 @@
 			"blowTimeRate" : 0.125
 		},
 		"rhythm" : {
-			"tex" : "pic/UI/note/Note_PC.png",
+			"tex" : "pic/UI/note/Note_PSP.png",
 			"circle" : [679,194,97,97],
 			"rectangle" : [485,194,97,97],
 			"cross" : [582,194,97,97],
