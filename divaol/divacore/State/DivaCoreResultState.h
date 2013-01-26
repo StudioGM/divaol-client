@@ -71,7 +71,7 @@ namespace divacore
 				if(list->getItem(0)->getType() == gnet::GNET_TYPE_TUPLE)
 					addData = dynamic_cast<gnet::Item<gnet::Tuple>*>(tuple->getItem(0));
 
-				if(addData&&addData->size() == 2) {
+				if(addData&&addData->size() == 3) {
 					result.evalData[i].maxCombo = addData->getItem(0)->getInt();
 					result.evalData[i].maxCTLevel = addData->getItem(1)->getInt();
 				}
