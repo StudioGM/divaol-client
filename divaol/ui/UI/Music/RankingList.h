@@ -39,7 +39,6 @@ namespace diva
 			void SetInfo(const int& score, const int& combo, const int &mode, const int &maxCT, const int &rankResult, const std::wstring& playerName);
 			void SetRanking(int ranking);
 			void SetColor(int backColor, int fontColor);
-			void SetRankImage();
 			int GetRanking() const;
 			virtual void draw(Graphics* graphics, Font* font, int state, int alpha);
 

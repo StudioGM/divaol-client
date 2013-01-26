@@ -25,7 +25,6 @@ namespace diva
 			SetColor(0xFFFFFF, 0xFFFFFF);
 			isNull = false;
 			isLoading = false;
-			rankImage = NULL;
 		}
 
 		RankingListItem::~RankingListItem()
@@ -46,16 +45,6 @@ namespace diva
 		{
 			this->backColor = backColor;
 			this->fontColor = fontColor;
-		}
-
-		void RankingListItem::SetRankImage()
-		{
-			if(rankResult < rankTexRect.size()) {
-				rankImage->setTextureRect(rankTexRect[rankResult]);
-			}
-			else if(rankImage){
-				rankImage->setTextureRect(gcn::Rectangle(0,0,0,0));
-			}
 		}
 
 		void RankingListItem::draw(Graphics* graphics, Font* font, int state, int alpha)
@@ -87,10 +76,12 @@ namespace diva
 				graphics->drawTextW(L"ģʽ:" + MAPMGR.GetModeStr(mode), modeP.x, modeP.y);
 				graphics->drawTextW(L"By:" + playerName, playerP.x, playerP.y);
 
-				graphics->setColor(gcn::Color(CARGB(0,255,255,255), alpha));
+				if (rankImage && rankResult < rankDrawPos.size() && rankResult < rankTexRect.size()) {
+					graphics->setColor(gcn::Color(CARGB(0,255,255,255), alpha));
 
-				if (rankImage && rankResult < rankDrawPos.size()) {
-					graphics->drawImage(rankImage, rankDrawPos[rankResult].x, rankDrawPos[rankResult].y);
+					graphics->drawImage(rankImage, rankTexRect[rankResult].x, rankTexRect[rankResult].y,
+												   rankDrawPos[rankResult].x, rankDrawPos[rankResult].y,
+												   rankTexRect[rankResult].width, rankTexRect[rankResult].height);
 				}
 			}
 			else if (isNull == 1)
@@ -115,8 +106,6 @@ namespace diva
 			this->mode = mode;
 			this->maxCT = maxCT;
 			this->rankResult = rankResult;
-			
-			SetRankImage();
 		}
 
 		void RankingListItem::LoadBack(const std::wstring& filename, const gcn::Rectangle& rect)

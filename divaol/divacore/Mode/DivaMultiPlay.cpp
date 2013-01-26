@@ -151,7 +151,7 @@ namespace divacore
 		*addData += maxCombo;
 		*addData += maxCTLevel;
 
-		*addData += DivaRankResult::GetRankResult(true, getHP(), maxCTLevel, maxCombo, EVALUATE_STRATEGY_PTR->getResult().myCntEval[0], 
+		*addData += (int)DivaRankResult::GetRankResult(true, getHP(), maxCTLevel, maxCombo, EVALUATE_STRATEGY_PTR->getResult().myCntEval[0], 
 																					   EVALUATE_STRATEGY_PTR->getResult().myCntEval[1],
 																					   EVALUATE_STRATEGY_PTR->getResult().myCntEval[2],
 																					   EVALUATE_STRATEGY_PTR->getResult().myCntEval[3],

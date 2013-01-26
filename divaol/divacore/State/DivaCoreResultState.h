@@ -133,6 +133,7 @@ namespace divacore
 
 		void onLeave()
 		{
+			sora::SoraBGMManager::Instance()->stopBGS(BGS_ID);
 			sora::SoraBGMManager::Instance()->stop(false);
 
 			if(CORE_PTR->getMode()=="multiPlay")
