@@ -20,6 +20,8 @@ namespace divacore
 {
 	using namespace sora;
 
+	static const int BGS_ID = 0;
+
 	/*
 	CoreLoadState
 	A state for loading resource and show loading interface
@@ -29,6 +31,8 @@ namespace divacore
 	public:
 		void press()
 		{
+			sora::SoraBGMManager::Instance()->stopBGS(BGS_ID);
+			
 			CORE_PTR->over();
 			STAGE_CLIENT.returnToStage("game_over");
 		}
@@ -38,7 +42,6 @@ namespace divacore
 	{
 		sora::SoraText mText;
 		divacore::SimpleUIPainter *uiPainter;
-		static const int BGS_ID = 0;
 	public:
 		void onInitiate()
 		{
