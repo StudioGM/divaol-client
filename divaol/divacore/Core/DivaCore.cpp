@@ -312,9 +312,11 @@ namespace divacore
 
 		mFSMManager.onUpdate(dt);
 
+#ifdef _DEBUG
 		char buffer[256];
 		sprintf(buffer,"FPS %0.2lf",sora::SoraCore::Ptr->getFPS());
 		sora::SoraCore::Ptr->setWindowTitle(buffer);
+#endif
 	}
 	void Core::onKeyPressed(SoraKeyEvent& event)
 	{

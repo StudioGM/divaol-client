@@ -8,6 +8,7 @@
 
 #include "SoraGameApp.h"
 #include "SoraCore.h"
+#include "SoraRenderSystem.h"
 #include "SoraGameState.h"
 #include "SoraInputQueue.h"
 #include "SoraFileSystem.h"
@@ -81,6 +82,19 @@ namespace sora {
             return mDef.Window->getWindowId();
         return mDef.WindowId; 
     }
+
+	const char* SoraGameApp::GameAppWindow::getIcon()
+	{
+		if(mDef.Window)
+			return mDef.Window->getIcon();
+		return mDef.Icon.c_str(); 
+	}
+	const char* SoraGameApp::GameAppWindow::getCursor()
+	{
+		if(mDef.Window)
+			return mDef.Window->getCursor();
+		return mDef.Cursor.c_str(); 
+	}
     
     bool SoraGameApp::GameAppWindow::isWindowed() { 
         if(mDef.Window)

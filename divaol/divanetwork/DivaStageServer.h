@@ -255,9 +255,15 @@ namespace divanet
 			if(packet->getItem(2)->getString()=="ok") {
 				mState = GETTING_INFO;
 				if(packet->getItem(3)->getString()==NET_INFO.uid)
+				{
 					mIsOwner = true;
+					mIsReady = true;
+				}
 				else
+				{
 					mIsOwner = false;
+					mIsReady = false;
+				}
 			}
 
 			notify(packet->getItem(2)->getString(), NOTIFY_STAGE_JOIN_RESPONSE, packet);

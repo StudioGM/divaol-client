@@ -2508,6 +2508,9 @@
     <ClInclude Include="divacore\Utility\DivaRankResult.h">
       <Filter>源文件\divacore\utility</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -3724,5 +3727,15 @@
     <None Include="Lib\curl\Makefile.in">
       <Filter>源文件\lib\curl</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="divaol.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="divaol.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
