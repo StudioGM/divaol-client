@@ -141,11 +141,13 @@ namespace diva
 			rankDrawPos.clear();
 			if(conf.isMember(L"ranks")) {
 				const WJson::Value &ranks = conf[L"ranks"];
-				rankImage = Image::load(ranks[L"texture"].asString());
+					if(ranks[L"texture"].asString() != L"") {
+					rankImage = Image::load(ranks[L"texture"].asString());
 
-				for(int i = 0; i < ranks[L"positions"].size(); i++) {
-					rankTexRect.push_back(Helper::GetRect(ranks[i][L"src"]));
-					rankDrawPos.push_back(Helper::GetPoint(ranks[i][L"tar"]));
+					for(int i = 0; i < ranks[L"positions"].size(); i++) {
+						rankTexRect.push_back(Helper::GetRect(ranks[i][L"src"]));
+						rankDrawPos.push_back(Helper::GetPoint(ranks[i][L"tar"]));
+					}
 				}
 			}
 		}

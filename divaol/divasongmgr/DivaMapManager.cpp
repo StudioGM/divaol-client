@@ -54,7 +54,7 @@ namespace divamap
 
 		//For test
 		downloadCategoryQueryAddress = L"http://divaol.b0.upaiyun.com";
-		gameInfoQueryAddress = L"http://divaol.com/game/";
+		gameInfoQueryAddress = L"http://openxpn.org/game/";
 		//PrepareDivaMapListInfo();
 	}
 
