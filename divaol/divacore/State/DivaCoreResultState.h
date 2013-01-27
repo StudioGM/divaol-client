@@ -130,8 +130,8 @@ namespace divacore
 			}
 
 			// play BGM
-			//sora::SoraBGMManager::Instance()->play(diva::config[L"resultMusicFilename"].asString(), false, false);
-			//sora::SoraBGMManager::Instance()->play(diva::config[L"resultLoopMusicFilename"].asString(), true, true);
+			sora::SoraBGMManager::Instance()->play(diva::config[L"resultMusicFilename"].asString(), false, false);
+			sora::SoraBGMManager::Instance()->play(diva::config[L"resultLoopMusicFilename"].asString(), true, true);
 		}
 
 		void onLeave()

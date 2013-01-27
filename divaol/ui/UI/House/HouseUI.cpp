@@ -518,7 +518,7 @@ namespace diva
 						selectMusicButton->setEnabled(!STAGE_CLIENT.isReady());
 				}
 				else
-					mgr->GetMB()->Show(L"加入房间出错，请稍后再试。");
+					mgr->GetMB()->Show(L"该舞台还在游戏中，请稍后再试。");
 				break;
 			case divanet::StageClient::NOTIFY_STAGE_JOIN:
 				{

@@ -275,7 +275,7 @@ namespace divanet
 			_leaveStage();
 			notify(packet->getItem(2)->getString(), NOTIFY_STAGE_LEAVE_RESPONSE, packet);
 
-			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#leave");
+			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#leave_response");
 		}
 
 		void gnet_startfailed(GPacket *packet) {
