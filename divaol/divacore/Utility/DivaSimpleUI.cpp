@@ -1339,7 +1339,7 @@ namespace divacore
 		}
 		void EvalBar::evalResult(EvalData &data)
 		{
-			if(result) {
+			if(result && GAME_MODE_PTR->getNetGameMode() != "relay") {
 				if(data.status!="back" && data.status != "leave" && data.status != "over")
 					return;
 

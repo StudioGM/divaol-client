@@ -58,6 +58,7 @@ namespace divacore
 		~EditMode() {HOOK_MANAGER_PTR->del(&unableHook);}
 
 		virtual std::string getName() {return "editMode";}
+		virtual std::string getNetGameMode() {return "none";}
 
 		bool getAlive() {return true;}
 		int32 getScore() {return 0;}
