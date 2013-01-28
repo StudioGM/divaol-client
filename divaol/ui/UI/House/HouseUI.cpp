@@ -623,7 +623,16 @@ namespace diva
 					if(info=="noselect")
 						mgr->GetMB()->Show(L"开始失败，没有选择歌曲", L"提示", gcn::MessageBoxEx::TYPE_OK); 
 					else
-						mgr->GetMB()->Show(L"开始失败，没有准备或非法队伍人数", L"提示", gcn::MessageBoxEx::TYPE_OK); 
+					{
+						if (STAGE_CLIENT.owner())
+							mgr->GetMB()->Show(L"开始失败，没有准备或非法队伍人数", L"提示", gcn::MessageBoxEx::TYPE_OK); 
+						else
+						{
+							if(mgr->GetMB()->isTopWindow())
+								mgr->CloseTopWindow();
+							messagePanelChatBox->addText(L"[警告] 开始失败，没有准备或非法队伍人数", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"warning"]));
+						}
+					}
 				}
 				break;
 

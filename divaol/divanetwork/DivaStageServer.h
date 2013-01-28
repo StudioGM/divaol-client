@@ -530,16 +530,16 @@ namespace divanet
 				}
 
 			if(mInfo.songId[0].mode == divamap::DivaMap::RelayMode) {
-				for(int i = 0; i < colorCount.size(); i++)
-					if(colorCount[i]<=1)
+				for(std::map<int,int>::iterator ptr = colorCount.begin(); ptr != colorCount.end(); ptr++)
+					if(ptr->second<=1)
 					{
 						info = "not match";
 						return false;
 					}
 			}
 			else if(mInfo.songId[0].mode == divamap::DivaMap::PairMode) {
-				for(int i = 0; i < colorCount.size(); i++)
-					if(colorCount[i]!=2)
+				for(std::map<int,int>::iterator ptr = colorCount.begin(); ptr != colorCount.end(); ptr++)
+					if(ptr->second!=2)
 					{
 						info = "not match";
 						return false;
