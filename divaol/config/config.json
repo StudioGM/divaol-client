@@ -3,12 +3,12 @@
    "gameHeight" : 1080,
    "gameWidth" : 1920,
    "globalFont" : "res/msyh.ttf",
-   "isWindowMode" : true,
+   "isWindowMode" : false,
    "language" : 0,
    "musicVolume" : 10,
    "particleSystem" : 2,
    "resolution" : 2,
    "screenFadeTime" : 0.5,
    "seVolume" : 6,
-   "uiMod" : 0
+   "uiMod" : 1
 }
