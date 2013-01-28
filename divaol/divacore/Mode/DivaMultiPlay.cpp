@@ -275,6 +275,7 @@ namespace divacore
 	void MultiPlay::gnetPlayerUpdate(GPacket *packet)
 	{
 		mInfo->updateInfoFromPacket(packet);
+		afterUpdateInfo();
 	}
 
 	// abandon

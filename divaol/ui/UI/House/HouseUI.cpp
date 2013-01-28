@@ -803,6 +803,16 @@ namespace diva
 			mgr->GetMB()->RegisterCallback();
 			exit(0);
 		}
+		void HouseUI::cb_exit_game() {
+			mgr->GetMB()->RegisterCallback();
+			if (mgr->GetMB()->GetResult() == MessageBoxEx::RES::RES_YES)
+				exit(0);
+		}
+		void HouseUI::cb_exit_stage() {
+			mgr->GetMB()->RegisterCallback();
+			if (mgr->GetMB()->GetResult() == MessageBoxEx::RES::RES_YES)
+				setState(STATE_ROOM);
+		}
 		void HouseUI::open_stage() {
 #ifdef DIVA_GNET_OPEN
 			STAGE_CLIENT.create(8);
@@ -2322,7 +2332,8 @@ namespace diva
 			}
 			if (mouseEvent.getSource() == (gcn::Widget*) exitStageButton && exitStageButton->checkIsEnabled())
 			{
-				setState(STATE_ROOM);
+				mgr->GetMB()->RegisterCallback(MessageBoxEx::Callback(&HouseUI::cb_exit_stage, this));
+				mgr->GetMB()->Show(L"确定要离开舞台吗？", L"提示", gcn::MessageBoxEx::TYPE_YESNO);
 				return;
 			}
 			if (mouseEvent.getSource() == (gcn::Widget*) messageChannel)
@@ -2414,7 +2425,10 @@ namespace diva
 			{
 				logout();
 				//sora::SoraCore::Instance()->shutDown();
-				setState(STATE_LOGINWINDOW);
+				//setState(STATE_LOGINWINDOW);
+				mgr->GetMB()->RegisterCallback(MessageBoxEx::Callback(&HouseUI::cb_exit_game, this));
+				mgr->GetMB()->Show(L"确定要退出游戏吗？", L"提示", gcn::MessageBoxEx::TYPE_YESNO);
+
 			}
 			if (mouseEvent.getSource() == (gcn::Widget*) modeButton)
 			{

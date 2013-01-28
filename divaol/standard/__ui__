@@ -281,7 +281,7 @@
 		"size" : [287,98],
 		"range" : [0,982,1920,98],
 		"name" : "Hatsune Miku",
-		"gap" : 50,
+		"gap" : 39.6,
 		"main_scale" : 1.2
 	},
 	"recvPrompt" : {

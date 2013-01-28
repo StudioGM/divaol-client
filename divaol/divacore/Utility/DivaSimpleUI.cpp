@@ -1204,12 +1204,23 @@ namespace divacore
 			teamID = state->getTeamID();
 			playerID = state->getPlayerID();
 
-			int width = 0;
+			float width = 0, height = 0;
 			
 			for(int i = 0; i < teams.size(); i++)
 				nowPlayers.push_back(-1);
 			for(int i = 0; i < players.size(); i++)
 			{
+				// speicial position
+				if (i == 6)
+				{
+					width = 0;
+					height -= size.y+gap;
+				}
+				else if(i == 7)
+				{
+					width = SETTINGS.getGameWidth() - size.x;
+				}
+
 				Player *player = new Player();
 				//if(0<=teams[i].players[j].netID&&teams[i].players[j].netID<ICON_NUM)
 				//{
@@ -1220,7 +1231,7 @@ namespace divacore
 				player->onInitialize();
 
 				player->hpBar->setColor(Player::TEAM_COLOR[players[i].teamIndex]);
-				player->setPosition(width,0);
+				player->setPosition(width,height);
 				player->setName(STAGE_CLIENT.waiterInfo(players[i].uid).nickname);
 				player->setInfo(0,0,0.5);
 				player->flushOnly();

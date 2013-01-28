@@ -30,6 +30,8 @@ namespace divacore
 	public:
 		int getWindowWidth() const {return windowWidth;}
 		int getWindowheight() const {return windowHeight;}
+		int getGameWidth() const {return gameWidth;}
+		int getGameHeight() const {return gameHeight;}
 		int getScreenWidth() const {return screenWidth;}
 		int getScreenHeight() const {return screenHeight;}
 		float getBGMVolume() const {return bgmVolume;}
@@ -127,6 +129,8 @@ namespace divacore
 		{
 			windowWidth = config[L"windowWidth"].asInt();
 			windowHeight = config[L"windowHeight"].asInt();
+			gameWidth = config[L"gameWidth"].asInt();
+			gameHeight = config[L"gameHeight"].asInt();
 			bgmVolume = Base::Math::Util::Clamp(config[L"musicVolume"].asInt(), 0, 10) / 10.0;
 			seVolume = Base::Math::Util::Clamp(config[L"seVolume"].asInt(), 0, 10) / 10.0;
 			isWindowMode = config[L"isWindowMode"].asBool();
@@ -142,6 +146,8 @@ namespace divacore
 	protected:
 		int windowWidth;
 		int windowHeight;
+		int gameWidth;
+		int gameHeight;
 		int screenWidth;
 		int screenHeight;
 		float bgmVolume;

@@ -146,6 +146,8 @@ namespace divacore
 
 		virtual void update(float dt);
 
+		virtual void afterUpdateInfo() {}
+
 		void sendInfo();
 
 		//获得游戏信息，队伍信息
