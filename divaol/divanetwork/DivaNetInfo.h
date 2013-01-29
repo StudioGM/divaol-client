@@ -54,7 +54,7 @@ namespace divanet
 		std::string uid;
 		gnet::Bytes token;
 		ServiceInfos info;
-		static const int TIME_OUT = 10;
+		static const int TIME_OUT = 20;
 		static const int TICK_TIME = 1;
 		static const int RECONNECT_TIME = 10;
 	};

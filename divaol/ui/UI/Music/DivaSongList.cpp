@@ -166,14 +166,14 @@ namespace diva
 	void DivaSongList::DifNext(int ind)
 	{
 		((SongListItem*)items[firstIndex + ind])->nextDif();
-		if (selectedItemIndex == ind)
+		if (selectedItemIndex == firstIndex + ind) //!MODIFY here must find correct index
 			MusicUI::Instance()->refreshRankingList(true, true);
 	}
 
 	void DivaSongList::DifLast(int ind)
 	{
 		((SongListItem*)items[firstIndex + ind])->lastDif();
-		if (selectedItemIndex == ind)
+		if (selectedItemIndex == firstIndex + ind) //!MODIFY here must find correct index
 			MusicUI::Instance()->refreshRankingList(true, true);
 	}
 

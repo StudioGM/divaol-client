@@ -603,6 +603,8 @@ namespace diva
 								addData[L"maxCT"].asInt(),
 								addData[L"rank"].asInt(),
 								t[L"name"].asString());
+
+							((RankingListItem*)rankingList->getItem(i))->SetRanking(t[L"rank"].asInt());
 							((RankingListItem*)rankingList->getItem(i))->SetNull(0);
 						}
 						for (int i = l; i < rankingList->getItemCount() -1; i++)
