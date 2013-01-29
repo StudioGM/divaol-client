@@ -74,7 +74,7 @@ namespace divacore
 		static const int BUFFER_POSITION = 192*4;
 		static const int MIN_TIME_PERIOD = 192*4;
 		static const int MAX_TIME_PERIOD = 192*30;
-		int maxLastGrid;
+		int maxLastGrid, lastPlayGrid, restGrid;
 
 		RelayPlay_NoteBlender *noteBlender;
 		double changePosition,voidPosition,endPosition;
@@ -128,7 +128,10 @@ namespace divacore
 		{
 			MultiPlay::gameStart();
 			if(getMyPlayerInfo()->indexInTeam==0)
+			{
+				lastPlayGrid = 0;
 				setRelayState(MYTURN);
+			}
 			else
 				setRelayState(WAIT);
 
@@ -137,6 +140,9 @@ namespace divacore
 
 		void gameOver()
 		{
+			if (getRelayState() == MYTURN)
+				relayWantToChange();
+
 			MultiPlay::gameOver();
 			setRelayState(OVER);
 			GNET_UNRECEIVE_PACKET("game#relayChanceL");
@@ -148,11 +154,18 @@ namespace divacore
 
 		void gameReady()
 		{
-			maxLastGrid = (int)ceil(MAP_INFO->totalGrid/*header.barNum*GRID_PER_BAR*//getMyTeamInfo()->players.size()*1.5);
-			endPosition = maxLastGrid;
+			restGrid = maxLastGrid = (int)ceil(MAP_INFO->totalGrid/*header.barNum*GRID_PER_BAR*//getMyTeamInfo()->players.size()*1.2);
+			endPosition = restGrid;
+
 			registerUI();
 
 			nowPlayer = nextPlayer = 0;
+		}
+
+		void destroy()
+		{
+			if (getRelayState() == MYTURN)
+				relayWantToChange();
 		}
 
 		void registerUI()
@@ -275,7 +288,7 @@ namespace divacore
 				if(getRelayState()==MYTURN)
 					relayWantToChange();
 				else if(getRelayState()==RELAY)
-						relayWantToPlay();
+					relayWantToPlay();
 			}
 		}
 
@@ -306,8 +319,9 @@ namespace divacore
 		}
 		void gnetRelayChance(GPacket *packet)
 		{
-			if(!getAlive())
+			if(!getAlive() || restGrid <= 0)
 				return;
+
 			NETWORK_SYSTEM_PTR->read(packet,"%f",&changePosition);
 			setRelayState(RELAY);
 
@@ -350,7 +364,8 @@ namespace divacore
 
 			if(CORE_PTR->getRunPosition()>changePosition)
 			{
-				endPosition = CORE_PTR->getRunPosition()+maxLastGrid;
+				endPosition = CORE_PTR->getRunPosition()+restGrid;
+				lastPlayGrid = CORE_PTR->getRunPosition();
 				changePosition = 0, setRelayState(MYTURN);
 				
 				iAmPlaying();
@@ -467,6 +482,9 @@ namespace divacore
 			{
 				if(CORE_PTR->getRunPosition()>changePosition)
 				{
+					restGrid -= CORE_PTR->getRunPosition() - lastPlayGrid;
+					if (restGrid < 0)
+						restGrid = 0;
 					changePosition = 0, setRelayState(WAIT);
 
 					changePrompt->showNumber(false);
@@ -480,7 +498,8 @@ namespace divacore
 			{
 				if(CORE_PTR->getRunPosition()>changePosition)
 				{
-					endPosition = changePosition+maxLastGrid;
+					lastPlayGrid = CORE_PTR->getRunPosition();
+					endPosition = changePosition+restGrid;
 					changePosition = 0, setRelayState(MYTURN);
 
 					recvPrompt->setRelayState(RelayPrompt::NORMAL);
