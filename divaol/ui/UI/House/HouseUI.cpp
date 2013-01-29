@@ -905,13 +905,13 @@ namespace diva
 				q->pop_front();
 			}
 
-			if(state==STATE_ROOMLIST) {
-				BASE_PER_PERIOD_BEGIN(dt,1.0);
+			/*if(state==STATE_ROOMLIST) {
+				BASE_PER_PERIOD_BEGIN(dt,10.0);
 				
 				Refresh_RoomList(true);
 
 				BASE_PER_PERIOD_END();
-			}
+			}*/
 
 			if (state == STATE_STAGE)
 			{
@@ -1535,7 +1535,16 @@ namespace diva
 			openButton->addMouseListener(new ClickButton_MouseListener());
 			panel->add(openButton);
 			roomListOpenButton = openButton;
-			
+
+			//////////////////////////////////////////////////////////////////////////
+
+			openButton = CreateButton(conf, L"RoomList/btn_openStage/btn_refreshStage_normal", L"RoomList/btn_openStage/btn_refreshStage_on",
+				L"RoomList/btn_openStage/btn_refreshStage_down", L"RoomList/btn_openStage/btn_refreshStage_normal");
+			openButton->setPosition(openButton->getX() - panel->getX(), openButton->getY() - panel->getY());
+			openButton->setText(tv[L"refreshStageText"].asString());
+			openButton->addMouseListener(new ClickButton_MouseListener());
+			panel->add(openButton);
+			roomListRefreshButton = openButton;
 			
 			//////////////////////////////////////////////////////////////////////////
 
@@ -2317,6 +2326,11 @@ namespace diva
 			if (mouseEvent.getSource() == (gcn::Widget*) loginButton && loginButton->checkIsEnabled())
 			{
 				LoginButtonClicked();
+				return;
+			}
+			if (mouseEvent.getSource() == (gcn::Widget*) roomListRefreshButton && roomListRefreshButton->checkIsEnabled())
+			{
+				Refresh_RoomList(true);
 				return;
 			}
 			if (mouseEvent.getSource() == (gcn::Widget*) loginCloseButton && loginCloseButton->checkIsEnabled())

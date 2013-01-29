@@ -1,4 +1,31 @@
 ﻿{
+  "RoomList/btn_openStage/btn_refreshStage_down": {
+    "filename": "res/RoomList_PlayerList_001.png",
+    "srcX": 1220,
+    "srcY": 520,
+    "desX": 593,
+    "desY": 807,
+    "width": 194,
+    "height": 87
+  },
+  "RoomList/btn_openStage/btn_refreshStage_on": {
+    "filename": "res/RoomList_PlayerList_001.png",
+    "srcX": 1220,
+    "srcY": 607,
+    "desX": 593,
+    "desY": 807,
+    "width": 194,
+    "height": 87
+  },
+  "RoomList/btn_openStage/btn_refreshStage_normal": {
+    "filename": "res/RoomList_PlayerList_001.png",
+    "srcX": 1220,
+    "srcY": 694,
+    "desX": 601,
+    "desY": 815,
+    "width": 178,
+    "height": 71
+  },
   "PlayerList/ReadyIcon": {
     "filename": "res/UI1.png",
     "srcX": 1222,
@@ -286,6 +313,7 @@
 
   "RoomList/Config": {
     "openStageText": "公开舞台",
+	"refreshStageText": "刷新列表",
     "xGap": 7,
     "yGap": 0,
     "firstX": 0,

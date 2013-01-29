@@ -206,6 +206,7 @@ namespace diva
 			gcn::WindowEx* roomListPanel;
 			gcn::SuperButtonEx* roomListCloseButton;
 			gcn::SuperButtonEx* roomListOpenButton;
+			gcn::SuperButtonEx* roomListRefreshButton;
 			RoomList* roomListView;
 
 			// --------- Login
