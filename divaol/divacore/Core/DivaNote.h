@@ -59,7 +59,7 @@ namespace divacore
 		virtual void onPoint(uint32 cnt, NotePoint point) {}
 		virtual void onRender() {}
 		virtual void onUpdate(double dt, double position) {}
-		virtual void onPressed(StateEvent& event) {}
+		virtual bool onPressed(StateEvent& event) {return false;}
 		virtual void onReleased(StateEvent& event) {}
 		virtual bool isReceive(KeyEvent& event, float time) {return false;}
 		virtual bool isOver() {return bOver;}

@@ -288,8 +288,11 @@ namespace divacore
 		{
 			StateEvent _event(note,abs(nowTime-note->getReceivePoint().time));
 			_event.key = event.key;
-			note->onPressed(_event);
+			if(note->onPressed(_event))
+				return;
 		}
+		// if note pressed
+		Core::Ptr->getMusicManager()->playDirect("press","se");
 	}
 	void StandardCoreFlow::onKeyReleased(KeyEvent& event)
 	{

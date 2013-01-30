@@ -161,7 +161,7 @@ namespace divacore
 			}
 		}
 	}
-	void NormalNote::onPressed(StateEvent& event)
+	bool NormalNote::onPressed(StateEvent& event)
 	{
 		event.position = noteInfo.notePoint[0].position;
 
@@ -175,7 +175,11 @@ namespace divacore
 
 			over();
 			//play sound
+
+			return true;
 		}
+		else
+			return false;
 	}
 	//check whether to receive a key and set receive note point
 	bool NormalNote::isReceive(KeyEvent& event, float time)

@@ -238,7 +238,7 @@ namespace divacore
 		rhythmSprite->update(dt);
 		coverSprite->update(dt);
 	}
-	void LongNote::onPressed(StateEvent& event)
+	bool LongNote::onPressed(StateEvent& event)
 	{
 		if(getState()==HEAD)
 		{
@@ -258,8 +258,11 @@ namespace divacore
 				}
 				else
 					setState(TAIL);
+
+				return true;
 			}
 		}
+		return false;
 	}
 	void LongNote::onReleased(StateEvent& event)
 	{

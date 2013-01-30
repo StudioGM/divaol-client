@@ -290,7 +290,7 @@ namespace divacore
 		rhythmSprite->update(dt);
 		coverSprite->update(dt);
 	}
-	void PingpongNote::onPressed(StateEvent& event)
+	bool PingpongNote::onPressed(StateEvent& event)
 	{
 		if(getState()==HEAD)
 		{
@@ -313,6 +313,7 @@ namespace divacore
 				}
 				else
 					setState(TAIL);
+				return true;
 			}
 		}
 		else
@@ -341,7 +342,9 @@ namespace divacore
 				if(GAME_MODE_PTR->checkExtra(event))
 					GAME_MODE_PTR->inform(event);
 			}
+			return true;
 		}
+		return false;
 	}
 	void PingpongNote::onReleased(StateEvent& event)
 	{
