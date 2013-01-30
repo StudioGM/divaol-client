@@ -93,6 +93,7 @@ namespace divacore
 		virtual void render() {}
 		
 		//key event
+		virtual void onKeyDown(KeyEvent& event) {}
 		virtual void onKeyPressed(KeyEvent& event) {}
 		virtual void onKeyReleased(KeyEvent& event) {}
 	};

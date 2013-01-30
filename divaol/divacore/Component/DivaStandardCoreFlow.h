@@ -115,6 +115,7 @@ namespace divacore
 		virtual double getBPM() {return nowBPM;}
 		virtual bool isSongOver() {return mIsSongOver;}
 
+		virtual void onKeyDown(KeyEvent &event) {}
 		virtual void onKeyPressed(KeyEvent& event);
 		virtual void onKeyReleased(KeyEvent& event);
 

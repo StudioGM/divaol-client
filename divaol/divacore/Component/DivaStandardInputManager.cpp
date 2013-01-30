@@ -47,6 +47,7 @@ namespace divacore
 	void StandardInputManager::clear()
 	{
 		keyMap = KEY_MAP(MAX_ID,NO_KEY);
+		keyState = KEY_MAP(MAX_ID,0);
 		keyStrMap.clear();
 	}
 
@@ -71,13 +72,24 @@ namespace divacore
 	{
 		KeyEvent _event;
 		_event.key = originToKey(event.getKey());
-		_event.type = KeyEvent::PRESS;
+		_event.type = KeyEvent::DOWN;
 		_event.origin = event.getKey();
 
 		if(!HOOK_MANAGER_PTR->hook(_event)||!HOOK_MANAGER_PTR->hookInfo())
 		{
-			Core::Ptr->getCoreFlow()->onKeyPressed(_event);
-			GAME_MODE_PTR->onKeyPressed(_event);
+			Core::Ptr->getCoreFlow()->onKeyDown(_event);
+			GAME_MODE_PTR->onKeyDown(_event);
+		}
+
+		_event.type = KeyEvent::PRESS;
+		if(keyState[event.getKey()] == 0)
+		{
+			keyState[event.getKey()] = 1;
+			if(!HOOK_MANAGER_PTR->hook(_event)||!HOOK_MANAGER_PTR->hookInfo())
+			{
+				Core::Ptr->getCoreFlow()->onKeyPressed(_event);
+				GAME_MODE_PTR->onKeyPressed(_event);
+			}
 		}
 	}
 	void StandardInputManager::onKeyReleased(SoraKeyEvent& event) 
@@ -86,6 +98,8 @@ namespace divacore
 		_event.key = originToKey(event.getKey());
 		_event.type = KeyEvent::RELEASE;
 		_event.origin = event.getKey();
+
+		keyState[event.getKey()] = 0;
 
 		if(!HOOK_MANAGER_PTR->hook(_event)||!HOOK_MANAGER_PTR->hookInfo())
 		{
