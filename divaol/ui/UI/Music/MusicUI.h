@@ -159,6 +159,8 @@ namespace diva
 			void updateNet(float delta);
 
 			Network::LoginResult Net_Login();
+
+			static bool MapCmp(const divamap::DivaMap& a, const divamap::DivaMap& b);
 		};
 
 		//////////////////////////////////////////////////////////////////////////
@@ -219,5 +221,7 @@ namespace diva
 		public:
 			virtual void mouseClicked(MouseEvent& mouseEvent);
 		};
+
+		
 	}
 }

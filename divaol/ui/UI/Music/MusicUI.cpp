@@ -356,6 +356,7 @@ namespace diva
 			std::vector<DivaMap> orig;
 			for (std::map<int, DivaMap>::iterator i = MAPS.begin(); i != MAPS.end(); i++)
 				orig.push_back(i->second);
+			std::sort(orig.begin(), orig.end(), MapCmp);
 			
 			gcn::Image* image = gcn::Image::load("res/UI1.png");
 			gcn::Image* notDI = gcn::Image::load("res/download.png");
@@ -385,6 +386,11 @@ namespace diva
 			// Sound Initialize
 			//sora::SoraBGMManager::Instance()->play(L"D:\\KuGou\\philosophyz.mp3", true);
 
+		}
+
+		bool MusicUI::MapCmp(const divamap::DivaMap& a, const divamap::DivaMap& b)
+		{
+			return a.header.modified < b.header.modified;
 		}
 
 		MusicUI::~MusicUI()
