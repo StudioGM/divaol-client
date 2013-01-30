@@ -390,7 +390,7 @@ namespace diva
 
 		bool MusicUI::MapCmp(const divamap::DivaMap& a, const divamap::DivaMap& b)
 		{
-			return a.header.modified < b.header.modified;
+			return a.header.modified > b.header.modified;
 		}
 
 		MusicUI::~MusicUI()
