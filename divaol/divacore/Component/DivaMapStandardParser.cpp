@@ -90,8 +90,8 @@ namespace divacore
 			res.flag = false;
 			mapInfo->resources["press"] = res;
 
-			if (Base::FileUtil::FileExist("res/se/press.wav"))
-				core->getMusicManager()->load("res/se/press.wav","press",false);
+			if (mapInfo->resources.find("hit")!=mapInfo->resources.end())
+				core->getMusicManager()->load(Base::String(mapInfo->resources.find("hit")->second.filePath),"press",false);
 			else
 				core->getMusicManager()->load("", "press", false);
 		}

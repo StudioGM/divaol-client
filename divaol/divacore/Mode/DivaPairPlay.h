@@ -135,7 +135,7 @@ namespace divacore
 				//play the key sound automatically
 				if(event.type==StateEvent::PRESS||event.type==StateEvent::FAILURE)
 				{
-					if(event.rank<=4)
+					if(event.rank<=5) //!HINT temporary change to 5
 						Core::Ptr->getMusicManager()->playDirect("hit","se");
 					else
 						Core::Ptr->getMusicManager()->playDirect("miss","se");

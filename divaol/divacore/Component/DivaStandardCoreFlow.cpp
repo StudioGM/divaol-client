@@ -292,8 +292,8 @@ namespace divacore
 				return;
 		}
 		// if note pressed
-		if (Core::Ptr->getMusicManager()->hasSound("hit"))
-			Core::Ptr->getMusicManager()->playDirect("hit","se");
+		if (event.key >= 0 && event.key < NOTE_NUM && Core::Ptr->getMusicManager()->hasSound("press"))
+			Core::Ptr->getMusicManager()->playDirect("press","se");
 	}
 	void StandardCoreFlow::onKeyReleased(KeyEvent& event)
 	{
