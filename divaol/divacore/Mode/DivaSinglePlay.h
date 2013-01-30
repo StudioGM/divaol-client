@@ -61,7 +61,8 @@ namespace divacore
 		virtual void setAlive(bool alive) {this->alive = alive;} 
 	public:		
 		virtual std::string getName() {return "singlePlay";}
-
+		virtual std::string getNetGameMode() {return "none";}
+			
 		bool getAlive() {return alive;}
 		int32 getScore() {return nowScore;}
 		int32 getHP() {return nowHP;}

@@ -13,6 +13,7 @@ namespace diva
 		class RankingListItem : public ListItemEx
 		{
 		private:
+			int rankResult;
 			int ranking;
 			int score;
 			int combo;
@@ -24,16 +25,18 @@ namespace diva
 			int isNull;
 			bool isLoading;
 			
-			static Image* image;
+			static Image* image, *rankImage;
 			static gcn::Rectangle rect;
 			static PointEx scoreP, comboP, rankingP, playerP, maxCTP, modeP;
+			static std::vector<gcn::Rectangle> rankTexRect;
+			static std::vector<gcn::PointEx> rankDrawPos;
 
 		public:
 			RankingListItem();
 			~RankingListItem();
 			void SetNull(int v);
 			void SetLoading(bool v);
-			void SetInfo(const int& score, const int& combo, const int &mode, const int &maxCT, const std::wstring& playerName);
+			void SetInfo(const int& score, const int& combo, const int &mode, const int &maxCT, const int &rankResult, const std::wstring& playerName);
 			void SetRanking(int ranking);
 			void SetColor(int backColor, int fontColor);
 			int GetRanking() const;

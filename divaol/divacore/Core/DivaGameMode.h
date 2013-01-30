@@ -55,6 +55,7 @@ namespace divacore
 
 		//Game Mode's Name
 		virtual std::string getName() = 0;
+		virtual std::string getNetGameMode() = 0;
 
 		//Start About
 		virtual void preStart() {}

@@ -105,6 +105,8 @@ namespace diva
 			void open_stage();
 			void leave_stage();
 			void cb_connect_break();
+			void cb_exit_game();
+			void cb_exit_stage();
 			void login();
 			void logout();
 			void attachObserver();

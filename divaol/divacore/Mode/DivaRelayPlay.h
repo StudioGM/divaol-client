@@ -245,6 +245,16 @@ namespace divacore
 			}
 		}
 
+		// force all the players' combo to my combo, to avoid conflict in display
+		void afterUpdateInfo()
+		{
+			for(int i = 0; i < mInfo->mPlayers.size(); i++)
+				if(i!=mInfo->myPlayerID && mInfo->mPlayers[i].teamIndex!=mInfo->myTeamID)
+				{
+					mInfo->mPlayers[i].combo = mInfo->myPlayerPtr->combo;
+				}
+		}
+
 		void sendRenew(uint32 uid, int rank, bool breakCombo, bool breakNote, double positionX, double positionY)
 		{
 			int cnt = stateList[uid].eventList.size()-1;

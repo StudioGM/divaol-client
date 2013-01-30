@@ -20,6 +20,8 @@ namespace divacore
 {
 	using namespace sora;
 
+	static const int BGS_ID = 0;
+
 	/*
 	CoreLoadState
 	A state for loading resource and show loading interface
@@ -29,6 +31,8 @@ namespace divacore
 	public:
 		void press()
 		{
+			sora::SoraBGMManager::Instance()->stopBGS(BGS_ID);
+			
 			CORE_PTR->over();
 			STAGE_CLIENT.returnToStage("game_over");
 		}
@@ -38,7 +42,6 @@ namespace divacore
 	{
 		sora::SoraText mText;
 		divacore::SimpleUIPainter *uiPainter;
-		static const int BGS_ID = 0;
 	public:
 		void onInitiate()
 		{
@@ -68,7 +71,7 @@ namespace divacore
 				if(list->getItem(0)->getType() == gnet::GNET_TYPE_TUPLE)
 					addData = dynamic_cast<gnet::Item<gnet::Tuple>*>(tuple->getItem(0));
 
-				if(addData&&addData->size() == 2) {
+				if(addData&&addData->size() == 3) {
 					result.evalData[i].maxCombo = addData->getItem(0)->getInt();
 					result.evalData[i].maxCTLevel = addData->getItem(1)->getInt();
 				}
@@ -127,12 +130,13 @@ namespace divacore
 			}
 
 			// play BGM
-			//sora::SoraBGMManager::Instance()->play(diva::config[L"resultMusicFilename"].asString(), false, false);
-			//sora::SoraBGMManager::Instance()->play(diva::config[L"resultLoopMusicFilename"].asString(), true, true);
+			sora::SoraBGMManager::Instance()->play(diva::config[L"resultMusicFilename"].asString(), false, false);
+			sora::SoraBGMManager::Instance()->play(diva::config[L"resultLoopMusicFilename"].asString(), true, true);
 		}
 
 		void onLeave()
 		{
+			sora::SoraBGMManager::Instance()->stopBGS(BGS_ID);
 			sora::SoraBGMManager::Instance()->stop(false);
 
 			if(CORE_PTR->getMode()=="multiPlay")

@@ -220,6 +220,8 @@ namespace diva
 				else
 				{
 					str += L" Feat. " + mapInfo.header.vocaloids[0];
+					if(mapInfo.header.vocaloids.size()>1)
+						str += L", ...";
 				}
 
 				graphics->drawTextW(str, 30, 27);

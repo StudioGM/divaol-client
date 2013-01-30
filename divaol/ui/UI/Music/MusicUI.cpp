@@ -328,7 +328,7 @@ namespace diva
 					RankingListItem::LoadBack(tv[L"itemBackImage"][L"filename"].asString(), Helper::GetRect(tv[L"itemBackImage"][L"srcRect"]));
 					RankingListItem::LoadFromJson(tv[L"positions"]);
 					item->SetRanking(i+1);
-					item->SetInfo(100 + i * 50, 50 + i * 10, 0, 0, L"none");
+					item->SetInfo(100 + i * 50, 50 + i * 10, 0, 0, 0, L"none");
 					item->SetNull(1);
 					rankingList->pushItem(item);
 					if (i == 4)
@@ -601,6 +601,7 @@ namespace diva
 								addData[L"combo"].asInt(),
 								addData[L"hooks"].asInt(),
 								addData[L"maxCT"].asInt(),
+								addData[L"rank"].asInt(),
 								t[L"name"].asString());
 							((RankingListItem*)rankingList->getItem(i))->SetNull(0);
 						}
@@ -650,6 +651,7 @@ namespace diva
 								addData[L"combo"].asInt(),
 								addData[L"hooks"].asInt(),
 								addData[L"maxCT"].asInt(),
+								addData[L"rank"].asInt(),
 								tv[L"name"].asString());
 							((RankingListItem*)rankingList->getItem(rankingList->getMaxItem() - 1))->SetRanking(tv[L"rank"].asInt());
 							((RankingListItem*)rankingList->getItem(rankingList->getMaxItem() - 1))->SetNull(0);
