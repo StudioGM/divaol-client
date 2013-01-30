@@ -47,6 +47,7 @@ namespace divacore
 		mainSound = "";
 		mIsFinish = true;
 		mIsSongOver = false;
+		mIsNoteOver = false;
 
 		state = INIT;
 	}
@@ -123,7 +124,13 @@ namespace divacore
 			nowTime = MUSIC_MANAGER_PTR->getPosition(MAIN_SOUND_CHANNEL);/*timeCounter.getTime()*/;
 			bool actived = MUSIC_MANAGER_PTR->isPlaying(MAIN_SOUND_CHANNEL);
 
-			if(!actived/*nowTime>=totalTime*//*||!GAME_MODE_PTR->getAlive()*/)
+			if ((timeQueue.size() <= 1 && noteList.size() == 0 || !actived) && !mIsNoteOver)
+			{
+				mIsNoteOver = true;
+				GAME_MODE_PTR->noteOver();
+			}
+
+			if (!actived/*nowTime>=totalTime*//*||!GAME_MODE_PTR->getAlive()*/)
 			{
 				// flow back 0.5s to have a buffer, otherwise it will cause a thread confliction so that the music will back to 0
 				//MUSIC_MANAGER_PTR->setPosition(MAIN_SOUND_CHANNEL,totalTime-5);

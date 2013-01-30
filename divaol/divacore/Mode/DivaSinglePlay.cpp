@@ -50,6 +50,11 @@ namespace divacore
 	}
 	void SinglePlay::gameOver()
 	{
+		if (!CORE_FLOW_PTR->isNoteOver())
+			noteOver();
+	}
+	void SinglePlay::noteOver()
+	{
 		CTMode* ctMode = dynamic_cast<CTMode*>(HOOK_MANAGER_PTR->getHook("CTMode"));
 		if(ctMode)
 			maxCTLevel = ctMode->getMaxLevel();
@@ -193,8 +198,8 @@ namespace divacore
 		EVALUATE_STRATEGY_PTR->getResult().myMaxCombo = getMaxCombo();
 		EVALUATE_STRATEGY_PTR->getResult().myMaxCTLevel = getMaxCTLevel();
 		EVALUATE_STRATEGY_PTR->getResult().myHp = getHPinRatio();
-		EVALUATE_STRATEGY_PTR->getResult().myIsOver = (bool)CORE_FLOW_PTR->isSongOver();
-		EvalData data = EvalData("",getScore(),maxCombo,maxCTLevel,getHPinRatio(),(bool)CORE_FLOW_PTR->isSongOver(),EVALUATE_STRATEGY_PTR->getResult().myCntEval,0,NET_INFO.nickname);
+		EVALUATE_STRATEGY_PTR->getResult().myIsOver = (bool)CORE_FLOW_PTR->isNoteOver();
+		EvalData data = EvalData("",getScore(),maxCombo,maxCTLevel,getHPinRatio(),(bool)CORE_FLOW_PTR->isNoteOver(),EVALUATE_STRATEGY_PTR->getResult().myCntEval,0,NET_INFO.nickname);
 		data.status = "over";
 		EVALUATE_STRATEGY_PTR->getResult().evalData.push_back(data);
 	}

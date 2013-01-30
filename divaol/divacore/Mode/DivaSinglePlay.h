@@ -95,6 +95,7 @@ namespace divacore
 
 		void preEvaluate();
 		void afterEvaluate();
+		void noteOver();
 	};
 }
 
