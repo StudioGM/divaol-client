@@ -375,7 +375,7 @@ namespace diva
 				}
 				else
 				{
-					mgr->GetMB()->Show(L"登录发生意外。请稍后再试。", L"提示");
+					mgr->GetMB()->Show(L"尚未激活alpha测试或登录发生意外，请稍后再试。", L"提示");
 				}
 
 				if(msg.description()!="ok")

@@ -37,15 +37,19 @@ namespace divanet
 		virtual std::string name() const {return "scheduler";}
 
 		void login() {
+			isRequireing = false;
 			GNET_RECEIVE_REGISTER(mNetSys,"scheduler#response",&SchedulerClient::gnet_response);
 		}
 
 		void logout() {
-			GNET_RECEIVE_UNREGISTER(mNetSys,"scheduler#roomlist");
+			GNET_RECEIVE_UNREGISTER(mNetSys,"scheduler#response");
 		}
 
 		void updateRoomList() {
-			mNetSys->send("scheduler#roomlist");
+			//if (!isRequireing) {
+				isRequireing = true;
+				mNetSys->send("scheduler#roomlist");
+			//}
 		}
 
 		void requestRoomNum() {
@@ -69,6 +73,8 @@ namespace divanet
 
 	public:
 		void gnet_response(GPacket *packet) {
+			isRequireing = false;
+
 			std::string type = packet->getItem(2)->getString();
 
 			if(type=="roomlist")
@@ -116,13 +122,14 @@ namespace divanet
 			connect_thread();
 		}
 	protected:
-		SchedulerClient(){}
+		SchedulerClient(){isRequireing = false;}
 		~SchedulerClient() {}
 		friend class Base::Singleton<SchedulerClient>;
 
 		
 
 	private:
+		bool isRequireing;
 		RoomInfos infos;
 	};
 
