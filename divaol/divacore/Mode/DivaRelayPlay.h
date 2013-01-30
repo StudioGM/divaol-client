@@ -243,7 +243,7 @@ namespace divacore
 				//≤•∑≈hit“Ù
 				if(event.type==StateEvent::PRESS||event.type==StateEvent::FAILURE)
 				{
-					if(event.rank<=5) //!HINT temporary change to 5
+					if(event.rank<=5 && event.type!=StateEvent::FAILURE) //!HINT temporary change to 5
 						Core::Ptr->getMusicManager()->playDirect("hit","se");
 					else
 						Core::Ptr->getMusicManager()->playDirect("miss","se");
