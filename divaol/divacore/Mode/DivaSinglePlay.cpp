@@ -60,6 +60,9 @@ namespace divacore
 			maxCTLevel = ctMode->getMaxLevel();
 		else
 			maxCTLevel = 0;
+
+		// add the bonus score caused by hooks
+		setScore(getScore() * HOOK_MANAGER_PTR->getHookFinalScale());
 	}
 	bool SinglePlay::checkNote(NotePtr note) 
 	{
@@ -189,9 +192,6 @@ namespace divacore
 			maxCTLevel = ctMode->getMaxLevel();
 		else
 			maxCTLevel = 0;
-
-		// add the bonus score caused by hooks
-		setScore(getScore() * HOOK_MANAGER_PTR->getHookFinalScale());
 
 		EVALUATE_STRATEGY_PTR->getResult().myScore = getScore();
 		EVALUATE_STRATEGY_PTR->getResult().myID = 0;
