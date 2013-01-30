@@ -173,6 +173,11 @@ namespace divacore
 		unload(ID);
 		load(filepath,ID,bStream);
 	}
+	bool BassMusicManager::hasSound(const std::string ID)
+	{
+		SOUNDPOOL::iterator soundPtr = soundPool.find(ID);
+		return !(soundPtr==soundPool.end());
+	}
 	void BassMusicManager::play(const std::string &ID, const std::string &channel, const std::string &tag)
 	{
 		if(HOOK_MANAGER_PTR->hook(ID,channel,tag)&&HOOK_MANAGER_PTR->hookInfo())

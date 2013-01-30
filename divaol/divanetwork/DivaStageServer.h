@@ -22,6 +22,7 @@ namespace divanet
 		uint32 status;
 		uint32 color;
 		uint32 slot;
+		WaiterInfo():uid("") {}
 	};
 	struct SongInfo {
 		int songId;
@@ -82,6 +83,7 @@ namespace divanet
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#ready",&StageClient::gnet_ready);
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#unready",&StageClient::gnet_unready);
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#game_over",&StageClient::gnet_game_over);
+			GNET_RECEIVE_REGISTER(mNetSys,"stage#kick",&StageClient::gnet_kick);
 		}
 
 		void logout() {
@@ -99,6 +101,7 @@ namespace divanet
 			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#ready");
 			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#unready");
 			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#game_over");
+			GNET_RECEIVE_UNREGISTER(mNetSys,"stage#kick");
 		}
 
 		void create(int capacity) {
@@ -131,6 +134,12 @@ namespace divanet
 		void draw(uint32 color) {
 			if(mState==STAGE &&  (owner() || myInfo().status!=WaiterInfo::READY))
 				mNetSys->send("stage#draw","%d",color);
+		}
+
+		void kick(int uid) {
+			WaiterInfo info = waiterInfo(Base::String::any2string<int>(uid));
+			if (info.uid != "")
+				mNetSys->send("stage#kick","%d",uid);
 		}
 
 		void setSong(const SongList &songList) {
@@ -444,6 +453,29 @@ namespace divanet
 			mInfo.waiters[index-1].status = WaiterInfo::LEAVE;
 
 			notify("leave", NOTIFY_STAGE_LEAVE, packet, index);
+		}
+
+		void gnet_kick(GPacket*packet) {
+			if (isMe(_findPlayer(packet->getItem(2)->getString())))
+			{
+				_leaveStage();
+				notify("kicked",NOTIFY_STAGE_CLOSED,packet);
+				return;
+			}
+			if(state()!=STAGE)
+			{
+				int index = _findPlayer(packet->getItem(2)->getString());
+				mInfo.waiters[index-1].status = WaiterInfo::LEAVE;
+				return;
+			}
+
+			int index = _findPlayer(packet->getItem(2)->getString());
+			mInfo.waiters[index-1].uid = "0";
+			mInfo.waiters[index-1].color = 0;
+
+			mInfo.waiters[index-1].status = WaiterInfo::LEAVE;
+
+			notify("kick", NOTIFY_STAGE_LEAVE, packet, index);
 		}
 
 		void gnet_game_over(GPacket *packet)

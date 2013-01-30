@@ -187,6 +187,7 @@ namespace diva
 
 		RoomList::RoomList()
 		{
+			isWaiting = false;
 		}
 
 		RoomList::~RoomList()
@@ -213,9 +214,25 @@ namespace diva
 
 		void RoomList::itemClicked(int itemIndex)
 		{
-			RoomListItem * item = dynamic_cast<RoomListItem*>(items[itemIndex]);
-			STAGE_CLIENT.join(Base::String(item->getInfo().ownerID));
-			HouseUI::Instance()->mgr->GetMB()->Show(L"加入房间中...", L"提示", gcn::MessageBoxEx::TYPE_NONE);
+			if (!isWaiting) {
+				RoomListItem * item = dynamic_cast<RoomListItem*>(items[itemIndex]);
+				STAGE_CLIENT.join(Base::String(item->getInfo().ownerID));
+				HouseUI::Instance()->mgr->GetMB()->Show(L"加入房间中...", L"提示", gcn::MessageBoxEx::TYPE_NONE);
+				isWaiting = true;
+				nowWaitingRest = WaitTimeLimit;
+			}
+		}
+
+		void RoomList::waiting()
+		{
+			if (isWaiting) {
+				nowWaitingRest -= sora::SoraCore::Ptr->getDelta();
+				if (nowWaitingRest <= 0)
+				{
+					isWaiting = false;
+					HouseUI::Instance()->mgr->GetMB()->Show(L"加入房间超时", L"提示", gcn::MessageBoxEx::TYPE_OK);
+				}
+			}
 		}
 
 		void RoomList::firstPageChanged(int newPage)

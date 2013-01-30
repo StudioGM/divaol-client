@@ -31,10 +31,12 @@ namespace divanet
 	{
 	public:
 		void getServerInfo() {
-			info["auth"] = ServiceInfo("divaolserver00.gmgate.net",9699);
-			info["chat"] = ServiceInfo("divaolserver00.gmgate.net",9799);
-			info["stage"] = ServiceInfo("divaolserver00.gmgate.net",9899);
-			info["scheduler"] = ServiceInfo("divaolserver00.gmgate.net",9099);
+			static const char* const SERVER_IP = "127.0.0.1";
+
+			info["auth"] = ServiceInfo(SERVER_IP,9699);
+			info["chat"] = ServiceInfo(SERVER_IP,9799);
+			info["stage"] = ServiceInfo(SERVER_IP,9899);
+			info["scheduler"] = ServiceInfo(SERVER_IP,9099);
 		}
 
 		ServiceInfo server(const std::string server) {

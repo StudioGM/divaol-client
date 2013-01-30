@@ -103,10 +103,17 @@ namespace diva
 		private:
 			std::wstring f1, f2, f3;
 			gcn::Rectangle r1, r2, r3;
+			bool isWaiting;
+			float nowWaitingRest;
+			static const int WaitTimeLimit = 5;
 
 		public:
 			RoomList();
 			~RoomList();
+
+			void waiting();
+			void roomCallback() {isWaiting = false;}
+			bool isWaitingRoomCallback() const {return isWaiting;}
 
 			void setRoomItemBaseInfo(const std::wstring& f1, gcn::Rectangle r1, const std::wstring& f2, gcn::Rectangle r2, const std::wstring& f3, gcn::Rectangle r3);
 			void pushRoomItem(const Network::RoomInfo& info);

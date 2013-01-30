@@ -500,10 +500,14 @@ namespace diva
 			case divanet::StageClient::NOTIFY_STAGE_CLOSED:
 				if(state==STATE_STAGE) {
 					setState(STATE_ROOM);
-					mgr->GetMB()->Show(L"房主离开舞台。");
+					if (msg.description() == "closed")
+						mgr->GetMB()->Show(L"房主离开舞台。");
+					else if (msg.description() == "kicked")
+						messagePanelChatBox->addText(L"[警告] 您被踢出舞台！", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"warning"]));
 				}
 				break;
 			case divanet::StageClient::NOTIFY_STAGE_JOIN_RESPONSE:
+				roomListView->roomCallback();
 				if(msg.description()=="ok")
 				{
 					//StateChange_ROOMLIST_STAGE();
@@ -578,6 +582,11 @@ namespace diva
 						}
 					}
 					Refresh_sPlayerList();
+
+					if (msg.description() == "leave")
+						messagePanelChatBox->addText(L"[提示] "+nickname+L"离开了舞台！", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+					else if(msg.description() == "kick")
+						messagePanelChatBox->addText(L"[提示] "+nickname+L"被踢出舞台！", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 				} 
 				break;
 			case divanet::StageClient::NOTIFY_STAGE_START:
@@ -822,6 +831,11 @@ namespace diva
 			if (mgr->GetMB()->GetResult() == MessageBoxEx::RES::RES_YES)
 				setState(STATE_ROOM);
 		}
+		void HouseUI::cb_kick_player() {
+			mgr->GetMB()->RegisterCallback();
+			if (mgr->GetMB()->GetResult() == MessageBoxEx::RES::RES_YES)
+				kick_player(stageList->getSelectedIndex());
+		}
 		void HouseUI::open_stage() {
 #ifdef DIVA_GNET_OPEN
 			STAGE_CLIENT.create(8);
@@ -841,7 +855,17 @@ namespace diva
 			//divanet::NetworkManager::instance().core()->send("stage#leave");
 #endif
 		}
-
+		void HouseUI::kick_player(int index)
+		{
+			if (index > 0 && index < stageList->getItemCount())
+			{
+				StageListItem *item = dynamic_cast<StageListItem*>(stageList->getItem(index));
+				if (item->getInfo().playerInfo.id == 0)
+					return;
+				
+				STAGE_CLIENT.kick(item->getInfo().playerInfo.id);
+			}
+		}
 		void HouseUI::Enter()
 		{
 			sora::GCN_GLOBAL->getTop()->add(top, 0, 0);
@@ -918,6 +942,9 @@ namespace diva
 				for (int i = 0; i < avatarList->getItemCount(); i++)
 					dynamic_cast<AvatarListItem*>(avatarList->getItem(i))->update(dt);
 			}
+
+			if (roomListView->isWaitingRoomCallback())
+				roomListView->waiting();
 
 			//testAnimeBox->update(dt);
 		}
@@ -2128,6 +2155,8 @@ namespace diva
 			list->adjustMyHeight();
 			list->setPosition(t2[L"desX"].asInt(), t2[L"desY"].asInt());
 			list->setFont(messageInputFont);
+			list->addMouseListener(new LoginButton_MouseListener());
+			list->setSelectMode(true);
 
 			tv = conf[L"PlayerList/ReadyIcon"];
 			t2 = conf[L"PlayerList/HostIcon"];
@@ -2315,6 +2344,21 @@ namespace diva
 			exit(0);
 		}
 
+		void HouseUI::StageListClicked()
+		{
+			int tmp = stageList->getSelectedIndex();
+			if (tmp > 0 && stageList->getItemCount() > tmp)
+			{
+				StageListItem *item = dynamic_cast<StageListItem*>(stageList->getItem(tmp));
+				if (item->getInfo().playerInfo.id == 0)
+					return;
+				sora::SoraBGMManager::Instance()->playSE(soundConfig[L"clickButton"].asString(), SETTINGS.getSEVolume());
+
+				mgr->GetMB()->RegisterCallback(MessageBoxEx::Callback(&HouseUI::cb_kick_player, this));
+				mgr->GetMB()->Show(L"确定要踢出"+item->getInfo().playerInfo.nickname+L"吗", L"提示", gcn::MessageBoxEx::TYPE_YESNO);
+			}
+		}
+
 		void HouseUI::SetWidgetInvisible(gcn::Widget* widget)
 		{
 			widget->setVisible(false);
@@ -2326,6 +2370,12 @@ namespace diva
 			if (mouseEvent.getSource() == (gcn::Widget*) loginButton && loginButton->checkIsEnabled())
 			{
 				LoginButtonClicked();
+				return;
+			}
+			if (mouseEvent.getSource() == (gcn::Widget*) stageList && stageList->checkIsEnabled())
+			{
+				if (STAGE_CLIENT.state() == divanet::StageClient::STAGE && STAGE_CLIENT.owner())
+					StageListClicked();
 				return;
 			}
 			if (mouseEvent.getSource() == (gcn::Widget*) roomListRefreshButton && roomListRefreshButton->checkIsEnabled())

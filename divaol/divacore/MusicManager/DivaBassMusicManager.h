@@ -66,6 +66,7 @@ namespace divacore
 		void load(const std::string &file, const std::string &ID, bool stream);
 		void unload(const std::string &ID);
 		void reload(const std::string &ID);
+		bool hasSound(const std::string ID);
 		void play(const std::string &ID, const std::string &channel, const std::string &tag="");
 		void playDirect(const std::string &ID, const std::string &tag="");
 		void playDirectWithFile(const std::string &file, bool stream, const std::string &tag="");

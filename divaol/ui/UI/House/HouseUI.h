@@ -104,9 +104,11 @@ namespace diva
 			void start_game();
 			void open_stage();
 			void leave_stage();
+			void kick_player(int index);
 			void cb_connect_break();
 			void cb_exit_game();
 			void cb_exit_stage();
+			void cb_kick_player();
 			void login();
 			void logout();
 			void attachObserver();
@@ -246,6 +248,7 @@ namespace diva
 			// Event
 			void LoginButtonClicked();
 			void LoginCloseButtonClicked();
+			void StageListClicked();
 			void MouseClicked(gcn::MouseEvent& mouseEvent);
 			void MessagePanelInputBoxEnterPressed();
 			void MessagePanelChannelClicked();
