@@ -163,6 +163,8 @@ namespace divacore
 		void preStart();
 
 		void preEvaluate();
+
+		void noteOver();
 	};
 }
 

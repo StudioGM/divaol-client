@@ -131,6 +131,32 @@ namespace divacore
 
 		STAGE_CLIENT.back();
 	}
+	void MultiPlay::noteOver() {
+		SinglePlay::noteOver();
+
+		sendInfo();
+
+		//GNET_UNRECEIVE_PACKET("stage#join_failed");
+		//GNET_UNRECEIVE_PACKET("stage#join_ok");
+		
+		GPacket *packet = new GPacket();
+		*packet += (gnet::Atom)"game";
+		*packet += (gnet::Atom)"overR";
+		*packet += (int8)CORE_FLOW_PTR->isNoteOver();
+		GPacket *addData = new GPacket();
+		*addData += maxCombo;
+		*addData += maxCTLevel;
+
+		*addData += (int)DivaRankResult::GetRankResult(CORE_FLOW_PTR->isNoteOver(), getHP(), maxCTLevel, maxCombo, EVALUATE_STRATEGY_PTR->getResult().myCntEval[0], 
+																					   EVALUATE_STRATEGY_PTR->getResult().myCntEval[1],
+																					   EVALUATE_STRATEGY_PTR->getResult().myCntEval[2],
+																					   EVALUATE_STRATEGY_PTR->getResult().myCntEval[3],
+																					   EVALUATE_STRATEGY_PTR->getResult().myCntEval[4]);
+		
+		packet->appendItem(addData);
+
+		NETWORK_SYSTEM_PTR->send(packet);
+	}
 	void MultiPlay::gameOver()
 	{
 		SinglePlay::gameOver();
@@ -140,26 +166,6 @@ namespace divacore
 		GNET_UNRECEIVE_PACKET("game#membersinfoL");
 		GNET_UNRECEIVE_PACKET("game#playerupdateL");
 		GNET_UNRECEIVE_PACKET("game#start_failed");
-		//GNET_UNRECEIVE_PACKET("stage#join_failed");
-		//GNET_UNRECEIVE_PACKET("stage#join_ok");
-		
-		GPacket *packet = new GPacket();
-		*packet += (gnet::Atom)"game";
-		*packet += (gnet::Atom)"overR";
-		*packet += (int8)CORE_FLOW_PTR->isSongOver();
-		GPacket *addData = new GPacket();
-		*addData += maxCombo;
-		*addData += maxCTLevel;
-
-		*addData += (int)DivaRankResult::GetRankResult(true, getHP(), maxCTLevel, maxCombo, EVALUATE_STRATEGY_PTR->getResult().myCntEval[0], 
-																					   EVALUATE_STRATEGY_PTR->getResult().myCntEval[1],
-																					   EVALUATE_STRATEGY_PTR->getResult().myCntEval[2],
-																					   EVALUATE_STRATEGY_PTR->getResult().myCntEval[3],
-																					   EVALUATE_STRATEGY_PTR->getResult().myCntEval[4]);
-		
-		packet->appendItem(addData);
-
-		NETWORK_SYSTEM_PTR->send(packet);
 		//NETWORK_SYSTEM_PTR->send("game#overR","%b%d",CORE_FLOW_PTR->isSongOver(),maxCombo);
 	}
 	void MultiPlay::setMyInfo(Config &config)
@@ -327,7 +333,7 @@ namespace divacore
 		EVALUATE_STRATEGY_PTR->getResult().myMaxCombo = getMaxCombo();
 		EVALUATE_STRATEGY_PTR->getResult().myMaxCTLevel = getMaxCTLevel();
 		EVALUATE_STRATEGY_PTR->getResult().myHp = getHPinRatio();
-		EVALUATE_STRATEGY_PTR->getResult().myIsOver = (bool)CORE_FLOW_PTR->isSongOver();
+		EVALUATE_STRATEGY_PTR->getResult().myIsOver = (bool)CORE_FLOW_PTR->isNoteOver();
 
 		PLAYERS &players = getPlayerInfo();
 
