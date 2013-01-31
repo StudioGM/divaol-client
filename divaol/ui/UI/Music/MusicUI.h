@@ -138,6 +138,8 @@ namespace diva
 			void SongListItemDoubleClicked(int index);
 			void SongSelectButtonClicked();
 			void ClearSongSelectButton();
+			void CB_UpdateSongList();
+			void UpdateSongList();
 
 			int GetRandomSong(divamap::DivaMap::LevelType level);
 
@@ -222,6 +224,11 @@ namespace diva
 			virtual void mouseClicked(MouseEvent& mouseEvent);
 		};
 
-		
+		class UpdateSongList_MouseListener
+			: public gcn::MouseListener
+		{
+		public:
+			virtual void mouseClicked(MouseEvent& mouseEvent);
+		};
 	}
 }

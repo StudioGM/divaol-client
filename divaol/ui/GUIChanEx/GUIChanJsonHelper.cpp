@@ -38,7 +38,13 @@ namespace gcn
 				down = normal;
 			if (!conf.isMember(disable))
 				disable = normal;
-			return CreateButton(conf, normal, on, down, disable);
+			SuperButtonEx* b = CreateButton(conf, normal, on, down, disable);
+			if (conf.isMember(L"desPos"))
+			{
+				PointEx p = GetPoint(conf[L"desPos"]);
+				b->setPosition(p.x, p.y);
+			}
+			return b;
 		}
 
 		PointEx GetPoint(const WJson::Value& conf)

@@ -232,7 +232,7 @@ namespace diva
 			selectedListBox = new DivaSelectedListBox();
 			top->add(selectedListBox, 693 + 19, 710 - 19 + 35);
 
-			int offx = -670, offy = 245;
+			int offx = -670 + 19, offy = 245 + 10;
 
 			// ModeLeftButton
 			modeLeftButton = new gcn::ButtonEx();
@@ -240,7 +240,7 @@ namespace diva
 				gcn::Rectangle(111, 204, 64, 51),
 				gcn::Rectangle(111, 262, 64, 51),
 				gcn::Rectangle(111, 326, 64, 51),
-				0, 0);
+				-19, -10);
 			modeLeftButton->addMouseListener(new GameModeSelectLeft_MouseListener());
 			modeLeftButton->setSize(36, 25);
 			top->add(modeLeftButton, 1525 + offx, 680 + offy);
@@ -251,7 +251,7 @@ namespace diva
 				gcn::Rectangle(235, 204, 64, 51),
 				gcn::Rectangle(235, 262, 64, 51),
 				gcn::Rectangle(235, 326, 64, 51),
-				0, 0);
+				-19, -10);
 			modeRightButton->addMouseListener(new GameModeSelectRight_MouseListener());
 			modeRightButton->setSize(36, 25);
 			top->add(modeRightButton, 1731 + offx, 680 + offy);
@@ -269,10 +269,10 @@ namespace diva
 				gcn::Rectangle(111, 204, 64, 51),
 				gcn::Rectangle(111, 262, 64, 51),
 				gcn::Rectangle(111, 326, 64, 51),
-				0, 0);
+				-19, -10);
 			rankPageLeftBtn->addMouseListener(new RankPageLeft_MouseListener());
 			rankPageLeftBtn->setSize(36, 25);
-			top->add(rankPageLeftBtn, 1460, 726);
+			top->add(rankPageLeftBtn, 1460 + 19, 726+ 10);
 
 			// RankPageRightButton
 			rankPageRightBtn = new gcn::ButtonEx();
@@ -280,10 +280,10 @@ namespace diva
 				gcn::Rectangle(235, 204, 64, 51),
 				gcn::Rectangle(235, 262, 64, 51),
 				gcn::Rectangle(235, 326, 64, 51),
-				0, 0);
+				-19, -10);
 			rankPageRightBtn->addMouseListener(new RankPageRight_MouseListener());
 			rankPageRightBtn->setSize(36, 25);
-			top->add(rankPageRightBtn, 1660, 726);
+			top->add(rankPageRightBtn, 1660 + 19, 726 + 10);
 
 			// RankPageTextLabel
 			rankPageText = new gcn::LabelEx(L"1~4");
@@ -339,10 +339,28 @@ namespace diva
 				top->add(rankingList);
 			}
 
+			{
+				gcn::Helper::ReadJsonFromFile(L"config/uiconfig/music/update_song_list_btn.json", tv);
+				gcn::SuperButtonEx* updateSongListBtn = Helper::CreateButton(tv);
+				updateSongListBtn->setText(L"更新列表");
+				updateSongListBtn->addMouseListener(new UpdateSongList_MouseListener());
+				top->add(updateSongListBtn);
+			}
+
 			//////////////////////////////////////////////////////////////////////////
+			UpdateSongList();
 
 
-			// ------
+			//////////////////////////////////////////////////////////////////////////
+			
+			// Sound Initialize
+			//sora::SoraBGMManager::Instance()->play(L"D:\\KuGou\\philosophyz.mp3", true);
+
+		}
+
+		void MusicUI::UpdateSongList()
+		{
+						// ------
 			divamap::DivaMap tMap;
 			tMap.levels[tMap.Easy];
 			tMap.levels[tMap.Normal];
@@ -351,7 +369,11 @@ namespace diva
 			tMap.levels[tMap.Die];
 			//
 			
+			for (int i = 0; i < songListOrigItems.size(); i++)
+				delete songListOrigItems[i];
 			songListOrigItems.clear();
+			artistListItems.clear();
+
 			using namespace divamap;
 			std::vector<DivaMap> orig;
 			for (std::map<int, DivaMap>::iterator i = MAPS.begin(); i != MAPS.end(); i++)
@@ -367,7 +389,6 @@ namespace diva
 
 			state = SONGLIST_ORIG;
 
-			artistListItems.clear();
 			for (int i=0; i<orig.size(); i++)
 				for (std::vector<std::wstring>::const_iterator j = orig[i].header.artists.cbegin(); j != orig[i].header.artists.cend(); j++)
 				{
@@ -380,12 +401,11 @@ namespace diva
 					}
 				}
 
+			selectedListBox->clearItems();
+			songListBox->clearSelect();
+			PlayListeningPreview(-1);
 			refreshSongList();
-			//////////////////////////////////////////////////////////////////////////
-			
-			// Sound Initialize
-			//sora::SoraBGMManager::Instance()->play(L"D:\\KuGou\\philosophyz.mp3", true);
-
+			//refreshSelectedSongList();
 		}
 
 		bool MusicUI::MapCmp(const divamap::DivaMap& a, const divamap::DivaMap& b)
@@ -509,7 +529,10 @@ namespace diva
 		void MusicUI::PlayListeningPreview(int index)
 		{
 			if (index == -1)
+			{
+				sora::SoraBGMManager::Instance()->stop(false);
 				return;
+			}
 			SongListItem* item = (SongListItem*)songListBox->getItems()[index];
 			if ( item->hasListening() )
 			{
@@ -573,6 +596,24 @@ namespace diva
 				const divamap::DivaMapEventMessage &t = (*((*q).begin()));
 				switch (t.eventType)
 				{
+				case divamap::DivaMapEventMessage::PrepareMapList :
+					if (t.error)
+					{
+						//messagePanelChatBox->addText(L"[提示] 与歌曲列表服务器连接发生错误。", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+						//throw "fuck it!";
+						mgr->GetMB()->Show(L"更新歌曲列表发生错误，更新失败。");
+						break;
+					}
+					if (t.finish)
+					{
+						//messagePanelChatBox->addText(L"[提示] 与歌曲列表服务器连接成功，歌曲列表已更新。", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+						//selectMusicButton->setEnabled(true);
+						UpdateSongList();
+						mgr->GetMB()->Show(L"更新歌曲列表成功。");
+					
+						break;
+					}
+					break;
 				case divamap::DivaMapEventMessage::PrepareRecordByRank:
 					if (t.error)
 					{
@@ -1005,6 +1046,17 @@ namespace diva
 			startButton->setEnabled(true);
 		}
 
+		void MusicUI::CB_UpdateSongList()
+		{
+			//MAPMGR.PrepareDivaMapListInfo();
+			mgr->GetMB()->RegisterCallback();
+			if (mgr->GetMB()->GetResult() == gcn::MessageBoxEx::RES_YES)
+			{
+				mgr->GetMB()->Show(L"正在更新歌曲列表，请等待……", L"提示", gcn::MessageBoxEx::TYPE_NONE);
+				MAPMGR.PrepareDivaMapListInfo();
+			}
+		}
+
 		void MusicUI::BackToUI()
 		{
 			if (playerList->getRoomInfo().myId != playerList->getRoomInfo().hostId)
@@ -1161,6 +1213,14 @@ namespace diva
 			//	ui->playerList->setPlayerReady(info.myId, info.players[info.myId].isReady ^ 1);
 			//	//ui->ReadyPost(info.myId, info.players[info.myId].isReady ^ 1);
 			//}
+		}
+
+		void UpdateSongList_MouseListener::mouseClicked(MouseEvent& mouseEvent)
+		{
+			MusicUI* ui = MusicUI::Instance();
+			//ui->UpdateSongList();
+			ui->mgr->GetMB()->Show(L"更新所有歌曲列表可能花费较多时间，您确定吗？", L"提示", gcn::MessageBoxEx::TYPE_YESNO);
+			ui->mgr->GetMB()->RegisterCallback(MessageBoxEx::Callback(&MusicUI::CB_UpdateSongList, ui));
 		}
 	}
 }

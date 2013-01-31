@@ -214,7 +214,7 @@ namespace gcn
 		}
 
 		assert(mgr);
-		
+		removeModifier();
 		if (mgr->GetTopWindow() != (WindowEx*)this)
 		{
 			FadeIn(10);
