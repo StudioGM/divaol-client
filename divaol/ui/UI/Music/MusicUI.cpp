@@ -261,7 +261,7 @@ namespace diva
 			modeTextLabel->setSize(90, 50);
 			modeTextLabel->setForegroundColor(gcn::Color(0, 0, 0));
 			modeTextLabel->setFont(artistFont);
-			top->add(modeTextLabel, 1625 + offx, 670 + offy);
+			top->add(modeTextLabel, 1625 + offx -19, 670 + offy -10);
 
 			// RankPageLeftButton
 			rankPageLeftBtn = new gcn::ButtonEx();
