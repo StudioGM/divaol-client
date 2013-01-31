@@ -250,6 +250,9 @@
     <Filter Include="源文件\ui\UI\Init">
       <UniqueIdentifier>{d8aa9cc2-b361-4ee1-bee0-d19e958d2092}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\lib\CSHA1">
+      <UniqueIdentifier>{8070831c-2a43-4133-a1c9-f27266c53fb3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Hoshizor\Sora\Hoshizora.h">
@@ -2511,6 +2514,9 @@
     <ClInclude Include="resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Lib\CSHA1\SHA1.h">
+      <Filter>源文件\lib\CSHA1</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -3673,6 +3679,9 @@
     </ClCompile>
     <ClCompile Include="divacore\Utility\DivaRankResult.cpp">
       <Filter>源文件\divacore\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\CSHA1\SHA1.cpp">
+      <Filter>源文件\lib\CSHA1</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

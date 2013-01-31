@@ -120,7 +120,6 @@ namespace divacore
 		if(!HOOK_MANAGER_PTR->hook(_event)||!HOOK_MANAGER_PTR->hookInfo())
 		{
 			if (type == JoystickState::JOYSTICK_TYPE_PRESSED) {
-				LOGGER->log("pressed %d",key);
 				Core::Ptr->getCoreFlow()->onKeyPressed(_event);
 				GAME_MODE_PTR->onKeyPressed(_event);
 			}

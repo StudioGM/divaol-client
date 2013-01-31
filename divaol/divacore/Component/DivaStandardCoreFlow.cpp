@@ -82,9 +82,11 @@ namespace divacore
 	}
 	void StandardCoreFlow::over()
 	{
-		EVALUATE_STRATEGY_PTR->finalEvaluate();
-		core->getMusicManager()->destroy();
-		state = END;
+		if (state != END) {
+			EVALUATE_STRATEGY_PTR->finalEvaluate();
+			core->getMusicManager()->destroy();
+			state = END;
+		}
 	}
 	void StandardCoreFlow::destroy()
 	{

@@ -16,6 +16,7 @@
 #include "SoraResourceFile.h"
 
 #include "SoraFMODSoundSystem.h"
+#include "cmd/SoraConsole.h"
 #include "ui/Config/DivaUIConfig.h"
 #include "ui/UI/House/HouseGameState.h"
 #include "ui/UI/Stage/StageGameState.h"
@@ -90,6 +91,9 @@ int CALLBACK WinMain(
 #ifdef DIVA_GNET_OPEN
 		app.addState(core, "core");
 #endif
+
+		sora::SoraConsole::Destroy();
+
 		app.run("init");
 		
 
