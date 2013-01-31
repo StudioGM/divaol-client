@@ -27,6 +27,7 @@
 #include "divasongmgr/DivaMapManager.h"
 #include "divacore/Utility/DivaSettings.h"
 #include "Utility/DivaVersion.h"
+#include "Lib/CSHA1/SHA1.h"
 
 namespace diva
 {
@@ -372,6 +373,14 @@ namespace diva
 				else if(msg.description()=="unactived")
 				{
 					mgr->GetMB()->Show(L"账号尚未激活。",L"提示");
+				}
+				else if(msg.description()=="db_fail")
+				{
+					mgr->GetMB()->Show(L"数据库连接出错。",L"提示");
+				}
+				else if(msg.description()=="no_user")
+				{
+					mgr->GetMB()->Show(L"无此用户。",L"提示");
 				}
 				else
 				{
@@ -2305,7 +2314,16 @@ namespace diva
 				disconnectServer();
 				return;
 			}
-			AUTH_CLIENT.login(Base::ws2s(usernameInput->getText()),Base::ws2s(passwordInput->getText()));
+
+			CSHA1 sha1;
+			string passwd = Base::String(passwordInput->getText());
+			wstring report;
+			sha1.Update((UINT_8*)passwd.c_str(), passwd.size() * sizeof(char));
+			sha1.Final();
+			sha1.ReportHashStl(report, CSHA1::REPORT_HEX_SHORT);
+
+			//AUTH_CLIENT.login(Base::ws2s(usernameInput->getText()),Base::String(report).lower());
+			AUTH_CLIENT.login(Base::ws2s(usernameInput->getText()),Base::String(passwordInput->getText()));
 		}
 
 		void HouseUI::logout() {
