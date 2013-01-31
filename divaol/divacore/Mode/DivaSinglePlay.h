@@ -50,6 +50,7 @@ namespace divacore
 		STATE_QUEUE stateQueue; //¼ÇÂ¼stateÐòÁÐ
 		Config config;
 		bool alive;
+		bool isOver;
 
 		// statistic information
 		int32 nowScore,nowHP;

@@ -123,6 +123,9 @@ namespace divacore
 
 		bool hook(KeyEvent &key) 
 		{
+			if(CORE_FLOW_PTR->getState()!=CoreFlow::RUN)
+				return false;
+
 			if(key.key==DIVA_KEY_CT)
 				if(bFull)
 				{

@@ -132,6 +132,9 @@ namespace divacore
 		STAGE_CLIENT.back();
 	}
 	void MultiPlay::noteOver() {
+		if (isOver)
+			return;
+
 		SinglePlay::noteOver();
 
 		sendInfo();
@@ -325,9 +328,6 @@ namespace divacore
 
 	void MultiPlay::preEvaluate()
 	{
-		// add the bonus score caused by hooks
-		setScore(getScore() * HOOK_MANAGER_PTR->getHookFinalScale());
-		
 		EVALUATE_STRATEGY_PTR->getResult().myScore = getScore();
 		EVALUATE_STRATEGY_PTR->getResult().myID = getPlayerID();
 		EVALUATE_STRATEGY_PTR->getResult().myMaxCombo = getMaxCombo();

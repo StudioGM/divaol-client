@@ -58,7 +58,7 @@ namespace divacore
 			if(CORE_PTR->getState()!=Core::RESULT)
 				return;
 
-			LOGGER->log((packet->getString()).c_str());
+			//LOGGER->log((packet->getString()).c_str());
 			EvalResult &result = EVALUATE_STRATEGY_PTR->getResult();
 			gnet::Item<gnet::List> *list = packet->getItem(2)->as<gnet::ListItem>();
 			MultiPlay *multiPlay = dynamic_cast<MultiPlay*>(GAME_MODE_PTR);

@@ -46,20 +46,30 @@ namespace divacore
 		nowScore = combo = maxCombo = maxCTLevel = 0;
 		nowHP = ORIGIN_HP;
 
+		isOver = false;
+
 		setAlive(true);
 	}
 	void SinglePlay::gameOver()
 	{
-		if (!CORE_FLOW_PTR->isNoteOver())
+		if (!CORE_FLOW_PTR->isNoteOver()) {
 			noteOver();
+		}
 	}
 	void SinglePlay::noteOver()
 	{
-		CTMode* ctMode = dynamic_cast<CTMode*>(HOOK_MANAGER_PTR->getHook("CTMode"));
-		if(ctMode)
-			maxCTLevel = ctMode->getMaxLevel();
-		else
-			maxCTLevel = 0;
+		if (!isOver)
+		{
+			isOver = true;
+			CTMode* ctMode = dynamic_cast<CTMode*>(HOOK_MANAGER_PTR->getHook("CTMode"));
+			if(ctMode)
+				maxCTLevel = ctMode->getMaxLevel();
+			else
+				maxCTLevel = 0;
+
+			// add the bonus score caused by hooks
+			setScore(getScore() * HOOK_MANAGER_PTR->getHookFinalScale());
+		}
 	}
 	bool SinglePlay::checkNote(NotePtr note) 
 	{
@@ -189,9 +199,6 @@ namespace divacore
 			maxCTLevel = ctMode->getMaxLevel();
 		else
 			maxCTLevel = 0;
-
-		// add the bonus score caused by hooks
-		setScore(getScore() * HOOK_MANAGER_PTR->getHookFinalScale());
 
 		EVALUATE_STRATEGY_PTR->getResult().myScore = getScore();
 		EVALUATE_STRATEGY_PTR->getResult().myID = 0;

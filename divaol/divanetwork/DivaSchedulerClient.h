@@ -92,6 +92,8 @@ namespace divanet
 					info.serverId = item->getItem(2)->getInt();
 					info.capacity = roomInfo->getItem(0)->getInt();
 					info.ownerNickname = Base::String::unEscape(roomInfo->getItem(4)->getString());
+					if (info.ownerNickname.size() == 0)
+						continue;
 					info.state = roomInfo->getItem(1)->getString()=="stage"?RoomInfo::STAGE:("game"?RoomInfo::GAME:RoomInfo::CHECKOUT);
 					gnet::Item<gnet::List> *songList = roomInfo->getItem(2)->as<gnet::Item<gnet::List>>();
 					if(songList == 0 || songList->size() == 0)

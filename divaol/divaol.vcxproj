@@ -749,6 +749,7 @@
     <ClInclude Include="Lib\Base\Type.h" />
     <ClInclude Include="Lib\Base\TypeTraits.h" />
     <ClInclude Include="Lib\Base\Uncopyable.h" />
+    <ClInclude Include="Lib\CSHA1\SHA1.h" />
     <ClInclude Include="Lib\MD5\md52.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ui\Config\DivaUIConfig.h" />
@@ -1163,6 +1164,7 @@
     <ClCompile Include="Lib\Base\String.cpp" />
     <ClCompile Include="Lib\Base\Sys\SysUtilWin.cpp" />
     <ClCompile Include="Lib\Base\Timer.cpp" />
+    <ClCompile Include="Lib\CSHA1\SHA1.cpp" />
     <ClCompile Include="Lib\MD5\md52.cpp" />
     <ClCompile Include="Lib\wjson\wjson_reader.cpp" />
     <ClCompile Include="Lib\wjson\wjson_value.cpp" />

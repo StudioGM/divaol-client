@@ -350,7 +350,9 @@ namespace gnet
 	}
 	std::string ItemUtility::getString(ItemBase *item)
 	{
-		if(item->getType()==GNET_TYPE_BINARY)
+		if(item==NULL)
+			return "";
+		else if(item->getType()==GNET_TYPE_BINARY)
 			return ((Item<Binary>*)item)->getData();
 		else if(item->getType()==GNET_TYPE_ATOM)
 			return ((Item<Binary>*)item)->getData();
@@ -371,7 +373,9 @@ namespace gnet
 	}
 	std::wstring ItemUtility::getWString(ItemBase *item)
 	{
-		if(item->getType()==GNET_TYPE_BINARY)
+		if(item==NULL)
+			return L"";
+		else if(item->getType()==GNET_TYPE_BINARY)
 			return BytesTo<std::wstring>(((Item<Binary>*)item)->getRaw());
 		else if(item->getType()==GNET_TYPE_ATOM)
 			return Base::String(((Item<Binary>*)item)->getData());
