@@ -36,7 +36,7 @@ namespace divacore
 		{
 			CORE_PTR->setSpeedScale(0.5);
 		}
-		float scoreBonusScale() {return -0.5;}
+		float scoreTotalScale() {return 0.2;}
 	};
 }
 

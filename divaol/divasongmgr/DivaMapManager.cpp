@@ -853,6 +853,7 @@ namespace divamap
 				fclose(thumbFile);
 				if(listMsgOut!=NULL)
 					listMsgOut->push_back(DivaMapEventMessage(eventType, id, false, true, 1));
+				isOperating[id][0][eventType]=false;
 			}
 		}
 		else if(eventType==DivaMapEventMessage::PrepareMapDataFile || eventType==DivaMapEventMessage::PrepareMapDataFileNoVideo)
@@ -880,8 +881,11 @@ namespace divamap
 					return false;
 			}
 			else
+			{
 				if(listMsgOut!=NULL)
 					listMsgOut->push_back(DivaMapEventMessage(DivaMapEventMessage::UnpackMapDataFile, id, false, true, 1));
+				isOperating[id][0][eventType]=false;
+			}
 		}
 
 		
