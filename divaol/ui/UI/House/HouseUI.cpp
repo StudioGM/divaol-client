@@ -833,7 +833,10 @@ namespace diva
 		void HouseUI::cb_exit_game() {
 			mgr->GetMB()->RegisterCallback();
 			if (mgr->GetMB()->GetResult() == MessageBoxEx::RES::RES_YES)
+			{
+				logout();
 				exit(0);
+			}
 		}
 		void HouseUI::cb_exit_stage() {
 			mgr->GetMB()->RegisterCallback();
@@ -2315,12 +2318,12 @@ namespace diva
 				return;
 			}
 
-			CSHA1 sha1;
-			string passwd = Base::String(passwordInput->getText());
-			wstring report;
-			sha1.Update((UINT_8*)passwd.c_str(), passwd.size() * sizeof(char));
-			sha1.Final();
-			sha1.ReportHashStl(report, CSHA1::REPORT_HEX_SHORT);
+			//CSHA1 sha1;
+			//string passwd = Base::String(passwordInput->getText());
+			//wstring report;
+			//sha1.Update((UINT_8*)passwd.c_str(), passwd.size() * sizeof(char));
+			//sha1.Final();
+			//sha1.ReportHashStl(report, CSHA1::REPORT_HEX_SHORT);
 
 			//AUTH_CLIENT.login(Base::ws2s(usernameInput->getText()),Base::String(report).lower());
 			AUTH_CLIENT.login(Base::ws2s(usernameInput->getText()),Base::String(passwordInput->getText()));
@@ -2514,7 +2517,7 @@ namespace diva
 			}
 			if (mouseEvent.getSource() == (gcn::Widget*) exitButton)
 			{
-				logout();
+				//logout();
 				//sora::SoraCore::Instance()->shutDown();
 				//setState(STATE_LOGINWINDOW);
 				mgr->GetMB()->RegisterCallback(MessageBoxEx::Callback(&HouseUI::cb_exit_game, this));
