@@ -132,6 +132,9 @@ namespace divacore
 		STAGE_CLIENT.back();
 	}
 	void MultiPlay::noteOver() {
+		if (isOver)
+			return;
+
 		SinglePlay::noteOver();
 
 		sendInfo();

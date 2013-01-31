@@ -392,6 +392,7 @@ namespace divacore
 	{
 		for(EVENTHANDLERS::iterator ptr = components.begin(); ptr != components.end(); ptr++)
 			ptr->second->gameOver();
+
 		UI_PAINTER_PTR->gameStop();
 		DISPLAY_PTR->gameStop();
 		MUSIC_MANAGER_PTR->gameStop();
