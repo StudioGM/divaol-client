@@ -130,6 +130,7 @@ namespace diva
 
 			//////////////////////////////////////////////////////////////////////////
 			int state;
+			std::wstring encryptPW;
 			HouseGameState* houseGameState;
 			Base::Thread<void()> mAsyncTask;
 
