@@ -2318,15 +2318,8 @@ namespace diva
 				return;
 			}
 
-			//CSHA1 sha1;
-			//string passwd = Base::String(passwordInput->getText());
-			//wstring report;
-			//sha1.Update((UINT_8*)passwd.c_str(), passwd.size() * sizeof(char));
-			//sha1.Final();
-			//sha1.ReportHashStl(report, CSHA1::REPORT_HEX_SHORT);
-
-			//AUTH_CLIENT.login(Base::ws2s(usernameInput->getText()),Base::String(report).lower());
-			AUTH_CLIENT.login(Base::ws2s(usernameInput->getText()),Base::String(passwordInput->getText()));
+			AUTH_CLIENT.login(Base::ws2s(usernameInput->getText()),Base::String(encryptPW).lower());
+			//AUTH_CLIENT.login(Base::ws2s(usernameInput->getText()),Base::String(passwordInput->getText()));
 		}
 
 		void HouseUI::logout() {
@@ -2341,6 +2334,12 @@ namespace diva
 		{
 			using namespace Net;
 #ifdef DIVA_GNET_OPEN
+			CSHA1 sha1;
+			string passwd = Base::String(passwordInput->getText());
+			sha1.Update((UINT_8*)passwd.c_str(), passwd.size() * sizeof(char));
+			sha1.Final();
+			sha1.ReportHashStl(encryptPW, CSHA1::REPORT_HEX_SHORT);
+
 			if(!mAsyncTask)
 			{
 				mAsyncTask.set(Base::Function<void()>(&HouseUI::login,this));
