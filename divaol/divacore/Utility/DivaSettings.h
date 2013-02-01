@@ -70,6 +70,12 @@ namespace divacore
 			config[L"screenFadeTime"] = 0.5;
 			config[L"bgmFadeTime"] = 1.0;
 		}
+		void RefreshMusicSettings()
+		{
+			MUSIC_MANAGER_PTR->setTagVolume("bgm", bgmVolume);
+			MUSIC_MANAGER_PTR->setTagVolume("se", seVolume);
+			sora::SoraBGMManager::Instance()->setVolume(bgmVolume);
+		}
 
 	private:
 		void _ReloadWindowSize(WJson::Value &config, WJson::Value &setting)

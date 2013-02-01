@@ -10,6 +10,7 @@
 #include "SoraFileUtility.h"
 #include "DivaBassMusicManager.h"
 #include "Core/DivaCore.h"
+#include "Utility/DivaSettings.h"
 
 namespace divacore
 {
@@ -101,6 +102,7 @@ namespace divacore
 	{
 		mSpeedScale = 1.0;
 		::BASS_Init(-1, 44100, 0, 0, 0);
+		SETTINGS.RefreshMusicSettings();
 		/*globalSample = ::BASS_SampleCreate(100000000, 28160, 1, 1, BASS_SAMPLE_LOOP|BASS_SAMPLE_OVER_POS);
 		globalChannel = BASS_SampleGetChannel(globalSample,false);
 		QWORD length = BASS_ChannelSeconds2Bytes(globalChannel,120);
