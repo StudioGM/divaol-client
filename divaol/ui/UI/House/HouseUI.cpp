@@ -2318,7 +2318,7 @@ namespace diva
 				return;
 			}
 
-			AUTH_CLIENT.login(Base::ws2s(usernameInput->getText()),Base::String(encryptPW).lower());
+			AUTH_CLIENT.login(Base::String(usernameInput->getText()).lower(),Base::String(encryptPW).lower());
 			//AUTH_CLIENT.login(Base::ws2s(usernameInput->getText()),Base::String(passwordInput->getText()));
 		}
 
