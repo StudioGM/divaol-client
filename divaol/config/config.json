@@ -5,7 +5,7 @@
    "globalFont" : "res/msyh.ttf",
    "isWindowMode" : false,
    "language" : 0,
-   "musicVolume" : 10,
+   "musicVolume" : 0,
    "particleSystem" : 2,
    "resolution" : 1,
    "screenFadeTime" : 0.5,
