@@ -31,7 +31,7 @@ namespace divanet
 	{
 	public:
 		void getServerInfo() {
-			//static const char* const SERVER_IP = "127.0.0.1";
+			//static const char* const SERVER_IP = "10.155.0.105";
 			static const char* const SERVER_IP = "divaolserver00.gmgate.net";
 
 			info["auth"] = ServiceInfo(SERVER_IP,9699);

@@ -881,8 +881,11 @@ namespace divamap
 					return false;
 			}
 			else
+			{
 				if(listMsgOut!=NULL)
 					listMsgOut->push_back(DivaMapEventMessage(DivaMapEventMessage::UnpackMapDataFile, id, false, true, 1));
+				isOperating[id][0][eventType]=false;
+			}
 		}
 
 		
