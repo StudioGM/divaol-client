@@ -33,7 +33,7 @@ int CALLBACK WinMain(
 
 		divacore::Config config;
 		divacore::configloader::loadWithJson(config,"system/common.json");
-		core->setSong(config.getAsString("song"),config.getAsString("map"));
+		core->setSong(config.getAsString("song"), config.getAsWString("map"));
 
 		sora::SoraGameAppDef def;
 		sora::SoraGameApp app(def);
@@ -50,7 +50,6 @@ int CALLBACK WinMain(
 	}
 	catch (divacore::Exception&ev)
 	{
-		divacore::LOGGER->error(ev);
         sora::SoraCore::Instance()->messageBox(ev.getContent(), ev.getModuleName(), 0);
 	}
 

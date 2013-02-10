@@ -64,8 +64,6 @@ namespace Base
 		size_t readAny(T &data) {return read((binary)(&data),sizeof(T));}
 		template<typename T>
 		size_t writeAny(const T &data) {return write((const binary)(&data),sizeof(T));}
-		template<>
-		size_t writeAny(const String &data);
 
 		virtual size_t pos() const = 0;
 		virtual size_t size() const = 0;

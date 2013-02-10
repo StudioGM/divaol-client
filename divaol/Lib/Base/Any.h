@@ -28,8 +28,10 @@ namespace Base
 			:mContent(new Holder<ValueType>(value)) {
 		}
 
-		Any(const Any &rhs)
-			:mContent(rhs.mContent?rhs.mContent->clone():(HolderBase*)0) {
+		Any(const Any &rhs) {
+            if(rhs.mContent) {
+                mContent = rhs.mContent->clone();
+            }
 		}
 
 		~Any() {

@@ -142,9 +142,9 @@ namespace divacore
 			DIVA_EXCEPTION_MODULE("Sound "+ID+" already exists","BassMusicManager");
 
 		if(file=="")
-			soundPool[ID] = std::make_pair<bool,HSTREAM>(stream,0);
+			soundPool[ID] = std::make_pair(stream,0);
 		else
-			soundPool[ID] = std::make_pair<bool,HSTREAM>(stream,loadSound(file,stream));
+			soundPool[ID] = std::make_pair(stream,loadSound(file,stream));
 
 		fileDict[ID] = file;
 	}
@@ -197,12 +197,12 @@ namespace divacore
 			::BASS_ChannelSetAttribute(hChannel,BASS_ATTRIB_VOL,getTagVolume(tag)*volumePool[channel]);
 			::BASS_ChannelUpdate(hChannel,0);
 
-			musicPool[channel] = std::make_pair<std::string,HSTREAM>(tag,hChannel);
+			musicPool[channel] = std::make_pair(tag,hChannel);
 		}
 		else
 			musicPool.erase(musicPool.find(channel));
 
-		musicPool[channel] = std::make_pair<std::string,HSTREAM>(tag,hChannel);
+		musicPool[channel] = std::make_pair(tag,hChannel);
 	}
 	void BassMusicManager::playDirect(const std::string &ID, const std::string &tag)
 	{

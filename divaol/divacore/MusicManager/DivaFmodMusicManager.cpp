@@ -119,7 +119,7 @@ namespace divacore
             FMOD_RESULT result = pSystem->playSound(FMOD_CHANNEL_FREE, pSound, false, &pChannel);
 			pChannel->setVolume(getTagVolume(tag)*volumePool[channel]);
         }
-		musicPool[channel] = std::make_pair<std::string,FMOD::Channel*>(tag,pChannel);
+		musicPool[channel] = std::make_pair(tag,pChannel);
 	}
 	void FmodMusicManager::playDirect(const std::string &ID, const std::string &tag)
 	{

@@ -20,7 +20,7 @@ namespace Base
 
 			void *obj_ptr;
 			const void* const_obj_ptr;
-			void (*func_ptr);
+			void (*func_ptr)();
 			
 			char data;
 		};
@@ -75,13 +75,6 @@ namespace Base
 		template<typename obj, typename sig>
 		class Binded;
 	
-		#define BASE_FUNCTION_TEMPLATE_PARAM BASE_ENUM_PARAMS(BASE_FUNCTION_NUM_ARGS, typename T)
-		#define BASE_FUNCTION_TEMPLATE_PARAM_N(n) BASE_ENUM_PARAMS(n, typename T)
-		#define BASE_FUNCTION_TEMPLATE_ARGS BASE_ENUM_PARAMS(BASE_FUNCTION_NUM_ARGS, T)
-		#define BASE_FUNCTION_PARAM(n, d) BASE_JOIN(T, n) BASE_JOIN(a, n)
-		#define BASE_FUNCTION_PARAMS BASE_ENUM_N(BASE_FUNCTION_NUM_ARGS, BASE_FUNCTION_PARAM, BASE_EMPTY)
-		#define BASE_FUNCTION_PARAMS_N BASE_ENUM_N(n, BASE_FUNCTION_PARAM, BASE_EMPTY)
-		#define BASE_FUNCTION_ARGS BASE_ENUM_PARAMS(BASE_FUNCTION_NUM_ARGS, a)
 	}
 }
 

@@ -37,7 +37,7 @@ namespace Base
 			void pop() {
 				BASE_MUTEX_GUARD(mMutex);
 				base_assert(!mQueue.empty());
-				queue.pop();
+				mQueue.pop();
 			}
 
 			T front() {

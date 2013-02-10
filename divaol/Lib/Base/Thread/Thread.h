@@ -11,7 +11,7 @@
 #define _BASE_THREAD_H_
 
 #include "Common.h"
-#include "Function/Function.h"
+#include "../Function/Function.h"
 #include "Mutex.h"
 
 namespace Base
@@ -28,8 +28,7 @@ namespace Base
 		void invoke() {
 			mRetVal = mFunc.invokeWithArg();
 		}
-		template<>
-		void invoke<void>() {
+		template<> void invoke<void>() {
 			 mFunc.invokeWithArg();
 		}
 

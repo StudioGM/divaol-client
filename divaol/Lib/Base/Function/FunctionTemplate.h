@@ -15,7 +15,7 @@ namespace Base {
 #ifdef BASE_FUNCTION_NUM_ARGS
 
 	namespace function_detial {
-#define BASE_FUNCTION BASE_JOIN(Function, BASE_FUNCTION_NUM_ARGS)
+#define BASE_FUNCTION BASE_JOIN(BaseFunction, BASE_FUNCTION_NUM_ARGS)
 #define BASE_INVOKER BASE_JOIN(invoker, BASE_FUNCTION_NUM_ARGS)
 #define BASE_OBJ_INVOKER BASE_JOIN(obj_invoker, BASE_FUNCTION_NUM_ARGS)
 #define BASE_GET_INVOKER BASE_JOIN(get_function_invoker, BASE_FUNCTION_NUM_ARGS)
@@ -28,6 +28,14 @@ namespace Base {
 #else
 #define BASE_FUNCTION_COMMA ,
 #endif
+        
+#define BASE_FUNCTION_TEMPLATE_PARAM BASE_ENUM_PARAMS(BASE_FUNCTION_NUM_ARGS, typename TT)
+#define BASE_FUNCTION_TEMPLATE_PARAM_N(n) BASE_ENUM_PARAMS(n, typename TT)
+#define BASE_FUNCTION_TEMPLATE_ARGS BASE_ENUM_PARAMS(BASE_FUNCTION_NUM_ARGS, TT)
+#define BASE_FUNCTION_PARAM(n, d) BASE_JOIN(TT, n) BASE_JOIN(a, n)
+#define BASE_FUNCTION_PARAMS BASE_ENUM_N(BASE_FUNCTION_NUM_ARGS, BASE_FUNCTION_PARAM, BASE_EMPTY)
+#define BASE_FUNCTION_PARAMS_N BASE_ENUM_N(n, BASE_FUNCTION_PARAM, BASE_EMPTY)
+#define BASE_FUNCTION_ARGS BASE_ENUM_PARAMS(BASE_FUNCTION_NUM_ARGS, a)
 
 		//**********************
 		// MemFunc
@@ -131,9 +139,9 @@ namespace Base {
 		template<typename R BASE_FUNCTION_COMMA BASE_FUNCTION_TEMPLATE_PARAM>
 		class BASE_FUNCTION {
 		public:
-			typedef BASE_FUNCTION<R BASE_FUNCTION_COMMA BASE_FUNCTION_TEMPLATE_PARAM> self_type;
+			typedef BASE_FUNCTION<R BASE_FUNCTION_COMMA BASE_FUNCTION_TEMPLATE_ARGS> self_type;
 			typedef R result_type;
-			typedef result_type (*invoker_type)(any_ptr BASE_FUNCTION_COMMA BASE_FUNCTION_TEMPLATE_PARAM);
+			typedef result_type (*invoker_type)(any_ptr BASE_FUNCTION_COMMA BASE_FUNCTION_TEMPLATE_ARGS);
 			typedef void (*releaser_type)(any_ptr);
 			static const int ARG_NUM = BASE_FUNCTION_NUM_ARGS;
 
@@ -341,8 +349,8 @@ namespace Base {
 		template<typename R BASE_FUNCTION_COMMA BASE_FUNCTION_TEMPLATE_PARAM>
 		class Function<R(BASE_FUNCTION_TEMPLATE_ARGS)> : public BASE_FUNCTION<R BASE_FUNCTION_COMMA BASE_FUNCTION_TEMPLATE_ARGS>
 		{
-			typedef typename BASE_FUNCTION<R BASE_FUNCTION_COMMA BASE_FUNCTION_TEMPLATE_ARGS> base_type;
-			typedef typename Function<R(BASE_FUNCTION_TEMPLATE_ARGS)> self_type;
+			typedef BASE_FUNCTION<R BASE_FUNCTION_COMMA BASE_FUNCTION_TEMPLATE_ARGS> base_type;
+			typedef Function<R(BASE_FUNCTION_TEMPLATE_ARGS)> self_type;
 		public:
 			Function():
 				base_type() {}
@@ -357,7 +365,7 @@ namespace Base {
 
 			template<typename Functor, typename obj>
 			Function(Functor f, obj *object) {
-				assign(Base::function_detial::Bind(object, f));
+				this->assign(Base::function_detial::Bind(object, f));
 			}
 
 			self_type& operator=(const self_type &rhs) {
@@ -366,7 +374,7 @@ namespace Base {
 			}
 
 			bool operator==(const self_type &rhs) {
-				return mPtr.value==rhs.mPtr.value;
+				return this->mPtr.value==rhs.mPtr.value;
 			}
 		};
 

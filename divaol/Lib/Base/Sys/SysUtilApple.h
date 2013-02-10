@@ -12,6 +12,9 @@
 
 #include "../Common.h"
 
+#include <pthread.h>
+#include <dirent.h>
+
 namespace Base
 {
 	/*********************************************
@@ -21,10 +24,10 @@ namespace Base
 	{
 	protected:
 		MutexImpl() {
-			phread_mutex_init(&mutex, NULL);
+			pthread_mutex_init(&mutex, NULL);
 		}
 		~MutexImpl() {
-			phread_mutex_destory(&mutex);
+			pthread_mutex_destroy(&mutex);
 		}
 		inline void lockImpl() {
 			if(pthread_mutex_lock(&mutex))
@@ -75,7 +78,7 @@ namespace Base
 			 }
 
 			 inline void exit() {
-				 if(active) {
+				 if(active()) {
 					 pthread_exit(&mThread);
 					 setActive(false);
 				 }
@@ -102,6 +105,62 @@ namespace Base
 
 		bool mActive;
 	};
+    
+    class DirectoryIteratorImpl {
+    public:
+        DirectoryIteratorImpl(const String& path) {
+            mDir = opendir(path.ansi_str());
+            
+            if(mDir)
+                next();
+        }
+        
+        ~DirectoryIteratorImpl() {
+            if(mDir)
+                closedir(mDir);
+        }
+        
+        void duplicate();
+        void release();
+        
+        const String& get() const;
+        const String& next() {
+            if(!mDir)
+                return mCurrent;
+            
+            do {
+                struct dirent* entry = readdir(mDir);
+                if(entry)
+                    mCurrent = String(entry->d_name);
+                else
+                    mCurrent.clear();
+            }
+            while(mCurrent == L"." || mCurrent == L".." || (mCurrent.size() > 0 && mCurrent[0] == '.'));
+            
+            return mCurrent;
+        }
+        
+        bool isFolder() const { return false; }
+        
+    private:
+        DIR* mDir;
+        String mCurrent;
+        int mRC;
+    };
+    
+    const String& DirectoryIteratorImpl::get() const {
+        return mCurrent;
+    }
+    
+    inline void DirectoryIteratorImpl::duplicate() {
+        ++mRC;
+    }
+    
+    inline void DirectoryIteratorImpl::release() {
+        if (--mRC) {
+            delete this;
+        }
+    }
 }
 
 #endif

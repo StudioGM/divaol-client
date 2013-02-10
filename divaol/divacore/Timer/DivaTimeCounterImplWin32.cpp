@@ -6,8 +6,10 @@
  *
  */
 
-#include <windows.h>
 #include "DivaTimeCounterImplWin32.h"
+#ifdef SORA_OS_WINDOWS
+
+#include <windows.h>
 
 enum{TIMER_START,TIMER_RESET,TIMER_STOP,TIMER_ADVANCE,TIMER_GETABSOLUTETIME,TIMER_GETAPPTIME,TIMER_GETELAPSEDTIME};
 typedef uint32 TIMER_COMMAND;
@@ -204,3 +206,4 @@ namespace divacore
 	}
 
 }
+#endif

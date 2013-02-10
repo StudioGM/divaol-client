@@ -10,7 +10,7 @@
 #define DIVA_TIME_COUNTER_IMPL
 
 #include "SoraTimestamp.h"
-
+#ifdef SORA_OS_WINDOWS
 namespace divacore
 {
 	using namespace sora;
@@ -57,5 +57,5 @@ namespace divacore
 		}
 	};
 }
-
+#endif
 #endif

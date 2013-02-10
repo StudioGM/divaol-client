@@ -34,7 +34,7 @@ namespace divanet
 
 		Client():mIsConnect(false),mClientState(STATE_DISCONNECT),mTickTask(Base::MakeFunction(&Client::tick_thread, this)) {
 		}
-		virtual ~Client() {
+		virtual ~Client() throw() {
 			if(isConnect())
 				disconnect();
 		}

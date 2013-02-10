@@ -11,7 +11,6 @@
 		8867D1DA16C787200013A136 /* DivaMapJsonLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D15E16C787200013A136 /* DivaMapJsonLoader.cpp */; };
 		8867D1DB16C787200013A136 /* DivaMapStandardParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D16016C787200013A136 /* DivaMapStandardParser.cpp */; };
 		8867D1DC16C787200013A136 /* DivaSimpleUIPainter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D16316C787200013A136 /* DivaSimpleUIPainter.cpp */; };
-		8867D1DD16C787200013A136 /* DivaSocketNetworkSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D16516C787200013A136 /* DivaSocketNetworkSystem.cpp */; };
 		8867D1DE16C787200013A136 /* DivaStandardCoreFlow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D16716C787200013A136 /* DivaStandardCoreFlow.cpp */; };
 		8867D1DF16C787200013A136 /* DivaStandardDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D16916C787200013A136 /* DivaStandardDisplay.cpp */; };
 		8867D1E016C787200013A136 /* DivaStandardFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D16B16C787200013A136 /* DivaStandardFactory.cpp */; };
@@ -46,6 +45,9 @@
 		8867D24E16C787310013A136 /* wjson_reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D23F16C787310013A136 /* wjson_reader.cpp */; };
 		8867D24F16C787310013A136 /* wjson_value.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D24016C787310013A136 /* wjson_value.cpp */; };
 		8867D25016C787310013A136 /* wjson_writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D24216C787310013A136 /* wjson_writer.cpp */; };
+		8867D26316C7976A0013A136 /* connection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D25D16C7976A0013A136 /* connection.cpp */; };
+		8867D26416C7976A0013A136 /* gnet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D25F16C7976A0013A136 /* gnet.cpp */; };
+		8867D26516C7976A0013A136 /* netManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D26116C7976A0013A136 /* netManager.cpp */; };
 		886BE9B715C648E6005CFA52 /* osx_libglfw_i386.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = 886BE9B515C648E6005CFA52 /* osx_libglfw_i386.lib */; };
 		886BE9B815C648E6005CFA52 /* osx_libglfw_x86_64.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = 886BE9B615C648E6005CFA52 /* osx_libglfw_x86_64.lib */; };
 		886BE9BB15C64D35005CFA52 /* libvlc.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 886BE9B915C64D35005CFA52 /* libvlc.5.dylib */; };
@@ -269,8 +271,6 @@
 		8867D16216C787200013A136 /* DivaSimpleHookManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaSimpleHookManager.h; sourceTree = "<group>"; };
 		8867D16316C787200013A136 /* DivaSimpleUIPainter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaSimpleUIPainter.cpp; sourceTree = "<group>"; };
 		8867D16416C787200013A136 /* DivaSimpleUIPainter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaSimpleUIPainter.h; sourceTree = "<group>"; };
-		8867D16516C787200013A136 /* DivaSocketNetworkSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaSocketNetworkSystem.cpp; sourceTree = "<group>"; };
-		8867D16616C787200013A136 /* DivaSocketNetworkSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaSocketNetworkSystem.h; sourceTree = "<group>"; };
 		8867D16716C787200013A136 /* DivaStandardCoreFlow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaStandardCoreFlow.cpp; sourceTree = "<group>"; };
 		8867D16816C787200013A136 /* DivaStandardCoreFlow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaStandardCoreFlow.h; sourceTree = "<group>"; };
 		8867D16916C787200013A136 /* DivaStandardDisplay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaStandardDisplay.cpp; sourceTree = "<group>"; };
@@ -448,6 +448,22 @@
 		8867D24316C787310013A136 /* wreader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wreader.h; sourceTree = "<group>"; };
 		8867D24416C787310013A136 /* wvalue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wvalue.h; sourceTree = "<group>"; };
 		8867D24516C787310013A136 /* wwriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wwriter.h; sourceTree = "<group>"; };
+		8867D25216C7976A0013A136 /* DivaAuthClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaAuthClient.h; sourceTree = "<group>"; };
+		8867D25316C7976A0013A136 /* DivaChatClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaChatClient.h; sourceTree = "<group>"; };
+		8867D25416C7976A0013A136 /* DivaClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaClient.h; sourceTree = "<group>"; };
+		8867D25516C7976A0013A136 /* DivaGNetEventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaGNetEventHandler.h; sourceTree = "<group>"; };
+		8867D25616C7976A0013A136 /* DivaGNetSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaGNetSystem.h; sourceTree = "<group>"; };
+		8867D25716C7976A0013A136 /* DivaGNetTCPSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaGNetTCPSystem.h; sourceTree = "<group>"; };
+		8867D25816C7976A0013A136 /* DivaNetInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaNetInfo.h; sourceTree = "<group>"; };
+		8867D25916C7976A0013A136 /* DivaNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaNetworkManager.h; sourceTree = "<group>"; };
+		8867D25A16C7976A0013A136 /* DivaSchedulerClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaSchedulerClient.h; sourceTree = "<group>"; };
+		8867D25B16C7976A0013A136 /* DivaStageServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaStageServer.h; sourceTree = "<group>"; };
+		8867D25D16C7976A0013A136 /* connection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = connection.cpp; sourceTree = "<group>"; };
+		8867D25E16C7976A0013A136 /* connection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = connection.h; sourceTree = "<group>"; };
+		8867D25F16C7976A0013A136 /* gnet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gnet.cpp; sourceTree = "<group>"; };
+		8867D26016C7976A0013A136 /* gnet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gnet.h; sourceTree = "<group>"; };
+		8867D26116C7976A0013A136 /* netManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = netManager.cpp; sourceTree = "<group>"; };
+		8867D26216C7976A0013A136 /* netManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = netManager.h; sourceTree = "<group>"; };
 		886BE9B515C648E6005CFA52 /* osx_libglfw_i386.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = osx_libglfw_i386.lib; sourceTree = "<group>"; };
 		886BE9B615C648E6005CFA52 /* osx_libglfw_x86_64.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = osx_libglfw_x86_64.lib; sourceTree = "<group>"; };
 		886BE9B915C64D35005CFA52 /* libvlc.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvlc.5.dylib; path = Build/Debug/lib/libvlc.5.dylib; sourceTree = SOURCE_ROOT; };
@@ -1275,8 +1291,6 @@
 				8867D16216C787200013A136 /* DivaSimpleHookManager.h */,
 				8867D16316C787200013A136 /* DivaSimpleUIPainter.cpp */,
 				8867D16416C787200013A136 /* DivaSimpleUIPainter.h */,
-				8867D16516C787200013A136 /* DivaSocketNetworkSystem.cpp */,
-				8867D16616C787200013A136 /* DivaSocketNetworkSystem.h */,
 				8867D16716C787200013A136 /* DivaStandardCoreFlow.cpp */,
 				8867D16816C787200013A136 /* DivaStandardCoreFlow.h */,
 				8867D16916C787200013A136 /* DivaStandardDisplay.cpp */,
@@ -1594,6 +1608,38 @@
 			path = wjson;
 			sourceTree = "<group>";
 		};
+		8867D25116C797680013A136 /* divanetwork */ = {
+			isa = PBXGroup;
+			children = (
+				8867D25216C7976A0013A136 /* DivaAuthClient.h */,
+				8867D25316C7976A0013A136 /* DivaChatClient.h */,
+				8867D25416C7976A0013A136 /* DivaClient.h */,
+				8867D25516C7976A0013A136 /* DivaGNetEventHandler.h */,
+				8867D25616C7976A0013A136 /* DivaGNetSystem.h */,
+				8867D25716C7976A0013A136 /* DivaGNetTCPSystem.h */,
+				8867D25816C7976A0013A136 /* DivaNetInfo.h */,
+				8867D25916C7976A0013A136 /* DivaNetworkManager.h */,
+				8867D25A16C7976A0013A136 /* DivaSchedulerClient.h */,
+				8867D25B16C7976A0013A136 /* DivaStageServer.h */,
+				8867D25C16C7976A0013A136 /* gnet */,
+			);
+			name = divanetwork;
+			path = ../divanetwork;
+			sourceTree = "<group>";
+		};
+		8867D25C16C7976A0013A136 /* gnet */ = {
+			isa = PBXGroup;
+			children = (
+				8867D25D16C7976A0013A136 /* connection.cpp */,
+				8867D25E16C7976A0013A136 /* connection.h */,
+				8867D25F16C7976A0013A136 /* gnet.cpp */,
+				8867D26016C7976A0013A136 /* gnet.h */,
+				8867D26116C7976A0013A136 /* netManager.cpp */,
+				8867D26216C7976A0013A136 /* netManager.h */,
+			);
+			path = gnet;
+			sourceTree = "<group>";
+		};
 		887EE9F215C6368E00B50941 /* lib */ = {
 			isa = PBXGroup;
 			children = (
@@ -1616,6 +1662,7 @@
 				8889323A15C569F900B25415 /* libenet.a */,
 				88892D4615C55CF000B25415 /* Hoshizor */,
 				8867D1F516C787310013A136 /* Lib */,
+				8867D25116C797680013A136 /* divanetwork */,
 				8889318915C55F8C00B25415 /* divacore */,
 				88892D3C15C55CDC00B25415 /* divaol-osx */,
 				88892D3A15C55CDC00B25415 /* Products */,
@@ -3142,7 +3189,6 @@
 				8867D1DA16C787200013A136 /* DivaMapJsonLoader.cpp in Sources */,
 				8867D1DB16C787200013A136 /* DivaMapStandardParser.cpp in Sources */,
 				8867D1DC16C787200013A136 /* DivaSimpleUIPainter.cpp in Sources */,
-				8867D1DD16C787200013A136 /* DivaSocketNetworkSystem.cpp in Sources */,
 				8867D1DE16C787200013A136 /* DivaStandardCoreFlow.cpp in Sources */,
 				8867D1DF16C787200013A136 /* DivaStandardDisplay.cpp in Sources */,
 				8867D1E016C787200013A136 /* DivaStandardFactory.cpp in Sources */,
@@ -3176,6 +3222,9 @@
 				8867D24E16C787310013A136 /* wjson_reader.cpp in Sources */,
 				8867D24F16C787310013A136 /* wjson_value.cpp in Sources */,
 				8867D25016C787310013A136 /* wjson_writer.cpp in Sources */,
+				8867D26316C7976A0013A136 /* connection.cpp in Sources */,
+				8867D26416C7976A0013A136 /* gnet.cpp in Sources */,
+				8867D26516C7976A0013A136 /* netManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

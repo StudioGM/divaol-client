@@ -257,6 +257,9 @@ namespace gnet
 	public:
 	typedef Tuple type;
 	};*/
+    
+    template<typename T>
+    class Item;
 
 	/*
 	* Items
@@ -285,7 +288,7 @@ namespace gnet
 		}
 		template<typename T>
 		T asData() {
-			Item<TypeID_Traitor<T>::type> *item = dynamic_cast<Item<TypeID_Traitor<T>::type>*>(this);
+			Item<typename TypeID_Traitor<T>::type> *item = dynamic_cast<Item<typename TypeID_Traitor<T>::type>*>(this);
 			assert(item!=NULL);
 			return item->getData();
 		}
@@ -432,7 +435,7 @@ namespace gnet
 
 	protected:
 		Bytes _getItem() {
-			Bytes bytes = BinaryUtility::convertToBytes(mData.size());
+			Bytes bytes = BinaryUtility::convertToBytes((uint32)mData.size());
 			for(Tuple::iterator ptr = mData.begin(); ptr != mData.end(); ptr++)
 				bytes = bytes + (*ptr)->getItem();
 			return bytes;
@@ -484,11 +487,12 @@ namespace gnet
 		static Bytes ToBytes(const std::wstring &data);
 		template<typename T>
 		static T BytesTo(Bytes &bytes);
-		template<>
-		static std::wstring BytesTo<std::wstring>(Bytes &bytes);
 	};
-
-	typedef Item<Tuple> TupleItem;
+     
+        template<>
+     std::wstring ItemUtility::BytesTo<std::wstring>(Bytes &bytes);
+	
+        typedef Item<Tuple> TupleItem;
 	typedef Item<List> ListItem;
 }
 

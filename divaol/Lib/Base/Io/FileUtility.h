@@ -26,7 +26,7 @@ namespace Base
 			return FileUtilityImpl::exist(filepath);
 #endif
 			std::wifstream file;
-			file.open(filepath.unicode_str());
+			file.open(filepath.ansi_str());
 			if(!file.is_open()) return false;
 			file.close();
 

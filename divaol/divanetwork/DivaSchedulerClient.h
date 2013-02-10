@@ -104,7 +104,7 @@ namespace divanet
 		}
 	protected:
 		SchedulerClient(){}
-		~SchedulerClient() {}
+		virtual ~SchedulerClient() throw() {}
 		friend class Base::Singleton<SchedulerClient>;
 
 		

@@ -182,8 +182,99 @@ namespace Base
 			return s2wsImpl(s);
 		}
 
-		inline base_string s2utf8(const base_string &s) {
+		inline base_string s2utf8Impl(const base_string &s) {
 			return s;
+		}
+        enum
+		{
+			UNICODE_CALC_SIZE = 1,
+			UNICODE_GET_BYTES = 2
+		};
+        
+		//将unicode转义字符序列转换为内存中的unicode字符串
+		static int unicode_bytes(const char* p_unicode_escape_chars,wchar_t *bytes,int flag)
+		{
+			/*
+             char* p_unicode_escape_chars="pp\\u4fddp\\u5b58\\u6210pp\\u529f0a12";
+             
+             //通过此函数获知转换后需要的字节数
+             int n_length=unicode_bytes(p_unicode_escape_chars,NULL,UNICODE_CALC_SIZE);
+             
+             //再次调用此函数，取得字节序列
+             wchar_t *bytes=new wchar_t[n_length+sizeof(wchar_t)];
+             unicode_bytes(p_unicode_escape_chars,bytes,UNICODE_GET_BYTES);
+             bytes[n_length]=0;
+             
+             //此时的bytes中是转换后的字节序列
+             delete[] bytes;
+             */
+            
+			int unicode_count=0;
+			int length=strlen(p_unicode_escape_chars);
+			for (int char_index=0;char_index<length;char_index++)
+			{
+                char unicode_hex[5];
+                memset(unicode_hex,0,5);
+                
+                char ascii[2];
+                memset(ascii,0,2);
+                
+                if (*(p_unicode_escape_chars+char_index)=='\\')
+                {
+                    char_index++;
+                    if (char_index<length)
+                    {
+                        if (*(p_unicode_escape_chars+char_index)=='u')
+                        {
+                            if (flag==UNICODE_GET_BYTES)
+                            {
+                                memcpy(unicode_hex,p_unicode_escape_chars+char_index+1,4);
+                                
+                                //sscanf不可以使用unsigned short类型
+                                //否则：Run-Time Check Failure #2 - Stack around the variable 'a' was corrupted.
+                                unsigned int a=0;
+                                sscanf(unicode_hex,"%04x",&a);
+                                bytes[unicode_count++]=a;
+                            }
+                            else if(flag==UNICODE_CALC_SIZE)
+                            {
+                                unicode_count++;
+                            }
+                            char_index+=4;
+                        }
+                    }
+                }
+                else
+                {
+                    if (flag==UNICODE_GET_BYTES)
+                    {
+                        memcpy(ascii,p_unicode_escape_chars+char_index,1);
+                        unsigned int a=0;
+                        sscanf(ascii,"%c",&a);
+                        bytes[unicode_count++]=a;
+                    }
+                    else if(flag==UNICODE_CALC_SIZE)
+                    {
+                        unicode_count++;
+                    }
+                }
+			}
+            
+			return unicode_count;
+		}
+        static std::wstring unEscape(std::string p_unicode_escape_chars)
+		{
+			int nBytes=unicode_bytes(p_unicode_escape_chars.c_str(),NULL,UNICODE_CALC_SIZE);
+            
+			wchar_t *p_bytes=new wchar_t[nBytes+sizeof(wchar_t)];
+			unicode_bytes(p_unicode_escape_chars.c_str(),p_bytes,UNICODE_GET_BYTES);
+			p_bytes[nBytes]=0;
+            
+			std::wstring cs_return=((wchar_t*)p_bytes);
+            
+			delete[] p_bytes;
+            
+			return cs_return;
 		}
 #else
 		inline base_string ws2sImpl(const base_wstring& ws) {

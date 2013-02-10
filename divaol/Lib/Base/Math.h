@@ -13,6 +13,7 @@
 #include "Type.h"
 #include "Ptr.h"
 #include <iostream>
+#include <cmath>
 
 namespace Base
 {
@@ -795,12 +796,18 @@ namespace Base
 			friend Vector3 operator*(const Vector3 &p, const Matrix4 &m) {
 				return (Vector4(p)*m).getV3();
 			}
-			friend Vector4 operator*(const Vector4 &p, const Matrix4 &m) {
-				return Vector4(p.x*m.v[0][0]+p.y*m.v[1][0]+p.z*m.v[2][0]+p.w*m.v[3][0],
-					p.x*m.v[0][1]+p.y*m.v[1][1]+p.z*m.v[2][1]+p.w*m.v[3][1],
-					p.z*m.v[0][2]+p.y*m.v[1][2]+p.z*m.v[2][2]+p.w*m.v[3][2],
-					p.x*m.v[0][3]+p.y*m.v[1][3]+p.z*m.v[2][3]+p.w*m.v[3][3]);
-			}
+			friend Vector4 operator*(const Vector4 &p, const Matrix4 &m) {
+
+				return Vector4(p.x*m.v[0][0]+p.y*m.v[1][0]+p.z*m.v[2][0]+p.w*m.v[3][0],
+
+					p.x*m.v[0][1]+p.y*m.v[1][1]+p.z*m.v[2][1]+p.w*m.v[3][1],
+
+					p.z*m.v[0][2]+p.y*m.v[1][2]+p.z*m.v[2][2]+p.w*m.v[3][2],
+
+					p.x*m.v[0][3]+p.y*m.v[1][3]+p.z*m.v[2][3]+p.w*m.v[3][3]);
+
+			}
+
 
 			static Matrix4 Transition(real x, real y, real z) {
 				Matrix4 m;

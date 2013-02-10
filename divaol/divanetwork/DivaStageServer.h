@@ -49,7 +49,7 @@ namespace divanet
 		virtual std::string name() const {return "stage";}
 
 		void login() {
-			mNetSys->send("auth#setuid","%S",NET_INFO.uid);
+			mNetSys->send("auth#setuid",(const char*)"%S",NET_INFO.uid.c_str());
 
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#start",&StageClient::gnet_start);
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#closed",&StageClient::gnet_closed);
@@ -88,7 +88,7 @@ namespace divanet
 
 		void join(const std::string &roomId) {
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#join_response",&StageClient::gnet_join_response);
-			mNetSys->send("stage#join","%S",roomId);
+			mNetSys->send("stage#join","%S",roomId.c_str());
 		}
 
 		void leave() {
@@ -118,7 +118,7 @@ namespace divanet
 
 		void setMode(std::string mode) {
 			if(mState==STAGE&&owner())
-				mNetSys->send("stage#setMode","%S",mode);
+				mNetSys->send("stage#setMode","%S",mode.c_str());
 		}
 
 		void changeSlot(uint32 slot) {
@@ -240,7 +240,7 @@ namespace divanet
 			if(owner()) {
 				Base::String info;
 				bool rt = _checkStart(info);
-				mNetSys->send("stage#start_checkout","%b%S",rt,info.asAnsi());
+				mNetSys->send("stage#start_checkout","%b%S",rt,info.asAnsi().c_str());
 			}
 		}
 
@@ -422,7 +422,7 @@ namespace divanet
 		friend class Base::Singleton<StageClient>;
 
 		StageClient():mState(OUTSIDE),mIsOwner(false) {}
-		~StageClient() {logout();}
+		virtual ~StageClient() {logout();}
 
 	private:
 		int myIndex;

@@ -22,7 +22,7 @@ namespace divanet
 
 		void login() {
 			GNET_RECEIVE_REGISTER(mNetSys,"chat#auth_response",&ChatClient::gnet_login);
-			mNetSys->send("chat#login","%S%B",NET_INFO.uid,NET_INFO.token);
+			mNetSys->send("chat#login","%S%B",NET_INFO.uid.c_str(),NET_INFO.token);
 		}
 
 		void logout() {
@@ -38,12 +38,12 @@ namespace divanet
 
 		void enter(const std::string &room) {
 			GNET_RECEIVE_REGISTER(mNetSys,"chat#join_response",&ChatClient::gnet_enter);
-			mNetSys->send("chat#enter","%S",room);
+			mNetSys->send("chat#enter","%S",room.c_str());
 		}
 
 		void leave(const std::string &room) {
 			GNET_RECEIVE_REGISTER(mNetSys,"chat#leave_ok",&ChatClient::gnet_leave_ok);
-			mNetSys->send("chat#leave","%S",room);
+			mNetSys->send("chat#leave","%S",room.c_str());
 		}
 
 		bool check(const std::string room) {
@@ -54,7 +54,7 @@ namespace divanet
 		}
 
 		void send(const std::string &room, const Base::String &content) {
-			mNetSys->send("chat#sendmsg","%S%W",room,content.asUnicode());
+			mNetSys->send("chat#sendmsg","%S%W",room.c_str(),content.asUnicode().c_str());
 		}
 
 		void sendTo(const std::string &uid, const Base::String &content) {
@@ -62,7 +62,7 @@ namespace divanet
 				return;
 			std::string room = uid+"_private_room";
 			enter(room);
-			mNetSys->send("chat#sendmsg","%S%W",room,content.asUnicode());
+			mNetSys->send("chat#sendmsg","%S%W",room.c_str(),content.asUnicode().c_str());
 			leave(room);
 		}
 
@@ -137,7 +137,7 @@ namespace divanet
 
 		void _create(const std::string &room) {
 			GNET_RECEIVE_REGISTER(mNetSys,"chat#create",&ChatClient::gnet_create);
-			mNetSys->send("chat#create","%S",room);
+			mNetSys->send("chat#create","%S",room.c_str());
 		}
 
 		void _reconnect() {
@@ -149,7 +149,7 @@ namespace divanet
 		friend class Base::Singleton<ChatClient>;
 
 		ChatClient(){}
-		~ChatClient() {logout();}
+		virtual ~ChatClient() throw() {logout();}
 
 	private:
 		std::vector<std::string> mRooms;

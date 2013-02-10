@@ -36,7 +36,28 @@ namespace Base
 		typedef signed long			intPtr;
 		typedef unsigned long		uintPtr;
 	#endif
-
+    
+#if !defined(BASE_OS_WINDOWS_64) && !defined(BASE_OS_WINDOWS_32)
+	typedef signed long            intPtr;
+	typedef unsigned long          uintPtr;
+#if defined(__LP64__)
+    #define _PTR_IS_64_BIT 1
+    #define _LONG_IS_64_BIT 1
+    
+    #ifdef _UINT64
+        #undef _UINT64
+    #endif
+    
+    #ifdef __INT64
+        #undef __INT64
+    #endif
+	typedef int64_t        int64;
+	typedef uint64_t		uint64;
+#else
+	typedef signed long long   int64;
+	typedef unsigned long long uint64;
+#endif
+#endif
 	/*
 	 * Raw Data
 	 */
