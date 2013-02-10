@@ -238,7 +238,7 @@ namespace divacore
 		rhythmSprite->update(dt);
 		coverSprite->update(dt);
 	}
-	void LongNote::onPressed(StateEvent& event)
+	bool LongNote::onPressed(StateEvent& event)
 	{
 		if(getState()==HEAD)
 		{
@@ -247,8 +247,8 @@ namespace divacore
 			if(GAME_MODE_PTR->checkPress(event))
 			{
 				//if(noteInfo.notePoint[0].key!="")
-				//	Core::Ptr->getMusicManager()->playDirect(noteInfo.notePoint[0].key,"sound_effect");
-				//Core::Ptr->getMusicManager()->playDirect("hit","sound_effect");
+				//	Core::Ptr->getMusicManager()->playDirect(noteInfo.notePoint[0].key,"se");
+				//Core::Ptr->getMusicManager()->playDirect("hit","se");
 
 				Core::Ptr->getGameMode()->inform(event);
 				if(event.breakNote)
@@ -258,8 +258,11 @@ namespace divacore
 				}
 				else
 					setState(TAIL);
+
+				return true;
 			}
 		}
+		return false;
 	}
 	void LongNote::onReleased(StateEvent& event)
 	{
@@ -269,8 +272,8 @@ namespace divacore
 			if(GAME_MODE_PTR->checkPress(event))
 			{
 				//if(noteInfo.notePoint[1].key!="")
-				//	Core::Ptr->getMusicManager()->playDirect(noteInfo.notePoint[1].key,"sound_effect");
-				//Core::Ptr->getMusicManager()->playDirect("hit","sound_effect");
+				//	Core::Ptr->getMusicManager()->playDirect(noteInfo.notePoint[1].key,"se");
+				//Core::Ptr->getMusicManager()->playDirect("hit","se");
 
 				Core::Ptr->getGameMode()->inform(event);
 				setState(END);

@@ -202,7 +202,7 @@ namespace Base {
 			}
 
 			inline R operator()(BASE_FUNCTION_PARAMS) const {
-				invoke();
+				invoke(BASE_FUNCTION_ARGS);
 			}
 
 			inline R invoke(BASE_FUNCTION_PARAMS) const {
@@ -365,7 +365,11 @@ namespace Base {
 
 			template<typename Functor, typename obj>
 			Function(Functor f, obj *object) {
+<<<<<<< HEAD
 				this->assign(Base::function_detial::Bind(object, f));
+=======
+				assign(Base::function_detial::Bind(object, f));
+>>>>>>> 8fac03783867a4916e28db1e466348ee4dc2cf87
 			}
 
 			self_type& operator=(const self_type &rhs) {

@@ -12,10 +12,15 @@
 #include "Core/DivaCoreState.h"
 #include "Component/DivaSimpleUIPainter.h"
 #include "Component/DivaCommonEvaluateStrategy.h"
+#include "divanetwork/DivaStageServer.h"
+#include "Utility/DivaSettings.h"
+#include "ui/Config/DivaUIConfig.h"
 
 namespace divacore
 {
 	using namespace sora;
+
+	static const int BGS_ID = 0;
 
 	/*
 	CoreLoadState
@@ -26,7 +31,10 @@ namespace divacore
 	public:
 		void press()
 		{
+			sora::SoraBGMManager::Instance()->stopBGS(BGS_ID);
+			
 			CORE_PTR->over();
+			STAGE_CLIENT.returnToStage("game_over");
 		}
 	};
 
@@ -37,25 +45,64 @@ namespace divacore
 	public:
 		void onInitiate()
 		{
-			sora::SoraFont* mFont = sora::SoraFont::LoadFromFile("cour.ttf", 20);
+#ifdef _DEBUG
+			sora::SoraFont* mFont = sora::SoraFont::LoadFromFile(SETTINGS.getGlobalFontName().asUnicode(), 20);
 
 			mText.setFont(mFont);
+#endif
 			mText.setText(L"|#FF0000|Game Over");
 		}
 
 		void getEvalInfo(GPacket *packet)
 		{
+<<<<<<< HEAD
 			LOGGER->log((packet->getString()).c_str());
+=======
+			if(CORE_PTR->getState()!=Core::RESULT)
+				return;
+
+			//LOGGER->log((packet->getString()).c_str());
+>>>>>>> 8fac03783867a4916e28db1e466348ee4dc2cf87
 			EvalResult &result = EVALUATE_STRATEGY_PTR->getResult();
 			gnet::Item<gnet::List> *list = packet->getItem(2)->as<gnet::ListItem>();
+			MultiPlay *multiPlay = dynamic_cast<MultiPlay*>(GAME_MODE_PTR);
 
 			for(int i = 0; i < result.evalData.size(); i++)
 			{
 				gnet::Item<gnet::Tuple> *tuple = dynamic_cast<gnet::Item<gnet::Tuple>*>(list->getItem(i));
+<<<<<<< HEAD
 				result.evalData[i].status = tuple->getItem(0)->getString();
 				result.evalData[i].score = (tuple->getItem(1))->getInt();
 				result.evalData[i].index = i;
 				gnet::Item<gnet::List> *evals = dynamic_cast<gnet::Item<gnet::List>*>(tuple->getItem(2));
+=======
+				gnet::Item<gnet::Tuple> *addData = NULL;
+
+				if(list->getItem(0)->getType() == gnet::GNET_TYPE_TUPLE)
+					addData = dynamic_cast<gnet::Item<gnet::Tuple>*>(tuple->getItem(0));
+
+				if(addData&&addData->size() == 3) {
+					result.evalData[i].maxCombo = addData->getItem(0)->getInt();
+					result.evalData[i].maxCTLevel = addData->getItem(1)->getInt();
+				}
+				else
+				{
+					result.evalData[i].maxCombo = 0;
+					result.evalData[i].maxCTLevel = 0;
+				}
+				result.evalData[i].status = tuple->getItem(1)->getString();
+				result.evalData[i].score = (tuple->getItem(2))->getInt();
+				result.evalData[i].isOver = tuple->getItem(4)->getInt() > 0;
+				result.evalData[i].hp = tuple->getItem(6)->getValue();
+				result.evalData[i].uid = tuple->getItem(5)->getString();
+				result.evalData[i].nickname = STAGE_CLIENT.waiterInfo(result.evalData[i].uid).nickname;
+				PlayerInfo *info = multiPlay->getSpecificPlayerInfo(result.evalData[i].uid);
+				if(info)
+					result.evalData[i].index = info->teamIndex;
+				else
+					result.evalData[i].index = 0;
+				gnet::Item<gnet::List> *evals = dynamic_cast<gnet::Item<gnet::List>*>(tuple->getItem(3));
+>>>>>>> 8fac03783867a4916e28db1e466348ee4dc2cf87
 				for(int j = 0; j < EvaluateStrategy::EVAL_NUM; j++)
 					result.evalData[i].cntEval[j] = evals->getItem(j)->getInt();
 			}
@@ -85,10 +132,24 @@ namespace divacore
 			UI_PAINTER_PTR->gameStart();
 
 			RENDER_SYSTEM_PTR->fadeIn(sora::Color::White.getHWColor());
+
+			if(uiPainter->hasWidget("z_globalInfo"))
+			{
+				SimpleUI::Text * globalInfo = dynamic_cast<SimpleUI::Text*>(uiPainter->getWidget("z_globalInfo"));
+				if(globalInfo)
+					globalInfo->setText(Base::String::format("X %.3f",HOOK_MANAGER_PTR->getHookFinalScale()).asUnicode());
+			}
+
+			// play BGM
+			sora::SoraBGMManager::Instance()->play(diva::config[L"resultMusicFilename"].asString(), false, false);
+			sora::SoraBGMManager::Instance()->play(diva::config[L"resultLoopMusicFilename"].asString(), true, true);
 		}
 
 		void onLeave()
 		{
+			sora::SoraBGMManager::Instance()->stopBGS(BGS_ID);
+			sora::SoraBGMManager::Instance()->stop(false);
+
 			if(CORE_PTR->getMode()=="multiPlay")
 				GNET_UNRECEIVE_PACKET("game#evalL");
 			
@@ -105,6 +166,14 @@ namespace divacore
 
 		void onUpdate(float dt)
 		{
+			if(((CommonEvaluateStrategy*)EVALUATE_STRATEGY_PTR)->isNumberUp())
+			{
+				sora::SoraBGMManager::Instance()->playBGS(diva::config[L"resultNumberUpSound"].asString(), BGS_ID, 1, SETTINGS.getSEVolume(), 1.f);
+			}
+			else
+			{
+				sora::SoraBGMManager::Instance()->stopBGS(BGS_ID);
+			}
 		}
 
 		void onKeyReleased(SoraKeyEvent& event)

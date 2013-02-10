@@ -114,15 +114,18 @@ namespace divacore
 				core = INITIALIZE_DIVA_CORE;
 			}
 
-			CorePtr get()
+			CorePtr get(int width, int height)
 			{
 				registerComponents();
 				registerGameMode();
 				registerStates();
 
 				//load config
-				core->prepare(configFolder+"/common.json");
-				EVALUATE_STRATEGY_PTR->prepare(configFolder+"/eval.json");
+				core->prepare(configFolder+"/config.json");
+				core->setGameResolution(width, height);
+
+				// here we can use eval.json to test for debug, but must hard code in release
+				EVALUATE_STRATEGY_PTR->prepare(/*configFolder+"/eval.json"*/"");
 
 				return core;
 			}

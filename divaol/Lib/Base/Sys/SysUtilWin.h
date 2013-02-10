@@ -42,11 +42,18 @@ namespace Base
 		static bool PathExist(const String& path) {
 			return PathFileExistsW(path.unicode_str())?true:false;
 		}
-		static String GetApplicationPath() {
+		static String GetApplicationPath(bool full) {
 			wchar_t buffer[MAX_PATH];
-			GetCurrentDirectoryW(MAX_PATH, buffer);
+			if(!full) {
+				GetCurrentDirectoryW(MAX_PATH, buffer);
 
-			return String(buffer)+L'\\';
+				return String(buffer)+L'\\';
+			}
+			else {
+				GetModuleFileNameW(0,buffer,MAX_PATH);
+
+				return String(buffer);
+			}
 		}
 		static String GetWindowsDirectory() {
 			wchar_t buffer[_MAX_PATH];
@@ -283,6 +290,16 @@ namespace Base
 		HANDLE mThreadHandle;
 		uint32 mThreadID;
 	};
+
+	namespace Net
+	{
+		class NetUtilityImpl : public Uncopyable
+		{
+		public:
+			static dword htonl(dword v);
+			static dword ntohl(dword v);
+		};
+	}
 }
 
 #endif

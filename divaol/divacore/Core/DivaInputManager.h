@@ -27,6 +27,7 @@ namespace divacore
 		virtual int32 tagToKey(const std::string &tag) = 0;
 
 		virtual void addKey(int32 key, int32 origin, const std::string &tag = "") = 0;
+	
 		virtual void onKeyPressed(SoraKeyEvent& event) = 0;
 		virtual void onKeyReleased(SoraKeyEvent& event) = 0;
 	};

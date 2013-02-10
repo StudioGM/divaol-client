@@ -43,21 +43,51 @@ namespace divacore
 	{
 	public:
 		std::string uid;
+<<<<<<< HEAD
 		int index;
 		int score;
 		std::string status;
 		int cntEval[EvaluateStrategy::EVAL_NUM];
 		EvalData():uid(""),score(0) {memset(cntEval,0,sizeof(cntEval));}
 		EvalData(const std::string &uid, int score, int cntEval[], int index = 0) {
+=======
+		Base::String nickname;
+		int index;
+		int score;
+		int maxCombo;
+		int maxCTLevel;
+		double hp;
+		bool isOver;
+		std::string status;
+		int cntEval[EvaluateStrategy::EVAL_NUM];
+		EvalData():uid(""),score(0),nickname("unknown") {memset(cntEval,0,sizeof(cntEval));}
+		EvalData(const std::string &uid, int score, int maxCombo, int maxCTLevel, double hp, int isOver, int cntEval[], int index = 0, const std::string nickname = "unknown") {
+>>>>>>> 8fac03783867a4916e28db1e466348ee4dc2cf87
 			this->index = index;
 			this->uid = uid;
 			this->score = score;
+			this->nickname = nickname;
+			this->maxCombo = maxCombo;
+			this->maxCTLevel = maxCTLevel;
+			this->hp = hp;
+			this->isOver = isOver;
+			this->status = "systemready";
 			memcpy(this->cntEval,cntEval,sizeof(int)*EvaluateStrategy::EVAL_NUM);
 		}
+<<<<<<< HEAD
 		EvalData(const std::string &uid, int score, int index = 0) {
+=======
+		EvalData(const std::string &uid, int score, int maxCombo, int maxCTLevel, double hp, int isOver, int index = 0, const std::string nickname = "unknown") {
+>>>>>>> 8fac03783867a4916e28db1e466348ee4dc2cf87
 			this->index = index;
 			this->uid = uid;
 			this->score = score;
+			this->nickname = nickname;
+			this->maxCombo = maxCombo;
+			this->maxCTLevel = maxCTLevel;
+			this->hp = hp;
+			this->isOver = isOver;
+			this->status = "systemready";
 			memset(cntEval,0,sizeof(int)*EvaluateStrategy::EVAL_NUM);
 		}
 		friend bool operator<(const EvalData &a, const EvalData &b) {
@@ -72,10 +102,15 @@ namespace divacore
 
 		EVALDATA evalData;
 		int myID,myScore;
+		int myMaxCombo,myMaxCTLevel;
+		double myHp;
+		bool myIsOver;
 		int myCntEval[EvaluateStrategy::EVAL_NUM];
 
 		void clear() {
 			myID = myScore = 0;
+			myMaxCombo = myMaxCTLevel = 0;
+			myHp = 0, myIsOver = false;
 			memset(myCntEval,0,sizeof(myCntEval));
 			evalData.clear();
 		}

@@ -11,6 +11,10 @@
 #include "SoraResourceFile.h"
 #include "Core/DivaCore.h"
 #include "Hook/DivaCTMode.h"
+#include "Utility/DivaSettings.h"
+#include "divasongmgr/DivaMapManager.h"
+#include "divanetwork/DivaStageServer.h"
+#include "Utility/DivaRankResult.h"
 
 namespace divacore
 {
@@ -281,6 +285,8 @@ namespace divacore
 			{
 				if(getState()==DISPLAYING)
 					nowTime = hideTime-nowTime;
+				else
+					nowTime = 0;
 				setState(HIDDING);
 				flush();
 			}
@@ -292,6 +298,8 @@ namespace divacore
 			{
 				if(getState()==HIDDING)
 					nowTime = hideTime-nowTime;
+				else
+					nowTime = 0;
 				setState(DISPLAYING);
 				flush();
 			}
@@ -329,7 +337,7 @@ namespace divacore
 			if(getState()==HIDDING)
 				setState(HIDDING);
 			if(getState()!=HIDE)
-				Image::render(x,y);
+				Image::onRender(x,y);
 		}
 		/*
 		 *StateBar
@@ -617,6 +625,62 @@ namespace divacore
 		void CTScaleBar::setRatio(float ratio)
 		{
 			ScaleBar::setRatio((1-startRatio)*ratio+startRatio);
+		}
+		/*
+		 * CTBottomBar
+		 */
+		void CTSlideBar::construct(Config &config, const std::string &head)
+		{
+			SlideBar::construct(config, head);
+			light = new Spark();
+			light->construct(config,head+"light_");
+			light->setSpark(true);
+			for(int i = 0; i < CT_LEVEL; i++)
+				ctLevelColor[i] = config.getAsRect(head+"color"+iToS(i));
+
+			level = 0;
+		}
+		void CTSlideBar::onInitialize()
+		{
+			ctMode = NULL;
+			flush();
+		}
+		void CTSlideBar::onStart()
+		{
+			ctMode = HOOK_MANAGER_PTR->getHook("CTMode");
+			if(ctMode)
+				flush();
+			state = HIDE;
+		}
+		void CTSlideBar::onUpdate(float dt)
+		{
+			light->update(dt);
+			SlideBar::onUpdate(dt);
+			if(ctMode)
+			{
+				if(level!=((CTMode*)ctMode)->getLevel())
+				{
+					int lastLevel = level;
+					level = ((CTMode*)ctMode)->getLevel();
+					uint32 color = CARGB(int(ctLevelColor[level].x), int(ctLevelColor[level].y),
+										 int(ctLevelColor[level].w), int(ctLevelColor[level].h));
+					int alpha = CGETA(tex->getColor());
+					color = CSETA(color, CGETA(tex->getColor()));
+					tex->setColor(color);
+					color = CSETA(color, CGETA(light->getColor()));
+					light->setColor(color);
+
+					if(lastLevel==0&&level>0)
+						ctDisplay();
+					if(lastLevel>0&&level==0)
+						ctHide();
+				}
+			}
+		}
+		void CTSlideBar::onRender(float x, float y)
+		{
+			light->render(x,y);
+			SlideBar::onRender(x,y);
 		}
 		/*
 		 * NumberBar
@@ -936,6 +1000,8 @@ namespace divacore
 		}
 		void Text::construct(Config &config, const std::string &head)
 		{
+			style = sora::SoraFont::AlignmentLeft;
+
 			if(config.has(head+"text"))
 				content = sora::s2ws(config.getAsString(head+"text"));
 			else
@@ -944,6 +1010,9 @@ namespace divacore
 			setPosition(position.x,position.y);
 
 			std::string font = config.getAsString(head+"font_file");
+			if(font=="global")
+				font = SETTINGS.getGlobalFontName();
+
 			int size = config.getAsInt(head+"font_size");
 
 			text.setFont(sora::SoraFont::LoadFromFile(font, size));
@@ -956,7 +1025,10 @@ namespace divacore
 		}
 		void Text::onRender(float x, float y)
 		{
-			text.renderTo(x,y);
+			if(style == sora::SoraFont::AlignmentRight)
+				text.renderTo(x-text.getFont()->getStringWidth(content.c_str()), y);
+			else
+				text.renderTo(x,y);
 		}
 		void Text::setScale(float scale)
 		{
@@ -966,7 +1038,7 @@ namespace divacore
 
 		void Title::onStart()
 		{
-			setText(CORE_PTR->getMapInfo()->header.mapName);
+			setText(MAPMGR.GetMapName(MAPMGR.GetSelectedMaps()[0].id) + L" - " + MAPMGR.GetLevelDescription(MAPMGR.GetSelectedMaps()[0].level));
 		}
 
 		/*
@@ -1026,12 +1098,24 @@ namespace divacore
 				add(icon);
 			}
 			info = NULL;
+			appendInfo = NULL;
 			if(config.has(head+"info"))
 			{
 				info = new Text();
+				appendInfo = new Text();
 				info->construct(config,head+"info_");
+				appendInfo->construct(config,head+"info_");
 				info->init();
+				appendInfo->init();
 				add(info);
+				add(appendInfo);
+				appendInfo->setAlign(sora::SoraFont::AlignmentRight);
+				appendInfo->setVisible(false);
+				if(config.has(head+"info_appendPosition"))
+				{
+					Point p = config.getAsPoint(head+"info_appendPosition");
+					appendInfo->setPosition(p.x,p.y);
+				}
 			}
 			focus = NULL;
 			if(config.has(head+"focus"))
@@ -1051,7 +1135,15 @@ namespace divacore
 		}
 		void Player::onUpdate(float dt)
 		{
-			info->setText(format("%d\nX %d\n%s",score,combo,name.c_str()));
+			Base::String text = Base::String::format("%d\nX %d\n",score,combo)+name;
+			info->setText(text.asUnicode());
+			if(append != "")
+			{
+				appendInfo->setVisible(true);
+				appendInfo->setText(append.asUnicode());
+			}
+			else
+				appendInfo->setVisible(false);
 			hpBar->setRatio(hp);
 
 			dangerSpark->setFix(hp==0);
@@ -1078,6 +1170,7 @@ namespace divacore
 			Image *highLight = new Image();
 			highLight->construct(config,head+"highlight_");
 			this->add(highLight);
+			this->setName(NET_INFO.nickname);
 			
 			hpBar->setColor(Player::TEAM_COLOR[0]);
 			//setFocus(true);
@@ -1111,12 +1204,23 @@ namespace divacore
 			teamID = state->getTeamID();
 			playerID = state->getPlayerID();
 
-			int width = 0;
+			float width = 0, height = 0;
 			
 			for(int i = 0; i < teams.size(); i++)
 				nowPlayers.push_back(-1);
 			for(int i = 0; i < players.size(); i++)
 			{
+				// speicial position
+				if (i == 6)
+				{
+					width = 0;
+					height -= size.y+gap;
+				}
+				else if(i == 7)
+				{
+					width = SETTINGS.getGameWidth() - size.x;
+				}
+
 				Player *player = new Player();
 				//if(0<=teams[i].players[j].netID&&teams[i].players[j].netID<ICON_NUM)
 				//{
@@ -1127,8 +1231,8 @@ namespace divacore
 				player->onInitialize();
 
 				player->hpBar->setColor(Player::TEAM_COLOR[players[i].teamIndex]);
-				player->setPosition(width,0);
-				player->setName(players[i].name);
+				player->setPosition(width,height);
+				player->setName(STAGE_CLIENT.waiterInfo(players[i].uid).nickname);
 				player->setInfo(0,0,0.5);
 				player->flushOnly();
 				player->flush();
@@ -1151,18 +1255,29 @@ namespace divacore
 			PLAYERS &players = state->getPlayerInfo();
 			for(int i = 0; i < teams.size(); i++)
 			{
-				if(teams[i].nowPlayer!=nowPlayers[i])
+				if(dynamic_cast<MultiPlay*>(GAME_MODE_PTR)->getNetGameMode() == "relay")
 				{
-					if(nowPlayers[i]>=0)
-						panels[teams[i].players[nowPlayers[i]]]->setFocus(false);
-					if(teams[i].nowPlayer>=0)
-						panels[teams[i].players[teams[i].nowPlayer]]->setFocus(true);
-					nowPlayers[i] = teams[i].nowPlayer;
+					if(teams[i].nowPlayer!=nowPlayers[i])
+					{
+						if(nowPlayers[i]>=0)
+							panels[teams[i].players[nowPlayers[i]]]->setFocus(false);
+						if(teams[i].nowPlayer>=0)
+							panels[teams[i].players[teams[i].nowPlayer]]->setFocus(true);
+						nowPlayers[i] = teams[i].nowPlayer;
+					}
 				}
 			}
 			for(int i = 0; i < players.size(); i++)
 			{
 				panels[i]->setInfo(players[i].score,players[i].combo,players[i].hp);
+				if(players[i].status == "leave")
+					panels[i]->setAppend("(已离开)");
+				else if(players[i].status == "back")
+					panels[i]->setAppend("(已返回)");
+				else if(players[i].status == "over")
+					panels[i]->setAppend("(计分板)");
+				else
+					panels[i]->setAppend("");
 			}
 		} 
 
@@ -1172,6 +1287,7 @@ namespace divacore
 		void EvalBar::reset()
 		{
 			nowScore = score = nowGold = gold = nowExp = exp = 0;
+			nowCombo = 0;
 			memset(evalCnt,0,sizeof(evalCnt));
 			memset(nowCnt,0,sizeof(nowCnt));
 		}
@@ -1188,6 +1304,8 @@ namespace divacore
 				}
 				if(source>dest)
 					source = dest;
+
+				bNumberUp = true;
 			}
 			else if(dest<source)
 			{
@@ -1200,23 +1318,52 @@ namespace divacore
 				}
 				if(source<dest)
 					source = dest;
+
+				bNumberUp = true;
 			}
 		}
-		void EvalBar::setInfo(int score, int eval[])
+		void EvalBar::setInfo(EvalData &data)
 		{
-			this->score = score;
-			memcpy(evalCnt,eval,sizeof(evalCnt));
+			this->score = data.score;
+			this->maxCombo = data.maxCombo;
+			this->maxCTLevel = data.maxCTLevel;
+			this->info->setText(data.nickname.asUnicode());
+			memcpy(evalCnt,data.cntEval,sizeof(evalCnt));
+
+			evalResult(data);
+		}
+		void EvalBar::setTeamColor(int teamIndex)
+		{
+			if(background != NULL)
+				background->setColor(Player::TEAM_COLOR[teamIndex]);
+		}
+		void EvalBar::evalResult(EvalData &data)
+		{
+			if(result && GAME_MODE_PTR->getNetGameMode() != "relay") {
+				if(data.status!="back" && data.status != "leave" && data.status != "over")
+					return;
+
+				int resultLevel = divacore::DivaRankResult::GetRankResult(data.isOver, data.hp * 100, data.maxCTLevel,
+					data.maxCombo,data.cntEval[0],data.cntEval[1],data.cntEval[2],data.cntEval[3],data.cntEval[4]);
+				if(resultLevel >= 0 && resultLevel < resultTexRect.size()) {
+					result->setTextureRect(resultTexRect[resultLevel]);
+					result->setPosition(resultDesRect[resultLevel].x, resultDesRect[resultLevel].y);
+					result->setSize(resultDesRect[resultLevel].w, resultDesRect[resultLevel].h);
+				}
+			}
 		}
 		void EvalBar::construct(Config &config, const std::string &head)
 		{
 			this->head = head;
 			this->config = &config;
 
+			background = NULL;
 			if(config.has(head+"background"))
 			{
 				Image *image = new Image();
 				image->construct(config,head+"background_");
 				add(image);
+				background = image;
 			}
 			if(config.has(head+"gold"))
 			{
@@ -1229,6 +1376,41 @@ namespace divacore
 				Image *image = new Image();
 				image->construct(config,head+"exp_");
 				add(image);
+			}
+			if(config.has(head+"text"))
+			{
+				info = new Text();
+				info->construct(config,head+"text_");
+				add(info);
+				info->setText("unknown");
+			}
+			level = NULL;
+			if(config.has(head+"level"))
+			{
+				Image *image = new Image();
+				image->construct(config,head+"level_");
+				add(image);
+				level = image;
+				for(int i = 0; i < MAX_LEVEL; i++)
+					levelTexRect[i] = config.getAsRect(head+"level_"+iToS(i));
+			}
+			result = NULL;
+			resultTexRect.clear();
+			resultDesRect.clear();
+			if(config.has(head+"result"))
+			{
+				Image *image = new Image();
+				image->construct(config,head+"result_");
+				add(image);
+				result = image;
+				int count = config.getAsInt(head+"result_count");
+				for(int i = 0; i < count; i++)
+				{
+					Rect rect = config.getAsRect(head+"result_"+iToS(i)+"_src");
+					resultTexRect.push_back(rect);
+					rect = config.getAsRect(head+"result_"+iToS(i)+"_des");
+					resultDesRect.push_back(rect);
+				}
 			}
 
 			for(int i = 0; i < EvaluateStrategy::EVAL_NUM; i++)
@@ -1243,6 +1425,10 @@ namespace divacore
 			scoreNumber->construct(config,head+"scoreNumber_");
 			scoreNumber->init();
 			add(scoreNumber);
+			comboNumber = new NumberBar();
+			comboNumber->construct(config,head+"comboNumber_");
+			comboNumber->init();
+			add(comboNumber);
 			goldNumber = new NumberBar();
 			goldNumber->construct(config,head+"littleNumber_");
 			goldNumber->setSize(Point(13,15));
@@ -1254,6 +1440,11 @@ namespace divacore
 			expNumber->init();
 			add(expNumber);
 
+			if(config.has(head+"comboPosition"))
+			{
+				Point tmp = config.getAsPoint(head+"comboPosition");
+				comboNumber->setPosition(tmp.x,tmp.y);
+			}
 			if(config.has(head+"scorePosition"))
 			{
 				Point tmp = config.getAsPoint(head+"scorePosition");
@@ -1286,6 +1477,7 @@ namespace divacore
 		}
 		void EvalBar::onUpdate(float dt)
 		{
+			bNumberUp = false;
 			for(int i = 0; i < EvaluateStrategy::EVAL_NUM; i++)
 			{
 				updateNumber(nowCnt[i],evalCnt[i]);
@@ -1297,6 +1489,11 @@ namespace divacore
 			goldNumber->setNumber(nowGold);
 			updateNumber(nowExp,exp);
 			expNumber->setNumber(nowExp);
+			updateNumber(nowCombo,maxCombo);
+			comboNumber->setNumber(nowCombo);
+			
+			if(level)
+				level->setTextureRect(levelTexRect[maxCTLevel]);
 		}
 		void EvalBar::onRender(float x, float y)
 		{
@@ -1368,6 +1565,8 @@ namespace divacore
 				widget = new Widget();
 			else if(type=="image")
 				widget = new Image();
+			else if(type=="text")
+				widget = new Text();
 			else if(type=="lifeMetaBar")
 				widget = new LifeMetaBar();
 			else if(type=="ctMetaBar")
@@ -1384,6 +1583,8 @@ namespace divacore
 				widget = new LifeScaleBar();
 			else if(type=="ctScaleBar")
 				widget = new CTScaleBar();
+			else if(type=="ctSlideBar")
+				widget = new CTSlideBar();
 			else if(type=="dangerSpark")
 				widget = new DangerSpark();
 			else if(type=="singlePlayer")

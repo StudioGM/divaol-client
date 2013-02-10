@@ -46,6 +46,8 @@ namespace divacore
 		timeCounter.reset();
 		mainSound = "";
 		mIsFinish = true;
+		mIsSongOver = false;
+		mIsNoteOver = false;
 
 		state = INIT;
 	}
@@ -80,9 +82,17 @@ namespace divacore
 	}
 	void StandardCoreFlow::over()
 	{
+<<<<<<< HEAD
 		EVALUATE_STRATEGY_PTR->finalEvaluate();
 		core->getMusicManager()->destroy();
 		state = END;
+=======
+		if (state != END) {
+			EVALUATE_STRATEGY_PTR->finalEvaluate();
+			core->getMusicManager()->destroy();
+			state = END;
+		}
+>>>>>>> 8fac03783867a4916e28db1e466348ee4dc2cf87
 	}
 	void StandardCoreFlow::destroy()
 	{
@@ -122,7 +132,17 @@ namespace divacore
 			nowTime = MUSIC_MANAGER_PTR->getPosition(MAIN_SOUND_CHANNEL);/*timeCounter.getTime()*/;
 			bool actived = MUSIC_MANAGER_PTR->isPlaying(MAIN_SOUND_CHANNEL);
 
+<<<<<<< HEAD
 			if(!actived/*nowTime>=totalTime*//*||!GAME_MODE_PTR->getAlive()*/)
+=======
+			if ((timeQueue.size() <= 1 && noteList.size() == 0 || !actived) && !mIsNoteOver)
+			{
+				mIsNoteOver = true;
+				GAME_MODE_PTR->noteOver();
+			}
+
+			if (!actived/*nowTime>=totalTime*//*||!GAME_MODE_PTR->getAlive()*/)
+>>>>>>> 8fac03783867a4916e28db1e466348ee4dc2cf87
 			{
 				// flow back 0.5s to have a buffer, otherwise it will cause a thread confliction so that the music will back to 0
 				//MUSIC_MANAGER_PTR->setPosition(MAIN_SOUND_CHANNEL,totalTime-5);
@@ -130,6 +150,7 @@ namespace divacore
 				//endTask
 
 				mIsFinish = true;
+				mIsSongOver = nowTime>=totalTime;
 
 				endTask.start();
 
@@ -137,6 +158,7 @@ namespace divacore
 				{
 					EVALUATE_STRATEGY_PTR->finalEvaluate();
 					core->getMusicManager()->destroy();
+
 					state = END;
 				}
 				
@@ -285,8 +307,12 @@ namespace divacore
 		{
 			StateEvent _event(note,abs(nowTime-note->getReceivePoint().time));
 			_event.key = event.key;
-			note->onPressed(_event);
+			if(note->onPressed(_event))
+				return;
 		}
+		// if note pressed
+		if ((event.key >= 0 && event.key < NOTE_NUM || event.key == DIVA_KEY_SPACE) && Core::Ptr->getMusicManager()->hasSound("press"))
+			Core::Ptr->getMusicManager()->playDirect("press","se");
 	}
 	void StandardCoreFlow::onKeyReleased(KeyEvent& event)
 	{
@@ -354,7 +380,7 @@ namespace divacore
 		if(_totalTime!=totalTime)
 		{
 			MUSIC_MANAGER_PTR->reload(MAP_INFO->header.mainSound);
-			MUSIC_MANAGER_PTR->play(MAP_INFO->header.mainSound,CORE_FLOW_PTR->MAIN_SOUND_CHANNEL);
+			MUSIC_MANAGER_PTR->play(MAP_INFO->header.mainSound,CORE_FLOW_PTR->MAIN_SOUND_CHANNEL,"bgm");
 		}
 		_totalTime = MUSIC_MANAGER_PTR->getLength(MAIN_SOUND_CHANNEL);
 
@@ -480,7 +506,7 @@ namespace divacore
 			}
 		}
 
-		MUSIC_MANAGER_PTR->play(mainSound,MAIN_SOUND_CHANNEL);
+		MUSIC_MANAGER_PTR->play(mainSound,MAIN_SOUND_CHANNEL,"bgm");
 	}
 
     double StandardCoreFlow::_posToTime(double position)

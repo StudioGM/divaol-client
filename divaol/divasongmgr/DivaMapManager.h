@@ -27,6 +27,7 @@ namespace divamap
 	public:
 		char *additionalMessage;
 		int additionalMessageLength;
+		void *extraPTR;
 
 		enum DIVAMAPMGREVENT {
 			PrepareMapList, 
@@ -34,34 +35,54 @@ namespace divamap
 			PrepareAudioPreviewFile, 
 			PrepareMapDataFile, 
 			PrepareMapDataFileNoVideo, 
+			PrepareRecordByRank,
+			PrepareRecordByUser,
 			UnpackMapDataFile, 
 			PrepareCheckMapDataFile, 
-			MapEventERROR
+			MapEventERROR,
+			DownloadFile
 		};
 		
 		DivaMapEventMessage()
 		{
+			effectedMapLevel = 0;
 			eventType = MapEventERROR;
 			error = true;
 			finish = false;
 			downloadProgress = 0;
 			additionalMessage = NULL;
+			extraPTR = NULL;
 			additionalMessageLength=0;
 		}
 		DivaMapEventMessage(DIVAMAPMGREVENT eventType, int mapID, bool error, bool finish, float downloadProgess)
 		{
 			this->eventType = eventType;
 			effectedMapID = mapID;
+			effectedMapLevel = 0;
 			this->error = error;
 			this->finish = finish;
 			this->downloadProgress = downloadProgess;
 			additionalMessage = NULL;
+			extraPTR = NULL;
+			additionalMessageLength=0;
+		}
+		DivaMapEventMessage(DIVAMAPMGREVENT eventType, int mapID, int level, bool error, bool finish, float downloadProgess)
+		{
+			this->eventType = eventType;
+			effectedMapID = mapID;
+			effectedMapLevel = level;
+			this->error = error;
+			this->finish = finish;
+			this->downloadProgress = downloadProgess;
+			additionalMessage = NULL;
+			extraPTR = NULL;
 			additionalMessageLength=0;
 		}
 
 
 		DIVAMAPMGREVENT eventType;
 		int effectedMapID;
+		int effectedMapLevel;
 		bool error, finish;
 		float downloadProgress;
 	};
@@ -75,9 +96,24 @@ namespace divamap
 			this->sourceAddress = sourceAddress;
 			this->localFileAddress = localFileAddress;
 			this->mapID = mapID;
+			levelID = 0;
 			this->eventType = eventType;
 			this->failed = false;
 			curlHandle=NULL;
+			extraPTR=NULL;
+			
+		}
+
+		DivaMapManagerDownloadQuest(Base::String sourceAddress, Base::String localFileAddress, int mapID, int levelID, DivaMapEventMessage::DIVAMAPMGREVENT eventType)
+		{
+			this->sourceAddress = sourceAddress;
+			this->localFileAddress = localFileAddress;
+			this->mapID = mapID;
+			this->levelID = levelID;
+			this->eventType = eventType;
+			this->failed = false;
+			curlHandle=NULL;
+			extraPTR=NULL;
 		}
 
 		Base::String sourceAddress;
@@ -85,10 +121,11 @@ namespace divamap
 
 		CURL *curlHandle;
 
-		int mapID;
+		int mapID,levelID;
 		DivaMapEventMessage::DIVAMAPMGREVENT eventType;
 
 		bool failed;
+		void *extraPTR;
 	};
 
 
@@ -130,6 +167,11 @@ namespace divamap
 			Hard = 2,
 			Extra = 3,
 			Die = 4};
+		enum ModeType {
+			NormalMode = 0,
+			RelayMode = 1,
+			PairMode = 2
+		};
 
 		int id;
 		DivaMapHeader header;
@@ -145,10 +187,11 @@ namespace divamap
 	class DivaMapSelectedItem
 	{
 	public:
-		DivaMapSelectedItem(int id, DivaMap::LevelType level) {this->id = id;this->level=level;}
+		DivaMapSelectedItem(int id, DivaMap::LevelType level, DivaMap::ModeType mode) {this->id = id;this->level=level;this->mode=mode;}
 
 		int id;
 		DivaMap::LevelType level;
+		DivaMap::ModeType mode;
 	};
 
 	class DivaMapManager : public sora::SoraAutoUpdate
@@ -156,16 +199,15 @@ namespace divamap
 	public:
 		enum GameMode {
 			PVMode = 0, 
-			CTMode = 1,
-			AutoMode = 2,
-			FastMode = 3,
-			SlowMode = 4,
-			DeathMode = 5,
-			RandomSwapMode = 6,
-			ChaosMode = 7,
-			DisappearMode = 8,
-			BlackHouseMode = 9,
-			NoFailMode = 10
+			AutoMode = 1,
+			FastMode = 2,
+			SlowMode = 3,
+			DeathMode = 4,
+			RandomSwapMode = 5,
+			ChaosMode = 6,
+			DisappearMode = 7,
+			BlackHouseMode = 8,
+			NoFailMode = 9
 		};
 
 		long long int selectedMode;
@@ -174,18 +216,24 @@ namespace divamap
 
 
 	private:
-		std::wstring downloadCategoryServerAddress;
-		std::wstring mapListQueryAddress;
+		std::wstring downloadCategoryQueryAddress;
+		std::wstring gameInfoQueryAddress;
+		std::wstring GetQueryAddress_DownloadCategory();
+		std::wstring GetQueryAddress_MapListUpdateByTime(std::wstring basedTime);
+		std::wstring GetQueryAddress_RecordByRank(int mapID, int difficulty, int startRank, int endRank);
+		std::wstring GetQueryAddress_RecordByUser(int mapID, int difficulty, std::wstring userID);
 
 	private:
 		DivaMapManager();
 		~DivaMapManager();
 
+		void registerConflict();
+
 		std::wstring lastUpdatedDate;
 		std::map<int, DivaMap> maps;
 
 		//threadQueue is using for fileDownloadDetection
-		std::map<int, std::map<DivaMapEventMessage::DIVAMAPMGREVENT, bool>> isOperating;
+		std::map<int, std::map<int, std::map<DivaMapEventMessage::DIVAMAPMGREVENT, bool>>> isOperating;
 		Base::ThreadSafe::Queue<DivaMapEventMessage> threadQueue;
 		
 		//listMsgOut is using for output event over
@@ -228,8 +276,16 @@ namespace divamap
 		bool PrepareDivaMapData(int id, bool novideo=false);
 		bool PrepareDivaMapDataFromFile(std::wstring divaolpackFile);
 
+		bool PrepareRecordByRank(int mapID, int difficulty, int startRank, int endRank, void* extraPTR=NULL);
+		bool PrepareRecordByUser(int mapID, int difficulty, std::wstring userID);
+
+		bool PrepareDownloadFile(std::wstring url);
+
 
 		//Get functions
+		std::wstring GetModeDescription(int mode);
+		std::wstring GetLevelDescription(int level);
+		std::wstring GetMapDescription(int id, int level, int mode);
 		std::wstring GetMapName(int id);
 		std::wstring GetMapDirectory(int id);
 		std::wstring GetThumbFilePath(int id);
@@ -244,16 +300,27 @@ namespace divamap
 
 	public:
 		//Select Map functions
-		void SelectedMap_Add(int id, DivaMap::LevelType level);
+		void SelectedMap_Add(int id, DivaMap::LevelType level, DivaMap::ModeType mode);
 		void SelectedMap_Remove(int index);
 		void SelectedMap_ChangeLevel(int index, DivaMap::LevelType level);
 		void SelectedMap_Swap(int indexL,int indexR);
 		void SelectedMap_Clear();
 
+<<<<<<< HEAD
 		std::vector<DivaMapSelectedItem>& GetSelectedMaps(){return selectedMaps;}
 
 
 		//Select Mode functions
+=======
+		std::vector<DivaMapSelectedItem>& GetSelectedMaps()
+		{
+			return selectedMaps;
+		}
+
+
+		//Select Mode functions
+		std::wstring GetModeStr(long long int mode);
+>>>>>>> 8fac03783867a4916e28db1e466348ee4dc2cf87
 		void SelectedMode_Set(long long int mode);
 		void SelectedMode_ToggleMode(GameMode mode, bool select);
 

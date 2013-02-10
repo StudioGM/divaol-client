@@ -16,13 +16,22 @@ namespace divanet
 	class AuthClient : public Client, public Base::Singleton<AuthClient>
 	{
 	public:
+<<<<<<< HEAD
 		enum NotifyType{NOTIFY_AUTH_REPLAY=0x80,NOTIFY_AUTH_REQUEST};
+=======
+		enum NotifyType{NOTIFY_AUTH_REPLAY=0x80,NOTIFY_AUTH_REQUEST,NOTIFY_AUTH_KICK};
+>>>>>>> 8fac03783867a4916e28db1e466348ee4dc2cf87
 
 		virtual std::string name() const {return "auth";}
 
 		void login(const std::string &username, const std::string &password) {
 			GNET_RECEIVE_REGISTER(mNetSys,"auth#login",&AuthClient::gnet_login);
+<<<<<<< HEAD
 			mNetSys->send("auth#login","%S%S",username.c_str(),password.c_str());
+=======
+			GNET_RECEIVE_REGISTER(mNetSys,"auth#kick",&AuthClient::gnet_kick);
+			mNetSys->send("auth#login","%S%S",username,password);
+>>>>>>> 8fac03783867a4916e28db1e466348ee4dc2cf87
 		}
 
 		void logout() {
@@ -35,7 +44,11 @@ namespace divanet
 
 		void request(const std::string &uid) {
 			GNET_RECEIVE_REGISTER(mNetSys,"auth#response",&AuthClient::gnet_response);
+<<<<<<< HEAD
 			mNetSys->send("auth#request","%S",uid.c_str());
+=======
+			mNetSys->send("auth#request","%S",uid);
+>>>>>>> 8fac03783867a4916e28db1e466348ee4dc2cf87
 		}
 
 		void onUpdate(float dt) {
@@ -58,6 +71,10 @@ namespace divanet
 			notify(packet->getItem(2)->getString(), NOTIFY_AUTH_REPLAY, packet);
 
 			GNET_RECEIVE_UNREGISTER(mNetSys,"auth#login");
+<<<<<<< HEAD
+=======
+			GNET_RECEIVE_UNREGISTER(mNetSys,"auth#kick");
+>>>>>>> 8fac03783867a4916e28db1e466348ee4dc2cf87
 		}
 
 		void gnet_response(GPacket *packet) {
@@ -65,11 +82,22 @@ namespace divanet
 			GNET_RECEIVE_UNREGISTER(mNetSys,"auth#response");
 		}
 
+<<<<<<< HEAD
+=======
+		void gnet_kick(GPacket *packet) {
+			notify("system", NOTIFY_AUTH_KICK, packet);
+		}
+
+>>>>>>> 8fac03783867a4916e28db1e466348ee4dc2cf87
 	protected:
 		friend class Base::Singleton<AuthClient>;
 
 		AuthClient() {}
+<<<<<<< HEAD
 		virtual ~AuthClient() throw() {logout();}
+=======
+		~AuthClient() {logout();}
+>>>>>>> 8fac03783867a4916e28db1e466348ee4dc2cf87
 
 	private:
 	};

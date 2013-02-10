@@ -49,7 +49,7 @@ namespace divacore
 		void onPoint(uint32 cnt, NotePoint point);
 		void onRender();
 		void onUpdate(double dt, double position);
-		void onPressed(StateEvent& event);
+		bool onPressed(StateEvent& event);
 		bool isReceive(KeyEvent& event, float time);
 		void recover(int point, int position, float time);
 

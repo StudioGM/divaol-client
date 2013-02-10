@@ -10,7 +10,7 @@
 #define DIVA_CORE_PAUSE_STATE
 
 #include "Core/DivaCoreState.h"
-
+#include "Utility/DivaSettings.h"
 namespace divacore
 {
 	using namespace sora;
@@ -26,9 +26,11 @@ namespace divacore
 	public:
 		void onInitiate()
 		{
-			sora::SoraFont* mFont = sora::SoraFont::LoadFromFile("cour.ttf", 20);
+#ifdef _DEBUG
+			sora::SoraFont* mFont = sora::SoraFont::LoadFromFile(SETTINGS.getGlobalFontName().asUnicode(), 20);
 
 			mText.setFont(mFont);
+#endif
 			mText.setText(L"|#FF0000|Paused\nPress P to resume game");
 		}
 

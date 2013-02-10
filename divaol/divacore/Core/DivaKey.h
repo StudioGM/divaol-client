@@ -30,7 +30,7 @@ namespace divacore
 	class KeyEvent
 	{
 	public:
-		enum{PRESS,RELEASE};
+		enum{PRESS,RELEASE,DOWN};
 		int type;
 		int origin;
 		int32 key;

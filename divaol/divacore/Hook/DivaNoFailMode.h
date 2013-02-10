@@ -45,7 +45,7 @@ namespace divacore
 			}
 			return false;
 		}
-		float scoreBonusScale() {return 1.0;}
+		float scoreTotalScale() {return 0.2;}
 	};
 }
 

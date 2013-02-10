@@ -34,9 +34,12 @@ namespace divacore
 		int score;
 		int combo;
 		float hp;
+		int maxCombo;
+		int maxCTLevel;
+		std::string status;
 
 		PlayerInfo()
-			:name(""),score(0),combo(0),hp(1.0),index(0),teamIndex(0),indexInTeam(0)
+			:name(""),score(0),combo(0),hp(1.0),index(0),teamIndex(0),indexInTeam(0),maxCombo(0),maxCTLevel(0),status("systemready")
 		{}
 		friend bool operator<(const PlayerInfo &a, const PlayerInfo &b)
 		{
@@ -101,7 +104,11 @@ namespace divacore
 		 PLAY表示游戏进行
 		 FAILURE表示连接失败等待中
 		 FULL表示服务器已满*/
+<<<<<<< HEAD
 		enum{CONNECT,GET_INFO,READY,PLAY,FAILED,FAILURE,FULL,OVER};
+=======
+		enum{CONNECTING,GET_INFO,READY,PLAY,FAILED,FAILURE,FULL,OVER};
+>>>>>>> 8fac03783867a4916e28db1e466348ee4dc2cf87
 
 		MultiPlay():mInfo(0) {}
 
@@ -116,8 +123,10 @@ namespace divacore
 		virtual PLAYERS& getPlayerInfo() {return mInfo->mPlayers;}
 		virtual TeamInfo* getMyTeamInfo() {return mInfo->myTeamPtr;}
 		virtual PlayerInfo* getMyPlayerInfo() {return mInfo->myPlayerPtr;}
+		PlayerInfo* getSpecificPlayerInfo(const std::string uid);
 
 		virtual std::string getName() {return "multiPlay";}
+		virtual std::string getNetGameMode() {return "normal";}
 
 		virtual void inform(StateEvent& event);
 		
@@ -141,6 +150,8 @@ namespace divacore
 
 		virtual void update(float dt);
 
+		virtual void afterUpdateInfo() {}
+
 		void sendInfo();
 
 		//获得游戏信息，队伍信息
@@ -156,6 +167,8 @@ namespace divacore
 		void preStart();
 
 		void preEvaluate();
+
+		void noteOver();
 	};
 }
 

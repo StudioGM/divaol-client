@@ -1,0 +1,666 @@
+{
+
+  "styles" : ["Miku","Luka","RinLen","Lily","GUMI"],
+
+  //Circles - MIKU
+  "LeftUpCircle/Miku/InnerLine" : {
+    "filename": "res/cut_006.png",
+    "srcX": 1368,
+    "srcY": 1160,
+    "desX": 142,
+    "desY": -161, //-161
+    "width": 313,
+    "height": 470,
+	"speed": 0.02
+  },
+  
+  "LeftUpCircle/Miku/OuterLine" : {
+    "filename": "res/cut_005.png",
+    "srcX": 856,
+    "srcY": 1252,
+    "desX": -210,
+    "desY": -87,
+    "width": 856,
+    "height": 582,
+	"speed": 0.03
+  },
+  
+  "OtherCircles/Miku/circle01" : {
+    "filename": "res/cut_003.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": -384,
+    "desY": 680,
+    "width": 856,
+    "height": 856,
+	"period": 0.710,
+	"fPeriod": 0.15,
+	"scale": 1.2
+  },
+
+   "OtherCircles/Miku/circle02" : {
+    "filename": "res/cut_005.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": 1050,
+    "desY": 609,
+    "width": 626,
+    "height": 626,
+	"period": 0.710,
+	"fPeriod": 0.15,
+	"scale": 1.2
+  },
+
+   "OtherCircles/Miku/circle03" : {
+    "filename": "res/cut_007.png",
+    "srcX": 1410,
+    "srcY": 0,
+    "desX": 723,
+    "desY": 726,
+    "width": 470,
+    "height": 469,
+	"period": 0.710,
+	"fPeriod": 0.15,
+	"scale": 1.2
+  },
+
+  "OtherCircles/Miku/circle04" : {
+    "filename": "res/cut_004.png",
+    "srcX": 0,
+    "srcY": 716,
+    "desX": 1322,
+    "desY": 548,
+    "width": 717,
+    "height": 716,
+	"period": 0.710,
+	"fPeriod": 0.15,
+	"scale": 1.2
+  },
+
+
+  "LeftUpCircle/Miku/BigCircle" : {
+    "filename": "res/cut_006.png",
+    "srcX": 0,
+    "srcY": 1160,
+    "desX": -155,
+    "desY": -136,
+    "width": 742,
+    "height": 579,
+	"speed": -0.02
+  },
+
+  "LeftUpCircle/Miku/SmallCircle" : {
+    "filename": "res/cut_007.png",
+    "srcX": 600,
+    "srcY": 469,
+    "desX": 66,
+    "desY": -79,
+    "width": 300,
+    "height": 302
+  },
+
+
+  //Circles - Luka
+
+  "LeftUpCircle/Luka/InnerLine": {
+    "filename": "res/cut_006.png",
+    "srcX": 1681,
+    "srcY": 1160,
+    "desX": 142,
+    "desY": -161,
+    "width": 313,
+    "height": 470,
+    "speed": 0.02
+  },
+  "LeftUpCircle/Luka/OuterLine": {
+    "filename": "res/cut_005.png",
+    "srcX": 0,
+    "srcY": 1252,
+    "desX": -210,
+    "desY": -87,
+    "width": 856,
+    "height": 582,
+    "speed": 0.03
+  },
+  "OtherCircles/Luka/circle01": {
+    "filename": "res/cut_003.png",
+    "srcX": 0,
+    "srcY": 856,
+    "desX": -384,
+    "desY": 680,
+    "width": 856,
+    "height": 856,
+    "period": 0.710,
+    "fPeriod": 0.15,
+    "scale": 1.2
+  },
+  "OtherCircles/Luka/circle02": {
+    "filename": "res/cut_005.png",
+    "srcX": 0,
+    "srcY": 626,
+    "desX": 1050,
+    "desY": 609,
+    "width": 626,
+    "height": 626,
+    "period": 0.710,
+    "fPeriod": 0.15,
+    "scale": 1.2
+  },
+  "OtherCircles/Luka/circle03": {
+    "filename": "res/cut_007.png",
+    "srcX": 940,
+    "srcY": 0,
+    "desX": 723,
+    "desY": 726,
+    "width": 470,
+    "height": 469,
+    "period": 0.710,
+    "fPeriod": 0.15,
+    "scale": 1.2
+  },
+  "OtherCircles/Luka/circle04": {
+    "filename": "res/cut_004.png",
+    "srcX": 717,
+    "srcY": 716,
+    "desX": 1322,
+    "desY": 548,
+    "width": 717,
+    "height": 716,
+    "period": 0.710,
+    "fPeriod": 0.15,
+    "scale": 1.2
+  },
+  "LeftUpCircle/Luka/BigCircle": {
+    "filename": "res/cut_006.png",
+    "srcX": 0,
+    "srcY": 581,
+    "desX": -155,
+    "desY": -136,
+    "width": 742,
+    "height": 579,
+    "speed": -0.02
+  },
+  "LeftUpCircle/Luka/SmallCircle": {
+    "filename": "res/cut_007.png",
+    "srcX": 0,
+    "srcY": 469,
+    "desX": 66,
+    "desY": -79,
+    "width": 300,
+    "height": 302
+  },
+
+
+  //Circles RinLen
+
+  "LeftUpCircle/RinLen/InnerLine": {
+    "filename": "res/cut_006.png",
+    "srcX": 1055,
+    "srcY": 1160,
+    "desX": 142,
+    "desY": -161,
+    "width": 313,
+    "height": 470,
+    "speed": 0.02
+  },
+  "LeftUpCircle/RinLen/OuterLine": {
+    "filename": "res/cut_006.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": -209,
+    "desY": -86,
+    "width": 854,
+    "height": 581,
+    "speed": 0.03
+  },
+  "OtherCircles/RinLen/circle01": {
+    "filename": "res/cut_003.png",
+    "srcX": 856,
+    "srcY": 856,
+    "desX": -384,
+    "desY": 680,
+    "width": 856,
+    "height": 856,
+    "period": 0.710,
+    "fPeriod": 0.15,
+    "scale": 1.2
+  },
+  "OtherCircles/RinLen/circle02": {
+    "filename": "res/cut_005.png",
+    "srcX": 1252,
+    "srcY": 0,
+    "desX": 1050,
+    "desY": 609,
+    "width": 626,
+    "height": 626,
+    "period": 0.710,
+    "fPeriod": 0.15,
+    "scale": 1.2
+  },
+  "OtherCircles/RinLen/circle03": {
+    "filename": "res/cut_007.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": 723,
+    "desY": 726,
+    "width": 470,
+    "height": 469,
+    "period": 0.710,
+    "fPeriod": 0.15,
+    "scale": 1.2
+  },
+  "OtherCircles/RinLen/circle04": {
+    "filename": "res/cut_004.png",
+    "srcX": 717,
+    "srcY": 0,
+    "desX": 1322,
+    "desY": 548,
+    "width": 717,
+    "height": 716,
+    "period": 0.710,
+    "fPeriod": 0.15,
+    "scale": 1.2
+  },
+  "LeftUpCircle/RinLen/BigCircle": {
+    "filename": "res/cut_006.png",
+    "srcX": 742,
+    "srcY": 581,
+    "desX": -155,
+    "desY": -136,
+    "width": 742,
+    "height": 579,
+    "speed": -0.02
+  },
+  "LeftUpCircle/RinLen/SmallCircle": {
+    "filename": "res/cut_007.png",
+    "srcX": 900,
+    "srcY": 469,
+    "desX": 67,
+    "desY": -78,
+    "width": 298,
+    "height": 300
+  },
+
+  //Circles Lily
+
+  "LeftUpCircle/Lily/InnerLine": {
+    "filename": "res/cut_006.png",
+    "srcX": 1055,
+    "srcY": 1160,
+    "desX": 142,
+    "desY": -161,
+    "width": 313,
+    "height": 470,
+    "speed": 0.02
+  },
+  "LeftUpCircle/Lily/OuterLine": {
+    "filename": "res/cut_006.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": -209,
+    "desY": -86,
+    "width": 854,
+    "height": 581,
+    "speed": 0.03
+  },
+  "OtherCircles/Lily/circle01": {
+    "filename": "res/cut_003.png",
+    "srcX": 856,
+    "srcY": 856,
+    "desX": -384,
+    "desY": 680,
+    "width": 856,
+    "height": 856,
+    "period": 0.710,
+    "fPeriod": 0.15,
+    "scale": 1.2
+  },
+  "OtherCircles/Lily/circle02": {
+    "filename": "res/cut_005.png",
+    "srcX": 1252,
+    "srcY": 0,
+    "desX": 1050,
+    "desY": 609,
+    "width": 626,
+    "height": 626,
+    "period": 0.710,
+    "fPeriod": 0.15,
+    "scale": 1.2
+  },
+  "OtherCircles/Lily/circle03": {
+    "filename": "res/cut_007.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": 723,
+    "desY": 726,
+    "width": 470,
+    "height": 469,
+    "period": 0.710,
+    "fPeriod": 0.15,
+    "scale": 1.2
+  },
+  "OtherCircles/Lily/circle04": {
+    "filename": "res/cut_004.png",
+    "srcX": 717,
+    "srcY": 0,
+    "desX": 1322,
+    "desY": 548,
+    "width": 717,
+    "height": 716,
+    "period": 0.710,
+    "fPeriod": 0.15,
+    "scale": 1.2
+  },
+  "LeftUpCircle/Lily/BigCircle": {
+    "filename": "res/cut_006.png",
+    "srcX": 742,
+    "srcY": 581,
+    "desX": -155,
+    "desY": -136,
+    "width": 742,
+    "height": 579,
+    "speed": -0.02
+  },
+  "LeftUpCircle/Lily/SmallCircle": {
+    "filename": "res/cut_007.png",
+    "srcX": 900,
+    "srcY": 469,
+    "desX": 67,
+    "desY": -78,
+    "width": 298,
+    "height": 300
+  },
+
+
+
+
+
+  //Circles - GUMI
+
+  "LeftUpCircle/GUMI/InnerLine": {
+    "filename": "res/cut_006.png",
+    "srcX": 742,
+    "srcY": 1160,
+    "desX": 142,
+    "desY": -161,
+    "width": 313,
+    "height": 470,
+    "speed": 0.02
+  },
+  "LeftUpCircle/GUMI/OuterLine": {
+    "filename": "res/cut_005.png",
+    "srcX": 626,
+    "srcY": 626,
+    "desX": -210,
+    "desY": -87,
+    "width": 856,
+    "height": 582,
+    "speed": 0.03
+  },
+  "OtherCircles/GUMI/circle01": {
+    "filename": "res/cut_003.png",
+    "srcX": 856,
+    "srcY": 0,
+    "desX": -384,
+    "desY": 680,
+    "width": 856,
+    "height": 856,
+    "period": 0.710,
+    "fPeriod": 0.15,
+    "scale": 1.2
+  },
+  "OtherCircles/GUMI/circle02": {
+    "filename": "res/cut_005.png",
+    "srcX": 626,
+    "srcY": 0,
+    "desX": 1050,
+    "desY": 609,
+    "width": 626,
+    "height": 626,
+    "period": 0.710,
+    "fPeriod": 0.15,
+    "scale": 1.2
+  },
+  "OtherCircles/GUMI/circle03": {
+    "filename": "res/cut_007.png",
+    "srcX": 470,
+    "srcY": 0,
+    "desX": 723,
+    "desY": 726,
+    "width": 470,
+    "height": 469,
+    "period": 0.710,
+    "fPeriod": 0.15,
+    "scale": 1.2
+  },
+  "OtherCircles/GUMI/circle04": {
+    "filename": "res/cut_004.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": 1322,
+    "desY": 548,
+    "width": 717,
+    "height": 716,
+    "period": 0.710,
+    "fPeriod": 0.15,
+    "scale": 1.2
+  },
+  "LeftUpCircle/GUMI/BigCircle": {
+    "filename": "res/cut_006.png",
+    "srcX": 854,
+    "srcY": 0,
+    "desX": -156,
+    "desY": -136,
+    "width": 744,
+    "height": 580,
+    "speed": -0.02
+  },
+  "LeftUpCircle/GUMI/SmallCircle": {
+    "filename": "res/cut_007.png",
+    "srcX": 300,
+    "srcY": 469,
+    "desX": 66,
+    "desY": -79,
+    "width": 300,
+    "height": 302
+  },
+
+
+
+  //Diva Online LOGO
+  "DIVA ONLINE" : {
+    "filename": "res/cut_007.png",
+    "srcX": 1198,
+    "srcY": 469,
+    "desX": 639,
+    "desY": 166,
+    "width": 642,
+    "height": 185
+  },
+
+  //VOCALOID LOGO
+  "VOCALOID LOGO/Miku" : {
+    "filename": "res/cut_007.png",
+    "srcX": 242,
+    "srcY": 771,
+    "desX": 1561,
+    "desY": 871,
+    "width": 262,
+    "height": 139
+  },
+  "VOCALOID LOGO/Luka": {
+    "filename": "res/cut_007.png",
+    "srcX": 0,
+    "srcY": 771,
+    "desX": 1571,
+    "desY": 871,
+    "width": 242,
+    "height": 141
+  },
+  "VOCALOID LOGO/Lily": {
+    "filename": "res/cut_007.png",
+    "srcX": 504,
+    "srcY": 771,
+    "desX": 1619,
+    "desY": 863,
+    "width": 192,
+    "height": 120
+  },
+  "VOCALOID LOGO/RinLen": {
+    "filename": "res/cut_007.png",
+    "srcX": 696,
+    "srcY": 771,
+    "desX": 1483,
+    "desY": 871,
+    "width": 359,
+    "height": 109
+  },
+  "VOCALOID LOGO/GUMI": {
+    "filename": "res/cut_007.png",
+    "srcX": 1665,
+    "srcY": 771,
+    "desX": 1483,
+    "desY": 891,
+    "width": 333,
+    "height": 92
+  },
+
+
+  //Press Any Key back
+  "PressAnyKeyBack" : {
+    "filename": "res/cut_007.png",
+    "srcX": 1055,
+    "srcY": 771,
+    "desX": 663,
+    "desY": 852,
+    "width": 610,
+    "height": 93
+  },
+
+  "PressAnyKey" : {
+    "filename": "res/cut_007.png",
+    "srcX": 0,
+    "srcY": 912,
+    "desX": 829,
+    "desY": 897,
+    "width": 273,
+    "height": 37,
+	"period": 1.5
+  },
+
+  //VOCALOID Charactor
+  "VOCALOID Charactor/Miku" : {
+    "filename": "res/cut_001.png",
+    "srcX": 1011,
+    "srcY": 0,
+    "desX": 1155,
+    "desY": 88,
+    "width": 950,
+    "height": 1463,
+	  "period": 1
+  },
+  "VOCALOID Charactor/Luka": {
+    "filename": "res/cut_001.png",
+    "srcX": 586,
+    "srcY": 0,
+    "desX": 1378,
+    "desY": 74,
+    "width": 425,
+    "height": 1661,
+    "period": 1
+  },
+  "VOCALOID Charactor/Lily": {
+    "filename": "res/cut_002.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": 1384,
+    "desY": 162,
+    "width": 549,
+    "height": 1414,
+    "period": 1
+  },
+  "VOCALOID Charactor/RinLen": {
+    "filename": "res/cut_002.png",
+    "srcX": 549,
+    "srcY": 0,
+    "desX": 1215,
+    "desY": 105,
+    "width": 709,
+    "height": 1368,
+    "period": 1
+  },
+  "VOCALOID Charactor/GUMI": {
+    "filename": "res/cut_001.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": 1410,
+    "desY": 74,
+    "width": 586,
+    "height": 1734,
+    "period": 1
+  },
+
+
+
+  //BG
+  "BG/Miku" : {
+	"filename": "res/back_miku.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": 0,
+    "desY": 0,
+    "width": 1920,
+    "height": 1080
+  },
+  "BG/Luka" : {
+  "filename": "res/back_luka.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": 0,
+    "desY": 0,
+    "width": 1920,
+    "height": 1080
+  },
+  "BG/GUMI" : {
+  "filename": "res/back_gumi.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": 0,
+    "desY": 0,
+    "width": 1920,
+    "height": 1080
+  },
+  "BG/RinLen" : {
+  "filename": "res/back_rinlenlily.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": 0,
+    "desY": 0,
+    "width": 1920,
+    "height": 1080
+  },
+  "BG/Lily" : {
+  "filename": "res/back_rinlenlily.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": 0,
+    "desY": 0,
+    "width": 1920,
+    "height": 1080
+  },
+
+  //shader
+  "BG/Shader": {
+	"filename": "res/back_mask.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": 0,
+    "desY": 0,
+    "width": 4520,
+    "height": 1080,
+	"period": 1.0
+  }
+
+
+
+}

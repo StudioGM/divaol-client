@@ -48,8 +48,8 @@ namespace divacore
 
 		bool hook(KeyEvent &key) 
 		{
-			if(key.key==0&&key.type==KeyEvent::RELEASE)
-				open = !open;
+			//if(key.key==0&&key.type==KeyEvent::RELEASE)
+			//	open = !open;
 			if(key.key>=0&&key.key<NOTE_NUM)
 			{
 				setHookInfo(1);
@@ -71,6 +71,8 @@ namespace divacore
 
 			return true;
 		}
+
+		float scoreTotalScale() {return 0;}
 	};
 }
 

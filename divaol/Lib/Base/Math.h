@@ -70,6 +70,11 @@ namespace Base
 			inline static T Max(const T &a, const T &b) {
 				return a>b?a:b;
 			}
+
+			template<typename T>
+			inline static T Clamp(const T &value, const T &a, const T &b) {
+				return min(max(a, value),b);
+			}
 		};
 
 		class Vector2 {

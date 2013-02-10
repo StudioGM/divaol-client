@@ -185,6 +185,8 @@ namespace divacore
 		void onMouseClicked(SoraMouseEvent& event);
 		void onMouseReleased(SoraMouseEvent& event);
 		void onMouseMoved(SoraMouseEvent& event);
+		void onJoystickPressed(SoraJoystickEvent& event);
+        void onJoystickRelesed(SoraJoystickEvent& event);
 
 		/*
 		 * CoreState
@@ -216,7 +218,7 @@ namespace divacore
 		 * set functions
 		 */
 		 void setSong(const std::wstring &path, const std::wstring &mapFileName = L"");
-
+		 void setGameResolution(int width, int height) {renderSystem->setGameResolution(width, height);}
 		/*
 		 * Get functions
 		 */

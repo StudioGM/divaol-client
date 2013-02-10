@@ -36,7 +36,7 @@ namespace sora {
 				int index = find(Faces, f);
 				
 				if(index != -1) {
-					delete Faces[i].face;
+					delete Faces[index].face;
 					Faces.erase(Faces.begin()+index);
 				}
 				

@@ -62,11 +62,14 @@ namespace divacore
 		double nowTime,nowBPM;
 		double totalTime;
 		uint32 totalGrid;
+
 		//position
 		SCF_TimeStamp lastStamp;
 		double nowPosition;
 		
 		bool mIsFinish;
+		bool mIsSongOver;
+		bool mIsNoteOver;
 
 		TimeCounter timeCounter;	
 
@@ -112,7 +115,10 @@ namespace divacore
 		virtual uint32 getTotalPosition() {return totalGrid;}
 		virtual uint8 getState() {return state;}
 		virtual double getBPM() {return nowBPM;}
+		virtual bool isSongOver() {return mIsSongOver;}
+		virtual bool isNoteOver() {return mIsNoteOver;}
 
+		virtual void onKeyDown(KeyEvent &event) {}
 		virtual void onKeyPressed(KeyEvent& event);
 		virtual void onKeyReleased(KeyEvent& event);
 

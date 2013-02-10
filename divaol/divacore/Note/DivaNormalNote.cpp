@@ -161,21 +161,25 @@ namespace divacore
 			}
 		}
 	}
-	void NormalNote::onPressed(StateEvent& event)
+	bool NormalNote::onPressed(StateEvent& event)
 	{
 		event.position = noteInfo.notePoint[0].position;
 
 		if(Core::Ptr->getGameMode()->checkPress(event))
 		{
 			//if(noteInfo.notePoint[0].key!="")
-			//	Core::Ptr->getMusicManager()->playDirect(noteInfo.notePoint[0].key,"sound_effect");
-			//Core::Ptr->getMusicManager()->playDirect("hit","sound_effect");
+			//	Core::Ptr->getMusicManager()->playDirect(noteInfo.notePoint[0].key,"se");
+			//Core::Ptr->getMusicManager()->playDirect("hit","se");
 
 			Core::Ptr->getGameMode()->inform(event);
 
 			over();
 			//play sound
+
+			return true;
 		}
+		else
+			return false;
 	}
 	//check whether to receive a key and set receive note point
 	bool NormalNote::isReceive(KeyEvent& event, float time)

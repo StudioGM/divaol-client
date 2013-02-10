@@ -44,6 +44,7 @@ namespace sora{
 
 	SoraHGERenderer::~SoraHGERenderer() {
 	//	shutdown();
+		
 	}
 
 	void SoraHGERenderer::flush() {
@@ -157,12 +158,11 @@ namespace sora{
 			
 			pHGE->System_SetState(HGE_FAKE_FULLSCREEN, !windowInfo->isWindowed()); //add new by hyf
 
-			
-			if(windowInfo->getIcon() != 0) {
+			if(!std::string(windowInfo->getIcon()).empty()) {
 				pHGE->System_SetState(HGE_ICON, windowInfo->getIcon());
 			}
 		
-			if(windowInfo->getCursor() != 0) {
+			if(!std::string(windowInfo->getCursor()).empty()) {
 				pHGE->System_SetState(HGE_CURSOR, windowInfo->getCursor());
 			}
 
@@ -180,7 +180,7 @@ namespace sora{
 	}
 
 	void SoraHGERenderer::setWindowSize(int32 w, int32 h) {
-		pHGE->_Resize(w, h);
+		pHGE->_Resize(w, h, true);
 		pHGE->_AdjustWindow();
 	}
 
@@ -200,11 +200,11 @@ namespace sora{
 	}
 
 	void SoraHGERenderer::setFullscreen(bool flag) {
-		pHGE->System_SetState(HGE_WINDOWED, !flag);
+		pHGE->System_SetState(HGE_FAKE_FULLSCREEN, flag);
 	}
 
 	bool SoraHGERenderer::isFullscreen() {
-		return pHGE->System_GetState(HGE_WINDOWED);
+		return pHGE->System_GetState(HGE_FAKE_FULLSCREEN);
 	}
 
 	SoraHandle SoraHGERenderer::getMainWindowHandle() {

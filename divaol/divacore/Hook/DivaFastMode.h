@@ -34,9 +34,9 @@ namespace divacore
 		}
 		void onAwake() 
 		{
-			CORE_PTR->setSpeedScale(1.5);
+			CORE_PTR->setSpeedScale(1.25);
 		}
-		float scoreBonusScale() {return 0.5;}
+		float scoreBonusScale() {return 0.8;}
 	};
 }
 

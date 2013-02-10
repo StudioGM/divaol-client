@@ -29,9 +29,11 @@ namespace gnet
 		virtual void connect(const std::string &host, const std::string &port) = 0;
 		inline ItemBase* recv() { return _recvItem();}
 		inline void send(ItemBase *item) { return _sendBytes(item->getItem()); }
+		inline void sendEncodedWithRFA(ItemBase *item) { return _sendBytes(item->getRFAItem(recvRFA));}
 
 	protected:
 		virtual ItemBase* _recvItem();
+		virtual ItemBase* _parseItem(Base::Raw &data);
 		virtual void _sendBytes(const Bytes &bytes) {_sendRaw(reinterpret_cast<const char*>(&(const_cast<Bytes&>(bytes))[0]),bytes.size());}
 		virtual Bytes& _recvBytes(size_t size) = 0;
 		virtual void _sendRaw(const char* data, size_t size) = 0;
@@ -39,6 +41,8 @@ namespace gnet
 
 	protected:
 		Bytes mBuffer;
+		Base::Codec::RFA sendRFA;
+		Base::Codec::RFA recvRFA;
 	};
 
 	class TCPConnection : public Connection

@@ -40,7 +40,11 @@ namespace divanet
 		}
 
 		virtual void getServiceInfo() {
+<<<<<<< HEAD
 			info["core"] = ServiceInfo("58.215.170.145",9899);
+=======
+			info["core"] = ServiceInfo("divaolserver00.gmgate.net",9899);
+>>>>>>> 8fac03783867a4916e28db1e466348ee4dc2cf87
 		}
 
 		void onUpdate(float dt) {

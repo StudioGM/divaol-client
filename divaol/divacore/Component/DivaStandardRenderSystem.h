@@ -40,7 +40,7 @@ namespace divacore
 			//windowWidth = config.getAsInt("windowWidth");
 			//windowHeight = config.getAsInt("windowHeight");
 
-			fadeTime = config.getAsDouble("fadeTime");
+			fadeTime = config.getAsDouble("screenFadeTime");
 		}
 		sora::SoraBaseCanvas *getInnerCanvas() {return innerCanvas;}
 		sora::SoraBaseCanvas *getCoreCanvas() {return coreCanvas;}
@@ -56,8 +56,9 @@ namespace divacore
 
 			this->config = config;
 
-			gameWidth = config.getAsInt("gameWidth");
-			gameHeight = config.getAsInt("gameHeight");
+			// remove game width&height from render config, to ensure the resolutions of UI & core are the same.
+			//gameWidth = config.getAsInt("gameWidth");
+			//gameHeight = config.getAsInt("gameHeight");
 
 			SAFE_DELETE(coreCanvas);
 			SAFE_DELETE(innerCanvas);
@@ -109,6 +110,7 @@ namespace divacore
 #ifdef OS_WIN32
 			canvas->setScale(width==0?1:(width/double(canvas->getTextureWidth(false))),
 				height==0?1:(height/double(canvas->getTextureHeight(false))));
+		
 #else
             
 #endif // OS_WIN32
@@ -159,7 +161,7 @@ namespace divacore
 			{
 				coreCanvas->beginRender();
 
-				if(preview->getTexture())
+				if(preview && preview->getTexture())
 				{
 					//preview->setScale(double(gameWidth)/preview->getSpriteWidth(),
 					//	double(gameHeight)/preview->getSpriteHeight());
@@ -213,17 +215,19 @@ namespace divacore
 			windowHeight = sora::SoraCore::Ptr->getScreenHeight();
 
 			//coreCanvas = NULL;
-			coreCanvas = new sora::SoraBaseCanvas(windowWidth,windowHeight);
+ 			coreCanvas = new sora::SoraBaseCanvas(gameWidth,gameHeight);
 
-			preview = sora::SoraCore::Ptr->createSprite(MAP_LOADER_PTR->getSongPath()+L"/preview.png");
-			white = sora::SoraCore::Ptr->createSprite("Data/white.png");
+			if(MAPMGR.GetSelectedMaps().size()>0) {
+				preview = sora::SoraCore::Ptr->createSprite(MAPMGR.GetThumbFilePath(MAPMGR.GetSelectedMaps()[0].id));
+			}
+			white = sora::SoraCore::Ptr->createSprite("res/white.png");
 			if(!white->getTexture())
 				DIVA_EXCEPTION_MODULE("Do not found white.png!","RenderSystem");
 			if(preview->getTexture())
-				preview->setScale(double(windowWidth)/preview->getSpriteWidth(),
-				double(windowHeight)/preview->getSpriteHeight());
-			white->setScale(double(windowWidth)/white->getSpriteWidth(),
-				double(windowHeight)/white->getSpriteHeight());
+				preview->setScale(double(gameWidth)/preview->getSpriteWidth(),
+				double(gameHeight)/preview->getSpriteHeight());
+			white->setScale(double(gameWidth)/white->getSpriteWidth(),
+				double(gameHeight)/white->getSpriteHeight());
 			//coreCanvas = new sora::SoraBaseCanvas(gameWidth,gameHeight);
 		}
 
@@ -256,6 +260,7 @@ namespace divacore
 		}
 		virtual bool isFade() {return bFade;}
 
+		void setGameResolution(int width, int height) {this->gameWidth = width, this->gameHeight = height;}
 		int getGameWidth() {return gameWidth;}
 		int getGameHeight() {return gameHeight;}
 		int getWindowWidth() {return windowWidth;}

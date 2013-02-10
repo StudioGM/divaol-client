@@ -41,7 +41,7 @@ namespace gnet
 				ItemBase *item = netManager->mSendQueue.take();
 				try
 				{
-					netManager->mConnector.send(item);
+					netManager->mConnector.sendEncodedWithRFA(item);
 				}
 				catch (...)
 				{

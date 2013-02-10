@@ -58,6 +58,7 @@ namespace divacore
 		~EditMode() {HOOK_MANAGER_PTR->del(&unableHook);}
 
 		virtual std::string getName() {return "editMode";}
+		virtual std::string getNetGameMode() {return "none";}
 
 		bool getAlive() {return true;}
 		int32 getScore() {return 0;}
@@ -100,12 +101,12 @@ namespace divacore
 				if(event.rank<=4)
 				{
 					if(mHitSound)
-						Core::Ptr->getMusicManager()->playDirect("hit","sound_effect");
+						Core::Ptr->getMusicManager()->playDirect("hit","se");
 				}
 				else
 				{
 					if(mMissSound)
-						Core::Ptr->getMusicManager()->playDirect("miss","sound_effect");
+						Core::Ptr->getMusicManager()->playDirect("miss","se");
 				}
 			}
 		}

@@ -15,6 +15,7 @@ namespace divacore
 {
 	const int MAX_LEVEL = 7;
 	const float RATE[MAX_LEVEL] = {1,1.5,2,2.5,3,3.5,4};
+<<<<<<< HEAD
 	const float SpeedUp[MAX_LEVEL] = {1,2,3,4,5,6,7};
 	const float Duration[MAX_LEVEL] = {10,10,10,10,10,10,10};
 	const float CostValueWithTime[MAX_LEVEL][2] = {{0,GRID_PER_BAR},
@@ -32,12 +33,35 @@ namespace divacore
 		{60,20,0,-150,-300},
 		{60,10,0,-250,-500},
 		{60,0,0,-500,-1000}};
+=======
+	const float SpeedUp[MAX_LEVEL] = {1,1.3,1.6,2,2.5,3,4};
+	const float Duration[MAX_LEVEL] = {10,10,10,10,10,10,10};
+	const float CostValueWithTime[MAX_LEVEL][2] = {{0,GRID_PER_BAR},
+									{30,GRID_PER_BAR},
+									{80,GRID_PER_BAR},
+									{120,GRID_PER_BAR},
+									{150,GRID_PER_BAR},
+									{180,GRID_PER_BAR},
+									{200,GRID_PER_BAR}};
+	const int CostValueWithRank[MAX_LEVEL][5] = {
+		{50,30,0,-10,-10},
+		{50,30,0,-25,-25},
+		{55,30,0,-40,-50},
+		{55,35,0,-80,-100},
+		{60,35,0,-120,-150},
+		{60,40,0,-250,-400},
+		{70,40,0,-300,-600}};
+>>>>>>> 8fac03783867a4916e28db1e466348ee4dc2cf87
 
 	class CTMode : public Hook
 	{
 		static const int LIMIT_CT = 1000;
 		static const int ORIGIN_CT = 0;
 		double ct;
+<<<<<<< HEAD
+=======
+		int maxLevel;
+>>>>>>> 8fac03783867a4916e28db1e466348ee4dc2cf87
 		int level;
 		float duration;
 		bool bFull;
@@ -51,9 +75,14 @@ namespace divacore
 			setType(Hook::MODE);
 			originSpeedScale = MAP_INFO->header.speedScale;
 			setLevel(0);
+			maxLevel = 0;
 		}
 		void setLevel(int level, bool keep = false)
 		{
+<<<<<<< HEAD
+=======
+			maxLevel = std::max(level,maxLevel);
+>>>>>>> 8fac03783867a4916e28db1e466348ee4dc2cf87
 			if(!keep) {
 				bFull = false;
 				ct = ORIGIN_CT;
@@ -120,17 +149,25 @@ namespace divacore
 
 		bool hook(KeyEvent &key) 
 		{
+			if(CORE_FLOW_PTR->getState()!=CoreFlow::RUN)
+				return false;
+
 			if(key.key==DIVA_KEY_CT)
+<<<<<<< HEAD
 				if(bFull&&level+1<MAX_LEVEL)
+=======
+				if(bFull)
+>>>>>>> 8fac03783867a4916e28db1e466348ee4dc2cf87
 				{
-					setLevel(level+1);
-					MUSIC_MANAGER_PTR->playDirectWithFile("Data/ct.mp3",true);
+					setLevel(std::min(level+1, MAX_LEVEL-1));
+					MUSIC_MANAGER_PTR->playDirectWithFile("res/se/ct.mp3",true,"se");
 				}
 			return false;
 		}
 
 		int getCT() {return (int)ct;}
 		int getLevel() {return level;}
+		int getMaxLevel() {return maxLevel;}
 	};
 }
 

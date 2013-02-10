@@ -10,6 +10,7 @@
 #include "SoraFileUtility.h"
 #include "DivaBassMusicManager.h"
 #include "Core/DivaCore.h"
+#include "Utility/DivaSettings.h"
 
 namespace divacore
 {
@@ -101,6 +102,7 @@ namespace divacore
 	{
 		mSpeedScale = 1.0;
 		::BASS_Init(-1, 44100, 0, 0, 0);
+		SETTINGS.RefreshMusicSettings();
 		/*globalSample = ::BASS_SampleCreate(100000000, 28160, 1, 1, BASS_SAMPLE_LOOP|BASS_SAMPLE_OVER_POS);
 		globalChannel = BASS_SampleGetChannel(globalSample,false);
 		QWORD length = BASS_ChannelSeconds2Bytes(globalChannel,120);
@@ -172,6 +174,11 @@ namespace divacore
 		std::string filepath = fileDict[ID];
 		unload(ID);
 		load(filepath,ID,bStream);
+	}
+	bool BassMusicManager::hasSound(const std::string &ID)
+	{
+		SOUNDPOOL::iterator soundPtr = soundPool.find(ID);
+		return !(soundPtr==soundPool.end());
 	}
 	void BassMusicManager::play(const std::string &ID, const std::string &channel, const std::string &tag)
 	{

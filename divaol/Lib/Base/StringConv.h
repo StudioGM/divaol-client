@@ -59,6 +59,15 @@ namespace Base
 			}
 			return L"";
 		}
+		inline base_string ws2utf8Impl(const base_wstring &s)
+		{
+			int n = WideCharToMultiByte( CP_UTF8, 0, s.c_str(), -1, 0, 0, 0, 0 );  
+			char * str = new char[n];
+			::WideCharToMultiByte( CP_UTF8, 0, s.c_str(), -1, (char*)str, n, 0, 0 );  
+			std::string strOutUTF8 = str;
+			delete[]str;
+			return strOutUTF8;
+		}
 		inline base_string s2utf8Impl(const base_string& s)
 		{
 			std::string strOutUTF8 = "";
@@ -336,7 +345,7 @@ namespace Base
 
 	static base_string ws2utf8(const base_wstring &ws)
 	{
-		return s2utf8(ws2s(ws));
+		return StringConvImpl::ws2utf8Impl(ws);
 	}
 
 	static base_string utf82s(const base_string &s)

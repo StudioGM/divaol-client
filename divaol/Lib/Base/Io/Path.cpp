@@ -24,9 +24,9 @@ namespace Base
 		}
 		return "./";
 	}
-	Path Path::GetApplicationPath() {
+	Path Path::GetApplicationPath(bool full) {
 #ifndef BASE_UNSUPPORTED_SYS
-		return FileSystemUtilImpl::GetApplicationPath();
+		return FileSystemUtilImpl::GetApplicationPath(full);
 #endif
 		return "./";
 	}

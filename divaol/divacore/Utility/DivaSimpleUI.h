@@ -16,6 +16,7 @@
 #include "Core/DivaHook.h"
 #include "Core/DivaEvaluateStrategy.h"
 #include "Mode/DivaMultiplay.h"
+#include "Hook/DivaCTMode.h"
 
 namespace divacore
 {
@@ -95,6 +96,7 @@ namespace divacore
 			uint32 getColor() {return tex->getColor();}
 			void setTextureRect(Rect texRect);
 			void construct(Config &config, const std::string &head);
+			void setSize(float width, float height) {if(tex) tex->setScale(width/tex->getSpriteWidth(), height/tex->getSpriteHeight());}
 		protected:
 			void onInitialize() {}
 			void onClear() {SAFE_DELETE_SPRITE(tex);}
@@ -150,6 +152,7 @@ namespace divacore
 			std::string SE;
 			int lastPeriod;
 		public:
+			Spark():fix(false),spark(false) {}
 			void setSpark(bool spark);
 			void setFix(bool fix) {this->fix = fix;}
 
@@ -159,6 +162,7 @@ namespace divacore
 			void onRender(float x, float y);
 			void onClear() {SAFE_DELETE_SPRITE(tex);}
 			void setScale(float scale) {tex->setScale(scale,scale);this->scale=scale;}
+			
 			virtual void setColor(uint32 color) {tex->setColor(color);}
 			virtual uint32 getColor() {return tex->getColor();}
 		};
@@ -247,6 +251,25 @@ namespace divacore
 			void onStart();
 			void onUpdate(float dt);
 			void setRatio(float ratio);
+		};
+
+		class CTSlideBar : public SlideBar
+		{
+			static const int CT_LEVEL = 7;
+			Base::SharedPtr<Spark> light;
+			Rect ctLevelColor[CT_LEVEL];
+			HookPtr ctMode;
+			int level;
+		public:
+			void construct(Config &config, const std::string &head);
+			void onInitialize();
+			void onStart();
+			void onUpdate(float dt);
+			void onRender(float x, float y);
+			void onDisplay() {}
+			void onHide() {}
+			void ctHide() {SlideBar::onHide();}
+			void ctDisplay() {SlideBar::onDisplay();}
 		};
 
 		class NumberBar : public Widget
@@ -377,12 +400,14 @@ namespace divacore
 			std::string color;
 			Point position;
 			sora::SoraText text;
+			sora::SoraFont::Alignment style;
 		public:
 			void setText(const std::wstring &content);
 			void setText(const std::string &content) {setText(sora::s2ws(content));}
 			void construct(Config &config, const std::string &head);
 			void onRender(float x, float y);
 			void setScale(float scale);
+			void setAlign(sora::SoraFont::Alignment style) {this->style = style;}
 		};
 
 		class Title : public Text
@@ -398,14 +423,14 @@ namespace divacore
 		{
 			friend class MultiPlayer;
 
-		protected:
+		public:
 			static const int MAX_TEAM = 8;
 			static const uint32 TEAM_COLOR[MAX_TEAM];
-
+		protected:
 			Point size;
-			Text *info;
+			Text *info, *appendInfo;
 			Point position;
-			std::string name;
+			Base::String name,append;
 			int score,combo;
 			float hp,dangerRatio;
 			Image *icon, *background, *focus;
@@ -413,7 +438,8 @@ namespace divacore
 			Spark *dangerSpark;
 		protected:
 			Player():icon(NULL) {}
-			void setName(std::string name) {this->name = name;}
+			void setName(Base::String name) {this->name = name;}
+			void setAppend(Base::String append) {this->append = append;}
 			void setInfo(int score, int combo, float hp) {this->score=score,this->combo=combo,this->hp=hp;}
 			void setFocus(bool bFocus) {if(focus)focus->setVisible(bFocus);}
 		public:
@@ -461,11 +487,19 @@ namespace divacore
 			ConfigPtr config;
 			std::string head;
 			Point position;
-			NumberBar *evalNumber[EvaluateStrategy::EVAL_NUM],*scoreNumber,*goldNumber,*expNumber;
+			NumberBar *evalNumber[EvaluateStrategy::EVAL_NUM],*scoreNumber,*goldNumber,*expNumber,*comboNumber;
+			Rect levelTexRect[MAX_LEVEL];
+			Text *info;
+			Image *background, *level, *result;
+			std::vector<Rect> resultTexRect, resultDesRect;
+
 			int evalCnt[EvaluateStrategy::EVAL_NUM],nowCnt[EvaluateStrategy::EVAL_NUM];
 			int score,nowScore;
+			int maxCombo, nowCombo;
+			int maxCTLevel;
 			int gold, nowGold;
 			int exp, nowExp;
+			bool bNumberUp;
 		protected:
 			void updateNumber(int &source, int dest);
 		public:
@@ -474,7 +508,10 @@ namespace divacore
 			void onInitialize();
 			void onUpdate(float dt);
 			void onRender(float x, float y);
-			void setInfo(int score, int eval[]);
+			void setInfo(EvalData &data);
+			void setTeamColor(int teamIndex);
+			bool isNumberUp() {return bNumberUp;}
+			void evalResult(EvalData &data);
 		};
 
 		class Button : public Image

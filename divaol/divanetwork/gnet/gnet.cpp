@@ -194,6 +194,9 @@ namespace gnet
 				case 'd':
 					*tuple += (int32)va_arg(ArgPtr,int32);
 					break;
+				case 'D':
+					*tuple += (int64)va_arg(ArgPtr,int64);
+					break;
 				case 's':
 					*tuple += (Binary)va_arg(ArgPtr,char*);
 					break;
@@ -347,11 +350,17 @@ namespace gnet
 	}
 	std::string ItemUtility::getString(ItemBase *item)
 	{
-		if(item->getType()==GNET_TYPE_BINARY)
+		if(item==NULL)
+			return "";
+		else if(item->getType()==GNET_TYPE_BINARY)
 			return ((Item<Binary>*)item)->getData();
 		else if(item->getType()==GNET_TYPE_ATOM)
 			return ((Item<Binary>*)item)->getData();
+<<<<<<< HEAD
 		else if(item->getType()==GNET_TYPE_UINT_8) {
+=======
+		else if(item->getType()==GNET_TYPE_UINT_8||item->getType()==GNET_TYPE_INT_8) {
+>>>>>>> 8fac03783867a4916e28db1e466348ee4dc2cf87
 			std::string ret;
 			ret += (char)((Item<uint8>*)item)->getData();
 			return ret;
@@ -368,8 +377,24 @@ namespace gnet
 	}
 	std::wstring ItemUtility::getWString(ItemBase *item)
 	{
-		if(item->getType()==GNET_TYPE_BINARY)
+		if(item==NULL)
+			return L"";
+		else if(item->getType()==GNET_TYPE_BINARY)
 			return BytesTo<std::wstring>(((Item<Binary>*)item)->getRaw());
+		else if(item->getType()==GNET_TYPE_ATOM)
+			return Base::String(((Item<Binary>*)item)->getData());
+		else if(item->getType()==GNET_TYPE_UINT_8||item->getType()==GNET_TYPE_INT_8) {
+			std::string ret;
+			ret += (char)((Item<uint8>*)item)->getData();
+			return Base::String(ret);
+		}
+		else if(item->getType()==GNET_TYPE_LIST) {
+			Item<List> *list = item->as<Item<List>>();
+			std::wstring ret = L"";
+			for(int i = 0; i < list->size(); i++)
+				ret += getWString(list->getItem(i));
+			return ret;
+		}
 		else
 			return L"";
 	}

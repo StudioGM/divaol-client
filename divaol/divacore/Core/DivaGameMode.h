@@ -55,11 +55,13 @@ namespace divacore
 
 		//Game Mode's Name
 		virtual std::string getName() = 0;
+		virtual std::string getNetGameMode() = 0;
 
 		//Start About
 		virtual void preStart() {}
 		virtual void afterStart() {}
-
+		virtual void noteOver() {}
+	
 		//Evaluate About
 		virtual void preEvaluate() {}
 		virtual void afterEvaluate() {} 
@@ -92,6 +94,7 @@ namespace divacore
 		virtual void render() {}
 		
 		//key event
+		virtual void onKeyDown(KeyEvent& event) {}
 		virtual void onKeyPressed(KeyEvent& event) {}
 		virtual void onKeyReleased(KeyEvent& event) {}
 	};

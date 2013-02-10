@@ -1,0 +1,5 @@
+{
+	"pressAnyKey" : "res/se/button.mp3",
+	"clickButton" : "res/se/button.mp3",
+	"gameStart" : "res/se/start.mp3"
+}

@@ -39,6 +39,9 @@ namespace divacore
 		virtual void update(float dt) {}
 		virtual void render() {}
 
+		virtual float getHookScoreBonus() {return 0;}
+		virtual float getHookScoreScale() {return 1;}
+		virtual float getHookFinalScale() {return (1+getHookScoreBonus()) * getHookScoreScale();}
 		virtual HookPtr createHook(const std::string &hookName) {return NULL;}
 	};
 

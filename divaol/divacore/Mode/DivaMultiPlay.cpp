@@ -9,6 +9,12 @@
 #include "DivaMultiPlay.h"
 #include "Component/DivaCommonEvaluateStrategy.h"
 #include "divanetwork/DivaNetworkManager.h"
+<<<<<<< HEAD
+=======
+#include "Hook/DivaCTMode.h"
+#include "Utility/DivaSettings.h"
+#include "Utility/DivaRankResult.h"
+>>>>>>> 8fac03783867a4916e28db1e466348ee4dc2cf87
 
 namespace divacore
 {
@@ -29,7 +35,8 @@ namespace divacore
 	}
 	void NetGameInfo::updateInfoFromPacket(GPacket *packet)
 	{
-		gnet::Item<gnet::List> *list = dynamic_cast<gnet::Item<gnet::List>*>(packet->getItem(2));
+		gnet::Item<gnet::Tuple> *tuple = dynamic_cast<gnet::Item<gnet::Tuple>*>(packet->getItem(2));
+		gnet::Item<gnet::List> *list = dynamic_cast<gnet::Item<gnet::List>*>(tuple->getItem(0));
 
 		for(int i = 0; i < mPlayers.size(); i++)
 			if(i!=myPlayerID)
@@ -38,8 +45,16 @@ namespace divacore
 				mPlayers[i].score = gnet::ItemUtility::getUInt(player->getItem(1));
 				mPlayers[i].combo = gnet::ItemUtility::getUInt(player->getItem(2));
 				mPlayers[i].hp = gnet::ItemUtility::getValue(player->getItem(3));
+				mPlayers[i].status = gnet::ItemUtility::getString(player->getItem(4));
 			}
-			updateTeamInfo();
+		list = dynamic_cast<gnet::Item<gnet::List>*>(tuple->getItem(1));
+
+		for(int i = 0; i < mTeams.size(); i++)
+		{
+			mTeams[i].nowPlayer = list->getItem(i)->getInt()-1;
+		}
+
+		updateTeamInfo();
 	}
 	void NetGameInfo::updateTeamInfo()
 	{
@@ -86,8 +101,10 @@ namespace divacore
 	void MultiPlay::init() 
 	{
 		//debug info
+#ifdef _DEBUG
 		mText.setColor(CARGB(255,255,0,0));
-		mText.setFont(sora::SoraFont::LoadFromFile("simhei.ttf", 50));
+		mText.setFont(sora::SoraFont::LoadFromFile(SETTINGS.getGlobalFontName().asUnicode(), 50));
+#endif
 	}
 
 	void MultiPlay::registerNetworkEvent() {
@@ -103,7 +120,12 @@ namespace divacore
 			mInfo->setOwner(this);
 		}
 
-		setBaseState(CONNECT);
+		setBaseState(CONNECTING);
+	}
+
+	void MultiPlay::gameReset() {
+
+		SinglePlay::gameReset();
 	}
 
 	void MultiPlay::gameReset() {
@@ -116,18 +138,56 @@ namespace divacore
 		SAFE_DELETE(mInfo);
 
 		STAGE_CLIENT.back();
+<<<<<<< HEAD
+=======
+	}
+	void MultiPlay::noteOver() {
+		if (isOver)
+			return;
+
+		SinglePlay::noteOver();
+
+		sendInfo();
+
+		//GNET_UNRECEIVE_PACKET("stage#join_failed");
+		//GNET_UNRECEIVE_PACKET("stage#join_ok");
+		
+		GPacket *packet = new GPacket();
+		*packet += (gnet::Atom)"game";
+		*packet += (gnet::Atom)"overR";
+		*packet += (int8)CORE_FLOW_PTR->isNoteOver();
+		GPacket *addData = new GPacket();
+		*addData += maxCombo;
+		*addData += maxCTLevel;
+
+		*addData += (int)DivaRankResult::GetRankResult(CORE_FLOW_PTR->isNoteOver(), getHP(), maxCTLevel, maxCombo, EVALUATE_STRATEGY_PTR->getResult().myCntEval[0], 
+																					   EVALUATE_STRATEGY_PTR->getResult().myCntEval[1],
+																					   EVALUATE_STRATEGY_PTR->getResult().myCntEval[2],
+																					   EVALUATE_STRATEGY_PTR->getResult().myCntEval[3],
+																					   EVALUATE_STRATEGY_PTR->getResult().myCntEval[4]);
+		
+		packet->appendItem(addData);
+
+		NETWORK_SYSTEM_PTR->send(packet);
+>>>>>>> 8fac03783867a4916e28db1e466348ee4dc2cf87
 	}
 	void MultiPlay::gameOver()
 	{
+		SinglePlay::gameOver();
+
 		sendInfo();
 
 		GNET_UNRECEIVE_PACKET("game#membersinfoL");
 		GNET_UNRECEIVE_PACKET("game#playerupdateL");
 		GNET_UNRECEIVE_PACKET("game#start_failed");
+<<<<<<< HEAD
 		//GNET_UNRECEIVE_PACKET("stage#join_failed");
 		//GNET_UNRECEIVE_PACKET("stage#join_ok");
 
 		NETWORK_SYSTEM_PTR->send("game#overR");
+=======
+		//NETWORK_SYSTEM_PTR->send("game#overR","%b%d",CORE_FLOW_PTR->isSongOver(),maxCombo);
+>>>>>>> 8fac03783867a4916e28db1e466348ee4dc2cf87
 	}
 	void MultiPlay::setMyInfo(Config &config)
 	{
@@ -147,8 +207,9 @@ namespace divacore
 			{
 				//if(event.breakCombo||event.breakNote)
 				//	sendFailure(event);
-				NETWORK_SYSTEM_PTR->send("game#evalR",
-					"%d%d",event.note->getID(), event.rank);
+				if (getAlive())
+					NETWORK_SYSTEM_PTR->send("game#evalR",
+						"%d%d",event.note->getID(), event.rank);
 			}
 		}
 	}
@@ -165,13 +226,21 @@ namespace divacore
 
 		//NETWORK_SYSTEM_PTR->send("stage#ready");
 
+<<<<<<< HEAD
 		while(getBaseState()==CONNECT)
+=======
+		while(getBaseState() != READY && getBaseState() != FAILED)
+>>>>>>> 8fac03783867a4916e28db1e466348ee4dc2cf87
 		{
 			NETWORK_SYSTEM_PTR->waitForNext();
 
 			NETWORK_SYSTEM_PTR->refresh();
 		}
+		//while(getBaseState()==CONNECTING)
+		//{
+		//	NETWORK_SYSTEM_PTR->waitForNext();
 
+<<<<<<< HEAD
 		if(getBaseState()!=GET_INFO&&getBaseState()!=READY)
 		{
 			setBaseState(FAILED);
@@ -181,9 +250,28 @@ namespace divacore
 		while(getBaseState()!=READY&&getBaseState()!=FAILED)
 		{
 			NETWORK_SYSTEM_PTR->waitForNext();
+=======
+		//	NETWORK_SYSTEM_PTR->refresh();
+		//}
 
-			NETWORK_SYSTEM_PTR->refresh();
-		}
+		//if(getBaseState()!=GET_INFO&&getBaseState()!=READY)
+		//{
+		//	setBaseState(FAILED);
+		//	//NETWORK_SYSTEM_setBaseState(FAILED);	return;
+		//}
+>>>>>>> 8fac03783867a4916e28db1e466348ee4dc2cf87
+
+		//while(getBaseState()!=READY&&getBaseState()!=FAILED)
+		//{
+		//	NETWORK_SYSTEM_PTR->waitForNext();
+
+		//	NETWORK_SYSTEM_PTR->refresh();
+		//}
+
+		//if(getBaseState()==FAILED)
+		//{
+		//	return;
+		//}
 
 		if(getBaseState()==FAILED)
 		{
@@ -235,8 +323,10 @@ namespace divacore
 	void MultiPlay::gnetPlayerUpdate(GPacket *packet)
 	{
 		mInfo->updateInfoFromPacket(packet);
+		afterUpdateInfo();
 	}
 
+	// abandon
 	void MultiPlay::gnetJoinFailed(GPacket *packet)
 	{
 		setBaseState(FAILURE);
@@ -279,11 +369,29 @@ namespace divacore
 	{
 		EVALUATE_STRATEGY_PTR->getResult().myScore = getScore();
 		EVALUATE_STRATEGY_PTR->getResult().myID = getPlayerID();
+		EVALUATE_STRATEGY_PTR->getResult().myMaxCombo = getMaxCombo();
+		EVALUATE_STRATEGY_PTR->getResult().myMaxCTLevel = getMaxCTLevel();
+		EVALUATE_STRATEGY_PTR->getResult().myHp = getHPinRatio();
+		EVALUATE_STRATEGY_PTR->getResult().myIsOver = (bool)CORE_FLOW_PTR->isNoteOver();
 
 		PLAYERS &players = getPlayerInfo();
 
 		for(int i = 0; i < players.size(); i++)
+<<<<<<< HEAD
 			EVALUATE_STRATEGY_PTR->getResult().evalData.push_back(EvalData(players[i].uid, players[i].score, i));
+=======
+			EVALUATE_STRATEGY_PTR->getResult().evalData.push_back(EvalData(players[i].uid, players[i].score, 0, 0, 0, false, players[i].teamIndex, STAGE_CLIENT.waiterInfo(players[i].uid).nickname));
+>>>>>>> 8fac03783867a4916e28db1e466348ee4dc2cf87
 		//((CommonEvaluateStrategy*)EVALUATE_STRATEGY_PTR)->addMultiEvalUI();
+	}
+
+	PlayerInfo* MultiPlay::getSpecificPlayerInfo(const std::string uid)
+	{
+		if(mInfo==NULL)
+			return NULL;
+		for(int i = 0; i < mInfo->mPlayers.size(); i++)
+			if(mInfo->mPlayers[i].uid == uid)
+				return &mInfo->mPlayers[i];
+		return NULL;
 	}
 }

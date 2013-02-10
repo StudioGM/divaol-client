@@ -1,80 +1,102 @@
-//#define NET
-//#define EDIT
 
 #include <winsock2.h>
 
-#include "SoraPlatform.h"
+#include "SoraCore.h"
+
+#include "SoraWindowInfo.h"
+#include "SoraFont.h"
+
+#include "SoraDirectoryIterator.h"
+#include "SoraFileUtility.h"
+#include "SoraFont.h"
+#include "SoraText.h"
 
 #include "app/SoraGameApp.h"
-#include "Utility/DivaInitialize.h"
+#include "app/SoraGameState.h"
+
+#include "SoraResourceFile.h"
+
+#include "SoraFMODSoundSystem.h"
+#include "cmd/SoraConsole.h"
+#include "ui/Config/DivaUIConfig.h"
+#include "ui/UI/House/HouseGameState.h"
+#include "ui/UI/Stage/StageGameState.h"
+#include "ui/UI/Music/MusicGameState.h"
+#include "ui/UI/TitleScreen/TitleGameState.h"
+#include "ui/UI/Init/InitGameState.h"
+
+#include "divanetwork/DivaNetworkManager.h"
+#include "divanetwork/DivaGNetTCPSystem.h"
+#include "divacore/Utility/DivaInitialize.h"
+#include "divacore/Utility/DivaSettings.h"
+#include "Utility/DivaVersion.h"
+
+using namespace diva;
+
+
 
 #pragma comment(linker, "/NODEFAULTLIB:libcmt.lib")
 #pragma comment(linker, "/NODEFAULTLIB:libcmtd.lib")
 
-/////////////////////
-#include "divasongmgr/DivaMapManager.h"
-#include "divanetwork/DivaNetworkManager.h"
-#include "divanetwork/DivaGNetTCPSystem.h"
-/////////////////////
-
-#ifdef OS_WIN32
 int CALLBACK WinMain(
 	HINSTANCE hInstance,
 	HINSTANCE hPrevInstance,
 	LPSTR lpCmdLine,
-  int nCmdShow
-) {
-#else
-    int main(int argc, const char** argv) {
-        
-#endif
-		///////////////////////////////
+	int nCmdShow
+	) {
+		diva::initialize_config(L"config/SettingConfig.json", L"config/config.json", L"config/sound.json");
+		//std::wstring ss = config[L"sdf"].asString();
+		// initialize settings
+
+#ifdef DIVA_GNET_OPEN
+		NET_INFO.getServerInfo();
+		divanet::NetworkManager::instance().init();
+		//divanet::NetworkManager::instance().setScheduler(new divanet::TCPGNetworkSystem);
+		//divanet::NetworkManager::instance().setCore(new divanet::TCPGNetworkSystem);
 		AUTH_CLIENT.setNetworkSystem(new divanet::TCPGNetworkSystem);
 		CHAT_CLIENT.setNetworkSystem(new divanet::TCPGNetworkSystem);
 		SCHEDULER_CLIENT.setNetworkSystem(new divanet::TCPGNetworkSystem);
 		STAGE_CLIENT.setNetworkSystem(new divanet::TCPGNetworkSystem);
-		///////////////////////////////
 
-	try
-	{
+		Base::Random::SetRandomSeed((uint32)time(0));
 		sora::SoraCore::SetRandomSeed((uint32)time(0));
 
-		divacore::standard::Initializer initializer("system",divacore::standard::Initializer::SINGLE, true);
-		divacore::CorePtr core = initializer.get();
+		divacore::standard::Initializer initializer("config",divacore::standard::Initializer::SINGLE, true);
+		divacore::CorePtr core = initializer.get(setConfig[L"gameWidth"].asInt(), setConfig[L"gameHeight"].asInt());
 
-		divacore::Config config;
-		divacore::configloader::loadWithJson(config,"system/common.json");
-		core->setSong(config.getAsWString("song"),config.getAsWString("map"));
+		MY_PLAYER_INFO.loadFromFile(Base::String(config[L"tmpInfoFile"].asString()));
+		// only need these for core solo
+		//divacore::Config core_config;
+		//divacore::configloader::loadWithJson(core_config,"system/common.json");
+		//core->setSong(core_config.getAsWString("song"),core_config.getAsWString("map"));
+#endif
 
-		core->myPlayerInfo().loadFromFile("system/playerInfo.json");
+		divacore::Settings::instance().InitializeSettings(setConfig, config);
 
-		sora::SoraGameAppDef def;
+		sora::SoraGameAppDef def("config.xml");
+		def.icon("divaol.ico");
+		def.title("Diva Online");
+		def.windowMode(setConfig[L"isWindowMode"].asBool());
+		def.width(setConfig[L"windowWidth"].asInt());
+		def.height(setConfig[L"windowHeight"].asInt());
 		sora::SoraGameApp app(def);
+
+		sora::SoraCore::Instance()->registerSoundSystem(new sora::SoraFMODSoundSystem());
+
+		app.addState(new InitGameState, "init");
+		app.addState(new TitleGameState, "title");
+		app.addState(new diva::HouseUI::HouseGameState(), "house");
+		app.addState(new diva::StageUI::StageGameState(), "stage");
+		app.addState(new diva::MusicUI::MusicGameState(), "music");
+
+#ifdef DIVA_GNET_OPEN
 		app.addState(core, "core");
-        
-        sora::SoraCore::Instance()->setSystemFont(sora::SoraFont::LoadFromFile("simhei.ttf", 20));
+#endif
 
-		def.width(config.getAsInt("windowWidth"));
-		def.height(config.getAsInt("windowHeight"));
+		sora::SoraConsole::Destroy();
 
-		app.run("core");
+		app.run("init");
+		
 
-		//sora::SoraTaskManager::defaultManager(true).joinAll();
-	}
-	catch (divacore::Exception&ev)
-	{
-		LOGGER->error(ev);
-		MessageBox(
-			NULL,
-			sora::s2ws(ev.getContent()).c_str(),
-			sora::s2ws(ev.getModuleName()).c_str(),
-			MB_ICONERROR | MB_DEFBUTTON2
-			);
-        //sora::SoraCore::Instance()->messageBox(ev.getContent(), ev.getModuleName(), 0);
-	}
-
-	//ExitProcess(0);
-
-	return 0;
-
+		return 0;
 }

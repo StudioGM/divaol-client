@@ -4,5 +4,5 @@
 	"ui" : "__default__",
 	"render" : "__default__",
 	"effect" : "__default__",
-	"hook" : ["CTMode","AutoMode"]
+	"hook" : ["CTMode"]
 }
