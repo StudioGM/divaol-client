@@ -7,6 +7,45 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8867D1D916C787200013A136 /* DivaJsonGameModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D15C16C787200013A136 /* DivaJsonGameModule.cpp */; };
+		8867D1DA16C787200013A136 /* DivaMapJsonLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D15E16C787200013A136 /* DivaMapJsonLoader.cpp */; };
+		8867D1DB16C787200013A136 /* DivaMapStandardParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D16016C787200013A136 /* DivaMapStandardParser.cpp */; };
+		8867D1DC16C787200013A136 /* DivaSimpleUIPainter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D16316C787200013A136 /* DivaSimpleUIPainter.cpp */; };
+		8867D1DD16C787200013A136 /* DivaSocketNetworkSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D16516C787200013A136 /* DivaSocketNetworkSystem.cpp */; };
+		8867D1DE16C787200013A136 /* DivaStandardCoreFlow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D16716C787200013A136 /* DivaStandardCoreFlow.cpp */; };
+		8867D1DF16C787200013A136 /* DivaStandardDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D16916C787200013A136 /* DivaStandardDisplay.cpp */; };
+		8867D1E016C787200013A136 /* DivaStandardFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D16B16C787200013A136 /* DivaStandardFactory.cpp */; };
+		8867D1E116C787200013A136 /* DivaStandardInputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D16D16C787200013A136 /* DivaStandardInputManager.cpp */; };
+		8867D1E216C787200013A136 /* DivaConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D17316C787200013A136 /* DivaConfig.cpp */; };
+		8867D1E316C787200013A136 /* DivaCore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D17616C787200013A136 /* DivaCore.cpp */; };
+		8867D1E416C787200013A136 /* DivaCoreState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D17916C787200013A136 /* DivaCoreState.cpp */; };
+		8867D1E516C787200013A136 /* DivaDefault.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D17B16C787200013A136 /* DivaDefault.cpp */; };
+		8867D1E616C787200013A136 /* DivaGameMode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D18316C787200013A136 /* DivaGameMode.cpp */; };
+		8867D1E716C787200013A136 /* DivaMapLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D18C16C787200013A136 /* DivaMapLoader.cpp */; };
+		8867D1E816C787200013A136 /* DivaStringUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D19416C787200013A136 /* DivaStringUtil.cpp */; };
+		8867D1E916C787200013A136 /* DivaMultiPlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D1A816C787200013A136 /* DivaMultiPlay.cpp */; };
+		8867D1EA16C787200013A136 /* DivaSinglePlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D1AD16C787200013A136 /* DivaSinglePlay.cpp */; };
+		8867D1EB16C787200013A136 /* bass.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8867D1B216C787200013A136 /* bass.lib */; };
+		8867D1EC16C787200013A136 /* DivaBassMusicManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D1B416C787200013A136 /* DivaBassMusicManager.cpp */; };
+		8867D1ED16C787200013A136 /* DivaFmodMusicManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D1B616C787200013A136 /* DivaFmodMusicManager.cpp */; };
+		8867D1EE16C787200013A136 /* DivaLongNote.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D1BD16C787200013A136 /* DivaLongNote.cpp */; };
+		8867D1EF16C787200013A136 /* DivaNormalNote.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D1BF16C787200013A136 /* DivaNormalNote.cpp */; };
+		8867D1F016C787200013A136 /* DivaPingpongNote.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D1C116C787200013A136 /* DivaPingpongNote.cpp */; };
+		8867D1F116C787200013A136 /* DivaCorePlayState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D1C616C787200013A136 /* DivaCorePlayState.cpp */; };
+		8867D1F216C787200013A136 /* DivaTimeCounterImplWin32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D1CD16C787200013A136 /* DivaTimeCounterImplWin32.cpp */; };
+		8867D1F316C787200013A136 /* DivaConfigLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D1D116C787200013A136 /* DivaConfigLoader.cpp */; };
+		8867D1F416C787200013A136 /* DivaSimpleUI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D1D716C787200013A136 /* DivaSimpleUI.cpp */; };
+		8867D24616C787310013A136 /* FileUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D20116C787310013A136 /* FileUtil.cpp */; };
+		8867D24716C787310013A136 /* Path.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D20516C787310013A136 /* Path.cpp */; };
+		8867D24816C787310013A136 /* Stream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D20716C787310013A136 /* Stream.cpp */; };
+		8867D24916C787310013A136 /* Logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D20916C787310013A136 /* Logger.cpp */; };
+		8867D24A16C787310013A136 /* Math.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D20B16C787310013A136 /* Math.cpp */; };
+		8867D24B16C787310013A136 /* Random.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D21416C787310013A136 /* Random.cpp */; };
+		8867D24C16C787310013A136 /* String.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D21716C787310013A136 /* String.cpp */; };
+		8867D24D16C787310013A136 /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D22416C787310013A136 /* Timer.cpp */; };
+		8867D24E16C787310013A136 /* wjson_reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D23F16C787310013A136 /* wjson_reader.cpp */; };
+		8867D24F16C787310013A136 /* wjson_value.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D24016C787310013A136 /* wjson_value.cpp */; };
+		8867D25016C787310013A136 /* wjson_writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8867D24216C787310013A136 /* wjson_writer.cpp */; };
 		886BE9B715C648E6005CFA52 /* osx_libglfw_i386.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = 886BE9B515C648E6005CFA52 /* osx_libglfw_i386.lib */; };
 		886BE9B815C648E6005CFA52 /* osx_libglfw_x86_64.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = 886BE9B615C648E6005CFA52 /* osx_libglfw_x86_64.lib */; };
 		886BE9BB15C64D35005CFA52 /* libvlc.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 886BE9B915C64D35005CFA52 /* libvlc.5.dylib */; };
@@ -17,7 +56,6 @@
 		887EE99515C6291F00B50941 /* libfreetype.6.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 88892DBD15C55CF000B25415 /* libfreetype.6.dylib */; };
 		887EE99B15C62A0000B50941 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 887EE99A15C62A0000B50941 /* main.cpp */; };
 		887EEA4815C6374D00B50941 /* osx_libfreetype_i386.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = 887EEA4715C6374D00B50941 /* osx_libfreetype_i386.lib */; };
-		887EEA4C15C639ED00B50941 /* libenet_x86.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 887EEA4B15C639ED00B50941 /* libenet_x86.a */; };
 		88892D4015C55CDC00B25415 /* divaol_osx.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 88892D3F15C55CDC00B25415 /* divaol_osx.1 */; };
 		888930A415C55CF100B25415 /* libfmodex.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 88892D6115C55CF000B25415 /* libfmodex.dylib */; };
 		888930A715C55CF100B25415 /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 88892DBD15C55CF000B25415 /* libfreetype.6.dylib */; };
@@ -188,31 +226,6 @@
 		8889318615C55D0C00B25415 /* SoraOGLRenderBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8889317315C55D0C00B25415 /* SoraOGLRenderBuffer.cpp */; };
 		8889318715C55D0C00B25415 /* SoraOGLRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8889317515C55D0C00B25415 /* SoraOGLRenderer.cpp */; };
 		8889318815C55D0C00B25415 /* SoraOGLRenderTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8889317715C55D0C00B25415 /* SoraOGLRenderTarget.cpp */; };
-		8889321215C55F8D00B25415 /* DivaJsonGameModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8889318D15C55F8C00B25415 /* DivaJsonGameModule.cpp */; };
-		8889321315C55F8D00B25415 /* DivaMapJsonLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8889318F15C55F8C00B25415 /* DivaMapJsonLoader.cpp */; };
-		8889321415C55F8D00B25415 /* DivaMapStandardParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8889319115C55F8C00B25415 /* DivaMapStandardParser.cpp */; };
-		8889321515C55F8D00B25415 /* DivaSimpleUIPainter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8889319415C55F8C00B25415 /* DivaSimpleUIPainter.cpp */; };
-		8889321615C55F8D00B25415 /* DivaSocketNetworkSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8889319615C55F8C00B25415 /* DivaSocketNetworkSystem.cpp */; };
-		8889321715C55F8D00B25415 /* DivaStandardCoreFlow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8889319815C55F8C00B25415 /* DivaStandardCoreFlow.cpp */; };
-		8889321815C55F8D00B25415 /* DivaStandardDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8889319A15C55F8C00B25415 /* DivaStandardDisplay.cpp */; };
-		8889321915C55F8D00B25415 /* DivaStandardFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8889319C15C55F8C00B25415 /* DivaStandardFactory.cpp */; };
-		8889321A15C55F8D00B25415 /* DivaStandardInputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8889319E15C55F8C00B25415 /* DivaStandardInputManager.cpp */; };
-		8889321B15C55F8D00B25415 /* DivaConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 888931A415C55F8C00B25415 /* DivaConfig.cpp */; };
-		8889321C15C55F8D00B25415 /* DivaCore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 888931A715C55F8C00B25415 /* DivaCore.cpp */; };
-		8889321D15C55F8D00B25415 /* DivaCoreState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 888931AA15C55F8C00B25415 /* DivaCoreState.cpp */; };
-		8889321E15C55F8D00B25415 /* DivaDefault.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 888931AC15C55F8C00B25415 /* DivaDefault.cpp */; };
-		8889321F15C55F8D00B25415 /* DivaGameMode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 888931B415C55F8C00B25415 /* DivaGameMode.cpp */; };
-		8889322015C55F8D00B25415 /* DivaMapLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 888931BD15C55F8C00B25415 /* DivaMapLoader.cpp */; };
-		8889322115C55F8D00B25415 /* DivaStringUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 888931C415C55F8C00B25415 /* DivaStringUtil.cpp */; };
-		8889322215C55F8D00B25415 /* DivaMultiPlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 888931D015C55F8C00B25415 /* DivaMultiPlay.cpp */; };
-		8889322315C55F8D00B25415 /* DivaSinglePlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 888931D515C55F8C00B25415 /* DivaSinglePlay.cpp */; };
-		8889322615C55F8D00B25415 /* DivaFmodMusicManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 888931DE15C55F8C00B25415 /* DivaFmodMusicManager.cpp */; };
-		8889322715C55F8D00B25415 /* DivaLongNote.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 888931F815C55F8C00B25415 /* DivaLongNote.cpp */; };
-		8889322815C55F8D00B25415 /* DivaNormalNote.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 888931FA15C55F8C00B25415 /* DivaNormalNote.cpp */; };
-		8889322915C55F8D00B25415 /* DivaPingpongNote.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 888931FC15C55F8C00B25415 /* DivaPingpongNote.cpp */; };
-		8889322A15C55F8D00B25415 /* DivaCorePlayState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8889320115C55F8C00B25415 /* DivaCorePlayState.cpp */; };
-		8889322C15C55F8D00B25415 /* DivaConfigLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8889320A15C55F8C00B25415 /* DivaConfigLoader.cpp */; };
-		8889322D15C55F8D00B25415 /* DivaSimpleUI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8889321015C55F8C00B25415 /* DivaSimpleUI.cpp */; };
 		8889322F15C564F200B25415 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8889322E15C564F200B25415 /* OpenGL.framework */; };
 		8889323315C565CC00B25415 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8889323215C565CC00B25415 /* Cocoa.framework */; };
 		8889323515C566D400B25415 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8889323415C566D300B25415 /* Foundation.framework */; };
@@ -245,6 +258,196 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8867D15A16C787200013A136 /* DivaCommonEvaluateStrategy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaCommonEvaluateStrategy.h; sourceTree = "<group>"; };
+		8867D15B16C787200013A136 /* DivaHDEffectSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaHDEffectSystem.h; sourceTree = "<group>"; };
+		8867D15C16C787200013A136 /* DivaJsonGameModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaJsonGameModule.cpp; sourceTree = "<group>"; };
+		8867D15D16C787200013A136 /* DivaJsonGameModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaJsonGameModule.h; sourceTree = "<group>"; };
+		8867D15E16C787200013A136 /* DivaMapJsonLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaMapJsonLoader.cpp; sourceTree = "<group>"; };
+		8867D15F16C787200013A136 /* DivaMapJsonLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaMapJsonLoader.h; sourceTree = "<group>"; };
+		8867D16016C787200013A136 /* DivaMapStandardParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaMapStandardParser.cpp; sourceTree = "<group>"; };
+		8867D16116C787200013A136 /* DivaMapStandardParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaMapStandardParser.h; sourceTree = "<group>"; };
+		8867D16216C787200013A136 /* DivaSimpleHookManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaSimpleHookManager.h; sourceTree = "<group>"; };
+		8867D16316C787200013A136 /* DivaSimpleUIPainter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaSimpleUIPainter.cpp; sourceTree = "<group>"; };
+		8867D16416C787200013A136 /* DivaSimpleUIPainter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaSimpleUIPainter.h; sourceTree = "<group>"; };
+		8867D16516C787200013A136 /* DivaSocketNetworkSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaSocketNetworkSystem.cpp; sourceTree = "<group>"; };
+		8867D16616C787200013A136 /* DivaSocketNetworkSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaSocketNetworkSystem.h; sourceTree = "<group>"; };
+		8867D16716C787200013A136 /* DivaStandardCoreFlow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaStandardCoreFlow.cpp; sourceTree = "<group>"; };
+		8867D16816C787200013A136 /* DivaStandardCoreFlow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaStandardCoreFlow.h; sourceTree = "<group>"; };
+		8867D16916C787200013A136 /* DivaStandardDisplay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaStandardDisplay.cpp; sourceTree = "<group>"; };
+		8867D16A16C787200013A136 /* DivaStandardDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaStandardDisplay.h; sourceTree = "<group>"; };
+		8867D16B16C787200013A136 /* DivaStandardFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaStandardFactory.cpp; sourceTree = "<group>"; };
+		8867D16C16C787200013A136 /* DivaStandardFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaStandardFactory.h; sourceTree = "<group>"; };
+		8867D16D16C787200013A136 /* DivaStandardInputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaStandardInputManager.cpp; sourceTree = "<group>"; };
+		8867D16E16C787200013A136 /* DivaStandardInputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaStandardInputManager.h; sourceTree = "<group>"; };
+		8867D16F16C787200013A136 /* DivaStandardRenderSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaStandardRenderSystem.h; sourceTree = "<group>"; };
+		8867D17116C787200013A136 /* DivaArgument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaArgument.h; sourceTree = "<group>"; };
+		8867D17216C787200013A136 /* DivaCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaCommon.h; sourceTree = "<group>"; };
+		8867D17316C787200013A136 /* DivaConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaConfig.cpp; sourceTree = "<group>"; };
+		8867D17416C787200013A136 /* DivaConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaConfig.h; sourceTree = "<group>"; };
+		8867D17516C787200013A136 /* DivaConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaConstant.h; sourceTree = "<group>"; };
+		8867D17616C787200013A136 /* DivaCore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaCore.cpp; sourceTree = "<group>"; };
+		8867D17716C787200013A136 /* DivaCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaCore.h; sourceTree = "<group>"; };
+		8867D17816C787200013A136 /* DivaCoreFlow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaCoreFlow.h; sourceTree = "<group>"; };
+		8867D17916C787200013A136 /* DivaCoreState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaCoreState.cpp; sourceTree = "<group>"; };
+		8867D17A16C787200013A136 /* DivaCoreState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaCoreState.h; sourceTree = "<group>"; };
+		8867D17B16C787200013A136 /* DivaDefault.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaDefault.cpp; sourceTree = "<group>"; };
+		8867D17C16C787200013A136 /* DivaDefault.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaDefault.h; sourceTree = "<group>"; };
+		8867D17D16C787200013A136 /* DivaDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaDisplay.h; sourceTree = "<group>"; };
+		8867D17E16C787200013A136 /* DivaEffectSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaEffectSystem.h; sourceTree = "<group>"; };
+		8867D17F16C787200013A136 /* DivaEvaluateStrategy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaEvaluateStrategy.h; sourceTree = "<group>"; };
+		8867D18016C787200013A136 /* DivaEventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaEventManager.h; sourceTree = "<group>"; };
+		8867D18116C787200013A136 /* DivaException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaException.h; sourceTree = "<group>"; };
+		8867D18216C787200013A136 /* DivaFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaFactory.h; sourceTree = "<group>"; };
+		8867D18316C787200013A136 /* DivaGameMode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaGameMode.cpp; sourceTree = "<group>"; };
+		8867D18416C787200013A136 /* DivaGameMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaGameMode.h; sourceTree = "<group>"; };
+		8867D18516C787200013A136 /* DivaGameModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaGameModule.h; sourceTree = "<group>"; };
+		8867D18616C787200013A136 /* DivaHook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaHook.h; sourceTree = "<group>"; };
+		8867D18716C787200013A136 /* DivaHookManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaHookManager.h; sourceTree = "<group>"; };
+		8867D18816C787200013A136 /* DivaInputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaInputManager.h; sourceTree = "<group>"; };
+		8867D18916C787200013A136 /* DivaKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaKey.h; sourceTree = "<group>"; };
+		8867D18A16C787200013A136 /* DivaLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaLogger.h; sourceTree = "<group>"; };
+		8867D18B16C787200013A136 /* DivaMapInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaMapInfo.h; sourceTree = "<group>"; };
+		8867D18C16C787200013A136 /* DivaMapLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaMapLoader.cpp; sourceTree = "<group>"; };
+		8867D18D16C787200013A136 /* DivaMapLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaMapLoader.h; sourceTree = "<group>"; };
+		8867D18E16C787200013A136 /* DivaMapParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaMapParser.h; sourceTree = "<group>"; };
+		8867D18F16C787200013A136 /* DivaMusicManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaMusicManager.h; sourceTree = "<group>"; };
+		8867D19016C787200013A136 /* DivaNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaNote.h; sourceTree = "<group>"; };
+		8867D19116C787200013A136 /* DivaParticleSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaParticleSystem.h; sourceTree = "<group>"; };
+		8867D19216C787200013A136 /* DivaPlayerInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaPlayerInfo.h; sourceTree = "<group>"; };
+		8867D19316C787200013A136 /* DivaRenderSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaRenderSystem.h; sourceTree = "<group>"; };
+		8867D19416C787200013A136 /* DivaStringUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaStringUtil.cpp; sourceTree = "<group>"; };
+		8867D19516C787200013A136 /* DivaStringUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaStringUtil.h; sourceTree = "<group>"; };
+		8867D19616C787200013A136 /* DivaTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaTask.h; sourceTree = "<group>"; };
+		8867D19716C787200013A136 /* DivaTimeCounter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaTimeCounter.h; sourceTree = "<group>"; };
+		8867D19816C787200013A136 /* DivaUIPainter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaUIPainter.h; sourceTree = "<group>"; };
+		8867D19A16C787200013A136 /* DivaAutoMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaAutoMode.h; sourceTree = "<group>"; };
+		8867D19B16C787200013A136 /* DivaBlackHouseMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaBlackHouseMode.h; sourceTree = "<group>"; };
+		8867D19C16C787200013A136 /* DivaChaosMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaChaosMode.h; sourceTree = "<group>"; };
+		8867D19D16C787200013A136 /* DivaCTMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaCTMode.h; sourceTree = "<group>"; };
+		8867D19E16C787200013A136 /* DivaCTMode.tmp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaCTMode.tmp.h; sourceTree = "<group>"; };
+		8867D19F16C787200013A136 /* DivaDeathMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaDeathMode.h; sourceTree = "<group>"; };
+		8867D1A016C787200013A136 /* DivaDisappearMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaDisappearMode.h; sourceTree = "<group>"; };
+		8867D1A116C787200013A136 /* DivaFastMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaFastMode.h; sourceTree = "<group>"; };
+		8867D1A216C787200013A136 /* DivaNoFailMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaNoFailMode.h; sourceTree = "<group>"; };
+		8867D1A316C787200013A136 /* DivaPVMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaPVMode.h; sourceTree = "<group>"; };
+		8867D1A416C787200013A136 /* DivaRandomSwapMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaRandomSwapMode.h; sourceTree = "<group>"; };
+		8867D1A516C787200013A136 /* DivaSlowMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaSlowMode.h; sourceTree = "<group>"; };
+		8867D1A716C787200013A136 /* DivaEditMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaEditMode.h; sourceTree = "<group>"; };
+		8867D1A816C787200013A136 /* DivaMultiPlay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaMultiPlay.cpp; sourceTree = "<group>"; };
+		8867D1A916C787200013A136 /* DivaMultiplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaMultiplay.h; sourceTree = "<group>"; };
+		8867D1AA16C787200013A136 /* DivaPairPlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaPairPlay.h; sourceTree = "<group>"; };
+		8867D1AB16C787200013A136 /* DivaRelayPlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaRelayPlay.h; sourceTree = "<group>"; };
+		8867D1AC16C787200013A136 /* DivaRelayUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaRelayUI.h; sourceTree = "<group>"; };
+		8867D1AD16C787200013A136 /* DivaSinglePlay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaSinglePlay.cpp; sourceTree = "<group>"; };
+		8867D1AE16C787200013A136 /* DivaSinglePlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaSinglePlay.h; sourceTree = "<group>"; };
+		8867D1B116C787200013A136 /* bass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bass.h; sourceTree = "<group>"; };
+		8867D1B216C787200013A136 /* bass.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = bass.lib; sourceTree = "<group>"; };
+		8867D1B316C787200013A136 /* bass_fx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bass_fx.h; sourceTree = "<group>"; };
+		8867D1B416C787200013A136 /* DivaBassMusicManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaBassMusicManager.cpp; sourceTree = "<group>"; };
+		8867D1B516C787200013A136 /* DivaBassMusicManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaBassMusicManager.h; sourceTree = "<group>"; };
+		8867D1B616C787200013A136 /* DivaFmodMusicManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaFmodMusicManager.cpp; sourceTree = "<group>"; };
+		8867D1B716C787200013A136 /* DivaFmodMusicManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaFmodMusicManager.h; sourceTree = "<group>"; };
+		8867D1B816C787200013A136 /* DivaXAudioMusicManager.cpp.tmp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DivaXAudioMusicManager.cpp.tmp; sourceTree = "<group>"; };
+		8867D1B916C787200013A136 /* DivaXAudioMusicManager.h.tmp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DivaXAudioMusicManager.h.tmp; sourceTree = "<group>"; };
+		8867D1BB16C787200013A136 /* DivaContiNote.cpp.tmp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DivaContiNote.cpp.tmp; sourceTree = "<group>"; };
+		8867D1BC16C787200013A136 /* DivaContiNote.h.tmp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DivaContiNote.h.tmp; sourceTree = "<group>"; };
+		8867D1BD16C787200013A136 /* DivaLongNote.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaLongNote.cpp; sourceTree = "<group>"; };
+		8867D1BE16C787200013A136 /* DivaLongNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaLongNote.h; sourceTree = "<group>"; };
+		8867D1BF16C787200013A136 /* DivaNormalNote.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaNormalNote.cpp; sourceTree = "<group>"; };
+		8867D1C016C787200013A136 /* DivaNormalNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaNormalNote.h; sourceTree = "<group>"; };
+		8867D1C116C787200013A136 /* DivaPingpongNote.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaPingpongNote.cpp; sourceTree = "<group>"; };
+		8867D1C216C787200013A136 /* DivaPingpongNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaPingpongNote.h; sourceTree = "<group>"; };
+		8867D1C416C787200013A136 /* DivaCoreLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaCoreLoader.h; sourceTree = "<group>"; };
+		8867D1C516C787200013A136 /* DivaCorePauseState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaCorePauseState.h; sourceTree = "<group>"; };
+		8867D1C616C787200013A136 /* DivaCorePlayState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaCorePlayState.cpp; sourceTree = "<group>"; };
+		8867D1C716C787200013A136 /* DivaCorePlayState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaCorePlayState.h; sourceTree = "<group>"; };
+		8867D1C816C787200013A136 /* DivaCoreResultState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaCoreResultState.h; sourceTree = "<group>"; };
+		8867D1C916C787200013A136 /* DivaNetLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaNetLoader.h; sourceTree = "<group>"; };
+		8867D1CB16C787200013A136 /* DivaTimeCounterImplBass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaTimeCounterImplBass.h; sourceTree = "<group>"; };
+		8867D1CC16C787200013A136 /* DivaTimeCounterImplSora.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaTimeCounterImplSora.h; sourceTree = "<group>"; };
+		8867D1CD16C787200013A136 /* DivaTimeCounterImplWin32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaTimeCounterImplWin32.cpp; sourceTree = "<group>"; };
+		8867D1CE16C787200013A136 /* DivaTimeCounterImplWin32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaTimeCounterImplWin32.h; sourceTree = "<group>"; };
+		8867D1D016C787200013A136 /* DivaColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaColor.h; sourceTree = "<group>"; };
+		8867D1D116C787200013A136 /* DivaConfigLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaConfigLoader.cpp; sourceTree = "<group>"; };
+		8867D1D216C787200013A136 /* DivaConfigLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaConfigLoader.h; sourceTree = "<group>"; };
+		8867D1D316C787200013A136 /* DivaHDPSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaHDPSystem.h; sourceTree = "<group>"; };
+		8867D1D416C787200013A136 /* DivaInitialize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaInitialize.h; sourceTree = "<group>"; };
+		8867D1D516C787200013A136 /* DivaJsonHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaJsonHelper.h; sourceTree = "<group>"; };
+		8867D1D616C787200013A136 /* DivaPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaPath.h; sourceTree = "<group>"; };
+		8867D1D716C787200013A136 /* DivaSimpleUI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaSimpleUI.cpp; sourceTree = "<group>"; };
+		8867D1D816C787200013A136 /* DivaSimpleUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaSimpleUI.h; sourceTree = "<group>"; };
+		8867D1F716C787310013A136 /* Any.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Any.h; sourceTree = "<group>"; };
+		8867D1F816C787310013A136 /* Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base.h; sourceTree = "<group>"; };
+		8867D1F916C787310013A136 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		8867D1FA16C787310013A136 /* Exception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Exception.h; sourceTree = "<group>"; };
+		8867D1FC16C787310013A136 /* Function.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Function.h; sourceTree = "<group>"; };
+		8867D1FD16C787310013A136 /* FunctionBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionBase.h; sourceTree = "<group>"; };
+		8867D1FE16C787310013A136 /* FunctionInclude.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionInclude.h; sourceTree = "<group>"; };
+		8867D1FF16C787310013A136 /* FunctionTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionTemplate.h; sourceTree = "<group>"; };
+		8867D20116C787310013A136 /* FileUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileUtil.cpp; sourceTree = "<group>"; };
+		8867D20216C787310013A136 /* FileUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUtil.h; sourceTree = "<group>"; };
+		8867D20316C787310013A136 /* FileUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUtility.h; sourceTree = "<group>"; };
+		8867D20416C787310013A136 /* FileUtilityImplWin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUtilityImplWin.h; sourceTree = "<group>"; };
+		8867D20516C787310013A136 /* Path.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Path.cpp; sourceTree = "<group>"; };
+		8867D20616C787310013A136 /* Path.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Path.h; sourceTree = "<group>"; };
+		8867D20716C787310013A136 /* Stream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Stream.cpp; sourceTree = "<group>"; };
+		8867D20816C787310013A136 /* Stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stream.h; sourceTree = "<group>"; };
+		8867D20916C787310013A136 /* Logger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Logger.cpp; sourceTree = "<group>"; };
+		8867D20A16C787310013A136 /* Logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Logger.h; sourceTree = "<group>"; };
+		8867D20B16C787310013A136 /* Math.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Math.cpp; sourceTree = "<group>"; };
+		8867D20C16C787310013A136 /* Math.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Math.h; sourceTree = "<group>"; };
+		8867D20E16C787310013A136 /* Observer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Observer.h; sourceTree = "<group>"; };
+		8867D20F16C787310013A136 /* Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Singleton.h; sourceTree = "<group>"; };
+		8867D21016C787310013A136 /* Platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
+		8867D21116C787310013A136 /* PreDeclare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreDeclare.h; sourceTree = "<group>"; };
+		8867D21216C787310013A136 /* PreDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreDefine.h; sourceTree = "<group>"; };
+		8867D21316C787310013A136 /* Ptr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ptr.h; sourceTree = "<group>"; };
+		8867D21416C787310013A136 /* Random.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Random.cpp; sourceTree = "<group>"; };
+		8867D21516C787310013A136 /* Random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Random.h; sourceTree = "<group>"; };
+		8867D21616C787310013A136 /* Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Singleton.h; sourceTree = "<group>"; };
+		8867D21716C787310013A136 /* String.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = String.cpp; sourceTree = "<group>"; };
+		8867D21816C787310013A136 /* String.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = String.h; sourceTree = "<group>"; };
+		8867D21916C787310013A136 /* StringConv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringConv.h; sourceTree = "<group>"; };
+		8867D21B16C787310013A136 /* Sys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sys.h; sourceTree = "<group>"; };
+		8867D21C16C787310013A136 /* SysUtilApple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SysUtilApple.h; sourceTree = "<group>"; };
+		8867D21D16C787310013A136 /* SysUtilLinux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SysUtilLinux.h; sourceTree = "<group>"; };
+		8867D21E16C787310013A136 /* SysUtilNormal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SysUtilNormal.h; sourceTree = "<group>"; };
+		8867D21F16C787310013A136 /* SysUtilWin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SysUtilWin.h; sourceTree = "<group>"; };
+		8867D22116C787310013A136 /* Mutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mutex.h; sourceTree = "<group>"; };
+		8867D22216C787310013A136 /* Queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Queue.h; sourceTree = "<group>"; };
+		8867D22316C787310013A136 /* Thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thread.h; sourceTree = "<group>"; };
+		8867D22416C787310013A136 /* Timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Timer.cpp; sourceTree = "<group>"; };
+		8867D22516C787310013A136 /* Timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timer.h; sourceTree = "<group>"; };
+		8867D22616C787310013A136 /* Type.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Type.h; sourceTree = "<group>"; };
+		8867D22716C787310013A136 /* TypeTraits.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypeTraits.h; sourceTree = "<group>"; };
+		8867D22816C787310013A136 /* Uncopyable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Uncopyable.h; sourceTree = "<group>"; };
+		8867D22A16C787310013A136 /* curl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = curl.h; sourceTree = "<group>"; };
+		8867D22B16C787310013A136 /* curlbuild.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = curlbuild.h; sourceTree = "<group>"; };
+		8867D22C16C787310013A136 /* curlbuild.h.cmake */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = curlbuild.h.cmake; sourceTree = "<group>"; };
+		8867D22D16C787310013A136 /* curlbuild.h.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = curlbuild.h.in; sourceTree = "<group>"; };
+		8867D22E16C787310013A136 /* curlrules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = curlrules.h; sourceTree = "<group>"; };
+		8867D22F16C787310013A136 /* curlver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = curlver.h; sourceTree = "<group>"; };
+		8867D23016C787310013A136 /* easy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = easy.h; sourceTree = "<group>"; };
+		8867D23116C787310013A136 /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
+		8867D23216C787310013A136 /* Makefile.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.in; sourceTree = "<group>"; };
+		8867D23316C787310013A136 /* mprintf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mprintf.h; sourceTree = "<group>"; };
+		8867D23416C787310013A136 /* multi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = multi.h; sourceTree = "<group>"; };
+		8867D23516C787310013A136 /* stdcheaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdcheaders.h; sourceTree = "<group>"; };
+		8867D23616C787310013A136 /* typecheck-gcc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "typecheck-gcc.h"; sourceTree = "<group>"; };
+		8867D23716C787310013A136 /* types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
+		8867D23916C787310013A136 /* wautolink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wautolink.h; sourceTree = "<group>"; };
+		8867D23A16C787310013A136 /* wconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wconfig.h; sourceTree = "<group>"; };
+		8867D23B16C787310013A136 /* wfeatures.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wfeatures.h; sourceTree = "<group>"; };
+		8867D23C16C787310013A136 /* wforwards.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wforwards.h; sourceTree = "<group>"; };
+		8867D23D16C787310013A136 /* wjson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wjson.h; sourceTree = "<group>"; };
+		8867D23E16C787310013A136 /* wjson_batchallocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wjson_batchallocator.h; sourceTree = "<group>"; };
+		8867D23F16C787310013A136 /* wjson_reader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wjson_reader.cpp; sourceTree = "<group>"; };
+		8867D24016C787310013A136 /* wjson_value.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wjson_value.cpp; sourceTree = "<group>"; };
+		8867D24116C787310013A136 /* wjson_valueiterator.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = wjson_valueiterator.inl; sourceTree = "<group>"; };
+		8867D24216C787310013A136 /* wjson_writer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wjson_writer.cpp; sourceTree = "<group>"; };
+		8867D24316C787310013A136 /* wreader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wreader.h; sourceTree = "<group>"; };
+		8867D24416C787310013A136 /* wvalue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wvalue.h; sourceTree = "<group>"; };
+		8867D24516C787310013A136 /* wwriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wwriter.h; sourceTree = "<group>"; };
 		886BE9B515C648E6005CFA52 /* osx_libglfw_i386.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = osx_libglfw_i386.lib; sourceTree = "<group>"; };
 		886BE9B615C648E6005CFA52 /* osx_libglfw_x86_64.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = osx_libglfw_x86_64.lib; sourceTree = "<group>"; };
 		886BE9B915C64D35005CFA52 /* libvlc.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvlc.5.dylib; path = Build/Debug/lib/libvlc.5.dylib; sourceTree = SOURCE_ROOT; };
@@ -253,7 +456,6 @@
 		887EE98D15C628C200B50941 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = ../../../../../../../System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<group>"; };
 		887EE99A15C62A0000B50941 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		887EEA4715C6374D00B50941 /* osx_libfreetype_i386.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = osx_libfreetype_i386.lib; sourceTree = "<group>"; };
-		887EEA4B15C639ED00B50941 /* libenet_x86.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libenet_x86.a; sourceTree = SOURCE_ROOT; };
 		88892D3915C55CDC00B25415 /* divaol-osx */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "divaol-osx"; sourceTree = BUILT_PRODUCTS_DIR; };
 		88892D3F15C55CDC00B25415 /* divaol_osx.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = divaol_osx.1; sourceTree = "<group>"; };
 		88892D5815C55CF000B25415 /* fmod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fmod.h; sourceTree = "<group>"; };
@@ -1026,122 +1228,6 @@
 		8889317615C55D0C00B25415 /* SoraOGLRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoraOGLRenderer.h; sourceTree = "<group>"; };
 		8889317715C55D0C00B25415 /* SoraOGLRenderTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoraOGLRenderTarget.cpp; sourceTree = "<group>"; };
 		8889317815C55D0C00B25415 /* SoraOGLRenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoraOGLRenderTarget.h; sourceTree = "<group>"; };
-		8889318B15C55F8C00B25415 /* DivaCommonEvaluateStrategy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaCommonEvaluateStrategy.h; sourceTree = "<group>"; };
-		8889318C15C55F8C00B25415 /* DivaHDEffectSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaHDEffectSystem.h; sourceTree = "<group>"; };
-		8889318D15C55F8C00B25415 /* DivaJsonGameModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaJsonGameModule.cpp; sourceTree = "<group>"; };
-		8889318E15C55F8C00B25415 /* DivaJsonGameModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaJsonGameModule.h; sourceTree = "<group>"; };
-		8889318F15C55F8C00B25415 /* DivaMapJsonLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaMapJsonLoader.cpp; sourceTree = "<group>"; };
-		8889319015C55F8C00B25415 /* DivaMapJsonLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaMapJsonLoader.h; sourceTree = "<group>"; };
-		8889319115C55F8C00B25415 /* DivaMapStandardParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaMapStandardParser.cpp; sourceTree = "<group>"; };
-		8889319215C55F8C00B25415 /* DivaMapStandardParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaMapStandardParser.h; sourceTree = "<group>"; };
-		8889319315C55F8C00B25415 /* DivaSimpleHookManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaSimpleHookManager.h; sourceTree = "<group>"; };
-		8889319415C55F8C00B25415 /* DivaSimpleUIPainter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaSimpleUIPainter.cpp; sourceTree = "<group>"; };
-		8889319515C55F8C00B25415 /* DivaSimpleUIPainter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaSimpleUIPainter.h; sourceTree = "<group>"; };
-		8889319615C55F8C00B25415 /* DivaSocketNetworkSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaSocketNetworkSystem.cpp; sourceTree = "<group>"; };
-		8889319715C55F8C00B25415 /* DivaSocketNetworkSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaSocketNetworkSystem.h; sourceTree = "<group>"; };
-		8889319815C55F8C00B25415 /* DivaStandardCoreFlow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaStandardCoreFlow.cpp; sourceTree = "<group>"; };
-		8889319915C55F8C00B25415 /* DivaStandardCoreFlow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaStandardCoreFlow.h; sourceTree = "<group>"; };
-		8889319A15C55F8C00B25415 /* DivaStandardDisplay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaStandardDisplay.cpp; sourceTree = "<group>"; };
-		8889319B15C55F8C00B25415 /* DivaStandardDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaStandardDisplay.h; sourceTree = "<group>"; };
-		8889319C15C55F8C00B25415 /* DivaStandardFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaStandardFactory.cpp; sourceTree = "<group>"; };
-		8889319D15C55F8C00B25415 /* DivaStandardFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaStandardFactory.h; sourceTree = "<group>"; };
-		8889319E15C55F8C00B25415 /* DivaStandardInputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaStandardInputManager.cpp; sourceTree = "<group>"; };
-		8889319F15C55F8C00B25415 /* DivaStandardInputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaStandardInputManager.h; sourceTree = "<group>"; };
-		888931A015C55F8C00B25415 /* DivaStandardRenderSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaStandardRenderSystem.h; sourceTree = "<group>"; };
-		888931A215C55F8C00B25415 /* DivaArgument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaArgument.h; sourceTree = "<group>"; };
-		888931A315C55F8C00B25415 /* DivaCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaCommon.h; sourceTree = "<group>"; };
-		888931A415C55F8C00B25415 /* DivaConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaConfig.cpp; sourceTree = "<group>"; };
-		888931A515C55F8C00B25415 /* DivaConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaConfig.h; sourceTree = "<group>"; };
-		888931A615C55F8C00B25415 /* DivaConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaConstant.h; sourceTree = "<group>"; };
-		888931A715C55F8C00B25415 /* DivaCore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaCore.cpp; sourceTree = "<group>"; };
-		888931A815C55F8C00B25415 /* DivaCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaCore.h; sourceTree = "<group>"; };
-		888931A915C55F8C00B25415 /* DivaCoreFlow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaCoreFlow.h; sourceTree = "<group>"; };
-		888931AA15C55F8C00B25415 /* DivaCoreState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaCoreState.cpp; sourceTree = "<group>"; };
-		888931AB15C55F8C00B25415 /* DivaCoreState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaCoreState.h; sourceTree = "<group>"; };
-		888931AC15C55F8C00B25415 /* DivaDefault.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaDefault.cpp; sourceTree = "<group>"; };
-		888931AD15C55F8C00B25415 /* DivaDefault.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaDefault.h; sourceTree = "<group>"; };
-		888931AE15C55F8C00B25415 /* DivaDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaDisplay.h; sourceTree = "<group>"; };
-		888931AF15C55F8C00B25415 /* DivaEffectSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaEffectSystem.h; sourceTree = "<group>"; };
-		888931B015C55F8C00B25415 /* DivaEvaluateStrategy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaEvaluateStrategy.h; sourceTree = "<group>"; };
-		888931B115C55F8C00B25415 /* DivaEventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaEventManager.h; sourceTree = "<group>"; };
-		888931B215C55F8C00B25415 /* DivaException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaException.h; sourceTree = "<group>"; };
-		888931B315C55F8C00B25415 /* DivaFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaFactory.h; sourceTree = "<group>"; };
-		888931B415C55F8C00B25415 /* DivaGameMode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaGameMode.cpp; sourceTree = "<group>"; };
-		888931B515C55F8C00B25415 /* DivaGameMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaGameMode.h; sourceTree = "<group>"; };
-		888931B615C55F8C00B25415 /* DivaGameModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaGameModule.h; sourceTree = "<group>"; };
-		888931B715C55F8C00B25415 /* DivaHook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaHook.h; sourceTree = "<group>"; };
-		888931B815C55F8C00B25415 /* DivaHookManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaHookManager.h; sourceTree = "<group>"; };
-		888931B915C55F8C00B25415 /* DivaInputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaInputManager.h; sourceTree = "<group>"; };
-		888931BA15C55F8C00B25415 /* DivaKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaKey.h; sourceTree = "<group>"; };
-		888931BB15C55F8C00B25415 /* DivaLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaLogger.h; sourceTree = "<group>"; };
-		888931BC15C55F8C00B25415 /* DivaMapInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaMapInfo.h; sourceTree = "<group>"; };
-		888931BD15C55F8C00B25415 /* DivaMapLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaMapLoader.cpp; sourceTree = "<group>"; };
-		888931BE15C55F8C00B25415 /* DivaMapLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaMapLoader.h; sourceTree = "<group>"; };
-		888931BF15C55F8C00B25415 /* DivaMapParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaMapParser.h; sourceTree = "<group>"; };
-		888931C015C55F8C00B25415 /* DivaMusicManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaMusicManager.h; sourceTree = "<group>"; };
-		888931C115C55F8C00B25415 /* DivaNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaNote.h; sourceTree = "<group>"; };
-		888931C215C55F8C00B25415 /* DivaParticleSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaParticleSystem.h; sourceTree = "<group>"; };
-		888931C315C55F8C00B25415 /* DivaRenderSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaRenderSystem.h; sourceTree = "<group>"; };
-		888931C415C55F8C00B25415 /* DivaStringUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaStringUtil.cpp; sourceTree = "<group>"; };
-		888931C515C55F8C00B25415 /* DivaStringUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaStringUtil.h; sourceTree = "<group>"; };
-		888931C615C55F8C00B25415 /* DivaTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaTask.h; sourceTree = "<group>"; };
-		888931C715C55F8C00B25415 /* DivaTimeCounter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaTimeCounter.h; sourceTree = "<group>"; };
-		888931C815C55F8C00B25415 /* DivaUIPainter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaUIPainter.h; sourceTree = "<group>"; };
-		888931CA15C55F8C00B25415 /* DivaAutoplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaAutoplay.h; sourceTree = "<group>"; };
-		888931CB15C55F8C00B25415 /* DivaCTMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaCTMode.h; sourceTree = "<group>"; };
-		888931CC15C55F8C00B25415 /* DivaPVMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaPVMode.h; sourceTree = "<group>"; };
-		888931CE15C55F8C00B25415 /* DivaEditMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaEditMode.h; sourceTree = "<group>"; };
-		888931CF15C55F8C00B25415 /* DivaMultiplay Test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DivaMultiplay Test.h"; sourceTree = "<group>"; };
-		888931D015C55F8C00B25415 /* DivaMultiPlay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaMultiPlay.cpp; sourceTree = "<group>"; };
-		888931D115C55F8C00B25415 /* DivaMultiplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaMultiplay.h; sourceTree = "<group>"; };
-		888931D215C55F8C00B25415 /* DivaRelayPlay Ver2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DivaRelayPlay Ver2.h"; sourceTree = "<group>"; };
-		888931D315C55F8C00B25415 /* DivaRelayPlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaRelayPlay.h; sourceTree = "<group>"; };
-		888931D415C55F8C00B25415 /* DivaRelayUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaRelayUI.h; sourceTree = "<group>"; };
-		888931D515C55F8C00B25415 /* DivaSinglePlay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaSinglePlay.cpp; sourceTree = "<group>"; };
-		888931D615C55F8C00B25415 /* DivaSinglePlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaSinglePlay.h; sourceTree = "<group>"; };
-		888931D715C55F8C00B25415 /* DivaTeamPlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaTeamPlay.h; sourceTree = "<group>"; };
-		888931DE15C55F8C00B25415 /* DivaFmodMusicManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaFmodMusicManager.cpp; sourceTree = "<group>"; };
-		888931DF15C55F8C00B25415 /* DivaFmodMusicManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaFmodMusicManager.h; sourceTree = "<group>"; };
-		888931E015C55F8C00B25415 /* DivaXAudioMusicManager.cpp.tmp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DivaXAudioMusicManager.cpp.tmp; sourceTree = "<group>"; };
-		888931E115C55F8C00B25415 /* DivaXAudioMusicManager.h.tmp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DivaXAudioMusicManager.h.tmp; sourceTree = "<group>"; };
-		888931E315C55F8C00B25415 /* DivaEnetSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaEnetSystem.h; sourceTree = "<group>"; };
-		888931E415C55F8C00B25415 /* DivaNetEventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaNetEventHandler.h; sourceTree = "<group>"; };
-		888931E515C55F8C00B25415 /* DivaNetLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaNetLoader.h; sourceTree = "<group>"; };
-		888931E615C55F8C00B25415 /* DivaNetPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaNetPacket.h; sourceTree = "<group>"; };
-		888931E715C55F8C00B25415 /* DivaNetPacketID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaNetPacketID.h; sourceTree = "<group>"; };
-		888931E815C55F8C00B25415 /* DivaNetUnsync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaNetUnsync.h; sourceTree = "<group>"; };
-		888931E915C55F8C00B25415 /* DivaNetworkSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaNetworkSystem.h; sourceTree = "<group>"; };
-		888931EB15C55F8C00B25415 /* callbacks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = callbacks.h; sourceTree = "<group>"; };
-		888931EC15C55F8C00B25415 /* enet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = enet.h; sourceTree = "<group>"; };
-		888931ED15C55F8C00B25415 /* list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = list.h; sourceTree = "<group>"; };
-		888931EE15C55F8C00B25415 /* protocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = protocol.h; sourceTree = "<group>"; };
-		888931F015C55F8C00B25415 /* types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
-		888931F115C55F8C00B25415 /* unix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unix.h; sourceTree = "<group>"; };
-		888931F215C55F8C00B25415 /* utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utility.h; sourceTree = "<group>"; };
-		888931F315C55F8C00B25415 /* win32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = win32.h; sourceTree = "<group>"; };
-		888931F615C55F8C00B25415 /* DivaContiNote.cpp.tmp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DivaContiNote.cpp.tmp; sourceTree = "<group>"; };
-		888931F715C55F8C00B25415 /* DivaContiNote.h.tmp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DivaContiNote.h.tmp; sourceTree = "<group>"; };
-		888931F815C55F8C00B25415 /* DivaLongNote.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaLongNote.cpp; sourceTree = "<group>"; };
-		888931F915C55F8C00B25415 /* DivaLongNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaLongNote.h; sourceTree = "<group>"; };
-		888931FA15C55F8C00B25415 /* DivaNormalNote.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaNormalNote.cpp; sourceTree = "<group>"; };
-		888931FB15C55F8C00B25415 /* DivaNormalNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaNormalNote.h; sourceTree = "<group>"; };
-		888931FC15C55F8C00B25415 /* DivaPingpongNote.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaPingpongNote.cpp; sourceTree = "<group>"; };
-		888931FD15C55F8C00B25415 /* DivaPingpongNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaPingpongNote.h; sourceTree = "<group>"; };
-		888931FF15C55F8C00B25415 /* DivaCoreLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaCoreLoader.h; sourceTree = "<group>"; };
-		8889320015C55F8C00B25415 /* DivaCorePauseState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaCorePauseState.h; sourceTree = "<group>"; };
-		8889320115C55F8C00B25415 /* DivaCorePlayState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaCorePlayState.cpp; sourceTree = "<group>"; };
-		8889320215C55F8C00B25415 /* DivaCorePlayState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaCorePlayState.h; sourceTree = "<group>"; };
-		8889320315C55F8C00B25415 /* DivaCoreResultState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaCoreResultState.h; sourceTree = "<group>"; };
-		8889320515C55F8C00B25415 /* DivaTimeCounterImplBass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaTimeCounterImplBass.h; sourceTree = "<group>"; };
-		8889320615C55F8C00B25415 /* DivaTimeCounterImplSora.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaTimeCounterImplSora.h; sourceTree = "<group>"; };
-		8889320A15C55F8C00B25415 /* DivaConfigLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaConfigLoader.cpp; sourceTree = "<group>"; };
-		8889320B15C55F8C00B25415 /* DivaConfigLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaConfigLoader.h; sourceTree = "<group>"; };
-		8889320C15C55F8C00B25415 /* DivaHDPSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaHDPSystem.h; sourceTree = "<group>"; };
-		8889320D15C55F8C00B25415 /* DivaInitialize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaInitialize.h; sourceTree = "<group>"; };
-		8889320E15C55F8C00B25415 /* DivaJsonHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaJsonHelper.h; sourceTree = "<group>"; };
-		8889320F15C55F8C00B25415 /* DivaPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaPath.h; sourceTree = "<group>"; };
-		8889321015C55F8C00B25415 /* DivaSimpleUI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DivaSimpleUI.cpp; sourceTree = "<group>"; };
-		8889321115C55F8C00B25415 /* DivaSimpleUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DivaSimpleUI.h; sourceTree = "<group>"; };
 		8889322E15C564F200B25415 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = ../../../../../../../System/Library/Frameworks/OpenGL.framework; sourceTree = "<group>"; };
 		8889323215C565CC00B25415 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = ../../../../../../../System/Library/Frameworks/Cocoa.framework; sourceTree = "<group>"; };
 		8889323415C566D300B25415 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = ../../../../../../../System/Library/Frameworks/Foundation.framework; sourceTree = "<group>"; };
@@ -1164,17 +1250,350 @@
 				888930A715C55CF100B25415 /* libfreetype.6.dylib in Frameworks */,
 				8889323B15C569FA00B25415 /* libenet.a in Frameworks */,
 				887EEA4815C6374D00B50941 /* osx_libfreetype_i386.lib in Frameworks */,
-				887EEA4C15C639ED00B50941 /* libenet_x86.a in Frameworks */,
 				886BE9B715C648E6005CFA52 /* osx_libglfw_i386.lib in Frameworks */,
 				886BE9B815C648E6005CFA52 /* osx_libglfw_x86_64.lib in Frameworks */,
 				886BE9BB15C64D35005CFA52 /* libvlc.5.dylib in Frameworks */,
 				886BE9BC15C64D35005CFA52 /* libvlccore.4.dylib in Frameworks */,
+				8867D1EB16C787200013A136 /* bass.lib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8867D15916C787200013A136 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				8867D15A16C787200013A136 /* DivaCommonEvaluateStrategy.h */,
+				8867D15B16C787200013A136 /* DivaHDEffectSystem.h */,
+				8867D15C16C787200013A136 /* DivaJsonGameModule.cpp */,
+				8867D15D16C787200013A136 /* DivaJsonGameModule.h */,
+				8867D15E16C787200013A136 /* DivaMapJsonLoader.cpp */,
+				8867D15F16C787200013A136 /* DivaMapJsonLoader.h */,
+				8867D16016C787200013A136 /* DivaMapStandardParser.cpp */,
+				8867D16116C787200013A136 /* DivaMapStandardParser.h */,
+				8867D16216C787200013A136 /* DivaSimpleHookManager.h */,
+				8867D16316C787200013A136 /* DivaSimpleUIPainter.cpp */,
+				8867D16416C787200013A136 /* DivaSimpleUIPainter.h */,
+				8867D16516C787200013A136 /* DivaSocketNetworkSystem.cpp */,
+				8867D16616C787200013A136 /* DivaSocketNetworkSystem.h */,
+				8867D16716C787200013A136 /* DivaStandardCoreFlow.cpp */,
+				8867D16816C787200013A136 /* DivaStandardCoreFlow.h */,
+				8867D16916C787200013A136 /* DivaStandardDisplay.cpp */,
+				8867D16A16C787200013A136 /* DivaStandardDisplay.h */,
+				8867D16B16C787200013A136 /* DivaStandardFactory.cpp */,
+				8867D16C16C787200013A136 /* DivaStandardFactory.h */,
+				8867D16D16C787200013A136 /* DivaStandardInputManager.cpp */,
+				8867D16E16C787200013A136 /* DivaStandardInputManager.h */,
+				8867D16F16C787200013A136 /* DivaStandardRenderSystem.h */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		8867D17016C787200013A136 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				8867D17116C787200013A136 /* DivaArgument.h */,
+				8867D17216C787200013A136 /* DivaCommon.h */,
+				8867D17316C787200013A136 /* DivaConfig.cpp */,
+				8867D17416C787200013A136 /* DivaConfig.h */,
+				8867D17516C787200013A136 /* DivaConstant.h */,
+				8867D17616C787200013A136 /* DivaCore.cpp */,
+				8867D17716C787200013A136 /* DivaCore.h */,
+				8867D17816C787200013A136 /* DivaCoreFlow.h */,
+				8867D17916C787200013A136 /* DivaCoreState.cpp */,
+				8867D17A16C787200013A136 /* DivaCoreState.h */,
+				8867D17B16C787200013A136 /* DivaDefault.cpp */,
+				8867D17C16C787200013A136 /* DivaDefault.h */,
+				8867D17D16C787200013A136 /* DivaDisplay.h */,
+				8867D17E16C787200013A136 /* DivaEffectSystem.h */,
+				8867D17F16C787200013A136 /* DivaEvaluateStrategy.h */,
+				8867D18016C787200013A136 /* DivaEventManager.h */,
+				8867D18116C787200013A136 /* DivaException.h */,
+				8867D18216C787200013A136 /* DivaFactory.h */,
+				8867D18316C787200013A136 /* DivaGameMode.cpp */,
+				8867D18416C787200013A136 /* DivaGameMode.h */,
+				8867D18516C787200013A136 /* DivaGameModule.h */,
+				8867D18616C787200013A136 /* DivaHook.h */,
+				8867D18716C787200013A136 /* DivaHookManager.h */,
+				8867D18816C787200013A136 /* DivaInputManager.h */,
+				8867D18916C787200013A136 /* DivaKey.h */,
+				8867D18A16C787200013A136 /* DivaLogger.h */,
+				8867D18B16C787200013A136 /* DivaMapInfo.h */,
+				8867D18C16C787200013A136 /* DivaMapLoader.cpp */,
+				8867D18D16C787200013A136 /* DivaMapLoader.h */,
+				8867D18E16C787200013A136 /* DivaMapParser.h */,
+				8867D18F16C787200013A136 /* DivaMusicManager.h */,
+				8867D19016C787200013A136 /* DivaNote.h */,
+				8867D19116C787200013A136 /* DivaParticleSystem.h */,
+				8867D19216C787200013A136 /* DivaPlayerInfo.h */,
+				8867D19316C787200013A136 /* DivaRenderSystem.h */,
+				8867D19416C787200013A136 /* DivaStringUtil.cpp */,
+				8867D19516C787200013A136 /* DivaStringUtil.h */,
+				8867D19616C787200013A136 /* DivaTask.h */,
+				8867D19716C787200013A136 /* DivaTimeCounter.h */,
+				8867D19816C787200013A136 /* DivaUIPainter.h */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		8867D19916C787200013A136 /* Hook */ = {
+			isa = PBXGroup;
+			children = (
+				8867D19A16C787200013A136 /* DivaAutoMode.h */,
+				8867D19B16C787200013A136 /* DivaBlackHouseMode.h */,
+				8867D19C16C787200013A136 /* DivaChaosMode.h */,
+				8867D19D16C787200013A136 /* DivaCTMode.h */,
+				8867D19E16C787200013A136 /* DivaCTMode.tmp.h */,
+				8867D19F16C787200013A136 /* DivaDeathMode.h */,
+				8867D1A016C787200013A136 /* DivaDisappearMode.h */,
+				8867D1A116C787200013A136 /* DivaFastMode.h */,
+				8867D1A216C787200013A136 /* DivaNoFailMode.h */,
+				8867D1A316C787200013A136 /* DivaPVMode.h */,
+				8867D1A416C787200013A136 /* DivaRandomSwapMode.h */,
+				8867D1A516C787200013A136 /* DivaSlowMode.h */,
+			);
+			path = Hook;
+			sourceTree = "<group>";
+		};
+		8867D1A616C787200013A136 /* Mode */ = {
+			isa = PBXGroup;
+			children = (
+				8867D1A716C787200013A136 /* DivaEditMode.h */,
+				8867D1A816C787200013A136 /* DivaMultiPlay.cpp */,
+				8867D1A916C787200013A136 /* DivaMultiplay.h */,
+				8867D1AA16C787200013A136 /* DivaPairPlay.h */,
+				8867D1AB16C787200013A136 /* DivaRelayPlay.h */,
+				8867D1AC16C787200013A136 /* DivaRelayUI.h */,
+				8867D1AD16C787200013A136 /* DivaSinglePlay.cpp */,
+				8867D1AE16C787200013A136 /* DivaSinglePlay.h */,
+			);
+			path = Mode;
+			sourceTree = "<group>";
+		};
+		8867D1AF16C787200013A136 /* MusicManager */ = {
+			isa = PBXGroup;
+			children = (
+				8867D1B016C787200013A136 /* bass */,
+				8867D1B416C787200013A136 /* DivaBassMusicManager.cpp */,
+				8867D1B516C787200013A136 /* DivaBassMusicManager.h */,
+				8867D1B616C787200013A136 /* DivaFmodMusicManager.cpp */,
+				8867D1B716C787200013A136 /* DivaFmodMusicManager.h */,
+				8867D1B816C787200013A136 /* DivaXAudioMusicManager.cpp.tmp */,
+				8867D1B916C787200013A136 /* DivaXAudioMusicManager.h.tmp */,
+			);
+			path = MusicManager;
+			sourceTree = "<group>";
+		};
+		8867D1B016C787200013A136 /* bass */ = {
+			isa = PBXGroup;
+			children = (
+				8867D1B116C787200013A136 /* bass.h */,
+				8867D1B216C787200013A136 /* bass.lib */,
+				8867D1B316C787200013A136 /* bass_fx.h */,
+			);
+			path = bass;
+			sourceTree = "<group>";
+		};
+		8867D1BA16C787200013A136 /* Note */ = {
+			isa = PBXGroup;
+			children = (
+				8867D1BB16C787200013A136 /* DivaContiNote.cpp.tmp */,
+				8867D1BC16C787200013A136 /* DivaContiNote.h.tmp */,
+				8867D1BD16C787200013A136 /* DivaLongNote.cpp */,
+				8867D1BE16C787200013A136 /* DivaLongNote.h */,
+				8867D1BF16C787200013A136 /* DivaNormalNote.cpp */,
+				8867D1C016C787200013A136 /* DivaNormalNote.h */,
+				8867D1C116C787200013A136 /* DivaPingpongNote.cpp */,
+				8867D1C216C787200013A136 /* DivaPingpongNote.h */,
+			);
+			path = Note;
+			sourceTree = "<group>";
+		};
+		8867D1C316C787200013A136 /* State */ = {
+			isa = PBXGroup;
+			children = (
+				8867D1C416C787200013A136 /* DivaCoreLoader.h */,
+				8867D1C516C787200013A136 /* DivaCorePauseState.h */,
+				8867D1C616C787200013A136 /* DivaCorePlayState.cpp */,
+				8867D1C716C787200013A136 /* DivaCorePlayState.h */,
+				8867D1C816C787200013A136 /* DivaCoreResultState.h */,
+				8867D1C916C787200013A136 /* DivaNetLoader.h */,
+			);
+			path = State;
+			sourceTree = "<group>";
+		};
+		8867D1CA16C787200013A136 /* Timer */ = {
+			isa = PBXGroup;
+			children = (
+				8867D1CB16C787200013A136 /* DivaTimeCounterImplBass.h */,
+				8867D1CC16C787200013A136 /* DivaTimeCounterImplSora.h */,
+				8867D1CD16C787200013A136 /* DivaTimeCounterImplWin32.cpp */,
+				8867D1CE16C787200013A136 /* DivaTimeCounterImplWin32.h */,
+			);
+			path = Timer;
+			sourceTree = "<group>";
+		};
+		8867D1CF16C787200013A136 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				8867D1D016C787200013A136 /* DivaColor.h */,
+				8867D1D116C787200013A136 /* DivaConfigLoader.cpp */,
+				8867D1D216C787200013A136 /* DivaConfigLoader.h */,
+				8867D1D316C787200013A136 /* DivaHDPSystem.h */,
+				8867D1D416C787200013A136 /* DivaInitialize.h */,
+				8867D1D516C787200013A136 /* DivaJsonHelper.h */,
+				8867D1D616C787200013A136 /* DivaPath.h */,
+				8867D1D716C787200013A136 /* DivaSimpleUI.cpp */,
+				8867D1D816C787200013A136 /* DivaSimpleUI.h */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		8867D1F516C787310013A136 /* Lib */ = {
+			isa = PBXGroup;
+			children = (
+				8867D1F616C787310013A136 /* Base */,
+				8867D22916C787310013A136 /* curl */,
+				8867D23816C787310013A136 /* wjson */,
+			);
+			name = Lib;
+			path = ../Lib;
+			sourceTree = "<group>";
+		};
+		8867D1F616C787310013A136 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				8867D1F716C787310013A136 /* Any.h */,
+				8867D1F816C787310013A136 /* Base.h */,
+				8867D1F916C787310013A136 /* Common.h */,
+				8867D1FA16C787310013A136 /* Exception.h */,
+				8867D1FB16C787310013A136 /* Function */,
+				8867D20016C787310013A136 /* Io */,
+				8867D20916C787310013A136 /* Logger.cpp */,
+				8867D20A16C787310013A136 /* Logger.h */,
+				8867D20B16C787310013A136 /* Math.cpp */,
+				8867D20C16C787310013A136 /* Math.h */,
+				8867D20D16C787310013A136 /* Pattern */,
+				8867D21016C787310013A136 /* Platform.h */,
+				8867D21116C787310013A136 /* PreDeclare.h */,
+				8867D21216C787310013A136 /* PreDefine.h */,
+				8867D21316C787310013A136 /* Ptr.h */,
+				8867D21416C787310013A136 /* Random.cpp */,
+				8867D21516C787310013A136 /* Random.h */,
+				8867D21616C787310013A136 /* Singleton.h */,
+				8867D21716C787310013A136 /* String.cpp */,
+				8867D21816C787310013A136 /* String.h */,
+				8867D21916C787310013A136 /* StringConv.h */,
+				8867D21A16C787310013A136 /* Sys */,
+				8867D22016C787310013A136 /* Thread */,
+				8867D22416C787310013A136 /* Timer.cpp */,
+				8867D22516C787310013A136 /* Timer.h */,
+				8867D22616C787310013A136 /* Type.h */,
+				8867D22716C787310013A136 /* TypeTraits.h */,
+				8867D22816C787310013A136 /* Uncopyable.h */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		8867D1FB16C787310013A136 /* Function */ = {
+			isa = PBXGroup;
+			children = (
+				8867D1FC16C787310013A136 /* Function.h */,
+				8867D1FD16C787310013A136 /* FunctionBase.h */,
+				8867D1FE16C787310013A136 /* FunctionInclude.h */,
+				8867D1FF16C787310013A136 /* FunctionTemplate.h */,
+			);
+			path = Function;
+			sourceTree = "<group>";
+		};
+		8867D20016C787310013A136 /* Io */ = {
+			isa = PBXGroup;
+			children = (
+				8867D20116C787310013A136 /* FileUtil.cpp */,
+				8867D20216C787310013A136 /* FileUtil.h */,
+				8867D20316C787310013A136 /* FileUtility.h */,
+				8867D20416C787310013A136 /* FileUtilityImplWin.h */,
+				8867D20516C787310013A136 /* Path.cpp */,
+				8867D20616C787310013A136 /* Path.h */,
+				8867D20716C787310013A136 /* Stream.cpp */,
+				8867D20816C787310013A136 /* Stream.h */,
+			);
+			path = Io;
+			sourceTree = "<group>";
+		};
+		8867D20D16C787310013A136 /* Pattern */ = {
+			isa = PBXGroup;
+			children = (
+				8867D20E16C787310013A136 /* Observer.h */,
+				8867D20F16C787310013A136 /* Singleton.h */,
+			);
+			path = Pattern;
+			sourceTree = "<group>";
+		};
+		8867D21A16C787310013A136 /* Sys */ = {
+			isa = PBXGroup;
+			children = (
+				8867D21B16C787310013A136 /* Sys.h */,
+				8867D21C16C787310013A136 /* SysUtilApple.h */,
+				8867D21D16C787310013A136 /* SysUtilLinux.h */,
+				8867D21E16C787310013A136 /* SysUtilNormal.h */,
+				8867D21F16C787310013A136 /* SysUtilWin.h */,
+			);
+			path = Sys;
+			sourceTree = "<group>";
+		};
+		8867D22016C787310013A136 /* Thread */ = {
+			isa = PBXGroup;
+			children = (
+				8867D22116C787310013A136 /* Mutex.h */,
+				8867D22216C787310013A136 /* Queue.h */,
+				8867D22316C787310013A136 /* Thread.h */,
+			);
+			path = Thread;
+			sourceTree = "<group>";
+		};
+		8867D22916C787310013A136 /* curl */ = {
+			isa = PBXGroup;
+			children = (
+				8867D22A16C787310013A136 /* curl.h */,
+				8867D22B16C787310013A136 /* curlbuild.h */,
+				8867D22C16C787310013A136 /* curlbuild.h.cmake */,
+				8867D22D16C787310013A136 /* curlbuild.h.in */,
+				8867D22E16C787310013A136 /* curlrules.h */,
+				8867D22F16C787310013A136 /* curlver.h */,
+				8867D23016C787310013A136 /* easy.h */,
+				8867D23116C787310013A136 /* Makefile.am */,
+				8867D23216C787310013A136 /* Makefile.in */,
+				8867D23316C787310013A136 /* mprintf.h */,
+				8867D23416C787310013A136 /* multi.h */,
+				8867D23516C787310013A136 /* stdcheaders.h */,
+				8867D23616C787310013A136 /* typecheck-gcc.h */,
+				8867D23716C787310013A136 /* types.h */,
+			);
+			path = curl;
+			sourceTree = "<group>";
+		};
+		8867D23816C787310013A136 /* wjson */ = {
+			isa = PBXGroup;
+			children = (
+				8867D23916C787310013A136 /* wautolink.h */,
+				8867D23A16C787310013A136 /* wconfig.h */,
+				8867D23B16C787310013A136 /* wfeatures.h */,
+				8867D23C16C787310013A136 /* wforwards.h */,
+				8867D23D16C787310013A136 /* wjson.h */,
+				8867D23E16C787310013A136 /* wjson_batchallocator.h */,
+				8867D23F16C787310013A136 /* wjson_reader.cpp */,
+				8867D24016C787310013A136 /* wjson_value.cpp */,
+				8867D24116C787310013A136 /* wjson_valueiterator.inl */,
+				8867D24216C787310013A136 /* wjson_writer.cpp */,
+				8867D24316C787310013A136 /* wreader.h */,
+				8867D24416C787310013A136 /* wvalue.h */,
+				8867D24516C787310013A136 /* wwriter.h */,
+			);
+			path = wjson;
+			sourceTree = "<group>";
+		};
 		887EE9F215C6368E00B50941 /* lib */ = {
 			isa = PBXGroup;
 			children = (
@@ -1196,6 +1615,7 @@
 				8889322E15C564F200B25415 /* OpenGL.framework */,
 				8889323A15C569F900B25415 /* libenet.a */,
 				88892D4615C55CF000B25415 /* Hoshizor */,
+				8867D1F516C787310013A136 /* Lib */,
 				8889318915C55F8C00B25415 /* divacore */,
 				88892D3C15C55CDC00B25415 /* divaol-osx */,
 				88892D3A15C55CDC00B25415 /* Products */,
@@ -2484,214 +2904,18 @@
 		8889318915C55F8C00B25415 /* divacore */ = {
 			isa = PBXGroup;
 			children = (
-				8889318A15C55F8C00B25415 /* Component */,
-				888931A115C55F8C00B25415 /* Core */,
-				888931C915C55F8C00B25415 /* Hook */,
-				888931CD15C55F8C00B25415 /* Mode */,
-				888931D815C55F8C00B25415 /* MusicManager */,
-				888931E215C55F8C00B25415 /* Network */,
-				888931F515C55F8C00B25415 /* Note */,
-				888931FE15C55F8C00B25415 /* State */,
-				8889320415C55F8C00B25415 /* Timer */,
-				8889320915C55F8C00B25415 /* Utility */,
+				8867D15916C787200013A136 /* Component */,
+				8867D17016C787200013A136 /* Core */,
+				8867D19916C787200013A136 /* Hook */,
+				8867D1A616C787200013A136 /* Mode */,
+				8867D1AF16C787200013A136 /* MusicManager */,
+				8867D1BA16C787200013A136 /* Note */,
+				8867D1C316C787200013A136 /* State */,
+				8867D1CA16C787200013A136 /* Timer */,
+				8867D1CF16C787200013A136 /* Utility */,
 			);
 			name = divacore;
 			path = ../divacore;
-			sourceTree = "<group>";
-		};
-		8889318A15C55F8C00B25415 /* Component */ = {
-			isa = PBXGroup;
-			children = (
-				8889318B15C55F8C00B25415 /* DivaCommonEvaluateStrategy.h */,
-				8889318C15C55F8C00B25415 /* DivaHDEffectSystem.h */,
-				8889318D15C55F8C00B25415 /* DivaJsonGameModule.cpp */,
-				8889318E15C55F8C00B25415 /* DivaJsonGameModule.h */,
-				8889318F15C55F8C00B25415 /* DivaMapJsonLoader.cpp */,
-				8889319015C55F8C00B25415 /* DivaMapJsonLoader.h */,
-				8889319115C55F8C00B25415 /* DivaMapStandardParser.cpp */,
-				8889319215C55F8C00B25415 /* DivaMapStandardParser.h */,
-				8889319315C55F8C00B25415 /* DivaSimpleHookManager.h */,
-				8889319415C55F8C00B25415 /* DivaSimpleUIPainter.cpp */,
-				8889319515C55F8C00B25415 /* DivaSimpleUIPainter.h */,
-				8889319615C55F8C00B25415 /* DivaSocketNetworkSystem.cpp */,
-				8889319715C55F8C00B25415 /* DivaSocketNetworkSystem.h */,
-				8889319815C55F8C00B25415 /* DivaStandardCoreFlow.cpp */,
-				8889319915C55F8C00B25415 /* DivaStandardCoreFlow.h */,
-				8889319A15C55F8C00B25415 /* DivaStandardDisplay.cpp */,
-				8889319B15C55F8C00B25415 /* DivaStandardDisplay.h */,
-				8889319C15C55F8C00B25415 /* DivaStandardFactory.cpp */,
-				8889319D15C55F8C00B25415 /* DivaStandardFactory.h */,
-				8889319E15C55F8C00B25415 /* DivaStandardInputManager.cpp */,
-				8889319F15C55F8C00B25415 /* DivaStandardInputManager.h */,
-				888931A015C55F8C00B25415 /* DivaStandardRenderSystem.h */,
-			);
-			path = Component;
-			sourceTree = "<group>";
-		};
-		888931A115C55F8C00B25415 /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				888931A215C55F8C00B25415 /* DivaArgument.h */,
-				888931A315C55F8C00B25415 /* DivaCommon.h */,
-				888931A415C55F8C00B25415 /* DivaConfig.cpp */,
-				888931A515C55F8C00B25415 /* DivaConfig.h */,
-				888931A615C55F8C00B25415 /* DivaConstant.h */,
-				888931A715C55F8C00B25415 /* DivaCore.cpp */,
-				888931A815C55F8C00B25415 /* DivaCore.h */,
-				888931A915C55F8C00B25415 /* DivaCoreFlow.h */,
-				888931AA15C55F8C00B25415 /* DivaCoreState.cpp */,
-				888931AB15C55F8C00B25415 /* DivaCoreState.h */,
-				888931AC15C55F8C00B25415 /* DivaDefault.cpp */,
-				888931AD15C55F8C00B25415 /* DivaDefault.h */,
-				888931AE15C55F8C00B25415 /* DivaDisplay.h */,
-				888931AF15C55F8C00B25415 /* DivaEffectSystem.h */,
-				888931B015C55F8C00B25415 /* DivaEvaluateStrategy.h */,
-				888931B115C55F8C00B25415 /* DivaEventManager.h */,
-				888931B215C55F8C00B25415 /* DivaException.h */,
-				888931B315C55F8C00B25415 /* DivaFactory.h */,
-				888931B415C55F8C00B25415 /* DivaGameMode.cpp */,
-				888931B515C55F8C00B25415 /* DivaGameMode.h */,
-				888931B615C55F8C00B25415 /* DivaGameModule.h */,
-				888931B715C55F8C00B25415 /* DivaHook.h */,
-				888931B815C55F8C00B25415 /* DivaHookManager.h */,
-				888931B915C55F8C00B25415 /* DivaInputManager.h */,
-				888931BA15C55F8C00B25415 /* DivaKey.h */,
-				888931BB15C55F8C00B25415 /* DivaLogger.h */,
-				888931BC15C55F8C00B25415 /* DivaMapInfo.h */,
-				888931BD15C55F8C00B25415 /* DivaMapLoader.cpp */,
-				888931BE15C55F8C00B25415 /* DivaMapLoader.h */,
-				888931BF15C55F8C00B25415 /* DivaMapParser.h */,
-				888931C015C55F8C00B25415 /* DivaMusicManager.h */,
-				888931C115C55F8C00B25415 /* DivaNote.h */,
-				888931C215C55F8C00B25415 /* DivaParticleSystem.h */,
-				888931C315C55F8C00B25415 /* DivaRenderSystem.h */,
-				888931C415C55F8C00B25415 /* DivaStringUtil.cpp */,
-				888931C515C55F8C00B25415 /* DivaStringUtil.h */,
-				888931C615C55F8C00B25415 /* DivaTask.h */,
-				888931C715C55F8C00B25415 /* DivaTimeCounter.h */,
-				888931C815C55F8C00B25415 /* DivaUIPainter.h */,
-			);
-			path = Core;
-			sourceTree = "<group>";
-		};
-		888931C915C55F8C00B25415 /* Hook */ = {
-			isa = PBXGroup;
-			children = (
-				888931CA15C55F8C00B25415 /* DivaAutoplay.h */,
-				888931CB15C55F8C00B25415 /* DivaCTMode.h */,
-				888931CC15C55F8C00B25415 /* DivaPVMode.h */,
-			);
-			path = Hook;
-			sourceTree = "<group>";
-		};
-		888931CD15C55F8C00B25415 /* Mode */ = {
-			isa = PBXGroup;
-			children = (
-				888931CE15C55F8C00B25415 /* DivaEditMode.h */,
-				888931CF15C55F8C00B25415 /* DivaMultiplay Test.h */,
-				888931D015C55F8C00B25415 /* DivaMultiPlay.cpp */,
-				888931D115C55F8C00B25415 /* DivaMultiplay.h */,
-				888931D215C55F8C00B25415 /* DivaRelayPlay Ver2.h */,
-				888931D315C55F8C00B25415 /* DivaRelayPlay.h */,
-				888931D415C55F8C00B25415 /* DivaRelayUI.h */,
-				888931D515C55F8C00B25415 /* DivaSinglePlay.cpp */,
-				888931D615C55F8C00B25415 /* DivaSinglePlay.h */,
-				888931D715C55F8C00B25415 /* DivaTeamPlay.h */,
-			);
-			path = Mode;
-			sourceTree = "<group>";
-		};
-		888931D815C55F8C00B25415 /* MusicManager */ = {
-			isa = PBXGroup;
-			children = (
-				888931DE15C55F8C00B25415 /* DivaFmodMusicManager.cpp */,
-				888931DF15C55F8C00B25415 /* DivaFmodMusicManager.h */,
-				888931E015C55F8C00B25415 /* DivaXAudioMusicManager.cpp.tmp */,
-				888931E115C55F8C00B25415 /* DivaXAudioMusicManager.h.tmp */,
-			);
-			path = MusicManager;
-			sourceTree = "<group>";
-		};
-		888931E215C55F8C00B25415 /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				887EEA4B15C639ED00B50941 /* libenet_x86.a */,
-				888931E315C55F8C00B25415 /* DivaEnetSystem.h */,
-				888931E415C55F8C00B25415 /* DivaNetEventHandler.h */,
-				888931E515C55F8C00B25415 /* DivaNetLoader.h */,
-				888931E615C55F8C00B25415 /* DivaNetPacket.h */,
-				888931E715C55F8C00B25415 /* DivaNetPacketID.h */,
-				888931E815C55F8C00B25415 /* DivaNetUnsync.h */,
-				888931E915C55F8C00B25415 /* DivaNetworkSystem.h */,
-				888931EA15C55F8C00B25415 /* enet */,
-			);
-			path = Network;
-			sourceTree = "<group>";
-		};
-		888931EA15C55F8C00B25415 /* enet */ = {
-			isa = PBXGroup;
-			children = (
-				888931EB15C55F8C00B25415 /* callbacks.h */,
-				888931EC15C55F8C00B25415 /* enet.h */,
-				888931ED15C55F8C00B25415 /* list.h */,
-				888931EE15C55F8C00B25415 /* protocol.h */,
-				888931F015C55F8C00B25415 /* types.h */,
-				888931F115C55F8C00B25415 /* unix.h */,
-				888931F215C55F8C00B25415 /* utility.h */,
-				888931F315C55F8C00B25415 /* win32.h */,
-			);
-			path = enet;
-			sourceTree = "<group>";
-		};
-		888931F515C55F8C00B25415 /* Note */ = {
-			isa = PBXGroup;
-			children = (
-				888931F615C55F8C00B25415 /* DivaContiNote.cpp.tmp */,
-				888931F715C55F8C00B25415 /* DivaContiNote.h.tmp */,
-				888931F815C55F8C00B25415 /* DivaLongNote.cpp */,
-				888931F915C55F8C00B25415 /* DivaLongNote.h */,
-				888931FA15C55F8C00B25415 /* DivaNormalNote.cpp */,
-				888931FB15C55F8C00B25415 /* DivaNormalNote.h */,
-				888931FC15C55F8C00B25415 /* DivaPingpongNote.cpp */,
-				888931FD15C55F8C00B25415 /* DivaPingpongNote.h */,
-			);
-			path = Note;
-			sourceTree = "<group>";
-		};
-		888931FE15C55F8C00B25415 /* State */ = {
-			isa = PBXGroup;
-			children = (
-				888931FF15C55F8C00B25415 /* DivaCoreLoader.h */,
-				8889320015C55F8C00B25415 /* DivaCorePauseState.h */,
-				8889320115C55F8C00B25415 /* DivaCorePlayState.cpp */,
-				8889320215C55F8C00B25415 /* DivaCorePlayState.h */,
-				8889320315C55F8C00B25415 /* DivaCoreResultState.h */,
-			);
-			path = State;
-			sourceTree = "<group>";
-		};
-		8889320415C55F8C00B25415 /* Timer */ = {
-			isa = PBXGroup;
-			children = (
-				8889320515C55F8C00B25415 /* DivaTimeCounterImplBass.h */,
-				8889320615C55F8C00B25415 /* DivaTimeCounterImplSora.h */,
-			);
-			path = Timer;
-			sourceTree = "<group>";
-		};
-		8889320915C55F8C00B25415 /* Utility */ = {
-			isa = PBXGroup;
-			children = (
-				8889320A15C55F8C00B25415 /* DivaConfigLoader.cpp */,
-				8889320B15C55F8C00B25415 /* DivaConfigLoader.h */,
-				8889320C15C55F8C00B25415 /* DivaHDPSystem.h */,
-				8889320D15C55F8C00B25415 /* DivaInitialize.h */,
-				8889320E15C55F8C00B25415 /* DivaJsonHelper.h */,
-				8889320F15C55F8C00B25415 /* DivaPath.h */,
-				8889321015C55F8C00B25415 /* DivaSimpleUI.cpp */,
-				8889321115C55F8C00B25415 /* DivaSimpleUI.h */,
-			);
-			path = Utility;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2913,32 +3137,45 @@
 				8889318615C55D0C00B25415 /* SoraOGLRenderBuffer.cpp in Sources */,
 				8889318715C55D0C00B25415 /* SoraOGLRenderer.cpp in Sources */,
 				8889318815C55D0C00B25415 /* SoraOGLRenderTarget.cpp in Sources */,
-				8889321215C55F8D00B25415 /* DivaJsonGameModule.cpp in Sources */,
-				8889321315C55F8D00B25415 /* DivaMapJsonLoader.cpp in Sources */,
-				8889321415C55F8D00B25415 /* DivaMapStandardParser.cpp in Sources */,
-				8889321515C55F8D00B25415 /* DivaSimpleUIPainter.cpp in Sources */,
-				8889321615C55F8D00B25415 /* DivaSocketNetworkSystem.cpp in Sources */,
-				8889321715C55F8D00B25415 /* DivaStandardCoreFlow.cpp in Sources */,
-				8889321815C55F8D00B25415 /* DivaStandardDisplay.cpp in Sources */,
-				8889321915C55F8D00B25415 /* DivaStandardFactory.cpp in Sources */,
-				8889321A15C55F8D00B25415 /* DivaStandardInputManager.cpp in Sources */,
-				8889321B15C55F8D00B25415 /* DivaConfig.cpp in Sources */,
-				8889321C15C55F8D00B25415 /* DivaCore.cpp in Sources */,
-				8889321D15C55F8D00B25415 /* DivaCoreState.cpp in Sources */,
-				8889321E15C55F8D00B25415 /* DivaDefault.cpp in Sources */,
-				8889321F15C55F8D00B25415 /* DivaGameMode.cpp in Sources */,
-				8889322015C55F8D00B25415 /* DivaMapLoader.cpp in Sources */,
-				8889322115C55F8D00B25415 /* DivaStringUtil.cpp in Sources */,
-				8889322215C55F8D00B25415 /* DivaMultiPlay.cpp in Sources */,
-				8889322315C55F8D00B25415 /* DivaSinglePlay.cpp in Sources */,
-				8889322615C55F8D00B25415 /* DivaFmodMusicManager.cpp in Sources */,
-				8889322715C55F8D00B25415 /* DivaLongNote.cpp in Sources */,
-				8889322815C55F8D00B25415 /* DivaNormalNote.cpp in Sources */,
-				8889322915C55F8D00B25415 /* DivaPingpongNote.cpp in Sources */,
-				8889322A15C55F8D00B25415 /* DivaCorePlayState.cpp in Sources */,
-				8889322C15C55F8D00B25415 /* DivaConfigLoader.cpp in Sources */,
-				8889322D15C55F8D00B25415 /* DivaSimpleUI.cpp in Sources */,
 				887EE99B15C62A0000B50941 /* main.cpp in Sources */,
+				8867D1D916C787200013A136 /* DivaJsonGameModule.cpp in Sources */,
+				8867D1DA16C787200013A136 /* DivaMapJsonLoader.cpp in Sources */,
+				8867D1DB16C787200013A136 /* DivaMapStandardParser.cpp in Sources */,
+				8867D1DC16C787200013A136 /* DivaSimpleUIPainter.cpp in Sources */,
+				8867D1DD16C787200013A136 /* DivaSocketNetworkSystem.cpp in Sources */,
+				8867D1DE16C787200013A136 /* DivaStandardCoreFlow.cpp in Sources */,
+				8867D1DF16C787200013A136 /* DivaStandardDisplay.cpp in Sources */,
+				8867D1E016C787200013A136 /* DivaStandardFactory.cpp in Sources */,
+				8867D1E116C787200013A136 /* DivaStandardInputManager.cpp in Sources */,
+				8867D1E216C787200013A136 /* DivaConfig.cpp in Sources */,
+				8867D1E316C787200013A136 /* DivaCore.cpp in Sources */,
+				8867D1E416C787200013A136 /* DivaCoreState.cpp in Sources */,
+				8867D1E516C787200013A136 /* DivaDefault.cpp in Sources */,
+				8867D1E616C787200013A136 /* DivaGameMode.cpp in Sources */,
+				8867D1E716C787200013A136 /* DivaMapLoader.cpp in Sources */,
+				8867D1E816C787200013A136 /* DivaStringUtil.cpp in Sources */,
+				8867D1E916C787200013A136 /* DivaMultiPlay.cpp in Sources */,
+				8867D1EA16C787200013A136 /* DivaSinglePlay.cpp in Sources */,
+				8867D1EC16C787200013A136 /* DivaBassMusicManager.cpp in Sources */,
+				8867D1ED16C787200013A136 /* DivaFmodMusicManager.cpp in Sources */,
+				8867D1EE16C787200013A136 /* DivaLongNote.cpp in Sources */,
+				8867D1EF16C787200013A136 /* DivaNormalNote.cpp in Sources */,
+				8867D1F016C787200013A136 /* DivaPingpongNote.cpp in Sources */,
+				8867D1F116C787200013A136 /* DivaCorePlayState.cpp in Sources */,
+				8867D1F216C787200013A136 /* DivaTimeCounterImplWin32.cpp in Sources */,
+				8867D1F316C787200013A136 /* DivaConfigLoader.cpp in Sources */,
+				8867D1F416C787200013A136 /* DivaSimpleUI.cpp in Sources */,
+				8867D24616C787310013A136 /* FileUtil.cpp in Sources */,
+				8867D24716C787310013A136 /* Path.cpp in Sources */,
+				8867D24816C787310013A136 /* Stream.cpp in Sources */,
+				8867D24916C787310013A136 /* Logger.cpp in Sources */,
+				8867D24A16C787310013A136 /* Math.cpp in Sources */,
+				8867D24B16C787310013A136 /* Random.cpp in Sources */,
+				8867D24C16C787310013A136 /* String.cpp in Sources */,
+				8867D24D16C787310013A136 /* Timer.cpp in Sources */,
+				8867D24E16C787310013A136 /* wjson_reader.cpp in Sources */,
+				8867D24F16C787310013A136 /* wjson_value.cpp in Sources */,
+				8867D25016C787310013A136 /* wjson_writer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2967,7 +3204,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = "";
 			};
@@ -2989,7 +3226,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = "";
 			};
 			name = Release;
@@ -2997,8 +3234,8 @@
 		88892D4415C55CDC00B25415 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
-				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
@@ -3006,6 +3243,7 @@
 					"\"$(SRCROOT)/../../Hoshizor/Sora\"/**",
 					"\"$(SRCROOT)/../../divaol/divacore\"",
 					"\"$(SRCROOT)/../../divaol/divacore/network\"",
+					"\"$(SRCROOT)/../../divaol/\"",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3022,6 +3260,7 @@
 					"\"$(SRCROOT)/Build/Products/Debug/lib\"/**",
 					"\"$(SRCROOT)\"/**",
 					"\"$(SRCROOT)/Build/Debug/lib\"",
+					"\"$(SRCROOT)/../divacore/MusicManager/bass\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = "";
@@ -3031,8 +3270,8 @@
 		88892D4515C55CDC00B25415 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
-				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
@@ -3040,6 +3279,7 @@
 					"\"$(SRCROOT)/../../Hoshizor/Sora\"/**",
 					"\"$(SRCROOT)/../../divaol/divacore\"",
 					"\"$(SRCROOT)/../../divaol/divacore/network\"",
+					"\"$(SRCROOT)/../../divaol/\"",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3056,6 +3296,7 @@
 					"\"$(SRCROOT)/Build/Products/Debug/lib\"/**",
 					"\"$(SRCROOT)\"/**",
 					"\"$(SRCROOT)/Build/Debug/lib\"",
+					"\"$(SRCROOT)/../divacore/MusicManager/bass\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = "";

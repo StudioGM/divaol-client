@@ -20,7 +20,8 @@
     #endif
 #elif defined(OS_LINUX) || defined(OS_OSX)
     #include <sched.h>
-
+#include <sys/stat.h>
+#include <unistd.h>
     #if defined OS_OSX
         #include <sys/sysctl.h>
     #endif

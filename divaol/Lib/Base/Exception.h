@@ -35,7 +35,7 @@ namespace Base
 
 		virtual base_string description() const throw() {
 			std::ostringstream msg;
-			msg << className() << ":\n\tclass=" << name() << "\n\tMessage=" << msg;
+			msg << className() << ":\n\tclass=" << name() << "\n\tMessage=" << mMsg;
 			if(mFunc != 0) msg << "\n\tFunction=" << mFunc;
 			if(mFile != 0) msg << "\n\tFile=" << mFile;
 			if(mLine != -1) msg << "\n\tLine=" << mLine;

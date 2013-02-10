@@ -26,7 +26,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "88"
          endingLineNumber = "88"
-         landmarkName = "renderToCanvas(float width = 0, float height = 0, uint32 mask = RS_RENDER_ALL)"
+         landmarkName = "render(sora::SoraSprite *sprite, const std::string &amp;tag = &quot;&quot;)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -39,7 +39,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "105"
          endingLineNumber = "105"
-         landmarkName = "draw(uint32 mask = RS_RENDER_ALL)"
+         landmarkName = "renderToCanvas(float width = 0, float height = 0, uint32 mask = RS_RENDER_ALL)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint

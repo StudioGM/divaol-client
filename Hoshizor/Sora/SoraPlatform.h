@@ -56,9 +56,9 @@
     #endif
 
 	#if __GNUC__ >= 4
-		#include <tr1/unordered_map>
+		#include <unordered_map>
         namespace sora {
-            #define sora_hash_map std::tr1::unordered_map
+            #define sora_hash_map std::unordered_map
         }
 	#else
 		#include <ext/hash_map>

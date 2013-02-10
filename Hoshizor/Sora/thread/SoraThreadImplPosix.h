@@ -18,7 +18,7 @@
 #ifndef OS_WIN32
 #include <pthread.h>
 #else
-#include "pthread.h"
+#include "win32/pthread.h"
 #endif
 
 namespace sora {

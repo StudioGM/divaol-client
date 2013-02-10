@@ -29,7 +29,7 @@ namespace Base
 		}
 
 		Any(const Any &rhs)
-			:mContent(rhs.mContent?rhs.mContent->clone():0) {
+			:mContent(rhs.mContent?rhs.mContent->clone():(HolderBase*)0) {
 		}
 
 		~Any() {

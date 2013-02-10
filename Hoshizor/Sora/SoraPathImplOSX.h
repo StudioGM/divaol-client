@@ -13,6 +13,9 @@
 #include "SoraException.h"
 #include "SoraOSXFileUtility.h"
 #include <pwd.h>
+#include <sched.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 namespace sora {
     

@@ -158,7 +158,7 @@ namespace Base
 				SharedPtr tmp(ptr);
 				swap(tmp);
 			}
-			return tmp;
+			return *this;
 		}
 		void reset(T *_ptr=0) {
 			assign(_ptr);

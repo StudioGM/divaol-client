@@ -15,7 +15,7 @@
 #if !defined(OS_WIN32) || defined(SORA_WIN32_PTHREAD)
 #include "SoraThreadImplPosix.h"
 	#if defined(SORA_WIN32_PTHREAD)
-		#pragma comment(lib, "pthreadVC2.lib");
+		#pragma comment(lib, "win32/pthreadVC2.lib");
 	#endif
 #else
 #include "SoraThreadImplWin32.h"
