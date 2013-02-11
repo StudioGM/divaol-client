@@ -66,7 +66,7 @@ namespace divacore
 
 		bool hook(const std::string &ID, const std::string &channel, const std::string &tag) 
 		{
-			if(tag=="sound_effect")
+			if(tag=="se")
 			{
 				setHookInfo(1);
 				return true;

@@ -17,11 +17,14 @@ namespace divanet
 		enum {STAGE,GAME,CHECKOUT};
 
 		std::string ownerId;
+		Base::String ownerNickname;
 		uint64 CreationTime;
 		uint32 serverId;
 		uint32 capacity;
 		uint32 playernum;
-		uint32 sondId;
+		uint32 songId;
+		uint32 level;
+		uint32 mode;
 		int32 state;
 	};
 	typedef std::vector<RoomInfo> RoomInfos;
@@ -34,15 +37,19 @@ namespace divanet
 		virtual std::string name() const {return "scheduler";}
 
 		void login() {
+			isRequireing = false;
 			GNET_RECEIVE_REGISTER(mNetSys,"scheduler#response",&SchedulerClient::gnet_response);
 		}
 
 		void logout() {
-			GNET_RECEIVE_UNREGISTER(mNetSys,"scheduler#roomlist");
+			GNET_RECEIVE_UNREGISTER(mNetSys,"scheduler#response");
 		}
 
 		void updateRoomList() {
-			mNetSys->send("scheduler#roomlist");
+			//if (!isRequireing) {
+				isRequireing = true;
+				mNetSys->send("scheduler#roomlist");
+			//}
 		}
 
 		void requestRoomNum() {
@@ -66,8 +73,10 @@ namespace divanet
 
 	public:
 		void gnet_response(GPacket *packet) {
-			std::string type = packet->getItem(2)->getString();
+			isRequireing = false;
 
+			std::string type = packet->getItem(2)->getString();
+			
 			if(type=="roomlist")
 			{
 				infos.clear();
@@ -82,8 +91,20 @@ namespace divanet
 					info.CreationTime = item->getItem(1)->getInt();
 					info.serverId = item->getItem(2)->getInt();
 					info.capacity = roomInfo->getItem(0)->getInt();
+					info.ownerNickname = Base::String::unEscape(roomInfo->getItem(4)->getString());
+					if (info.ownerNickname.size() == 0)
+						continue;
 					info.state = roomInfo->getItem(1)->getString()=="stage"?RoomInfo::STAGE:("game"?RoomInfo::GAME:RoomInfo::CHECKOUT);
-					info.sondId = roomInfo->getItem(2)->getInt();
+					gnet::Item<gnet::List> *songList = roomInfo->getItem(2)->as<gnet::Item<gnet::List>>();
+					if(songList == 0 || songList->size() == 0)
+						info.songId = 0;
+					else
+					{
+						gnet::Item<gnet::Tuple> *firstItem = songList->getItem(0)->as<gnet::Item<gnet::Tuple>>();
+						info.songId = firstItem->getItem(0)->getInt();
+						info.level = firstItem->getItem(1)->getInt();
+						info.mode = firstItem->getItem(2)->getInt();
+					}
 					info.playernum = roomInfo->getItem(3)->getInt();
 
 					infos.push_back(info);
@@ -103,13 +124,14 @@ namespace divanet
 			connect_thread();
 		}
 	protected:
-		SchedulerClient(){}
+		SchedulerClient(){isRequireing = false;}
 		~SchedulerClient() {}
 		friend class Base::Singleton<SchedulerClient>;
 
 		
 
 	private:
+		bool isRequireing;
 		RoomInfos infos;
 	};
 

@@ -1,0 +1,89 @@
+﻿{
+  "SongSlider/mousedown/down": {
+    "filename": "res/house/SongSlider_001.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": 114,
+    "desY": 494,
+    "width": 41,
+    "height": 14
+  },
+  "SongSlider/mousedown/up": {
+    "filename": "res/house/SongSlider_001.png",
+    "srcX": 0,
+    "srcY": 14,
+    "desX": 114,
+    "desY": 470,
+    "width": 41,
+    "height": 13
+  },
+  "SongSlider/mouseon/down": {
+    "filename": "res/house/SongSlider_001.png",
+    "srcX": 0,
+    "srcY": 27,
+    "desX": 114,
+    "desY": 495,
+    "width": 41,
+    "height": 13
+  },
+  "SongSlider/mouseon/up": {
+    "filename": "res/house/SongSlider_001.png",
+    "srcX": 0,
+    "srcY": 40,
+    "desX": 114,
+    "desY": 470,
+    "width": 41,
+    "height": 13
+  },
+  "SongSlider/mouseon/mid": {
+    "filename": "res/house/SongSlider_001.png",
+    "srcX": 41,
+    "srcY": 0,
+    "desX": 114,
+    "desY": 483,
+    "width": 41,
+    "height": 12
+  },
+  "SongSlider/mousedown/mid": {
+    "filename": "res/house/SongSlider_001.png",
+    "srcX": 41,
+    "srcY": 12,
+    "desX": 114,
+    "desY": 483,
+    "width": 41,
+    "height": 11
+  },
+  "SongSlider/normal/mid": {
+    "filename": "res/house/SongSlider_001.png",
+    "srcX": 41,
+    "srcY": 23,
+    "desX": 121,
+    "desY": 483,
+    "width": 27,
+    "height": 12
+  },
+  "SongSlider/normal/down": {
+    "filename": "res/house/SongSlider_001.png",
+    "srcX": 41,
+    "srcY": 35,
+    "desX": 121,
+    "desY": 495,
+    "width": 27,
+    "height": 6
+  },
+  "SongSlider/normal/up": {
+    "filename": "res/house/SongSlider_001.png",
+    "srcX": 41,
+    "srcY": 41,
+    "desX": 121,
+    "desY": 477,
+    "width": 27,
+    "height": 6
+  },
+  "Config": {
+    "width": 27,
+    "height": 210,
+    "desX": 0,
+    "desY": 20
+  }
+}

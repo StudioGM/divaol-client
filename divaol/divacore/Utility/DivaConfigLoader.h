@@ -17,7 +17,7 @@ namespace divacore
 
 	namespace configloader
 	{
-		void loadWithJson(Config &config, const std::string &file);
+		void loadWithJson(Config &config, const std::string &file, bool ignore = false);
 	}
 }
 

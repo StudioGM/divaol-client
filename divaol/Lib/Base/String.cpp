@@ -19,7 +19,7 @@ namespace Base
 	{
 		base_wstring ret;
 		for(size_t index = 0; index < mContent.size(); index++)
-			if(mContent[index]>=L'A'&&mContent[index]<='z')
+			if(mContent[index]>=L'A'&&mContent[index]<=L'Z')
 				ret += mContent[index]+(L'a'-L'A');
 			else
 				ret += mContent[index];

@@ -21,6 +21,7 @@ namespace divacore
 	{
 		sora::SoraSprite *image;
 		float scale;
+
 	protected:
 		std::string getName() {return "PressSafe";}
 		virtual void onInitialize()
@@ -195,6 +196,7 @@ namespace divacore
 		EFFECTS effects;
 
 		PSystem pSystem;
+		int level;
 	
 	private:
 		void delEffect(BaseEffect* effect)
@@ -203,6 +205,8 @@ namespace divacore
 			SAFE_DELETE(effect);
 		}
 	public:
+		HDEffectSystem():level(2) {}
+
 		void gameReset() 
 		{
 			sources.clear();
@@ -316,6 +320,15 @@ namespace divacore
 		{
 			pSystem.SetState(0x8000,note->getID());
 		}
+
+		void setEffectLevel(int level) 
+		{
+			this->level = level;
+		}
+		int getEffectLevel() 
+		{
+			return level;
+		} 
 	};
 }
 

@@ -1,0 +1,29 @@
+﻿{
+  "down": {
+    "filename": "res/UI2.png",
+    "srcX": 964,
+    "srcY": 1372,
+    "desX": 712,
+    "desY": 644,
+    "width": 149,
+    "height": 66
+  },
+  "on": {
+    "filename": "res/UI2.png",
+    "srcX": 1113,
+    "srcY": 1372,
+    "desX": 692,
+    "desY": 624,
+    "width": 189,
+    "height": 106
+  },
+  "normal": {
+    "filename": "res/UI2.png",
+    "srcX": 815,
+    "srcY": 1372,
+    "desX": 712,
+    "desY": 644,
+    "width": 149,
+    "height": 66
+  }
+}

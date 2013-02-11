@@ -11,6 +11,9 @@
 #include "Utility/DivaJsonHelper.h"
 #include "Core/DivaDefault.h"
 #include "Core/DivaCore.h"
+#include "divanetwork/DivaNetworkManager.h"
+#include "divasongmgr/DivaMapManager.h"
+#include "Utility/DivaSettings.h"
 
 namespace divacore
 {
@@ -123,6 +126,7 @@ namespace divacore
 
 			//merge note/render/effect configs so that player can custom specfic parts of them
 			loadConfig(path);
+			loadConfig(SETTINGS.getUserModule());
 			loadConfig(MY_PLAYER_INFO.module());
 
 			if(noteFile=="__default__")
@@ -156,6 +160,10 @@ namespace divacore
 			HOOK_MANAGER_PTR->insert(HOOK_MANAGER_PTR->createHook(customHooks[i]));
 		for(int i = 0; i < hooks.size(); i++)
 			HOOK_MANAGER_PTR->insert(HOOK_MANAGER_PTR->createHook(hooks[i]));
+
+		std::vector<std::string> selectHooks = MAPMGR.GetSelectedModeStr();
+		for(int i = 0; i < selectHooks.size(); i++)
+			HOOK_MANAGER_PTR->insert(HOOK_MANAGER_PTR->createHook(selectHooks[i]));
 	}
 	void JsonGameModule::gameStop()
 	{

@@ -74,7 +74,7 @@ namespace divacore
 		static const int BUFFER_POSITION = 192*4;
 		static const int MIN_TIME_PERIOD = 192*4;
 		static const int MAX_TIME_PERIOD = 192*30;
-		int maxLastGrid;
+		int maxLastGrid, lastPlayGrid, restGrid;
 
 		RelayPlay_NoteBlender *noteBlender;
 		double changePosition,voidPosition,endPosition;
@@ -91,6 +91,7 @@ namespace divacore
 
 		//derived control funcs
 		int getNowPlayer() {return nowPlayer;}
+		std::string getNetGameMode() {return "relay";}
 
 		void init()
 		{
@@ -127,7 +128,10 @@ namespace divacore
 		{
 			MultiPlay::gameStart();
 			if(getMyPlayerInfo()->indexInTeam==0)
+			{
+				lastPlayGrid = 0;
 				setRelayState(MYTURN);
+			}
 			else
 				setRelayState(WAIT);
 
@@ -136,6 +140,9 @@ namespace divacore
 
 		void gameOver()
 		{
+			if (getRelayState() == MYTURN)
+				relayWantToChange();
+
 			MultiPlay::gameOver();
 			setRelayState(OVER);
 			GNET_UNRECEIVE_PACKET("game#relayChanceL");
@@ -147,11 +154,18 @@ namespace divacore
 
 		void gameReady()
 		{
-			maxLastGrid = (int)ceil(MAP_INFO->totalGrid/*header.barNum*GRID_PER_BAR*//getMyTeamInfo()->players.size()*1.5);
-			endPosition = maxLastGrid;
+			restGrid = maxLastGrid = (int)ceil(MAP_INFO->totalGrid/*header.barNum*GRID_PER_BAR*//getMyTeamInfo()->players.size()*1.2);
+			endPosition = restGrid;
+
 			registerUI();
 
 			nowPlayer = nextPlayer = 0;
+		}
+
+		void destroy()
+		{
+			if (getRelayState() == MYTURN)
+				relayWantToChange();
 		}
 
 		void registerUI()
@@ -229,10 +243,10 @@ namespace divacore
 				//≤•∑≈hit“Ù
 				if(event.type==StateEvent::PRESS||event.type==StateEvent::FAILURE)
 				{
-					if(event.rank<=4)
-						Core::Ptr->getMusicManager()->playDirect("hit","sound_effect");
+					if(event.rank<=5 && event.type!=StateEvent::FAILURE) //!HINT temporary change to 5
+						Core::Ptr->getMusicManager()->playDirect("hit","se");
 					else
-						Core::Ptr->getMusicManager()->playDirect("miss","sound_effect");
+						Core::Ptr->getMusicManager()->playDirect("miss","se");
 				}
 
 				//show effect
@@ -242,6 +256,16 @@ namespace divacore
 				stateList[event.note->getID()].addKey(event);
 				stateQueue.push_back(event);
 			}
+		}
+
+		// force all the players' combo to my combo, to avoid conflict in display
+		void afterUpdateInfo()
+		{
+			for(int i = 0; i < mInfo->mPlayers.size(); i++)
+				if(i!=mInfo->myPlayerID && mInfo->mPlayers[i].teamIndex!=mInfo->myTeamID)
+				{
+					mInfo->mPlayers[i].combo = mInfo->myPlayerPtr->combo;
+				}
 		}
 
 		void sendRenew(uint32 uid, int rank, bool breakCombo, bool breakNote, double positionX, double positionY)
@@ -264,7 +288,7 @@ namespace divacore
 				if(getRelayState()==MYTURN)
 					relayWantToChange();
 				else if(getRelayState()==RELAY)
-						relayWantToPlay();
+					relayWantToPlay();
 			}
 		}
 
@@ -295,8 +319,9 @@ namespace divacore
 		}
 		void gnetRelayChance(GPacket *packet)
 		{
-			if(!getAlive())
+			if(!getAlive() || restGrid <= 0)
 				return;
+
 			NETWORK_SYSTEM_PTR->read(packet,"%f",&changePosition);
 			setRelayState(RELAY);
 
@@ -339,7 +364,8 @@ namespace divacore
 
 			if(CORE_PTR->getRunPosition()>changePosition)
 			{
-				endPosition = CORE_PTR->getRunPosition()+maxLastGrid;
+				endPosition = CORE_PTR->getRunPosition()+restGrid;
+				lastPlayGrid = CORE_PTR->getRunPosition();
 				changePosition = 0, setRelayState(MYTURN);
 				
 				iAmPlaying();
@@ -349,7 +375,9 @@ namespace divacore
 		{
 			relayNewTurn();
 
-			NETWORK_SYSTEM_PTR->read(packet,"%d",&nowPlayer);
+			int tmpTurn;
+			NETWORK_SYSTEM_PTR->read(packet,"%d%d",&tmpTurn,&nowPlayer);
+			nowPlayer--;
 
 			if(getRelayState()!=CHANGE)
 			{
@@ -387,7 +415,7 @@ namespace divacore
 			}
 			
 			if(rank>4)
-				MUSIC_MANAGER_PTR->playDirect("miss","sound_effect");
+				MUSIC_MANAGER_PTR->playDirect("miss","se");
 			if(breakNote)
 				CORE_FLOW_PTR->toFail(pID);
 
@@ -454,6 +482,9 @@ namespace divacore
 			{
 				if(CORE_PTR->getRunPosition()>changePosition)
 				{
+					restGrid -= CORE_PTR->getRunPosition() - lastPlayGrid;
+					if (restGrid < 0)
+						restGrid = 0;
 					changePosition = 0, setRelayState(WAIT);
 
 					changePrompt->showNumber(false);
@@ -467,7 +498,8 @@ namespace divacore
 			{
 				if(CORE_PTR->getRunPosition()>changePosition)
 				{
-					endPosition = changePosition+maxLastGrid;
+					lastPlayGrid = CORE_PTR->getRunPosition();
+					endPosition = changePosition+restGrid;
 					changePosition = 0, setRelayState(MYTURN);
 
 					recvPrompt->setRelayState(RelayPrompt::NORMAL);
@@ -497,7 +529,7 @@ namespace divacore
 					KeyState &keyState = stateList[relayQueue.begin()->noteID];
 
 					if(relayQueue.begin()->event.rank>4)
-						MUSIC_MANAGER_PTR->playDirect("miss","sound_effect");
+						MUSIC_MANAGER_PTR->playDirect("miss","se");
 
 					if(relayQueue.begin()->event.breakNote&&!keyState.isOver())
 					{

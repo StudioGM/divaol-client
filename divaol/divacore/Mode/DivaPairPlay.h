@@ -65,6 +65,8 @@ namespace divacore
 		typedef std::vector<PairNote> PAIR_NOTES;
 		PAIR_NOTES pairQueue;
 	public:
+		std::string getNetGameMode() {return "pair";}
+		
 		void init()
 		{
 			MultiPlay::init();
@@ -133,10 +135,10 @@ namespace divacore
 				//play the key sound automatically
 				if(event.type==StateEvent::PRESS||event.type==StateEvent::FAILURE)
 				{
-					if(event.rank<=4)
-						Core::Ptr->getMusicManager()->playDirect("hit","sound_effect");
+					if(event.rank<=5 && event.type!=StateEvent::FAILURE) //!HINT temporary change to 5
+						Core::Ptr->getMusicManager()->playDirect("hit","se");
 					else
-						Core::Ptr->getMusicManager()->playDirect("miss","sound_effect");
+						Core::Ptr->getMusicManager()->playDirect("miss","se");
 				}
 
 				//show effect
@@ -169,7 +171,7 @@ namespace divacore
 			else
 			{
 				if(noteRank>4)
-					MUSIC_MANAGER_PTR->playDirect("miss","sound_effect");
+					MUSIC_MANAGER_PTR->playDirect("miss","se");
 				if(breakNote)
 					CORE_FLOW_PTR->toFail(noteID);
 			}
@@ -186,7 +188,7 @@ namespace divacore
 				if(stateList.size()>pairQueue.begin()->noteID)
 				{
 					if(pairQueue.begin()->noteRank>4)
-						MUSIC_MANAGER_PTR->playDirect("miss","sound_effect");
+						MUSIC_MANAGER_PTR->playDirect("miss","se");
 					if(pairQueue.begin()->breakNote)
 						CORE_FLOW_PTR->toFail(pairQueue.begin()->noteID);
 

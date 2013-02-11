@@ -67,6 +67,11 @@ namespace divacore
 				root->render();
 		}
 
+		bool hasWidget(const std::string &name)
+		{
+			return uiMap.find(name)!=uiMap.end();
+		}
+
 		SimpleUI::WidgetPtr getWidget(const std::string &name)
 		{
 			if(uiMap.find(name)==uiMap.end())
@@ -91,6 +96,13 @@ namespace divacore
 			if(uiMap.find("root")==uiMap.end()) 
 				return;
 			uiMap["root"]->add(widget);
+		}
+
+		void delWidget(SimpleUI::WidgetPtr widget)
+		{
+			if(uiMap.find("root")==uiMap.end()) 
+				return;
+			uiMap["root"]->del(widget);
 		}
 
 		void addWidget(std::string name)

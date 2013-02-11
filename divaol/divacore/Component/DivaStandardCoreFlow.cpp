@@ -46,6 +46,8 @@ namespace divacore
 		timeCounter.reset();
 		mainSound = "";
 		mIsFinish = true;
+		mIsSongOver = false;
+		mIsNoteOver = false;
 
 		state = INIT;
 	}
@@ -62,7 +64,7 @@ namespace divacore
 		for(int i = 0; i < notesPtr->size(); i++)
 		{
 			MapNote &note = (*notesPtr)[i];
-			timeQueue.push(SCF_TimeStamp(note.aheadTime,note.notePoint[0].position-note.aheadBar*GRID_PER_BAR,SCF_TimeStamp::NOTE_START,i));
+			timeQueue.push(SCF_TimeStamp(note.aheadTime,((int)note.notePoint[0].position)-note.aheadBar*GRID_PER_BAR,SCF_TimeStamp::NOTE_START,i));
 		}
 		for(int i = 0; i < eventsPtr->size(); i++)
 		{
@@ -80,9 +82,11 @@ namespace divacore
 	}
 	void StandardCoreFlow::over()
 	{
-		EVALUATE_STRATEGY_PTR->finalEvaluate();
-		core->getMusicManager()->destroy();
-		state = END;
+		if (state != END) {
+			EVALUATE_STRATEGY_PTR->finalEvaluate();
+			core->getMusicManager()->destroy();
+			state = END;
+		}
 	}
 	void StandardCoreFlow::destroy()
 	{
@@ -122,7 +126,13 @@ namespace divacore
 			nowTime = MUSIC_MANAGER_PTR->getPosition(MAIN_SOUND_CHANNEL);/*timeCounter.getTime()*/;
 			bool actived = MUSIC_MANAGER_PTR->isPlaying(MAIN_SOUND_CHANNEL);
 
-			if(!actived/*nowTime>=totalTime*//*||!GAME_MODE_PTR->getAlive()*/)
+			if ((timeQueue.size() <= 1 && noteList.size() == 0 || !actived) && !mIsNoteOver)
+			{
+				mIsNoteOver = true;
+				GAME_MODE_PTR->noteOver();
+			}
+
+			if (!actived/*nowTime>=totalTime*//*||!GAME_MODE_PTR->getAlive()*/)
 			{
 				// flow back 0.5s to have a buffer, otherwise it will cause a thread confliction so that the music will back to 0
 				//MUSIC_MANAGER_PTR->setPosition(MAIN_SOUND_CHANNEL,totalTime-5);
@@ -130,6 +140,7 @@ namespace divacore
 				//endTask
 
 				mIsFinish = true;
+				mIsSongOver = nowTime>=totalTime;
 
 				endTask.start();
 
@@ -137,6 +148,7 @@ namespace divacore
 				{
 					EVALUATE_STRATEGY_PTR->finalEvaluate();
 					core->getMusicManager()->destroy();
+
 					state = END;
 				}
 				
@@ -285,8 +297,12 @@ namespace divacore
 		{
 			StateEvent _event(note,abs(nowTime-note->getReceivePoint().time));
 			_event.key = event.key;
-			note->onPressed(_event);
+			if(note->onPressed(_event))
+				return;
 		}
+		// if note pressed
+		if ((event.key >= 0 && event.key < NOTE_NUM || event.key == DIVA_KEY_SPACE) && Core::Ptr->getMusicManager()->hasSound("press"))
+			Core::Ptr->getMusicManager()->playDirect("press","se");
 	}
 	void StandardCoreFlow::onKeyReleased(KeyEvent& event)
 	{
@@ -354,7 +370,7 @@ namespace divacore
 		if(_totalTime!=totalTime)
 		{
 			MUSIC_MANAGER_PTR->reload(MAP_INFO->header.mainSound);
-			MUSIC_MANAGER_PTR->play(MAP_INFO->header.mainSound,CORE_FLOW_PTR->MAIN_SOUND_CHANNEL);
+			MUSIC_MANAGER_PTR->play(MAP_INFO->header.mainSound,CORE_FLOW_PTR->MAIN_SOUND_CHANNEL,"bgm");
 		}
 		_totalTime = MUSIC_MANAGER_PTR->getLength(MAIN_SOUND_CHANNEL);
 
@@ -428,7 +444,7 @@ namespace divacore
 					{
 						NotePtr _note = core->getItemFactory()->createNote(note);
 						if(index==0)
-							_note->setKeyPosition(note.notePoint[0].position-note.aheadBar*GRID_PER_BAR);
+							_note->setKeyPosition((int)note.notePoint[0].position-note.aheadBar*GRID_PER_BAR);
 						else
 							_note->setKeyPosition(note.notePoint[index-1].position);
 						_note->setID(i);
@@ -445,7 +461,7 @@ namespace divacore
 					}
 			}
 			else
-				timeQueue.push(SCF_TimeStamp(note.aheadTime,note.notePoint[0].position-note.aheadBar*GRID_PER_BAR,SCF_TimeStamp::NOTE_START,i));
+				timeQueue.push(SCF_TimeStamp(note.aheadTime,(int)note.notePoint[0].position-note.aheadBar*GRID_PER_BAR,SCF_TimeStamp::NOTE_START,i));
 		}
 		timeQueue.push(SCF_TimeStamp(totalTime,totalGrid,SCF_TimeStamp::EVENT,0));
 	}
@@ -480,7 +496,7 @@ namespace divacore
 			}
 		}
 
-		MUSIC_MANAGER_PTR->play(mainSound,MAIN_SOUND_CHANNEL);
+		MUSIC_MANAGER_PTR->play(mainSound,MAIN_SOUND_CHANNEL,"bgm");
 	}
 
     double StandardCoreFlow::_posToTime(double position)

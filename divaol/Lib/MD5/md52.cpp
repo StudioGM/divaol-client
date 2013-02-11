@@ -149,7 +149,7 @@ void MD52::update(ifstream& in) {
 void MD52::update(std::wstring& in) {
 
 	FILE* readFile;
-	if(_wfopen_s(&readFile, in.c_str(),L"rb+, ccs=UNICODE")!=0)
+	if(_wfopen_s(&readFile, in.c_str(),L"rb, ccs=UNICODE")!=0)
 		return;
 
 	size_t readFile_pos = ftell(readFile);

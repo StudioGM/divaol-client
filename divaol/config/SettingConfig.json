@@ -1,0 +1,85 @@
+{
+	///////////////////////////////////////////////////////
+	// basic info
+
+	///////////////////////////////////////////////////////
+
+	// settings info
+	// ui info
+
+
+	"resolutions_description" : [
+		"864*486",
+		"1120*630",
+		"1280*720",
+		"1920*1080",
+		"2560*1440"
+	],
+	"resolutions_pair" : [
+	    {
+		    "width" : 864,
+			"height" : 486
+		},
+		{
+			"width" : 1120,
+			"height" : 630
+		},
+		{
+			"width" : 1280,
+			"height" : 720
+		},
+		{
+			"width" : 1920,
+			"height" : 1080
+		},
+		{
+			"width" : 2560,
+			"height" : 1440
+		}
+	],
+	"windowModes": [
+		"是",
+		"否"
+	],
+	"musicVolumes":[
+		"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
+	],
+	"seVolumes":[
+		"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
+	],
+	"uiMods":[
+		"默认",
+		"PlayStation按键"
+	],
+	"uiModFiles":[
+		"standard",
+		"skin_playstation"
+	],
+	"languages":[
+		"中文"
+	],
+	"particleSystems":[
+		"关闭",
+		"低",
+		"正常"
+	],
+
+	"gameModeNames" : ["普通", "接力"],
+	"difNames": ["EASY", "NORMAL", "HARD", "EXTRA", "DIE"],
+	"listenDelay" : 1.0,
+	"iconFileNames" : ["res/test_icon.png", "res/test_icon.png", "res/test_icon.png", "res/test_icon.png"],
+
+	"lobbyMusicFilename": "res/music/lobby.ogg",
+	"lobbyLoopMusicFilename": "res/music/lobbyloop.ogg",
+	"resultMusicFilename": "res/music/result.ogg",
+	"resultLoopMusicFilename": "res/music/resultloop.ogg",
+	"resultNumberUpSound": "res/se/number.mp3",
+	"titleMusicFilename": "res/music/title.ogg",
+	"titleScreenDelayTime": 1.5,
+	"chatAreaMaxLine": 60,
+	
+	"tmpInfoFile" : "info.tmp"
+
+	///////////////////////////////////////////////////////
+	// Test data
+}

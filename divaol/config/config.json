@@ -1,0 +1,14 @@
+{
+   "bgmFadeTime" : 1.0,
+   "gameHeight" : 1080,
+   "gameWidth" : 1920,
+   "globalFont" : "res/msyh.ttf",
+   "isWindowMode" : true,
+   "language" : 0,
+   "musicVolume" : 10,
+   "particleSystem" : 2,
+   "resolution" : 1,
+   "screenFadeTime" : 0.5,
+   "seVolume" : 6,
+   "uiMod" : 0
+}

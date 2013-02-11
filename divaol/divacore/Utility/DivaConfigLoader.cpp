@@ -73,7 +73,7 @@ namespace divacore
 			else
 				DIVA_EXCEPTION_MODULE("item "+key+" can't load","ConfigJsonLoader");
 		}
-		void loadWithJson(Config &config, const std::string &file)
+		void loadWithJson(Config &config, const std::string &file, bool ignore)
 		{
 			SoraResourceFile data(file);
 
@@ -84,7 +84,7 @@ namespace divacore
 
 			if(reader.parse(cdata, cdata+data.size(), root))
 				_addWithJson(config,"",root);
-			else
+			else if(!ignore)
 				DIVA_EXCEPTION_MODULE(reader.getFormatedErrorMessages(),"JsonConfig - "+file);
 		}
 	}

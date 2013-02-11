@@ -26,7 +26,7 @@ namespace divanet
 	{
 	public:
 		enum {STATE_DISCONNECT,STATE_CONNECT,STATE_BREAK,STATE_CONNECTING};
-		enum {NOTIFY_CONNECT,NOTIFY_DISCONNECT,NOTIFY_TIMEOUT};
+		enum {NOTIFY_CONNECT,NOTIFY_DISCONNECT,NOTIFY_TIMEOUT,NOTIFY_PING_RESPONSE};
 
 		bool isLogin() const {return mIsLogin;}
 		bool isConnect() const {return mIsConnect;}
@@ -53,8 +53,9 @@ namespace divanet
 				notify("ok",NOTIFY_CONNECT);
 
 				GNET_RECEIVE_REGISTER(mNetSys,"tick#response", &Client::_gnet_tick);
+				GNET_RECEIVE_REGISTER(mNetSys,"ping#response", &Client::_gnet_ping_response);
 				mWaitTickTime = NetInfo::TIME_OUT;
-				mNextTickTime = 0;
+				mIsWaitingPing = false;
 
 				mIsConnect = true;
 
@@ -81,6 +82,7 @@ namespace divanet
 			notify("ok",NOTIFY_DISCONNECT);
 
 			GNET_RECEIVE_UNREGISTER(mNetSys,"tick#response");
+			GNET_RECEIVE_UNREGISTER(mNetSys,"ping#response");
 		}
 
 		virtual void onBreak() {}
@@ -89,22 +91,15 @@ namespace divanet
 			if(isConnect()) {
 				mNetSys->update(dt);
 
-				mNextTickTime -= dt;
-				if(mNextTickTime<=0)
-				{
-					mNextTickTime = NetInfo::TICK_TIME;
-					//mNetSys->tick();
-				}
-
 				mWaitTickTime -= dt;
-				if(mWaitTickTime<=0) {
+				/*if(mWaitTickTime<=0) {
 					mWaitTickTime = 0;
 					notify("timeout",NOTIFY_TIMEOUT);
 					disconnect();
 
 					mClientState = STATE_BREAK;
 					onBreak();
-				}
+				}*/
 			}
 		}
 		void reconnect(const Task &task) {
@@ -113,10 +108,23 @@ namespace divanet
 			mConnectTask.set(task);
 			mConnectTask.start();
 		}
+		void ping() {
+			if(mIsWaitingPing)
+				return;
+			gnet::Item<gnet::Tuple> *ping = new gnet::Item<gnet::Tuple>();
+			ping->appendItem(new gnet::Item<gnet::Atom>("ping"));
+			ping->appendItem(new gnet::Item<gnet::uint64>(uint64(Base::TimeUtil::currentTime())));
+			mNetSys->send(ping);
+			mIsWaitingPing = true;
+		}
 
 	protected:
 		void _gnet_tick(divanet::GPacket *packet) {
 			mWaitTickTime = NetInfo::TIME_OUT;
+		}
+		void _gnet_ping_response(divanet::GPacket *packet) {
+			mIsWaitingPing = false;
+			notify("ping", NOTIFY_PING_RESPONSE, packet);
 		}
 		void _setLogin(bool login) {
 			mIsLogin = login;
@@ -140,8 +148,8 @@ namespace divanet
 	protected:
 		ThreadTask mTickTask;
 		ThreadTask mConnectTask;
-		float mNextTickTime;
 		float mWaitTickTime;
+		bool mIsWaitingPing;
 		bool mIsConnect;
 		bool mIsLogin;
 		uint32 mClientState;

@@ -290,7 +290,7 @@ namespace divacore
 		rhythmSprite->update(dt);
 		coverSprite->update(dt);
 	}
-	void PingpongNote::onPressed(StateEvent& event)
+	bool PingpongNote::onPressed(StateEvent& event)
 	{
 		if(getState()==HEAD)
 		{
@@ -302,8 +302,8 @@ namespace divacore
 				//Rect texRect = config->getAsRect("pingpong_note_"+NOTE_MAP[twoType[cntHit%2]]);
 				//noteSprite->setTextureRect(texRect.x,texRect.y,texRect.w,texRect.h);
 				//if(noteInfo.notePoint[0].key!="")
-				//	Core::Ptr->getMusicManager()->playDirect(noteInfo.notePoint[0].key,"sound_effect");
-				//Core::Ptr->getMusicManager()->playDirect("hit","sound_effect");
+				//	Core::Ptr->getMusicManager()->playDirect(noteInfo.notePoint[0].key,"se");
+				//Core::Ptr->getMusicManager()->playDirect("hit","se");
 
 				Core::Ptr->getGameMode()->inform(event);
 				if(event.breakNote)
@@ -313,16 +313,17 @@ namespace divacore
 				}
 				else
 					setState(TAIL);
+				return true;
 			}
 		}
 		else
 		{
 			//the pingpong hit
 			//if(noteInfo.notePoint[0].key!="")
-			//	Core::Ptr->getMusicManager()->playDirect(noteInfo.notePoint[0].key,"sound_effect");
+			//	Core::Ptr->getMusicManager()->playDirect(noteInfo.notePoint[0].key,"se");
 			
 			// here playing the key sound should be located in GAME_MODE, fix delayed
-			Core::Ptr->getMusicManager()->playDirect("hit","sound_effect");
+			Core::Ptr->getMusicManager()->playDirect("hit","se");
 
 			cntHit++;
 
@@ -341,7 +342,9 @@ namespace divacore
 				if(GAME_MODE_PTR->checkExtra(event))
 					GAME_MODE_PTR->inform(event);
 			}
+			return true;
 		}
+		return false;
 	}
 	void PingpongNote::onReleased(StateEvent& event)
 	{

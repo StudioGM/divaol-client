@@ -12,6 +12,7 @@
 #include "Core/DivaEvaluateStrategy.h"
 #include "Component/DivaSimpleUIPainter.h"
 #include "Utility/DivaConfigLoader.h"
+#include "divanetwork/DivaNetInfo.h"
 
 namespace divacore
 {
@@ -31,6 +32,9 @@ namespace divacore
 
 		EvalResult::EVALDATA mRank;
 		EvalResult mResult;
+
+		static const int MAX_TEAM = 8;
+		int teamScore[MAX_TEAM];
 	public:
 
 		void gameReset()
@@ -44,12 +48,22 @@ namespace divacore
 
 		void prepare(std::string configFile)
 		{
-			Config config;
-			configloader::loadWithJson(config,configFile);
-			for(int i = 0; i < EVAL_NUM-1; i++)
-				range_rank[i] = config.getAsDouble("range_rank"+iToS(i+1));
+			if(configFile == "" || Base::FileUtil::FileExist(configFile))
+			{
+				range_rank[0] = 0.03;
+				range_rank[1] = 0.05;
+				range_rank[2] = 0.06;
+				range_rank[3] = 0.07;
+				protectedTime = 0.1;
+			}
+			else {
+				Config config;
+				configloader::loadWithJson(config,configFile);
+				for(int i = 0; i < EVAL_NUM-1; i++)
+					range_rank[i] = config.getAsDouble("range_rank"+iToS(i+1));
 
-			protectedTime = config.getAsDouble("protectedTime");
+				protectedTime = config.getAsDouble("protectedTime");
+			}
 		}
 
 		bool evaluatePress(StateEvent& event)
@@ -147,18 +161,26 @@ namespace divacore
 		//}
 		void updateInfo()
 		{
+			if(CORE_PTR->getState()!=Core::RESULT)
+				return;
+
 			// NETWORK CAUTION
+			mRank = mResult.evalData;
+			_sortRank();
 			for(int i = 0; i < mRank.size(); i++)
-				evals[i]->setInfo(mResult.evalData[mRank[i].index].score,mResult.evalData[mRank[i].index].cntEval);
+			{
+				evals[i]->setInfo(mRank[i]);
+				evals[i]->setTeamColor(mRank[i].index);
+			}
 		}
 		void addSingleEvalUI()
 		{
-			divacore::SimpleUIPainter * uiPainter = (divacore::SimpleUIPainter*)UI_PAINTER_PTR;
+			/*divacore::SimpleUIPainter * uiPainter = (divacore::SimpleUIPainter*)UI_PAINTER_PTR;
 			SimpleUI::EvalBar *eval;
 
 			eval = (SimpleUI::EvalBar *)uiPainter->createWidget("header");
-			eval->setInfo(mResult.myScore,mResult.myCntEval);
-			uiPainter->addWidget(eval);
+			eval->setInfo(mResult.myScore,mResult.myMaxCombo,mResult.myMaxCTLevel,mResult.myCntEval,NET_INFO.nickname);
+			uiPainter->addWidget(eval);*/
 		}
 		void addMultiEvalUI()
 		{
@@ -167,7 +189,7 @@ namespace divacore
 			
 			evals.clear();
 			mRank = mResult.evalData;
-			sort(mRank.begin(),mRank.end());
+			_sortRank();
 			for(int i = 0; i < mRank.size(); i++) {
 				SimpleUI::EvalBar *eval = (SimpleUI::EvalBar *)uiPainter->createWidget(i==0?"header":"bar");
 				//eval->addIcon(players[i].netID);
@@ -183,6 +205,33 @@ namespace divacore
 			GAME_MODE_PTR->preEvaluate();
 
 			GAME_MODE_PTR->afterEvaluate();
+		}
+
+		bool compare(const EvalData &a, const EvalData &b)
+		{
+			if(a.index!=b.index)
+				return teamScore[a.index] > teamScore[b.index];
+			return a.score > b.score;
+		}
+
+		void _sortRank()
+		{
+			memset(teamScore,0,sizeof(teamScore));
+			for(int i = 0; i < mRank.size(); i++)
+				teamScore[mRank[i].index] += mRank[i].score;
+
+			for(int i = 0; i < mRank.size(); i++)
+				for(int j = 0; j < mRank.size()-i-1; j++)
+					if(compare(mRank[j+1],mRank[j]))
+						std::swap(mRank[j],mRank[j+1]);
+		}
+
+		bool isNumberUp()
+		{
+			bool isUp = false;
+			for(int i = 0; i < evals.size(); i++)
+				isUp |= evals[i]->isNumberUp();
+			return isUp;
 		}
 	};
 }

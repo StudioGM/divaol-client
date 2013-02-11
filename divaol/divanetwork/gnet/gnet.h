@@ -15,6 +15,7 @@
 #include <string>
 #include <sstream>
 #include <deque>
+#include "Lib/Base/Codec/Codec.h"
 
 namespace gnet
 {
@@ -64,7 +65,8 @@ namespace gnet
 		GNET_TYPE_ATOM,
 		GNET_TYPE_TUPLE,
 		GNET_TYPE_LIST,
-		GNET_TYPE_DOUBLE};
+		GNET_TYPE_DOUBLE,
+		GNET_TYPE_RFA};
 
 
 	/*
@@ -274,6 +276,11 @@ namespace gnet
 		Bytes getItem() {
 			return _getType()+_getItem();
 		}
+		Bytes getRFAItem(Base::Codec::Codec &codec)
+		{
+			Bytes type = BinaryUtility::convertToBytes(GNET_TYPE_RFA);
+			return type+codec.encode(getItem()).get();
+		}
 		uint64 getUInt();
 		int64 getInt();
 		double getValue();
@@ -307,7 +314,12 @@ namespace gnet
 		{
 			stringstream ss;
 			if(sizeof(T)==sizeof(uint8)||sizeof(T)==sizeof(int8))
-				ss << '\'' << mData << '\'';
+			{
+				if (mData == 0)
+					ss << "\\0";
+				else
+					ss << '\'' << mData << '\'';
+			}
 			else
 				ss << mData;
 			return ss.str();
@@ -389,7 +401,7 @@ namespace gnet
 		~Item() {clear();}
 
 		std::string getDescription() {return _getStrWithBracket('{','}');}
-
+	
 		ItemType getType() {return GNET_TYPE_TUPLE;}
 
 		Tuple getData() const {return mData;}

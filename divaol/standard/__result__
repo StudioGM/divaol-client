@@ -1,16 +1,23 @@
 {
+	"header_info" : {
+		"type" : "image",
+		"position" : [388,82,1247,129],
+		"texRect" : [0,0,1247,129],
+		"tex" : "pic/UI/Eval/header.png"
+	},
 	"header" : {
 		"reserve" : true,
 		"type" : "evalBar",
-		"position" : [287,82],
-		"scorePosition" : [1170,66],
-		"goldPosition" : [1055,104],
-		"expPosition" : [1166,104],
-		"0" : [253,78],
-		"1" : [390,78],
-		"2" : [532,78],
-		"3" : [660,78],
-		"4" : [806,78],
+		"position" : [78,82],
+		"scorePosition" : [1410,78],
+		"goldPosition" : [1505,70],
+		"expPosition" : [1505,100],
+		"comboPosition" : [1140,78],
+		"0" : [470,78],
+		"1" : [585,78],
+		"2" : [710,78],
+		"3" : [830,78],
+		"4" : [960,78],
 		"icon0" : {
 			"tex" : "pic/head/head1.png",
 			"texRect" : [0,0,92,92],
@@ -32,26 +39,26 @@
 			"position" : [10,26,64,64]
 		},
 		"background" : {
-			"tex" : "pic/Kap.II.png",
-			"texRect" : [0,1049,1339,129],
-			"position" : [0,0,1339,129]
+			"tex" : "pic/UI/Eval/head_bar.png",
+			"texRect" : [0,0,1548,112],
+			"position" : [0,17,1548,112]
 		},
 		"gold" : {
-			"tex" : "pic/Kap.II.png",
+			"tex" : "pic/UI/Kap.II.png",
 			"texRect" : [0,1260,35,23],
-			"position" : [982,99,35,23]
+			"position" : [1440,65,35,23]
 		},
 		"exp" : {
-			"tex" : "pic/Kap.II.png",
+			"tex" : "pic/UI/Kap.II.png",
 			"texRect" : [0,1284,56,24],
-			"position" : [1074,99,56,24]
+			"position" : [1419,95,56,24]
 		},
 		"evalNumber" : {
 			"startPoint" : [0,0],
 			"size" : [26,30],
 			"digitNum" : 1,
 			"gap" : 26,
-			"tex" : "pic/numbers.png",
+			"tex" : "pic/UI/numbers.png",
 			"texRect" : [0,308,260,30],
 			"format" : "0123456789",
 			"showStyle" : "middle"
@@ -61,7 +68,17 @@
 			"size" : [26,30],
 			"digitNum" : 8,
 			"gap" : 26,
-			"tex" : "pic/numbers.png",
+			"tex" : "pic/UI/numbers.png",
+			"texRect" : [0,308,260,30],
+			"format" : "0123456789",
+			"showStyle" : "right"
+		},
+		"comboNumber" : {
+			"startPoint" : [0,0],
+			"size" : [26,30],
+			"digitNum" : 2,
+			"gap" : 26,
+			"tex" : "pic/UI/numbers.png",
 			"texRect" : [0,308,260,30],
 			"format" : "0123456789",
 			"showStyle" : "right"
@@ -71,24 +88,83 @@
 			"size" : [13,15],
 			"digitNum" : 1,
 			"gap" : 26,
-			"tex" : "pic/numbers.png",
+			"tex" : "pic/UI/numbers.png",
 			"texRect" : [0,308,260,30],
 			"format" : "0123456789",
 			"showStyle" : "right"
+		},
+		"result" : {
+			"tex" : "pic/UI/Eval/rankresult_001.png",
+			"texRect" : [0,0,0,0],
+			"position" : [0,0,0,0],
+			"count" : 8,
+			"0" : {
+				"src" : [0,0,289,81],
+				"des" : [1548,31,289,81]
+			},
+			"1" : {
+				"src" : [289,0,208,88],
+				"des" : [1589,30,208,88]
+			},
+			"2" : {
+				"src" : [0,132,273,78],
+				"des" : [1550,32,273,78]
+			},
+			"3" : {
+				"src" : [289,88,180,78],
+				"des" : [1599,30,180,78]
+			},
+			"4" : {
+				"src" : [0,306,243,71],
+				"des" : [1567,35,243,71]
+			},
+			"5" : {
+				"src" : [0,377,232,77],
+				"des" : [1573,35,232,77]
+			},
+			"6" : {
+				"src" : [0,81,276,51],
+				"des" : [1550,46,276,51]
+			},
+			"7" : {
+				"src" : [0,210,247,96],
+				"des" : [1560,26,247,96]
+			}
+		},
+		"level" : {
+			"tex" : "pic/UI/MainGameMenu.png",
+			"texRect" : [0,0,0,0],
+			"0" : [0,0,0,0],
+			"1" : [0,1850,190,102],
+			"2" : [190,1850,190,102],
+			"3" : [380,1850,190,102],
+			"4" : [570,1850,190,102],
+			"5" : [760,1850,190,102],
+			"6" : [950,1850,190,102],
+			"position" : [305, 62, 109, 60]
+		},
+		"text" : {
+			"font" : {
+				"file" : "global",
+				"size" : 40,
+				"color" : "#FFFFFF"
+			},
+			"position" : [20,33]
 		}
 	},
 	"bar" : {
 		"reserve" : true,
 		"type" : "evalBar",
-		"position" : [287,82],
-		"scorePosition" : [1170,15],
-		"goldPosition" : [1055,53],
-		"expPosition" : [1166,53],
-		"0" : [253,27],
-		"1" : [390,27],
-		"2" : [532,27],
-		"3" : [660,27],
-		"4" : [806,27],
+		"position" : [78,82],
+		"scorePosition" : [1410,28],
+		"goldPosition" : [1505,17],
+		"expPosition" : [1505,47],
+		"comboPosition" : [1140,28],
+		"0" : [470,28],
+		"1" : [585,28],
+		"2" : [710,28],
+		"3" : [830,28],
+		"4" : [960,28],
 		"icon0" : {
 			"tex" : "pic/head/head1.png",
 			"texRect" : [0,0,92,90],
@@ -110,26 +186,26 @@
 			"position" : [10,9,64,64]
 		},
 		"background" : {
-			"tex" : "pic/Kap.II.png",
-			"texRect" : [0,1178,1339,82],
-			"position" : [0,0,1339,82]
+			"tex" : "pic/UI/Eval/bar.png",
+			"texRect" : [0,0,1548,82],
+			"position" : [0,0,1548,82]
 		},
 		"gold" : {
-			"tex" : "pic/Kap.II.png",
+			"tex" : "pic/UI/Kap.II.png",
 			"texRect" : [0,1260,35,23],
-			"position" : [982,48,35,23]
+			"position" : [1440,12,35,23]
 		},
 		"exp" : {
-			"tex" : "pic/Kap.II.png",
+			"tex" : "pic/UI/Kap.II.png",
 			"texRect" : [0,1284,56,24],
-			"position" : [1074,48,56,24]
+			"position" : [1419,42,56,24]
 		},
 		"evalNumber" : {
 			"startPoint" : [0,0],
 			"size" : [26,30],
 			"digitNum" : 1,
 			"gap" : 26,
-			"tex" : "pic/numbers.png",
+			"tex" : "pic/UI/numbers.png",
 			"texRect" : [0,308,260,30],
 			"format" : "0123456789",
 			"showStyle" : "middle"
@@ -139,7 +215,17 @@
 			"size" : [26,30],
 			"digitNum" : 8,
 			"gap" : 26,
-			"tex" : "pic/numbers.png",
+			"tex" : "pic/UI/numbers.png",
+			"texRect" : [0,308,260,30],
+			"format" : "0123456789",
+			"showStyle" : "right"
+		},
+		"comboNumber" : {
+			"startPoint" : [0,0],
+			"size" : [26,30],
+			"digitNum" : 2,
+			"gap" : 26,
+			"tex" : "pic/UI/numbers.png",
 			"texRect" : [0,308,260,30],
 			"format" : "0123456789",
 			"showStyle" : "right"
@@ -149,16 +235,83 @@
 			"size" : [13,15],
 			"digitNum" : 1,
 			"gap" : 26,
-			"tex" : "pic/numbers.png",
+			"tex" : "pic/UI/numbers.png",
 			"texRect" : [0,308,260,30],
 			"format" : "0123456789",
 			"showStyle" : "right"
+		},
+		"level" : {
+			"tex" : "pic/UI/MainGameMenu.png",
+			"texRect" : [0,0,0,0],
+			"0" : [0,0,0,0],
+			"1" : [0,1850,190,102],
+			"2" : [190,1850,190,102],
+			"3" : [380,1850,190,102],
+			"4" : [570,1850,190,102],
+			"5" : [760,1850,190,102],
+			"6" : [950,1850,190,102],
+			"position" : [305, 12, 109, 60]
+		},
+		"result" : {
+			"tex" : "pic/UI/Eval/rankresult_001.png",
+			"texRect" : [0,0,0,0],
+			"position" : [0,0,0,0],
+			"count" : 8,
+			"0" : {
+				"src" : [0,0,289,81],
+				"des" : [1548,1,289,81]
+			},
+			"1" : {
+				"src" : [289,0,208,88],
+				"des" : [1589,0,208,88]
+			},
+			"2" : {
+				"src" : [0,132,273,78],
+				"des" : [1550,2,273,78]
+			},
+			"3" : {
+				"src" : [289,88,180,78],
+				"des" : [1599,0,180,78]
+			},
+			"4" : {
+				"src" : [0,306,243,71],
+				"des" : [1567,5,243,71]
+			},
+			"5" : {
+				"src" : [0,377,232,77],
+				"des" : [1573,5,232,77]
+			},
+			"6" : {
+				"src" : [0,81,276,51],
+				"des" : [1550,16,276,51]
+			},
+			"7" : {
+				"src" : [0,210,247,96],
+				"des" : [1560,-4,247,96]
+			}
+		},
+		"text" : {
+			"font" : {
+				"file" : "global",
+				"size" : 40,
+				"color" : "#FFFFFF"
+			},
+			"position" : [20,13]
+		}
+	},
+	"z_globalInfo" : {
+		"type" : "text",
+		"position" : [1520, 87],
+		"font" : {
+				"file" : "global",
+				"size" : 40,
+				"color" : "#FF0000"
 		}
 	},
 	"back" : {
 		"reserve" : true,
 		"type" : "button",
-		"tex" : "pic/Kap.II.png",
+		"tex" : "pic/UI/Kap.II.png",
 		"texRect" : [636,1260,167,108],
 		"pressedRect" : [302,1260,167,108],
 		"highlightRect" : [469,1260,167,108],

@@ -189,11 +189,16 @@ namespace divacore
 	 */
 	void Core::prepare(const std::string &configFile)
 	{
-		configloader::loadWithJson(config,configFile);
-		if(config.has("fps"))
-			sora::SoraCore::Ptr->setFPS(config.getAsDouble("fps"));
-		
-		RENDER_SYSTEM_PTR->prepare(config);
+		if(Base::FileUtil::FileExist(configFile))
+		{
+			configloader::loadWithJson(config,configFile);
+			if(config.has("fps"))
+				sora::SoraCore::Ptr->setFPS(config.getAsDouble("fps"));
+
+			RENDER_SYSTEM_PTR->prepare(config);
+		}
+		else
+			DIVA_EXCEPTION_MESSAGE("no common config file!");
 	}
 
 	void Core::init()
@@ -307,9 +312,11 @@ namespace divacore
 
 		mFSMManager.onUpdate(dt);
 
+#ifdef _DEBUG
 		char buffer[256];
 		sprintf(buffer,"FPS %0.2lf",sora::SoraCore::Ptr->getFPS());
 		sora::SoraCore::Ptr->setWindowTitle(buffer);
+#endif
 	}
 	void Core::onKeyPressed(SoraKeyEvent& event)
 	{
@@ -345,6 +352,12 @@ namespace divacore
 		event.y = event.y*RENDER_SYSTEM_PTR->getGameHeight()/RENDER_SYSTEM_PTR->getWindowHeight();
 		UI_PAINTER_PTR->onMouseMoved(event);
 	}
+	void Core::onJoystickPressed(SoraJoystickEvent& event)
+	{ 
+	}
+    void Core::onJoystickRelesed(SoraJoystickEvent& event) 
+	{ 
+	}
 	void Core::restart()
 	{
 		onLeave();
@@ -379,6 +392,7 @@ namespace divacore
 	{
 		for(EVENTHANDLERS::iterator ptr = components.begin(); ptr != components.end(); ptr++)
 			ptr->second->gameOver();
+
 		UI_PAINTER_PTR->gameStop();
 		DISPLAY_PTR->gameStop();
 		MUSIC_MANAGER_PTR->gameStop();

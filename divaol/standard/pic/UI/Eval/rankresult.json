@@ -1,0 +1,74 @@
+﻿{
+  "评价/Misstake": {
+    "filename": "rankresult_001.png",
+    "srcX": 0,
+    "srcY": 0,
+    "desX": 1626,
+    "desY": 217,
+    "width": 289,
+    "height": 81
+  },
+  "评价/AutoLike": {
+    "filename": "rankresult_001.png",
+    "srcX": 0,
+    "srcY": 81,
+    "desX": 1628,
+    "desY": 232,
+    "width": 276,
+    "height": 51
+  },
+  "评价/Standard": {
+    "filename": "rankresult_001.png",
+    "srcX": 0,
+    "srcY": 132,
+    "desX": 1628,
+    "desY": 218,
+    "width": 273,
+    "height": 78
+  },
+  "评价/BeyondAuto": {
+    "filename": "rankresult_001.png",
+    "srcX": 0,
+    "srcY": 210,
+    "desX": 1638,
+    "desY": 125,
+    "width": 247,
+    "height": 96
+  },
+  "评价/Excellent": {
+    "filename": "rankresult_001.png",
+    "srcX": 0,
+    "srcY": 306,
+    "desX": 1645,
+    "desY": 221,
+    "width": 243,
+    "height": 71
+  },
+  "评价/Perfect": {
+    "filename": "rankresult_001.png",
+    "srcX": 0,
+    "srcY": 377,
+    "desX": 1651,
+    "desY": 221,
+    "width": 232,
+    "height": 77
+  },
+  "评价/Cheap": {
+    "filename": "rankresult_001.png",
+    "srcX": 289,
+    "srcY": 0,
+    "desX": 1667,
+    "desY": 216,
+    "width": 208,
+    "height": 88
+  },
+  "评价/Great": {
+    "filename": "rankresult_001.png",
+    "srcX": 289,
+    "srcY": 88,
+    "desX": 1677,
+    "desY": 216,
+    "width": 180,
+    "height": 78
+  }
+}

@@ -31,10 +31,13 @@ namespace divanet
 	{
 	public:
 		void getServerInfo() {
-			info["auth"] = ServiceInfo("58.215.170.145",9699);
-			info["chat"] = ServiceInfo("58.215.170.145",9799);
-			info["stage"] = ServiceInfo("58.215.170.145",9899);
-			info["scheduler"] = ServiceInfo("58.215.170.145",9099);
+			//static const char* const SERVER_IP = "127.0.0.1";
+			static const char* const SERVER_IP = "divaolserver00.gmgate.net";
+
+			info["auth"] = ServiceInfo(SERVER_IP,9699);
+			info["chat"] = ServiceInfo(SERVER_IP,9799);
+			info["stage"] = ServiceInfo(SERVER_IP,9899);
+			info["scheduler"] = ServiceInfo(SERVER_IP,9099);
 		}
 
 		ServiceInfo server(const std::string server) {
@@ -54,7 +57,7 @@ namespace divanet
 		std::string uid;
 		gnet::Bytes token;
 		ServiceInfos info;
-		static const int TIME_OUT = 10;
+		static const int TIME_OUT = 20;
 		static const int TICK_TIME = 1;
 		static const int RECONNECT_TIME = 10;
 	};

@@ -61,7 +61,7 @@ namespace divacore
 		void onPoint(uint32 cnt, NotePoint point);
 		void onRender();
 		void onUpdate(double dt, double position);
-		void onPressed(StateEvent& event);
+		bool onPressed(StateEvent& event);
 		void onReleased(StateEvent& event);
 		bool isReceive(KeyEvent& event, float time);
 		void finalCalt();

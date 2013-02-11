@@ -48,22 +48,29 @@ namespace divacore
 		typedef std::vector<StateEvent> STATE_QUEUE;
 		STATE_LIST stateList; //记录每个note的进行状况和信息
 		STATE_QUEUE stateQueue; //记录state序列
-
-		int32 nowScore,nowHP;
 		Config config;
+		bool alive;
+		bool isOver;
+
+		// statistic information
+		int32 nowScore,nowHP;
 		float weight; //根据当前的bpm计算的权值
 		int combo;
-		bool alive;
+		int maxCombo;
+		int maxCTLevel;
 	protected:
 		virtual void setAlive(bool alive) {this->alive = alive;} 
 	public:		
 		virtual std::string getName() {return "singlePlay";}
-
+		virtual std::string getNetGameMode() {return "none";}
+			
 		bool getAlive() {return alive;}
 		int32 getScore() {return nowScore;}
 		int32 getHP() {return nowHP;}
 		float getHPinRatio() {return nowHP/float(MAX_HP);}
 		int32 getCombo() {return combo;}
+		int32 getMaxCombo() {return maxCombo;}
+		int32 getMaxCTLevel() {return maxCTLevel;}
 		void setScore(int32 score) {nowScore=score;}
 		void setHP(int32 hp) {nowHP=hp;}
 		void setCombo(int32 combo) {this->combo = combo;}
@@ -73,6 +80,7 @@ namespace divacore
 		void modifyScore(int dtScore, int &nowScore);
 
 		void gameReset() ;
+		void gameOver();
 
 		bool checkNote(NotePtr note);
 		bool checkExtra(StateEvent& event);
@@ -88,6 +96,7 @@ namespace divacore
 
 		void preEvaluate();
 		void afterEvaluate();
+		void noteOver();
 	};
 }
 

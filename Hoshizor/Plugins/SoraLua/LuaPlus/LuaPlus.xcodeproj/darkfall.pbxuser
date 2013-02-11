@@ -1,0 +1,85 @@
+// !$*UTF8*$!
+{
+	08FB7793FE84155DC02AAC07 /* Project object */ = {
+		activeBuildConfigurationName = Debug;
+		activeTarget = D2AAC0620554660B00DB518D /* LuaPlus */;
+		codeSenseManager = 88A791C61287299B00F9C74C /* Code sense */;
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					341,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 312412303;
+			PBXWorkspaceStateSaveDate = 312412303;
+		};
+		perUserProjectItems = {
+			88FABCF1129F129600B6A1D8 /* PBXTextBookmark */ = 88FABCF1129F129600B6A1D8 /* PBXTextBookmark */;
+			88FABCF2129F129600B6A1D8 /* PBXTextBookmark */ = 88FABCF2129F129600B6A1D8 /* PBXTextBookmark */;
+		};
+		sourceControlManager = 88A791C51287299B00F9C74C /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	4286452A0A08039900BB42A4 /* lcode.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {544, 1400}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 267}";
+		};
+	};
+	88A791C51287299B00F9C74C /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+			repositoryNamesForRoots = {
+				"" = "";
+			};
+		};
+	};
+	88A791C61287299B00F9C74C /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	88FABCF1129F129600B6A1D8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 4286452A0A08039900BB42A4 /* lcode.h */;
+		name = "lcode.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 267;
+		vrLoc = 0;
+	};
+	88FABCF2129F129600B6A1D8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 4286452A0A08039900BB42A4 /* lcode.h */;
+		name = "lcode.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 267;
+		vrLoc = 0;
+	};
+	D2AAC0620554660B00DB518D /* LuaPlus */ = {
+		activeExec = 0;
+	};
+}

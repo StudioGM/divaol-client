@@ -10,6 +10,7 @@
 #include "SoraFileUtility.h"
 #include "DivaBassMusicManager.h"
 #include "Core/DivaCore.h"
+#include "Utility/DivaSettings.h"
 
 namespace divacore
 {
@@ -101,6 +102,7 @@ namespace divacore
 	{
 		mSpeedScale = 1.0;
 		::BASS_Init(-1, 44100, 0, 0, 0);
+		SETTINGS.RefreshMusicSettings();
 		/*globalSample = ::BASS_SampleCreate(100000000, 28160, 1, 1, BASS_SAMPLE_LOOP|BASS_SAMPLE_OVER_POS);
 		globalChannel = BASS_SampleGetChannel(globalSample,false);
 		QWORD length = BASS_ChannelSeconds2Bytes(globalChannel,120);
@@ -142,9 +144,9 @@ namespace divacore
 			DIVA_EXCEPTION_MODULE("Sound "+ID+" already exists","BassMusicManager");
 
 		if(file=="")
-			soundPool[ID] = std::make_pair<bool,HSTREAM>(stream,0);
+			soundPool[ID] = std::make_pair(stream,0);
 		else
-			soundPool[ID] = std::make_pair<bool,HSTREAM>(stream,loadSound(file,stream));
+			soundPool[ID] = std::make_pair(stream,loadSound(file,stream));
 
 		fileDict[ID] = file;
 	}
@@ -173,6 +175,11 @@ namespace divacore
 		unload(ID);
 		load(filepath,ID,bStream);
 	}
+	bool BassMusicManager::hasSound(const std::string &ID)
+	{
+		SOUNDPOOL::iterator soundPtr = soundPool.find(ID);
+		return !(soundPtr==soundPool.end());
+	}
 	void BassMusicManager::play(const std::string &ID, const std::string &channel, const std::string &tag)
 	{
 		if(HOOK_MANAGER_PTR->hook(ID,channel,tag)&&HOOK_MANAGER_PTR->hookInfo())
@@ -197,12 +204,12 @@ namespace divacore
 			::BASS_ChannelSetAttribute(hChannel,BASS_ATTRIB_VOL,getTagVolume(tag)*volumePool[channel]);
 			::BASS_ChannelUpdate(hChannel,0);
 
-			musicPool[channel] = std::make_pair<std::string,HSTREAM>(tag,hChannel);
+			musicPool[channel] = std::make_pair(tag,hChannel);
 		}
 		else
 			musicPool.erase(musicPool.find(channel));
 
-		musicPool[channel] = std::make_pair<std::string,HSTREAM>(tag,hChannel);
+		musicPool[channel] = std::make_pair(tag,hChannel);
 	}
 	void BassMusicManager::playDirect(const std::string &ID, const std::string &tag)
 	{

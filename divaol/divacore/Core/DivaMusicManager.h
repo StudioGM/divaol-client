@@ -21,6 +21,7 @@ namespace divacore
 	class MusicManager : public EventHandler
 	{
 	public:
+		virtual bool hasSound(const std::string &ID) {return false;}
 		virtual void init() {}
 		virtual void update(){}
 		virtual void clear(){}

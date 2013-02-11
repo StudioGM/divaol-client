@@ -543,7 +543,7 @@ namespace sora {
     }
 
 	SoraHandle SoraCore::getMainWindowHandle() const {
-		return mWindowHandle;
+		return pRenderSystem->getMainWindowHandle();
 	}
 
 	SoraWindowInfoBase* SoraCore::getMainWindow() const {

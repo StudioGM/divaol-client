@@ -117,6 +117,9 @@ namespace divacore
 		}
 		virtual void addParticle(std::string type, ParticleData data, NotePtr note) = 0;
 		virtual void clearParticle(NotePtr note) = 0;
+
+		virtual void setEffectLevel(int level) {}
+		virtual int getEffectLevel() {return 0;} 
 	};
 
 	typedef EffectSystem* EffectSystemPtr;

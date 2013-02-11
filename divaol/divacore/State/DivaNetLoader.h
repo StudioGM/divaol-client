@@ -13,7 +13,7 @@
 #include "Core/DivaMapLoader.h"
 #include "Core/DivaTask.h"
 #include "mode/DivaMultiplay.h"
-#include "divanetwork/DivaNetworkManager.h"
+#include "Utility/DivaSettings.h"
 //#include "SoraFMODSoundSystem/SoraFMODSoundSystem.h"
 //#include "SoraAudiereSoundSystem/SoraAudiereSoundSystem.h"
 
@@ -32,7 +32,7 @@ namespace divacore
 		Task task,readyCallback;
 
 		bool bUnsync,bAutoPlay,bEmpty; //multithread or not
-		enum{DELAY,READY,START,GAME_RUN,FAILURE,FAILED,FINISH};
+		enum{DELAY,READY,START,GAME_RUN,FAILURE,FAILED,FINISH,FADEOUT};
 
 		int state; //delay a frame to render the preview image
 	public:
@@ -41,9 +41,11 @@ namespace divacore
 		{
 			state = DELAY;
 
-			mFont = sora::SoraFont::LoadFromFile("cour.ttf", 20);
+#ifdef _DEBUG
+			mFont = sora::SoraFont::LoadFromFile(SETTINGS.getGlobalFontName().asUnicode(), 20);
 
 			mText.setFont(mFont);
+#endif
 			mText.setText(L"|#FF0000|Loading");
 		}
 		void onEnter()
@@ -89,7 +91,7 @@ namespace divacore
 				static int count = 0;
 				count = (count+1)%40;
 				SoraWString text = L"|#FF0000|";
-				if(((MultiPlay*)GAME_MODE_PTR)->getBaseState()==MultiPlay::CONNECT)
+				if(((MultiPlay*)GAME_MODE_PTR)->getBaseState()==MultiPlay::CONNECTING)
 					text += L"Connect";
 				else if(((MultiPlay*)GAME_MODE_PTR)->getBaseState()==MultiPlay::FAILURE)
 					text += L"Failed";
@@ -103,13 +105,13 @@ namespace divacore
 					text += L".";
 				mText.setText(text);
 			}
-			else if(state==GAME_RUN)
+			else if(state==FINISH)
 			{
 				if(!task.isRunning())
 				{
 					mText.setText(L"|#FF0000|Finished!");
 					sora::log_notice("loading succeed!");
-					state = FINISH;
+					state = FADEOUT;
 
 					//setCoreState(Core::RESULT);
 					RENDER_SYSTEM_PTR->fadeOut(sora::Color::White.getHWColor());
@@ -129,7 +131,7 @@ namespace divacore
 				core->over();
 				state = FAILURE;
 			}
-			else
+			else if(state==FADEOUT)
 			{
 				if(!RENDER_SYSTEM_PTR->isFade())
 				{
@@ -152,10 +154,8 @@ namespace divacore
 				core->getMapParser()->parser(MAP_INFO);
 		
 				core->getCoreFlow()->ready();
-
-				NETWORK_SYSTEM_PTR->gameLoad("netConfig.json");
 				
-				GAME_MODE_PTR->gameLoad("netConfig.json");
+				GAME_MODE_PTR->gameLoad("");
 
 				LOGGER->msg("Wait for start...","NetworkSystem");
 
@@ -165,12 +165,15 @@ namespace divacore
 					return;
 				}
 
-				NETWORK_SYSTEM_PTR->waitForNext();
-				NETWORK_SYSTEM_PTR->refresh();
+				while(state != GAME_RUN && ((divacore::MultiPlay*)GAME_MODE_PTR)->getBaseState()!=divacore::MultiPlay::FAILED)
+				{
+					NETWORK_SYSTEM_PTR->waitForNext();
+					NETWORK_SYSTEM_PTR->refresh();
+				}
 
 				if(state!=GAME_RUN)
 				{
-					state = FAILURE;
+					state = FAILED;
 					return;
 				}
 

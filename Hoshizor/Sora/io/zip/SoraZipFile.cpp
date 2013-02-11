@@ -155,7 +155,7 @@ namespace sora {
                     if (readSize > _UnzFileInfo.uncompressed_size)
                         readSize = _UnzFileInfo.uncompressed_size;
                     
-                    uint8* buffer = (uint8*)sora_malloc(readSize);
+                    uint8* buffer = (uint8*)sora_malloc(readSize+1);
                     sora_assert(buffer);
                     
                     memset(buffer, 0, readSize);
@@ -164,8 +164,10 @@ namespace sora {
                     
                     unzCloseCurrentFile(hZipFile);
                     
-                    if(nReadBytes == readSize)
+                    if(nReadBytes == readSize) {
+						buffer[readSize] = 0;
                         return (void*)buffer;
+					}
                     else {
                         delete buffer;
                         return 0;

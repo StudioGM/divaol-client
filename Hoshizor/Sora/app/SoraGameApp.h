@@ -69,6 +69,9 @@ namespace sora {
             
             StringType getWindowName();
             SoraString getWindowId();
+
+			const char* getIcon();
+			const char* getCursor();
             
             bool isWindowed();
             bool hideMouse();

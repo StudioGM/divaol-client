@@ -81,8 +81,22 @@ namespace divacore
 
 			core->getMusicManager()->load("","miss",false);
 		}
+		if(mapInfo->resources.find("press")==mapInfo->resources.end())
+		{
+			MapResourceInfo res;
+			res.filePath = L"";
+			res.ID = "press";
+			res.type = MapResourceInfo::AUDIO;
+			res.flag = false;
+			mapInfo->resources["press"] = res;
 
-		MUSIC_MANAGER_PTR->play(mapInfo->header.mainSound,CORE_FLOW_PTR->MAIN_SOUND_CHANNEL);
+			if (mapInfo->resources.find("hit")!=mapInfo->resources.end())
+				core->getMusicManager()->load(Base::String(mapInfo->resources.find("hit")->second.filePath),"press",false);
+			else
+				core->getMusicManager()->load("", "press", false);
+		}
+
+		MUSIC_MANAGER_PTR->play(mapInfo->header.mainSound,CORE_FLOW_PTR->MAIN_SOUND_CHANNEL,"bgm");
 		MUSIC_MANAGER_PTR->pause(CORE_FLOW_PTR->MAIN_SOUND_CHANNEL);
 	}
 	void MapStandardParser::_parseEvents()
