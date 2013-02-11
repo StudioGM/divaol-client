@@ -139,6 +139,11 @@ namespace gnet
 				Item<List> *item = new Item<List>();
 				for(size_t index = 0; index < size; index++)
 					item->appendItem(_parseItem(data));
+				for(size_t index = 0; index < size; index++)
+					if (item->getItem(index) == NULL || item->getItem(index)->getString() == "") {
+						int tmp = 1;
+						tmp = 2;
+					}
 				return item;
 			}
 		case GNET_TYPE_DOUBLE:
@@ -223,6 +228,10 @@ namespace gnet
 		if(mSocket == INVALID_SOCKET)
 			throw "Error at socket";
 
+		int nNetTimeout=100;
+		//setsockopt(mSocket, SOL_SOCKET, SO_SNDTIMEO, (char *)&nNetTimeout,sizeof(int));
+		//setsockopt(mSocket, SOL_SOCKET, SO_RCVTIMEO, (char *)&nNetTimeout,sizeof(int));
+
 		handshake();
 	}
 	void TCPConnection::_sendRaw(const char* data, size_t size)
@@ -249,9 +258,8 @@ namespace gnet
 			
 			if (SOCKET_ERROR == retVal)
 			{
-				retVal = 0;
-				//int errcode = WSAGetLastError();
-				//throw "Recv Failed";
+				int errcode = WSAGetLastError();
+				throw "Recv Failed";
 			}
 			
 			readSize += retVal;

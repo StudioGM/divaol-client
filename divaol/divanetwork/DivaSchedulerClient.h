@@ -76,7 +76,7 @@ namespace divanet
 			isRequireing = false;
 
 			std::string type = packet->getItem(2)->getString();
-
+			
 			if(type=="roomlist")
 			{
 				infos.clear();

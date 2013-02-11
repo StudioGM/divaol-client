@@ -314,7 +314,12 @@ namespace gnet
 		{
 			stringstream ss;
 			if(sizeof(T)==sizeof(uint8)||sizeof(T)==sizeof(int8))
-				ss << '\'' << mData << '\'';
+			{
+				if (mData == 0)
+					ss << "\\0";
+				else
+					ss << '\'' << mData << '\'';
+			}
 			else
 				ss << mData;
 			return ss.str();

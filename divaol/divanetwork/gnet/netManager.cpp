@@ -8,6 +8,7 @@
 
 #include "netManager.h"
 #include "Lib/Base/Timer.h"
+#include "core/DivaCore.h"
 
 namespace gnet
 {
@@ -20,6 +21,7 @@ namespace gnet
 			ItemBase *item = 0;
 			try{
 				item = netManager->mConnector.recv();
+				LOGGER->log(item->getDescription().c_str());
 			}
 			catch(...)
 			{
@@ -38,7 +40,7 @@ namespace gnet
 		{
 			if(netManager->mSendQueue.task_on())
 			{
-				ItemBase *item = netManager->mSendQueue.take();
+				ItemBase *item = netManager->mSendQueue.task_take();
 				try
 				{
 					netManager->mConnector.sendEncodedWithRFA(item);

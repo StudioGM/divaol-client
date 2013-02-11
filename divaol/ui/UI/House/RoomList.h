@@ -81,7 +81,7 @@ namespace diva
 		public:
 
 			RoomListItem();
-			~RoomListItem();
+			virtual ~RoomListItem();
 			void setInfo(const Network::RoomInfo& info);
 			Network::RoomInfo getInfo() const {return info;}
 			void setLook(const std::wstring& f1, gcn::Rectangle r1, const std::wstring& f2, gcn::Rectangle r2, const std::wstring& f3, gcn::Rectangle r3);

@@ -15,6 +15,8 @@
 
 #include <Process.h>
 #include <Shlwapi.h>
+#include <thread>
+#include <mutex>
 #pragma comment(lib,"shlwapi.lib")
 
 namespace Base
@@ -196,20 +198,18 @@ namespace Base
 	{
 	protected:
 		MutexImpl() {
-			mutex = CreateMutexW(NULL,FALSE,NULL);
 		}
 		~MutexImpl() {
-			CloseHandle(mutex);
 		}
 		inline void lockImpl() {
-			WaitForSingleObject(mutex,INFINITE);
+			mutex.lock();
 		}
 		inline void unlockImpl() {
-			ReleaseMutex(mutex);
+			mutex.unlock();
 		}
 
 	private:
-		HANDLE mutex;
+		std::mutex mutex;
 	};
 
 	/*********************************************

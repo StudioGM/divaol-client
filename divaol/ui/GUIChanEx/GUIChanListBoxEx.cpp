@@ -155,6 +155,9 @@ namespace gcn
 		clearSelect();
 		if (items.size() == 0)
 			return;
+		for (std::vector<ListItemEx*>::iterator ptr = items.begin(); ptr != items.end(); ptr++)
+			delete *ptr;
+
 		items.clear();
 		itemChanged();
 	}

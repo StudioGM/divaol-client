@@ -64,7 +64,7 @@ namespace divacore
 		for(int i = 0; i < notesPtr->size(); i++)
 		{
 			MapNote &note = (*notesPtr)[i];
-			timeQueue.push(SCF_TimeStamp(note.aheadTime,note.notePoint[0].position-note.aheadBar*GRID_PER_BAR,SCF_TimeStamp::NOTE_START,i));
+			timeQueue.push(SCF_TimeStamp(note.aheadTime,((int)note.notePoint[0].position)-note.aheadBar*GRID_PER_BAR,SCF_TimeStamp::NOTE_START,i));
 		}
 		for(int i = 0; i < eventsPtr->size(); i++)
 		{
@@ -444,7 +444,7 @@ namespace divacore
 					{
 						NotePtr _note = core->getItemFactory()->createNote(note);
 						if(index==0)
-							_note->setKeyPosition(note.notePoint[0].position-note.aheadBar*GRID_PER_BAR);
+							_note->setKeyPosition((int)note.notePoint[0].position-note.aheadBar*GRID_PER_BAR);
 						else
 							_note->setKeyPosition(note.notePoint[index-1].position);
 						_note->setID(i);
@@ -461,7 +461,7 @@ namespace divacore
 					}
 			}
 			else
-				timeQueue.push(SCF_TimeStamp(note.aheadTime,note.notePoint[0].position-note.aheadBar*GRID_PER_BAR,SCF_TimeStamp::NOTE_START,i));
+				timeQueue.push(SCF_TimeStamp(note.aheadTime,(int)note.notePoint[0].position-note.aheadBar*GRID_PER_BAR,SCF_TimeStamp::NOTE_START,i));
 		}
 		timeQueue.push(SCF_TimeStamp(totalTime,totalGrid,SCF_TimeStamp::EVENT,0));
 	}

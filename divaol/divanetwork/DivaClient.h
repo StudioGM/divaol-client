@@ -92,14 +92,14 @@ namespace divanet
 				mNetSys->update(dt);
 
 				mWaitTickTime -= dt;
-				if(mWaitTickTime<=0) {
+				/*if(mWaitTickTime<=0) {
 					mWaitTickTime = 0;
 					notify("timeout",NOTIFY_TIMEOUT);
 					disconnect();
 
 					mClientState = STATE_BREAK;
 					onBreak();
-				}
+				}*/
 			}
 		}
 		void reconnect(const Task &task) {

@@ -106,7 +106,7 @@ namespace divanet
 			return getState()==WELL;
 		}
 		virtual void tick() {
-			mNetManager.send(new gnet::Item<gnet::Atom>("tick"));
+			//mNetManager.send(new gnet::Item<gnet::Atom>("tick"));
 		}
 		virtual void update(float) {
 			if(getState()==INIT||getState()==READY)

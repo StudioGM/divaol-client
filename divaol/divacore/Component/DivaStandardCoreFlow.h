@@ -28,10 +28,10 @@ namespace divacore
 		uint8 type;
 		uint32 uid;
 		uint32 uid2;
-		uint32 position;
+		int32 position;
 		
 	public:
-		SCF_TimeStamp(double time, uint32 position, uint8 type, uint32 uid, uint32 uid2 = 0):
+		SCF_TimeStamp(double time, int32 position, uint8 type, uint32 uid, uint32 uid2 = 0):
 		  time(time),position(position),type(type),uid(uid),uid2(uid2) {}
 
 		SCF_TimeStamp():time(0),position(0),type(0),uid(0),uid2(0) {}

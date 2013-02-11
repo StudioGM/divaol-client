@@ -74,6 +74,14 @@ namespace Base
 				return true;
 			}
 
+			T task_take()
+			{
+				base_assert(!mQueue.empty());
+				T front = mQueue.front();
+				mQueue.pop();
+				return front;
+			}
+
 			void task_done()
 			{
 				mMutex.unlock();

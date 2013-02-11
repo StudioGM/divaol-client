@@ -941,13 +941,13 @@ namespace diva
 				q->pop_front();
 			}
 
-			/*if(state==STATE_ROOMLIST) {
-				BASE_PER_PERIOD_BEGIN(dt,10.0);
+			if(state==STATE_ROOMLIST) {
+				BASE_PER_PERIOD_BEGIN(dt,0.1);
 				
 				Refresh_RoomList(true);
 
 				BASE_PER_PERIOD_END();
-			}*/
+			}
 
 			if (state == STATE_STAGE)
 			{
