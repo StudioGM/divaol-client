@@ -7,7 +7,7 @@
  *  function_tempate
  ****************************************************/
 
-#include "Common.h"
+#include "../Common.h"
 #include "FunctionBase.h"
 
 namespace Base {
