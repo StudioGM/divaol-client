@@ -710,6 +710,7 @@
     <ClInclude Include="divanetwork\DivaNetInfo.h" />
     <ClInclude Include="divanetwork\DivaSchedulerClient.h" />
     <ClInclude Include="divanetwork\DivaStageServer.h" />
+    <ClInclude Include="divanetwork\gnet\TupleBuilder.h" />
     <ClInclude Include="Lib\Base\Any.h" />
     <ClInclude Include="Lib\Base\Base.h" />
     <ClInclude Include="Lib\Base\Codec\Codec.h" />

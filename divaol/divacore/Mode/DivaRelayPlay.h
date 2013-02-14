@@ -271,14 +271,26 @@ namespace divacore
 		void sendRenew(uint32 uid, int rank, bool breakCombo, bool breakNote, double positionX, double positionY)
 		{
 			int cnt = stateList[uid].eventList.size()-1;
-			NETWORK_SYSTEM_PTR->send("game#renewR",
-				"%f%d%d%d%d%b%b%f%f",CORE_PTR->getRunTime(),nowTurn,uid,cnt,rank,breakCombo,breakNote,positionX,positionY);
+			//NETWORK_SYSTEM_PTR->send("game#renewR",
+			//	"%f%d%d%d%d%b%b%f%f",CORE_PTR->getRunTime(),nowTurn,uid,cnt,rank,breakCombo,breakNote,positionX,positionY);
+			NETWORK_SYSTEM_PTR->send("game#renewR",gnet::TupleBuilder()
+				.AddDouble(CORE_PTR->getRunTime())
+				.AddInt(nowTurn)
+				.AddInt(uid)
+				.AddInt(cnt)
+				.AddInt(rank)
+				.AddBoolean(breakCombo)
+				.AddBoolean(breakNote)
+				.AddDouble(positionX)
+				.AddDouble(positionY)
+				.Get());
 		}
 
 		void iAmPlaying()
 		{
-			NETWORK_SYSTEM_PTR->send("game#relayIamPlayingR",
-				"%f",CORE_PTR->getRunPosition());
+			//NETWORK_SYSTEM_PTR->send("game#relayIamPlayingR",
+			//	"%f",CORE_PTR->getRunPosition());
+			NETWORK_SYSTEM_PTR->send("game#relayIamPlayingR",gnet::TupleBuilder().AddDouble(CORE_PTR->getRunPosition()).Get());
 		}
 
 		void onKeyPressed(KeyEvent& event)
@@ -294,8 +306,11 @@ namespace divacore
 
 		void relayWantToChange()
 		{
-			NETWORK_SYSTEM_PTR->send("game#relayWantToChangeR",
-				"%f",CORE_PTR->getRunPosition()+BUFFER_POSITION);
+			//NETWORK_SYSTEM_PTR->send("game#relayWantToChangeR",
+				//"%f",CORE_PTR->getRunPosition()+BUFFER_POSITION);
+			NETWORK_SYSTEM_PTR->send("game#relayWantToChangeR", gnet::TupleBuilder()
+				.AddDouble(CORE_PTR->getRunPosition()+BUFFER_POSITION)
+				.Get());
 
 			changePosition = CORE_PTR->getRunPosition()+BUFFER_POSITION;
 

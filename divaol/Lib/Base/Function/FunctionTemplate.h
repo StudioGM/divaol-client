@@ -156,6 +156,7 @@ namespace Base {
 			}
 
 			void setArg(BASE_FUNCTION_PARAMS) {
+#ifdef BASE_IMPLEMENT_ARG_STORE
 				#define BASE_ARGUMENT_MERGE(n,d) d##[##n##]=a##n;
 				#define BASE_ENUM_ARGUMENT_ASSIGNMENT(n) BASE_REPEAT_N(n,BASE_ARGUMENT_MERGE,mArg)
 				mArg = AnyArray(BASE_FUNCTION_NUM_ARGS);
@@ -166,6 +167,7 @@ namespace Base {
 
 				#undef BASE_ARGUMENT_MERGE
 				#undef BASE_ENUM_ARGUMENT_ASSIGNMENT
+#endif
 			}
 
 			void clear() {
@@ -206,11 +208,15 @@ namespace Base {
 			inline R invokeWithArg() const {
 				assert(mInvoker);
 
+#ifndef BASE_IMPLEMENT_ARG_STORE
+				return R();
+#else
 #define BASE_ARGUMENT_EXTRACT(n,d) BASE_COMMA_IF(n) (d##[##n##].as<T##n>())
 #define BASE_ENUM_ARGUMENT_EXTRACT(n) BASE_REPEAT_N(n,BASE_ARGUMENT_EXTRACT,mArg)
 				return mInvoker(mPtr BASE_FUNCTION_COMMA BASE_ENUM_ARGUMENT_EXTRACT(BASE_FUNCTION_NUM_ARGS));
 #undef BASE_ENUM_ARGUMENT_EXTRACT
 #undef BASE_ARGUMENT_EXTRACT
+#endif
 			}
 
 			operator bool() const {

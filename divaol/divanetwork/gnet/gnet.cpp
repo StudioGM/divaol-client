@@ -206,7 +206,9 @@ namespace gnet
 				case 'c':
 					*tuple += (int8)va_arg(ArgPtr,char);
 					break;
-				case 'b':
+				default:
+					break;
+				/*case 'b':
 					*tuple += (int8)va_arg(ArgPtr,bool);
 					break;
 				case 'B':
@@ -217,7 +219,7 @@ namespace gnet
 					break;
 				case 'S':
 					*tuple += (ItemBase*)new Item<Binary>((std::string)va_arg(ArgPtr,std::string));
-					break;
+					break;*/
 				}
 			}
 		}

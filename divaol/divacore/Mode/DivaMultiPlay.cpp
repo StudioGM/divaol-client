@@ -189,9 +189,14 @@ namespace divacore
 			{
 				//if(event.breakCombo||event.breakNote)
 				//	sendFailure(event);
-				if (getAlive())
-					NETWORK_SYSTEM_PTR->send("game#evalR",
-						"%d%d",event.note->getID(), event.rank);
+				if (getAlive()) {
+					//NETWORK_SYSTEM_PTR->send("game#evalR",
+					//	"%d%d",event.note->getID(), event.rank);
+					NETWORK_SYSTEM_PTR->send("game#evalR",gnet::TupleBuilder()
+						.AddInt(event.note->getID())
+						.AddInt(event.rank)
+						.Get());
+				}
 			}
 		}
 	}
@@ -265,8 +270,14 @@ namespace divacore
 	void MultiPlay::sendInfo()
 	{
 		////与server同步score，hp和combo信息，此信息仅为他人显示用，不参与数据处理
-		NETWORK_SYSTEM_PTR->send("game#heartbeatR",
-			"%f%d%d%f",CORE_PTR->getRunPosition(),getScore(),getCombo(),getHPinRatio());
+		//NETWORK_SYSTEM_PTR->send("game#heartbeatR",
+		//	"%f%d%d%f",CORE_PTR->getRunPosition(),getScore(),getCombo(),getHPinRatio());
+		NETWORK_SYSTEM_PTR->send("game#heartbeatR",gnet::TupleBuilder()
+			.AddDouble(CORE_PTR->getRunPosition())
+			.AddInt(getScore())
+			.AddInt(getCombo())
+			.AddDouble(getHPinRatio())
+			.Get());
 	}
 
 	//获得游戏信息，队伍信息

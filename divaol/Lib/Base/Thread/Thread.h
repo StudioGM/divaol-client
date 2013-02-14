@@ -10,8 +10,8 @@
 #ifndef _BASE_THREAD_H_
 #define _BASE_THREAD_H_
 
-#include "Common.h"
-#include "Function/Function.h"
+#include "../Common.h"
+#include "../Function/Function.h"
 #include "Mutex.h"
 
 namespace Base
@@ -30,7 +30,11 @@ namespace Base
 		}
 		template<>
 		void invoke<void>() {
-			 mFunc.invokeWithArg();
+#ifdef BASE_IMPLEMENT_ARG_STORE
+			mFunc.invokeWithArg();
+#else
+			mFunc.invoke();
+#endif
 		}
 
 		virtual void callback() {

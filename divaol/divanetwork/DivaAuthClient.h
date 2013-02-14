@@ -23,7 +23,11 @@ namespace divanet
 		void login(const std::string &username, const std::string &password) {
 			GNET_RECEIVE_REGISTER(mNetSys,"auth#login",&AuthClient::gnet_login);
 			GNET_RECEIVE_REGISTER(mNetSys,"auth#kick",&AuthClient::gnet_kick);
-			mNetSys->send("auth#login","%S%S",username,password);
+			//mNetSys->send("auth#login","%S%S",username,password);
+			mNetSys->send("auth#login",gnet::TupleBuilder()
+				.AddString(username)
+				.AddString(password)
+				.Get());
 		}
 
 		void logout() {
@@ -36,7 +40,8 @@ namespace divanet
 
 		void request(const std::string &uid) {
 			GNET_RECEIVE_REGISTER(mNetSys,"auth#response",&AuthClient::gnet_response);
-			mNetSys->send("auth#request","%S",uid);
+			//mNetSys->send("auth#request","%S",uid);
+			mNetSys->send("auth#request",gnet::TupleBuilder().AddString(uid).Get());
 		}
 
 		void onUpdate(float dt) {

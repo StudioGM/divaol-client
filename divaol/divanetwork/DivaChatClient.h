@@ -23,7 +23,11 @@ namespace divanet
 
 		void login() {
 			GNET_RECEIVE_REGISTER(mNetSys,"chat#auth_response",&ChatClient::gnet_login);
-			mNetSys->send("chat#login","%S%B",NET_INFO.uid,NET_INFO.token);
+			//mNetSys->send("chat#login","%S%B",NET_INFO.uid,NET_INFO.token);
+			mNetSys->send("chat#login",gnet::TupleBuilder()
+				.AddString(NET_INFO.uid)
+				.AddBytes(NET_INFO.token)
+				.Get());
 		}
 
 		void logout() {
@@ -41,12 +45,14 @@ namespace divanet
 
 		void enter(const std::string &room) {
 			GNET_RECEIVE_REGISTER(mNetSys,"chat#join_response",&ChatClient::gnet_enter);
-			mNetSys->send("chat#enter","%S",room);
+			//mNetSys->send("chat#enter","%S",room);
+			mNetSys->send("chat#enter",gnet::TupleBuilder().AddString(room).Get());
 		}
 
 		void leave(const std::string &room) {
 			GNET_RECEIVE_REGISTER(mNetSys,"chat#leave_ok",&ChatClient::gnet_leave_ok);
-			mNetSys->send("chat#leave","%S",room);
+			//mNetSys->send("chat#leave","%S",room);
+			mNetSys->send("chat#leave",gnet::TupleBuilder().AddString(room).Get());
 		}
 
 		bool check(const std::string room) {
@@ -57,7 +63,11 @@ namespace divanet
 		}
 
 		void send(const std::string &room, const Base::String &content) {
-			mNetSys->send("chat#sendmsg","%S%S",room,content.asUTF8());
+			//mNetSys->send("chat#sendmsg","%S%S",room,content.asUTF8());
+			mNetSys->send("chat#sendmsg",gnet::TupleBuilder()
+				.AddString(room)
+				.AddString(content.asUTF8())
+				.Get());
 		}
 
 		void sendTo(const std::string &uid, const Base::String &content) {
@@ -65,7 +75,11 @@ namespace divanet
 				return;
 			std::string room = uid+"_private_room";
 			enter(room);
-			mNetSys->send("chat#sendmsg","%S%S",room,content.asUTF8());
+			//mNetSys->send("chat#sendmsg","%S%S",room,content.asUTF8());
+			mNetSys->send("chat#sendmsg",gnet::TupleBuilder()
+				.AddString(room)
+				.AddString(content.asUTF8())
+				.Get());
 			leave(room);
 		}
 
@@ -148,12 +162,14 @@ namespace divanet
 
 		void _create(const std::string &room) {
 			GNET_RECEIVE_REGISTER(mNetSys,"chat#create",&ChatClient::gnet_create);
-			mNetSys->send("chat#create","%S",room);
+			//mNetSys->send("chat#create","%S",room);
+			mNetSys->send("chat#create",gnet::TupleBuilder().AddString(room).Get());
 		}
 
 		void _close(const std::string &room) {
 			GNET_RECEIVE_REGISTER(mNetSys,"chat#delete",&ChatClient::gnet_close);
-			mNetSys->send("chat#delete","%S",room);
+			//mNetSys->send("chat#delete","%S",room);
+			mNetSys->send("chat#delete",gnet::TupleBuilder().AddString(room).Get());
 		}
 
 		void _reconnect() {

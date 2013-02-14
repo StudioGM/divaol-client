@@ -10,6 +10,7 @@
 #define DIVA_GNET_EVENT
 
 #include "gnet/gnet.h"
+#include "gnet/TupleBuilder.h"
 
 namespace divanet
 {

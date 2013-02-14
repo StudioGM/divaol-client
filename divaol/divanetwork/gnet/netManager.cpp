@@ -21,7 +21,7 @@ namespace gnet
 			ItemBase *item = 0;
 			try{
 				item = netManager->mConnector.recv();
-				LOGGER->log(item->getDescription().c_str());
+				//LOGGER->log(item->getDescription().c_str());
 			}
 			catch(...)
 			{

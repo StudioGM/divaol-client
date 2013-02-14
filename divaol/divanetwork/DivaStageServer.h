@@ -67,7 +67,8 @@ namespace divanet
 		virtual std::string name() const {return "stage";}
 
 		void login() {
-			mNetSys->send("auth#setuid","%S",NET_INFO.uid);
+			//mNetSys->send("auth#setuid","%S",NET_INFO.uid);
+			mNetSys->send("auth#setuid",gnet::TupleBuilder().AddString(NET_INFO.uid).Get());
 
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#start",&StageClient::gnet_start);
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#closed",&StageClient::gnet_closed);
@@ -106,8 +107,9 @@ namespace divanet
 
 		void create(int capacity) {
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#join_response",&StageClient::gnet_join_response);
-			mNetSys->send("stage#create","%d",capacity);
-			
+			//mNetSys->send("stage#create","%d",capacity);
+			mNetSys->send("stage#create",gnet::TupleBuilder().AddInt(capacity).Get());
+
 			// create room chatroom
 			CHAT_CLIENT._create(NET_INFO.uid+"_stage_room");
 			CHAT_CLIENT.enter(NET_INFO.uid+"_stage_room");
@@ -117,7 +119,8 @@ namespace divanet
 
 		void join(const std::string &roomId) {
 			GNET_RECEIVE_REGISTER(mNetSys,"stage#join_response",&StageClient::gnet_join_response);
-			mNetSys->send("stage#join","%S",roomId);
+			//mNetSys->send("stage#join","%S",roomId);
+			mNetSys->send("stage#join",gnet::TupleBuilder().AddString(roomId).Get());
 
 			CHAT_CLIENT.enter(roomId+"_stage_room");
 
@@ -132,14 +135,18 @@ namespace divanet
 		}
 
 		void draw(uint32 color) {
-			if(mState==STAGE &&  (owner() || myInfo().status!=WaiterInfo::READY))
-				mNetSys->send("stage#draw","%d",color);
+			if(mState==STAGE &&  (owner() || myInfo().status!=WaiterInfo::READY)) {
+				//mNetSys->send("stage#draw","%d",color);
+				mNetSys->send("stage#draw",gnet::TupleBuilder().AddInt(color).Get());
+			}
 		}
 
 		void kick(int uid) {
 			WaiterInfo info = waiterInfo(Base::String::any2string<int>(uid));
-			if (info.uid != "")
-				mNetSys->send("stage#kick","%d",uid);
+			if (info.uid != "") {
+				//mNetSys->send("stage#kick","%d",uid);
+				mNetSys->send("stage#kick",gnet::TupleBuilder().AddInt(uid).Get());
+			}
 		}
 
 		void setSong(const SongList &songList) {
@@ -150,19 +157,25 @@ namespace divanet
 				packet->appendAhead<gnet::Atom>(gnet::Atom("stage"));
 				packet->appendItem(list);
 				for(int i = 0; i < songList.size(); i++)
-					list->appendItem(gnet::ItemUtility::formatTuple("%d%d%d",songList[i].songId,songList[i].level,songList[i].mode));
+					list->appendItem(gnet::TupleBuilder()
+						.AddInt(songList[i].songId)
+						.AddInt(songList[i].level)
+						.AddInt(songList[i].mode)
+						.Get());
 				mNetSys->send(packet);
 			}
 		}
 
 		void setMode(std::string mode) {
 			if(mState==STAGE&&owner())
-				mNetSys->send("stage#setMode","%S",mode);
+				mNetSys->send("stage#setMode",gnet::TupleBuilder().AddString(mode).Get());
+				//mNetSys->send("stage#setMode","%S",mode);
 		}
 
 		void setHooks(int64 hooks) {
 			if(mState==STAGE&&owner())
-				mNetSys->send("stage#setHooks","%d",hooks);
+				mNetSys->send("stage#setHooks",gnet::TupleBuilder().AddInt(hooks).Get());
+				//mNetSys->send("stage#setHooks","%d",hooks);
 		}
 
 		void changeSlot(uint32 slot) {
@@ -297,7 +310,11 @@ namespace divanet
 			if(owner()) {
 				Base::String info;
 				bool rt = _checkStart(info);
-				mNetSys->send("stage#start_checkout","%b%S",rt,info.asAnsi());
+				//mNetSys->send("stage#start_checkout","%b%S",rt,info.asAnsi());
+				mNetSys->send("stage#start_checkout",gnet::TupleBuilder()
+					.AddBoolean(rt)
+					.AddString(info.asAnsi())
+					.Get());
 			}
 		}
 

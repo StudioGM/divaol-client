@@ -2517,6 +2517,9 @@
     <ClInclude Include="Lib\CSHA1\SHA1.h">
       <Filter>源文件\lib\CSHA1</Filter>
     </ClInclude>
+    <ClInclude Include="divanetwork\gnet\TupleBuilder.h">
+      <Filter>源文件\divanetwork\gnet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

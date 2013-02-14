@@ -150,8 +150,16 @@ namespace divacore
 		void sendFailure(StateEvent &event)
 		{
 			int stateCnt = stateList[event.note->getID()].eventList.size()-1;
-			NETWORK_SYSTEM_PTR->send("game#failureR",
-				"%f%d%d%d%b%b",CORE_PTR->getRunTime(),event.note->getID(),stateCnt, event.rank,event.breakCombo,event.breakNote);
+			//NETWORK_SYSTEM_PTR->send("game#failureR",
+				//"%f%d%d%d%b%b",CORE_PTR->getRunTime(),event.note->getID(),stateCnt, event.rank,event.breakCombo,event.breakNote);
+			NETWORK_SYSTEM_PTR->send("game#failureR",gnet::TupleBuilder()
+				.AddDouble(CORE_PTR->getRunTime())
+				.AddInt(event.note->getID())
+				.AddInt(stateCnt)
+				.AddInt(event.rank)
+				.AddInt(event.breakCombo)
+				.AddInt(event.breakNote)
+				.Get());
 		}
 
 		void gnetGetFailure(GPacket *packet)

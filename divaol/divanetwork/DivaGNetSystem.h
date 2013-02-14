@@ -40,6 +40,7 @@ namespace divanet
 		//virtual bool waitConnection(float time) = 0;
 		virtual void send(GPacket*) = 0;
 		virtual void send(const std::string &id, const char*format="", ...) = 0;
+		virtual void send(const std::string &id, GPacket *packet) = 0;
 		virtual void read(GPacket *packet, const char* format, va_list ArgPtr) = 0;
 		virtual void read(GPacket *packet, const char* format, ...) = 0;
 		virtual void waitForNext() = 0;

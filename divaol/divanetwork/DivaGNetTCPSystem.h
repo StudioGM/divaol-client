@@ -80,6 +80,15 @@ namespace divanet
 
 			mNetManager.send(packet);
 		}
+		void send(const std::string &id, GPacket *packet)
+		{
+			std::string group,type;
+			toGandT(id,group,type);
+			packet->appendAhead<Atom>(type);
+			packet->appendAhead<Atom>(group);
+
+			mNetManager.send(packet);
+		}
 		void read(GPacket *packet, const char* format, va_list ArgPtr) {
 			GPacket tmp = *packet;
 			tmp.deleteItem(0);
@@ -106,7 +115,7 @@ namespace divanet
 			return getState()==WELL;
 		}
 		virtual void tick() {
-			//mNetManager.send(new gnet::Item<gnet::Atom>("tick"));
+			mNetManager.send(new gnet::Item<gnet::Atom>("tick"));
 		}
 		virtual void update(float) {
 			if(getState()==INIT||getState()==READY)
