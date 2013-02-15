@@ -64,11 +64,6 @@ namespace gnet
 				Item<List> *item = new Item<List>();
 				for(size_t index = 0; index < size; index++)
 					item->appendItem(recv());
-				for(size_t index = 0; index < size; index++)
-					if (item->getItem(index) == NULL) {
-						int tmp = 1;
-						tmp = 2;
-					}
 				return item;
 			}
 		case GNET_TYPE_DOUBLE:
