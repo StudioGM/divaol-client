@@ -16,12 +16,11 @@ namespace gnet
 	{
 		NetManager *netManager = static_cast<NetManager*>(param);
 		
-		while(true)
+		while(netManager->isRecv)
 		{
 			ItemBase *item = 0;
 			try{
 				item = netManager->mConnector.recv();
-				//LOGGER->log(item->getDescription().c_str());
 			}
 			catch(...)
 			{
@@ -36,7 +35,7 @@ namespace gnet
 	{
 		NetManager *netManager = static_cast<NetManager*>(param);
 		
-		while(true)
+		while(netManager->isSend)
 		{
 			if(netManager->mSendQueue.task_on())
 			{
@@ -47,6 +46,8 @@ namespace gnet
 				}
 				catch (...)
 				{
+					delete item;
+					netManager->mSendQueue.task_done();
 					return 0;
 				}
 				delete item;

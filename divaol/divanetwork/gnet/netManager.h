@@ -25,14 +25,22 @@ namespace gnet
 
 		void connect(const std::string &host, const std::string &port) {
 			mConnector.connect(host,port);
+			isRecv = true;
+			isSend = true;
 
 			mRecvThreadHandle = CreateThread(NULL, 0, _RecvThread, (LPVOID)this, 0, 0);
 			mSendThreadHandle = CreateThread(NULL, 0, _SendThread, (LPVOID)this, 0, 0);
 		}
 		void disconnect() {
+			isRecv = false;
+
+			//Base::TimeUtil::mSleep(0.1);
 			TerminateThread(mRecvThreadHandle, 0);
 			//wait for remain message to sendout
 			BASE_WAIT_FOR(mSendQueue.empty(),5.0);
+			isSend = false;
+
+			//Base::TimeUtil::mSleep(0.1);
 			TerminateThread(mSendThreadHandle, 0);
 
 			clear(true, true);
@@ -57,6 +65,8 @@ namespace gnet
 		static DWORD WINAPI _SendThread(LPVOID param);
 
 	protected:
+		bool isSend;
+		bool isRecv;
 		TCPConnection mConnector;
 		Queue<ItemBase*> mSendQueue;
 		Queue<ItemBase*> mRecvQueue;

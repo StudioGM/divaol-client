@@ -64,6 +64,11 @@ namespace gnet
 				Item<List> *item = new Item<List>();
 				for(size_t index = 0; index < size; index++)
 					item->appendItem(recv());
+				for(size_t index = 0; index < size; index++)
+					if (item->getItem(index) == NULL) {
+						int tmp = 1;
+						tmp = 2;
+					}
 				return item;
 			}
 		case GNET_TYPE_DOUBLE:
@@ -139,11 +144,6 @@ namespace gnet
 				Item<List> *item = new Item<List>();
 				for(size_t index = 0; index < size; index++)
 					item->appendItem(_parseItem(data));
-				for(size_t index = 0; index < size; index++)
-					if (item->getItem(index) == NULL || item->getItem(index)->getString() == "") {
-						int tmp = 1;
-						tmp = 2;
-					}
 				return item;
 			}
 		case GNET_TYPE_DOUBLE:
@@ -196,6 +196,7 @@ namespace gnet
 	{
 		if(mSocket!=INVALID_SOCKET)
 		{
+			shutdown(mSocket,2);
 			closesocket(mSocket);
 			mSocket = INVALID_SOCKET;
 		}
@@ -239,7 +240,7 @@ namespace gnet
 		size_t writeSize = 0;
 		while(writeSize<size)
 		{
-			int retVal = ::send(mSocket,data,size,0);
+			int retVal = ::send(mSocket,data+writeSize,size-writeSize,0);
 			if(retVal == SOCKET_ERROR)
 			{
 				int errcode = WSAGetLastError();
@@ -254,7 +255,7 @@ namespace gnet
 		size_t readSize = 0;
 		while(readSize<size)
 		{
-			int retVal = ::recv(mSocket,reinterpret_cast<char*>(&mBuffer[0]),size-readSize,0);
+			int retVal = ::recv(mSocket,reinterpret_cast<char*>(&mBuffer[readSize]),size-readSize,0);
 			
 			if (SOCKET_ERROR == retVal)
 			{
