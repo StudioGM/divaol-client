@@ -35,13 +35,13 @@ namespace gnet
 			isRecv = false;
 
 			//Base::TimeUtil::mSleep(0.1);
-			TerminateThread(mRecvThreadHandle, 0);
+			//TerminateThread(mRecvThreadHandle, 0);
 			//wait for remain message to sendout
 			BASE_WAIT_FOR(mSendQueue.empty(),5.0);
 			isSend = false;
 
 			//Base::TimeUtil::mSleep(0.1);
-			TerminateThread(mSendThreadHandle, 0);
+			//TerminateThread(mSendThreadHandle, 0);
 
 			clear(true, true);
 
