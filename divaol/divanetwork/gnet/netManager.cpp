@@ -24,11 +24,14 @@ namespace gnet
 			}
 			catch(...)
 			{
+				netManager->isRecvOver = true;
 				return 0;
 			}
 			if(item)
 				netManager->mRecvQueue.push(item);
 		}
+
+		netManager->isRecvOver = true;
 	}
 	
 	DWORD WINAPI NetManager::_SendThread(LPVOID param)
@@ -37,9 +40,10 @@ namespace gnet
 		
 		while(netManager->isSend)
 		{
-			if(netManager->mSendQueue.task_on())
+			ItemBase *item = NULL;
+			if(netManager->mSendQueue.take(item))
 			{
-				ItemBase *item = netManager->mSendQueue.task_take();
+				base_assert(item!=NULL);
 				try
 				{
 					netManager->mConnector.sendEncodedWithRFA(item);
@@ -47,14 +51,17 @@ namespace gnet
 				catch (...)
 				{
 					delete item;
-					netManager->mSendQueue.task_done();
+					//netManager->mSendQueue.task_done();
+					netManager->isSendOver = true;
 					return 0;
 				}
 				delete item;
-				netManager->mSendQueue.task_done();
+				//netManager->mSendQueue.task_done();
 			}
 			else
 				Base::TimeUtil::mSleep(1);
 		}
+
+		netManager->isSendOver = true;
 	}
 }

@@ -165,7 +165,7 @@ namespace Base
 	{\
 		double startTime = Base::GlobalTimeStamp::instance().elapsedInSecond();\
 		while(true) {\
-			if(Signal||Base::GlobalTimeStamp::instance().elapsedInSecond()-startTime>Time)\
+			if((Signal)||Base::GlobalTimeStamp::instance().elapsedInSecond()-startTime>Time)\
 				break;\
 			Base::TimeUtil::mSleep(1);\
 		}\

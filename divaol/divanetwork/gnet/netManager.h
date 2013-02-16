@@ -27,23 +27,25 @@ namespace gnet
 			mConnector.connect(host,port);
 			isRecv = true;
 			isSend = true;
+			isSendOver = false;
+			isRecvOver = false;
 
 			mRecvThreadHandle = CreateThread(NULL, 0, _RecvThread, (LPVOID)this, 0, 0);
 			mSendThreadHandle = CreateThread(NULL, 0, _SendThread, (LPVOID)this, 0, 0);
 		}
 		void disconnect() {
 			isRecv = false;
-
-			//Base::TimeUtil::mSleep(0.1);
-			//TerminateThread(mRecvThreadHandle, 0);
 			//wait for remain message to sendout
-			BASE_WAIT_FOR(mSendQueue.empty(),5.0);
+			BASE_WAIT_FOR(mSendQueue.empty(),0.25);
 			isSend = false;
 
-			//Base::TimeUtil::mSleep(0.1);
-			//TerminateThread(mSendThreadHandle, 0);
-
 			clear(true, true);
+
+			BASE_WAIT_FOR(isSendOver&&isRecvOver, 0.1);
+			if (!isSendOver)
+				TerminateThread(mSendThreadHandle, 0);
+			if (!isRecvOver)
+				TerminateThread(mRecvThreadHandle, 0);
 
 			mConnector.disconnect();
 		}
@@ -67,6 +69,8 @@ namespace gnet
 	protected:
 		bool isSend;
 		bool isRecv;
+		bool isSendOver;
+		bool isRecvOver;
 		TCPConnection mConnector;
 		Queue<ItemBase*> mSendQueue;
 		Queue<ItemBase*> mRecvQueue;

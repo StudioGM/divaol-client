@@ -194,23 +194,25 @@ namespace Base
 	/*********************************************
 	 * MutexImpol
 	 *********************************************/
-	class MutexImpl : public Uncopyable
-	{
-	protected:
-		MutexImpl() {
-		}
-		~MutexImpl() {
-		}
-		inline void lockImpl() {
-			mutex.lock();
-		}
-		inline void unlockImpl() {
-			mutex.unlock();
-		}
+    class MutexImpl : public Uncopyable
+    {
+    protected:
+            MutexImpl() {
+                    mutex = CreateMutexW(NULL,FALSE,NULL);
+            }
+            ~MutexImpl() {
+                    CloseHandle(mutex);
+            }
+            inline void lockImpl() {
+                    WaitForSingleObject(mutex,INFINITE);
+            }
+            inline void unlockImpl() {
+                    ReleaseMutex(mutex);
+            }
 
-	private:
-		std::mutex mutex;
-	};
+    private:
+            HANDLE mutex;
+    };
 
 	/*********************************************
 	 * ThreadImpl
