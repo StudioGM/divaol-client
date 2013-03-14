@@ -12,6 +12,17 @@
 
 namespace divacore
 {
+	NormalNote::~NormalNote()
+	{
+		if (!bLeave) {
+			EFFECT_SYSTEM_PTR->clearParticle(this);
+
+			SAFE_DELETE_SPRITE(noteSprite);
+			//SAFE_DELETE_SPRITE(arrowSprite);
+			SAFE_DELETE_SPRITE(coverSprite);
+			SAFE_DELETE_SPRITE(rhythmSprite); 
+		}
+	}
 
 	void NormalNote::onInitiate() 
 	{
@@ -80,6 +91,8 @@ namespace divacore
 	void NormalNote::onEnter() {}
 	void NormalNote::onLeave() 
 	{
+		Note::onLeave();
+
 		EFFECT_SYSTEM_PTR->clearParticle(this);
 
 		SAFE_DELETE_SPRITE(noteSprite);

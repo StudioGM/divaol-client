@@ -51,6 +51,7 @@ namespace divacore
 		void _hitEffect();
 	public:
 		PingpongNote(MapNote& noteInfo):Note(noteInfo) {}
+		virtual ~PingpongNote();
 
 		std::string getName() {return "pingpong_note";}
 

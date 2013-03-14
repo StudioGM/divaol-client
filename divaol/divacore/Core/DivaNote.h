@@ -30,7 +30,7 @@ namespace divacore
 		int keyPosition;
 		int uid,nextPoint,receivePoint;
 		int state;
-		bool bOver,bOwner;
+		bool bOver,bOwner,bLeave;
 		std::string tailTag;
 		
 	protected:
@@ -49,7 +49,8 @@ namespace divacore
 	public:
 		enum{START=-0x80,FAILED,END};
 
-		Note(MapNote &noteInfo):receivePoint(0),noteInfo(noteInfo),bOver(false),bOwner(true),tailTag("") {setState(START);}
+		Note(MapNote &noteInfo):receivePoint(0),noteInfo(noteInfo),bOver(false),bOwner(true),bLeave(false),tailTag("") {setState(START);}
+		virtual ~Note() {}
 
 		virtual void toFail() {over();}
 		virtual bool checkInfo() {return true;}
@@ -57,7 +58,7 @@ namespace divacore
 		virtual void onEnter() {}
 		virtual void onLeave() {}
 		virtual void onPoint(uint32 cnt, NotePoint point) {}
-		virtual void onRender() {}
+		virtual void onRender() {bLeave = true;}
 		virtual void onUpdate(double dt, double position) {}
 		virtual void onPressed(StateEvent& event) {}
 		virtual void onReleased(StateEvent& event) {}

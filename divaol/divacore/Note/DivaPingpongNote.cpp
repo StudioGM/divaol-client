@@ -14,6 +14,18 @@ namespace divacore
 {
 	const float PingpongNote::SCALE = 1.5;
 
+	PingpongNote::~PingpongNote()
+	{
+		if (bLeave) {
+			EFFECT_SYSTEM_PTR->clearParticle(this);
+
+			SAFE_DELETE_SPRITE(noteSprite);
+			SAFE_DELETE_SPRITE(rhythmSprite);
+			SAFE_DELETE_SPRITE(barMetaSprite);
+			SAFE_DELETE_SPRITE(coverSprite);
+		}
+	}
+
 	void PingpongNote::onInitiate() 
 	{
 		//get info
@@ -98,6 +110,8 @@ namespace divacore
 	void PingpongNote::onEnter() {}
 	void PingpongNote::onLeave() 
 	{
+		Note::onLeave();
+
 		EFFECT_SYSTEM_PTR->clearParticle(this);
 
 		SAFE_DELETE_SPRITE(noteSprite);

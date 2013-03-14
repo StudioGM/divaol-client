@@ -38,6 +38,7 @@ namespace divacore
 		SoraSprite *rhythmSprite;
 	public:
 		NormalNote(MapNote& noteInfo):Note(noteInfo) {}
+		virtual ~NormalNote();
 
 		std::string getName() {return "normal_note";}
 

@@ -12,6 +12,17 @@
 
 namespace divacore
 {
+	LongNote::~LongNote()
+	{
+		if (!bLeave) {
+			EFFECT_SYSTEM_PTR->clearParticle(this);
+
+			SAFE_DELETE_SPRITE(noteSprite);
+			SAFE_DELETE_SPRITE(rhythmSprite);
+			SAFE_DELETE_SPRITE(barMetaSprite);
+			SAFE_DELETE_SPRITE(coverSprite);
+		}
+	}
 
 	void LongNote::onInitiate() 
 	{
@@ -85,6 +96,8 @@ namespace divacore
 	void LongNote::onEnter() {}
 	void LongNote::onLeave() 
 	{
+		Note::onLeave();
+
 		EFFECT_SYSTEM_PTR->clearParticle(this);
 
 		SAFE_DELETE_SPRITE(noteSprite);

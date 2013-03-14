@@ -7,6 +7,7 @@
 //
 
 #include "SoraObjectHandle.h"
+#include "core/DivaCore.h"
 
 namespace sora {
     
@@ -16,6 +17,7 @@ namespace sora {
     SoraObjectHandle::SoraObjectHandle(SoraObject* obj):
     m_HandleId(obj->getHandleId()),
     m_UniqueId(obj->getUniqueId()) {
+		LOGGER->log("Now Object Num : %d",m_HandleId);
         sora_assert(m_HandleId < SoraObjectHandle::MaxObjectSize);
         g_ObjectMap[m_HandleId] = obj;
         ++g_ObjectSize;

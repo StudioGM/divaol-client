@@ -43,13 +43,14 @@ namespace divacore
 		void finish(float dt);
 	public:
 		LongNote(MapNote& noteInfo):Note(noteInfo) {}
+		virtual ~LongNote();
 
 		std::string getName() {return "long_note";}
 
 		bool checkInfo() {return (noteInfo.noteType=="long"&&noteInfo.notePoint.size()==2);}
 		void onInitiate() ;
 		void onEnter();
-		void onLeave() ;
+		void onLeave();
 		void onPoint(uint32 cnt, NotePoint point);
 		void onRender();
 		void onUpdate(double dt, double position);

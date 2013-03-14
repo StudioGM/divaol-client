@@ -412,6 +412,8 @@ namespace divacore
 		float time = nowTime;
 
 		EFFECT_SYSTEM_PTR->clear();
+		for(int i = 0; i < noteList.size(); i++)
+			SAFE_DELETE(noteList[i]);
 		noteList.clear();
 
 		for(int i = 0; i < notesPtr->size(); i++)
