@@ -20,7 +20,7 @@ namespace sora {
 		}
 
 		void registerResponser(const SoraString& id, SoraGUIResponser* responser) {
-			_resMap.insert(std::make_pair<SoraStringId, SoraGUIResponser*>(GetUniqueStringId(id), responser));
+			_resMap.insert(std::make_pair(GetUniqueStringId(id), responser));
 		}
 		SoraGUIResponser* getResponser(const SoraString& id) {
             ResponserMap::iterator itResponser = _resMap.find(GetUniqueStringId(id));
@@ -31,7 +31,7 @@ namespace sora {
 
         // in xml, use responser = "@handleType=src" to indicate this gui uses a external responser
 		void registerExternalResponser(const SoraString& handleType, SoraGUIResponserExtern* responser) {
-			_extMap.insert(std::make_pair<SoraStringId, SoraGUIResponserExtern*>(GetUniqueStringId(handleType), responser));
+			_extMap.insert(std::make_pair(GetUniqueStringId(handleType), responser));
 		}
         SoraGUIResponserExtern* getExternalResponser(const SoraString& handleType) {
             ExternalResponserMap::iterator itResponser = _extMap.find(GetUniqueStringId(handleType));

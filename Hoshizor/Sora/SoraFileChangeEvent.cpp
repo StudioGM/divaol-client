@@ -39,7 +39,7 @@ namespace sora {
 				info.mMD5 = md5.hex_digest();
 				info.mHandlers.push_back(handler);
 				
-				mChangeListeners.insert(std::make_pair<StringType, FileChangeInfo>(file, info));
+				mChangeListeners.insert(std::make_pair(file, info));
                 
                 fclose(fl);
 			} else {

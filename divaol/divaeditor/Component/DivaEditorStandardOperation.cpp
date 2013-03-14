@@ -555,6 +555,7 @@ namespace divaeditor
 	}
 
 
+
 	DivaEditorOperation_ModifyNote::DivaEditorOperation_ModifyNote(int index, Type noteModifyType)
 	{
 		calculated = false;

@@ -471,6 +471,15 @@ namespace divaeditor
 		keySoundControlSet->add(wlabel_globalMissSound);
 
 
+		gcn::WListBox *wlistbox_notekey = new gcn::WListBox(new WListModel());
+		wlistbox_notekey->setId("wlistbox_notekey");
+		wlistbox_notekey->setSize(300,500);
+		wlistbox_notekey->setPosition(10,wlabel_globalMissSound->getY()+50);
+		wlistbox_notekey->addSelectionListener(this);
+		wlistbox_notekey->mListModel->insertElement(0,L"None");
+		keySoundControlSet->add(wlistbox_notekey);
+
+
 #pragma endregion key sound box set
 
 

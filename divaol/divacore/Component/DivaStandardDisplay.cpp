@@ -179,7 +179,7 @@ namespace divacore
 			msleep(1),moviePlayer->pause();
 		moviePlayer->setTime(0);
 		
-		videoPool[ID] = std::make_pair<sora::SoraVlcMoviePlayer*,sora::SoraSprite*>(moviePlayer,sprite);
+		videoPool[ID] = std::make_pair(moviePlayer,sprite);
 	}
 	void StandardDisplay::unloadVideo(const std::string &ID)
 	{
