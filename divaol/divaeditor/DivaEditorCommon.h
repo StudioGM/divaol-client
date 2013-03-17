@@ -13,8 +13,8 @@
 
 namespace divaeditor
 {
-
-
+	class DivaEditorMainScene;
+	
 	static const int gridToShowPerBeatTable[6] = {1,2,3,4,6,8};
 	static const int gridToShowPerBeatTableCount = 6;
 
@@ -67,7 +67,8 @@ namespace divaeditor
 						lastSavedTimeDelta(0),
 						AutoSaveTime(120),
 						isAutoSave(true),
-						needReCalcNextTime(false)
+						needReCalcNextTime(false),
+						mainScene(NULL)
 						{};
 
 		static EditorConfig* Ptr;
@@ -92,7 +93,8 @@ namespace divaeditor
 		//NOTE Edit Settings
 		void ChangeEditState();
 
-
+		DivaEditorMainScene *mainScene;
+		void selectedNoteChanged();
 		void noteIndexChanged(int oldIndex, int newIndex);
 		void noteIndexSwaped(int indexL,int indexR);
 		void addSelectedNote(int index);

@@ -27,6 +27,12 @@ namespace gcn
                 return mElements[i];
             return std::wstring();
         }
+		virtual int getElementIndex(std::wstring element){
+			for(int i=0;i<mElements.size();i++)
+				if(mElements[i] == element)
+					return i;
+			return -1;
+		}
 
 		virtual void insertElement(int i, const std::wstring& elmnt)
 		{

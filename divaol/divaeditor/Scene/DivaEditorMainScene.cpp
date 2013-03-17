@@ -470,11 +470,19 @@ namespace divaeditor
 		wlabel_globalMissSound->adjustSize();
 		keySoundControlSet->add(wlabel_globalMissSound);
 
+		gcn::WLabel *wlabel_selectedNoteKey = new gcn::WLabel(LOCALIZATION->getLocalStr(L"MainScene_wlabel_selectedNoteKey"));
+		wlabel_selectedNoteKey->setId("wlabel_selectedNoteKey");
+		wlabel_selectedNoteKey->setForegroundColor(gcn::Color(255,255,255,255));
+		wlabel_selectedNoteKey->setBackgroundColor(gcn::Color(0,0,0,0));
+		wlabel_selectedNoteKey->setPosition(btn_note_modifyHitSound->getX(), wlabel_globalMissSound->getY()+50);
+		wlabel_selectedNoteKey->adjustSize();
+		keySoundControlSet->add(wlabel_selectedNoteKey);
+
 
 		gcn::WListBox *wlistbox_notekey = new gcn::WListBox(new WListModel());
 		wlistbox_notekey->setId("wlistbox_notekey");
 		wlistbox_notekey->setSize(300,500);
-		wlistbox_notekey->setPosition(10,wlabel_globalMissSound->getY()+50);
+		wlistbox_notekey->setPosition(wlabel_selectedNoteKey->getX(),wlabel_selectedNoteKey->getY()+30);
 		wlistbox_notekey->addSelectionListener(this);
 		wlistbox_notekey->mListModel->insertElement(0,L"None");
 		keySoundControlSet->add(wlistbox_notekey);
@@ -888,6 +896,7 @@ namespace divaeditor
 		btn_TimeLine_wider->setId("btn_TimeLine_wider");
 		btn_TimeLine_wider->setSize(23,23);
 		btn_TimeLine_wider->setPosition(timeline->getX()+timeline->getWidth()+3,top->getHeight()-5-btn_TimeLine_wider->getHeight()*2-1);
+		//btn_TimeLine_wider->setPosition(1120+3,top->getHeight()-5-btn_TimeLine_wider->getHeight()*2-1);
 		btn_TimeLine_wider->setForegroundColor(gcn::Color(255,255,255,255));
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_TimeLine_wider, this, "btn_TimeLine_wider", sora::RESPONSEACTION);
 		top->add(btn_TimeLine_wider);
@@ -1235,6 +1244,9 @@ namespace divaeditor
 		//After map initialized here
 		//Check if the map has key and miss resource
 		//If not, add default key sound
+
+		EDITCONFIG->mainScene = this;
+
 		if(EDITOR_PTR->mapData->coreInfoPtr->resources.find("hit")==EDITOR_PTR->mapData->coreInfoPtr->resources.end())
 		{
 			EDITOR_PTR->mapData->modifyGlobalHitMissSound(L"Data/hit.wav","hit");
@@ -1252,6 +1264,8 @@ namespace divaeditor
 		std::wstring missPath = EDITOR_PTR->mapData->coreInfoPtr->resources["miss"].filePath;
 		wlabel_globalMissSound->setCaption(LOCALIZATION->getLocalStr(L"MainScene_wlabel_globalMissSound") + L": " + (missPath==L""?LOCALIZATION->getLocalStr(L"GlobalSoundDisabled"):missPath));
 		wlabel_globalMissSound->adjustSize();
+
+		refreshKeySoundList();
 
 		EditUtility.refreshAll();
 	}
@@ -1814,6 +1828,8 @@ namespace divaeditor
 				if(addedResource!="ERROR")
 					((ResourcePanel*)container_Categories[State::SHOW]->findWidgetById("resourcePanel"))->setSelectedIndex(EDITOR_PTR->mapData->findResourceIndexByID(addedResource));
 			}
+
+			refreshKeySoundList();
 		}
 		else if(getID() == "btn_resourceRemove")
 		{
@@ -1823,6 +1839,8 @@ namespace divaeditor
 				EDITOR_PTR->mapData->resource_delete( EDITOR_PTR->mapData->findResourceIDByIndex(resourcePanel->getSelectedIndex()));
 				((ResourcePanel*)container_Categories[State::SHOW]->findWidgetById("resourcePanel"))->setSelectedIndex(-1);
 			}
+
+			refreshKeySoundList();
 		}
 		else if(getID() == "wtextField_resourceDetail_fileLabelValue")
 		{
@@ -1831,6 +1849,8 @@ namespace divaeditor
 			EDITOR_PTR->mapData->resourceDescription_modify(EDITOR_PTR->mapData->findResourceIDByIndex(resourcePanel->getSelectedIndex()),wtextFiled_resourceDetail_fileLabelValue->getText());
 			actionWidget->setFocusable(false);
 			actionWidget->setFocusable(true);
+
+			refreshKeySoundList();
 		}
 		else if(getID() == "btn_resourceDetail_addFileEvent")
 		{
@@ -1925,6 +1945,66 @@ namespace divaeditor
 #pragma endregion Editor Controls
 	}
 	
+
+
+	void DivaEditorMainScene::refreshKeySoundList(bool onlySelection)
+	{
+		//EDITOR_PTR->mapData->selected
+		gcn::WListBox *wlistbox_notekey = (gcn::WListBox*)container_Categories[State::NOTE]->findWidgetById("wlistbox_notekey");
+		gcn::WListModel *keyListModel = wlistbox_notekey->getListModel();
+
+		gcn::WLabel *wlabel_selectedNoteKey = (gcn::WLabel*)container_Categories[State::NOTE]->findWidgetById("wlabel_selectedNoteKey");
+
+		if(!onlySelection)
+		{
+			keyListModel->clearElements();
+			keyListModel->pushElement(L"None");
+
+			for(divacore::MapInfo::RESOURCES::iterator i=EDITOR_PTR->mapData->coreInfoPtr->resources.begin();i!=EDITOR_PTR->mapData->coreInfoPtr->resources.end();i++)
+			{
+				divacore::MapResourceInfo &resourceInfo = i->second;
+				if(resourceInfo.type == divacore::MapResourceInfo::AUDIO && resourceInfo.ID!="hit" && resourceInfo.ID!="miss")
+				{
+					keyListModel->pushElement( EDITOR_PTR->mapData->getResourceDescription(resourceInfo.ID));
+				}
+			}
+		}
+
+		if(EDITCONFIG->noteSelected.size() == 0)
+		{
+			wlabel_selectedNoteKey->setCaption(LOCALIZATION->getLocalStr(L"MainScene_wlabel_selectedNoteKey") + L" --");
+			wlistbox_notekey->setSelected(0, false);
+		}
+		else
+		{
+			std::wstring selectedNotesKey = EDITOR_PTR->mapData->getResourceDescription( EDITOR_PTR->mapData->coreInfoPtr->notes[EDITCONFIG->noteSelected[0]].notePoint[0].key );
+			bool allsame = true;
+			for(int i=1;i<EDITCONFIG->noteSelected.size();i++)
+			{
+				std::wstring thisKey = EDITOR_PTR->mapData->getResourceDescription( EDITOR_PTR->mapData->coreInfoPtr->notes[EDITCONFIG->noteSelected[i]].notePoint[0].key );
+				if(thisKey!=selectedNotesKey)
+				{
+					allsame = false;
+					break;
+				}
+			}
+
+			if(!allsame)
+			{
+				wlabel_selectedNoteKey->setCaption(LOCALIZATION->getLocalStr(L"MainScene_wlabel_selectedNoteKey") + LOCALIZATION->getLocalStr(L"DifferentValue"));
+				wlistbox_notekey->setSelected(-1, false);
+			}
+			else
+			{
+				if(selectedNotesKey == L"")
+					selectedNotesKey = L"None";
+				wlabel_selectedNoteKey->setCaption(LOCALIZATION->getLocalStr(L"MainScene_wlabel_selectedNoteKey") + selectedNotesKey);
+				wlistbox_notekey->setSelected( keyListModel->getElementIndex(selectedNotesKey), false);
+			}
+		}
+		wlabel_selectedNoteKey->adjustSize();
+	}
+
 	void DivaEditorMainScene::refreshResourcePanelDetail()
 	{
 		ResourcePanel *resourcePanel = (ResourcePanel*)container_Categories[State::SHOW]->findWidgetById("resourcePanel");
@@ -2013,6 +2093,18 @@ namespace divaeditor
 		else if(event.getSource()->getId()=="wlistbox_resourceDetail_fileEventsValue")
 		{
 			refreshEventDetail();
+		}
+		else if(event.getSource()->getId()=="wlistbox_notekey")
+		{
+			gcn::WListBox *wlistbox_notekey = (gcn::WListBox*)container_Categories[State::NOTE]->findWidgetById("wlistbox_notekey");
+			if(EDITCONFIG->noteSelected.size()>0 && wlistbox_notekey->getSelected()>=0)
+			{
+				DivaEditorOperationSet *thisModifySet = new DivaEditorOperationSet();
+				for(int i=0;i<EDITCONFIG->noteSelected.size();i++)
+					thisModifySet->addOperation(new DivaEditorOperation_ModifyNote(EDITCONFIG->noteSelected[i], EDITOR_PTR->mapData->findResourceIDByTypeAndIndex(MapResourceInfo::AUDIO, wlistbox_notekey->getSelected())));
+				EDITCONFIG->addAndDoOperation(thisModifySet);
+				refreshKeySoundList(true);
+			}
 		}
 		
 	}

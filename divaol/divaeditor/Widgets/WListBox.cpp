@@ -117,7 +117,7 @@ namespace gcn
         return mSelected;
     }
 
-    void WListBox::setSelected(int selected)
+    void WListBox::setSelected(int selected, bool trigger)
     {
         if (mListModel == NULL)
         {
@@ -153,7 +153,8 @@ namespace gcn
         scroll.height = getRowHeight();
         showPart(scroll);
 
-        distributeValueChangedEvent();
+		if(trigger)
+			distributeValueChangedEvent();
     }
 
     void WListBox::keyPressed(KeyEvent& keyEvent)

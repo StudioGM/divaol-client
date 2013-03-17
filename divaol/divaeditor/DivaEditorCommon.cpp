@@ -21,6 +21,12 @@ namespace divaeditor
 	}
 
 
+	void EditorConfig::selectedNoteChanged()
+	{
+		if(mainScene!=NULL)
+			mainScene->refreshKeySoundList(true);
+	}
+
 	void EditorConfig::noteIndexChanged(int oldIndex, int newIndex)
 	{
 		for(int i=0;i<noteSelected.size();i++)
@@ -33,6 +39,7 @@ namespace divaeditor
 					i--;
 				}
 		std::sort(noteSelected.begin(),noteSelected.end());
+		selectedNoteChanged();
 	}
 
 	void EditorConfig::noteIndexSwaped(int indexL,int indexR)
@@ -43,6 +50,7 @@ namespace divaeditor
 			else if(noteSelected[i]==indexR)
 				noteSelected[i]=indexL;
 		std::sort(noteSelected.begin(),noteSelected.end());
+		selectedNoteChanged();
 	}
 
 	void EditorConfig::addSelectedNote(int index)
@@ -56,6 +64,7 @@ namespace divaeditor
 			}
 		noteSelected.push_back(index);
 		std::sort(noteSelected.begin(),noteSelected.end());
+		selectedNoteChanged();
 	}
 
 	void EditorConfig::deleteSelectedNote(int index)
@@ -68,11 +77,13 @@ namespace divaeditor
 			}
 			else if(noteSelected[i]>index)
 				noteSelected[i]--;
+		selectedNoteChanged();
 	}
 
 	void EditorConfig::clearSelectedNote()
 	{
 		noteSelected.clear();
+		selectedNoteChanged();
 	}
 
 	bool EditorConfig::isNoteSelected(int index)

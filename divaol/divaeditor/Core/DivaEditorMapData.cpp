@@ -1333,6 +1333,12 @@ namespace divaeditor
 			resourceDescription[resourceID] = sora::s2ws(resourceID);
 		return resourceDescription[resourceID];
 	}
+	std::wstring DivaEditorMapData::getResourceDescription(std::string id)
+	{
+		if(resourceDescription.find(id)!=resourceDescription.end())
+			return resourceDescription[id];
+		return L"";
+	}
 	std::string DivaEditorMapData::findResourceIDByIndex(int index)
 	{
 		int tIndex=-1;
@@ -1344,6 +1350,24 @@ namespace divaeditor
 		}
 		return "ERROR";
 	}
+	std::string DivaEditorMapData::findResourceIDByTypeAndIndex(divacore::MapResourceInfo::ResourceType type, int index)
+	{
+		int nowIndex = -1;
+		if(type == MapResourceInfo::AUDIO)
+			nowIndex = 0; //There's None
+		for(divacore::MapInfo::RESOURCES::iterator i=EDITOR_PTR->mapData->coreInfoPtr->resources.begin();i!=EDITOR_PTR->mapData->coreInfoPtr->resources.end();i++)
+		{
+			divacore::MapResourceInfo &resourceInfo = i->second;
+			if(resourceInfo.type == type && resourceInfo.ID!="hit" && resourceInfo.ID!="miss")
+			{
+				nowIndex++;
+				if(index == nowIndex)
+					return resourceInfo.ID;
+			}
+		}
+		return "";
+	}
+
 	int DivaEditorMapData::findResourceIndexByID(std::string id)
 	{
 		int ret=-1;

@@ -33,7 +33,7 @@ namespace gcn
         int getSelected() const;
 		WListModel *getListModel();
 
-        void setSelected(int selected);
+        void setSelected(int selected, bool trigger = true);
         void setListModel(WListModel *listModel);
 
         void adjustSize();

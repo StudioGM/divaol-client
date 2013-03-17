@@ -58,5 +58,7 @@
   "Messagebox_Tips": "提示",
   "Tip_CannotModifyMainSound": "禁止更改主音频",
   "Tip_CannotModifyHitMiss": "无法在演出模块更改击打音或丢失音。请前往音符模块进行更改",
-  "Tip_InitializeVideoPlugins": "第一次载入视频需要1分钟时间来初始化视频插件"
+  "Tip_InitializeVideoPlugins": "第一次载入视频需要1分钟时间来初始化视频插件",
+  "MainScene_wlabel_selectedNoteKey": "选中音符的key音：",
+  "DifferentValue": "不同的值"
 }

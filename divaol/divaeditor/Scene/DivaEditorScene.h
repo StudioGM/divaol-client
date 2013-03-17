@@ -126,6 +126,8 @@ namespace divaeditor
 
 		DivaEditorMainScene();
 
+		void refreshKeySoundList(bool onlySelection = false);
+
 		void ChangeState(State state);
 
 		virtual void willAppear();

@@ -58,5 +58,7 @@
   "Messagebox_Tips": "Tips",
   "Tip_CannotModifyMainSound": "Can't modify main sound.",
   "Tip_CannotModifyHitMiss": "Can't modify hit or miss sound in show category. Please go to note category.",
-  "Tip_InitializeVideoPlugins": "The first time to load video will lasts about 1 minute to initialize video plugins."
+  "Tip_InitializeVideoPlugins": "The first time to load video will lasts about 1 minute to initialize video plugins.",
+  "MainScene_wlabel_selectedNoteKey": "Selected Notes' Key Sound: ",
+  "DifferentValue": "Different values"
 }
