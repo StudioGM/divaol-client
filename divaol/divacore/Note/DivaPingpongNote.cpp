@@ -332,11 +332,12 @@ namespace divacore
 		else
 		{
 			//the pingpong hit
-			//if(noteInfo.notePoint[0].key!="")
-			//	Core::Ptr->getMusicManager()->playDirect(noteInfo.notePoint[0].key,"sound_effect");
 			
 			// here playing the key sound should be located in GAME_MODE, fix delayed
-			Core::Ptr->getMusicManager()->playDirect("hit","sound_effect");
+			if(noteInfo.notePoint[0].key!="")
+				Core::Ptr->getMusicManager()->playDirect(noteInfo.notePoint[0].key, "sound_effect");
+			else
+				Core::Ptr->getMusicManager()->playDirect("hit", "sound_effect");
 
 			cntHit++;
 

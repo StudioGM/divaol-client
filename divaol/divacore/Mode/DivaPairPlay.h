@@ -134,7 +134,12 @@ namespace divacore
 				if(event.type==StateEvent::PRESS||event.type==StateEvent::FAILURE)
 				{
 					if(event.rank<=4)
-						Core::Ptr->getMusicManager()->playDirect("hit","sound_effect");
+					{
+						if (event.note->getReceivePoint().key != "")
+							Core::Ptr->getMusicManager()->playDirect(event.note->getReceivePoint().key, "sound_effect");
+						else
+							Core::Ptr->getMusicManager()->playDirect("hit","sound_effect");
+					}
 					else
 						Core::Ptr->getMusicManager()->playDirect("miss","sound_effect");
 				}
