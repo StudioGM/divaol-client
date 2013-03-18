@@ -541,10 +541,11 @@ namespace divaeditor
 			divacore::Logger::instance()->log("Editor: An errror occured when modify notes.");
 			return;
 		}
-		for(int i=0;i<coreInfoPtr->notes[index].notePoint.size();i++)
-		{
-			coreInfoPtr->notes[index].notePoint[i].key = key;
-		}
+		if(coreInfoPtr->resources.find(key)!=coreInfoPtr->resources.end())
+			for(int i=0;i<coreInfoPtr->notes[index].notePoint.size();i++)
+			{
+				coreInfoPtr->notes[index].notePoint[i].key = key;
+			}
 	}
 	void DivaEditorMapData::note_delete(int index)
 	{
@@ -1358,7 +1359,7 @@ namespace divaeditor
 		for(divacore::MapInfo::RESOURCES::iterator i=EDITOR_PTR->mapData->coreInfoPtr->resources.begin();i!=EDITOR_PTR->mapData->coreInfoPtr->resources.end();i++)
 		{
 			divacore::MapResourceInfo &resourceInfo = i->second;
-			if(resourceInfo.type == type && resourceInfo.ID!="hit" && resourceInfo.ID!="miss")
+			if(resourceInfo.type == type && resourceInfo.ID!="hit" && resourceInfo.ID!="miss" && resourceInfo.ID!=EDITOR_PTR->mapData->coreInfoPtr->header.mainSound)
 			{
 				nowIndex++;
 				if(index == nowIndex)
@@ -1527,6 +1528,15 @@ namespace divaeditor
 				}
 			}
 		}
+
+		//Remove the notes key using this resource
+		for(int i=0;i<coreInfoPtr->notes.size();i++)
+		{
+			for(int noteI = 0;noteI<coreInfoPtr->notes[i].notePoint.size();noteI++)
+				if(coreInfoPtr->notes[i].notePoint[noteI].key == id)
+					coreInfoPtr->notes[i].notePoint[noteI].key = "";
+		}
+
 
 		//unload the resource
 		EDITUTILITY.unloadResource(resourceInfo);

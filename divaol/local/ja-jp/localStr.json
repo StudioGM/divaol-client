@@ -58,5 +58,7 @@
   "Messagebox_Tips": "ヒント",
   "Tip_CannotModifyMainSound": "メインのサウンドを変更することはできません。",
   "Tip_CannotModifyHitMiss": "ヒット音とミス音を変更することはできません。ノートカテゴリに移動してください。",
-  "Tip_InitializeVideoPlugins": "ビデオをロードするのは初めてでは、ビデオプラグインを初期化するために、約1分で終了します。"
+  "Tip_InitializeVideoPlugins": "ビデオをロードするのは初めてでは、ビデオプラグインを初期化するために、約1分で終了します。",
+  "MainScene_wlabel_selectedNoteKey": "選択したノートのキー音： ",
+  "DifferentValue": "さまざま"
 }

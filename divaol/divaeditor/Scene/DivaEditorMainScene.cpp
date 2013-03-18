@@ -479,14 +479,28 @@ namespace divaeditor
 		keySoundControlSet->add(wlabel_selectedNoteKey);
 
 
+		gcn::Container *listbox_container = new gcn::Container();
+		listbox_container->setId("listbox_container");
+		listbox_container->setSize(300, 240);
+		listbox_container->setPosition(wlabel_selectedNoteKey->getX(),wlabel_selectedNoteKey->getY()+30);
+		keySoundControlSet->add(listbox_container);
+
 		gcn::WListBox *wlistbox_notekey = new gcn::WListBox(new WListModel());
 		wlistbox_notekey->setId("wlistbox_notekey");
 		wlistbox_notekey->setSize(300,500);
-		wlistbox_notekey->setPosition(wlabel_selectedNoteKey->getX(),wlabel_selectedNoteKey->getY()+30);
+		wlistbox_notekey->setPosition(0,0);
 		wlistbox_notekey->addSelectionListener(this);
-		wlistbox_notekey->mListModel->insertElement(0,L"None");
-		keySoundControlSet->add(wlistbox_notekey);
+		//wlistbox_notekey->mListModel->insertElement(0,L"None");
+		listbox_container->add(wlistbox_notekey);
 
+		gcn::DivaEditorSlider *slider_listbox_items = new gcn::DivaEditorSlider(0,1);
+		slider_listbox_items->setOrientation(gcn::DivaEditorSlider::VERTICAL);
+		slider_listbox_items->setId("slider_listbox_items");
+		slider_listbox_items->setSize(20, 240);
+		slider_listbox_items->setPosition(listbox_container->getX() + listbox_container->getWidth()+10, listbox_container->getY());
+		slider_listbox_items->setValue(1);
+		sora::SoraGUI::Instance()->registerGUIResponser(slider_listbox_items, this, "slider_listbox_items", sora::RESPONSEACTION);
+		keySoundControlSet->add(slider_listbox_items);
 
 #pragma endregion key sound box set
 
@@ -1186,6 +1200,19 @@ namespace divaeditor
 				wlabel_nowPlaceNoteCategory->setCaption(LOCALIZATION->getLocalStr(L"Note_ComboNote"));
 			
 			wlabel_nowPlaceNoteCategory->adjustSize();
+
+
+
+			gcn::DivaEditorSlider* slider_listbox_items = (gcn::DivaEditorSlider*)container_Categories[State::NOTE]->findWidgetById("slider_listbox_items");
+			gcn::WListBox *wlistbox_notekey = (gcn::WListBox*)container_Categories[State::NOTE]->findWidgetById("wlistbox_notekey");
+			gcn::Container *listbox_container = (gcn::Container*)container_Categories[State::NOTE]->findWidgetById("listbox_container");
+			int heightDelta = wlistbox_notekey->getHeight() - listbox_container->getHeight();
+			if(heightDelta<0) heightDelta = 0;
+			int nowDelta = -(int)((float)heightDelta * (1-slider_listbox_items->getValue()));
+			if(nowDelta==0)
+				wlistbox_notekey->setPosition(wlistbox_notekey->getX(), nowDelta);
+			else
+				wlistbox_notekey->setPosition(wlistbox_notekey->getX(), nowDelta);
 		}
 		else if(nowState==SHOW)
 		{
@@ -1963,11 +1990,12 @@ namespace divaeditor
 			for(divacore::MapInfo::RESOURCES::iterator i=EDITOR_PTR->mapData->coreInfoPtr->resources.begin();i!=EDITOR_PTR->mapData->coreInfoPtr->resources.end();i++)
 			{
 				divacore::MapResourceInfo &resourceInfo = i->second;
-				if(resourceInfo.type == divacore::MapResourceInfo::AUDIO && resourceInfo.ID!="hit" && resourceInfo.ID!="miss")
+				if(resourceInfo.type == divacore::MapResourceInfo::AUDIO && resourceInfo.ID!="hit" && resourceInfo.ID!="miss" && resourceInfo.ID!=EDITOR_PTR->mapData->coreInfoPtr->header.mainSound)
 				{
 					keyListModel->pushElement( EDITOR_PTR->mapData->getResourceDescription(resourceInfo.ID));
 				}
 			}
+
 		}
 
 		if(EDITCONFIG->noteSelected.size() == 0)

@@ -84,6 +84,8 @@ namespace gcn
 		int y = rowHeight * startRow;
         for (i = startRow; i < startRow + numberOfRows; ++i)
         {
+			if(i>= mListModel->getNumberOfElements())
+				break;
             if (i == mSelected)
             {
                 graphics->setColor(getSelectionColor());
