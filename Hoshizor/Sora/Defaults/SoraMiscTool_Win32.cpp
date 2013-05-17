@@ -13,6 +13,8 @@
 #include <windows.h>
 #include "SoraLogger.h"
 
+#define MAX_MULTI_PATH 20000
+
 namespace sora {
     
     SoraMiscToolWin32::SoraMiscToolWin32(): 
@@ -86,27 +88,61 @@ namespace sora {
         return "\0";
 	}
 	
-	std::wstring SoraMiscToolWin32::fileOpenDialogW(const wchar_t* filter, const wchar_t* defaultPath)
+	std::wstring SoraMiscToolWin32::fileOpenDialogW(const wchar_t* filter, const wchar_t* defaultPath, bool multiFile)
 	{
 		OPENFILENAMEW ofn;
-		wchar_t szFileName[MAX_PATH] = L"";
+
+		wchar_t szFileName[MAX_MULTI_PATH] = L"";
+		wchar_t szPath[MAX_PATH] = L"";
+		wchar_t szFileNameTmp[MAX_PATH] = L"";
+		wchar_t *p;
+		int nLen = 0;
 
 		ZeroMemory(&ofn, sizeof(ofn));
 
 		ofn.lStructSize = sizeof(ofn);
 		ofn.hwndOwner = _hWnd;
 		ofn.lpstrFile = szFileName;
-		ofn.nMaxFile = MAX_PATH;
+		ofn.nMaxFile = MAX_MULTI_PATH;
 		ofn.lpstrFilter = filter;
 		ofn.nFilterIndex = 1;
 		ofn.lpstrFileTitle = NULL;
 		ofn.nMaxFileTitle = 0;
 		ofn.lpstrInitialDir=defaultPath;
-		ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
-
+		ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST;
+		if(multiFile)
+			ofn.Flags |= OFN_ALLOWMULTISELECT;
 
 		if(GetOpenFileNameW(&ofn))
-			return szFileName;
+		{
+			if(multiFile)
+			{
+				std::wstring ret = L"";
+
+				lstrcpynW(szPath, szFileName, ofn.nFileOffset);
+				szPath[ofn.nFileOffset] = L'\0';
+				nLen = lstrlenW(szPath);
+				if(szPath[nLen-1]!=L'\\')
+					lstrcatW(szPath, TEXT("\\"));
+
+				p = szFileName + ofn.nFileOffset;
+
+				while(*p)
+				{
+					ZeroMemory(szFileNameTmp, sizeof(szFileNameTmp));
+					lstrcatW(szFileNameTmp, szPath);
+					lstrcatW(szFileNameTmp, p);
+
+					std::wstring thisFile = szFileNameTmp;
+					ret = ret + thisFile + L'\t';
+					p+=lstrlenW(p)+1;
+				}
+				return ret;
+			}
+			else
+				return szFileName;
+			
+		}
 		return L"\0";
 	}
 

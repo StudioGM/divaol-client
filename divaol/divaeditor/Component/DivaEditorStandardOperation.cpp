@@ -585,6 +585,22 @@ namespace divaeditor
 			EDITOR_PTR->mapData->note_modifyTail(nowNoteIndex, -Argument::asInt("tailx",oldNote.arg), Argument::asInt("taily",oldNote.arg));
 		else if(noteModifyType == FLIPVERTICAL)
 			EDITOR_PTR->mapData->note_modifyTail(nowNoteIndex, Argument::asInt("tailx",oldNote.arg), -Argument::asInt("taily",oldNote.arg));
+		else if(noteModifyType == SORTFORPICKMEUP)
+		{
+			int x,y;
+			switch(oldNote.notePoint[0].type%4)
+			{
+			case 3:
+				x=EDITCONFIG->NoteAreaWidth/2-2;y=EDITCONFIG->NoteAreaHeight/2-2;break;
+			case 1:
+				x=EDITCONFIG->NoteAreaWidth/2-2;y=-(EDITCONFIG->NoteAreaHeight/2-2);break;
+			case 0:
+				x=-(EDITCONFIG->NoteAreaWidth/2-2),y=EDITCONFIG->NoteAreaHeight/2-2;break;
+			case 2:
+				x=-(EDITCONFIG->NoteAreaWidth/2-2),y=-(EDITCONFIG->NoteAreaHeight/2-2);break;
+			}
+			EDITOR_PTR->mapData->note_modifyTail(nowNoteIndex, x, y);
+		}
 
 
 		if(calculated && (oldNote.notePoint[0].x != newNote.notePoint[0].x || oldNote.notePoint[0].y != newNote.notePoint[0].y))
@@ -595,6 +611,22 @@ namespace divaeditor
 			EDITOR_PTR->mapData->note_modifyPos(nowNoteIndex, EDITCONFIG->NoteAreaWidth-oldNote.notePoint[0].x, oldNote.notePoint[0].y, false);
 		else if(noteModifyType == FLIPVERTICAL)
 			EDITOR_PTR->mapData->note_modifyPos(nowNoteIndex, oldNote.notePoint[0].x,EDITCONFIG->NoteAreaHeight-oldNote.notePoint[0].y, false);
+		else if(noteModifyType == SORTFORPICKMEUP)
+		{
+			int x,y;
+			switch(oldNote.notePoint[0].type%4)
+			{
+			case 3:
+				x=2,y=2;break;
+			case 1:
+				x=2,y=EDITCONFIG->NoteAreaHeight-2;break;
+			case 0:
+				x=EDITCONFIG->NoteAreaWidth-2;y=2;break;
+			case 2:
+				x=EDITCONFIG->NoteAreaWidth-2;y=EDITCONFIG->NoteAreaHeight-2;break;
+			}
+			EDITOR_PTR->mapData->note_modifyPos(nowNoteIndex,x,y,false);
+		}
 
 
 		if(calculated && oldNote.notePoint[0].position != newNote.notePoint[0].position)

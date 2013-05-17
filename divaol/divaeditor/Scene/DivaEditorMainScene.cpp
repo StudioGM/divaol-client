@@ -9,6 +9,9 @@
 
 #include "direct.h"
 
+//#define EDITOR_DIVA
+#define EDITOR_PICKMEUP
+
 namespace divaeditor
 {
 	using namespace gcn;
@@ -281,7 +284,12 @@ namespace divaeditor
 		noteCategory->setOpaque(true);
 		noteCategory->setBaseColor(gcn::Color(0,0,0,0));
 
+#ifdef EDITOR_DIVA
 		NoteArea *noteArea = new NoteArea();
+#else
+		PickMeUpNoteArea *noteArea = new PickMeUpNoteArea();
+#endif
+
 		float factor = 720.0/1080.0;
 		noteArea->setId("NoteArea");
 		noteArea->setPosition(EDITCONFIG->NoteAreaX*factor, EDITCONFIG->NoteAreaY*factor);
@@ -948,6 +956,18 @@ namespace divaeditor
 		sora::SoraGUI::Instance()->registerGUIResponser(btn_TimeLine_lighter, this, "btn_TimeLine_lighter", sora::RESPONSEACTION);
 		top->add(btn_TimeLine_lighter);
 
+				
+#ifdef EDITOR_PICKMEUP
+		gcn::WButton *btn_SortNote = new gcn::WButton();
+		btn_SortNote->setId("btn_SortNote");
+		btn_SortNote->setCaption(L"Sort");
+		btn_SortNote->setSize(48,23);
+		btn_SortNote->setPosition(btn_TimeLine_wider->getX(),btn_TimeLine_wider->getY() - btn_SortNote->getHeight() - 2);
+		btn_SortNote->setForegroundColor(gcn::Color(255,255,255,255));
+		sora::SoraGUI::Instance()->registerGUIResponser(btn_SortNote, this, "btn_SortNote", sora::RESPONSEACTION);
+		top->add(btn_SortNote);
+#endif
+
 #pragma endregion Play Control And Timeline Widget
 
 #pragma region Layer Toggle
@@ -1026,8 +1046,13 @@ namespace divaeditor
 		container_Categories[state]->setVisible(true);
 		nowState=state;
 
+#ifdef EDITOR_DIVA
 		EDITCONFIG->display_grid=true;
+#else
+		EDITCONFIG->display_grid=false;
+#endif
 		EDITCONFIG->display_note=true;
+
 		EDITCONFIG->display_background=true;
 
 		gcn::WLabel *wlabel_nowPlaceNoteCategory = (gcn::WLabel*)top->findWidgetById("wlabel_nowPlaceNoteCategory");
@@ -1383,6 +1408,13 @@ namespace divaeditor
 		else if(getID() == "btn_TimeLine_lighter")
 		{
 			EDITCONFIG->decreaseGridToShowPerBeat();
+		}
+		else if(getID() == "btn_SortNote")
+		{
+			DivaEditorOperationSet *thisModifySet = new DivaEditorOperationSet();
+			for(int i=0;i<EDITOR_PTR->mapData->coreInfoPtr->notes.size();i++)
+				thisModifySet->addOperation(new DivaEditorOperation_ModifyNote(i,DivaEditorOperation_ModifyNote::SORTFORPICKMEUP));
+			EDITCONFIG->addAndDoOperation(thisModifySet);
 		}
 
 #pragma endregion TimeLine Widget Control
@@ -1845,15 +1877,21 @@ namespace divaeditor
 			wchar_t cwd[_MAX_PATH];
 			_wgetcwd(cwd,_MAX_PATH);
 
-			wstring selectFile = sora::SoraCore::Instance()->fileOpenDialogW(L"All Files(*.*)\0*.*\0");
-
+			wstring selectFile = sora::SoraCore::Instance()->fileOpenDialogW(L"All Files(*.*)\0*.*\0", NULL, true);
 			_wchdir(cwd);
 
 			if(selectFile!=L"")
 			{
-				std::string addedResource = EDITOR_PTR->mapData->resource_add(selectFile);
-				if(addedResource!="ERROR")
-					((ResourcePanel*)container_Categories[State::SHOW]->findWidgetById("resourcePanel"))->setSelectedIndex(EDITOR_PTR->mapData->findResourceIndexByID(addedResource));
+				std::vector<std::wstring> files;
+				int off = 0, lastoff = 0;
+				while((off = selectFile.find(L'\t', off))!=std::wstring::npos)
+				{
+					std::wstring thisFile = selectFile.substr(lastoff, off-lastoff);
+					std::string addedResource = EDITOR_PTR->mapData->resource_add(thisFile);
+					if(addedResource!="ERROR")
+						((ResourcePanel*)container_Categories[State::SHOW]->findWidgetById("resourcePanel"))->setSelectedIndex(EDITOR_PTR->mapData->findResourceIndexByID(addedResource));
+					lastoff = ++off;
+				}
 			}
 
 			refreshKeySoundList();
@@ -1986,15 +2024,19 @@ namespace divaeditor
 		{
 			keyListModel->clearElements();
 			keyListModel->pushElement(L"None");
-
+			std::vector<std::wstring> keySounds;
 			for(divacore::MapInfo::RESOURCES::iterator i=EDITOR_PTR->mapData->coreInfoPtr->resources.begin();i!=EDITOR_PTR->mapData->coreInfoPtr->resources.end();i++)
 			{
 				divacore::MapResourceInfo &resourceInfo = i->second;
 				if(resourceInfo.type == divacore::MapResourceInfo::AUDIO && resourceInfo.ID!="hit" && resourceInfo.ID!="miss" && resourceInfo.ID!=EDITOR_PTR->mapData->coreInfoPtr->header.mainSound)
 				{
-					keyListModel->pushElement( EDITOR_PTR->mapData->getResourceDescription(resourceInfo.ID));
+					keySounds.push_back(EDITOR_PTR->mapData->getResourceDescription(resourceInfo.ID));
+					//keyListModel->pushElement( EDITOR_PTR->mapData->getResourceDescription(resourceInfo.ID));
 				}
 			}
+			std::sort(keySounds.begin(),keySounds.end());
+			for(int i=0;i<keySounds.size();i++)
+				keyListModel->pushElement(keySounds[i]);
 
 		}
 
@@ -2129,7 +2171,7 @@ namespace divaeditor
 			{
 				DivaEditorOperationSet *thisModifySet = new DivaEditorOperationSet();
 				for(int i=0;i<EDITCONFIG->noteSelected.size();i++)
-					thisModifySet->addOperation(new DivaEditorOperation_ModifyNote(EDITCONFIG->noteSelected[i], EDITOR_PTR->mapData->findResourceIDByTypeAndIndex(MapResourceInfo::AUDIO, wlistbox_notekey->getSelected())));
+					thisModifySet->addOperation(new DivaEditorOperation_ModifyNote(EDITCONFIG->noteSelected[i], EDITOR_PTR->mapData->findResourceIDByDescription(wlistbox_notekey->getListModel()->getElementAt(wlistbox_notekey->getSelected()))));
 				EDITCONFIG->addAndDoOperation(thisModifySet);
 				refreshKeySoundList(true);
 			}

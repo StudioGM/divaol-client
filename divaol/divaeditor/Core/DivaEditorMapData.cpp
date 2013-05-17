@@ -10,6 +10,8 @@
 #include "divacore/Component/DivaStandardCoreFlow.h"
 #include "divacore/Mode/DivaEditMode.h"
 
+#include "lib/base/Base.h"
+
 namespace divaeditor
 {
 	//using namespace divacore;
@@ -541,7 +543,7 @@ namespace divaeditor
 			divacore::Logger::instance()->log("Editor: An errror occured when modify notes.");
 			return;
 		}
-		if(coreInfoPtr->resources.find(key)!=coreInfoPtr->resources.end())
+		if(coreInfoPtr->resources.find(key)!=coreInfoPtr->resources.end() || key=="")
 			for(int i=0;i<coreInfoPtr->notes[index].notePoint.size();i++)
 			{
 				coreInfoPtr->notes[index].notePoint[i].key = key;
@@ -1368,6 +1370,16 @@ namespace divaeditor
 		}
 		return "";
 	}
+	std::string DivaEditorMapData::findResourceIDByDescription(std::wstring description)
+	{
+		for(divacore::MapInfo::RESOURCES::iterator i=EDITOR_PTR->mapData->coreInfoPtr->resources.begin();i!=EDITOR_PTR->mapData->coreInfoPtr->resources.end();i++)
+		{
+			divacore::MapResourceInfo &resourceInfo = i->second;
+			if(getResourceDescription(resourceInfo.ID) == description)
+				return resourceInfo.ID;
+		}
+		return "";
+	}
 
 	int DivaEditorMapData::findResourceIndexByID(std::string id)
 	{
@@ -1452,26 +1464,27 @@ namespace divaeditor
 			return "ERROR";
 
 		//get ID
-		int idToIns = 0;
-		while(true)
-		{
-			std::string thisID = typeStr + "_" + divacore::iToS(idToIns);
-			std::map<std::string,MapResourceInfo>::iterator i;
-			for(i=coreInfoPtr->resources.begin();i!=coreInfoPtr->resources.end();i++)
-			{
-				if(i->second.ID==thisID)
-					break;
-			}
+		//int idToIns = 0;
+		//while(true)
+		//{
+		//	std::string thisID = typeStr + "_" + divacore::iToS(idToIns);
+		//	std::map<std::string,MapResourceInfo>::iterator i;
+		//	for(i=coreInfoPtr->resources.begin();i!=coreInfoPtr->resources.end();i++)
+		//	{
+		//		if(i->second.ID==thisID)
+		//			break;
+		//	}
 
-			//Found
-			if(i==coreInfoPtr->resources.end())
-			{
-				resourceInfo.ID = thisID;
-				break;
-			}
+		//	//Found
+		//	if(i==coreInfoPtr->resources.end())
+		//	{
+		//		resourceInfo.ID = thisID;
+		//		break;
+		//	}
 
-			idToIns++;
-		}
+		//	idToIns++;
+		//}
+		resourceInfo.ID = Base::String(safeFileName).ansi_str();
 
 		if(!onlyAddInfo)
 		{

@@ -26,11 +26,11 @@ namespace divaeditor
 		public gcn::KeyListener,
 		public gcn::FocusListener
 	{
-	private:
+	protected:
 		void changeSelectedNoteTailOver();
 		void placingLongNoteOver();
 		void placingComboNoteOver();
-		void updateMousePos();
+		virtual void updateMousePos();
 
 	public:
 		NoteArea();
@@ -61,8 +61,8 @@ namespace divaeditor
 		//virtual void keyReleased(gcn::KeyEvent& keyEvent){}
 
 		//Receive Sora KeyEvent
-		void onKeyPressed(sora::SoraKeyEvent& event);
-		void onKeyReleased(sora::SoraKeyEvent& event);
+		virtual void onKeyPressed(sora::SoraKeyEvent& event);
+		virtual void onKeyReleased(sora::SoraKeyEvent& event);
 
 	protected:
 
@@ -103,7 +103,38 @@ namespace divaeditor
 	};
 
 
+	class GCN_CORE_DECLSPEC PickMeUpNoteArea : public NoteArea
+	{
+	private:
+		virtual void updateMousePos();
 
+	public:
+		PickMeUpNoteArea();
+
+		//Inherited from Widget
+		virtual void draw(gcn::Graphics* graphics);
+		virtual void logic();
+		
+		// Inherited from FocusListener
+		virtual void focusLost(const gcn::Event& event){}
+
+		// Inherited from MouseListener
+		virtual void mousePressed(gcn::MouseEvent& mouseEvent);
+		virtual void mouseReleased(gcn::MouseEvent& mouseEvent);
+		virtual void mouseEntered(gcn::MouseEvent& mouseEvent);
+		virtual void mouseExited(gcn::MouseEvent& mouseEvent);
+		virtual void mouseDragged(gcn::MouseEvent& mouseEvent);
+		virtual void mouseMoved(gcn::MouseEvent& mouseEvent);
+
+
+		// Inherited from KeyListener
+		//virtual void keyPressed(gcn::KeyEvent& keyEvent){}
+		//virtual void keyReleased(gcn::KeyEvent& keyEvent){}
+
+		//Receive Sora KeyEvent
+		virtual void onKeyPressed(sora::SoraKeyEvent& event);
+		virtual void onKeyReleased(sora::SoraKeyEvent& event);
+	};
 
 }
 

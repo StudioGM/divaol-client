@@ -29,7 +29,7 @@ namespace sora {
 			return "\0";
 		}
 
-		std::wstring fileOpenDialogW(const wchar_t* filter = NULL, const wchar_t* defaultPath = NULL){
+		std::wstring fileOpenDialogW(const wchar_t* filter = NULL, const wchar_t* defaultPath = NULL, bool multiFile = false){
 			return L"\0";
 		}
 		

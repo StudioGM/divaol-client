@@ -347,7 +347,7 @@ namespace sora {
 		int32	messageBox  (const StringType& sMssg, const StringType& sTitle, int32 iCode);
 		
 		std::string fileOpenDialog(const char* filter = NULL, const char* defaultPath = NULL);
-		std::wstring fileOpenDialogW(const wchar_t* filter = NULL, const wchar_t* defaultPath = NULL);
+		std::wstring fileOpenDialogW(const wchar_t* filter = NULL, const wchar_t* defaultPath = NULL, bool multiFile = false);
 		std::string fileSaveDialog(const char* filter = NULL, const char* defaultPath = NULL, const char* defaultExt = NULL);
 		std::wstring fileSaveDialogW(const wchar_t* filter = NULL, const wchar_t* defaultPath = NULL, const wchar_t* defaultExt = NULL);
 

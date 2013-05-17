@@ -1353,12 +1353,12 @@ namespace sora {
 		return pMiscTool->fileOpenDialog(filter, defaultPath);
 	}
 
-	std::wstring SoraCore::fileOpenDialogW(const wchar_t* filter /* = NULL */, const wchar_t* defaultPath /* = NULL */)
+	std::wstring SoraCore::fileOpenDialogW(const wchar_t* filter /* = NULL */, const wchar_t* defaultPath /* = NULL */, bool multiFile)
 	{
 		if(!pMiscTool)
 			return StringType();
 
-		return pMiscTool->fileOpenDialogW(filter, defaultPath);
+		return pMiscTool->fileOpenDialogW(filter, defaultPath, multiFile);
 	}
 	
 	std::string SoraCore::fileSaveDialog(const char* filter, const char* defaultPath, const char* defaultExt) {

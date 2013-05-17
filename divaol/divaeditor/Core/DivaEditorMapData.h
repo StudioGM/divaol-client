@@ -117,6 +117,7 @@ namespace divaeditor
 		std::wstring getResourceDescription(std::string id);
 		std::string findResourceIDByIndex(int index);
 		std::string findResourceIDByTypeAndIndex(divacore::MapResourceInfo::ResourceType type, int index);
+		std::string findResourceIDByDescription(std::wstring description);
 		int findResourceIndexByID(std::string id);
 		std::string resource_add(std::wstring filename, bool onlyAddInfo = false);
 		void resource_delete(std::string id);
