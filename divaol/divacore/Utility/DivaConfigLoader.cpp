@@ -87,5 +87,20 @@ namespace divacore
 			else if(!ignore)
 				DIVA_EXCEPTION_MODULE(reader.getFormatedErrorMessages(),"JsonConfig - "+file);
 		}
+		Json::Value loadRawJson(const std::string &file)
+		{
+			SoraResourceFile data(file);
+
+			Json::Reader reader;
+			Json::Value root;
+
+			const char* cdata = (const char*)data;
+
+			if(reader.parse(cdata, cdata+data.size(), root))
+				return root;
+			else
+				DIVA_EXCEPTION_MODULE(reader.getFormatedErrorMessages(),"JsonConfig - "+file);
+			return root;
+		}
 	}
 }

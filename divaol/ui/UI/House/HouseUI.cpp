@@ -1882,6 +1882,7 @@ namespace diva
 			saveSetting[L"globalFont"] = setConfig[L"globalFont"].asString();
 			saveSetting[L"screenFadeTime"] = setConfig[L"screenFadeTime"].asDouble();
 			saveSetting[L"bgmFadeTime"] = setConfig[L"bgmFadeTime"].asDouble();
+			saveSetting[L"isAutoCT"] = setConfig[L"isAutoCT"].asBool();
 
 			WriteJsonFile("config/config.json", saveSetting);
 

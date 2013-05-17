@@ -36,6 +36,7 @@ namespace divacore
 		int getScreenHeight() const {return screenHeight;}
 		float getBGMVolume() const {return bgmVolume;}
 		float getSEVolume() const {return seVolume;}
+		bool getIsAutoCT() const {return isAutoCT;}
 		const Base::String& getUserModule() const {return userModule;}
 		const Base::String& getGlobalFontName() const {return globalFontName;}
 
@@ -69,6 +70,7 @@ namespace divacore
 			config[L"resolution"] = 2;
 			config[L"screenFadeTime"] = 0.5;
 			config[L"bgmFadeTime"] = 1.0;
+			config[L"isAutoCT"] = true;
 		}
 		void RefreshMusicSettings()
 		{
@@ -142,6 +144,7 @@ namespace divacore
 			isWindowMode = config[L"isWindowMode"].asBool();
 			particleLevel = Base::Math::Util::Clamp(config[L"particleSystem"].asInt(), 0, 2);
 			globalFontName = config[L"globalFont"].asString();
+			isAutoCT = config[L"isAutoCT"].asBool();
 			int uiMod = config[L"uiMod"].asInt();
 			if(setting.isMember(L"uiModFiles")&&setting[L"uiModFiles"].size() > uiMod)
 				userModule = setting[L"uiModFiles"][uiMod].asString();
@@ -159,6 +162,7 @@ namespace divacore
 		float bgmVolume;
 		float seVolume;
 		bool isWindowMode;
+		bool isAutoCT;
 		int particleLevel;
 		Base::String globalFontName;
 		Base::String userModule;

@@ -45,6 +45,9 @@ namespace divacore
 		void onKeyPressed(SoraKeyEvent& event) ;
 		void onKeyReleased(SoraKeyEvent& event) ;
 		void joystickEventHandler(int key, int type, int device, int dx, int dy);
+
+		void setKeyMapping(const std::string &filename);
+		void setKeyMapping(int32 key, Json::Value config, int32 default);
 	};
 }
 

@@ -10,6 +10,7 @@
 #define DIVA_CTMODE
 
 #include "Core/DivaHook.h"
+#include "Utility/DivaSettings.h"
 
 namespace divacore
 {
@@ -91,6 +92,10 @@ namespace divacore
 				if(ct<0)
 					ct = 0;
 			}
+			else if (level+1 < MAX_LEVEL) {
+				setLevel(std::min(level+1, MAX_LEVEL-1));
+				MUSIC_MANAGER_PTR->playDirectWithFile("res/se/ct.mp3",true,"se");
+			}
 
 			if(level>0) {
 				duration -= dt;
@@ -123,7 +128,7 @@ namespace divacore
 
 		bool hook(KeyEvent &key) 
 		{
-			if(CORE_FLOW_PTR->getState()!=CoreFlow::RUN)
+			if(CORE_FLOW_PTR->getState()!=CoreFlow::RUN && divacore::Settings::instance().getIsAutoCT())
 				return false;
 
 			if(key.key==DIVA_KEY_CT)
