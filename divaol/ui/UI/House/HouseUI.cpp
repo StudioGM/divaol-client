@@ -1867,6 +1867,7 @@ namespace diva
 			setConfig[L"uiMod"] = ((SpecialItemDisplayer*)setUiModSelector->getDisplayer())->getSelectedIndex();
 			setConfig[L"language"] = ((SpecialItemDisplayer*)setLanSelector->getDisplayer())->getSelectedIndex();
 			setConfig[L"particleSystem"] = ((SpecialItemDisplayer*)setPsSelector->getDisplayer())->getSelectedIndex();
+			setConfig[L"isAutoCT"] = ((SpecialItemDisplayer*)setAutoCtSelector->getDisplayer())->getSelectedIndex() == 0;
 
 			// save config with specific items (without window width&height)
 			WJson::Value saveSetting = WJson::Value();
@@ -1902,6 +1903,10 @@ namespace diva
 			((SpecialItemDisplayer*)setUiModSelector->getDisplayer())->setSelectedIndex(setConfig[L"uiMod"].asInt());
 			((SpecialItemDisplayer*)setLanSelector->getDisplayer())->setSelectedIndex(setConfig[L"language"].asInt());
 			((SpecialItemDisplayer*)setPsSelector->getDisplayer())->setSelectedIndex(setConfig[L"particleSystem"].asInt());
+			if (setConfig[L"isAutoCT"].asBool())
+				((SpecialItemDisplayer*)setAutoCtSelector->getDisplayer())->setSelectedIndex(0);
+			else
+				((SpecialItemDisplayer*)setAutoCtSelector->getDisplayer())->setSelectedIndex(1);
 		}
 
 		gcn::WindowEx* HouseUI::CreateSettingWindow()
@@ -1977,6 +1982,12 @@ namespace diva
 			win->add(psSelector);
 			win->add(Helper::CreateLabel(tv[L"psLabel"]));
 			setPsSelector = psSelector;
+			// 自动爆气
+			SelectorEx* autoCtSelector = CreateSelector(tv[L"selector"], config[L"autoCt"], tv[L"autoCtSelDesRect"]);
+			win->add(autoCtSelector);
+			((SpecialItemDisplayer*)autoCtSelector->getDisplayer())->setRepeat(true);
+			win->add(Helper::CreateLabel(tv[L"autoCtLabel"]));
+			setAutoCtSelector = autoCtSelector;
 
 			return win;
 		}

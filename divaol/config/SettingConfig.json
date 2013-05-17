@@ -63,6 +63,10 @@
 		"低",
 		"正常"
 	],
+	"autoCt":[
+		"开",
+		"关"
+	],
 
 	"gameModeNames" : ["普通", "接力"],
 	"difNames": ["EASY", "NORMAL", "HARD", "EXTRA", "DIE"],

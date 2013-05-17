@@ -211,5 +211,12 @@
 		"desPos": [100, 330],
 		"textColor": [255, 255, 255],
 		"text": "粒子效果："
+	},
+
+	"autoCtSelDesRect": [320, 375, 200, 30],
+	"autoCtLabel": {
+		"desPos": [100, 375],
+		"textColor": [255, 255, 255],
+		"text": "自动爆气："
 	}
 }

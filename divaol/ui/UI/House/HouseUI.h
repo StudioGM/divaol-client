@@ -195,6 +195,7 @@ namespace diva
 			gcn::SelectorEx* setUiModSelector;
 			gcn::SelectorEx* setLanSelector;
 			gcn::SelectorEx* setPsSelector;
+			gcn::SelectorEx* setAutoCtSelector;
 
 			gcn::WindowEx* settingWindow;
 

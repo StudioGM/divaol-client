@@ -1190,6 +1190,19 @@ namespace diva
 		void PlayButton_MouseListener::mouseClicked(MouseEvent& mouseEvent)
 		{
 			MusicUI* ui = MusicUI::Instance();
+			if (ui->selectedListBox->getItemCount() == 0 && ui->songListBox->getSelectedIndex() != -1 && ui->songListBox->getSelectedIndex() != 0)
+			{
+				if (ui->state == MusicUI::SONGLIST_ORIG || ui->state == MusicUI::SONGLIST_SPEART)
+				{
+					SongListItem* item = (SongListItem*)ui->songListBox->getItem(ui->songListBox->getSelectedIndex());
+					if (item->getDownloadFinished())
+					{
+						ui->SongListItemDoubleClicked(ui->songListBox->getSelectedIndex());
+					}
+				}
+
+			}
+
 			//NextState = "house";
 			MAPMGR.SelectedMap_Clear();
 			int count = ui->selectedListBox->getItemCount();
