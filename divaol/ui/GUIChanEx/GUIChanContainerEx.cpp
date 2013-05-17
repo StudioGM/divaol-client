@@ -1,4 +1,5 @@
 #include "ui/GUIChanEx/GUIChanContainerEx.h"
+#include "SoraTextureMap.h"
 
 namespace gcn
 {
@@ -13,6 +14,7 @@ namespace gcn
 		if (image)
 		{
 			delete image;
+			std::string fuck = sora::SoraTextureMap::Instance()->getTexRefInfo();
 			image = NULL;
 		}
 	}
@@ -34,6 +36,7 @@ namespace gcn
 		else
 		{
 			image = Image::load(filename);
+			std::string fuck = sora::SoraTextureMap::Instance()->getTexRefInfo();
 			if (srcRect.width == 0)
 				this->srcRect = Rectangle(0, 0, image->getWidth(), image->getHeight());
 			else

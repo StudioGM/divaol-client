@@ -83,7 +83,7 @@ namespace sora {
         if(p != texMapRv.end()) {
             texRefs[p->second]--;
             
-            if(texRefs[p->second] == 0) {
+            if(texRefs[p->second] <= 0) {
                 SoraCore::Ptr->releaseTexture(p->first);
                 del(tex);
             }
@@ -96,7 +96,7 @@ namespace sora {
         TextureMap::iterator p = texMap.find(uiKey);
         if(p != texMap.end()) {
             //SoraTexture* tex = (SoraTexture*)p->second;
-            texRefs[uiKey]++;
+           // texRefs[uiKey]++;
             return p->second;
         }
         return 0;
@@ -118,5 +118,17 @@ namespace sora {
         return 0;
     }
     
+	std::string SoraTextureMap::getTexRefInfo() const
+	{
+		std::string res = "";
+		for (TextureUseCount::const_iterator i = texRefs.cbegin(); i != texRefs.cend(); i++)
+		{
+			char buf[100];
+			//itoa(i->second, buf, 10);
+			sprintf(buf, "(%I64u, %d)\n", i->first, i->second);
+			res += buf;
+		}
+		return res;
+	}
     
 } // namespace sora

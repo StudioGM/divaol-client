@@ -23,7 +23,7 @@ namespace gcn
 		enum {MODE_ONCE, MODE_REPEAT};
 
 		AnimeBoxEx();
-		~AnimeBoxEx();
+		virtual ~AnimeBoxEx();
 
 		void restart();
 		void update(float dt);

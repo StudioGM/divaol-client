@@ -15,7 +15,7 @@ namespace gcn
 		std::wstring text;
 	public:
 		LabelEx(std::wstring v = L"");
-		~LabelEx();
+		virtual ~LabelEx();
 		
 		std::wstring getText() const;
 		void setText(const std::wstring& v);

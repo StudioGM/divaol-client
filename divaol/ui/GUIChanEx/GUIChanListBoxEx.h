@@ -43,7 +43,7 @@ namespace gcn
 
 	public:
 		ListBoxEx();
-		~ListBoxEx();
+		virtual ~ListBoxEx();
 
 		void loadImage(const std::wstring& filename, Rectangle srcRect);
 		void adjustMyHeight();

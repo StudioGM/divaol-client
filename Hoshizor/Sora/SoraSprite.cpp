@@ -82,6 +82,7 @@ namespace sora {
 
 	SoraSprite::~SoraSprite() {
 		clearEffects();
+		SoraTextureMap::Instance()->decRf((sora::SoraTextureHandle)mQuad.tex);
 	}
 
 	void SoraSprite::setTexture(SoraTextureHandle tex) {

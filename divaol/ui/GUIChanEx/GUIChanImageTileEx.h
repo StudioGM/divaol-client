@@ -64,7 +64,7 @@ namespace gcn
 			autoDelete = false;
 		}
 
-		~ImageTileEx()
+		virtual ~ImageTileEx()
 		{
 			if (image && autoDelete)
 				delete image;

@@ -17,7 +17,7 @@ namespace gcn
 
 	public:
 		ListViewEx();
-		~ListViewEx();
+		virtual ~ListViewEx();
 		
 		void setGap(Rectangle firstRect, int xGap, int yGap);
 		void setMaxItem(int xItemCount, int yItemCount);

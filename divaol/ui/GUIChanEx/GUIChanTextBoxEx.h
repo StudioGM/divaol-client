@@ -27,7 +27,7 @@ namespace gcn
 
 	public:
 		TextBoxEx();
-		~TextBoxEx();
+		virtual ~TextBoxEx();
 
 
 		void adjust();

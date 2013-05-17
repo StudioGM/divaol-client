@@ -25,6 +25,8 @@
 #include "SoraFMODSoundSystem.h"
 #include "ui/Config/DivaUIConfig.h"
 #include "Utility/DivaSettings.h"
+#include "cmd/SoraConsole.h"
+#include "SoraTextureMap.h"
 
 namespace diva
 {
@@ -99,6 +101,7 @@ namespace diva
 			if (NextState!="")
 			{
 				getGameApp()->setState(NextState);
+				titleScreen->Release();
 				NextState = "";
 				return;
 			}
@@ -132,6 +135,12 @@ namespace diva
 				//diva::MapMgr::Instance()->Load("map_manifest.json");
 
 				//room = UIScreenRoom::Instance();
+
+				std::string fuck = sora::SoraTextureMap::Instance()->getTexRefInfo();
+				sora::Logger.log(fuck);
+					
+					
+
 				titleScreen = TitleScreenUI::Instance();
 
 				uiCanvas = new sora::SoraBaseCanvas(setConfig[L"gameWidth"].asInt(), setConfig[L"gameHeight"].asInt());

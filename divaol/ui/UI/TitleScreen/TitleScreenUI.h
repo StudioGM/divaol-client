@@ -26,6 +26,7 @@ namespace diva
 	class TitleScreenUI
 	{
 	private:
+		static TitleScreenUI* mainPtr;
 		TitleScreenUI();
 		
 		std::wstring style;
@@ -49,9 +50,14 @@ namespace diva
 		void ParseJson(const std::wstring& filename);
 
 	public:
-		~TitleScreenUI();
+		virtual ~TitleScreenUI();
 
-		static TitleScreenUI* Instance() {static TitleScreenUI i; return &i;}
+		static void Release();
+		static TitleScreenUI* Instance() {
+			if (mainPtr == NULL)
+				mainPtr = new TitleScreenUI;
+			return mainPtr;
+		}
 
 		void Render();
 		void Update(float dt);

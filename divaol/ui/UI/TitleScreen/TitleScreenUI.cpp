@@ -10,6 +10,7 @@
 
 namespace diva
 {
+	TitleScreenUI* TitleScreenUI::mainPtr = NULL;
 
 	std::wstring& TitleScreenUI::GetRandomStyle()
 	{
@@ -89,6 +90,12 @@ namespace diva
 
 	TitleScreenUI::~TitleScreenUI()
 	{
+		delete top;
+	}
+
+	void TitleScreenUI::Release()
+	{
+		delete mainPtr;
 	}
 
 	void TitleScreenUI::BeginLeave()

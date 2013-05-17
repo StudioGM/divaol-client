@@ -18,7 +18,7 @@ namespace gcn
 
 	public:
 		ImageDisplayerEx();
-		~ImageDisplayerEx();
+		virtual ~ImageDisplayerEx();
 
 		void display(const std::wstring filename, Rectangle srcRect = Rectangle(0, 0, 0, 0), bool autoScale = false);
 

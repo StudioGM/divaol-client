@@ -24,7 +24,7 @@ namespace gcn
 
 	public:
 		ButtonEx();
-		~ButtonEx();
+		virtual ~ButtonEx();
 
 		void setLook(std::wstring filename, Rectangle normal, Rectangle highlight, Rectangle pressed, Rectangle disabled, int ox = 0, int oy = 0);
 		void setText(const std::wstring & text);

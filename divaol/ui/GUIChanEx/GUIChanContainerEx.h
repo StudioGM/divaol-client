@@ -18,7 +18,7 @@ namespace gcn
 
 	public:
 		ContainerEx();
-		~ContainerEx();
+		virtual ~ContainerEx();
 
 		void load(const std::wstring &filename, const Rectangle& srcRect, bool autoScale = false);
 		void setText(const std::wstring& text);

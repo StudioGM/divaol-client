@@ -27,7 +27,7 @@ namespace gcn
 
 	public:
 		SliderEx();
-		~SliderEx();
+		virtual ~SliderEx();
 		
 		void setLook(ButtonEx* up, ButtonEx* down, ButtonEx* mark);
 		void setMarkScale(int start, int end, int total);

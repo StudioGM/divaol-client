@@ -13,7 +13,7 @@ namespace gcn
 
 	public:
 		ListItemEx();
-		~ListItemEx();
+		virtual ~ListItemEx();
 
 		virtual void draw(Graphics* graphics, Font* font, int state, int alpha) = 0;
 	};

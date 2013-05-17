@@ -25,6 +25,7 @@ namespace sora {
 		void decRf(SoraTextureHandle tex);
 		
 		SoraTextureHandle get(const StringType& key);
+		std::string getTexRefInfo() const;
         
         bool exist(SoraTextureHandle tex);
         SoraStringId getTextureName(SoraTextureHandle tex);

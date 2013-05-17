@@ -34,7 +34,7 @@ namespace gcn
 	public:
 
 		MarkerEx();
-		~MarkerEx();
+		virtual ~MarkerEx();
 
 		void setLook(const std::wstring &filename, 
 			Rectangle upNormal,

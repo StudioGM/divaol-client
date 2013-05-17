@@ -26,7 +26,7 @@ namespace gcn
 
 	public:
 		SelectorEx();
-		~SelectorEx();
+		virtual ~SelectorEx();
 
 		void adjustButtonPos();
 		void setDisplayer(SelectorDisplayer* displayer);

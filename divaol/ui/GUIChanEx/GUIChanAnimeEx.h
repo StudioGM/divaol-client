@@ -12,7 +12,7 @@ namespace gcn
 
 	public:
 		AnimeEx();
-		~AnimeEx();
+		virtual~AnimeEx();
 
 		void setImagePosition(int dx, int dy);
 

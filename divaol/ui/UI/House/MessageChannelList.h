@@ -19,7 +19,7 @@ namespace diva
 		public:
 			MessageChannelListItem(const std::wstring& filename, gcn::Rectangle srcRect, const std::wstring& text);
 			MessageChannelListItem();
-			~MessageChannelListItem();
+			virtual ~MessageChannelListItem();
 			void setLook(const std::wstring& filename, gcn::Rectangle srcRect, const std::wstring& text);
 
 			std::wstring getText() const;
