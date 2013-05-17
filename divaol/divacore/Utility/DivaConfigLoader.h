@@ -10,6 +10,7 @@
 #define DIVA_CONFIG_LOADER
 
 #include "Core/DivaConfig.h"
+#include "json/json.h"
 
 namespace divacore
 {
@@ -18,6 +19,7 @@ namespace divacore
 	namespace configloader
 	{
 		void loadWithJson(Config &config, const std::string &file, bool ignore = false);
+		Json::Value loadRawJson(const std::string &file);
 	}
 }
 
