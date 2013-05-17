@@ -83,7 +83,7 @@ namespace sora {
         if(p != texMapRv.end()) {
             texRefs[p->second]--;
             
-            if(texRefs[p->second] <= 0) {
+            if(texRefs[p->second] == 0) {
                 SoraCore::Ptr->releaseTexture(p->first);
                 del(tex);
             }
@@ -96,7 +96,7 @@ namespace sora {
         TextureMap::iterator p = texMap.find(uiKey);
         if(p != texMap.end()) {
             //SoraTexture* tex = (SoraTexture*)p->second;
-           // texRefs[uiKey]++;
+            texRefs[uiKey]++;
             return p->second;
         }
         return 0;

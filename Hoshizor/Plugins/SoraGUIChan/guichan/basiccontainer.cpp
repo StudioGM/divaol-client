@@ -280,7 +280,7 @@ namespace gcn
             (*iter)->_setFocusHandler(NULL);
             (*iter)->_setParent(NULL);
             (*iter)->removeDeathListener(this);
-			delete (*iter);
+//			delete (*iter);
         }
 
         mWidgets.clear();
