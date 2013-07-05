@@ -13,29 +13,46 @@ namespace divacore
 {
 	void StandardInputManager::setKeyMapping(const std::string &filename)
 	{
-		Json::Value config = configloader::loadRawJson(filename);
-		if (config.isMember("DIVA_KEY_TYPE_0"))
-			setKeyMapping(DIVA_KEY_TYPE_0, config["DIVA_KEY_TYPE_0"], SORA_KEY_D);
-		if (config.isMember("DIVA_KEY_TYPE_1"))
-			setKeyMapping(DIVA_KEY_TYPE_1, config["DIVA_KEY_TYPE_1"], SORA_KEY_A);
-		if (config.isMember("DIVA_KEY_TYPE_2"))
-			setKeyMapping(DIVA_KEY_TYPE_2, config["DIVA_KEY_TYPE_2"], SORA_KEY_S);
-		if (config.isMember("DIVA_KEY_TYPE_3"))
-			setKeyMapping(DIVA_KEY_TYPE_3, config["DIVA_KEY_TYPE_3"], SORA_KEY_W);
-		if (config.isMember("DIVA_KEY_TYPE_4"))
-			setKeyMapping(DIVA_KEY_TYPE_4, config["DIVA_KEY_TYPE_4"], SORA_KEY_RIGHT);
-		if (config.isMember("DIVA_KEY_TYPE_5"))
-			setKeyMapping(DIVA_KEY_TYPE_5, config["DIVA_KEY_TYPE_5"], SORA_KEY_LEFT);
-		if (config.isMember("DIVA_KEY_TYPE_6"))
-			setKeyMapping(DIVA_KEY_TYPE_6, config["DIVA_KEY_TYPE_6"], SORA_KEY_DOWN);
-		if (config.isMember("DIVA_KEY_TYPE_7"))
-			setKeyMapping(DIVA_KEY_TYPE_7, config["DIVA_KEY_TYPE_7"], SORA_KEY_UP);
-		if (config.isMember("DIVA_KEY_CT"))
-			setKeyMapping(DIVA_KEY_CT, config["DIVA_KEY_CT"], SORA_KEY_SHIFT);
-		if (config.isMember("DIVA_KEY_RELAY"))
-			setKeyMapping(DIVA_KEY_RELAY, config["DIVA_KEY_RELAY"], SORA_KEY_TAB);
-		if (config.isMember("DIVA_KEY_SPACE"))
-			setKeyMapping(DIVA_KEY_SPACE, config["DIVA_KEY_SPACE"], SORA_KEY_SPACE);
+		if (Base::FileUtil::FileExist(filename))
+		{
+			Json::Value config = configloader::loadRawJson(filename);
+			if (config.isMember("DIVA_KEY_TYPE_0"))
+				setKeyMapping(DIVA_KEY_TYPE_0, config["DIVA_KEY_TYPE_0"], SORA_KEY_D);
+			if (config.isMember("DIVA_KEY_TYPE_1"))
+				setKeyMapping(DIVA_KEY_TYPE_1, config["DIVA_KEY_TYPE_1"], SORA_KEY_A);
+			if (config.isMember("DIVA_KEY_TYPE_2"))
+				setKeyMapping(DIVA_KEY_TYPE_2, config["DIVA_KEY_TYPE_2"], SORA_KEY_S);
+			if (config.isMember("DIVA_KEY_TYPE_3"))
+				setKeyMapping(DIVA_KEY_TYPE_3, config["DIVA_KEY_TYPE_3"], SORA_KEY_W);
+			if (config.isMember("DIVA_KEY_TYPE_4"))
+				setKeyMapping(DIVA_KEY_TYPE_4, config["DIVA_KEY_TYPE_4"], SORA_KEY_RIGHT);
+			if (config.isMember("DIVA_KEY_TYPE_5"))
+				setKeyMapping(DIVA_KEY_TYPE_5, config["DIVA_KEY_TYPE_5"], SORA_KEY_LEFT);
+			if (config.isMember("DIVA_KEY_TYPE_6"))
+				setKeyMapping(DIVA_KEY_TYPE_6, config["DIVA_KEY_TYPE_6"], SORA_KEY_DOWN);
+			if (config.isMember("DIVA_KEY_TYPE_7"))
+				setKeyMapping(DIVA_KEY_TYPE_7, config["DIVA_KEY_TYPE_7"], SORA_KEY_UP);
+			if (config.isMember("DIVA_KEY_CT"))
+				setKeyMapping(DIVA_KEY_CT, config["DIVA_KEY_CT"], SORA_KEY_SHIFT);
+			if (config.isMember("DIVA_KEY_RELAY"))
+				setKeyMapping(DIVA_KEY_RELAY, config["DIVA_KEY_RELAY"], SORA_KEY_TAB);
+			if (config.isMember("DIVA_KEY_SPACE"))
+				setKeyMapping(DIVA_KEY_SPACE, config["DIVA_KEY_SPACE"], SORA_KEY_SPACE);
+		}
+		else
+		{
+			addKey(DIVA_KEY_TYPE_0, SORA_KEY_D);
+			addKey(DIVA_KEY_TYPE_1, SORA_KEY_A);
+			addKey(DIVA_KEY_TYPE_2, SORA_KEY_S);
+			addKey(DIVA_KEY_TYPE_3, SORA_KEY_W);
+			addKey(DIVA_KEY_TYPE_4, SORA_KEY_RIGHT);
+			addKey(DIVA_KEY_TYPE_5, SORA_KEY_LEFT);
+			addKey(DIVA_KEY_TYPE_6, SORA_KEY_DOWN);
+			addKey(DIVA_KEY_TYPE_7, SORA_KEY_UP);
+			addKey(DIVA_KEY_CT, SORA_KEY_SHIFT);
+			addKey(DIVA_KEY_RELAY, SORA_KEY_TAB);
+			addKey(DIVA_KEY_SPACE, SORA_KEY_SPACE);
+		}
 	}
 
 	void StandardInputManager::setKeyMapping(int32 key, Json::Value config, int32 default)

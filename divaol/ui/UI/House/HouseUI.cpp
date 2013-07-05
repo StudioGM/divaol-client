@@ -1903,7 +1903,9 @@ namespace diva
 			((SpecialItemDisplayer*)setUiModSelector->getDisplayer())->setSelectedIndex(setConfig[L"uiMod"].asInt());
 			((SpecialItemDisplayer*)setLanSelector->getDisplayer())->setSelectedIndex(setConfig[L"language"].asInt());
 			((SpecialItemDisplayer*)setPsSelector->getDisplayer())->setSelectedIndex(setConfig[L"particleSystem"].asInt());
-			if (setConfig[L"isAutoCT"].asBool())
+			if(!setConfig.isMember(L"isAutoCT"))
+				setConfig[L"isAutoCT"] = true;
+			if ( setConfig[L"isAutoCT"].asBool())
 				((SpecialItemDisplayer*)setAutoCtSelector->getDisplayer())->setSelectedIndex(0);
 			else
 				((SpecialItemDisplayer*)setAutoCtSelector->getDisplayer())->setSelectedIndex(1);

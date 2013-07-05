@@ -144,7 +144,8 @@ namespace divacore
 			isWindowMode = config[L"isWindowMode"].asBool();
 			particleLevel = Base::Math::Util::Clamp(config[L"particleSystem"].asInt(), 0, 2);
 			globalFontName = config[L"globalFont"].asString();
-			isAutoCT = config[L"isAutoCT"].asBool();
+			if(config.isMember(L"isAutoCT"))
+				isAutoCT = config[L"isAutoCT"].asBool();
 			int uiMod = config[L"uiMod"].asInt();
 			if(setting.isMember(L"uiModFiles")&&setting[L"uiModFiles"].size() > uiMod)
 				userModule = setting[L"uiModFiles"][uiMod].asString();

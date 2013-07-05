@@ -92,7 +92,7 @@ namespace divacore
 				if(ct<0)
 					ct = 0;
 			}
-			else if (level+1 < MAX_LEVEL) {
+			else if (divacore::Settings::instance().getIsAutoCT()){
 				setLevel(std::min(level+1, MAX_LEVEL-1));
 				MUSIC_MANAGER_PTR->playDirectWithFile("res/se/ct.mp3",true,"se");
 			}
