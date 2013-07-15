@@ -2259,7 +2259,10 @@ namespace divaeditor
 			EDITOR_PTR->mapData->copy(true);
 		else if(event.key == sora::key::V && event.isCtrlFlag())
 			EDITOR_PTR->mapData->paste(CORE_PTR->getRunPosition());
-		
+		else if(event.key == sora::key::S && event.isCtrlFlag())
+			EDITOR_PTR->mapData->SaveFile();
+
+
 		if(nowState==State::NOTE && event.key == sora::key::Left && !event.isShiftFlag() && !event.isAltFlag())
 		{
 			int setTo = EDITOR_PTR->mapData->getPrevStandardGrid(CORE_PTR->getRunPosition(),EDITCONFIG->getGridToShowPerBeat());

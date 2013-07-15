@@ -146,6 +146,7 @@ namespace divaeditor
 		void note_modifyType(int index, char keyPress, bool arrow);
 		void note_modifyTypeByType(int index, int type, bool delta, bool needDecode=false);
 		void note_modifyKey(int index, std::string key);
+		void note_modifyVisible(int index, bool symmetric, bool visible);
 		void note_delete(int index);
 
 		int addNormalNote(divacore::MapNote mapNote);
@@ -225,6 +226,7 @@ namespace divaeditor
 
 		bool modifySelectedNotesPos(int posDelta, std::string operationID = "");
 		bool modifySelectedNotesType(int typeDelta, std::string operationID = "");
+		bool modifySelectedNotesVisible(std::string operationID = "");
 	};
 
 

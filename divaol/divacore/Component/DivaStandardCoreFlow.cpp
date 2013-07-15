@@ -229,7 +229,8 @@ namespace divacore
 	void StandardCoreFlow::render() 
 	{
 		for(NOTELIST::iterator ptr = noteList.begin(); ptr != noteList.end(); ptr++)
-			(*ptr)->onRender();
+			if ((*ptr)->getVisible())
+				(*ptr)->onRender();
 	}
 	void StandardCoreFlow::pause() 
 	{

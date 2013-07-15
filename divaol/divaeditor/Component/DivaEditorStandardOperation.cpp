@@ -570,12 +570,13 @@ namespace divaeditor
 	{
 		int nowNoteIndex = EDITOR_PTR->mapData->findNoteIndexByType(oldNote.notePoint[0].position,oldNote.notePoint[0].type,0,oldNote.noteType);
 
+		//Modify Key
 		if(calculated && oldNote.notePoint[0].key != newNote.notePoint[0].key)
 			EDITOR_PTR->mapData->note_modifyKey(nowNoteIndex,newNote.notePoint[0].key);
 		else if(noteModifyType == KEY)
 			EDITOR_PTR->mapData->note_modifyKey(nowNoteIndex,key);
 
-
+		//Modify Tail
 		if(calculated && (Argument::asInt("tailx",oldNote.arg) != Argument::asInt("tailx",newNote.arg) || 
 							Argument::asInt("taily",oldNote.arg) != Argument::asInt("taily",newNote.arg)))
 			EDITOR_PTR->mapData->note_modifyTail(nowNoteIndex,Argument::asInt("tailx",newNote.arg),Argument::asInt("taily",newNote.arg));
@@ -602,7 +603,7 @@ namespace divaeditor
 			EDITOR_PTR->mapData->note_modifyTail(nowNoteIndex, x, y);
 		}
 
-
+		//Modify Position
 		if(calculated && (oldNote.notePoint[0].x != newNote.notePoint[0].x || oldNote.notePoint[0].y != newNote.notePoint[0].y))
 			EDITOR_PTR->mapData->note_modifyPos(nowNoteIndex,newNote.notePoint[0].x,newNote.notePoint[0].y,false);
 		else if(noteModifyType == POS)
@@ -646,6 +647,7 @@ namespace divaeditor
 		}
 
 
+		//Modify Type
 		if(calculated && oldNote.notePoint[0].type != newNote.notePoint[0].type)
 			EDITOR_PTR->mapData->note_modifyTypeByType(nowNoteIndex,newNote.notePoint[0].type,false);
 		else if(noteModifyType == TYPEBYTYPE)

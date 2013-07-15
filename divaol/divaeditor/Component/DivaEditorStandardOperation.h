@@ -189,7 +189,7 @@ namespace divaeditor
 		bool calculated;
 		divacore::MapNote oldNote,newNote;
 
-		enum Type{KEY,TAIL,POS,TIMEPOS,LONGNOTETIMEPOS,TYPEBYTYPE,TYPE,FLIPHORIZONTAL,FLIPVERTICAL,TOLETTER,TOARROW,TYPESYMMETRY,SIMPLE2KEY,SIMPLE1KEY,BPMCHANGED,SORTFORPICKMEUP} noteModifyType;
+		enum Type{KEY,TAIL,POS,TIMEPOS,LONGNOTETIMEPOS,TYPEBYTYPE,TYPE,FLIPHORIZONTAL,FLIPVERTICAL,TOLETTER,TOARROW,TYPESYMMETRY,SIMPLE2KEY,SIMPLE1KEY,BPMCHANGED,SORTFORPICKMEUP,VISIBLE} noteModifyType;
 
 		DivaEditorOperation_ModifyNote(int index,	std::string key);									//note_modifyKey
 		DivaEditorOperation_ModifyNote(int index,	int tailX,		int tailY);							//note_modifyTail

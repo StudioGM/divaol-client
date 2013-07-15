@@ -30,7 +30,7 @@ namespace divacore
 		int keyPosition;
 		int uid,nextPoint,receivePoint;
 		int state;
-		bool bOver,bOwner,bLeave;
+		bool bOver,bOwner,bLeave,bVisible;
 		std::string tailTag;
 		
 	protected:
@@ -43,13 +43,15 @@ namespace divacore
 		inline const NotePoint& getReceivePoint() {return noteInfo.notePoint[receivePoint];}
 		inline void setConfig(ConfigPtr config) {this->config = config;}
 		inline void setOwner(bool isOwner) {bOwner=isOwner;}
+		inline bool getVisible() {return bVisible;}
+		inline void setVisible(bool visible) {bVisible = visible;}
 		inline bool isOwner() {return bOwner;}
 		virtual std::string getName() {return "note";}
 
 	public:
 		enum{START=-0x80,FAILED,END};
 
-		Note(MapNote &noteInfo):receivePoint(0),noteInfo(noteInfo),bOver(false),bOwner(true),bLeave(false),tailTag("") {setState(START);}
+		Note(MapNote &noteInfo):receivePoint(0),noteInfo(noteInfo),bOver(false),bOwner(true),bLeave(false),bVisible(true),tailTag("") {setState(START);}
 		virtual ~Note() {}
 
 		virtual void toFail() {over();}

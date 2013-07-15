@@ -549,6 +549,14 @@ namespace divaeditor
 				coreInfoPtr->notes[index].notePoint[i].key = key;
 			}
 	}
+	void DivaEditorMapData::note_modifyVisible(int index, bool symmetric, bool visible)
+	{
+		if(index==-1)
+		{
+			divacore::Logger::instance()->log("Editor: An errror occured when modify notes.");
+			return;
+		}
+	}
 	void DivaEditorMapData::note_delete(int index)
 	{
 		if(index==-1)
@@ -1711,7 +1719,6 @@ namespace divaeditor
 
 		return true;
 	}
-
 	bool DivaEditorMapData::modifySelectedNotesType(int typeDelta, std::string operationID)
 	{
 		if(typeDelta==0)
@@ -1744,4 +1751,18 @@ namespace divaeditor
 		return true;
 	}
 
+	bool DivaEditorMapData::modifySelectedNotesVisible(std::string operationID)
+	{
+		if(EDITCONFIG->noteSelected.size() == 0)
+			return false;
+
+		DivaEditorOperationSet *thisModifySet = new DivaEditorOperationSet();
+		for(int i=0;i<EDITCONFIG->noteSelected.size();i++)
+		{
+			//thisModifySet->addOperation(new DivaEditorOperation_
+		}
+		EDITCONFIG->addAndDoOperation(thisModifySet, operationID);
+
+		return true;
+	}
 }
