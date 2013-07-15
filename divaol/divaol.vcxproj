@@ -625,6 +625,7 @@
     <ClInclude Include="divacore\Mode\DivaSinglePlay.h" />
     <ClInclude Include="divacore\MusicManager\DivaBassMusicManager.h" />
     <ClInclude Include="divacore\MusicManager\DivaFmodMusicManager.h" />
+    <ClInclude Include="divacore\Note\DivaBGSNote.h" />
     <ClInclude Include="divacore\Note\DivaLongNote.h" />
     <ClInclude Include="divacore\Note\DivaNormalNote.h" />
     <ClInclude Include="divacore\Note\DivaPingpongNote.h" />
@@ -985,6 +986,7 @@
     <ClCompile Include="divacore\Mode\DivaSinglePlay.cpp" />
     <ClCompile Include="divacore\MusicManager\DivaBassMusicManager.cpp" />
     <ClCompile Include="divacore\MusicManager\DivaFmodMusicManager.cpp" />
+    <ClCompile Include="divacore\Note\DivaBGSNote.cpp" />
     <ClCompile Include="divacore\Note\DivaLongNote.cpp" />
     <ClCompile Include="divacore\Note\DivaNormalNote.cpp" />
     <ClCompile Include="divacore\Note\DivaPingpongNote.cpp" />

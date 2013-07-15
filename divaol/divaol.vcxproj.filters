@@ -2163,6 +2163,9 @@
     <ClInclude Include="Lib\MD5\md52.h">
       <Filter>源文件\lib\MD5</Filter>
     </ClInclude>
+    <ClInclude Include="divacore\Note\DivaBGSNote.h">
+      <Filter>源文件\divacore\note</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -3037,6 +3040,9 @@
     </ClCompile>
     <ClCompile Include="Lib\MD5\md52.cpp">
       <Filter>源文件\lib\MD5</Filter>
+    </ClCompile>
+    <ClCompile Include="divacore\Note\DivaBGSNote.cpp">
+      <Filter>源文件\divacore\note</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

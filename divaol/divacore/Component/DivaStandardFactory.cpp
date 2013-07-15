@@ -11,6 +11,7 @@
 #include "Note/DivaLongNote.h"
 //#include "Note/DivaContiNote.h"
 #include "Note/DivaPingpongNote.h"
+#include "Note/DivaBGSNote.h"
 #include "Utility/DivaConfigLoader.h"
 #include "Core/DivaCore.h"
 
@@ -53,6 +54,9 @@ namespace divacore
 //			note = new ContiNote(noteInfo);
 		else if(noteInfo.noteType=="pingpong")
 			note = new PingpongNote(noteInfo);
+		else if(noteInfo.noteType=="bgs")
+			note = new BGSNote(noteInfo);
+
 		if(note==NULL||!note->checkInfo())
 			DIVA_EXCEPTION_MODULE("noteInfo unsuitable","ItemFactory");
 		note->setConfig(&config);
