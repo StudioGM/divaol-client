@@ -63,7 +63,9 @@ namespace diva
 		float targetTime;
 	public:
 		ImageSplash():image(NULL) {}
-		virtual ~ImageSplash() {Clear();}
+		virtual ~ImageSplash() {
+			Clear();
+		}
 		void Clear() 
 		{
 			state = UNINITIALIZED;
@@ -282,6 +284,7 @@ namespace diva
 			}
 			else if(state == DONE)
 			{
+				splashList.clear();
 				getGameApp()->setState(nextState);
 				state = LEFT;
 			}
@@ -350,6 +353,7 @@ namespace diva
 			}
 			nextState = config[L"nextState"].asString();
 		}
+
 	private:
 		int state;
 		int nowSplashCnt;
