@@ -102,6 +102,8 @@ namespace diva
 			{
 				getGameApp()->setState(NextState);
 				titleScreen->Release();
+
+				std::string fuck = sora::SoraTextureMap::Instance()->getTexRefInfo();
 				NextState = "";
 				return;
 			}
@@ -142,6 +144,8 @@ namespace diva
 					
 
 				titleScreen = TitleScreenUI::Instance();
+
+				fuck = sora::SoraTextureMap::Instance()->getTexRefInfo();
 
 				uiCanvas = new sora::SoraBaseCanvas(setConfig[L"gameWidth"].asInt(), setConfig[L"gameHeight"].asInt());
 

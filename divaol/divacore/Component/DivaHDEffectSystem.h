@@ -51,6 +51,7 @@ namespace divacore
 		{
 			image = new sora::SoraSprite();
 			image->setTexture(source);
+			sora::SoraTextureMap::Instance()->addRf(source);
 			Rect imageRect = config.getAsRect(head+"textureRect");
 			image->setTextureRect(imageRect.x,imageRect.y,imageRect.w,imageRect.h);
 			image->setCenter(imageRect.w/2,imageRect.h/2);
@@ -88,6 +89,7 @@ namespace divacore
 		{
 			image = new sora::SoraSprite();
 			image->setTexture(source);
+			sora::SoraTextureMap::Instance()->addRf(source);
 			imageRect = config.getAsRect(head+"textureRect");
 			image->setTextureRect(imageRect.x,imageRect.y,imageRect.w,imageRect.h);
 			image->setCenter(imageRect.w/2,imageRect.h/2);
@@ -131,7 +133,11 @@ namespace divacore
 		virtual void onConstruct(Config &config, const std::string &head)
 		{
 			image = new sora::SoraSprite();
+			//!DEBUG
 			image->setTexture(source);
+			sora::SoraTextureMap::Instance()->addRf(source);
+			
+
 			imageRect = config.getAsRect(head+"textureRect");
 			image->setTextureRect(imageRect.x,imageRect.y,imageRect.w,imageRect.h);
 			image->setCenter(imageRect.w/2,imageRect.h/2);
@@ -169,6 +175,7 @@ namespace divacore
 		{
 			image = new sora::SoraSprite();
 			image->setTexture(source);
+			sora::SoraTextureMap::Instance()->addRf(source);
 			imageRect = config.getAsRect(head+"textureRect");
 			image->setTextureRect(imageRect.x,imageRect.y,imageRect.w,imageRect.h);
 			image->setCenter(imageRect.w/2,imageRect.h/2);
