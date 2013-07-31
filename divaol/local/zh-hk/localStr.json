@@ -43,6 +43,7 @@
   "Note_NormalNote": "當前正放置單鍵音符",
   "Note_LongNote": "當前正放置長條音符",
   "Note_ComboNote": "當前正放置連打音符",
+  "Note_BGSNote": "當前正放置背景音",
   "Note_PosUnit": "時間點",
   "playVideo": "播放視頻",
   "displayImage": "顯示圖片",

@@ -339,9 +339,9 @@ namespace divaeditor
 		this->addedNote = addedNote;
 	}
 
-	DivaEditorOperation_AddNormalNote::DivaEditorOperation_AddNormalNote(int pos, char keyPress, bool arrow, int x, int y, int tailX, int tailY, int key/* =-1 */)
+	DivaEditorOperation_AddNormalNote::DivaEditorOperation_AddNormalNote(int pos, char keyPress, bool arrow, int x, int y, int tailX, int tailY, int key/* =-1 */, std::string notetype)
 	{
-		addedNote = EDITOR_PTR->mapData->initNote(pos,keyPress,arrow,x,y,tailX,tailY,"normal",key);
+		addedNote = EDITOR_PTR->mapData->initNote(pos,keyPress,arrow,x,y,tailX,tailY,notetype,key);
 	}
 
 	void DivaEditorOperation_AddNormalNote::doOperation()
@@ -670,6 +670,20 @@ namespace divaeditor
 			EDITOR_PTR->mapData->note_modifyTypeByType(nowNoteIndex,oldNote.notePoint[0].type%2 + (oldNote.notePoint[0].type / 4)*4,false);
 		else if(noteModifyType == SIMPLE1KEY)
 			EDITOR_PTR->mapData->note_modifyTypeByType(nowNoteIndex,(oldNote.notePoint[0].type / 4)*4,false);
+
+		//Modify note type
+		if(calculated && oldNote.noteType != newNote.noteType)
+			EDITOR_PTR->mapData->note_modifyNoteType(nowNoteIndex, newNote.noteType);
+		else if(noteModifyType == SORTFORPICKMEUP)
+		{
+			if(oldNote.noteType != "long" && newNote.noteType != "long")
+			{
+				if(oldNote.notePoint[0].type < 4)
+					EDITOR_PTR->mapData->note_modifyNoteType(nowNoteIndex, "bgs");
+				else
+					EDITOR_PTR->mapData->note_modifyNoteType(nowNoteIndex, "normal");
+			}
+		}
 		
 
 		if (!calculated)
@@ -696,11 +710,13 @@ namespace divaeditor
 			EDITOR_PTR->mapData->note_modifyKey(nowNoteIndex,oldNote.notePoint[0].key);
 		}
 
-		if((Argument::asInt("tailx",oldNote.arg) != Argument::asInt("tailx",newNote.arg) || 
+		if(oldNote.arg.find("tailx")!=oldNote.arg.end() && oldNote.arg.find("taily")!=oldNote.arg.end() &&
+			newNote.arg.find("tailx")!=newNote.arg.end() && newNote.arg.find("taily")!=newNote.arg.end() &&
+			(Argument::asInt("tailx",oldNote.arg) != Argument::asInt("tailx",newNote.arg) || 
 			Argument::asInt("taily",oldNote.arg) != Argument::asInt("taily",newNote.arg)))
 		{
 			EDITOR_PTR->mapData->note_modifyTail(nowNoteIndex,Argument::asInt("tailx",oldNote.arg),Argument::asInt("taily",oldNote.arg));
-		} 
+		}
 
 		if((oldNote.notePoint[0].x != newNote.notePoint[0].x || oldNote.notePoint[0].y != newNote.notePoint[0].y))
 		{
@@ -721,6 +737,11 @@ namespace divaeditor
 		if(oldNote.notePoint[0].type != newNote.notePoint[0].type)
 		{
 			EDITOR_PTR->mapData->note_modifyTypeByType(nowNoteIndex,oldNote.notePoint[0].type,false);
+		}
+
+		if(oldNote.noteType != newNote.noteType)
+		{
+			EDITOR_PTR->mapData->note_modifyNoteType(nowNoteIndex,oldNote.noteType);
 		}
 
 		if(needToRecalcTime)

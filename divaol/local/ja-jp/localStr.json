@@ -43,6 +43,7 @@
   "Note_NormalNote": "シングルノートをプレイスしています",
   "Note_LongNote": "ロングノートをプレイスしています",
   "Note_ComboNote": "コンボノートをプレイスしています",
+  "Note_BGSNote": "バックグラウンドサウンド(BGS)をプレイスしています",
   "Note_PosUnit": "タイムポス",
   "playVideo": "動画を再生",
   "displayImage": "画像を表示",

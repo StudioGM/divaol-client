@@ -43,7 +43,9 @@ namespace divacore
 		std::string getName() {return "normal_note";}
 
 		//check the note info to say whether it's suitable
-		bool checkInfo() {return (noteInfo.noteType=="normal"&&noteInfo.notePoint.size()==1);}
+		bool checkInfo() {
+			return (noteInfo.noteType=="normal"&&noteInfo.notePoint.size()==1);
+		}
 		void onInitiate() ;
 		void onEnter();
 		void onLeave() ;

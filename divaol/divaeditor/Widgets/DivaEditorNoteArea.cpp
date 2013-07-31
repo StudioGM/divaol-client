@@ -130,6 +130,9 @@ namespace divaeditor
 			if(thisNote.notePoint[0].position>nowPosition + EDITCONFIG->GridPerBeat*4)
 				break;
 
+			if(thisNote.noteType == "bgs")
+				continue;
+
 			//Draw Note need
 			float deltaPos;
 
@@ -172,6 +175,9 @@ namespace divaeditor
 		{
 			graphics->setColor(selectedColor);
 			divaeditor::MapNote &selectedNote = EDITOR_PTR->mapData->coreInfoPtr->notes[EDITCONFIG->noteSelected[i]];
+
+			if(selectedNote.noteType == "bgs")
+				continue;
 
 			for(int j=0;j<selectedNote.notePoint.size();j++)
 			{
@@ -708,6 +714,9 @@ namespace divaeditor
 			if(thisNote.notePoint[0].position>nowPosition + EDITCONFIG->GridPerBeat*4)
 				break;
 
+			if(thisNote.noteType == "bgs")
+				continue;
+
 			//Draw Note need
 			float deltaPos;
 
@@ -750,6 +759,9 @@ namespace divaeditor
 		{
 			graphics->setColor(selectedColor);
 			divaeditor::MapNote &selectedNote = EDITOR_PTR->mapData->coreInfoPtr->notes[EDITCONFIG->noteSelected[i]];
+
+			if(selectedNote.noteType == "bgs")
+				continue;
 
 			for(int j=0;j<selectedNote.notePoint.size();j++)
 			{

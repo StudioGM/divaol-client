@@ -133,7 +133,7 @@ namespace divaeditor
 
 	public:
 		DivaEditorOperation_AddNormalNote(divacore::MapNote& addedNote);
-		DivaEditorOperation_AddNormalNote(int pos, char keyPress, bool arrow, int x, int y, int tailX, int tailY, int key=-1);
+		DivaEditorOperation_AddNormalNote(int pos, char keyPress, bool arrow, int x, int y, int tailX, int tailY, int key=-1, std::string notetype = "normal");
 
 		virtual void doOperation();
 		virtual void undoOperation();

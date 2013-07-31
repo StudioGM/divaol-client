@@ -1223,6 +1223,8 @@ namespace divaeditor
 				wlabel_nowPlaceNoteCategory->setCaption(LOCALIZATION->getLocalStr(L"Note_LongNote"));
 			else if(EDITCONFIG->EDITSTATE_NOTESTATE == EditorConfig::COMBO)
 				wlabel_nowPlaceNoteCategory->setCaption(LOCALIZATION->getLocalStr(L"Note_ComboNote"));
+			else if(EDITCONFIG->EDITSTATE_NOTESTATE == EditorConfig::BGS)
+				wlabel_nowPlaceNoteCategory->setCaption(LOCALIZATION->getLocalStr(L"Note_BGSNote"));
 			
 			wlabel_nowPlaceNoteCategory->adjustSize();
 

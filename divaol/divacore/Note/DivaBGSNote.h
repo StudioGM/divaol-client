@@ -27,9 +27,9 @@ namespace divacore
 		BGSNote(MapNote& noteInfo):Note(noteInfo) {}
 		virtual ~BGSNote();
 
-		std::string getName() {return "long_note";}
+		std::string getName() {return "bgs_note";}
 
-		bool checkInfo() {return (noteInfo.noteType=="long"&&noteInfo.notePoint.size()==2);}
+		bool checkInfo() {return (noteInfo.noteType=="bgs"&&noteInfo.notePoint.size()==1);}
 		void onInitiate() ;
 		void onEnter();
 		void onLeave();

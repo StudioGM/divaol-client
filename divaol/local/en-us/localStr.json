@@ -43,6 +43,7 @@
   "Note_NormalNote": "Single Note",
   "Note_LongNote": "Long Note",
   "Note_ComboNote": "Combo Note",
+  "Note_BGSNote": "Background Sound(BGS) Note",
   "Note_PosUnit": "pos",
   "playVideo": "Play Video",
   "displayImage": "Display Image",

@@ -372,9 +372,12 @@ namespace divaeditor
 		mapNote.notePoint.push_back(notePoint);
 
 		mapNote.noteType = noteType;
-		mapNote.arg["tailx"]=tailX;
-		mapNote.arg["taily"]=tailY;
 
+		if(noteType!="bgs")
+		{
+			mapNote.arg["tailx"]=tailX;
+			mapNote.arg["taily"]=tailY;
+		}
 		return mapNote;
 	}
 	void DivaEditorMapData::finishLongNote(divacore::MapNote &longNote, int pos, int key)
@@ -557,6 +560,15 @@ namespace divaeditor
 			return;
 		}
 	}
+	void DivaEditorMapData::note_modifyNoteType(int index, std::string typeStr)
+	{
+		if(index==-1)
+		{
+			divacore::Logger::instance()->log("Editor: An errror occured when modify notes type.");
+			return;
+		}
+		coreInfoPtr->notes[index].noteType = typeStr;
+	}
 	void DivaEditorMapData::note_delete(int index)
 	{
 		if(index==-1)
@@ -708,6 +720,8 @@ namespace divaeditor
 		for (int i=0;i<EDITOR_PTR->mapData->coreInfoPtr->notes.size();i++)
 		{
 			divacore::MapNote &thisNote = EDITOR_PTR->mapData->coreInfoPtr->notes[i];
+			if(thisNote.noteType == "bgs")
+				continue;
 				
 			if(thisNote.notePoint[0].position > pos)
 				break;

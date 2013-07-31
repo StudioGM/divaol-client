@@ -44,7 +44,7 @@ namespace divaeditor
 	class EditorConfig
 	{
 	public:
-		enum NOTESTATE {NORMAL,LONG,COMBO} EDITSTATE_NOTESTATE;
+		enum NOTESTATE {NORMAL,LONG,COMBO,BGS} EDITSTATE_NOTESTATE;
 
 	public:
 		

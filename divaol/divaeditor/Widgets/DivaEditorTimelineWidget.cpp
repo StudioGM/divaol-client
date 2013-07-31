@@ -110,18 +110,27 @@ namespace divaeditor
 				//else
 				gcn::Color thisNoteFillColor = noteColors[noteTypeIndex%4];
 				
+				if(thisNote.noteType == "bgs")
+					thisNoteFillColor.a = 100;
+
 				graphics->setColor(thisNoteFillColor);
 				graphics->fillRectangle(toDraw);
 
 				toDraw.width-=1;
 				toDraw.height-=1;
 
-				graphics->setColor(gcn::Color(0,0,0,255));
+				if(thisNote.noteType != "bgs")
+					graphics->setColor(gcn::Color(0,0,0,255));
+				else
+					graphics->setColor(gcn::Color(0,0,255,255));
+
 				graphics->drawRectangle(toDraw);
 
 				if(EDITCONFIG->isNoteSelected(i))
 				{
 					graphics->setColor(selectedColor);
+					if(thisNote.noteType == "bgs")
+						graphics->setColor(gcn::Color(255,0,0,255));
 					toDraw.x-=1;
 					toDraw.y-=1;
 					toDraw.width+=2;
@@ -772,17 +781,24 @@ namespace divaeditor
 
 			if(mouseXGrid>=0&&mouseXGrid<=CORE_FLOW_PTR->getTotalPosition() && isMouseOn)
 			{
-				int guessX,guessY,guessTailX,guessTailY;
+				int guessX = 0,guessY = 0,guessTailX = 0,guessTailY = 0;
 
 
-				if(EDITCONFIG->EDITSTATE_NOTESTATE == EditorConfig::NOTESTATE::NORMAL)
+				if(EDITCONFIG->EDITSTATE_NOTESTATE == EditorConfig::NOTESTATE::NORMAL || EDITCONFIG->EDITSTATE_NOTESTATE == EditorConfig::NOTESTATE::BGS)
 				{
-					EDITOR_PTR->mapData->guessThisNotePositionByLastTwo(mouseXGrid,guessX,guessY,guessTailX,guessTailY);
 
+					
 					int toAddFind = EDITOR_PTR->mapData->findNoteIndexByType(mouseXGrid, EDITOR_PTR->mapData->getNoteTypeFromKeyPress(thisKey,caps));
 					if(toAddFind==-1)
 					{
-						DivaEditorOperation_AddNormalNote *toOp = new DivaEditorOperation_AddNormalNote(mouseXGrid,thisKey,caps,guessX,guessY,guessTailX,guessTailY);
+						DivaEditorOperation_AddNormalNote *toOp;
+						if(EDITCONFIG->EDITSTATE_NOTESTATE == EditorConfig::NOTESTATE::NORMAL)
+						{
+							EDITOR_PTR->mapData->guessThisNotePositionByLastTwo(mouseXGrid,guessX,guessY,guessTailX,guessTailY);
+							toOp = new DivaEditorOperation_AddNormalNote(mouseXGrid,thisKey,caps,guessX,guessY,guessTailX,guessTailY);
+						}
+						else if(EDITCONFIG->EDITSTATE_NOTESTATE == EditorConfig::NOTESTATE::BGS)
+							toOp = new DivaEditorOperation_AddNormalNote(mouseXGrid,thisKey,caps,guessX,guessY,guessTailX,guessTailY,-1,"bgs");
 						if(CORE_FLOW_PTR->getState() == CoreFlow::RUN)
 						{
 							toOp->needToRefreshAll=false;
@@ -907,6 +923,7 @@ namespace divaeditor
 				}
 				EDITCONFIG->addAndDoOperation(toOp);
 			}
+			
 
 			placingLong=false;
 			placingCombo=false;

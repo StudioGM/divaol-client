@@ -147,6 +147,7 @@ namespace divaeditor
 		void note_modifyTypeByType(int index, int type, bool delta, bool needDecode=false);
 		void note_modifyKey(int index, std::string key);
 		void note_modifyVisible(int index, bool symmetric, bool visible);
+		void note_modifyNoteType(int index, std::string typeStr);
 		void note_delete(int index);
 
 		int addNormalNote(divacore::MapNote mapNote);
