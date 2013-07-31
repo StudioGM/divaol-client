@@ -78,7 +78,7 @@ namespace sora {
         }
     }
     
-    void SoraTextureMap::decRf(SoraTextureHandle tex) {
+     void SoraTextureMap::decRf(SoraTextureHandle tex) {
         TextureMapRev::iterator p = texMapRv.find(tex);
         if(p != texMapRv.end()) {
             texRefs[p->second]--;
@@ -96,7 +96,7 @@ namespace sora {
         TextureMap::iterator p = texMap.find(uiKey);
         if(p != texMap.end()) {
             //SoraTexture* tex = (SoraTexture*)p->second;
-            texRefs[uiKey]++;
+            //texRefs[uiKey]++;
             return p->second;
         }
         return 0;
