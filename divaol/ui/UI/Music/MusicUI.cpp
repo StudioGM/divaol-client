@@ -724,7 +724,24 @@ namespace diva
 					{
 						//selectMusicButton->setEnabled(true);
 						int index = songListBox->getIndexByMapId(t.effectedMapID);
-						((SongListItem*)songListBox->getItems()[index])->setPreview(MAPMGR.GetThumbFilePath(t.effectedMapID));
+						//((SongListItem*)songListBox->getItems()[index])->setPreview(MAPMGR.GetThumbFilePath(t.effectedMapID));
+						background->display(MAPMGR.GetThumbFilePath(t.effectedMapID), gcn::Rectangle(0,0,0,0), true);
+					}
+					else
+						throw "fuck it!";
+
+					break;
+				case divamap::DivaMapEventMessage::PrepareSmallThumbFile:
+					if (t.error)
+					{
+						mgr->GetMB()->Show(L"下载小缩略图文件出错。歌曲名：" + MAPS[t.effectedMapID].header.name);
+						return;
+					}
+					if (!t.error && t.finish)
+					{
+						//selectMusicButton->setEnabled(true);
+						int index = songListBox->getIndexByMapId(t.effectedMapID);
+						((SongListItem*)songListBox->getItems()[index])->setSmallPreview(MAPMGR.GetSmallThumbFilePath(t.effectedMapID));
 					}
 					else
 						throw "fuck it!";
@@ -818,7 +835,7 @@ namespace diva
 				{
 					SongListItem* t = (SongListItem*)songListBox->getItems()[songListBox->getFirstIndex() + i];
 					if (!t->hasPreview())
-						MAPMGR.PrepareDivaMapThumb(t->getMapInfo().id);
+						MAPMGR.PrepareDivaMapSmallThumb(t->getMapInfo().id);
 					if (MAPMGR.isMapDownloaded(t->getMapInfo().id))
 					{
 						t->setDownloadFinished(true);
@@ -900,8 +917,10 @@ namespace diva
 				background->display(item->getPreviewFilename(), gcn::Rectangle(0, 0, 0, 0), true);
 			}
 			else
+			{
+				MAPMGR.PrepareDivaMapThumb(item->getMapInfo().id);
 				thumbImage->load(noimageFileName, noimageRect, true);
-
+			}
 			PlayListeningPreview(index);
 
 			songInfoContainer->setMap(item->getMapInfo());

@@ -11,6 +11,7 @@ namespace diva
 
 		SongListItem::SongListItem()
 		{
+			smallPreview = NULL;
 			preview = NULL;
 			image = NULL;
 			difIndex = 0;
@@ -31,6 +32,7 @@ namespace diva
 			difIndex = 0;
 			this->artistFont = artistFont;
 			preview = NULL;
+			smallPreview = NULL;
 			previewFilename = L"";
 			listeningFilename  = L"";
 			this->notDownloadImage = notDownloadImage;
@@ -64,6 +66,10 @@ namespace diva
 
 		void SongListItem::setPreview(const std::wstring& filename)
 		{
+			if (preview)
+			{
+				delete preview;
+			}
 			if (filename != L"NONE")
 			{
 				preview = Image::load(filename);
@@ -81,6 +87,20 @@ namespace diva
 		bool SongListItem::hasPreview() const
 		{
 			return preview;
+		}
+
+		void SongListItem::setSmallPreview(const std::wstring& filename)
+		{
+			if (smallPreview)
+			{
+				delete smallPreview;
+			}
+			if (filename != L"NONE" && filename != L"")
+			{
+				smallPreview = Image::load(filename);
+			}
+			else
+				smallPreview = NULL;
 		}
 
 		void SongListItem::setImage(Image* image)
@@ -146,12 +166,12 @@ namespace diva
 		{
 			// preview
 		
-			if (look == SONG && preview)
+			if (look == SONG && smallPreview)
 			{
 				int desW = 160, desH = 90;
-				(((SoraGUIImage*)preview)->getSprite())->setScale(double(desW) / preview->getWidth(), 
-					double(desH) / preview->getHeight());
-				graphics->drawImage(preview, 333, 25);
+				(((SoraGUIImage*)smallPreview)->getSprite())->setScale(double(desW) / smallPreview->getWidth(), 
+					double(desH) / smallPreview->getHeight());
+				graphics->drawImage(smallPreview, 333, 25);
 			}
 			else
 			{
@@ -264,7 +284,7 @@ namespace diva
 				}
 
 				// preview loading
-				if (!preview)
+				if (!smallPreview)
 				{
 					graphics->drawTextW(L"∂¡»°÷–...", 400, 50);
 				}

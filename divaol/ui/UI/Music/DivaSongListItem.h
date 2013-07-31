@@ -20,6 +20,7 @@ namespace diva
 
 			std::wstring previewFilename;
 			std::wstring listeningFilename;
+			Image* smallPreview;
 			Image* preview;
 			Image* image;
 			Image* notDownloadImage;
@@ -34,6 +35,8 @@ namespace diva
 			SongListItem();
 			SongListItem(Image* image, const divamap::DivaMap& m, int look = SONG, Font* artistFont = NULL, Image* notDownloadImage = NULL);
 			~SongListItem();
+
+			void setSmallPreview(const std::wstring& filename);
 
 			void setPreview(const std::wstring& filename);
 			bool hasPreview() const;
