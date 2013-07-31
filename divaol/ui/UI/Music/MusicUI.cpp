@@ -726,6 +726,7 @@ namespace diva
 						int index = songListBox->getIndexByMapId(t.effectedMapID);
 						//((SongListItem*)songListBox->getItems()[index])->setPreview(MAPMGR.GetThumbFilePath(t.effectedMapID));
 						background->display(MAPMGR.GetThumbFilePath(t.effectedMapID), gcn::Rectangle(0,0,0,0), true);
+						thumbImage->load(MAPMGR.GetThumbFilePath(t.effectedMapID), gcn::Rectangle(0,0,0,0), true);
 					}
 					else
 						throw "fuck it!";
