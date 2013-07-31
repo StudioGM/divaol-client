@@ -67,7 +67,8 @@ namespace divacore
 		inline std::string getTailTag() {return tailTag;}
 		inline void setTailTag(const std::string &tag) {tailTag=tag;}
 		int getState() {return state;}
-		void setKeyPosition(int position) {keyPosition = position;}
+		void setKeyPosition(int position) {
+			keyPosition = position;}
 		int getKeyPosition() {return keyPosition;}
 		void setID(int id) {uid = id;}
 		int getID() {return uid;}
