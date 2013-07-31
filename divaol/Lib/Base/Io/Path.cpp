@@ -123,7 +123,7 @@ namespace Base
 		String filename = path(index+1,-1);
 		if(!hasExt) {
 			if((index=filename.rfind('.'))!=String::npos)
-				filename = filename(0,index-1);
+				filename = filename(0,index);
 		}
 		return filename;
 	}

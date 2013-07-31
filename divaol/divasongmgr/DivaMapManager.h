@@ -31,7 +31,8 @@ namespace divamap
 
 		enum DIVAMAPMGREVENT {
 			PrepareMapList, 
-			PrepareThumbFile, 
+			PrepareThumbFile,
+			PrepareSmallThumbFile,
 			PrepareAudioPreviewFile, 
 			PrepareMapDataFile, 
 			PrepareMapDataFileNoVideo, 
@@ -147,6 +148,7 @@ namespace divamap
 		std::wstring additionalMessage;
 		int songLength;
 		std::wstring thumb;
+		std::wstring smallThumb;
 		std::wstring audioPreview;
 		std::wstring modified;
 		std::wstring created;
@@ -271,6 +273,7 @@ namespace divamap
 		bool PrepareDivaMapListInfo();
 
 		bool PrepareDivaMapThumb(int id);
+		bool PrepareDivaMapSmallThumb(int id);
 		bool PrepareDivaMapAudioPreview(int id);
 
 		bool PrepareDivaMapData(int id, bool novideo=false);
@@ -289,6 +292,7 @@ namespace divamap
 		std::wstring GetMapName(int id);
 		std::wstring GetMapDirectory(int id);
 		std::wstring GetThumbFilePath(int id);
+		std::wstring GetSmallThumbFilePath(int id);
 		std::wstring GetAudioPreviewFilePath(int id);
 		std::wstring GetDivaOLFilePath(int id, DivaMap::LevelType level);
 		float GetMapDownloadProgress(int id);

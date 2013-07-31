@@ -135,6 +135,7 @@ namespace divamap
 					thisMap.header.mapType = (DivaMapHeader::MapType)headerJValue[L"mapType"].asInt();
 					thisMap.header.name = headerJValue[L"name"].asString();
 					thisMap.header.thumb = headerJValue[L"thumb"].asString();
+					thisMap.header.smallThumb = Base::Path::GetFileName(thisMap.header.thumb, false) + L"_s." + Base::Path::GetExtension(thisMap.header.thumb);
 					thisMap.header.audioPreview = headerJValue[L"audioPreview"].asString();
 					thisMap.header.additionalMessage = headerJValue[L"additionalMessage"].asString();
 					thisMap.header.songLength = headerJValue[L"songLength"].asInt();
@@ -824,11 +825,27 @@ namespace divamap
 		isOperating[id][0][eventType]=true;
 
 		//Check if thumb file already exists
-		if(eventType==DivaMapEventMessage::PrepareThumbFile || eventType==DivaMapEventMessage::PrepareAudioPreviewFile)
+		if(eventType==DivaMapEventMessage::PrepareThumbFile || eventType==DivaMapEventMessage::PrepareSmallThumbFile || eventType==DivaMapEventMessage::PrepareAudioPreviewFile)
 		{
 			FILE *thumbFile;
-			Base::String thumbFilePath = Base::String(LocalSongDirectoryW)+L"MAP_"+Base::String::any2string(id)+L"/"+
-				(eventType==DivaMapEventMessage::PrepareThumbFile?maps[id].header.thumb:maps[id].header.audioPreview);
+
+			Base::String fileName;
+			switch (eventType)
+			{
+			case divamap::DivaMapEventMessage::PrepareThumbFile:
+				fileName = maps[id].header.thumb;
+				break;
+			case divamap::DivaMapEventMessage::PrepareSmallThumbFile:
+				fileName = maps[id].header.smallThumb;
+				break;
+			case divamap::DivaMapEventMessage::PrepareAudioPreviewFile:
+				fileName = maps[id].header.audioPreview;
+				break;
+			default:
+				break;
+			}
+
+			Base::String thumbFilePath = Base::String(LocalSongDirectoryW) + L"MAP_"+Base::String::any2string(id)+L"/"+fileName;
 			if(_wfopen_s(&thumbFile, thumbFilePath.unicode_str(), L"r")!=0)
 			{
 				//File not exists
@@ -894,6 +911,10 @@ namespace divamap
 	bool DivaMapManager::PrepareDivaMapThumb(int id)
 	{
 		return PrepareDirectFile(id, DivaMapEventMessage::PrepareThumbFile);
+	}
+	bool DivaMapManager::PrepareDivaMapSmallThumb(int id)
+	{
+		return PrepareDirectFile(id, DivaMapEventMessage::PrepareSmallThumbFile);
 	}
 	bool DivaMapManager::PrepareDivaMapAudioPreview(int id)
 	{
@@ -1018,6 +1039,15 @@ namespace divamap
 			return L"Random";
 		if(maps.find(id)!=maps.end())
 			return Base::Path::CombinePath(Base::String(GetMapDirectory(id)),Base::String(maps.find(id)->second.header.thumb)).str().asUnicode();
+		else
+			return L"";
+	}
+	std::wstring DivaMapManager::GetSmallThumbFilePath(int id)
+	{
+		if(id==0)
+			return L"Random";
+		if(maps.find(id)!=maps.end())
+			return Base::Path::CombinePath(Base::String(GetMapDirectory(id)),Base::String(maps.find(id)->second.header.smallThumb)).str().asUnicode();
 		else
 			return L"";
 	}
