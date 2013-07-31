@@ -50,8 +50,6 @@ namespace divacore
 		else
 			sprite = spritePool[label];
 
-		sora::SoraTextureMap::Instance()->addRf(imagePool[ID]);
-
 		sprite->setTexture(imagePool[ID]);
 		sprite->setPosition(Argument::asFloat("x",argnew),Argument::asFloat("y",argnew));
 		if(Argument::isArg("tex_width",argnew)&&Argument::isArg("tex_height",argnew))
@@ -144,6 +142,8 @@ namespace divacore
 		if(isExistImage(ID))
 			DIVA_EXCEPTION_MODULE("Image "+ID+" alrealdy exists","DivaDisplay");
 		imagePool[ID] = sora::SoraCore::Ptr->createTexture(file);
+		//!WARNNING no test
+		sora::SoraTextureMap::Instance()->addRf(imagePool[ID]);
 	}
 	void StandardDisplay::unloadImage(const std::string &ID)
 	{
@@ -169,6 +169,7 @@ namespace divacore
 		sora::SoraVlcMoviePlayer *moviePlayer = new sora::SoraVlcMoviePlayer(true);
         if(!moviePlayer->openMedia(file))
 			DIVA_EXCEPTION_MODULE("Video "+file+" loading failed","DivaDisplay");
+
 		sora::SoraSprite *sprite = new sora::SoraSprite();
 		sora::SoraTextureHandle texture = sora::SoraTexture::CreateEmpty(moviePlayer->getWidth(), moviePlayer->getHeight());
 		moviePlayer->bindTexture(texture);

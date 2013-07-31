@@ -51,7 +51,7 @@ namespace divacore
 		{
 			image = new sora::SoraSprite();
 			image->setTexture(source);
-			sora::SoraTextureMap::Instance()->addRf(source);
+			//sora::SoraTextureMap::Instance()->addRf(source);
 			Rect imageRect = config.getAsRect(head+"textureRect");
 			image->setTextureRect(imageRect.x,imageRect.y,imageRect.w,imageRect.h);
 			image->setCenter(imageRect.w/2,imageRect.h/2);
@@ -89,7 +89,7 @@ namespace divacore
 		{
 			image = new sora::SoraSprite();
 			image->setTexture(source);
-			sora::SoraTextureMap::Instance()->addRf(source);
+			//sora::SoraTextureMap::Instance()->addRf(source);
 			imageRect = config.getAsRect(head+"textureRect");
 			image->setTextureRect(imageRect.x,imageRect.y,imageRect.w,imageRect.h);
 			image->setCenter(imageRect.w/2,imageRect.h/2);
@@ -133,9 +133,8 @@ namespace divacore
 		virtual void onConstruct(Config &config, const std::string &head)
 		{
 			image = new sora::SoraSprite();
-			//!DEBUG
 			image->setTexture(source);
-			sora::SoraTextureMap::Instance()->addRf(source);
+			//sora::SoraTextureMap::Instance()->addRf(source);
 			
 
 			imageRect = config.getAsRect(head+"textureRect");
@@ -175,7 +174,8 @@ namespace divacore
 		{
 			image = new sora::SoraSprite();
 			image->setTexture(source);
-			sora::SoraTextureMap::Instance()->addRf(source);
+			//sora::SoraTextureMap::Instance()->addRf(source);
+
 			imageRect = config.getAsRect(head+"textureRect");
 			image->setTextureRect(imageRect.x,imageRect.y,imageRect.w,imageRect.h);
 			image->setCenter(imageRect.w/2,imageRect.h/2);
@@ -222,7 +222,7 @@ namespace divacore
 		void gameStop()
 		{
 			for(SOURCES::iterator ptr = sources.begin(); ptr != sources.end(); ptr++)
-				sora::SoraTextureMap::Instance()->del(ptr->second);
+				sora::SoraTextureMap::Instance()->decRf(ptr->second);
 			//	sora::SoraCore::Ptr->releaseTexture(ptr->second);
 			sources.clear();
 			clear();
@@ -308,7 +308,11 @@ namespace divacore
 		sora::SoraTextureHandle getSource(const std::string &effectName)
 		{
 			if(sources.find(effectName)==sources.end())
-				sources[effectName] =sora::SoraCore::Ptr->createTexture(config.getAsString(effectName+"_"+"image"));
+			{
+				SoraTextureHandle tex = sora::SoraCore::Ptr->createTexture(config.getAsString(effectName+"_"+"image"));
+				sources[effectName] = tex;
+				sora::SoraTextureMap::Instance()->addRf(tex);
+			}
 			return sources[effectName];
 		}
 

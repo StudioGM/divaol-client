@@ -23,6 +23,7 @@ namespace sora {
 		void addRf(const StringType& key);
 		void addRf(SoraTextureHandle tex);
 		void decRf(SoraTextureHandle tex);
+		int getRf(SoraTextureHandle tex);
 		
 		SoraTextureHandle get(const StringType& key);
 		std::string getTexRefInfo() const;

@@ -168,7 +168,7 @@ namespace divacore
 					char msg[255];
 					sprintf(msg,"note_start time:%0.6lf uid:%d",nowTime,t.uid);
 					sora::log_mssg(msg);
-					
+
 					//create note
 					NotePtr note = core->getItemFactory()->createNote(noteInfo);
 					note->setKeyPosition(t.position);

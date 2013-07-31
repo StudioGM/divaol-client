@@ -65,7 +65,7 @@ namespace divacore
 			coreCanvas = new sora::SoraBaseCanvas(gameWidth,gameHeight);
 			innerCanvas = new sora::SoraBaseCanvas(gameWidth,gameHeight);
 			
-			if(preview->getTexture())
+			if(false && preview->getTexture())
 				preview->setScale(double(gameWidth)/preview->getSpriteWidth(),
 				double(gameHeight)/preview->getSpriteHeight());
 			white->setScale(double(gameWidth)/white->getSpriteWidth(),

@@ -124,6 +124,12 @@ namespace sora {
 		}
         if(vlcInstance)
             libvlc_release(vlcInstance);
+
+		//!WARNNING no test
+		if (frameData.dummy != NULL) {
+			free(frameData.dummy);
+			frameData.dummy = NULL;
+		}
     }
     
 	bool SoraVlcMoviePlayer::openMedia()
@@ -183,6 +189,13 @@ namespace sora {
         frameData.videoWidth = 0;
         frameData.videoHeight = 0;
         frameData.pixels = NULL;
+
+		//!WARNNING no test
+		if (frameData.dummy != NULL) {
+			free(frameData.dummy);
+			frameData.dummy = NULL;
+		}
+
         frameData.dummy = malloc(1024*1024*4);
 		
 		frameData.bPaused = frameData.bPlaying = frameData.bChanged = frameData.bStopped = false;
