@@ -253,6 +253,27 @@
     <Filter Include="源文件\lib\CSHA1">
       <UniqueIdentifier>{8070831c-2a43-4133-a1c9-f27266c53fb3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\divapomelo">
+      <UniqueIdentifier>{f7ca47ff-f265-460e-9c9e-8f0a9c937df3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\divapomelo\PomeloCpp">
+      <UniqueIdentifier>{b1c570c7-eef4-4c6c-83e9-3a4385227eed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\divapomelo\diva">
+      <UniqueIdentifier>{245993c6-b4bb-4d7d-94e9-1f4d3e7cce2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\divapomelo\lib">
+      <UniqueIdentifier>{1d7b1dac-f49b-4906-afbd-6f724431084a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\divapomelo\lib\base">
+      <UniqueIdentifier>{702b4fa9-b0f9-4ad5-b26b-c46751b97a8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\divapomelo\lib\CSHA1">
+      <UniqueIdentifier>{44232811-e910-46d2-8b02-3dafa683115d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\divapomelo\lib\json">
+      <UniqueIdentifier>{ee0a5366-28c8-44ae-9679-e089471553a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Hoshizor\Sora\Hoshizora.h">
@@ -2517,6 +2538,195 @@
     <ClInclude Include="Lib\CSHA1\SHA1.h">
       <Filter>源文件\lib\CSHA1</Filter>
     </ClInclude>
+    <ClInclude Include="divapomelo\PomeloCpp\Client.h">
+      <Filter>源文件\divapomelo\PomeloCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\PomeloCpp\Event.h">
+      <Filter>源文件\divapomelo\PomeloCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\PomeloCpp\Json.h">
+      <Filter>源文件\divapomelo\PomeloCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\PomeloCpp\PomeloCpp.h">
+      <Filter>源文件\divapomelo\PomeloCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\PomeloCpp\PreDeclare.h">
+      <Filter>源文件\divapomelo\PomeloCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\PomeloCpp\ReqWrapper.h">
+      <Filter>源文件\divapomelo\PomeloCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\divapomelo\ChatPeer.h">
+      <Filter>源文件\divapomelo\diva</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\divapomelo\Client.h">
+      <Filter>源文件\divapomelo\diva</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\divapomelo\GamePeer.h">
+      <Filter>源文件\divapomelo\diva</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\divapomelo\GateRouter.h">
+      <Filter>源文件\divapomelo\diva</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\divapomelo\LobbyPeer.h">
+      <Filter>源文件\divapomelo\diva</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\divapomelo\NetInfo.h">
+      <Filter>源文件\divapomelo\diva</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\divapomelo\PeerBase.h">
+      <Filter>源文件\divapomelo\diva</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\divapomelo\PeerComp.h">
+      <Filter>源文件\divapomelo\diva</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\divapomelo\PreDefines.h">
+      <Filter>源文件\divapomelo\diva</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\divapomelo\StagePeer.h">
+      <Filter>源文件\divapomelo\diva</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Any.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Base.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Codec\Codec.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Common.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Exception.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Function\Function.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Function\FunctionBase.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Function\FunctionInclude.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Function\FunctionTemplate.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Io\FileUtil.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Io\Path.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Io\Stream.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Logger.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Math.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Net\Net.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Pattern\Observer.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Pattern\Publisher.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Pattern\Singleton.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Platform.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\PreDeclare.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\PreDefine.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Ptr.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Random.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Raw.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\String.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\StringConv.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Sys\Sys.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Sys\SysUtilApple.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Sys\SysUtilLinux.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Sys\SysUtilWin.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Thread\Mutex.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Thread\Queue.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Thread\Thread.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Timer.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Type.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\TypeTraits.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\Base\Uncopyable.h">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\CSHA1\SHA1.h">
+      <Filter>源文件\divapomelo\lib\CSHA1</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\json\autolink.h">
+      <Filter>源文件\divapomelo\lib\json</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\json\config.h">
+      <Filter>源文件\divapomelo\lib\json</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\json\features.h">
+      <Filter>源文件\divapomelo\lib\json</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\json\forwards.h">
+      <Filter>源文件\divapomelo\lib\json</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\json\json.h">
+      <Filter>源文件\divapomelo\lib\json</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\json\json_batchallocator.h">
+      <Filter>源文件\divapomelo\lib\json</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\json\reader.h">
+      <Filter>源文件\divapomelo\lib\json</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\json\value.h">
+      <Filter>源文件\divapomelo\lib\json</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\Lib\json\writer.h">
+      <Filter>源文件\divapomelo\lib\json</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -3683,6 +3893,51 @@
     <ClCompile Include="Lib\CSHA1\SHA1.cpp">
       <Filter>源文件\lib\CSHA1</Filter>
     </ClCompile>
+    <ClCompile Include="divapomelo\divapomelo\PeerComp.cpp">
+      <Filter>源文件\divapomelo\diva</Filter>
+    </ClCompile>
+    <ClCompile Include="divapomelo\divapomelo\PerDefines.cpp">
+      <Filter>源文件\divapomelo\diva</Filter>
+    </ClCompile>
+    <ClCompile Include="divapomelo\Lib\Base\Io\FileUtil.cpp">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClCompile>
+    <ClCompile Include="divapomelo\Lib\Base\Io\Path.cpp">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClCompile>
+    <ClCompile Include="divapomelo\Lib\Base\Io\Stream.cpp">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClCompile>
+    <ClCompile Include="divapomelo\Lib\Base\Logger.cpp">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClCompile>
+    <ClCompile Include="divapomelo\Lib\Base\Math.cpp">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClCompile>
+    <ClCompile Include="divapomelo\Lib\Base\Random.cpp">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClCompile>
+    <ClCompile Include="divapomelo\Lib\Base\String.cpp">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClCompile>
+    <ClCompile Include="divapomelo\Lib\Base\Sys\SysUtilWin.cpp">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClCompile>
+    <ClCompile Include="divapomelo\Lib\Base\Timer.cpp">
+      <Filter>源文件\divapomelo\lib\base</Filter>
+    </ClCompile>
+    <ClCompile Include="divapomelo\Lib\CSHA1\SHA1.cpp">
+      <Filter>源文件\divapomelo\lib\CSHA1</Filter>
+    </ClCompile>
+    <ClCompile Include="divapomelo\Lib\json\json_reader.cpp">
+      <Filter>源文件\divapomelo\lib\json</Filter>
+    </ClCompile>
+    <ClCompile Include="divapomelo\Lib\json\json_value.cpp">
+      <Filter>源文件\divapomelo\lib\json</Filter>
+    </ClCompile>
+    <ClCompile Include="divapomelo\Lib\json\json_writer.cpp">
+      <Filter>源文件\divapomelo\lib\json</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Hoshizor\Sora\json\json_internalarray.inl">
@@ -3735,6 +3990,15 @@
     </None>
     <None Include="Lib\curl\Makefile.in">
       <Filter>源文件\lib\curl</Filter>
+    </None>
+    <None Include="divapomelo\Lib\json\json_internalarray.inl">
+      <Filter>源文件\divapomelo\lib\json</Filter>
+    </None>
+    <None Include="divapomelo\Lib\json\json_internalmap.inl">
+      <Filter>源文件\divapomelo\lib\json</Filter>
+    </None>
+    <None Include="divapomelo\Lib\json\json_valueiterator.inl">
+      <Filter>源文件\divapomelo\lib\json</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -30,6 +30,8 @@
 #include "divacore/Utility/DivaSettings.h"
 #include "Utility/DivaVersion.h"
 
+#include "divapomelo/divapomelo/Client.h"
+
 using namespace diva;
 
 
