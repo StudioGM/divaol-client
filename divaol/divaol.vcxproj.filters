@@ -2538,54 +2538,6 @@
     <ClInclude Include="Lib\CSHA1\SHA1.h">
       <Filter>源文件\lib\CSHA1</Filter>
     </ClInclude>
-    <ClInclude Include="divapomelo\PomeloCpp\Client.h">
-      <Filter>源文件\divapomelo\PomeloCpp</Filter>
-    </ClInclude>
-    <ClInclude Include="divapomelo\PomeloCpp\Event.h">
-      <Filter>源文件\divapomelo\PomeloCpp</Filter>
-    </ClInclude>
-    <ClInclude Include="divapomelo\PomeloCpp\Json.h">
-      <Filter>源文件\divapomelo\PomeloCpp</Filter>
-    </ClInclude>
-    <ClInclude Include="divapomelo\PomeloCpp\PomeloCpp.h">
-      <Filter>源文件\divapomelo\PomeloCpp</Filter>
-    </ClInclude>
-    <ClInclude Include="divapomelo\PomeloCpp\PreDeclare.h">
-      <Filter>源文件\divapomelo\PomeloCpp</Filter>
-    </ClInclude>
-    <ClInclude Include="divapomelo\PomeloCpp\ReqWrapper.h">
-      <Filter>源文件\divapomelo\PomeloCpp</Filter>
-    </ClInclude>
-    <ClInclude Include="divapomelo\divapomelo\ChatPeer.h">
-      <Filter>源文件\divapomelo\diva</Filter>
-    </ClInclude>
-    <ClInclude Include="divapomelo\divapomelo\Client.h">
-      <Filter>源文件\divapomelo\diva</Filter>
-    </ClInclude>
-    <ClInclude Include="divapomelo\divapomelo\GamePeer.h">
-      <Filter>源文件\divapomelo\diva</Filter>
-    </ClInclude>
-    <ClInclude Include="divapomelo\divapomelo\GateRouter.h">
-      <Filter>源文件\divapomelo\diva</Filter>
-    </ClInclude>
-    <ClInclude Include="divapomelo\divapomelo\LobbyPeer.h">
-      <Filter>源文件\divapomelo\diva</Filter>
-    </ClInclude>
-    <ClInclude Include="divapomelo\divapomelo\NetInfo.h">
-      <Filter>源文件\divapomelo\diva</Filter>
-    </ClInclude>
-    <ClInclude Include="divapomelo\divapomelo\PeerBase.h">
-      <Filter>源文件\divapomelo\diva</Filter>
-    </ClInclude>
-    <ClInclude Include="divapomelo\divapomelo\PeerComp.h">
-      <Filter>源文件\divapomelo\diva</Filter>
-    </ClInclude>
-    <ClInclude Include="divapomelo\divapomelo\PreDefines.h">
-      <Filter>源文件\divapomelo\diva</Filter>
-    </ClInclude>
-    <ClInclude Include="divapomelo\divapomelo\StagePeer.h">
-      <Filter>源文件\divapomelo\diva</Filter>
-    </ClInclude>
     <ClInclude Include="divapomelo\Lib\Base\Any.h">
       <Filter>源文件\divapomelo\lib\base</Filter>
     </ClInclude>
@@ -2726,6 +2678,57 @@
     </ClInclude>
     <ClInclude Include="divapomelo\Lib\json\writer.h">
       <Filter>源文件\divapomelo\lib\json</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\PomeloCpp\Client.h">
+      <Filter>源文件\divapomelo\PomeloCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\PomeloCpp\Event.h">
+      <Filter>源文件\divapomelo\PomeloCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\PomeloCpp\Json.h">
+      <Filter>源文件\divapomelo\PomeloCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\PomeloCpp\PomeloCpp.h">
+      <Filter>源文件\divapomelo\PomeloCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\PomeloCpp\PreDeclare.h">
+      <Filter>源文件\divapomelo\PomeloCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\PomeloCpp\ReqWrapper.h">
+      <Filter>源文件\divapomelo\PomeloCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\diva\ChatPeer.h">
+      <Filter>源文件\divapomelo\diva</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\diva\Client.h">
+      <Filter>源文件\divapomelo\diva</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\diva\GamePeer.h">
+      <Filter>源文件\divapomelo\diva</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\diva\GateRouter.h">
+      <Filter>源文件\divapomelo\diva</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\diva\LobbyPeer.h">
+      <Filter>源文件\divapomelo\diva</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\diva\NetInfo.h">
+      <Filter>源文件\divapomelo\diva</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\diva\PeerBase.h">
+      <Filter>源文件\divapomelo\diva</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\diva\PeerComp.h">
+      <Filter>源文件\divapomelo\diva</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\diva\PreDefines.h">
+      <Filter>源文件\divapomelo\diva</Filter>
+    </ClInclude>
+    <ClInclude Include="divapomelo\diva\StagePeer.h">
+      <Filter>源文件\divapomelo\diva</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\Base\Pattern\Publisher.h">
+      <Filter>源文件\lib\base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3893,12 +3896,6 @@
     <ClCompile Include="Lib\CSHA1\SHA1.cpp">
       <Filter>源文件\lib\CSHA1</Filter>
     </ClCompile>
-    <ClCompile Include="divapomelo\divapomelo\PeerComp.cpp">
-      <Filter>源文件\divapomelo\diva</Filter>
-    </ClCompile>
-    <ClCompile Include="divapomelo\divapomelo\PerDefines.cpp">
-      <Filter>源文件\divapomelo\diva</Filter>
-    </ClCompile>
     <ClCompile Include="divapomelo\Lib\Base\Io\FileUtil.cpp">
       <Filter>源文件\divapomelo\lib\base</Filter>
     </ClCompile>
@@ -3937,6 +3934,12 @@
     </ClCompile>
     <ClCompile Include="divapomelo\Lib\json\json_writer.cpp">
       <Filter>源文件\divapomelo\lib\json</Filter>
+    </ClCompile>
+    <ClCompile Include="divapomelo\diva\PeerComp.cpp">
+      <Filter>源文件\divapomelo\diva</Filter>
+    </ClCompile>
+    <ClCompile Include="divapomelo\diva\PerDefines.cpp">
+      <Filter>源文件\divapomelo\diva</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

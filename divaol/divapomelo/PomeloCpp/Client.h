@@ -239,6 +239,9 @@ namespace PomeloCpp
 		void remove(std::string route, message_cb cb) {
 			messagePubs[route] -= cb;
 		}
+		void remove(std::string route) {
+			messagePubs[route].clear();
+		}
 		void remove(connected_cb cb) {
 			_connected_pub -= cb;
 		}

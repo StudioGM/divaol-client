@@ -44,6 +44,7 @@ namespace divanet
 		Waiters waiters;
 	};
 
+#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
 	class StageClient : public Client, public Base::Singleton<StageClient>
 	{
 	public:
@@ -613,6 +614,7 @@ namespace divanet
 	};
 
 #define STAGE_CLIENT (divanet::StageClient::instance())
+#endif
 }
 
 #endif

@@ -16,19 +16,19 @@ namespace divapomelo
 		PeerComp(PeerBase* peer):peer(peer) {
 		}
 
-	protected:
-		virtual void registerEventCallback() {
-		}
-
 		static void defaultRequestHandler(RequestReq& req, int status, Json::Value resp) {
 			if (status == 0)
 				BASE_LOGGER.log("[PeerBase] " + req.route() + " send OK");
 			else
 				BASE_LOGGER.log("[PeerBase] " + req.route() + " send FAIL");
 		}
+	protected:
+		virtual void registerEventCallback() {
+		}
 
 		void request(string route, Json::Value msg, Client::request_cb cb);
 		void on(std::string route, Client::message_cb cb);
+		void remove(std::string route);
 		void notify(std::string route, uint32 code, Json::Value &msg, int status = 0);
 
 		bool isLogin();

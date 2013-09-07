@@ -1,3 +1,5 @@
+#include "divapomelo/diva/Client.h"
+
 #include "MusicUI.h"
 #include "SoraResourceFile.h"
 #include "ui/Config/DivaUIConfig.h"
@@ -1231,7 +1233,11 @@ namespace diva
 				const SongInfo& t= ui->selectedListBox->getSong(i);
 				MAPMGR.SelectedMap_Add(t.mapInfo.id, t.getLevel(), static_cast<divamap::DivaMap::ModeType>(t.mode));
 			}
+#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
 			STAGE_CLIENT.refreshMusic();
+#else
+			POMELO_STAGE_PEER->refreshMusic();
+#endif
 			ui->musicGameState->beginLeave("house");
 			//ui->GameStart(ui->selectedListBox->getSong(0).mapInfo.id, 
 			//	ui->selectedListBox->getSong(0).difIndex, ui->gameMode, 0);

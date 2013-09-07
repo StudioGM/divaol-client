@@ -59,6 +59,8 @@ namespace PomeloCpp
 					return json_false();
 			case Json::stringValue:
 				return json_string(value.asCString());
+			case Json::uintValue:
+				return json_integer(value.asUInt());
 			case Json::intValue:
 				return json_integer(value.asInt());
 			case Json::realValue:

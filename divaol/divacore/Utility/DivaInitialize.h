@@ -1,6 +1,10 @@
 #ifndef DIVA_INITIALIZER
 #define DIVA_INITIALIZER
 
+#include "Mode/DivaMultiplay.h"
+#include "Mode/DivaPairPlay.h"
+#include "Mode/DivaRelayPlay.h"
+
 #include "Core/DivaCore.h"
 #include "State/DivaCorePlayState.h"
 //#include "State/DivaCoreLoadState.h"
@@ -27,9 +31,6 @@
 #include "State/DivaNetLoader.h"
 //#include "Network/DivaNetUnsync.h"
 #include "Mode/DivaSinglePlay.h"
-#include "Mode/DivaMultiplay.h"
-#include "Mode/DivaPairPlay.h"
-#include "Mode/DivaRelayPlay.h"
 #include "Mode/DivaEditMode.h"
 #include "MusicManager/DivaFmodMusicManager.h"
 //#include "MusicManager/DivaXAudioMusicManager.h"
@@ -66,7 +67,7 @@ namespace divacore
 				core->registerUIPainter(new divacore::SimpleUIPainter);
 				core->registerGameModule(new divacore::JsonGameModule);
 				//core->registerNetworkSystem(new divacore::EnetSystem);
-				core->registerNetworkSystem(STAGE_CLIENT.getSys());
+				//core->registerNetworkSystem(STAGE_CLIENT.getSys());
 				core->registerEvaluateStrategy(new divacore::CommonEvaluateStrategy);
 				core->registerEffectSystem(new divacore::HDEffectSystem);
 			}

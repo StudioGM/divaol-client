@@ -56,6 +56,7 @@ namespace divacore
 	};
 	typedef std::vector<TeamInfo> TEAMS;
 
+#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
 	class NetGameInfo
 	{
 	public:
@@ -78,6 +79,30 @@ namespace divacore
 		virtual void updateTeamInfo();
 		void setConfig(const std::string &configFile);
 	};
+#else
+	class NetGameInfo
+	{
+	public:
+		typedef std::map<std::string,int32> UID_MAP;
+
+		Config mConfig;
+		int myTeamID, myPlayerID;
+		TEAMS mTeams; //所有队伍的基本信息
+		PLAYERS mPlayers; // 所有玩家的信息
+		TeamInfo *myTeamPtr; //本机所属的队伍信息
+		PlayerInfo *myPlayerPtr; //本机所属的玩家信息
+		UID_MAP mUidMap;
+
+		MultiPlay *mOwner;
+			
+		void setOwner(MultiPlay *owner) {mOwner=owner;}
+		virtual void newGame(Json::Value &msg);
+		virtual void updateInfoFromPacket(Json::Value &msg);
+		virtual void update(float dt);
+		virtual void updateTeamInfo();
+		void setConfig(const std::string &configFile);
+	};
+#endif
 
 	class MultiGameInfo : public NetGameInfo
 	{
@@ -85,6 +110,7 @@ namespace divacore
 		void newGame(GPacket *packet);
 	};
 
+#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
 	class MultiPlay : public SinglePlay
 	{
 	protected:
@@ -167,5 +193,85 @@ namespace divacore
 		void noteOver();
 	};
 }
+#else
+	class MultiPlay : public SinglePlay
+	{
+	protected:
+		static const int CONNECT_WAIT_TIME = 5000;
+		static const int FAILURE_WAIT_TIME = 1000;
+
+		int mBaseState;
+
+		NetGameInfo *mInfo;
+
+		sora::SoraText mText;
+		sora::SoraMutex mutex;
+	public:
+		/*CONNECT为等待连接状态
+		 GET_INFO为连接成功等待服务器信息状态
+		 READY为准备完成等待其他玩家状态
+		 PLAY表示游戏进行
+		 FAILURE表示连接失败等待中
+		 FULL表示服务器已满*/
+		enum{CONNECTING,GET_INFO,READY,PLAY,FAILED,FAILURE,FULL,OVER};
+
+		MultiPlay():mInfo(0) {}
+
+		void setBaseState(int state) {sora::SoraMutexGuard lock(mutex);mBaseState=state;}
+		int getBaseState() {sora::SoraMutexGuard lock(mutex);return mBaseState;}
+		
+		virtual void registerNetworkEvent();
+		NetGameInfo* getGlobalInfo() {return mInfo;}
+		virtual int getTeamID() {return mInfo->myTeamID;}
+		virtual int getPlayerID() {return mInfo->myPlayerID;}
+		virtual TEAMS& getTeamInfo() {return mInfo->mTeams;}
+		virtual PLAYERS& getPlayerInfo() {return mInfo->mPlayers;}
+		virtual TeamInfo* getMyTeamInfo() {return mInfo->myTeamPtr;}
+		virtual PlayerInfo* getMyPlayerInfo() {return mInfo->myPlayerPtr;}
+		PlayerInfo* getSpecificPlayerInfo(const std::string uid);
+
+		virtual std::string getName() {return "multiPlay";}
+		virtual std::string getNetGameMode() {return "normal";}
+
+		virtual void inform(StateEvent& event);
+		
+		virtual void init() ;
+
+		virtual void gameReset();
+
+		virtual void gameStop();
+
+		virtual void gameOver();
+
+		virtual void setMyInfo(Config &config);
+
+		virtual void setMyInfo(const std::string &configFile);
+
+		virtual void gameLoad(const std::string &configFile);
+
+		//virtual void gameLoadUnsync(const std::string &configFile);
+
+		virtual void gameStart();
+
+		virtual void update(float dt);
+
+		virtual void afterUpdateInfo() {}
+
+		/*Pomelo Event&Request Begin*/
+		void onHeartbeat(Json::Value &msg);
+		/*Pomelo Event&Request End*/
+
+		void sendInfo();
+
+		void render();
+
+		void preStart();
+
+		void preEvaluate();
+
+		void noteOver();
+	};
+}
+#endif
 
 #endif

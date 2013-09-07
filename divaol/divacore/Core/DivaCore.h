@@ -253,7 +253,9 @@ namespace divacore
 	#define UI_PAINTER_PTR (divacore::Core::Ptr->getUIPainter())
 	#define GAME_MODULE_PTR (divacore::Core::Ptr->getGameModule())
 	#define EFFECT_SYSTEM_PTR (divacore::Core::Ptr->getEffectSystem())
+#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
 	#define NETWORK_SYSTEM_PTR (divacore::Core::Ptr->getNetworkSystem())
+#endif
 	#define EVALUATE_STRATEGY_PTR (divacore::Core::Ptr->getEvaluateStrategy())
 }
 

@@ -7,6 +7,7 @@
  */
 
 #define DIVA_GNET_OPEN
+#define DIVA_USE_POMELO
 
 #ifndef DIVA_NETWORK_MANAGER
 #define DIVA_NETWORK_MANAGER

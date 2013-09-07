@@ -5,6 +5,8 @@
  *  Copyright 2012 Hyf042. All rights reserved.
  *
  */
+#include "divapomelo/diva/Client.h"
+
 #include "DivaSimpleUI.h"
 #include "Utility/DivaConfigLoader.h"
 #include "json/json.h"
@@ -1232,7 +1234,11 @@ namespace divacore
 
 				player->hpBar->setColor(Player::TEAM_COLOR[players[i].teamIndex]);
 				player->setPosition(width,height);
+#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
 				player->setName(STAGE_CLIENT.waiterInfo(players[i].uid).nickname);
+#else
+				player->setName(POMELO_STAGE_PEER->waiterInfo(players[i].uid).nickname);
+#endif
 				player->setInfo(0,0,0.5);
 				player->flushOnly();
 				player->flush();

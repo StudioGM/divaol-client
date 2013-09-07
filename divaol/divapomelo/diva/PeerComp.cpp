@@ -10,6 +10,10 @@ namespace divapomelo {
 		peer->on(route, cb);
 	}
 
+	void PeerComp::remove(std::string route) {
+		peer->remove(route);
+	}
+
 	void PeerComp::notify(std::string route, uint32 code, Json::Value &msg, int status) {
 		peer->notify(route, code, &msg, status);
 	}

@@ -17,7 +17,10 @@ namespace divapomelo
 		void on(std::string route, PomeloCpp::Client::message_cb cb) {
 			PeerComp::on(route, cb);
 		}
-		void push(string route, Json::Value msg, PomeloCpp::Client::request_cb cb) {
+		void remove(std::string route) {
+			PeerComp::remove(route);
+		}
+		void push(string route, Json::Value msg = Json::Object(), PomeloCpp::Client::request_cb cb = defaultRequestHandler) {
 			PeerComp::request(route, msg, cb);
 		}
 

@@ -29,6 +29,7 @@ namespace divanet
 	};
 	typedef std::vector<RoomInfo> RoomInfos;
 
+#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
 	class SchedulerClient : public Client, public Base::Singleton<SchedulerClient>
 	{
 	public:
@@ -136,6 +137,7 @@ namespace divanet
 	};
 
 #define SCHEDULER_CLIENT (divanet::SchedulerClient::instance())
+#endif
 }
 
 #endif

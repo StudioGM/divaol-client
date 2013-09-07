@@ -27,7 +27,8 @@ namespace divanet
 			Base::String command = content(1,-1);
 			if(command == L"ping")
 			{
-				AUTH_CLIENT.ping();
+				//!FIXME
+				//AUTH_CLIENT.ping();
 				return true;
 			}
 			return false;

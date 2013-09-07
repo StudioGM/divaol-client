@@ -27,7 +27,7 @@ namespace divacore
 		DefaultInfo() {setDefaultInfo();}
 		//void getDefaultFile() {return "default"}
 		void setDefaultInfo();
-		std::string getDefaultFile() {return "default";}
+		std::string getDefaultFile() {return "__default__";}
 		std::string getAsString(const std::string &key) {return config.getAsString(key);}
 		int getAsInt(const std::string &key) {return config.getAsInt(key);}
 		double getAsDouble(const std::string &key) {return config.getAsDouble(key);}

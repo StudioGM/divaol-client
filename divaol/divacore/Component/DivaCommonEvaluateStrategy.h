@@ -9,8 +9,8 @@
 #ifndef DIVA_COMMON_EVALUATE_STRATEGY
 #define DIVA_COMMON_EVALUATE_STRATEGY
 
-#include "Core/DivaEvaluateStrategy.h"
 #include "Component/DivaSimpleUIPainter.h"
+#include "Core/DivaEvaluateStrategy.h"
 #include "Utility/DivaConfigLoader.h"
 #include "divanetwork/DivaNetInfo.h"
 

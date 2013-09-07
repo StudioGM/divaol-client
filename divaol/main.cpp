@@ -30,7 +30,7 @@
 #include "divacore/Utility/DivaSettings.h"
 #include "Utility/DivaVersion.h"
 
-#include "divapomelo/divapomelo/Client.h"
+//#include "divapomelo/divapomelo/Client.h"
 
 using namespace diva;
 
@@ -54,10 +54,12 @@ int CALLBACK WinMain(
 		divanet::NetworkManager::instance().init();
 		//divanet::NetworkManager::instance().setScheduler(new divanet::TCPGNetworkSystem);
 		//divanet::NetworkManager::instance().setCore(new divanet::TCPGNetworkSystem);
+#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
 		AUTH_CLIENT.setNetworkSystem(new divanet::TCPGNetworkSystem);
 		CHAT_CLIENT.setNetworkSystem(new divanet::TCPGNetworkSystem);
 		SCHEDULER_CLIENT.setNetworkSystem(new divanet::TCPGNetworkSystem);
 		STAGE_CLIENT.setNetworkSystem(new divanet::TCPGNetworkSystem);
+#endif
 
 		Base::Random::SetRandomSeed((uint32)time(0));
 		sora::SoraCore::SetRandomSeed((uint32)time(0));

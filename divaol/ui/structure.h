@@ -59,6 +59,7 @@ namespace Network
 	{
 		int playerNum;
 		int maxPlayerNum;
+		std::string stageId;
 		std::wstring ownerID;
 		std::wstring ownerNickname;
 		std::wstring stageName;

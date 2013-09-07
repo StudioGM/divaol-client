@@ -3,6 +3,7 @@
 
 #include "PreDefines.h"
 #include "LobbyPeer.h"
+#include "divasongmgr/DivaMapManager.h"
 
 namespace divapomelo
 {
@@ -10,12 +11,12 @@ namespace divapomelo
 
 	struct WaiterInfo {
 		enum State{LEAVE,READY,UNREADY};
-		int uid;
+		std::string uid;
 		Base::String nickname;
 		uint32 status;
 		uint32 color;
 		uint32 slot;
-		WaiterInfo():uid(0) {}
+		WaiterInfo():uid("0") {}
 	};
 	struct SongInfo {
 		int songId;
@@ -30,7 +31,7 @@ namespace divapomelo
 		enum State{STAGE,GAME};
 		uint32 capacity;
 		int64 hooks;
-		int ownerId;
+		std::string ownerId;
 		std::string id;
 		std::string mode;
 		SongList song;
@@ -45,6 +46,7 @@ namespace divapomelo
 
 		StagePeer(PeerBase *peer):PeerComp(peer) {
 			state = OUTSIDE;
+			isStage = isReady = isOwner = isGame = false;
 		}
 
 		/*
@@ -58,7 +60,7 @@ namespace divapomelo
 				return;
 			}
 
-			request(RequestCode[PUSH_LOBBY_CREATESTAGE],
+			request(EventCode[PUSH_LOBBY_CREATESTAGE],
 				Json::Object(),
 				[&](RequestReq &req, int status, Json::Value resp) {
 					if (status == 0) {
@@ -79,7 +81,7 @@ namespace divapomelo
 				return;
 			}
 
-			request(RequestCode[PUSH_LOBBY_JOINSTAGE],
+			request(EventCode[PUSH_LOBBY_JOINSTAGE],
 				Json::Object("stageId", stageId),
 				[&](RequestReq &req, int status, Json::Value resp) {
 					if (status == 0) {
@@ -100,20 +102,31 @@ namespace divapomelo
 				return;
 			}
 
-			request(RequestCode[PUSH_LOBBY_LEAVESTAGE],
+			request(EventCode[PUSH_LOBBY_LEAVESTAGE],
 				Json::Object(),
 				[&](RequestReq &req, int status, Json::Value resp) {
 					if (status == 0) {
 						isStage = false;
 						isReady = isOwner = false;
+						state = OUTSIDE;
 					}
 
 					notify(req.route(), PUSH_LOBBY_LEAVESTAGE, resp, status);
 			});
 		}
 		// owner request
-		void kick(int uid) {
-			return;
+		void kick(std::string uid) {
+			if (!isInStage()) {
+				BASE_LOGGER.log_warning(__FUNCTION__ + std::string(" not in stage!"));
+				return;
+			}
+			if (getState() == STAGE && owner()) {
+				request(EventCode[PUSH_STAGE_KICK],
+					Json::Object(
+						"uid", uid
+					),
+					defaultRequestHandler);
+			}
 		}
 		void setSong(const SongList &songList) {
 			if (!isInStage()) {
@@ -132,7 +145,9 @@ namespace divapomelo
 				}
 
 				request(EventCode[PUSH_STAGE_SETSONG],
-					list,
+					Json::Object(
+						"song", list
+					),
 					defaultRequestHandler);
 			}
 		}
@@ -142,7 +157,7 @@ namespace divapomelo
 				return;
 			}
 			if (getState() == STAGE && owner()) {
-				request(EventCode[PUSH_STAGE_DRAW],
+				request(EventCode[PUSH_STAGE_SETMODE],
 					Json::Object(
 						"mode", mode
 					),
@@ -155,7 +170,7 @@ namespace divapomelo
 				return;
 			}
 			if (getState() == STAGE && owner()) {
-				request(EventCode[PUSH_STAGE_DRAW],
+				request(EventCode[PUSH_STAGE_SETHOOK],
 					Json::Object(
 					"hook", Base::String::any2string(hooks).asAnsi()
 					),
@@ -217,6 +232,25 @@ namespace divapomelo
 					defaultRequestHandler);
 			}
 		}
+		void back() {
+			if (!isPlaying()) {
+				BASE_LOGGER.log_warning(__FUNCTION__ + std::string(" not playing!"));
+				return;
+			}
+
+			request(EventCode[PUSH_GAME_BACK],
+				Json::Object(),
+				[&](RequestReq &req, int status, Json::Value resp) {
+					if (status == 0) {
+						isGame = false;
+						state = STAGE;
+					}
+					notify(req.route(), PUSH_GAME_BACK, resp, status);
+			});
+		}
+		void returnToStage(std::string reason) {
+			//notify("return", ON_STAGE_RETURN, NULL, 0);
+		}
 
 	private:
 				/*
@@ -227,7 +261,7 @@ namespace divapomelo
 				return;
 
 			Json::Value& msg = req.msg();
-			SongList newSong = _parseSongList(msg);
+			SongList newSong = _parseSongList(msg["song"]);
 
 			if (!_compareSongList(newSong, info.song)) {
 				info.song = newSong;
@@ -257,32 +291,32 @@ namespace divapomelo
 				return;
 
 			Json::Value& msg = req.msg();
-			int index = _findPlayer(msg["player"]["uid"].asInt());
+			int index = _findPlayer(msg["player"]["uid"].asString());
 			if (index < 0) return;
 			info.waiters[index].color = msg["color"].asInt();
 
-			notify(req.route(), ON_STAGE_READY, msg);
+			notify(req.route(), ON_STAGE_DRAW, msg);
 		}
 		void onReady(MessageReq& req) {
 			if(getState()!=STAGE)
 				return;
 
 			Json::Value& msg = req.msg();
-			int index = _findPlayer(msg["player"]["uid"].asInt());
+			int index = _findPlayer(msg["player"]["uid"].asString());
 			if (index < 0) return;
 			info.waiters[index].status = WaiterInfo::READY;
 
 			if(isMe(index))
 				isReady = true;
 
-			notify(req.route(), ON_STAGE_DRAW, msg);
+			notify(req.route(), ON_STAGE_READY, msg);
 		}
 		void onUnready(MessageReq& req) {
 			if(getState()!=STAGE)
 				return;
 
 			Json::Value& msg = req.msg();
-			int index = _findPlayer(msg["player"]["uid"].asInt());
+			int index = _findPlayer(msg["player"]["uid"].asString());
 			if (index < 0) return;
 			info.waiters[index].status = WaiterInfo::UNREADY;
 
@@ -297,9 +331,9 @@ namespace divapomelo
 
 			Json::Value& msg = req.msg();
 			int index = msg["slot"].asInt();
-			info.waiters[index].uid = msg["player"]["uid"].asInt();
+			info.waiters[index].uid = msg["player"]["uid"].asString();
 			info.waiters[index].color = 0;
-			info.waiters[index].nickname = msg["player"]["nickname"].asString();
+			info.waiters[index].nickname = Base::String::unEscape(msg["player"]["nickname"].asString());
 			info.waiters[index].status = WaiterInfo::UNREADY;
 
 			notify(req.route(), ON_STAGE_JOIN, msg);
@@ -310,7 +344,7 @@ namespace divapomelo
 
 			Json::Value& msg = req.msg();
 			int index = msg["slot"].asInt();
-			info.waiters[index].uid = 0;
+			info.waiters[index].uid = "0";
 			info.waiters[index].color = 0;
 			info.waiters[index].nickname = "";
 			info.waiters[index].status = WaiterInfo::LEAVE;
@@ -324,22 +358,56 @@ namespace divapomelo
 			notify(req.route(), ON_STAGE_CLOSE, req.msg());
 		}
 		void onAllInfo(MessageReq& req) {
-			_refreshStageInfo(req.msg());
+			Json::Value &msg = req.msg();
+
+			_refreshStageInfo(msg);
+			notify(EventCode[ON_STAGE_ALLINFO], ON_STAGE_ALLINFO, msg);
 		}
 		void onStart(MessageReq& req) {
-			state = GAME;
-			notify(req.route(), ON_STAGE_CLOSE, req.msg());
+			Json::Value &msg = req.msg();
+			if (msg["flag"].asBool()) {
+				state = GAME;	
+				isGame = true;
+			}
+			notify(req.route(), ON_STAGE_START, msg);
 		}
 		void onReturn(MessageReq& req) {
-			if (getState() == GAME) {
+			if (getState() == GAME)
 				state = STAGE;
-			}
+			if (isGame)
+				isGame = false;
 
 			Json::Value &msg = req.msg();
-			if (getState() == STAGE)
+			if (getState() == STAGE) {
 				_refreshStageInfo(msg["info"]);
+
+				if (msg["phase"] == "over") {
+					if (owner())
+					{
+						if(info.song.size()>0)
+						{
+							// remove the first song(just play)
+							info.song.erase(info.song.begin());
+							// update map manager
+							MAPMGR.SelectedMap_Clear();
+							for(int i = 0; i < info.song.size(); i++)
+								MAPMGR.SelectedMap_Add(info.song[i].songId, static_cast<divamap::DivaMap::LevelType>(info.song[i].level), static_cast<divamap::DivaMap::ModeType>(info.song[i].mode));
+							// notify ui
+							notify(divapomelo::EventCode[divapomelo::LOCAL_UPDATE_SONG_UI], divapomelo::LOCAL_UPDATE_SONG_UI, Json::Value());
+							// send msg to server
+							setSong(info.song);
+						}
+					}
+				}
 			
-			notify(req.route(), ON_STAGE_CLOSE, msg);
+				notify(req.route(), ON_STAGE_RETURN, msg);
+			}
+		}
+		void onKick(MessageReq& req) {
+			if(getState()!=STAGE)
+				return;
+
+			notify(req.route(), ON_STAGE_KICK, req.msg());
 		}
 
 	public:
@@ -360,7 +428,7 @@ namespace divapomelo
 			return count;
 		}
 		const WaiterInfo& myInfo() const {return info.waiters[myIndex];}
-		const WaiterInfo& waiterInfo(int uid) const {
+		const WaiterInfo& waiterInfo(std::string uid) const {
 			for(Waiters::const_iterator ptr = info.waiters.begin(); ptr != info.waiters.end(); ptr++)
 				if(ptr->uid == uid)
 					return *ptr;
@@ -370,13 +438,30 @@ namespace divapomelo
 		const StageInfo& getInfo() const {return info;}
 		const std::string &getRoomID() const {return info.id;}
 
+		void refreshMusic() {
+			if(state==STAGE) {
+				if(owner()) {
+					SongList songList;
+					for(int i = 0; i < MAPMGR.GetSelectedMaps().size(); i++)
+						songList.push_back(SongInfo(MAPMGR.GetSelectedMaps()[i].id, MAPMGR.GetSelectedMaps()[i].level, MAPMGR.GetSelectedMaps()[i].mode));
+					setSong(songList);
+				}
+				else {
+					MAPMGR.SelectedMap_Clear();
+					for(int i = 0; i < info.song.size(); i++)
+						MAPMGR.SelectedMap_Add(info.song[i].songId, static_cast<divamap::DivaMap::LevelType>(info.song[i].level), static_cast<divamap::DivaMap::ModeType>(info.song[i].mode));
+				}
+			}
+		}
+
 	private:
 		/*
 		 * Utilities
 		 */
 		void _refreshStageInfo(Json::Value msg) {
+			cout << Json::FastWriter().write(msg) << endl;
 			info.id = msg["id"].asString();
-			info.ownerId = msg["owner"]["uid"].asInt();
+			info.ownerId = msg["owner"]["uid"].asString();
 			info.capacity = msg["capacity"].asInt();
 			info.song = _parseSongList(msg["data"]["song"]);
 			info.mode = msg["data"]["mode"].asString();
@@ -394,8 +479,8 @@ namespace divapomelo
 				else {
 					waiter.status = (slot["stat"].asInt() == STAGE_USER_STAT_READY)
 						?WaiterInfo::READY:WaiterInfo::UNREADY;
-					waiter.nickname = slot["player"]["nickname"].asString();
-					waiter.uid = slot["player"]["uid"].asInt();
+					waiter.nickname = Base::String::unEscape(slot["player"]["nickname"].asString());
+					waiter.uid = slot["player"]["uid"].asString();
 					waiter.color = slot["color"].asInt();
 					waiter.slot = slot["slot"].asInt();
 					
@@ -409,7 +494,6 @@ namespace divapomelo
 			}
 
 			state = info.status == StageInfo::STAGE?STAGE:GAME;
-			notify(EventCode[ON_STAGE_ALLINFO], ON_STAGE_ALLINFO, msg);
 		}
 		SongList _parseSongList(Json::Value song) {
 			SongList newSong;
@@ -427,7 +511,7 @@ namespace divapomelo
 					return false;
 			return true;
 		}
-		int32 _findPlayer(int uid) {
+		int32 _findPlayer(std::string uid) {
 			for(int i = 0; i < info.waiters.size(); i++)
 				if(info.waiters[i].uid == uid) {
 					return i;
@@ -450,6 +534,7 @@ namespace divapomelo
 			on(EventCode[ON_STAGE_ALLINFO], Base::Bind(this, &StagePeer::onAllInfo));
 			on(EventCode[ON_STAGE_START], Base::Bind(this, &StagePeer::onStart));
 			on(EventCode[ON_STAGE_RETURN], Base::Bind(this, &StagePeer::onReturn));
+			on(EventCode[ON_STAGE_KICK], Base::Bind(this, &StagePeer::onKick));
 		}
 
 	private:

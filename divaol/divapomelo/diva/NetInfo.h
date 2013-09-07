@@ -29,7 +29,7 @@ namespace divapomelo
 
 		std::string username;
 		Base::String nickname;
-		int uid;
+		std::string uid;
 
 		static const int TIME_OUT = 20;
 		static const int TICK_TIME = 1;

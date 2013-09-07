@@ -14,7 +14,7 @@ namespace divapomelo
 	{
 		friend class PeerComp;
 	public:
-		typedef Base::Function<void(PeerBase*, int status)> MessageCB;
+		typedef Base::Function<void(PeerBase*, int status, Json::Value msg)> MessageCB;
 		typedef std::shared_ptr<PeerComp> PeerCompPtr;
 		enum Status {IDLE, GATE, CONNECTING, CONNECTED, AUTH, LOGIN};
 
@@ -31,7 +31,6 @@ namespace divapomelo
 		MessageCB onCloseCb;
 		MessageCB onConnectCb;
 		MessageCB onLoginCb;
-		MessageCB onRegisterCb;
 
 	public:
 		PeerBase() : islogin(false), status(IDLE) {
@@ -69,6 +68,9 @@ namespace divapomelo
 
 			client->connect();
 		}
+		void disconnect() {
+			_close();
+		}
 
 		void login(Base::String username, Base::String password) {
 			if (status != CONNECTED)
@@ -93,136 +95,22 @@ namespace divapomelo
 			client->work(time);
 		}
 
-		//void getStageList() {
-		//	client->request("lobby.lobbyHandler.getStageList", 
-		//		Json::Object(), 
-		//		[](RequestReq& req, int status, Json::Value resp) {
-		//			cout << Json::FastWriter().write(resp) << endl;
-		//		});
-		//}
-
-		//void createStage() {
-		//	client->request("lobby.lobbyHandler.createStage", 
-		//		Json::Object(), 
-		//		[](RequestReq& req, int status, Json::Value resp) {
-		//			cout << "Stage Create" << endl;
-		//		});
-		//}
-
-		//void leaveStage() {
-		//	client->request("lobby.lobbyHandler.leaveStage",
-		//		Json::Object(),
-		//		[](RequestReq& req, int status, Json::Value resp) {
-		//			if (status == 0)
-		//				cout << "Stage Leave OK" << endl;
-		//			else
-		//				cout << "Stage Leave Fail" << endl;
-		//		});
-		//}
-
-		//void joinStage(std::string id) {
-		//	client->request("lobby.lobbyHandler.joinStage",
-		//		Json::Object("stageId", id),
-		//		[](RequestReq& req, int status, Json::Value resp) {
-		//			if (status == 0)
-		//				cout << "Join Successful!" << endl;
-		//			else
-		//				cout << "Join Failed " + ((status==1)?resp.asString():std::string("")) << endl;
-		//		});
-		//}
-
-		//void kick(int uid) {
-		//	client->request("lobby.lobbyHandler.kick",
-		//		Json::Object("uid", uid),
-		//		[](RequestReq& req, int status, Json::Value resp) {
-		//			if (status == 0) {
-		//				if (resp["code"].asInt() == 200)
-		//					cout << "Kick Successful!" << endl;
-		//				else
-		//					cout << "Kick Failed " + resp.asString() << endl;
-		//			}
-		//		});
-		//}
-
-		//void getStageAllInfo() {
-		//	client->request("lobby.stageHandler.getAllInfo",
-		//		Json::Object(),
-		//		[](RequestReq& req, int status, Json::Value resp) {
-		//			cout << Json::FastWriter().write(resp) << endl;
-		//		});
-		//}
-
-		//void linkToGame() {
-		//	client->request("game.gameHandler.link",
-		//		Json::Object(),
-		//		[](RequestReq& req, int status, Json::Value resp) {
-		//			if (status == 0)
-		//				cout << "Link to game OK, info: " << endl << Json::FastWriter().write(resp) << endl;
-		//			else
-		//				cout << "Link to game FAIL" << endl;
-		//		});
-		//}
-
-		//void back() {
-		//	client->request("game.gameHandler.back",
-		//		Json::Object(),
-		//		[](RequestReq& req, int status, Json::Value resp) {
-		//			if (status == 0)
-		//				cout << "Back to stage OK" << endl;
-		//			else
-		//				cout << "Back to stage FAIL" << endl;
-		//		});
-		//}
-
-		//void draw(int color) {
-		//	client->request("lobby.stageHandler.draw",
-		//		Json::Object("color", color),
-		//		[](RequestReq& req, int status, Json::Value resp) {
-		//			if (status == 0)
-		//				cout << Json::FastWriter().write(resp) << endl;
-		//		});
-		//}
-
-		//void ready(bool flag) {
-		//	client->request("lobby.stageHandler.ready",
-		//		Json::Object("flag", flag),
-		//		[](RequestReq& req, int status, Json::Value resp) {
-		//			if (status == 0)
-		//				cout << "Ready OK" << endl;
-		//	});
-		//}
-
-		//void start() {
-		//	client->request("lobby.stageHandler.start",
-		//		Json::Object(),
-		//		[](RequestReq& req, int status, Json::Value resp) {
-		//			if (status == 0)
-		//				cout << "Start OK" << endl;
-		//	});
-		//}
-
-		//void getGameInfos() {
-		//	client->request("game.gameHandler.currentInfo",
-		//		Json::Object(),
-		//		[](RequestReq& req, int status, Json::Value resp) {
-		//			if (status == 0)
-		//				cout << Json::FastWriter().write(resp) << endl;
-		//	});
-		//}
-
 		// Utility
-		void on(std::string route, MessageCB cb) {
-			if (route == "close")
+		void onState(std::string route, MessageCB cb) {
+			if (route == EventCode[ON_CLOSE])
 				onCloseCb = cb;
-			else if (route == "login")
+			else if (route == EventCode[ON_LOGIN])
 				onLoginCb = cb;
-			else if (route == "connect")
+			else if (route == EventCode[ON_CONNECT])
 				onConnectCb = cb;
 		}
 		void on(std::string route, Client::message_cb cb) {
 			client->on(route, cb);
 		}
-		void removeMessage(std::string route, Client::message_cb cb) {
+		void remove(std::string route) {
+			client->remove(route);
+		}
+		void remove(std::string route, Client::message_cb cb) {
 			client->remove(route, cb);
 		}
 		void request(string route, Json::Value msg, Client::request_cb cb) {
@@ -239,6 +127,10 @@ namespace divapomelo
 		bool isConnect() const {
 			return status > CONNECTING;
 		}
+		bool isConnecting() const {
+			return status == CONNECTED || status == GATE;
+		}
+		bool isIdle() const {return status == IDLE;}
 		bool isLogin() const {return islogin;}
 
 		void registerComp(std::shared_ptr<PeerComp> peerComp) {
@@ -277,7 +169,7 @@ namespace divapomelo
 				this->status = IDLE;
 
 				if (onConnectCb)
-					onConnectCb(this, -1);
+					onConnectCb(this, -1, NULL);
 			}
 		}
 
@@ -291,7 +183,7 @@ namespace divapomelo
 			}
 
 			if (onConnectCb)
-				onConnectCb(this, status);
+				onConnectCb(this, status, NULL);
 		}
 
 		void onClose(MessageReq& req) {
@@ -304,25 +196,25 @@ namespace divapomelo
 				this->status = LOGIN;
 
 				userInfo.username = resp["username"].asString();
-				userInfo.nickname = resp["nickname"].asString();
-				userInfo.uid = resp["uid"].asInt();
+				userInfo.nickname = Base::String::unEscape(resp["nickname"].asString());
+				userInfo.uid = resp["uid"].asString();
 
 				islogin = true;
 
 				if (onLoginCb)
-					onLoginCb(this, 0);
+					onLoginCb(this, 0, resp);
 			}
 			else {
 				BASE_LOGGER.log("[PeerBase] login unknown error");
 				_close();
 
 				if (onLoginCb)
-					onLoginCb(this, status);
+					onLoginCb(this, status, resp);
 			}
 		}
 
 		void _close() {
-			if (islogin) {
+			if (islogin || client->isConnected()) {
 				BASE_LOGGER.log("[PeerBase] close");
 				islogin = false;
 				status = IDLE;
@@ -331,7 +223,7 @@ namespace divapomelo
 				peerComps.clear();
 
 				if (onCloseCb)
-					onCloseCb(this, 0);
+					onCloseCb(this, 0, NULL);
 			}
 		}
 	};
