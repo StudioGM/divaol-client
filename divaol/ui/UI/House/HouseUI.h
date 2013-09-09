@@ -114,13 +114,13 @@ namespace diva
 			void attachObserver();
 			void detachObserver();
 			void _onRefreshStageInfo();
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 			void observer_auth(divanet::Notification);
 			void observer_chat(divanet::Notification);
 			void observer_scheduler(divanet::Notification);
 			void observer_stage(divanet::Notification);
 #endif
-			void observer_pomelo(divanet::Notification);
+			void observer_pomelo(Base::Notification);
 			//void gnet_login(divanet::GPacket *packet);
 			std::string roomId;
 

@@ -571,8 +571,13 @@ namespace diva
 
 			if (myRank)
 			{
+#if defined(DIVA_USE_GNET)
 				MAPMGR.PrepareRecordByUser(item->getMapInfo().id, item->getMapInfo().getLevel(item->getDifIndex()),
 					Base::String(divanet::NetInfo::instancePtr()->username).unicode_str());
+#else
+				MAPMGR.PrepareRecordByUser(item->getMapInfo().id, item->getMapInfo().getLevel(item->getDifIndex()),
+					Base::String(POMELO_USER_INFO.username).unicode_str());
+#endif
 			}
 		}
 
@@ -1233,7 +1238,7 @@ namespace diva
 				const SongInfo& t= ui->selectedListBox->getSong(i);
 				MAPMGR.SelectedMap_Add(t.mapInfo.id, t.getLevel(), static_cast<divamap::DivaMap::ModeType>(t.mode));
 			}
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET) && !defined(DIVA_USE_POMELO)
 			STAGE_CLIENT.refreshMusic();
 #else
 			POMELO_STAGE_PEER->refreshMusic();

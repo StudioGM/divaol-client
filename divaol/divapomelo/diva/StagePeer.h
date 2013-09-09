@@ -45,7 +45,7 @@ namespace divapomelo
 		enum StageState{OUTSIDE, STAGE, GAME};
 
 		StagePeer(PeerBase *peer):PeerComp(peer) {
-			state = OUTSIDE;
+			//state = OUTSIDE;
 			isStage = isReady = isOwner = isGame = false;
 		}
 
@@ -108,7 +108,7 @@ namespace divapomelo
 					if (status == 0) {
 						isStage = false;
 						isReady = isOwner = false;
-						state = OUTSIDE;
+						//state = OUTSIDE;
 					}
 
 					notify(req.route(), PUSH_LOBBY_LEAVESTAGE, resp, status);
@@ -116,11 +116,11 @@ namespace divapomelo
 		}
 		// owner request
 		void kick(std::string uid) {
-			if (!isInStage()) {
+			if (!isIdleStage()) {
 				BASE_LOGGER.log_warning(__FUNCTION__ + std::string(" not in stage!"));
 				return;
 			}
-			if (getState() == STAGE && owner()) {
+			if (owner()) {
 				request(EventCode[PUSH_STAGE_KICK],
 					Json::Object(
 						"uid", uid
@@ -129,11 +129,11 @@ namespace divapomelo
 			}
 		}
 		void setSong(const SongList &songList) {
-			if (!isInStage()) {
+			if (!isIdleStage()) {
 				BASE_LOGGER.log_warning(__FUNCTION__ + std::string(" not in stage!"));
 				return;
 			}
-			if (getState() == STAGE && owner()) {
+			if (owner()) {
 				Json::Value list(Json::arrayValue);
 
 				for (int i = 0; i < songList.size(); i++) {
@@ -152,11 +152,11 @@ namespace divapomelo
 			}
 		}
 		void setMode(const std::string &mode) {
-			if (!isInStage()) {
+			if (!isIdleStage()) {
 				BASE_LOGGER.log_warning(__FUNCTION__ + std::string(" not in stage!"));
 				return;
 			}
-			if (getState() == STAGE && owner()) {
+			if (owner()) {
 				request(EventCode[PUSH_STAGE_SETMODE],
 					Json::Object(
 						"mode", mode
@@ -165,11 +165,11 @@ namespace divapomelo
 			}
 		}
 		void setHooks(int64 hooks) {
-			if (!isInStage()) {
+			if (!isIdleStage()) {
 				BASE_LOGGER.log_warning(__FUNCTION__ + std::string(" not in stage!"));
 				return;
 			}
-			if (getState() == STAGE && owner()) {
+			if (owner()) {
 				request(EventCode[PUSH_STAGE_SETHOOK],
 					Json::Object(
 					"hook", Base::String::any2string(hooks).asAnsi()
@@ -182,7 +182,7 @@ namespace divapomelo
 				BASE_LOGGER.log_warning(__FUNCTION__ + std::string(" not in stage!"));
 				return false;
 			}
-			if (getState() == STAGE && owner()) {
+			if (owner()) {
 				request(EventCode[PUSH_STAGE_START],
 					Json::Object(),
 					[&](RequestReq &req, int status, Json::Value resp) {
@@ -194,7 +194,7 @@ namespace divapomelo
 		}
 		// user request
 		void draw(uint32 color) {
-			if (!isInStage()) {
+			if (!isIdleStage()) {
 				BASE_LOGGER.log_warning(__FUNCTION__ + std::string(" not in stage!"));
 				return;
 			}
@@ -207,11 +207,11 @@ namespace divapomelo
 			}
 		}
 		void ready() {
-			if (!isInStage()) {
+			if (!isIdleStage()) {
 				BASE_LOGGER.log_warning(__FUNCTION__ + std::string(" not in stage!"));
 				return;
 			}
-			if (getState() == STAGE && !owner() && myInfo().status == WaiterInfo::UNREADY) {
+			if (!owner() && myInfo().status == WaiterInfo::UNREADY) {
 				request(EventCode[PUSH_STAGE_READY],
 					Json::Object(
 						"flag", true
@@ -220,11 +220,11 @@ namespace divapomelo
 			}
 		}
 		void unready() {
-			if (!isInStage()) {
+			if (!isIdleStage()) {
 				BASE_LOGGER.log_warning(__FUNCTION__ + std::string(" not in stage!"));
 				return;
 			}
-			if (getState() == STAGE && !owner() && myInfo().status == WaiterInfo::READY) {
+			if (!owner() && myInfo().status == WaiterInfo::READY) {
 				request(EventCode[PUSH_STAGE_READY],
 					Json::Object(
 						"flag", false
@@ -243,7 +243,7 @@ namespace divapomelo
 				[&](RequestReq &req, int status, Json::Value resp) {
 					if (status == 0) {
 						isGame = false;
-						state = STAGE;
+						//state = STAGE;
 					}
 					notify(req.route(), PUSH_GAME_BACK, resp, status);
 			});
@@ -257,7 +257,7 @@ namespace divapomelo
 		 * Message CBs
 		 */
 		void onSetSong(MessageReq& req) {
-			if (getState() != STAGE)
+			if (!isIdleStage())
 				return;
 
 			Json::Value& msg = req.msg();
@@ -269,7 +269,7 @@ namespace divapomelo
 			}
 		}
 		void onSetMode(MessageReq& req) {
-			if (getState() != STAGE)
+			if (!isIdleStage())
 				return;
 
 			Json::Value& msg = req.msg();
@@ -278,7 +278,7 @@ namespace divapomelo
 			notify(req.route(), ON_STAGE_SETMODE, msg);
 		}
 		void onSetHook(MessageReq& req) {
-			if (getState() != STAGE)
+			if (!isIdleStage())
 				return;
 
 			Json::Value& msg = req.msg();
@@ -287,7 +287,7 @@ namespace divapomelo
 			notify(req.route(), ON_STAGE_SETHOOK, msg);
 		}
 		void onDraw(MessageReq& req) {
-			if(getState()!=STAGE)
+			if(!isIdleStage())
 				return;
 
 			Json::Value& msg = req.msg();
@@ -298,7 +298,7 @@ namespace divapomelo
 			notify(req.route(), ON_STAGE_DRAW, msg);
 		}
 		void onReady(MessageReq& req) {
-			if(getState()!=STAGE)
+			if(!isIdleStage())
 				return;
 
 			Json::Value& msg = req.msg();
@@ -312,7 +312,7 @@ namespace divapomelo
 			notify(req.route(), ON_STAGE_READY, msg);
 		}
 		void onUnready(MessageReq& req) {
-			if(getState()!=STAGE)
+			if(!isIdleStage())
 				return;
 
 			Json::Value& msg = req.msg();
@@ -326,7 +326,7 @@ namespace divapomelo
 			notify(req.route(), ON_STAGE_UNREADY, msg);
 		}
 		void onJoin(MessageReq& req) {
-			if(getState()!=STAGE)
+			if(!isIdleStage())
 				return;
 
 			Json::Value& msg = req.msg();
@@ -339,7 +339,7 @@ namespace divapomelo
 			notify(req.route(), ON_STAGE_JOIN, msg);
 		}
 		void onLeave(MessageReq& req) {
-			if(getState()!=STAGE)
+			if(!isIdleStage())
 				return;
 
 			Json::Value& msg = req.msg();
@@ -354,7 +354,7 @@ namespace divapomelo
 		void onClose(MessageReq& req) {
 			isStage = false;
 			isReady = isOwner = false;
-			state = OUTSIDE;
+			//state = OUTSIDE;
 			notify(req.route(), ON_STAGE_CLOSE, req.msg());
 		}
 		void onAllInfo(MessageReq& req) {
@@ -366,19 +366,17 @@ namespace divapomelo
 		void onStart(MessageReq& req) {
 			Json::Value &msg = req.msg();
 			if (msg["flag"].asBool()) {
-				state = GAME;	
+				//state = GAME;	
 				isGame = true;
 			}
 			notify(req.route(), ON_STAGE_START, msg);
 		}
 		void onReturn(MessageReq& req) {
-			if (getState() == GAME)
-				state = STAGE;
 			if (isGame)
 				isGame = false;
 
 			Json::Value &msg = req.msg();
-			if (getState() == STAGE) {
+			if (isInStage()) {
 				_refreshStageInfo(msg["info"]);
 
 				if (msg["phase"] == "over") {
@@ -404,7 +402,7 @@ namespace divapomelo
 			}
 		}
 		void onKick(MessageReq& req) {
-			if(getState()!=STAGE)
+			if(!isIdleStage())
 				return;
 
 			notify(req.route(), ON_STAGE_KICK, req.msg());
@@ -416,8 +414,9 @@ namespace divapomelo
 		 */
 		bool isInStage() const {return isStage;}
 		bool isPlaying() const {return isGame;}
+		bool isIdleStage() const {return isStage&&!isGame;}
 		bool owner() const {return isOwner;}
-		int getState() const {return state;}
+		//int getState() const {return state;}
 		bool getIsReady() const {return isReady;}
 		bool isMe(int index) {return index==myIndex;}
 		int getPlayerNum() const {
@@ -439,7 +438,7 @@ namespace divapomelo
 		const std::string &getRoomID() const {return info.id;}
 
 		void refreshMusic() {
-			if(state==STAGE) {
+			if(isIdleStage()) {
 				if(owner()) {
 					SongList songList;
 					for(int i = 0; i < MAPMGR.GetSelectedMaps().size(); i++)
@@ -493,7 +492,7 @@ namespace divapomelo
 				info.waiters.push_back(waiter);
 			}
 
-			state = info.status == StageInfo::STAGE?STAGE:GAME;
+			//state = info.status == StageInfo::STAGE?STAGE:GAME;
 		}
 		SongList _parseSongList(Json::Value song) {
 			SongList newSong;
@@ -539,7 +538,7 @@ namespace divapomelo
 
 	private:
 		int myIndex;
-		int state;
+		//int state;
 		bool isStage;
 		bool isGame;
 		bool isOwner;

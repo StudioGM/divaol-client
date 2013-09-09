@@ -13,6 +13,7 @@ namespace divapomelo {
 
 	// Define Newwork Codes
 	extern const char* EventCode[];
+	extern const char* PlayerStatusCode[];
 
 	enum EventEnum {
 		ON_CONNECT = 0,

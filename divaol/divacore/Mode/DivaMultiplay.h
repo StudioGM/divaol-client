@@ -56,7 +56,7 @@ namespace divacore
 	};
 	typedef std::vector<TeamInfo> TEAMS;
 
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 	class NetGameInfo
 	{
 	public:
@@ -104,13 +104,7 @@ namespace divacore
 	};
 #endif
 
-	class MultiGameInfo : public NetGameInfo
-	{
-	public:
-		void newGame(GPacket *packet);
-	};
-
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 	class MultiPlay : public SinglePlay
 	{
 	protected:
@@ -206,6 +200,7 @@ namespace divacore
 
 		sora::SoraText mText;
 		sora::SoraMutex mutex;
+		std::string infoStr;
 	public:
 		/*CONNECT为等待连接状态
 		 GET_INFO为连接成功等待服务器信息状态
@@ -213,7 +208,7 @@ namespace divacore
 		 PLAY表示游戏进行
 		 FAILURE表示连接失败等待中
 		 FULL表示服务器已满*/
-		enum{CONNECTING,GET_INFO,READY,PLAY,FAILED,FAILURE,FULL,OVER};
+		enum{CONNECTING,READY,PLAY,FAILED,FAILURE,FULL,OVER};
 
 		MultiPlay():mInfo(0) {}
 

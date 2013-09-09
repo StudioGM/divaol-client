@@ -62,9 +62,10 @@ namespace divacore
 			fclose(file);
 		}
 
-		void loadFromNetInfo()
+		void loadFromNetInfo(const std::string &username)
 		{
-			mUserName = NET_INFO.username;
+			mUserName = username;
+	
 			if(checkNeedStore())
 				saveSettings(mConfigFile);
 		}

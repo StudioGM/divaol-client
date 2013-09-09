@@ -1172,8 +1172,11 @@ namespace divacore
 			Image *highLight = new Image();
 			highLight->construct(config,head+"highlight_");
 			this->add(highLight);
+#if defined(DIVA_USE_GNET)
 			this->setName(NET_INFO.nickname);
-			
+#else
+			this->setName(POMELO_USER_INFO.nickname);
+#endif
 			hpBar->setColor(Player::TEAM_COLOR[0]);
 			//setFocus(true);
 		}
@@ -1234,7 +1237,7 @@ namespace divacore
 
 				player->hpBar->setColor(Player::TEAM_COLOR[players[i].teamIndex]);
 				player->setPosition(width,height);
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 				player->setName(STAGE_CLIENT.waiterInfo(players[i].uid).nickname);
 #else
 				player->setName(POMELO_STAGE_PEER->waiterInfo(players[i].uid).nickname);

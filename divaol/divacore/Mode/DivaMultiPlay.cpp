@@ -16,7 +16,7 @@
 
 namespace divacore
 {
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 	void NetGameInfo::setConfig(const std::string &configFile)
 	{
 		mConfig.clear();
@@ -325,6 +325,7 @@ namespace divacore
 		return NULL;
 	}
 #else
+
 	void NetGameInfo::setConfig(const std::string &configFile)
 	{
 		mConfig.clear();
@@ -351,7 +352,7 @@ namespace divacore
 				mPlayers[i].score = player["score"].asInt();
 				mPlayers[i].combo = player["combo"].asInt();
 				mPlayers[i].hp = player["hp"].asDouble();
-				mPlayers[i].status = "";
+				mPlayers[i].status = divapomelo::PlayerStatusCode[player["stat"].asInt()];
 			}
 
 		for(int i = 0; i < mTeams.size(); i++)
@@ -503,6 +504,7 @@ namespace divacore
 		POMELO_GAME_PEER->push(divapomelo::EventCode[divapomelo::PUSH_GAME_LINK], Json::Object(), 
 			[&](divapomelo::RequestReq &req, int status, Json::Value resp) {
 			if (status == 0) {
+				this->infoStr = Json::FastWriter().write(resp);
 				mInfo->newGame(resp);
 				for(int i = 0; i < mInfo->mPlayers.size(); i++)
 					mInfo->mPlayers[i].hp = float(ORIGIN_HP)/MAX_HP;

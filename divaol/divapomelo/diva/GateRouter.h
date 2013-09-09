@@ -29,6 +29,8 @@ namespace divapomelo
 
 			succeed = false;
 			querying = true;
+			// host ip and gate ip are same
+			host = ip;
 			client.reset(new Client(ip, port));
 			client->onclose(Base::Bind(this, &GateRouter::onClose));
 			client->on(Base::Bind(this, &GateRouter::onConnect));
@@ -75,7 +77,7 @@ namespace divapomelo
 		}
 		void onQuery(RequestReq& req, int status, Json::Value resp) {
 			if (status == 0) {
-				host = resp["host"].asString();
+				//host = resp["host"].asString();
 				port = resp["port"].asInt();
 				succeed = true;
 

@@ -24,7 +24,7 @@ namespace divacore
 
 	static const int BGS_ID = 0;
 
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 	/*
 	CoreLoadState
 	A state for loading resource and show loading interface
@@ -231,7 +231,7 @@ namespace divacore
 					result.evalData[i].maxCombo = 0;
 					result.evalData[i].maxCTLevel = 0;
 				}
-				result.evalData[i].status = "";
+				result.evalData[i].status = divapomelo::PlayerStatusCode[item["stat"].asInt()];
 				result.evalData[i].score = item["score"].asInt();
 				result.evalData[i].isOver = item["complete"].asBool();
 				result.evalData[i].hp = item["hp"].asDouble();

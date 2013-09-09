@@ -13,7 +13,7 @@
 
 namespace divanet
 {
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 	class AuthClient : public Client, public Base::Singleton<AuthClient>
 	{
 	public:

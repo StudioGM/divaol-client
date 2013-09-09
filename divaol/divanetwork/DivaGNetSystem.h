@@ -15,6 +15,7 @@
 
 namespace divanet
 {
+#if defined(DIVA_USE_GNET)
 	using namespace sora;
 
 	class GNetworkSystem : public divacore::EventHandler, public gnetwork::GNetEventHandler
@@ -61,6 +62,7 @@ namespace divanet
 
 	typedef GNetworkSystem* GNetworkSystemPtr;
 	typedef Base::SharedPtr<GNetworkSystem> NetworkPtr;
+#endif
 }
 
 #endif

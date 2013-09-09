@@ -170,7 +170,6 @@ namespace diva
 			exitStageButton->setVisible(false);
 			exitStageButton->addMouseListener(new LoginButton_MouseListener());
 
-#ifdef DIVA_GNET_OPEN
 			openGameButton = new ButtonEx();
 			openGameButton->setSize(410,169);
 			//DivaRoomInfo rinfo = playerList->getRoomInfo(); 
@@ -198,7 +197,6 @@ namespace diva
 			readyButton->setVisible(false);
 			readyButton->addMouseListener(new LoginButton_MouseListener());
 			//readyButton->setPosition(readyButton->getX()+200,readyButton->getY());
-#endif
 
 			// decorate button
 			decorateButton = CreateButton(sconf, L"ToolBar/Normal/btn_decorate_normal", L"ToolBar/MouseOn/btn_decorate_mouseon", L"ToolBar/MouseDown/btn_decorate_mousedown", L"ToolBar/Normal/btn_decorate_normal");
@@ -328,7 +326,7 @@ namespace diva
 			}
 		}
 
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 		void HouseUI::observer_auth(divanet::Notification msg)
 		{
 			if(msg.msg()==divanet::AuthClient::NOTIFY_AUTH_REPLAY) {
@@ -339,7 +337,7 @@ namespace diva
 					wchar_t un[100], nm[100];
 
 					MY_PLAYER_INFO.setUid(NET_INFO.uid);
-					MY_PLAYER_INFO.loadFromNetInfo();
+					MY_PLAYER_INFO.loadFromNetInfo(NET_INFO.username);
 					info.id = Base::String(NET_INFO.uid).toAny<int>();
 					info.username = Base::String(NET_INFO.username);
 					info.nickname = Base::String(NET_INFO.nickname);
@@ -797,6 +795,8 @@ namespace diva
 						POMELO_CLIENT.login(usernameInput->getText(), passwordInput->getText());
 					}
 					else {
+						if(mgr->GetMB()->isTopWindow())
+							mgr->GetMB()->Destroy();
 						messagePanelChatBox->addText(L"[提示] 服务器连接失败", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 						mgr->GetMB()->Show(L"无法连接服务器", L"错误", gcn::MessageBoxEx::TYPE_OK);
 					}
@@ -809,7 +809,7 @@ namespace diva
 						wchar_t un[100], nm[100];
 
 						MY_PLAYER_INFO.setUid(POMELO_USER_INFO.uid);
-						MY_PLAYER_INFO.loadFromNetInfo();
+						MY_PLAYER_INFO.loadFromNetInfo(POMELO_USER_INFO.username);
 						info.id = Base::String::string2any<int>(POMELO_USER_INFO.uid);
 						info.username = Base::String(POMELO_USER_INFO.username);
 						info.nickname = Base::String(POMELO_USER_INFO.nickname);
@@ -830,6 +830,9 @@ namespace diva
 					}
 					else if(status == 1) {
 						std::string code = msg.asString();
+
+						if(mgr->GetMB()->isTopWindow())
+							mgr->GetMB()->Destroy();
 						if(code=="auth_already_login")
 						{
 							mgr->GetMB()->Show(L"该账号已经登录。", L"提示");
@@ -902,7 +905,7 @@ namespace diva
 						const divapomelo::RoomInfos &infos = POMELO_LOBBY_PEER->getRoomList();
 						for(int i = 0; i < infos.size(); i++)
 						{
-							if(infos[i].state==divanet::RoomInfo::STAGE) {
+							if(infos[i].state==divapomelo::RoomInfo::STAGE) {
 								//RoomListItem* b = SetRoomListItemInfo(rconf,L"RoomList/RoomItem_normal", L"RoomList/RoomItem_on", L"RoomList/RoomItem_down");
 								Network::RoomInfo info;
 								info.maxPlayerNum = infos[i].capacity;
@@ -926,7 +929,12 @@ namespace diva
 				case divapomelo::ON_STAGE_CLOSE:
 					if(state==STATE_STAGE) {
 						setState(STATE_ROOM);
-						mgr->GetMB()->Show(L"房主离开舞台。");
+
+						//!FIXME : here use MB will cause black screen when exit game with stage closed
+						/*if(mgr->GetMB()->isTopWindow())
+							mgr->GetMB()->Destroy();
+						mgr->GetMB()->Show(L"房主离开舞台。");*/
+						messagePanelChatBox->addText(L"[提示] 房主离开舞台。", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 					}
 					break;
 				case divapomelo::PUSH_LOBBY_CREATESTAGE:
@@ -946,8 +954,11 @@ namespace diva
 
 						_onRefreshStageInfo();
 					}
-					else
+					else {
+						if(mgr->GetMB()->isTopWindow())
+							mgr->GetMB()->Destroy();
 						mgr->GetMB()->Show(L"该舞台还在游戏中，请稍后再试。");
+					}
 					break;
 				case divapomelo::ON_STAGE_JOIN:
 					if (status == 0) {
@@ -964,6 +975,8 @@ namespace diva
 						avatarList->pushItem(AvatarListItem::FromJson(avatarListInfo, playerInfo.nickname));
 						//mgr->GetMB()->Destroy();
 						Refresh_sPlayerList();
+
+						messagePanelChatBox->addText(L"[提示] "+playerInfo.nickname+L"加入了舞台！", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 					}
 					break;
 				case divapomelo::ON_STAGE_LEAVE:
@@ -1089,24 +1102,37 @@ namespace diva
 							CORE_PTR->setInitState("net_load");
 							divacore::MultiPlay *multiplay = NULL;
 							int gameMode = POMELO_STAGE_PEER->getInfo().song[0].mode;
+
 							multiplay = new divacore::MultiPlay;
-		
+							if(gameMode == divamap::DivaMap::NormalMode)
+								multiplay = new divacore::MultiPlay;
+							else if(gameMode == divamap::DivaMap::RelayMode)
+								multiplay = new divacore::RelayPlay;
+							else
+							{
+								mgr->GetMB()->Show(L"尚不支持的游戏模式！", L"提示", gcn::MessageBoxEx::TYPE_OK); 
+								POMELO_STAGE_PEER->back();
+								return;
+							}
+
 							CORE_PTR->registerGameMode(multiplay);
 							multiplay->registerNetworkEvent();
 							NextState = "core";
 						}
 						else {
 							Base::String info = msg["reason"].asString();
+
+							if(mgr->GetMB()->isTopWindow())
+								mgr->CloseTopWindow();
 							if(info=="not_select_song")
 								mgr->GetMB()->Show(L"开始失败，没有选择歌曲", L"提示", gcn::MessageBoxEx::TYPE_OK); 
 							else
 							{
-								if (POMELO_STAGE_PEER->owner())
+								if (POMELO_STAGE_PEER->owner()) {
 									mgr->GetMB()->Show(L"开始失败，没有准备或非法队伍人数", L"提示", gcn::MessageBoxEx::TYPE_OK); 
+								}
 								else
 								{
-									if(mgr->GetMB()->isTopWindow())
-										mgr->CloseTopWindow();
 									messagePanelChatBox->addText(L"[警告] 开始失败，没有准备或非法队伍人数", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"warning"]));
 								}
 							}
@@ -1114,7 +1140,7 @@ namespace diva
 					}
 				case divapomelo::PUSH_STAGE_START:
 					if(status == 1) {
-						mgr->GetMB()->Show(Base::String("开始失败，服务器错误:" + msg.asString()), L"提示", gcn::MessageBoxEx::TYPE_OK); 
+						//mgr->GetMB()->Show(Base::String("开始失败，服务器错误:" + msg.asString()), L"提示", gcn::MessageBoxEx::TYPE_OK); 
 					}
 					else if(status != 0) {
 						mgr->GetMB()->Show(Base::String("开始失败，未知错误"), L"提示", gcn::MessageBoxEx::TYPE_OK); 
@@ -1122,6 +1148,7 @@ namespace diva
 					break;
 				case divapomelo::ON_STAGE_RETURN:
 					if (status == 0) {
+						_onRefreshStageInfo();
 						//if(mgr->GetMB()->isTopWindow())
 						//	mgr->CloseTopWindow();
 						//mgr->GetMB()->Show(L"开始游戏失败", L"提示", gcn::MessageBoxEx::TYPE_OK);
@@ -1144,7 +1171,8 @@ namespace diva
 						if(!msg["over"].isBool()) {
 							messagePanelChatBox->addText(L"[提示] 其他玩家尚未退出游戏，请稍等...", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 						}
-						setState(STATE_PLAYING);
+						if (state == STATE_STAGE)
+							setState(STATE_PLAYING);
 					}
 					break;
 			}
@@ -1163,7 +1191,7 @@ namespace diva
 				StageListItem::StagePlayerInfo info;
 				info.playerInfo = playerInfo;
 				info.slot = i+1;
-				info.status = POMELO_STAGE_PEER->getInfo().waiters[i].status == divanet::WaiterInfo::READY;
+				info.status = POMELO_STAGE_PEER->getInfo().waiters[i].status == divapomelo::WaiterInfo::READY;
 				info.teamIndex = 0;
 				item->setInfo(info);
 				item->setTeamColor(POMELO_STAGE_PEER->getInfo().waiters[i].color);
@@ -1192,18 +1220,18 @@ namespace diva
 		}
 
 		void HouseUI::attachObserver() {
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 			AUTH_CLIENT.attachObserver(divanet::Observer(&HouseUI::observer_auth,this));
 			CHAT_CLIENT.attachObserver(divanet::Observer(&HouseUI::observer_chat,this));
 			SCHEDULER_CLIENT.attachObserver(divanet::Observer(&HouseUI::observer_scheduler,this));
 			STAGE_CLIENT.attachObserver(divanet::Observer(&HouseUI::observer_stage,this));
 #else
-			POMELO_CLIENT.attachObserver(divanet::Observer(&HouseUI::observer_pomelo, this));
+			POMELO_CLIENT.attachObserver(Base::Observer(&HouseUI::observer_pomelo, this));
 #endif
 		}
 
 		void HouseUI::detachObserver() {
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 			AUTH_CLIENT.clearObserver();
 			CHAT_CLIENT.clearObserver();
 			SCHEDULER_CLIENT.clearObserver();
@@ -1212,7 +1240,7 @@ namespace diva
 		}
 
 		bool HouseUI::connectServer() {
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 			try
 			{
 				if(!AUTH_CLIENT.isConnect()) {
@@ -1238,7 +1266,7 @@ namespace diva
 #endif
 		}
 		void HouseUI::disconnectServer() {
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 			AUTH_CLIENT.disconnect();
 			CHAT_CLIENT.disconnect();
 			SCHEDULER_CLIENT.disconnect();
@@ -1248,7 +1276,7 @@ namespace diva
 #endif
 		}
 		void HouseUI::request_roomList() {
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 			//SCHEDULER_CLIENT.updateRoomList();
 #else
 			POMELO_LOBBY_PEER->getStageList();
@@ -1279,7 +1307,7 @@ namespace diva
 				kick_player(stageList->getSelectedIndex());
 		}
 		void HouseUI::open_stage() {
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 			STAGE_CLIENT.create(8);
 			//divanet::NetworkManager::instance().core()->send("stage#create","%d",2);
 			roomId = MY_PLAYER_INFO.uid();
@@ -1289,7 +1317,7 @@ namespace diva
 #endif
 		}
 		void HouseUI::start_game() {
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 			if(STAGE_CLIENT.start())
 				mgr->GetMB()->Show(L"准备开始游戏...", L"提示", gcn::MessageBoxEx::TYPE_NONE); 
 #else
@@ -1298,7 +1326,7 @@ namespace diva
 #endif
 		}
 		void HouseUI::leave_stage() {
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 			STAGE_CLIENT.leave();
 			//divanet::NetworkManager::instance().core()->send("stage#leave");
 #else
@@ -1313,7 +1341,7 @@ namespace diva
 				if (item->getInfo().playerInfo.id == 0)
 					return;
 				
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 				STAGE_CLIENT.kick(item->getInfo().playerInfo.id);
 #else
 				POMELO_STAGE_PEER->kick(Base::String::any2string(item->getInfo().playerInfo.id));
@@ -1405,7 +1433,7 @@ namespace diva
 
 		void HouseUI::RecvMsg()
 		{
-#ifndef DIVA_GNET_OPEN
+#if !defined(DIVA_USE_GNET) && !defined(DIVA_USE_POMELO)
 			while (!Net::Network::isEmpty())
 			{
 				std::wstring msg, arg;
@@ -1632,7 +1660,7 @@ namespace diva
 			//songList->setVisible(true);
 			modeButton->setVisible(true);
 			avatarList->setVisible(true);
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 			if (STAGE_CLIENT.owner())
 #else
 			if (POMELO_STAGE_PEER->owner())
@@ -2777,14 +2805,14 @@ namespace diva
 				return;
 			}
 
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 			AUTH_CLIENT.login(Base::String(usernameInput->getText()).lower(),Base::String(encryptPW).lower());
 			//AUTH_CLIENT.login(Base::ws2s(usernameInput->getText()),Base::String(passwordInput->getText()));
 #endif
 		}
 
 		void HouseUI::logout() {
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 			STAGE_CLIENT.logout();
 			SCHEDULER_CLIENT.logout();
 			CHAT_CLIENT.logout();
@@ -2796,7 +2824,7 @@ namespace diva
 		void HouseUI::LoginButtonClicked()
 		{
 			using namespace Net;
-#ifdef DIVA_GNET_OPEN
+#if defined(DIVA_USE_GNET) || defined(DIVA_USE_POMELO)
 			CSHA1 sha1;
 			string passwd = Base::String(passwordInput->getText());
 			sha1.Update((UINT_8*)passwd.c_str(), passwd.size() * sizeof(char));
@@ -2857,10 +2885,10 @@ namespace diva
 			}
 			if (mouseEvent.getSource() == (gcn::Widget*) stageList && stageList->checkIsEnabled())
 			{
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 				if (STAGE_CLIENT.state() == divanet::StageClient::STAGE && STAGE_CLIENT.owner())
 #else
-				if (POMELO_STAGE_PEER->getState() == divapomelo::StagePeer::STAGE && POMELO_STAGE_PEER->owner())
+				if (POMELO_STAGE_PEER->isIdleStage() && POMELO_STAGE_PEER->owner())
 #endif
 					StageListClicked();
 				return;
@@ -2941,7 +2969,7 @@ namespace diva
 			}
 			if (mouseEvent.getSource() == (gcn::Widget*) readyButton)
 			{
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 				if(STAGE_CLIENT.isReady())
 					STAGE_CLIENT.unready();
 #else
@@ -2960,7 +2988,7 @@ namespace diva
 						mgr->GetMB()->Show(L"该歌曲未下载或尚未下载完成，无法准备。");
 						return;
 					}
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 					STAGE_CLIENT.ready();
 #else
 					POMELO_STAGE_PEER->ready();
@@ -3009,7 +3037,7 @@ namespace diva
 			if (mouseEvent.getSource() == (gcn::Widget*) modeConfirmButton)
 			{
 				modeWindow->FadeOut(10);
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 				STAGE_CLIENT.setHooks(MAPMGR.GetSelectedModeInt());
 #else
 				POMELO_STAGE_PEER->setHooks(MAPMGR.GetSelectedModeInt());
@@ -3087,7 +3115,7 @@ namespace diva
 		{
 			if (messagePanelInputBox->getText() == L"")
 				return;
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 			if(!NET_COMMAND.Analysis(messagePanelInputBox->getText())) {
 
                     if (msgChannelState == CHANNEL_WORLD)
@@ -3163,19 +3191,19 @@ namespace diva
 		void HouseUI::TeamListClicked(gcn::MouseEvent& mouseEvent)
 		{
 			int t = (int)((ButtonEx*)mouseEvent.getSource())->userData;
-#ifndef DIVA_GNET_OPEN
+#if defined(DIVA_USE_GNET)
+			STAGE_CLIENT.draw(t);
+#elif defined(DIVA_USE_POMELO)
+			POMELO_STAGE_PEER->draw(t);
+#else
 			for (int i=0; i<teamListButtons.size(); i++)
 				teamListButtons[i]->setSelected(t == i);
-#elif defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
-			STAGE_CLIENT.draw(t);
-#else
-			POMELO_STAGE_PEER->draw(t);
 #endif
 		}
 
 		void HouseUI::ModeButtonClicked(int index)
 		{
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 			if (STAGE_CLIENT.owner())
 #else
 			if (POMELO_STAGE_PEER->owner())

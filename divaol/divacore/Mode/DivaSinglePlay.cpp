@@ -6,6 +6,8 @@
  *
  */
 
+#include "divapomelo/diva/Client.h"
+
 #include "DivaSinglePlay.h"
 //#include "DivaRelayUI.h"
 #include "Component/DivaCommonEvaluateStrategy.h"
@@ -206,7 +208,11 @@ namespace divacore
 		EVALUATE_STRATEGY_PTR->getResult().myMaxCTLevel = getMaxCTLevel();
 		EVALUATE_STRATEGY_PTR->getResult().myHp = getHPinRatio();
 		EVALUATE_STRATEGY_PTR->getResult().myIsOver = (bool)CORE_FLOW_PTR->isNoteOver();
+#if defined(DIVA_USE_GNET)
 		EvalData data = EvalData("",getScore(),maxCombo,maxCTLevel,getHPinRatio(),(bool)CORE_FLOW_PTR->isNoteOver(),EVALUATE_STRATEGY_PTR->getResult().myCntEval,0,NET_INFO.nickname);
+#else
+		EvalData data = EvalData("",getScore(),maxCombo,maxCTLevel,getHPinRatio(),(bool)CORE_FLOW_PTR->isNoteOver(),EVALUATE_STRATEGY_PTR->getResult().myCntEval,0,POMELO_USER_INFO.nickname);
+#endif
 		data.status = "over";
 		EVALUATE_STRATEGY_PTR->getResult().evalData.push_back(data);
 	}

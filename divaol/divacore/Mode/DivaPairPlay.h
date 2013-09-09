@@ -26,7 +26,7 @@ namespace divacore
 		{}
 	};
 
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 	class PairPlay : public MultiPlay
 	{
 		//note Blender，把不属于自己的note变淡

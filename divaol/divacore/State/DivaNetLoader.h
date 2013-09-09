@@ -27,7 +27,7 @@ namespace divacore
 	 * class : CoreLoader
 	 * description : a loader to load map and ready to play
 	 */
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 	class NetLoader : public CoreState
 	{
 		sora::SoraFont* mFont;
@@ -54,7 +54,7 @@ namespace divacore
 		void onEnter()
 		{
 			setCoreState(Core::PREPARE);
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 			GNET_RECEIVE_PACKET("game#start",&NetLoader::readyToStart);
 #else
 			POMELO_GAME_PEER->on(divapomelo::EventCode[divapomelo::ON_GAME_START], Base::Bind(this, &NetLoader::onStart));
@@ -135,7 +135,7 @@ namespace divacore
 			}
 			else if(state==FAILED)
 			{
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 				STAGE_CLIENT.returnToStage("start_failed");
 #else
 				POMELO_STAGE_PEER->returnToStage("start_failed");
@@ -174,7 +174,7 @@ namespace divacore
 
 				while(state != GAME_RUN && ((divacore::MultiPlay*)GAME_MODE_PTR)->getBaseState()!=divacore::MultiPlay::FAILED)
 				{
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 					NETWORK_SYSTEM_PTR->waitForNext();
 					NETWORK_SYSTEM_PTR->refresh();
 #else
@@ -257,11 +257,6 @@ namespace divacore
 #endif
 		}
 
-		void readyToStart(GPacket*)
-		{
-			state = GAME_RUN;
-		}
-
 		void onStart(divapomelo::MessageReq &req) {
 			state = GAME_RUN;
 		}
@@ -286,8 +281,6 @@ namespace divacore
 					text += L"Connect";
 				else if(((MultiPlay*)GAME_MODE_PTR)->getBaseState()==MultiPlay::FAILURE)
 					text += L"Failed";
-				else if(((MultiPlay*)GAME_MODE_PTR)->getBaseState()==MultiPlay::GET_INFO)
-					text += L"Server connected, now wait";
 				else if(((MultiPlay*)GAME_MODE_PTR)->getBaseState()==MultiPlay::FULL)
 					text += L"Server is full, please login later";
 				else
@@ -350,9 +343,20 @@ namespace divacore
 
 				LOGGER->msg("Wait for start...","NetworkSystem");
 
-				while(state != GAME_RUN && ((divacore::MultiPlay*)GAME_MODE_PTR)->getBaseState()!=divacore::MultiPlay::FAILED)
+				while(((divacore::MultiPlay*)GAME_MODE_PTR)->getBaseState()!=divacore::MultiPlay::FAILED && ((divacore::MultiPlay*)GAME_MODE_PTR)->getBaseState()!=divacore::MultiPlay::READY)
 				{
 					POMELO_CLIENT.logic();
+					Base::TimeUtil::mSleep(1);
+				}
+
+				if (((divacore::MultiPlay*)GAME_MODE_PTR)->getBaseState()==divacore::MultiPlay::FAILED) {
+					state = FAILED;
+					return;
+				}
+
+				while(state != GAME_RUN) {
+					POMELO_CLIENT.logic();
+					Base::TimeUtil::mSleep(1);
 				}
 
 				if(state!=GAME_RUN)

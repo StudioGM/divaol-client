@@ -15,6 +15,7 @@
 
 namespace divanet
 {
+#if defined(DIVA_USE_GNET)
 	struct WaiterInfo {
 		enum State{LEAVE,READY,UNREADY};
 		std::string uid;
@@ -44,7 +45,6 @@ namespace divanet
 		Waiters waiters;
 	};
 
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
 	class StageClient : public Client, public Base::Singleton<StageClient>
 	{
 	public:

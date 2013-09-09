@@ -13,7 +13,7 @@
 
 namespace divanet
 {
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 	class ChatClient : public Client, public Base::Singleton<ChatClient>
 	{
 		friend class StageClient;

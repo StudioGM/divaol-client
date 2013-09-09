@@ -218,7 +218,7 @@ namespace diva
 		{
 			if (!isWaiting) {
 				RoomListItem * item = dynamic_cast<RoomListItem*>(items[itemIndex]);
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 				STAGE_CLIENT.join(Base::String(item->getInfo().ownerID));
 #else
 				POMELO_STAGE_PEER->join(Base::String(item->getInfo().stageId));

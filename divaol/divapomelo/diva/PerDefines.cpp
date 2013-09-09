@@ -54,4 +54,6 @@ namespace divapomelo {
 		"game.gameHandler.relayRelayWantToPlay",
 		"local.update.songUI"
 	};
+
+	const char* PlayerStatusCode[] = {"load", "ready", "play", "leave", "over", "back"};
 }

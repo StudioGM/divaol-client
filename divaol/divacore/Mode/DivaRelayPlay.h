@@ -36,7 +36,7 @@ namespace divacore
 
 	typedef std::vector<RelayNote> RELAY_NOTES;
 
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
+#if defined(DIVA_USE_GNET)
 	class RelayPlay : public MultiPlay
 	{
 		class RelayPlay_NoteBlender : public Hook

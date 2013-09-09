@@ -13,6 +13,7 @@
 
 namespace divanet
 {
+#if defined(DIVA_USE_GNET)
 	struct RoomInfo {
 		enum {STAGE,GAME,CHECKOUT};
 
@@ -29,7 +30,6 @@ namespace divanet
 	};
 	typedef std::vector<RoomInfo> RoomInfos;
 
-#if defined(DIVA_GNET_OPEN) && !defined(DIVA_USE_POMELO)
 	class SchedulerClient : public Client, public Base::Singleton<SchedulerClient>
 	{
 	public:
