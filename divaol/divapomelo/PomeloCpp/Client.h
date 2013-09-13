@@ -84,21 +84,21 @@ namespace PomeloCpp
 
 			client->data = (void*)this;
 
-			/*struct hostent *hp;
+			struct hostent *hp;
 			struct in_addr in;
 			struct sockaddr_in local_addr;
 			if (! (hp=gethostbyname(this->address.ip.c_str()) ))
 				return false;
 			memcpy (&local_addr.sin_addr.s_addr,hp->h_addr,4);
 			in.s_addr=local_addr.sin_addr.s_addr;
-			char *ip = inet_ntoa(in);*/
+			char *ip = inet_ntoa(in);
 
 			struct sockaddr_in address;
 
 			memset(&address, 0, sizeof(struct sockaddr_in));
 			address.sin_family = AF_INET;
 			address.sin_port = htons(this->address.port);
-			address.sin_addr.s_addr = inet_addr(this->address.ip.c_str());
+			address.sin_addr.s_addr = inet_addr(ip);
 
 			default_parse_done = client->parse_msg_done;
 			client->parse_msg_done = pc_msg_parse_done_cb;

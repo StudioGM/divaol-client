@@ -1118,6 +1118,9 @@ namespace diva
 							CORE_PTR->registerGameMode(multiplay);
 							multiplay->registerNetworkEvent();
 							NextState = "core";
+
+							if (state != STATE_PLAYING)
+								setState(STATE_PLAYING);
 						}
 						else {
 							Base::String info = msg["reason"].asString();
@@ -1171,8 +1174,6 @@ namespace diva
 						if(!msg["over"].isBool()) {
 							messagePanelChatBox->addText(L"[提示] 其他玩家尚未退出游戏，请稍等...", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 						}
-						if (state == STATE_STAGE)
-							setState(STATE_PLAYING);
 					}
 					break;
 			}
@@ -3138,17 +3139,17 @@ namespace diva
 			if(!NET_COMMAND.Analysis(messagePanelInputBox->getText())) {
 
 				if (msgChannelState == CHANNEL_WORLD)
-					POMELO_CHAT_PEER->sendGlobal(L"#W#[世界] " + PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
+					POMELO_CHAT_PEER->sendGlobal(L"#W#[世界] " + PlayerManager::Instance()->GetHostInfo().nickname + L": " + messagePanelInputBox->getText());
 				else if (msgChannelState == CHANNEL_PRIVATE)
 				{
 					if (msgSendId != -1)
-						POMELO_CHAT_PEER->sendTo(Base::String::any2string<int>(msgSendId), L"#P#[私聊] " + PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
+						POMELO_CHAT_PEER->sendTo(Base::String::any2string<int>(msgSendId), L"#P#[私聊] " + PlayerManager::Instance()->GetHostInfo().nickname + L": " + messagePanelInputBox->getText());
 					else
 						messagePanelChatBox->addText(L"[提示] 请先选择您要私聊的对象", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 				}
 				else if (msgChannelState == CHANNEL_STAGE)
 				{
-					POMELO_CHAT_PEER->sendInStage(L"#T#[舞台] " + PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
+					POMELO_CHAT_PEER->sendInStage(L"#T#[舞台] " + PlayerManager::Instance()->GetHostInfo().nickname + L": " + messagePanelInputBox->getText());
 				}
 				//CHAT_CLIENT.sendTo("691",PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
 				//divanet::NetworkManager::instance().chat()->send("chat#sendmsg","%s%W","global",PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
