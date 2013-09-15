@@ -1,0 +1,64 @@
+﻿生成启动时间为 2013/9/8 11:31:30。
+     1>项目“E:\Projects\DivaOL\code\divaclient\divaol\divapomelo\libpomelo\libpomelo.vcxproj”在节点 4 上(Rebuild 个目标)。
+     1>ClCompile:
+         D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /Iinclude /Ideps\uv\include /Ideps\jansson\src /Ideps\uv\include /Zi /nologo /W1 /WX- /O2 /Oy- /D WIN32 /D _CRT_NONSTDC_NO_DEPRECATE /D _DEBUG /D _WINDOWS /D _USRDLL /D JANSSON_DLL_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Default\obj\libpomelo\\" /Fd"Default\obj\libpomelo\libpomelo\vc80.pdb" /Gd /TC /analyze- /errorReport:prompt /TP "src\pb-util.c" src\transport.c src\network.c src\listener.c src\common.c "src\pkg-handshake.c" "src\pb-decode.c" "src\pkg-heartbeat.c" src\package.c src\thread.c src\protocol.c src\message.c "src\msg-pb.c" src\client.c "src\pb-encode.c" src\map.c "src\msg-json.c"
+     1>cl : 命令行 warning D9025: 正在重写“/TC”(用“/TP”)
+         pb-util.c
+         transport.c
+         network.c
+         listener.c
+         common.c
+         pkg-handshake.c
+     1>src\pkg-handshake.c(62): warning C4533: “goto buf”跳过了“error”的初始化操作
+                 src\pkg-handshake.c(52) : 参见“buf”的声明
+                 src\pkg-handshake.c(62) : 参见“error”的声明
+                 src\pkg-handshake.c(52) : 参见“buf”的声明
+                 src\pkg-handshake.c(62) : 参见“error”的声明
+         pb-decode.c
+         pkg-heartbeat.c
+         package.c
+         thread.c
+         protocol.c
+     1>src\protocol.c(166): warning C4533: “goto body”跳过了“error”的初始化操作
+                 src\protocol.c(145) : 参见“body”的声明
+                 src\protocol.c(166) : 参见“error”的声明
+                 src\protocol.c(145) : 参见“body”的声明
+                 src\protocol.c(166) : 参见“error”的声明
+                 src\protocol.c(145) : 参见“body”的声明
+                 src\protocol.c(166) : 参见“error”的声明
+                 src\protocol.c(145) : 参见“body”的声明
+                 src\protocol.c(166) : 参见“error”的声明
+                 src\protocol.c(145) : 参见“body”的声明
+                 src\protocol.c(166) : 参见“error”的声明
+         message.c
+         msg-pb.c
+         client.c
+         pb-encode.c
+         map.c
+         msg-json.c
+         正在生成代码...
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppBuild.targets(1299,5): warning MSB8012: TargetPath(E:\Projects\DivaOL\code\divaclient\divaol\Default\libpomelo.lib) does not match the Library's OutputFile property value (E:\Projects\DivaOL\code\divaclient\divaol\Default\lib\libpomelo.lib). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+       Lib:
+         D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\Lib.exe /OUT:"E:\Projects\DivaOL\code\divaclient\divaol\Default\lib\libpomelo.lib" /NOLOGO "Default\obj\libpomelo\pb-util.obj"
+         Default\obj\libpomelo\transport.obj
+         Default\obj\libpomelo\network.obj
+         Default\obj\libpomelo\listener.obj
+         Default\obj\libpomelo\common.obj
+         "Default\obj\libpomelo\pkg-handshake.obj"
+         "Default\obj\libpomelo\pb-decode.obj"
+         "Default\obj\libpomelo\pkg-heartbeat.obj"
+         Default\obj\libpomelo\package.obj
+         Default\obj\libpomelo\thread.obj
+         Default\obj\libpomelo\protocol.obj
+         Default\obj\libpomelo\message.obj
+         "Default\obj\libpomelo\msg-pb.obj"
+         Default\obj\libpomelo\client.obj
+         "Default\obj\libpomelo\pb-encode.obj"
+         Default\obj\libpomelo\map.obj
+         "Default\obj\libpomelo\msg-json.obj"
+         libpomelo.vcxproj -> E:\Projects\DivaOL\code\divaclient\divaol\Default\libpomelo.lib
+     1>已完成生成项目“E:\Projects\DivaOL\code\divaclient\divaol\divapomelo\libpomelo\libpomelo.vcxproj”(Rebuild 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:05.58

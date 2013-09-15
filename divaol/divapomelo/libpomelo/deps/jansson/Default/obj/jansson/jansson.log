@@ -1,0 +1,33 @@
+﻿生成启动时间为 2013/9/8 11:31:30。
+     1>项目“E:\Projects\DivaOL\code\divaclient\divaol\divapomelo\libpomelo\deps\jansson\jansson.vcxproj”在节点 3 上(Rebuild 个目标)。
+     1>ClCompile:
+         D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /Isrc /Zi /nologo /W1 /WX- /O2 /Oy- /D WIN32 /D _CRT_NONSTDC_NO_DEPRECATE /D _DEBUG /D _WINDOWS /D _USRDLL /D JANSSON_DLL_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Default\obj\jansson\\" /Fd"Default\obj\jansson\jansson\vc80.pdb" /Gd /TC /analyze- /errorReport:prompt src\strbuffer.c src\pack_unpack.c src\load.c src\error.c src\strconv.c src\memory.c src\hashtable.c src\utf.c src\value.c src\dump.c
+         strbuffer.c
+         pack_unpack.c
+         load.c
+         error.c
+         strconv.c
+         memory.c
+         hashtable.c
+         utf.c
+         value.c
+         dump.c
+         正在生成代码...
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppBuild.targets(1299,5): warning MSB8012: TargetPath(E:\Projects\DivaOL\code\divaclient\divaol\Default\jansson.lib) does not match the Library's OutputFile property value (E:\Projects\DivaOL\code\divaclient\divaol\Default\lib\jansson.lib). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+       Lib:
+         D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\Lib.exe /OUT:"E:\Projects\DivaOL\code\divaclient\divaol\Default\lib\jansson.lib" /NOLOGO Default\obj\jansson\strbuffer.obj
+         Default\obj\jansson\pack_unpack.obj
+         Default\obj\jansson\load.obj
+         Default\obj\jansson\error.obj
+         Default\obj\jansson\strconv.obj
+         Default\obj\jansson\memory.obj
+         Default\obj\jansson\hashtable.obj
+         Default\obj\jansson\utf.obj
+         Default\obj\jansson\value.obj
+         Default\obj\jansson\dump.obj
+         jansson.vcxproj -> E:\Projects\DivaOL\code\divaclient\divaol\Default\jansson.lib
+     1>已完成生成项目“E:\Projects\DivaOL\code\divaclient\divaol\divapomelo\libpomelo\deps\jansson\jansson.vcxproj”(Rebuild 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:00.73

@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{d7a49f25-a004-4cfa-9a9b-f7da6771c688}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{9556c369-3e68-43be-849f-bc7b7aa1076e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\pomelo-protocol">
+      <UniqueIdentifier>{f7f93f53-6296-4f16-9bf8-d3d8b1c995b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\pomelo-private">
+      <UniqueIdentifier>{64edd94b-4eae-4a52-9186-234f2fcada78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\pomelo-protobuf">
+      <UniqueIdentifier>{1040cbdf-2919-4d22-9191-82ad060695a6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="pomelo.gyp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\pb-util.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\transport.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\network.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\listener.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\common.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pkg-handshake.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pb-decode.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pkg-heartbeat.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\package.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\thread.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocol.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\message.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\msg-pb.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\client.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pb-encode.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\map.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\msg-json.c">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\pomelo.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pomelo-protocol\message.h">
+      <Filter>include\pomelo-protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pomelo-protocol\package.h">
+      <Filter>include\pomelo-protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pomelo-private\common.h">
+      <Filter>include\pomelo-private</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pomelo-private\ngx-queue.h">
+      <Filter>include\pomelo-private</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pomelo-private\internal.h">
+      <Filter>include\pomelo-private</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pomelo-private\listener.h">
+      <Filter>include\pomelo-private</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pomelo-private\transport.h">
+      <Filter>include\pomelo-private</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pomelo-private\map.h">
+      <Filter>include\pomelo-private</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pomelo-protobuf\pb.h">
+      <Filter>include\pomelo-protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pomelo-protobuf\pb-util.h">
+      <Filter>include\pomelo-protobuf</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
