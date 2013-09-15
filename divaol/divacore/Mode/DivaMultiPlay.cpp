@@ -386,6 +386,7 @@ namespace divacore
 			Json::Value &player = msg["players"][i];
 
 			playerInfo.uid = player["info"]["uid"].asString();
+			playerInfo.color = player["color"].asInt();
 			playerInfo.index = player["index"].asInt();
 			playerInfo.teamIndex = player["teamId"].asInt();
 			playerInfo.indexInTeam = player["idInTeam"].asInt();
@@ -588,7 +589,7 @@ namespace divacore
 		PLAYERS &players = getPlayerInfo();
 
 		for(int i = 0; i < players.size(); i++)
-			EVALUATE_STRATEGY_PTR->getResult().evalData.push_back(EvalData(players[i].uid, players[i].score, 0, 0, 0, false, players[i].teamIndex, POMELO_STAGE_PEER->waiterInfo(players[i].uid).nickname));
+			EVALUATE_STRATEGY_PTR->getResult().evalData.push_back(EvalData(players[i].uid, players[i].score, 0, 0, 0, false, players[i].teamIndex, POMELO_STAGE_PEER->waiterInfo(players[i].uid).nickname, players[i].color));
 		//((CommonEvaluateStrategy*)EVALUATE_STRATEGY_PTR)->addMultiEvalUI();
 	}
 

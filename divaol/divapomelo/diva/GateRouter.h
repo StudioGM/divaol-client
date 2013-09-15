@@ -28,13 +28,14 @@ namespace divapomelo
 				return false;
 
 			succeed = false;
-			querying = true;
 			// host ip and gate ip are same
 			host = ip;
 			client.reset(new Client(ip, port));
 			client->onclose(Base::Bind(this, &GateRouter::onClose));
 			client->on(Base::Bind(this, &GateRouter::onConnect));
 			client->connect(true);
+
+			querying = true;
 			return true;
 		}
 		void logic() {

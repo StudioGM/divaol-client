@@ -27,6 +27,7 @@ namespace divacore
 		//identity
 		std::string name,uid;
 		//slot
+		int color;
 		int index;
 		int teamIndex;
 		int indexInTeam;

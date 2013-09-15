@@ -170,7 +170,7 @@ namespace divacore
 			for(int i = 0; i < mRank.size(); i++)
 			{
 				evals[i]->setInfo(mRank[i]);
-				evals[i]->setTeamColor(mRank[i].index);
+				evals[i]->setTeamColor(mRank[i].color);
 			}
 		}
 		void addSingleEvalUI()

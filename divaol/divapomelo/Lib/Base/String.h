@@ -151,6 +151,10 @@ namespace Base
 			ss << tmp;
 			return ss.str();
 		}
+		template<>
+		static String any2string(base_wstring tmp) {
+			return String(tmp);
+		}
 		template<typename T>
 		static T string2any(const String &s) {
 			T tmp;

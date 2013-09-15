@@ -319,7 +319,7 @@ namespace PomeloCpp
 			if(requestCbs.find((LONG)req) != requestCbs.end()) {
 				// check return code
 				if (status == 0) {
-					if (!json.isMember("code") || !json["code"].isInt() || !(json["code"].asInt() == 200))
+					if (!json.isObject() || !json.isMember("code") || !json["code"].isInt() || !(json["code"].asInt() == 200))
 						status = 1;
 					if (json.isMember("msg"))
 						json = json["msg"];
