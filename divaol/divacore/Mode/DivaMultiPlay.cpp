@@ -491,7 +491,7 @@ namespace divacore
 				if (getAlive()) {
 					POMELO_GAME_PEER->push(divapomelo::EventCode[divapomelo::PUSH_GAME_EVAL],
 						Json::Object(
-							"rank", event.rank
+							"rank", event.rank-1
 						));
 				}
 			}
