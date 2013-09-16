@@ -28,7 +28,7 @@ namespace divapomelo {
 		"game.onFailure",
 		"game.onRenew",
 		"game.relay.onVoidPeriod",
-		"game.relay.onChange",
+		"game.relay.onChance",
 		"game.relay.onNewPlayer",
 		"lobby.chatHandler.send",
 		"lobby.lobbyHandler.getStageList",

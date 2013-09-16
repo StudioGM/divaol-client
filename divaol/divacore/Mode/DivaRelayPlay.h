@@ -888,7 +888,7 @@ namespace divacore
 
 			int tmpTurn;
 			tmpTurn = msg["turn"].asInt();
-			nowPlayer = msg["player"]["idInTeam"].asInt();
+			nowPlayer = msg["idInTeam"].asInt();
 
 			if(getRelayState()!=CHANGE)
 			{
