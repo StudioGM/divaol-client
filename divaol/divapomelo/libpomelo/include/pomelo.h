@@ -452,6 +452,17 @@ int pc_add_listener(pc_client_t *client, const char *event,
                     pc_event_cb event_cb);
 
 /**
+ * Remove a listener in the client.
+ *
+ * @param  client   client instance.
+ * @param  event    event name.
+ * @param  event_cb event callback.
+ * @return          void.
+ */
+void pc_remove_listener(pc_client_t *client, const char *event,
+                    pc_event_cb event_cb);
+
+/**
  * Emit a event from the client.
  *
  * @param client client instance.

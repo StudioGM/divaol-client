@@ -16,6 +16,8 @@ int pb__get_type(const char *type) {
     return 5;
   if (strcmp(type, "string") == 0)
     return 6;
+  if (strcmp(type, "bool") == 0)
+	return 7;
   return 0;
 }
 
@@ -32,6 +34,9 @@ int pb__get_constant_type(const char *type) {
   }
   if (strcmp(type, "float") == 0) {
     return 5;
+  }
+  if (strcmp(type, "bool") == 0) {
+	return 7;
   }
   return 2;
 }

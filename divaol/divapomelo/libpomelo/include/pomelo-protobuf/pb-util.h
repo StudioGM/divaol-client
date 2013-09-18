@@ -13,7 +13,8 @@ typedef enum {
   PB_sInt32 = 3,
   PB_float  = 4,
   PB_double = 5,
-  PB_string = 6
+  PB_string = 6,
+  PB_bool = 7
 } pb_wire_type_t;
 
 /*Helper Function*/

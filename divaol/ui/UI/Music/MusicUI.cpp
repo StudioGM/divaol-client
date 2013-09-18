@@ -651,9 +651,17 @@ namespace diva
 							WJson::Value t = tv[L"rank"][i];
 							WJson::Value addData;
 							reader.parse(t[L"add_data"].asString(), addData);
+
+							// get hooks, new server will use string instead
+							int64 hooks = 0;
+							if (addData[L"hooks"].isString())
+								hooks = Base::String::string2any<int64>(addData[L"hooks"].asString());
+							else
+								hooks = addData[L"hooks"].asInt();
+
 							((RankingListItem*)rankingList->getItem(i))->SetInfo(t[L"score"].asInt(),
 								addData[L"combo"].asInt(),
-								addData[L"hooks"].asInt(),
+								hooks,
 								addData[L"maxCT"].asInt(),
 								addData[L"rank"].asInt(),
 								t[L"name"].asString());

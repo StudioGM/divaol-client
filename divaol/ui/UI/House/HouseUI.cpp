@@ -927,7 +927,7 @@ namespace diva
 					}
 					break;
 				case divapomelo::ON_STAGE_CLOSE:
-					if(state==STATE_STAGE) {
+					if(state==STATE_STAGE || state==STATE_PLAYING) {
 						setState(STATE_ROOM);
 
 						//!FIXME : here use MB will cause black screen when exit game with stage closed

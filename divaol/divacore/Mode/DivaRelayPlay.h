@@ -826,6 +826,7 @@ namespace divacore
 			POMELO_GAME_PEER->push(divapomelo::EventCode[divapomelo::PUSH_GAME_RENEW],
 				Json::Object(
 					"time", CORE_PTR->getRunTime(),
+					"id", uid,
 					"turn", nowTurn,
 					"cnt", cnt,
 					"rank", rank,
@@ -914,6 +915,7 @@ namespace divacore
 			double positionY;
 
 			packetTime = msg["time"].asDouble();
+			pID = msg["id"].asInt();
 			turn = msg["turn"].asInt();
 			pID = msg["id"].asInt();
 			cnt = msg["cnt"].asInt();

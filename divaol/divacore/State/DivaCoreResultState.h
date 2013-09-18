@@ -183,11 +183,18 @@ namespace divacore
 	*/
 	class BackButton : public SimpleUI::Button
 	{
+		Base::Function<void()> backCB;
 	public:
+		BackButton(Base::Function<void()> cb = Base::Function<void()>()) {
+			this->backCB = cb;
+		}
+
 		void press()
 		{
 			sora::SoraBGMManager::Instance()->stopBGS(BGS_ID);
 			
+			if(backCB)
+				backCB();
 			CORE_PTR->over();
 			POMELO_STAGE_PEER->returnToStage("game_over");
 		}
@@ -265,7 +272,7 @@ namespace divacore
 			//EVALUATE_STRATEGY_PTR->finalEvaluate(); //必须在gameStart之前，不然会出现某些render进不去
 			((CommonEvaluateStrategy*)EVALUATE_STRATEGY_PTR)->addMultiEvalUI();
 
-			BackButton *button = new BackButton();
+			BackButton *button = new BackButton(Base::Bind(this, &CoreResultState::backCallback));
 			uiPainter->construct(button,"back");
 			button->init();
 			uiPainter->addWidget(button);
@@ -288,8 +295,16 @@ namespace divacore
 			sora::SoraBGMManager::Instance()->play(diva::config[L"resultLoopMusicFilename"].asString(), true, true);
 		}
 
+		void backCallback() {
+			sora::SoraBGMManager::Instance()->stop(false);
+
+			if(CORE_PTR->getMode()=="multiPlay")
+				POMELO_GAME_PEER->remove(divapomelo::EventCode[divapomelo::ON_GAME_HEARTBEAT]);
+		}
+
 		void onLeave()
 		{
+			/*
 			sora::SoraBGMManager::Instance()->stopBGS(BGS_ID);
 			sora::SoraBGMManager::Instance()->stop(false);
 
@@ -298,6 +313,7 @@ namespace divacore
 			
 			UI_PAINTER_PTR->gameStop();
 			core->over();
+			*/
 		}
 
 		void onRender()

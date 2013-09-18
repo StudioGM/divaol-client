@@ -472,7 +472,7 @@ namespace divapomelo
 				WaiterInfo waiter;
 
 				Json::Value slot = msg["slots"][i];
-				if (slot.isNull() || !slot.isObject()) {
+				if (slot.isNull() || !slot.isObject() || slot["stat"].asInt() < 0) {
 					waiter.status = WaiterInfo::LEAVE;
 				}
 				else {
