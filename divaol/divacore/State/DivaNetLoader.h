@@ -343,23 +343,23 @@ namespace divacore
 
 				LOGGER->msg("Wait for start...","NetworkSystem");
 
-				while(((divacore::MultiPlay*)GAME_MODE_PTR)->getBaseState()!=divacore::MultiPlay::FAILED && ((divacore::MultiPlay*)GAME_MODE_PTR)->getBaseState()!=divacore::MultiPlay::READY)
+				while(((divacore::MultiPlay*)GAME_MODE_PTR)->getBaseState()!=divacore::MultiPlay::FAILED && ((divacore::MultiPlay*)GAME_MODE_PTR)->getBaseState()!=divacore::MultiPlay::READY && POMELO_STAGE_PEER->isPlaying())
 				{
 					POMELO_CLIENT.logic();
 					Base::TimeUtil::mSleep(1);
 				}
 
-				if (((divacore::MultiPlay*)GAME_MODE_PTR)->getBaseState()==divacore::MultiPlay::FAILED) {
+				if (((divacore::MultiPlay*)GAME_MODE_PTR)->getBaseState()==divacore::MultiPlay::FAILED || !POMELO_STAGE_PEER->isPlaying()) {
 					state = FAILED;
 					return;
 				}
 
-				while(state != GAME_RUN) {
+				while(state != GAME_RUN && POMELO_STAGE_PEER->isPlaying()) {
 					POMELO_CLIENT.logic();
 					Base::TimeUtil::mSleep(1);
 				}
 
-				if(state!=GAME_RUN)
+				if(state!=GAME_RUN || !POMELO_STAGE_PEER->isPlaying())
 				{
 					state = FAILED;
 					return;
