@@ -2785,7 +2785,7 @@ namespace diva
 
 		void HouseUI::login() {
 #ifndef _DEBUG
-			VERSION.RequireVersion();
+			/*VERSION.RequireVersion();
 			while(VERSION.getState() == divacore::Version::REQUIREING)
 				Base::TimeUtil::mSleep(1);
 			if(VERSION.getState() == divacore::Version::UNREADY)
@@ -2797,7 +2797,7 @@ namespace diva
 			{
 				mgr->GetMB()->Show(L"版本已过时，请更新游戏。", L"错误", gcn::MessageBoxEx::TYPE_OK);
 				return;
-			}
+			}*/
 #endif
 			if(!connectServer())
 			{

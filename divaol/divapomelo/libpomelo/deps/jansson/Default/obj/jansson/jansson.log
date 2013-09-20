@@ -1,4 +1,4 @@
-﻿生成启动时间为 2013/9/18 0:35:04。
+﻿生成启动时间为 2013/9/20 16:25:11。
      1>项目“E:\Projects\DivaOL\code\divaclient\divaol\divapomelo\libpomelo\deps\jansson\jansson.vcxproj”在节点 4 上(Rebuild 个目标)。
      1>ClCompile:
          D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /Isrc /Zi /nologo /W1 /WX- /O2 /Oy- /D WIN32 /D _CRT_NONSTDC_NO_DEPRECATE /D _DEBUG /D _WINDOWS /D _USRDLL /D JANSSON_DLL_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Default\obj\jansson\\" /Fd"Default\obj\jansson\jansson\vc80.pdb" /Gd /TC /analyze- /errorReport:prompt src\strbuffer.c src\pack_unpack.c src\load.c src\error.c src\strconv.c src\memory.c src\hashtable.c src\utf.c src\value.c src\dump.c
@@ -30,4 +30,4 @@
 
 生成成功。
 
-已用时间 00:00:00.82
+已用时间 00:00:03.07

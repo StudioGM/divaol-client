@@ -1,5 +1,5 @@
-﻿生成启动时间为 2013/9/18 0:35:03。
-     1>项目“E:\Projects\DivaOL\code\divaclient\divaol\divapomelo\libpomelo\deps\uv\libuv.vcxproj”在节点 2 上(Rebuild 个目标)。
+﻿生成启动时间为 2013/9/20 16:25:11。
+     1>项目“E:\Projects\DivaOL\code\divaclient\divaol\divapomelo\libpomelo\deps\uv\libuv.vcxproj”在节点 3 上(Rebuild 个目标)。
      1>ClCompile:
          D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /Iinclude /I"include\uv-private" /Isrc /Zi /nologo /W1 /WX- /O2 /Oy- /D HAVE_CONFIG_H /D _WIN32_WINNT=0x0600 /D _GNU_SOURCE /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Default\obj\libuv\\" /Fd"Default\obj\libuv\libuv\vc80.pdb" /Gd /TC /analyze- /errorReport:prompt src\inet.c "src\uv-common.c" "src\fs-poll.c" "src\win\loop-watcher.c" src\win\process.c src\win\tty.c src\win\util.c src\win\dl.c src\win\stream.c src\win\getaddrinfo.c src\win\signal.c src\win\winapi.c src\win\thread.c src\win\fs.c src\win\pipe.c src\win\tcp.c "src\win\fs-event.c" src\win\core.c src\win\udp.c src\win\async.c "src\win\process-stdio.c" src\win\poll.c src\win\threadpool.c src\win\error.c src\win\req.c src\win\winsock.c src\win\handle.c src\win\timer.c
          inet.c
@@ -69,4 +69,4 @@
 
 生成成功。
 
-已用时间 00:00:10.11
+已用时间 00:00:17.05
