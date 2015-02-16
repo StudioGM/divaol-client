@@ -13,6 +13,7 @@
 #include "Type.h"
 #include "Ptr.h"
 #include <iostream>
+#include <algorithm>
 
 namespace Base
 {

@@ -119,6 +119,7 @@
     <ClInclude Include="Sys\SysUtilWin.h" />
     <ClInclude Include="Thread\Mutex.h" />
     <ClInclude Include="Thread\Queue.h" />
+    <ClInclude Include="Thread\TaskPool.h" />
     <ClInclude Include="Thread\Thread.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Type.h" />

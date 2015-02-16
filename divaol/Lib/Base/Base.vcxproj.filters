@@ -155,5 +155,8 @@
     <ClInclude Include="Uncopyable.h">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="Thread\TaskPool.h">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

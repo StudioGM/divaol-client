@@ -11,6 +11,7 @@
 
 #include "SoraPlatform.h"
 #include "math/SoraMathCommon.h"
+#include <algorithm>
 #include <cmath>
 
 namespace sora {
