@@ -1,1 +1,9 @@
 Build
+divaol/Debug
+divaol/Release
+divaol/Default
+divaol/song
+divaol/plugins
+*.dll
+*.tlog
+*.log
