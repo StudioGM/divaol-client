@@ -21,14 +21,14 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120_xp</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120_xp</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -42,9 +42,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)../Hoshizor/Plugins/SoraFMODSoundSystem;$(ProjectDir)../Hoshizor/Plugins/SoraSoundManager;$(ProjectDir)../Hoshizor/Plugins/fmod/;$(ProjectDir)../Hoshizor/Plugins/SoraBox2dPhysics;$(ProjectDir)../Hoshizor/Plugins\SoraVlcMoviePlayer\win32\include;$(ProjectDir)../Hoshizor/Plugins/SoraLua/LuaPlus/src;$(ProjectDir)../Hoshizor./Plugins/SoraLua;$(ProjectDir)../Hoshizor/Plugins/libvlc/win32/include;$(ProjectDir)../Hoshizor/Plugins/cg;$(ProjectDir)/../Hoshizor/Plugins/SoraShader;$(ProjectDir)/../Hoshizor/Plugins/SoraGUIChan;$(ProjectDir)/../Hoshizor/Plugins/SoraFreetypeFont/;$(DXSDK_DIR)/include;$(ProjectDir)/../Hoshizor/Plugins;$(ProjectDir)/../Hoshizor/Sora;$(ProjectDir)/divacore/;$(ProjectDir)/;$(ProjectDir)/divacore/Lib;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)../Hoshizor/Plugins/SoraFmodSoundSystem;$(ProjectDir)../Hoshizor/Plugins/SoraSoundManager;$(ProjectDir)../Hoshizor/Plugins/fmod/;$(ProjectDir)../Hoshizor/Plugins/SoraBox2dPhysics;$(ProjectDir)../Hoshizor/Plugins\SoraVlcMoviePlayer\win32\include;$(ProjectDir)../Hoshizor/Plugins/SoraLua/LuaPlus/src;$(ProjectDir)../Hoshizor./Plugins/SoraLua;$(ProjectDir)../Hoshizor/Plugins/libvlc/win32/include;$(ProjectDir)../Hoshizor/Plugins/cg;$(ProjectDir)/../Hoshizor/Plugins/SoraShader;$(ProjectDir)/../Hoshizor/Plugins/SoraGUIChan;$(ProjectDir)/../Hoshizor/Plugins/SoraFreetypeFont/;$(DXSDK_DIR)/include;$(ProjectDir)/../Hoshizor/Plugins;$(ProjectDir)/../Hoshizor/Sora;$(ProjectDir)/divacore;$(ProjectDir);$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)../Hoshizor/Plugins\SoraVlcMoviePlayer/win32/lib;$(ProjectDir)../Hoshizor/Plugins/fmod/;$(ProjectDir)../Hoshizor/Plugins/SoraOGLRenderer;$(ProjectDir)../Hoshizor/Plugins/SoraGifSprite;$(ProjectDir)../Hoshizor/Plugins/SoraFreetypeFont;$(ProjectDir)../Hoshizor/Plugins/SoraAudiereSoundSystem;$(ProjectDir)../Hoshizor/Plugins/SoraHttpFile;$(ProjectDir)../Hoshizor/Plugins/SoraThread;$(ProjectDir)../Hoshizor/Plugins/SoraLua;$(ProjectDir)../Hoshizor/Plugins/libvlc/win32/lib;$(ProjectDir)/../Hoshizor/Plugins/cg;$(DXSDK_DIR)/Lib/x86;$(ProjectDir)/bin;$(LibraryPath)</LibraryPath>
     <EmbedManifest>false</EmbedManifest>
+    <LibraryWPath>$(WindowsSDK_MetadataPath);</LibraryWPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -810,6 +811,7 @@
     <ClInclude Include="Lib\Base\Sys\SysUtilWin.h" />
     <ClInclude Include="Lib\Base\Thread\Mutex.h" />
     <ClInclude Include="Lib\Base\Thread\Queue.h" />
+    <ClInclude Include="Lib\Base\Thread\TaskPool.h" />
     <ClInclude Include="Lib\Base\Thread\Thread.h" />
     <ClInclude Include="Lib\Base\Timer.h" />
     <ClInclude Include="Lib\Base\Type.h" />

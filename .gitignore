@@ -4,6 +4,10 @@ divaol/Release
 divaol/Default
 divaol/song
 divaol/plugins
+divaol/diva_log.txt
 *.dll
 *.tlog
 *.log
+*.suo
+*.sdf
+*.opensdf

@@ -2730,6 +2730,9 @@
     <ClInclude Include="Lib\Base\Pattern\Publisher.h">
       <Filter>源文件\lib\base</Filter>
     </ClInclude>
+    <ClInclude Include="Lib\Base\Thread\TaskPool.h">
+      <Filter>源文件\lib\base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
