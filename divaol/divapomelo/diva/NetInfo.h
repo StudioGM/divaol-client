@@ -41,7 +41,7 @@ namespace divapomelo
 	public:
 		ServerInfo() {
 			gatePort = 3014;
-			gateIp = "10.155.0.198";
+			gateIp = "divaolserver00.gmgate.net";
 			//gateIp = "127.0.0.1";
 		}
 		~ServerInfo() {}

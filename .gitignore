@@ -4,7 +4,11 @@ divaol/Release
 divaol/Default
 divaol/song
 divaol/plugins
+divaol/clientProtos
+divaol/protoVersion
+divaol/serverProtos
 divaol/diva_log.txt
+divaol/info.tmp
 *.dll
 *.tlog
 *.log
