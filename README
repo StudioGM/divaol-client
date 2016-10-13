@@ -1,1 +1,11 @@
-This is the source code of divaol-client
+This is the source code of divaol-client.
+
+While StudioGM will not continue to work on these codes,
+the version remains at Diva Online's alpha test.
+
+Use alpha branch as default branch.
+You need to install DirectX(June 2010) to compile this project.
+We use Visual Studio 2015 to compile this version, while we did not test this project under other versions of VS.
+
+NEVER use this project to do some money work.
+Important: This is a non-commercial project.
