@@ -9,6 +9,7 @@ divaol/protoVersion
 divaol/serverProtos
 divaol/diva_log.txt
 divaol/info.tmp
+divaol/divaol.VC*
 *.dll
 *.tlog
 *.log
