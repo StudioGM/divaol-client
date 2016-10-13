@@ -15,6 +15,7 @@
 
 namespace divanet
 {
+#if defined(DIVA_USE_GNET)
 	struct WaiterInfo {
 		enum State{LEAVE,READY,UNREADY};
 		std::string uid;
@@ -613,6 +614,7 @@ namespace divanet
 	};
 
 #define STAGE_CLIENT (divanet::StageClient::instance())
+#endif
 }
 
 #endif

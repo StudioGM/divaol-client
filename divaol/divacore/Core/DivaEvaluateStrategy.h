@@ -45,6 +45,7 @@ namespace divacore
 		std::string uid;
 		Base::String nickname;
 		int index;
+		int color;
 		int score;
 		int maxCombo;
 		int maxCTLevel;
@@ -52,9 +53,10 @@ namespace divacore
 		bool isOver;
 		std::string status;
 		int cntEval[EvaluateStrategy::EVAL_NUM];
-		EvalData():uid(""),score(0),nickname("unknown") {memset(cntEval,0,sizeof(cntEval));}
-		EvalData(const std::string &uid, int score, int maxCombo, int maxCTLevel, double hp, int isOver, int cntEval[], int index = 0, const std::string nickname = "unknown") {
+		//EvalData():uid(""),score(0),nickname("unknown") {memset(cntEval,0,sizeof(cntEval));}
+		EvalData(const std::string &uid, int score, int maxCombo, int maxCTLevel, double hp, int isOver, int cntEval[], int index, const std::string nickname, int color = 0) {
 			this->index = index;
+			this->color = color;
 			this->uid = uid;
 			this->score = score;
 			this->nickname = nickname;
@@ -65,8 +67,9 @@ namespace divacore
 			this->status = "systemready";
 			memcpy(this->cntEval,cntEval,sizeof(int)*EvaluateStrategy::EVAL_NUM);
 		}
-		EvalData(const std::string &uid, int score, int maxCombo, int maxCTLevel, double hp, int isOver, int index = 0, const std::string nickname = "unknown") {
+		EvalData(const std::string &uid, int score, int maxCombo, int maxCTLevel, double hp, int isOver, int index, const std::string nickname, int color = 0) {
 			this->index = index;
+			this->color = color;
 			this->uid = uid;
 			this->score = score;
 			this->nickname = nickname;

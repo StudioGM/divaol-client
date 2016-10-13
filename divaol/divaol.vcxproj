@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -21,14 +21,14 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v110_xp</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -42,9 +42,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)../Hoshizor/Plugins/SoraFMODSoundSystem;$(ProjectDir)../Hoshizor/Plugins/SoraSoundManager;$(ProjectDir)../Hoshizor/Plugins/fmod/;$(ProjectDir)../Hoshizor/Plugins/SoraBox2dPhysics;$(ProjectDir)../Hoshizor/Plugins\SoraVlcMoviePlayer\win32\include;$(ProjectDir)../Hoshizor/Plugins/SoraLua/LuaPlus/src;$(ProjectDir)../Hoshizor./Plugins/SoraLua;$(ProjectDir)../Hoshizor/Plugins/libvlc/win32/include;$(ProjectDir)../Hoshizor/Plugins/cg;$(ProjectDir)/../Hoshizor/Plugins/SoraShader;$(ProjectDir)/../Hoshizor/Plugins/SoraGUIChan;$(ProjectDir)/../Hoshizor/Plugins/SoraFreetypeFont/;$(DXSDK_DIR)/include;$(ProjectDir)/../Hoshizor/Plugins;$(ProjectDir)/../Hoshizor/Sora;$(ProjectDir)/divacore/;$(ProjectDir)/;$(ProjectDir)/divacore/Lib;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)../Hoshizor/Plugins/SoraFmodSoundSystem;$(ProjectDir)../Hoshizor/Plugins/SoraSoundManager;$(ProjectDir)../Hoshizor/Plugins/fmod/;$(ProjectDir)../Hoshizor/Plugins/SoraBox2dPhysics;$(ProjectDir)../Hoshizor/Plugins\SoraVlcMoviePlayer\win32\include;$(ProjectDir)../Hoshizor/Plugins/SoraLua/LuaPlus/src;$(ProjectDir)../Hoshizor./Plugins/SoraLua;$(ProjectDir)../Hoshizor/Plugins/libvlc/win32/include;$(ProjectDir)../Hoshizor/Plugins/cg;$(ProjectDir)/../Hoshizor/Plugins/SoraShader;$(ProjectDir)/../Hoshizor/Plugins/SoraGUIChan;$(ProjectDir)/../Hoshizor/Plugins/SoraFreetypeFont/;$(DXSDK_DIR)/include;$(ProjectDir)/../Hoshizor/Plugins;$(ProjectDir)/../Hoshizor/Sora;$(ProjectDir)/divacore;$(ProjectDir);$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)../Hoshizor/Plugins\SoraVlcMoviePlayer/win32/lib;$(ProjectDir)../Hoshizor/Plugins/fmod/;$(ProjectDir)../Hoshizor/Plugins/SoraOGLRenderer;$(ProjectDir)../Hoshizor/Plugins/SoraGifSprite;$(ProjectDir)../Hoshizor/Plugins/SoraFreetypeFont;$(ProjectDir)../Hoshizor/Plugins/SoraAudiereSoundSystem;$(ProjectDir)../Hoshizor/Plugins/SoraHttpFile;$(ProjectDir)../Hoshizor/Plugins/SoraThread;$(ProjectDir)../Hoshizor/Plugins/SoraLua;$(ProjectDir)../Hoshizor/Plugins/libvlc/win32/lib;$(ProjectDir)/../Hoshizor/Plugins/cg;$(DXSDK_DIR)/Lib/x86;$(ProjectDir)/bin;$(LibraryPath)</LibraryPath>
     <EmbedManifest>false</EmbedManifest>
+    <LibraryWPath>$(WindowsSDK_MetadataPath);</LibraryWPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -58,11 +59,12 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>divapomelo\libpomelo\include;divapomelo\libpomelo\deps\uv\include;divapomelo\libpomelo\deps\jansson\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>advapi32.lib;shell32.lib;ws2_32.lib;psapi.lib;iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -74,7 +76,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>divapomelo\libpomelo\include;divapomelo\libpomelo\deps\uv\include;divapomelo\libpomelo\deps\jansson\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -82,6 +84,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <AdditionalDependencies>advapi32.lib;shell32.lib;ws2_32.lib;psapi.lib;iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -710,6 +713,69 @@
     <ClInclude Include="divanetwork\DivaNetInfo.h" />
     <ClInclude Include="divanetwork\DivaSchedulerClient.h" />
     <ClInclude Include="divanetwork\DivaStageServer.h" />
+    <ClInclude Include="divapomelo\diva\ChatPeer.h" />
+    <ClInclude Include="divapomelo\diva\Client.h" />
+    <ClInclude Include="divapomelo\diva\GamePeer.h" />
+    <ClInclude Include="divapomelo\diva\GateRouter.h" />
+    <ClInclude Include="divapomelo\diva\LobbyPeer.h" />
+    <ClInclude Include="divapomelo\diva\NetInfo.h" />
+    <ClInclude Include="divapomelo\diva\PeerBase.h" />
+    <ClInclude Include="divapomelo\diva\PeerComp.h" />
+    <ClInclude Include="divapomelo\diva\PreDefines.h" />
+    <ClInclude Include="divapomelo\diva\StagePeer.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Any.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Base.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Codec\Codec.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Common.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Exception.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Function\Function.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Function\FunctionBase.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Function\FunctionInclude.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Function\FunctionTemplate.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Io\FileUtil.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Io\Path.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Io\Stream.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Logger.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Math.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Net\Net.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Pattern\Observer.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Pattern\Publisher.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Pattern\Singleton.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Platform.h" />
+    <ClInclude Include="divapomelo\Lib\Base\PreDeclare.h" />
+    <ClInclude Include="divapomelo\Lib\Base\PreDefine.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Ptr.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Random.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Raw.h" />
+    <ClInclude Include="divapomelo\Lib\Base\String.h" />
+    <ClInclude Include="divapomelo\Lib\Base\StringConv.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Sys\Sys.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Sys\SysUtilApple.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Sys\SysUtilLinux.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Sys\SysUtilWin.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Thread\Mutex.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Thread\Queue.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Thread\Thread.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Timer.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Type.h" />
+    <ClInclude Include="divapomelo\Lib\Base\TypeTraits.h" />
+    <ClInclude Include="divapomelo\Lib\Base\Uncopyable.h" />
+    <ClInclude Include="divapomelo\Lib\CSHA1\SHA1.h" />
+    <ClInclude Include="divapomelo\Lib\json\autolink.h" />
+    <ClInclude Include="divapomelo\Lib\json\config.h" />
+    <ClInclude Include="divapomelo\Lib\json\features.h" />
+    <ClInclude Include="divapomelo\Lib\json\forwards.h" />
+    <ClInclude Include="divapomelo\Lib\json\json.h" />
+    <ClInclude Include="divapomelo\Lib\json\json_batchallocator.h" />
+    <ClInclude Include="divapomelo\Lib\json\reader.h" />
+    <ClInclude Include="divapomelo\Lib\json\value.h" />
+    <ClInclude Include="divapomelo\Lib\json\writer.h" />
+    <ClInclude Include="divapomelo\PomeloCpp\Client.h" />
+    <ClInclude Include="divapomelo\PomeloCpp\Event.h" />
+    <ClInclude Include="divapomelo\PomeloCpp\Json.h" />
+    <ClInclude Include="divapomelo\PomeloCpp\PomeloCpp.h" />
+    <ClInclude Include="divapomelo\PomeloCpp\PreDeclare.h" />
+    <ClInclude Include="divapomelo\PomeloCpp\ReqWrapper.h" />
     <ClInclude Include="Lib\Base\Any.h" />
     <ClInclude Include="Lib\Base\Base.h" />
     <ClInclude Include="Lib\Base\Codec\Codec.h" />
@@ -728,6 +794,7 @@
     <ClInclude Include="Lib\Base\Math.h" />
     <ClInclude Include="Lib\Base\Net\Net.h" />
     <ClInclude Include="Lib\Base\Pattern\Observer.h" />
+    <ClInclude Include="Lib\Base\Pattern\Publisher.h" />
     <ClInclude Include="Lib\Base\Pattern\Singleton.h" />
     <ClInclude Include="Lib\Base\Platform.h" />
     <ClInclude Include="Lib\Base\PreDeclare.h" />
@@ -744,6 +811,7 @@
     <ClInclude Include="Lib\Base\Sys\SysUtilWin.h" />
     <ClInclude Include="Lib\Base\Thread\Mutex.h" />
     <ClInclude Include="Lib\Base\Thread\Queue.h" />
+    <ClInclude Include="Lib\Base\Thread\TaskPool.h" />
     <ClInclude Include="Lib\Base\Thread\Thread.h" />
     <ClInclude Include="Lib\Base\Timer.h" />
     <ClInclude Include="Lib\Base\Type.h" />
@@ -1153,6 +1221,21 @@
     <ClCompile Include="divanetwork\gnet\connection.cpp" />
     <ClCompile Include="divanetwork\gnet\gnet.cpp" />
     <ClCompile Include="divanetwork\gnet\netManager.cpp" />
+    <ClCompile Include="divapomelo\diva\PeerComp.cpp" />
+    <ClCompile Include="divapomelo\diva\PerDefines.cpp" />
+    <ClCompile Include="divapomelo\Lib\Base\Io\FileUtil.cpp" />
+    <ClCompile Include="divapomelo\Lib\Base\Io\Path.cpp" />
+    <ClCompile Include="divapomelo\Lib\Base\Io\Stream.cpp" />
+    <ClCompile Include="divapomelo\Lib\Base\Logger.cpp" />
+    <ClCompile Include="divapomelo\Lib\Base\Math.cpp" />
+    <ClCompile Include="divapomelo\Lib\Base\Random.cpp" />
+    <ClCompile Include="divapomelo\Lib\Base\String.cpp" />
+    <ClCompile Include="divapomelo\Lib\Base\Sys\SysUtilWin.cpp" />
+    <ClCompile Include="divapomelo\Lib\Base\Timer.cpp" />
+    <ClCompile Include="divapomelo\Lib\CSHA1\SHA1.cpp" />
+    <ClCompile Include="divapomelo\Lib\json\json_reader.cpp" />
+    <ClCompile Include="divapomelo\Lib\json\json_value.cpp" />
+    <ClCompile Include="divapomelo\Lib\json\json_writer.cpp" />
     <ClCompile Include="divasongmgr\DivaMapEncryption.cpp" />
     <ClCompile Include="divasongmgr\DivaMapManager.cpp" />
     <ClCompile Include="Lib\Base\Io\FileUtil.cpp" />
@@ -1239,6 +1322,9 @@
     <None Include="..\Hoshizor\Sora\json\json_internalarray.inl" />
     <None Include="..\Hoshizor\Sora\json\json_internalmap.inl" />
     <None Include="..\Hoshizor\Sora\json\json_valueiterator.inl" />
+    <None Include="divapomelo\Lib\json\json_internalarray.inl" />
+    <None Include="divapomelo\Lib\json\json_internalmap.inl" />
+    <None Include="divapomelo\Lib\json\json_valueiterator.inl" />
     <None Include="Lib\curl\curlbuild.h.cmake" />
     <None Include="Lib\curl\curlbuild.h.in" />
     <None Include="Lib\curl\Makefile.am" />
@@ -1250,6 +1336,32 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="divaol.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="divapomelo\libpomelo\deps\jansson\jansson.vcxproj">
+      <Project>{3da9e8b6-0455-d04b-1985-3748bf80674f}</Project>
+      <Private>false</Private>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="divapomelo\libpomelo\deps\uv\libuv.vcxproj">
+      <Project>{4e582da0-68e2-8a52-01de-340b47888102}</Project>
+      <Private>false</Private>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="divapomelo\libpomelo\libpomelo.vcxproj">
+      <Project>{543f80b6-3dff-a8dd-be51-fb9314d6b234}</Project>
+      <Private>false</Private>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -17,6 +17,7 @@
 
 namespace divanet
 {
+#if defined(DIVA_USE_GNET)
 	using Base::Observer;
 	using Base::Notification;
 	typedef Base::Thread<void()> ThreadTask;
@@ -155,6 +156,7 @@ namespace divanet
 		uint32 mClientState;
 		NetworkPtr mNetSys;
 	};
+#endif
 }
 
 #endif

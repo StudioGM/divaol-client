@@ -13,6 +13,7 @@
 
 namespace divanet
 {
+#if defined(DIVA_USE_GNET)
 	struct RoomInfo {
 		enum {STAGE,GAME,CHECKOUT};
 
@@ -136,6 +137,7 @@ namespace divanet
 	};
 
 #define SCHEDULER_CLIENT (divanet::SchedulerClient::instance())
+#endif
 }
 
 #endif

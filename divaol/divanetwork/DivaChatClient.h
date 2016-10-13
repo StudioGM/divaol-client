@@ -13,6 +13,7 @@
 
 namespace divanet
 {
+#if defined(DIVA_USE_GNET)
 	class ChatClient : public Client, public Base::Singleton<ChatClient>
 	{
 		friend class StageClient;
@@ -172,6 +173,7 @@ namespace divanet
 	};
 
 #define CHAT_CLIENT (divanet::ChatClient::instance())
+#endif
 }
 
 #endif

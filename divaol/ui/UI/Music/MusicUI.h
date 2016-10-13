@@ -111,6 +111,8 @@ namespace diva
 			//NetCore netCore;
 
 			MusicUI();
+			void InitUI();
+
 			int state;
 			enum {SONGLIST_ORIG, SONGLIST_ART, SONGLIST_SPEART};
 			enum {NETSTATE_OFFLINE, NETSTATE_ONLINE};

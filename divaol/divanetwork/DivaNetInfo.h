@@ -15,6 +15,7 @@
 
 namespace divanet
 {
+#if defined(DIVA_USE_GNET)
 	struct ServiceInfo
 	{
 		Base::String ip;
@@ -63,6 +64,7 @@ namespace divanet
 	};
 
 #define NET_INFO (divanet::NetInfo::instance())
+#endif
 }
 
 #endif

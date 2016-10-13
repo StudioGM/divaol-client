@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Default|Win32">
+      <Configuration>Default</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{543F80B6-3DFF-A8DD-BE51-FB9314D6B234}</ProjectGuid>
+    <RootNamespace>libpomelo</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Default|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140_xp</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Default|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>11.0.51106.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Default|Win32'">
+    <IntDir>$(Configuration)\obj\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Default|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>include;deps\uv\include;deps\jansson\src;deps\uv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/TP %(AdditionalOptions)</AdditionalOptions>
+      <PreprocessorDefinitions>WIN32;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_WINDOWS;_USRDLL;JANSSON_DLL_EXPORTS;_WINDLL;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ProgramDataBaseFileName>$(IntDir)$(ProjectName)\vc80.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>include;deps\uv\include;deps\jansson\src;deps\uv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_WINDOWS;_USRDLL;JANSSON_DLL_EXPORTS;_WINDLL;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>$(OutDir)lib\$(ProjectName).lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="pomelo.gyp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\pb-util.c" />
+    <ClCompile Include="src\transport.c" />
+    <ClCompile Include="src\network.c" />
+    <ClCompile Include="src\listener.c" />
+    <ClCompile Include="src\common.c" />
+    <ClCompile Include="src\pkg-handshake.c" />
+    <ClCompile Include="src\pb-decode.c" />
+    <ClCompile Include="src\pkg-heartbeat.c" />
+    <ClCompile Include="src\package.c" />
+    <ClCompile Include="src\thread.c" />
+    <ClCompile Include="src\protocol.c" />
+    <ClCompile Include="src\message.c" />
+    <ClCompile Include="src\msg-pb.c" />
+    <ClCompile Include="src\client.c" />
+    <ClCompile Include="src\pb-encode.c" />
+    <ClCompile Include="src\map.c" />
+    <ClCompile Include="src\msg-json.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\pomelo.h" />
+    <ClInclude Include="include\pomelo-protocol\message.h" />
+    <ClInclude Include="include\pomelo-protocol\package.h" />
+    <ClInclude Include="include\pomelo-private\common.h" />
+    <ClInclude Include="include\pomelo-private\ngx-queue.h" />
+    <ClInclude Include="include\pomelo-private\internal.h" />
+    <ClInclude Include="include\pomelo-private\listener.h" />
+    <ClInclude Include="include\pomelo-private\transport.h" />
+    <ClInclude Include="include\pomelo-private\map.h" />
+    <ClInclude Include="include\pomelo-protobuf\pb.h" />
+    <ClInclude Include="include\pomelo-protobuf\pb-util.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -9,13 +9,14 @@
 #ifndef DIVA_SIMPLE_UI
 #define DIVA_SIMPLE_UI
 
+#include "Mode/DivaMultiplay.h"
+
 #include "Core/DivaCommon.h"
 #include "SoraSprite.h"
 #include "SoraText.h"
 #include "Core/DivaConfig.h"
 #include "Core/DivaHook.h"
 #include "Core/DivaEvaluateStrategy.h"
-#include "Mode/DivaMultiplay.h"
 #include "Hook/DivaCTMode.h"
 
 namespace divacore

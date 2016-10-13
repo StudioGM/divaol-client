@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{769d1b4c-2d6e-4be4-9164-e7ce52a5159e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="jansson.gyp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\strbuffer.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pack_unpack.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\load.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\error.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\strconv.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\memory.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hashtable.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utf.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\value.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dump.c">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\strbuffer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\jansson.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\jansson_config.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\jansson_private.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hashtable.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utf.h">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

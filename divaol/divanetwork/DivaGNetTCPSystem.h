@@ -18,6 +18,7 @@
 
 namespace divanet
 {
+#if defined(DIVA_USE_GNET)
 	using gnet::Item;
 	using gnet::Tuple;
 	using gnet::Atom;
@@ -136,6 +137,7 @@ namespace divanet
 	};
 
 	typedef GNetworkSystem* GNetworkSystemPtr;
+#endif
 }
 
 #endif

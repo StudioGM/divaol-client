@@ -9,8 +9,8 @@
 #ifndef DIVA_SIMPLE_UI_PAINTER
 #define DIVA_SIMPLE_UI_PAINTER
 
-#include "Core/DivaUIPainter.h"
 #include "Utility/DivaSimpleUI.h"
+#include "Core/DivaUIPainter.h"
 
 
 namespace divacore

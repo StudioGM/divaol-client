@@ -1,3 +1,5 @@
+#include "divapomelo/diva/Client.h"
+
 #include "MusicUI.h"
 #include "SoraResourceFile.h"
 #include "ui/Config/DivaUIConfig.h"
@@ -53,10 +55,12 @@ namespace diva
 			trueTop->setEnabled(false);
 		}
 
-
-
 		MusicUI::MusicUI()
 		{
+
+		}
+
+		void MusicUI::InitUI() {
 			// initialize net
 			WJson::Value tv;
 			//initNet();
@@ -67,7 +71,7 @@ namespace diva
 			trueTop->setSize(setConfig[L"gameWidth"].asInt(), setConfig[L"gameHeight"].asInt());
 			trueTop->setOpaque(false);
 			mgr = new WindowMgr(trueTop);
-			
+
 			top = new gcn::WindowEx();
 			top->setSize(setConfig[L"gameWidth"].asInt(), setConfig[L"gameHeight"].asInt());
 			top->setOpaque(false);
@@ -81,8 +85,8 @@ namespace diva
 				mbex->LoadFromJsonFile(t);
 				mgr->RegisterMessageBox(mbex);
 			}
-			
-			
+
+
 			countStarted = false;
 
 			// load font
@@ -93,7 +97,7 @@ namespace diva
 			// Game Mode
 			for (int i = 0; i < config[L"gameModeNames"].size(); i++)
 				modeNames.push_back(config[L"gameModeNames"][i].asString());
-		
+
 			// Background
 			background = new gcn::ImageDisplayerEx();
 			background->setSize(1920, 1080);
@@ -126,7 +130,7 @@ namespace diva
 			top->add(songListBox, 83, 94);
 
 			leftArtistButton = new gcn::ButtonEx();
-			leftArtistButton->setLook(L"res/UI1.png", 
+			leftArtistButton->setLook(L"res/UI1.png",
 				gcn::Rectangle(1432, 0, 105, 154),
 				gcn::Rectangle(1222, 0, 105, 154),
 				gcn::Rectangle(1327, 0, 105, 154),
@@ -142,7 +146,7 @@ namespace diva
 				gcn::Rectangle(1432, 154, 105, 154),
 				gcn::Rectangle(1222, 154, 105, 154),
 				gcn::Rectangle(1327, 154, 105, 154),
-				gcn::Rectangle(1432, 154, 105, 154), 
+				gcn::Rectangle(1432, 154, 105, 154),
 				-20, -20);
 			leftSongButton->setSize(65, 114);
 			leftSongButton->addMouseListener(new SongButton_MouseListener());
@@ -194,12 +198,12 @@ namespace diva
 
 			noimageFileName = L"res/UI2.png";
 			randomFileName = L"res/UI2.png";
-			noimageRect = gcn::Rectangle(412,0,368,207);
-			randomRect = gcn::Rectangle(412,207,368,207);
+			noimageRect = gcn::Rectangle(412, 0, 368, 207);
+			randomRect = gcn::Rectangle(412, 207, 368, 207);
 
 			// SongListLogo
 			songListLogo = new gcn::ContainerEx();
-			songListLogo->load(L"res/UI2.png", gcn::Rectangle(803,1260,627,112));
+			songListLogo->load(L"res/UI2.png", gcn::Rectangle(803, 1260, 627, 112));
 			songListLogo->setSize(627, 112);
 			top->add(songListLogo, 74, 96);
 
@@ -207,15 +211,15 @@ namespace diva
 
 			thumbImage = new gcn::ContainerEx();
 			thumbImage->load(noimageFileName, noimageRect, true);
-			thumbImage->setSize(368,207);
+			thumbImage->setSize(368, 207);
 			top->add(thumbImage, 793, 132);
 
 			// ThumbFrameContainer
 
 			thumbFrameContainter = new gcn::ContainerEx();
-			thumbFrameContainter->load(L"res/UI2.png", gcn::Rectangle(0,0,412,251));
-			thumbFrameContainter->setSize(412,251);
-			top->add(thumbFrameContainter, 771,110);
+			thumbFrameContainter->load(L"res/UI2.png", gcn::Rectangle(0, 0, 412, 251));
+			thumbFrameContainter->setSize(412, 251);
+			top->add(thumbFrameContainter, 771, 110);
 
 			// SongInfoContainer
 
@@ -223,10 +227,10 @@ namespace diva
 
 			songInfoContainer = new DivaSongInfoContainer();
 			songInfoContainer->setFont(songInfoFont);
-			songInfoContainer->load(L"res/UI2.png", gcn::Rectangle(412,414,553,295));
-			songInfoContainer->setSize(553,295);
+			songInfoContainer->load(L"res/UI2.png", gcn::Rectangle(412, 414, 553, 295));
+			songInfoContainer->setSize(553, 295);
 			top->add(songInfoContainer, 700, 346);
-		
+
 			// SelectedListBox
 
 			selectedListBox = new DivaSelectedListBox();
@@ -261,7 +265,7 @@ namespace diva
 			modeTextLabel->setSize(90, 50);
 			modeTextLabel->setForegroundColor(gcn::Color(0, 0, 0));
 			modeTextLabel->setFont(artistFont);
-			top->add(modeTextLabel, 1625 + offx -19, 670 + offy -10);
+			top->add(modeTextLabel, 1625 + offx - 19, 670 + offy - 10);
 
 			// RankPageLeftButton
 			rankPageLeftBtn = new gcn::ButtonEx();
@@ -272,7 +276,7 @@ namespace diva
 				-19, -10);
 			rankPageLeftBtn->addMouseListener(new RankPageLeft_MouseListener());
 			rankPageLeftBtn->setSize(36, 25);
-			top->add(rankPageLeftBtn, 1460 + 19, 726+ 10);
+			top->add(rankPageLeftBtn, 1460 + 19, 726 + 10);
 
 			// RankPageRightButton
 			rankPageRightBtn = new gcn::ButtonEx();
@@ -302,7 +306,7 @@ namespace diva
 			{
 				// SongSelectButton
 				gcn::Helper::ReadJsonFromFile(L"config/uiconfig/music/song_select.json", tv);
-				
+
 				songSelectButton = gcn::Helper::CreateButton(tv);
 				songSelectButton->addMouseListener(new SongSelectButton_MouseListener());
 				top->add(songSelectButton);
@@ -322,12 +326,12 @@ namespace diva
 			{
 				gcn::Helper::ReadJsonFromFile(L"config/uiconfig/music/list_ranking.json", tv);
 				rankingList = Helper::CreateList<RankingList>(tv);
-				for (int i=0; i<5; i++)
+				for (int i = 0; i<5; i++)
 				{
 					RankingListItem* item = new RankingListItem();
 					RankingListItem::LoadBack(tv[L"itemBackImage"][L"filename"].asString(), Helper::GetRect(tv[L"itemBackImage"][L"srcRect"]));
 					RankingListItem::LoadFromJson(tv[L"positions"]);
-					item->SetRanking(i+1);
+					item->SetRanking(i + 1);
 					item->SetInfo(100 + i * 50, 50 + i * 10, 0, 0, 0, L"none");
 					item->SetNull(1);
 					rankingList->pushItem(item);
@@ -352,10 +356,9 @@ namespace diva
 
 
 			//////////////////////////////////////////////////////////////////////////
-			
+
 			// Sound Initialize
 			//sora::SoraBGMManager::Instance()->play(L"D:\\KuGou\\philosophyz.mp3", true);
-
 		}
 
 		void MusicUI::UpdateSongList()
@@ -569,8 +572,13 @@ namespace diva
 
 			if (myRank)
 			{
+#if defined(DIVA_USE_GNET)
 				MAPMGR.PrepareRecordByUser(item->getMapInfo().id, item->getMapInfo().getLevel(item->getDifIndex()),
 					Base::String(divanet::NetInfo::instancePtr()->username).unicode_str());
+#else
+				MAPMGR.PrepareRecordByUser(item->getMapInfo().id, item->getMapInfo().getLevel(item->getDifIndex()),
+					Base::String(POMELO_USER_INFO.username).unicode_str());
+#endif
 			}
 		}
 
@@ -644,9 +652,17 @@ namespace diva
 							WJson::Value t = tv[L"rank"][i];
 							WJson::Value addData;
 							reader.parse(t[L"add_data"].asString(), addData);
+
+							// get hooks, new server will use string instead
+							int64 hooks = 0;
+							if (addData[L"hooks"].isString())
+								hooks = Base::String::string2any<int64>(addData[L"hooks"].asString());
+							else
+								hooks = addData[L"hooks"].asInt();
+
 							((RankingListItem*)rankingList->getItem(i))->SetInfo(t[L"score"].asInt(),
 								addData[L"combo"].asInt(),
-								addData[L"hooks"].asInt(),
+								hooks,
 								addData[L"maxCT"].asInt(),
 								addData[L"rank"].asInt(),
 								t[L"name"].asString());
@@ -696,9 +712,17 @@ namespace diva
 						{
 							WJson::Value addData;
 							reader.parse(tv[L"add_data"].asString(), addData);
+							
+							// get hooks, new server will use string instead
+							int64 hooks = 0;
+							if (addData[L"hooks"].isString())
+								hooks = Base::String::string2any<int64>(addData[L"hooks"].asString());
+							else
+								hooks = addData[L"hooks"].asInt();
+
 							((RankingListItem*)rankingList->getItem(rankingList->getMaxItem() - 1))->SetInfo(tv[L"score"].asInt(),
 								addData[L"combo"].asInt(),
-								addData[L"hooks"].asInt(),
+								hooks,
 								addData[L"maxCT"].asInt(),
 								addData[L"rank"].asInt(),
 								tv[L"name"].asString());
@@ -1231,7 +1255,11 @@ namespace diva
 				const SongInfo& t= ui->selectedListBox->getSong(i);
 				MAPMGR.SelectedMap_Add(t.mapInfo.id, t.getLevel(), static_cast<divamap::DivaMap::ModeType>(t.mode));
 			}
+#if defined(DIVA_USE_GNET) && !defined(DIVA_USE_POMELO)
 			STAGE_CLIENT.refreshMusic();
+#else
+			POMELO_STAGE_PEER->refreshMusic();
+#endif
 			ui->musicGameState->beginLeave("house");
 			//ui->GameStart(ui->selectedListBox->getSong(0).mapInfo.id, 
 			//	ui->selectedListBox->getSong(0).difIndex, ui->gameMode, 0);

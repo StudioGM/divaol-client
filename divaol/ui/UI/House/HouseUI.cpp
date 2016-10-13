@@ -1,4 +1,7 @@
-﻿#include "HouseUI.h"
+﻿#include <WinSock2.h>
+#include <windows.h>
+
+#include "HouseUI.h"
 
 #include <fstream>
 #include "ui/Config/DivaUIConfig.h"
@@ -28,6 +31,7 @@
 #include "divacore/Utility/DivaSettings.h"
 #include "Utility/DivaVersion.h"
 #include "Lib/CSHA1/SHA1.h"
+#include "divapomelo/diva/Client.h"
 
 namespace diva
 {
@@ -166,7 +170,6 @@ namespace diva
 			exitStageButton->setVisible(false);
 			exitStageButton->addMouseListener(new LoginButton_MouseListener());
 
-#ifdef DIVA_GNET_OPEN
 			openGameButton = new ButtonEx();
 			openGameButton->setSize(410,169);
 			//DivaRoomInfo rinfo = playerList->getRoomInfo(); 
@@ -194,7 +197,6 @@ namespace diva
 			readyButton->setVisible(false);
 			readyButton->addMouseListener(new LoginButton_MouseListener());
 			//readyButton->setPosition(readyButton->getX()+200,readyButton->getY());
-#endif
 
 			// decorate button
 			decorateButton = CreateButton(sconf, L"ToolBar/Normal/btn_decorate_normal", L"ToolBar/MouseOn/btn_decorate_mouseon", L"ToolBar/MouseDown/btn_decorate_mousedown", L"ToolBar/Normal/btn_decorate_normal");
@@ -324,6 +326,7 @@ namespace diva
 			}
 		}
 
+#if defined(DIVA_USE_GNET)
 		void HouseUI::observer_auth(divanet::Notification msg)
 		{
 			if(msg.msg()==divanet::AuthClient::NOTIFY_AUTH_REPLAY) {
@@ -334,7 +337,7 @@ namespace diva
 					wchar_t un[100], nm[100];
 
 					MY_PLAYER_INFO.setUid(NET_INFO.uid);
-					MY_PLAYER_INFO.loadFromNetInfo();
+					MY_PLAYER_INFO.loadFromNetInfo(NET_INFO.username);
 					info.id = Base::String(NET_INFO.uid).toAny<int>();
 					info.username = Base::String(NET_INFO.username);
 					info.nickname = Base::String(NET_INFO.nickname);
@@ -774,23 +777,471 @@ namespace diva
 				break;
 			}
 		}
+#endif
+
+		void HouseUI::observer_pomelo(Base::Notification bundle) {
+			std::string route = bundle.description();
+			int status = bundle.arg();
+			void *extra = bundle.extra();
+			Json::Value msg(NULL);
+
+			if (extra != NULL)
+				msg = *static_cast<Json::Value*>(extra);
+
+			switch(bundle.msg()) {
+				case divapomelo::ON_CONNECT:
+					if (status == 0) {
+						messagePanelChatBox->addText(L"[提示] 服务器连接成功", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+						POMELO_CLIENT.login(usernameInput->getText(), passwordInput->getText());
+					}
+					else {
+						if(mgr->GetMB()->isTopWindow())
+							mgr->GetMB()->Destroy();
+						messagePanelChatBox->addText(L"[提示] 服务器连接失败", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+						mgr->GetMB()->Show(L"无法连接服务器", L"错误", gcn::MessageBoxEx::TYPE_OK);
+					}
+					break;
+				case divapomelo::ON_LOGIN:
+					if (status == 0)
+					{
+						PlayerInfo info;
+						int t;
+						wchar_t un[100], nm[100];
+
+						MY_PLAYER_INFO.setUid(POMELO_USER_INFO.uid);
+						MY_PLAYER_INFO.loadFromNetInfo(POMELO_USER_INFO.username);
+						info.id = Base::String::string2any<int>(POMELO_USER_INFO.uid);
+						info.username = Base::String(POMELO_USER_INFO.username);
+						info.nickname = Base::String(POMELO_USER_INFO.nickname);
+						PlayerManager::Instance()->SetHostInfo(info);
+						setState(STATE_ROOM);
+						//loginPanel->setVisible(false);
+						//roomTop->setEnabled(true);
+
+						//PlayerManager::Instance()->GetStageGuests().push_back("SonicMisora");
+						PlayerManager::Instance()->SetOnline(true);
+						//RefreshStatus();
+						Refresh_hostInfo();
+						// prepare
+						MAPMGR.PrepareDivaMapListInfo();
+
+						//divanet::NetworkManager::instance().core()->send("auth#setuid","%s",MY_PLAYER_INFO.uid().c_str());
+						messagePanelChatBox->addText(("[系统] 欢迎您, "+POMELO_USER_INFO.nickname).unicode_str(), gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"system"]));
+					}
+					else if(status == 1) {
+						std::string code = msg.asString();
+
+						if(mgr->GetMB()->isTopWindow())
+							mgr->GetMB()->Destroy();
+						if(code=="auth_already_login")
+						{
+							mgr->GetMB()->Show(L"该账号已经登录。", L"提示");
+						}
+						else if(code=="auth_wrong_pwd")
+						{
+							mgr->GetMB()->Show(L"账号或密码错误。", L"提示");
+						}
+						else if(code=="auth_timeout")
+						{
+							mgr->GetMB()->Show(L"登陆超时，请重试。", L"提示");
+						}
+						else if(code=="auth_not_activated")
+						{
+							mgr->GetMB()->Show(L"账号尚未激活。",L"提示");
+						}
+						else if(code=="auth_conn_db_fail")
+						{
+							mgr->GetMB()->Show(L"数据库连接出错。",L"提示");
+						}
+						else if(code=="auth_no_user")
+						{
+							mgr->GetMB()->Show(L"无此用户。",L"提示");
+						}
+						else if(code=="auth_fail_network")
+						{
+							mgr->GetMB()->Show(L"网络错误。",L"提示");
+						}
+						else
+						{
+							mgr->GetMB()->Show(L"尚未激活alpha测试或登录发生意外，请稍后再试。", L"提示");
+						}
+					}
+					else {
+						mgr->GetMB()->Show(L"服务器连接发生意外错误。", L"提示");
+					}
+
+					if (status != 0) {
+						disconnectServer();
+					}
+					break;
+				case divapomelo::ON_CLOSE:
+					if (state != STATE_LOGINWINDOW) {
+						mgr->GetMB()->RegisterCallback(MessageBoxEx::Callback(&HouseUI::cb_connect_break, this));
+						mgr->GetMB()->Show(L"网络连接中断。",L"提示");
+						disconnectServer();
+					}
+					break;
+				case divapomelo::ON_CHAT:
+					if (status == 0) {
+						Base::String content(msg["content"].asString(), true);
+
+						gcn::Color color;
+						if(content.size() > 0) {
+							if (content[1] == L'W')
+								color = gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"world"]);
+							else if (content[1] == L'P')
+								color = gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"private"]);
+							else if (content[1] == L'S')
+								color = gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"system"]);
+							else if (content[1] == L'T')
+								color = gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"stage"]);
+						}
+						messagePanelChatBox->addText(content(3, -1), color);
+					}
+					break;
+				case divapomelo::PUSH_LOBBY_GETSTAGELIST:
+					if (status == 0) {
+						roomListView->clearItems();
+						const divapomelo::RoomInfos &infos = POMELO_LOBBY_PEER->getRoomList();
+						for(int i = 0; i < infos.size(); i++)
+						{
+							if(infos[i].state==divapomelo::RoomInfo::STAGE) {
+								//RoomListItem* b = SetRoomListItemInfo(rconf,L"RoomList/RoomItem_normal", L"RoomList/RoomItem_on", L"RoomList/RoomItem_down");
+								Network::RoomInfo info;
+								info.maxPlayerNum = infos[i].capacity;
+								info.ownerNickname = infos[i].ownerNickname;
+								info.ownerID = Base::String(infos[i].ownerId);
+								info.playerNum = infos[i].playernum;
+								info.selectedSong.clear();
+								info.stageId = infos[i].stageId;
+								if(infos[i].songId == 0)
+									info.selectedSong.push_back(L"尚未选择");
+								else
+									info.selectedSong.push_back(MAPMGR.GetMapDescription(infos[i].songId,infos[i].level,infos[i].mode));
+								info.stageName = infos[i].ownerNickname+"的舞台";
+								//b->setInfo(info);
+
+								roomListView->pushRoomItem(info);
+							}
+						}
+					}
+					break;
+				case divapomelo::ON_STAGE_CLOSE:
+					if(state==STATE_STAGE || state==STATE_PLAYING) {
+						setState(STATE_ROOM);
+
+						//!FIXME : here use MB will cause black screen when exit game with stage closed
+						/*if(mgr->GetMB()->isTopWindow())
+							mgr->GetMB()->Destroy();
+						mgr->GetMB()->Show(L"房主离开舞台。");*/
+						messagePanelChatBox->addText(L"[提示] 房主离开舞台。", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+					}
+					break;
+				case divapomelo::PUSH_LOBBY_CREATESTAGE:
+				case divapomelo::PUSH_LOBBY_JOINSTAGE:
+					roomListView->roomCallback();
+					if (status == 0) {
+						//StateChange_ROOMLIST_STAGE();
+						if(mgr->GetMB()->isTopWindow())
+							mgr->GetMB()->Destroy();
+					
+						MessageChannelChange(CHANNEL_STAGE);
+
+						setState(STATE_STAGE);
+						roomId = POMELO_STAGE_PEER->getRoomID();
+						if(!POMELO_STAGE_PEER->owner())
+							selectMusicButton->setEnabled(!POMELO_STAGE_PEER->getIsReady());
+
+						_onRefreshStageInfo();
+					}
+					else {
+						if(mgr->GetMB()->isTopWindow())
+							mgr->GetMB()->Destroy();
+						mgr->GetMB()->Show(L"该舞台还在游戏中，请稍后再试。");
+					}
+					break;
+				case divapomelo::ON_STAGE_JOIN:
+					if (status == 0) {
+						int index = msg["slot"].asInt();
+						PlayerInfo playerInfo;
+						playerInfo.id = Base::String::string2any<int>(POMELO_STAGE_PEER->getInfo().waiters[index].uid);
+						playerInfo.nickname = POMELO_STAGE_PEER->getInfo().waiters[index].nickname;
+						StageListItem::StagePlayerInfo info;
+						info.playerInfo = playerInfo;
+						info.slot = index+1;
+						info.status = 0;
+						info.teamIndex = 0;
+						dynamic_cast<StageListItem*>(stageList->getItems()[index])->setInfo(info);
+						avatarList->pushItem(AvatarListItem::FromJson(avatarListInfo, playerInfo.nickname));
+						//mgr->GetMB()->Destroy();
+						Refresh_sPlayerList();
+
+						messagePanelChatBox->addText(L"[提示] "+playerInfo.nickname+L"加入了舞台！", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+					}
+					break;
+				case divapomelo::ON_STAGE_LEAVE:
+					if (status == 0) {
+						int index = msg["slot"].asInt();
+						std::wstring nickname = dynamic_cast<StageListItem*>(stageList->getItems()[index])->getInfo().playerInfo.nickname;
+						PlayerInfo playerInfo;
+						playerInfo.id = 0;
+						StageListItem::StagePlayerInfo info;
+						info.playerInfo = playerInfo;
+						info.slot = 0;
+						info.status = 0;
+						info.teamIndex = 0;
+						dynamic_cast<StageListItem*>(stageList->getItems()[index])->setInfo(info);
+						for (int i = 0; i < avatarList->getItemCount(); i++)
+						{
+							if (dynamic_cast<AvatarListItem*>(avatarList->getItem(i))->getName() == nickname)
+							{
+								avatarList->removeItem(i);
+								break;
+							}
+						}
+						Refresh_sPlayerList();
+
+						if (msg["reason"].asString() != "kick")
+							messagePanelChatBox->addText(L"[提示] "+nickname+L"离开了舞台！", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+						else
+							messagePanelChatBox->addText(L"[提示] "+nickname+L"被踢出舞台！", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+					}
+					break;
+				case divapomelo::ON_STAGE_KICK:
+					if(state==STATE_STAGE) {
+						setState(STATE_ROOM);
+						mgr->GetMB()->Show(L"您被踢出舞台。");
+					}
+					break;
+				case divapomelo::ON_STAGE_ALLINFO:
+					_onRefreshStageInfo();
+					break;
+				case divapomelo::ON_STAGE_READY:
+				case divapomelo::ON_STAGE_UNREADY:
+					if (status == 0) {
+						int index = msg["slot"].asInt();
+						StageListItem* item = dynamic_cast<StageListItem*>(stageList->getItems()[index]);
+						if(bundle.msg() == divapomelo::ON_STAGE_READY)
+						{
+							StageListItem::StagePlayerInfo info = item->getInfo();
+							info.status = 1;
+							item->setInfo(info);
+						}
+						else
+						{
+							StageListItem::StagePlayerInfo info = item->getInfo();
+							info.status = 0;
+							item->setInfo(info);
+						}
+						if (!POMELO_STAGE_PEER->owner())
+							selectMusicButton->setEnabled(!POMELO_STAGE_PEER->getIsReady());
+					}
+					break;
+				case divapomelo::ON_STAGE_DRAW:
+					if (status == 0) {
+						int index = msg["slot"].asInt();
+						if(POMELO_STAGE_PEER->isMe(index))
+						{
+							int color = POMELO_STAGE_PEER->myInfo().color;
+							for (int i=0; i<teamListButtons.size(); i++)
+								teamListButtons[i]->setSelected(color == i);
+						}
+						int color = (POMELO_STAGE_PEER->getInfo().waiters[index]).color;
+						((StageListItem*)(stageList->getItems()[index]))->setTeamColor(color);
+
+						//!FIXME: I don't know whether the sentence should be executed or not.
+						//Refresh_sPlayerList();
+					}
+					break;
+				case divapomelo::ON_STAGE_SETSONG:
+					if (status == 0) {
+						if(!POMELO_STAGE_PEER->owner()) 
+						{
+							POMELO_STAGE_PEER->refreshMusic();
+							//Refresh_SongList();
+							BeginSongListAnimation();
+							if(POMELO_STAGE_PEER->getIsReady())
+								POMELO_STAGE_PEER->unready();
+						}
+						messagePanelChatBox->addText(L"[提示] 房主更改了歌曲列表", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+					}
+					break;
+				case divapomelo::LOCAL_UPDATE_SONG_UI:
+					BeginSongListAnimation();
+					messagePanelChatBox->addText(L"[提示] 歌曲列表刷新", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));				
+					break;
+				case divapomelo::ON_STAGE_SETHOOK:
+					if (status == 0) {
+						MAPMGR.SelectedMode_Set(POMELO_STAGE_PEER->getInfo().hooks);
+						ModeButtonRefresh();
+						if (!POMELO_STAGE_PEER->owner())
+						{
+							modeButton->setForegroundColor(gcn::Color(255, 0, 0, modeButton->getAlpha()));
+							if(POMELO_STAGE_PEER->getIsReady())
+								POMELO_STAGE_PEER->unready();
+						}
+						messagePanelChatBox->addText(L"[提示] 房主更改了游戏模式", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+					}
+					break;
+				case divapomelo::ON_STAGE_START:
+					if (status == 0) {
+						if (msg["flag"].asBool()) {
+							if(mgr->GetMB()->isTopWindow())
+								mgr->CloseTopWindow();
+					 
+							Base::Path songPath = MAPMGR.GetDivaOLFilePath(POMELO_STAGE_PEER->getInfo().song[0].songId, static_cast<divamap::DivaMap::LevelType>(POMELO_STAGE_PEER->getInfo().song[0].level)); 
+							if(!MAPMGR.isMapLeagal(POMELO_STAGE_PEER->getInfo().song[0].songId, static_cast<divamap::DivaMap::LevelType>(POMELO_STAGE_PEER->getInfo().song[0].level)))
+							{
+								mgr->GetMB()->Show(L"您的视听文件未通过CK大大验证！", L"提示", gcn::MessageBoxEx::TYPE_OK); 
+								POMELO_STAGE_PEER->back();
+								return;
+							}
+
+							CORE_PTR->setSong(songPath.filePath().str(), songPath.fileName());
+					
+							CORE_PTR->setInitState("net_load");
+							divacore::MultiPlay *multiplay = NULL;
+							int gameMode = POMELO_STAGE_PEER->getInfo().song[0].mode;
+
+							multiplay = new divacore::MultiPlay;
+							if(gameMode == divamap::DivaMap::NormalMode)
+								multiplay = new divacore::MultiPlay;
+							else if(gameMode == divamap::DivaMap::RelayMode)
+								multiplay = new divacore::RelayPlay;
+							else
+							{
+								mgr->GetMB()->Show(L"尚不支持的游戏模式！", L"提示", gcn::MessageBoxEx::TYPE_OK); 
+								POMELO_STAGE_PEER->back();
+								return;
+							}
+
+							CORE_PTR->registerGameMode(multiplay);
+							multiplay->registerNetworkEvent();
+							NextState = "core";
+
+							if (state != STATE_PLAYING)
+								setState(STATE_PLAYING);
+						}
+						else {
+							Base::String info = msg["reason"].asString();
+
+							if(mgr->GetMB()->isTopWindow())
+								mgr->CloseTopWindow();
+							if(info=="not_select_song")
+								mgr->GetMB()->Show(L"开始失败，没有选择歌曲", L"提示", gcn::MessageBoxEx::TYPE_OK); 
+							else
+							{
+								if (POMELO_STAGE_PEER->owner()) {
+									mgr->GetMB()->Show(L"开始失败，没有准备或非法队伍人数", L"提示", gcn::MessageBoxEx::TYPE_OK); 
+								}
+								else
+								{
+									messagePanelChatBox->addText(L"[警告] 开始失败，没有准备或非法队伍人数", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"warning"]));
+								}
+							}
+						}
+					}
+				case divapomelo::PUSH_STAGE_START:
+					if(status == 1) {
+						//mgr->GetMB()->Show(Base::String("开始失败，服务器错误:" + msg.asString()), L"提示", gcn::MessageBoxEx::TYPE_OK); 
+					}
+					else if(status != 0) {
+						mgr->GetMB()->Show(Base::String("开始失败，未知错误"), L"提示", gcn::MessageBoxEx::TYPE_OK); 
+					}
+					break;
+				case divapomelo::ON_STAGE_RETURN:
+					if (status == 0) {
+						_onRefreshStageInfo();
+						//if(mgr->GetMB()->isTopWindow())
+						//	mgr->CloseTopWindow();
+						//mgr->GetMB()->Show(L"开始游戏失败", L"提示", gcn::MessageBoxEx::TYPE_OK);
+						if(msg["phase"] == "loading") {
+							messagePanelChatBox->addText(L"[警告] 开始游戏失败!", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"warning"]));
+							if(state==STATE_PLAYING)
+								setState(STATE_STAGE);
+						}
+						else
+						{
+							messagePanelChatBox->addText(L"[提示] 游戏结束!", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+							if(state==STATE_PLAYING)
+								setState(STATE_STAGE);
+						}
+						break;
+					}
+					break;
+				case divapomelo::PUSH_GAME_BACK:
+					if (status == 0) {
+						if(!msg["over"].isBool()) {
+							messagePanelChatBox->addText(L"[提示] 其他玩家尚未退出游戏，请稍等...", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+						}
+					}
+					break;
+			}
+		}
+
+		void HouseUI::_onRefreshStageInfo() {
+			stageList->clearItems();
+			avatarList->clearItems();
+			for(int i = 0; i < POMELO_STAGE_PEER->getInfo().waiters.size(); i++)
+			{
+				//for (int i=1; i<=8; i++)
+				StageListItem *item = new StageListItem(rconf[L"PlayerList/playerItem_back"][L"filename"].asString(), GetRect(rconf[L"PlayerList/playerItem_back"]));
+				PlayerInfo playerInfo;
+				playerInfo.id = Base::String::string2any<int>(POMELO_STAGE_PEER->getInfo().waiters[i].uid);
+				playerInfo.nickname = POMELO_STAGE_PEER->getInfo().waiters[i].nickname;
+				StageListItem::StagePlayerInfo info;
+				info.playerInfo = playerInfo;
+				info.slot = i+1;
+				info.status = POMELO_STAGE_PEER->getInfo().waiters[i].status == divapomelo::WaiterInfo::READY;
+				info.teamIndex = 0;
+				item->setInfo(info);
+				item->setTeamColor(POMELO_STAGE_PEER->getInfo().waiters[i].color);
+				stageList->pushItem(item);
+				if (playerInfo.id != 0)
+					avatarList->pushItem(AvatarListItem::FromJson(avatarListInfo, playerInfo.nickname));
+			}
+
+			{
+			int color = POMELO_STAGE_PEER->myInfo().color;
+			for (int i=0; i<teamListButtons.size(); i++)
+				teamListButtons[i]->setSelected(color == i);
+			}
+			MAPMGR.SelectedMode_Set(POMELO_STAGE_PEER->getInfo().hooks);
+			ModeButtonRefresh();
+
+			Refresh_sPlayerList();
+				
+			POMELO_STAGE_PEER->refreshMusic();
+			//Refresh_SongList();
+			BeginSongListAnimation();
+
+			messagePanelChatBox->addText(L"[提示] 更新房间信息", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+			if (!POMELO_STAGE_PEER->owner())
+				selectMusicButton->setEnabled(!POMELO_STAGE_PEER->getIsReady());
+		}
 
 		void HouseUI::attachObserver() {
+#if defined(DIVA_USE_GNET)
 			AUTH_CLIENT.attachObserver(divanet::Observer(&HouseUI::observer_auth,this));
 			CHAT_CLIENT.attachObserver(divanet::Observer(&HouseUI::observer_chat,this));
 			SCHEDULER_CLIENT.attachObserver(divanet::Observer(&HouseUI::observer_scheduler,this));
 			STAGE_CLIENT.attachObserver(divanet::Observer(&HouseUI::observer_stage,this));
+#else
+			POMELO_CLIENT.attachObserver(Base::Observer(&HouseUI::observer_pomelo, this));
+#endif
 		}
 
 		void HouseUI::detachObserver() {
+#if defined(DIVA_USE_GNET)
 			AUTH_CLIENT.clearObserver();
 			CHAT_CLIENT.clearObserver();
 			SCHEDULER_CLIENT.clearObserver();
 			STAGE_CLIENT.clearObserver();
+#endif
 		}
 
 		bool HouseUI::connectServer() {
-#ifdef DIVA_GNET_OPEN
+#if defined(DIVA_USE_GNET)
 			try
 			{
 				if(!AUTH_CLIENT.isConnect()) {
@@ -810,21 +1261,29 @@ namespace diva
 				LOGGER->log(ev);
 			}
 			return false;
+#else
+			POMELO_CLIENT.connect();
+			return true;
 #endif
 		}
 		void HouseUI::disconnectServer() {
-#ifdef DIVA_GNET_OPEN
+#if defined(DIVA_USE_GNET)
 			AUTH_CLIENT.disconnect();
 			CHAT_CLIENT.disconnect();
 			SCHEDULER_CLIENT.disconnect();
 			STAGE_CLIENT.disconnect();
+#else
+			POMELO_CLIENT.disconnect();
 #endif
 		}
 		void HouseUI::request_roomList() {
-#ifdef DIVA_GNET_OPEN
-			SCHEDULER_CLIENT.updateRoomList();
-			//divanet::NetworkManager::instance().scheduler()->send("scheduler#roomlist");
+#if defined(DIVA_USE_GNET)
+			//SCHEDULER_CLIENT.updateRoomList();
+#else
+			POMELO_LOBBY_PEER->getStageList();
 #endif
+			//divanet::NetworkManager::instance().scheduler()->send("scheduler#roomlist");
+
 		}
 		void HouseUI::cb_connect_break() {
 			mgr->GetMB()->RegisterCallback();
@@ -849,22 +1308,30 @@ namespace diva
 				kick_player(stageList->getSelectedIndex());
 		}
 		void HouseUI::open_stage() {
-#ifdef DIVA_GNET_OPEN
+#if defined(DIVA_USE_GNET)
 			STAGE_CLIENT.create(8);
 			//divanet::NetworkManager::instance().core()->send("stage#create","%d",2);
+			roomId = MY_PLAYER_INFO.uid();
+#else
+			POMELO_STAGE_PEER->create();
 			roomId = MY_PLAYER_INFO.uid();
 #endif
 		}
 		void HouseUI::start_game() {
-#ifdef DIVA_GNET_OPEN
+#if defined(DIVA_USE_GNET)
 			if(STAGE_CLIENT.start())
+				mgr->GetMB()->Show(L"准备开始游戏...", L"提示", gcn::MessageBoxEx::TYPE_NONE); 
+#else
+			if(POMELO_STAGE_PEER->start())
 				mgr->GetMB()->Show(L"准备开始游戏...", L"提示", gcn::MessageBoxEx::TYPE_NONE); 
 #endif
 		}
 		void HouseUI::leave_stage() {
-#ifdef DIVA_GNET_OPEN
+#if defined(DIVA_USE_GNET)
 			STAGE_CLIENT.leave();
 			//divanet::NetworkManager::instance().core()->send("stage#leave");
+#else
+			POMELO_STAGE_PEER->leave();
 #endif
 		}
 		void HouseUI::kick_player(int index)
@@ -875,7 +1342,11 @@ namespace diva
 				if (item->getInfo().playerInfo.id == 0)
 					return;
 				
+#if defined(DIVA_USE_GNET)
 				STAGE_CLIENT.kick(item->getInfo().playerInfo.id);
+#else
+				POMELO_STAGE_PEER->kick(Base::String::any2string(item->getInfo().playerInfo.id));
+#endif
 			}
 		}
 		void HouseUI::Enter()
@@ -963,7 +1434,7 @@ namespace diva
 
 		void HouseUI::RecvMsg()
 		{
-#ifndef DIVA_GNET_OPEN
+#if !defined(DIVA_USE_GNET) && !defined(DIVA_USE_POMELO)
 			while (!Net::Network::isEmpty())
 			{
 				std::wstring msg, arg;
@@ -1190,7 +1661,11 @@ namespace diva
 			//songList->setVisible(true);
 			modeButton->setVisible(true);
 			avatarList->setVisible(true);
+#if defined(DIVA_USE_GNET)
 			if (STAGE_CLIENT.owner())
+#else
+			if (POMELO_STAGE_PEER->owner())
+#endif
 			{
 				openGameButton->setVisible(true);
 				readyButton->setVisible(false);
@@ -2310,7 +2785,7 @@ namespace diva
 
 		void HouseUI::login() {
 #ifndef _DEBUG
-			VERSION.RequireVersion();
+			/*VERSION.RequireVersion();
 			while(VERSION.getState() == divacore::Version::REQUIREING)
 				Base::TimeUtil::mSleep(1);
 			if(VERSION.getState() == divacore::Version::UNREADY)
@@ -2322,9 +2797,8 @@ namespace diva
 			{
 				mgr->GetMB()->Show(L"版本已过时，请更新游戏。", L"错误", gcn::MessageBoxEx::TYPE_OK);
 				return;
-			}
+			}*/
 #endif
-
 			if(!connectServer())
 			{
 				mgr->GetMB()->Show(L"无法连接服务器", L"错误", gcn::MessageBoxEx::TYPE_OK);
@@ -2332,22 +2806,26 @@ namespace diva
 				return;
 			}
 
+#if defined(DIVA_USE_GNET)
 			AUTH_CLIENT.login(Base::String(usernameInput->getText()).lower(),Base::String(encryptPW).lower());
 			//AUTH_CLIENT.login(Base::ws2s(usernameInput->getText()),Base::String(passwordInput->getText()));
+#endif
 		}
 
 		void HouseUI::logout() {
+#if defined(DIVA_USE_GNET)
 			STAGE_CLIENT.logout();
 			SCHEDULER_CLIENT.logout();
 			CHAT_CLIENT.logout();
 			AUTH_CLIENT.logout();
+#endif
 			disconnectServer();
 		}
 
 		void HouseUI::LoginButtonClicked()
 		{
 			using namespace Net;
-#ifdef DIVA_GNET_OPEN
+#if defined(DIVA_USE_GNET) || defined(DIVA_USE_POMELO)
 			CSHA1 sha1;
 			string passwd = Base::String(passwordInput->getText());
 			sha1.Update((UINT_8*)passwd.c_str(), passwd.size() * sizeof(char));
@@ -2408,7 +2886,11 @@ namespace diva
 			}
 			if (mouseEvent.getSource() == (gcn::Widget*) stageList && stageList->checkIsEnabled())
 			{
+#if defined(DIVA_USE_GNET)
 				if (STAGE_CLIENT.state() == divanet::StageClient::STAGE && STAGE_CLIENT.owner())
+#else
+				if (POMELO_STAGE_PEER->isIdleStage() && POMELO_STAGE_PEER->owner())
+#endif
 					StageListClicked();
 				return;
 			}
@@ -2488,8 +2970,13 @@ namespace diva
 			}
 			if (mouseEvent.getSource() == (gcn::Widget*) readyButton)
 			{
+#if defined(DIVA_USE_GNET)
 				if(STAGE_CLIENT.isReady())
 					STAGE_CLIENT.unready();
+#else
+				if(POMELO_STAGE_PEER->getIsReady())
+					POMELO_STAGE_PEER->unready();
+#endif
 				else
 				{
 					if (!songList->getItemCount())
@@ -2502,7 +2989,11 @@ namespace diva
 						mgr->GetMB()->Show(L"该歌曲未下载或尚未下载完成，无法准备。");
 						return;
 					}
+#if defined(DIVA_USE_GNET)
 					STAGE_CLIENT.ready();
+#else
+					POMELO_STAGE_PEER->ready();
+#endif
 				}
 				return;
 			}
@@ -2547,7 +3038,11 @@ namespace diva
 			if (mouseEvent.getSource() == (gcn::Widget*) modeConfirmButton)
 			{
 				modeWindow->FadeOut(10);
+#if defined(DIVA_USE_GNET)
 				STAGE_CLIENT.setHooks(MAPMGR.GetSelectedModeInt());
+#else
+				POMELO_STAGE_PEER->setHooks(MAPMGR.GetSelectedModeInt());
+#endif
 				return;
 			}
 			if (mouseEvent.getSource() == (gcn::Widget*) optionButton || mouseEvent.getSource() == (gcn::Widget*) settingsButton)
@@ -2621,27 +3116,45 @@ namespace diva
 		{
 			if (messagePanelInputBox->getText() == L"")
 				return;
-#ifdef DIVA_GNET_OPEN
+#if defined(DIVA_USE_GNET)
+			if(!NET_COMMAND.Analysis(messagePanelInputBox->getText())) {
+
+                    if (msgChannelState == CHANNEL_WORLD)
+                            CHAT_CLIENT.send("global", L"#W#[世界] " + PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
+                    else if (msgChannelState == CHANNEL_PRIVATE)
+                    {
+                            if (msgSendId != -1)
+                                    CHAT_CLIENT.sendTo(Base::String::any2string<int>(msgSendId), L"#P#[私聊] " + PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
+                            else
+                                    messagePanelChatBox->addText(L"[提示] 请先选择您要私聊的对象", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
+                    }
+                    else if (msgChannelState == CHANNEL_STAGE)
+                    {
+                            CHAT_CLIENT.send(STAGE_CLIENT.getRoomID()+"_stage_room", L"#T#[舞台] " + PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
+                    }
+                    //CHAT_CLIENT.sendTo("691",PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
+                    //divanet::NetworkManager::instance().chat()->send("chat#sendmsg","%s%W","global",PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
+            }
+#else
 			if(!NET_COMMAND.Analysis(messagePanelInputBox->getText())) {
 
 				if (msgChannelState == CHANNEL_WORLD)
-					CHAT_CLIENT.send("global", L"#W#[世界] " + PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
+					POMELO_CHAT_PEER->sendGlobal(L"#W#[世界] " + PlayerManager::Instance()->GetHostInfo().nickname + L": " + messagePanelInputBox->getText());
 				else if (msgChannelState == CHANNEL_PRIVATE)
 				{
 					if (msgSendId != -1)
-						CHAT_CLIENT.sendTo(Base::String::any2string<int>(msgSendId), L"#P#[私聊] " + PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
+						POMELO_CHAT_PEER->sendTo(Base::String::any2string<int>(msgSendId), L"#P#[私聊] " + PlayerManager::Instance()->GetHostInfo().nickname + L": " + messagePanelInputBox->getText());
 					else
 						messagePanelChatBox->addText(L"[提示] 请先选择您要私聊的对象", gcn::Helper::GetColor(conf[L"MessageArea/TextColors"][L"hint"]));
 				}
 				else if (msgChannelState == CHANNEL_STAGE)
 				{
-					CHAT_CLIENT.send(STAGE_CLIENT.getRoomID()+"_stage_room", L"#T#[舞台] " + PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
+					POMELO_CHAT_PEER->sendInStage(L"#T#[舞台] " + PlayerManager::Instance()->GetHostInfo().nickname + L": " + messagePanelInputBox->getText());
 				}
 				//CHAT_CLIENT.sendTo("691",PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
 				//divanet::NetworkManager::instance().chat()->send("chat#sendmsg","%s%W","global",PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
 			}
-#else
-			messagePanelChatBox->addText(PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
+			//messagePanelChatBox->addText(PlayerManager::Instance()->GetHostInfo().nickname + L"：" + messagePanelInputBox->getText());
 #endif
 			messagePanelInputBox->setText(L"");
 
@@ -2679,17 +3192,23 @@ namespace diva
 		void HouseUI::TeamListClicked(gcn::MouseEvent& mouseEvent)
 		{
 			int t = (int)((ButtonEx*)mouseEvent.getSource())->userData;
-#ifndef DIVA_GNET_OPEN
+#if defined(DIVA_USE_GNET)
+			STAGE_CLIENT.draw(t);
+#elif defined(DIVA_USE_POMELO)
+			POMELO_STAGE_PEER->draw(t);
+#else
 			for (int i=0; i<teamListButtons.size(); i++)
 				teamListButtons[i]->setSelected(t == i);
-#else
-			STAGE_CLIENT.draw(t);
 #endif
 		}
 
 		void HouseUI::ModeButtonClicked(int index)
 		{
+#if defined(DIVA_USE_GNET)
 			if (STAGE_CLIENT.owner())
+#else
+			if (POMELO_STAGE_PEER->owner())
+#endif
 			{
 				bool b = modeButtonList[index]->getSelected();
 				MAPMGR.SelectedMode_ToggleMode((divamap::DivaMapManager::GameMode)index, !b);

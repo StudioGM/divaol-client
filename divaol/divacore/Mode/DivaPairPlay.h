@@ -9,6 +9,8 @@
 #ifndef DIVA_PAIR_PLAY_H
 #define DIVA_PAIR_PLAY_H
 
+#include "divapomelo/diva/Client.h"
+
 #include "DivaMultiPlay.h"
 
 namespace divacore
@@ -23,6 +25,8 @@ namespace divacore
 			:noteID(noteID),pointCnt(pointCnt),breakCombo(breakCombo),breakNote(breakNote),time(time),noteRank(noteRank)
 		{}
 	};
+
+#if defined(DIVA_USE_GNET)
 	class PairPlay : public MultiPlay
 	{
 		//note Blender，把不属于自己的note变淡
@@ -197,6 +201,198 @@ namespace divacore
 			}
 		}
 	};
+#else
+	class PairPlay : public MultiPlay
+	{
+		//note Blender，把不属于自己的note变淡
+		class PairPlay_NoteBlender : public Hook
+		{
+		public:
+			std::string getName() {return "PVMode";}
+
+			PairPlay_NoteBlender()
+			{
+				setPriority(Hook::HIGH);
+			}
+			bool condition()
+			{
+				return true;
+			}
+			int getAbility()
+			{
+				return Hook::RENDER;
+			}
+
+			bool hook(float x, float y, SoraSprite*sprite, const std::string&tag) 
+			{
+				if(tag.find("not_mine+")!=std::string::npos)
+				{
+					uint32 color = sprite->getColor();
+					uint32 alpha = CGETA(color);
+					sprite->setColor(CSETA(color,alpha/5));
+					sprite->render(x,y);
+					sprite->setColor(color);
+					setHookInfo(1);
+					return true;
+				}
+				return false;
+			}
+		};
+		//std::vector<uint32> failure_list;
+		PairPlay_NoteBlender *noteBlender;
+
+		typedef std::vector<PairNote> PAIR_NOTES;
+		PAIR_NOTES pairQueue;
+	public:
+		std::string getNetGameMode() {return "pair";}
+		
+		void init()
+		{
+			MultiPlay::init();
+		}
+		void gameReset()
+		{
+			MultiPlay::gameReset();
+			// register
+			POMELO_GAME_PEER->on(divapomelo::EventCode[divapomelo::ON_GAME_FAILURE], Base::Bind(this, &PairPlay::onFailure));
+			
+			noteBlender = new PairPlay_NoteBlender;
+			HOOK_MANAGER_PTR->insert(noteBlender);
+
+			pairQueue.clear();
+		}
+		void gameOver()
+		{
+			MultiPlay::gameOver();
+			// unregister
+			POMELO_GAME_PEER->remove(divapomelo::EventCode[divapomelo::ON_GAME_FAILURE]);
+		}
+		void gameStop()
+		{
+			MultiPlay::gameStop();
+
+			if(noteBlender)
+			{
+				HOOK_MANAGER_PTR->del(noteBlender);
+				SAFE_DELETE(noteBlender);
+				noteBlender = NULL;
+			}
+		}
+		bool checkNote(NotePtr note) 
+		{
+			if(note->getID()%2!=getMyPlayerInfo()->indexInTeam)
+			{
+				note->setOwner(false);
+				note->setTailTag("not_mine+");
+			}
+			MultiPlay::checkNote(note);
+			return true;
+		}
+		bool checkPoint(StateEvent& event) 
+		{
+			if(!event.note->isOwner())
+				return true;
+			return SinglePlay::checkPoint(event);
+		}
+		bool checkFailure(StateEvent& event)
+		{
+			if(!MultiPlay::checkFailure(event))
+				return false;
+			return true;
+		}
+		void inform(StateEvent& event)
+		{
+			if(event.note->isOwner())
+			{
+				MultiPlay::inform(event);
+
+				//only if the note will break note|combo and the rank is worse than 4, we send failure to partner
+				if(event.type==StateEvent::PRESS||event.type==StateEvent::FAILURE)
+					if(event.breakCombo||event.breakNote)
+						sendFailure(event);
+			}
+			else
+			{
+				//play the key sound automatically
+				if(event.type==StateEvent::PRESS||event.type==StateEvent::FAILURE)
+				{
+					if(event.rank<=5 && event.type!=StateEvent::FAILURE) //!HINT temporary change to 5
+						Core::Ptr->getMusicManager()->playDirect("hit","se");
+					else
+						Core::Ptr->getMusicManager()->playDirect("miss","se");
+				}
+
+				//show effect
+				if(event.type==StateEvent::PRESS)
+					pressEffect(event);
+			}
+		}
+
+		void sendFailure(StateEvent &event)
+		{
+			int stateCnt = stateList[event.note->getID()].eventList.size()-1;
+			POMELO_GAME_PEER->push(divapomelo::EventCode[divapomelo::PUSH_GAME_FAILURE], 
+				Json::Object(
+					"time", CORE_PTR->getRunTime(),
+					"id", event.note->getID(),
+					"cnt", stateCnt,
+					"rank", event.rank,
+					"breakCombo", event.breakCombo,
+					"breakNote", event.breakNote
+			));
+		}
+
+		void update(float dt)
+		{
+			MultiPlay::update(dt);
+			if(getBaseState()==OVER)
+				return;
+
+			while(!pairQueue.empty()&&pairQueue.begin()->time<=CORE_PTR->getRunTime())
+			{
+				if(stateList.size()>pairQueue.begin()->noteID)
+				{
+					if(pairQueue.begin()->noteRank>4)
+						MUSIC_MANAGER_PTR->playDirect("miss","se");
+					if(pairQueue.begin()->breakNote)
+						CORE_FLOW_PTR->toFail(pairQueue.begin()->noteID);
+
+					pairQueue.erase(pairQueue.begin());
+				}
+			}
+		}
+
+		// Pomelo Events
+		void onFailure(divapomelo::MessageReq &req) {
+			Json::Value &msg = req.msg();
+
+			double failedTime;
+			int32 noteID, stateCnt, noteRank;
+			bool breakCombo, breakNote;
+	
+			failedTime = msg["time"].asDouble();
+			noteID = msg["id"].asInt();
+			stateCnt = msg["cnt"].asInt();
+			noteRank = msg["rank"].asInt();
+			breakCombo = msg["breakCombo"].asBool();
+			breakNote = msg["breakNote"].asBool();
+			
+			PairNote note(noteID,stateCnt,noteRank,breakCombo,breakNote,failedTime);
+			
+			// if the failed event is in the future, push it into queue, or play miss sound and force it to fail
+			if(failedTime>CORE_PTR->getRunTime()) {
+				pairQueue.push_back(note);
+			} 
+			else
+			{
+				if(noteRank>4)
+					MUSIC_MANAGER_PTR->playDirect("miss","se");
+				if(breakNote)
+					CORE_FLOW_PTR->toFail(noteID);
+			}
+		}
+	};
+#endif
 }
 
 #endif

@@ -30,6 +30,8 @@
 #include "divacore/Utility/DivaSettings.h"
 #include "Utility/DivaVersion.h"
 
+//#include "divapomelo/divapomelo/Client.h"
+
 using namespace diva;
 
 
@@ -47,15 +49,19 @@ int CALLBACK WinMain(
 		//std::wstring ss = config[L"sdf"].asString();
 		// initialize settings
 
-#ifdef DIVA_GNET_OPEN
+#if defined(DIVA_USE_GNET)
 		NET_INFO.getServerInfo();
 		divanet::NetworkManager::instance().init();
 		//divanet::NetworkManager::instance().setScheduler(new divanet::TCPGNetworkSystem);
 		//divanet::NetworkManager::instance().setCore(new divanet::TCPGNetworkSystem);
+
 		AUTH_CLIENT.setNetworkSystem(new divanet::TCPGNetworkSystem);
 		CHAT_CLIENT.setNetworkSystem(new divanet::TCPGNetworkSystem);
 		SCHEDULER_CLIENT.setNetworkSystem(new divanet::TCPGNetworkSystem);
 		STAGE_CLIENT.setNetworkSystem(new divanet::TCPGNetworkSystem);
+#endif
+
+#if defined(DIVA_USE_GNET) || defined(DIVA_USE_POMELO)
 
 		Base::Random::SetRandomSeed((uint32)time(0));
 		sora::SoraCore::SetRandomSeed((uint32)time(0));
@@ -88,9 +94,7 @@ int CALLBACK WinMain(
 		app.addState(new diva::StageUI::StageGameState(), "stage");
 		app.addState(new diva::MusicUI::MusicGameState(), "music");
 
-#ifdef DIVA_GNET_OPEN
 		app.addState(core, "core");
-#endif
 
 		sora::SoraConsole::Destroy();
 

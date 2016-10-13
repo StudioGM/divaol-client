@@ -9,8 +9,8 @@
 #ifndef DIVA_COMMON_EVALUATE_STRATEGY
 #define DIVA_COMMON_EVALUATE_STRATEGY
 
-#include "Core/DivaEvaluateStrategy.h"
 #include "Component/DivaSimpleUIPainter.h"
+#include "Core/DivaEvaluateStrategy.h"
 #include "Utility/DivaConfigLoader.h"
 #include "divanetwork/DivaNetInfo.h"
 
@@ -170,7 +170,7 @@ namespace divacore
 			for(int i = 0; i < mRank.size(); i++)
 			{
 				evals[i]->setInfo(mRank[i]);
-				evals[i]->setTeamColor(mRank[i].index);
+				evals[i]->setTeamColor(mRank[i].color);
 			}
 		}
 		void addSingleEvalUI()

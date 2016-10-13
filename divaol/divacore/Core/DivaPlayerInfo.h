@@ -62,9 +62,10 @@ namespace divacore
 			fclose(file);
 		}
 
-		void loadFromNetInfo()
+		void loadFromNetInfo(const std::string &username)
 		{
-			mUserName = NET_INFO.username;
+			mUserName = username;
+	
 			if(checkNeedStore())
 				saveSettings(mConfigFile);
 		}
@@ -87,7 +88,7 @@ namespace divacore
 		{
 			return mModule;
 		}
-		inline void setUid(std::string &uid) {mUid = uid;} 
+		inline void setUid(const std::string &uid) {mUid = uid;} 
 		inline std::vector<std::string> hooks() {return mHooks;}
 	private:
 		std::string mUserName;

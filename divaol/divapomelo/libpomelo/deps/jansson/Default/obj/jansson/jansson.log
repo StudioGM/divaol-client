@@ -1,0 +1,13 @@
+﻿  strbuffer.c
+  pack_unpack.c
+  load.c
+  error.c
+  strconv.c
+  memory.c
+  hashtable.c
+  utf.c
+  value.c
+  dump.c
+  正在生成代码...
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(1357,5): warning MSB8012: TargetPath(E:\Projects\DivaOL\divaol-client\divaol\Default\jansson.lib) does not match the Library's OutputFile property value (E:\Projects\DivaOL\divaol-client\divaol\Default\lib\jansson.lib). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+  jansson.vcxproj -> E:\Projects\DivaOL\divaol-client\divaol\Default\jansson.lib

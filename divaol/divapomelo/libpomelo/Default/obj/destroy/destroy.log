@@ -1,0 +1,17 @@
+﻿生成启动时间为 2013/9/16 22:48:10。
+     1>项目“E:\Code\Other\libpomelo\destroy.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /Iinclude /Ideps\uv\include /Ideps\jansson\src /Zi /nologo /W1 /WX- /O2 /Oy- /D WIN32 /D _CRT_NONSTDC_NO_DEPRECATE /D _DEBUG /D _WINDOWS /D _USRDLL /D JANSSON_DLL_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Default\obj\destroy\\" /Fd"Default\obj\destroy\destroy\vc80.pdb" /Gd /TC /analyze- /errorReport:prompt /TP example\destroy.c
+     1>cl : 命令行 warning D9025: 正在重写“/TC”(用“/TP”)
+         destroy.c
+       Link:
+         D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\Code\Other\libpomelo\Default\destroy.exe" /NOLOGO advapi32.lib shell32.lib ws2_32.lib psapi.lib iphlpapi.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:"E:\Code\Other\libpomelo\Default\destroy.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\Code\Other\libpomelo\Default\destroy.lib" /MACHINE:X86 /SAFESEH Default\obj\destroy\destroy.obj
+         E:\Code\Other\libpomelo\Default\lib\jansson.lib
+         E:\Code\Other\libpomelo\Default\lib\libuv.lib
+         E:\Code\Other\libpomelo\Default\lib\libpomelo.lib
+         destroy.vcxproj -> E:\Code\Other\libpomelo\Default\destroy.exe
+     1>已完成生成项目“E:\Code\Other\libpomelo\destroy.vcxproj”(Build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:00.73

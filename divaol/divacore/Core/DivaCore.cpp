@@ -139,12 +139,14 @@ namespace divacore
 		this->effectSystem = effectSystem;
 		components["13_effectSystem"] = effectSystem;
 	}
+#if defined(DIVA_USE_GNET)
 	void Core::registerNetworkSystem(GNetworkSystemPtr networkSystem)
 	{
 		SAFE_DELETE(this->networkSystem);
 		this->networkSystem = networkSystem;
 		components["14_networkSystem"] = networkSystem;
 	}
+#endif
 	void Core::registerEvaluateStrategy(EvaluateStrategyPtr evaluateStrategy)
 	{
 		SAFE_DELETE(this->evaluateStrategy);
@@ -397,7 +399,9 @@ namespace divacore
 		DISPLAY_PTR->gameStop();
 		MUSIC_MANAGER_PTR->gameStop();
 		CORE_FLOW_PTR->gameStop();
+#if defined(DIVA_USE_GNET)
 		NETWORK_SYSTEM_PTR->gameStop();
+#endif
 	}
 	void Core::render(sora::SoraSprite *sprite, const std::string &tag)
 	{

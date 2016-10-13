@@ -110,7 +110,9 @@ namespace divacore
 		UIPainterPtr uiPainter;
 		GameModulePtr gameModule;
 		EffectSystemPtr effectSystem;
+#if defined(DIVA_USE_GNET)
 		GNetworkSystemPtr networkSystem;
+#endif
 		EvaluateStrategyPtr evaluateStrategy;
 
 	private:
@@ -150,7 +152,9 @@ namespace divacore
 		void registerUIPainter(UIPainterPtr uiPainter);
 		void registerGameModule(GameModulePtr gameModule);
 		void registerEffectSystem(EffectSystemPtr effectSystem);
+#if defined(DIVA_USE_GNET)
 		void registerNetworkSystem(GNetworkSystemPtr networkSystem);
+#endif
 		void registerEvaluateStrategy(EvaluateStrategyPtr evaluateStrategy);
 	//protected:
 		inline CorePlayerInfo& myPlayerInfo() {return mPlayerInfo;}
@@ -167,7 +171,9 @@ namespace divacore
 		inline UIPainterPtr getUIPainter() {return uiPainter;}
 		inline GameModulePtr getGameModule() {return gameModule;}
 		inline EffectSystemPtr getEffectSystem() {return effectSystem;}
+#if defined(DIVA_USE_GNET)
 		inline GNetworkSystemPtr getNetworkSystem() {return networkSystem;}
+#endif
 		inline EvaluateStrategyPtr getEvaluateStrategy() {return evaluateStrategy;}
 	public:
 		 /*
@@ -253,7 +259,9 @@ namespace divacore
 	#define UI_PAINTER_PTR (divacore::Core::Ptr->getUIPainter())
 	#define GAME_MODULE_PTR (divacore::Core::Ptr->getGameModule())
 	#define EFFECT_SYSTEM_PTR (divacore::Core::Ptr->getEffectSystem())
+#if defined(DIVA_USE_GNET)
 	#define NETWORK_SYSTEM_PTR (divacore::Core::Ptr->getNetworkSystem())
+#endif
 	#define EVALUATE_STRATEGY_PTR (divacore::Core::Ptr->getEvaluateStrategy())
 }
 

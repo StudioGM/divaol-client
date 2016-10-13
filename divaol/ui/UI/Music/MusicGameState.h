@@ -28,6 +28,7 @@ namespace diva
 			{
 				initialized = false;
 				state = 0;
+				musicUI = MusicUI::Instance();
 			}
 
 			void onEnter()
@@ -35,7 +36,7 @@ namespace diva
 				if (!initialized)
 				{
 					uiCanvas = new sora::SoraBaseCanvas(setConfig[L"gameWidth"].asInt(), setConfig[L"gameHeight"].asInt());
-					musicUI = MusicUI::Instance();
+					musicUI->InitUI();
 					musicUI->SetFatherState(this);
 
 					initialized = true;

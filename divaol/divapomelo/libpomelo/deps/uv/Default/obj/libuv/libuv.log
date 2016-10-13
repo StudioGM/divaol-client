@@ -1,0 +1,34 @@
+﻿  inet.c
+  uv-common.c
+  fs-poll.c
+  loop-watcher.c
+  process.c
+  tty.c
+  util.c
+  dl.c
+  stream.c
+  getaddrinfo.c
+  signal.c
+  winapi.c
+  thread.c
+  fs.c
+src\win\fs.c : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  pipe.c
+  tcp.c
+  fs-event.c
+  core.c
+  udp.c
+  async.c
+  正在生成代码...
+  正在编译...
+  process-stdio.c
+  poll.c
+  threadpool.c
+  error.c
+  req.c
+  winsock.c
+  handle.c
+  timer.c
+  正在生成代码...
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(1357,5): warning MSB8012: TargetPath(E:\Projects\DivaOL\divaol-client\divaol\Default\libuv.lib) does not match the Library's OutputFile property value (E:\Projects\DivaOL\divaol-client\divaol\Default\lib\libuv.lib). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+  libuv.vcxproj -> E:\Projects\DivaOL\divaol-client\divaol\Default\libuv.lib

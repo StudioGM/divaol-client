@@ -1,3 +1,5 @@
+#include "divapomelo/diva/Client.h"
+
 #include "RoomList.h"
 
 #include "soraguiimage.hpp"
@@ -216,7 +218,11 @@ namespace diva
 		{
 			if (!isWaiting) {
 				RoomListItem * item = dynamic_cast<RoomListItem*>(items[itemIndex]);
+#if defined(DIVA_USE_GNET)
 				STAGE_CLIENT.join(Base::String(item->getInfo().ownerID));
+#else
+				POMELO_STAGE_PEER->join(Base::String(item->getInfo().stageId));
+#endif
 				HouseUI::Instance()->mgr->GetMB()->Show(L"加入房间中...", L"提示", gcn::MessageBoxEx::TYPE_NONE);
 				isWaiting = true;
 				nowWaitingRest = WaitTimeLimit;

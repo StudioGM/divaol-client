@@ -5,6 +5,8 @@
  *  Copyright 2012 Hyf042. All rights reserved.
  *
  */
+#include "divapomelo/diva/Client.h"
+
 #include "DivaSimpleUI.h"
 #include "Utility/DivaConfigLoader.h"
 #include "json/json.h"
@@ -1046,8 +1048,8 @@ namespace divacore
 		 */
 		const uint32 Player::TEAM_COLOR[MAX_TEAM] = {CARGB(255,245,23,12),
 			CARGB(255,252,180,46),
-			CARGB(255,159,218,89),
 			CARGB(255,255,229,16),
+			CARGB(255,159,218,89),
 			CARGB(255,82,233,224),
 			CARGB(255,73,196,253),
 			CARGB(255,185,85,245),
@@ -1170,8 +1172,11 @@ namespace divacore
 			Image *highLight = new Image();
 			highLight->construct(config,head+"highlight_");
 			this->add(highLight);
+#if defined(DIVA_USE_GNET)
 			this->setName(NET_INFO.nickname);
-			
+#else
+			this->setName(POMELO_USER_INFO.nickname);
+#endif
 			hpBar->setColor(Player::TEAM_COLOR[0]);
 			//setFocus(true);
 		}
@@ -1230,9 +1235,13 @@ namespace divacore
 				player->construct(*config,head);
 				player->onInitialize();
 
-				player->hpBar->setColor(Player::TEAM_COLOR[players[i].teamIndex]);
+				player->hpBar->setColor(Player::TEAM_COLOR[players[i].color]);
 				player->setPosition(width,height);
+#if defined(DIVA_USE_GNET)
 				player->setName(STAGE_CLIENT.waiterInfo(players[i].uid).nickname);
+#else
+				player->setName(POMELO_STAGE_PEER->waiterInfo(players[i].uid).nickname);
+#endif
 				player->setInfo(0,0,0.5);
 				player->flushOnly();
 				player->flush();

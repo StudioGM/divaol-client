@@ -13,6 +13,7 @@
 
 namespace divanet
 {
+#if defined(DIVA_USE_GNET)
 	class AuthClient : public Client, public Base::Singleton<AuthClient>
 	{
 	public:
@@ -81,6 +82,7 @@ namespace divanet
 	};
 
 #define AUTH_CLIENT (divanet::AuthClient::instance())
+#endif
 }
 
 #endif

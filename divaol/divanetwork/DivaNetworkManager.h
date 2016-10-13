@@ -6,7 +6,11 @@
  *
  */
 
-#define DIVA_GNET_OPEN
+//#define DIVA_USE_GNET
+#define DIVA_USE_POMELO
+#if defined(DIVA_USE_GNET) && defined(DIVA_USE_POMELO)
+#error "Can not use multiple network peer"
+#endif
 
 #ifndef DIVA_NETWORK_MANAGER
 #define DIVA_NETWORK_MANAGER
@@ -23,7 +27,7 @@
 
 namespace divanet
 {
-
+#if defined(DIVA_USE_GNET)
 	class NetworkManager : public Base::Singleton<NetworkManager>, public sora::SoraAutoUpdate
 	{
 	public:
@@ -65,6 +69,7 @@ namespace divanet
 	};
 
 #define NET_MANAGER (divanet::NetworkManager::instance())
+#endif
 }
 
 #endif
